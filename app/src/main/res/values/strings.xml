@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="app_name">TRX-Consumer</string>
+
+    <string name="content_logo_image">Logo image</string>
+    <string name="content_hero_image">Hero image</string>
+    <string name="content_row_image">Row image</string>
+
+    <string name="splash_title">Welcome to TRX Consumer app!</string>
+    <string name="splash_subtitle">This is a very cool app that you can do very cool things with!</string>
+    <string name="splash_button">Get Started</string>
+
+</resources>

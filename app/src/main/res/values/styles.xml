@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="android:windowBackground">@color/black</item>
+
+        <!-- Switch active thumb color and active track color -->
+        <item name="colorControlActivated">@color/yellow</item>
+        <!-- Switch inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/white</item>
+        <!-- Switch inactive track color -->
+        <item name="android:colorForeground">@color/greyDark</item>
+
+        <item name="android:statusBarColor">@color/black</item>
+
+    </style>
+
+</resources>

@@ -1,0 +1,58 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.4"
+    reportsDir = file("$buildDir/reports")
+}
+
+android {
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for Debug build"
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            'android/**/*.*',
+            '**/*Activity**',
+            '**/*Fragment**',
+            '**/*ViewHolder**',
+            '**/*ViewModelFactory**',
+            '**/com/trx/consumer/common/**',
+            '**/com/trx/consumer/core/**',
+            '**/com/trx/consumer/modules/**',
+            '**/com/trx/consumer/modules/login/**',
+            '**/com/trx/consumer/modules/splash/**',
+            'androidTest/**/*.*'
+    ]
+    classDirectories.from = fileTree(
+            dir: "$buildDir/intermediates/classes/debug",
+            excludes: excludes
+    ) + fileTree(
+            dir: "$buildDir/tmp/kotlin-classes/debug",
+            excludes: excludes
+    )
+
+    sourceDirectories.from = files([
+            android.sourceSets.main.java.srcDirs,
+            "src/main/kotlin"
+    ])
+
+    executionData.from = files("$buildDir/jacoco/testDebugUnitTest.exec")
+}
