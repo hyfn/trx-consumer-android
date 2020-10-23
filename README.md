@@ -1,6 +1,6 @@
 # TRX-Consumer
 
-![Build Status](https://app.bitrise.io/app/69ebca2f9f8d18f8.svg?token=jYuv7rIl-eQs8IoqI8fBsA) [![codecov](https://codecov.io/gh/hyfn/trx-consumer-android/branch/develop/graph/badge.svg?token=NT3DWPYS50)](https://codecov.io/gh/hyfn/trx-consumer-android)
+![Build Status](https://app.bitrise.io/app/89386cb479d7620d/status.svg?token=5g8A6sSEioC4GrH4xRQJ_A&branch=develop) [![codecov](https://codecov.io/gh/hyfn/trx-consumer-android/branch/develop/graph/badge.svg?token=NT3DWPYS50)](https://codecov.io/gh/hyfn/trx-consumer-android)
 
 ## Project setup
 
