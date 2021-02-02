@@ -1,10 +1,14 @@
-package com.trx.consumer.common
+package com.trx.consumer.views
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
 
-class CommonRecyclerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : RecyclerView(context, attrs, defStyle) {
+class CommonRecyclerView constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : RecyclerView(context, attrs, defStyle) {
 
     var listener: ScrollListener? = null
         set(value) {

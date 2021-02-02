@@ -3,7 +3,8 @@ package com.trx.consumer.core
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.trx.consumer.R
-import com.trx.consumer.module.splash.SplashFragment
+import com.trx.consumer.base.BaseFragment
+import com.trx.consumer.screens.splash.SplashFragment
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
