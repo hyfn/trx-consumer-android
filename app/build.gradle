@@ -47,9 +47,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "TRX_DEBUG", "false"
             resValue "bool", "debug", "false"
         }
         debug {
+            buildConfigField "boolean", "TRX_DEBUG", "true"
             resValue "bool", "debug", "true"
         }
     }
@@ -59,6 +61,13 @@ android {
         all {}
         dev {}
         prod {}
+    }
+    sourceSets {
+        devDebug {
+            assets {
+                srcDirs 'src/devDebug/assets'
+            }
+        }
     }
 }
 
