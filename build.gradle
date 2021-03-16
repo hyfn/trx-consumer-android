@@ -47,6 +47,7 @@ buildscript {
         lifecycleVersion = '2.2.0'
         swipeRefreshLayoutVersion = '1.1.0'
         viewPager2Version = '1.1.0-alpha01'
+        jsonTestVersion = '20201115'
     }
 
     repositories {

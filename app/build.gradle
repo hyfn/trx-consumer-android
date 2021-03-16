@@ -47,20 +47,26 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "boolean", "TRX_DEBUG", "false"
             resValue "bool", "debug", "false"
         }
         debug {
-            buildConfigField "boolean", "TRX_DEBUG", "true"
             resValue "bool", "debug", "true"
         }
     }
 
     flavorDimensions "default"
     productFlavors {
-        all {}
-        dev {}
-        prod {}
+        all {
+            buildConfigField "String", "kPlatform", '"mobile"'
+        }
+        dev {
+            buildConfigField "boolean", "DEVELOPMENT", "true"
+            applicationId "com.comma.trx.consumer.dev"
+        }
+        prod {
+            buildConfigField "boolean", "DEVELOPMENT", "false"
+            applicationId "com.comma.trx.consumer"
+        }
     }
     sourceSets {
         devDebug {
@@ -129,6 +135,7 @@ dependencies {
     testImplementation "org.mockito:mockito-inline:$rootProject.mockitoVersion"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$rootProject.mockitoKotlinVersion"
     testImplementation "androidx.test.ext:junit:$rootProject.junitVersion"
+    testImplementation "org.json:json:${rootProject.jsonTestVersion}"
 
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$rootProject.desugarVersion"
 }
