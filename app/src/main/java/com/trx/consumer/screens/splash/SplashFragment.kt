@@ -2,11 +2,12 @@ package com.trx.consumer.screens.splash
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_splash.*
 
 class SplashFragment : BaseFragment(R.layout.fragment_splash) {
 
@@ -25,15 +26,19 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
         viewModel.eventLoadView.observe(viewLifecycleOwner, handleLoadView)
         viewModel.eventTapStart.observe(viewLifecycleOwner, handleTapStart)
 
-        btnStart.setOnClickListener { viewModel.onTapStart() }
+        requireView().findViewById<Button>(R.id.btnStart).setOnClickListener {
+            viewModel.onTapStart()
+        }
     }
     //endregion
 
     //region Handlers
     private val handleLoadView = Observer<Void> {
-        tvTitle.text = getString(R.string.splash_title)
-        tvSubtitle.text = getString(R.string.splash_subtitle)
-        btnStart.text = getString(R.string.splash_button)
+        requireView().apply {
+            findViewById<TextView>(R.id.tvTitle).text = getString(R.string.splash_title)
+            findViewById<TextView>(R.id.tvSubtitle).text = getString(R.string.splash_subtitle)
+            findViewById<Button>(R.id.btnStart).text = getString(R.string.splash_button)
+        }
     }
 
     private val handleTapStart = Observer<Void> { }

@@ -1,15 +1,20 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply from: 'ktlint.gradle'
 apply from: 'jacoco.gradle'
 
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
+
+    buildFeatures {
+        viewBinding true
+    }
 
     defaultConfig {
         applicationId "com.comma.trx.consumer"
@@ -42,13 +47,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "boolean", "TRX_DEBUG", "false"
             resValue "bool", "debug", "false"
         }
         debug {
-            buildConfigField "boolean", "TRX_DEBUG", "true"
             resValue "bool", "debug", "true"
         }
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+        all {}
+        dev {}
+        prod {}
     }
 }
 
@@ -59,7 +69,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     implementation "androidx.core:core-ktx:$rootProject.coreKtxVersion"
-    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha06"
+    implementation "androidx.datastore:datastore-preferences:$rootProject.dataStoreVersion"
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentKtxVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion"
@@ -102,9 +112,6 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:$rootProject.hiltViewModelversion"
 
     // Testing dependencies
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.junitVersion"
     androidTestImplementation "org.mockito:mockito-android:$rootProject.mockitoVersion"
 
