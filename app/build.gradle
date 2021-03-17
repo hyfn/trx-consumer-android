@@ -58,14 +58,29 @@ android {
     productFlavors {
         all {
             buildConfigField "String", "kPlatform", '"mobile"'
+            buildConfigField "String", "kClassDateTimeFormat", '"yyyy-MM-dd\'T\'HH:mm:ss.SSSX"'
+            buildConfigField "Integer", "kVerificationCodeLimit", "6"
+            buildConfigField "Integer", "kExpirationDateLimit", "7"
+            buildConfigField "Integer", "kCreditCardLengthStandard", "16"
+            buildConfigField "Integer", "kCreditCardLengthAmex", "15"
+            buildConfigField "Integer", "kCVCLimit", "4"
+            buildConfigField "Integer", "kZipcodeMinLength", "5"
+            buildConfigField "Integer", "kDefaultTextLimit", "40"
+            buildConfigField "Integer", "kPasswordMinLength", "6"
+            buildConfigField "String", "isMaintenanceMode", '"is_maintenance_mode"'
+            buildConfigField "String", "minimumBuildNumber", '"minimum_build_number"'
         }
         dev {
             buildConfigField "boolean", "DEVELOPMENT", "true"
             applicationId "com.comma.trx.consumer.dev"
+            buildConfigField "Boolean", "isReportingDisabled", "false"
+            buildConfigField "Integer", "kFirebaseFetchInterval", "3"
         }
         prod {
             buildConfigField "boolean", "DEVELOPMENT", "false"
             applicationId "com.comma.trx.consumer"
+            buildConfigField "Boolean", "isReportingDisabled", "true"
+            buildConfigField "Integer", "kFirebaseFetchInterval", "30"
         }
     }
     sourceSets {
