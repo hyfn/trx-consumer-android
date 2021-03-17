@@ -7,6 +7,7 @@ jacoco {
 
 android {
     testOptions {
+        unitTests.returnDefaultValues = true
         unitTests.all {
             jacoco {
                 includeNoLocationClasses = true
@@ -15,9 +16,9 @@ android {
     }
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+task jacocoTestReportDev(type: JacocoReport, dependsOn: "testDevReleaseUnitTest") {
     group = "Reporting"
-    description = "Generate Jacoco coverage reports for Debug build"
+    description = "Generate Jacoco coverage reports for Dev Release build"
 
     reports {
         xml.enabled = true
@@ -34,18 +35,19 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             '**/*Fragment**',
             '**/*ViewHolder**',
             '**/*ViewModelFactory**',
+            '**/com/trx/consumer/base/**',
             '**/com/trx/consumer/common/**',
             '**/com/trx/consumer/core/**',
+            '**/com/trx/consumer/managers/**',
             '**/com/trx/consumer/modules/**',
-            '**/com/trx/consumer/modules/login/**',
-            '**/com/trx/consumer/modules/splash/**',
+            '**/com/trx/consumer/views/**',
             'androidTest/**/*.*'
     ]
     classDirectories.from = fileTree(
-            dir: "$buildDir/intermediates/classes/debug",
+            dir: "$buildDir/intermediates/classes/devRelease",
             excludes: excludes
     ) + fileTree(
-            dir: "$buildDir/tmp/kotlin-classes/debug",
+            dir: "$buildDir/tmp/kotlin-classes/devRelease",
             excludes: excludes
     )
 
@@ -55,4 +57,47 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     ])
 
     executionData.from = files("$buildDir/jacoco/testDebugUnitTest.exec")
+}
+
+task jacocoTestReportProd(type: JacocoReport, dependsOn: "testProdReleaseUnitTest") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for Prod Release build"
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            'android/**/*.*',
+            '**/*Activity**',
+            '**/*Fragment**',
+            '**/*ViewHolder**',
+            '**/*ViewModelFactory**',
+            '**/com/trx/consumer/base/**',
+            '**/com/trx/consumer/common/**',
+            '**/com/trx/consumer/core/**',
+            '**/com/trx/consumer/managers/**',
+            '**/com/trx/consumer/modules/**',
+            '**/com/trx/consumer/views/**',
+            'androidTest/**/*.*'
+    ]
+    classDirectories.from = fileTree(
+            dir: "$buildDir/intermediates/classes/prodRelease",
+            excludes: excludes
+    ) + fileTree(
+            dir: "$buildDir/tmp/kotlin-classes/prodRelease",
+            excludes: excludes
+    )
+
+    sourceDirectories.from = files([
+            android.sourceSets.main.java.srcDirs,
+            "src/main/kotlin"
+    ])
+
+    executionData.from = files("$buildDir/jacoco/testProdReleaseUnitTest.exec")
 }

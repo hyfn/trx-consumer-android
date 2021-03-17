@@ -1,4 +1,4 @@
-package com.trx.consumer.core
+package com.trx.consumer.base
 
 import androidx.fragment.app.Fragment
 
