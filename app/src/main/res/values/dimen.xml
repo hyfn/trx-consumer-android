@@ -9,4 +9,8 @@
 
     <dimen name="nav_bar_height">65dp</dimen>
 
+    <dimen name="bottom_bar_height">10dp</dimen>
+
+    <dimen name="outlineBorderWidth">1dp</dimen>
+
 </resources>

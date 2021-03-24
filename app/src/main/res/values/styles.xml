@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -9,6 +9,48 @@
         <item name="android:colorForeground">@color/greyDark</item>
         <item name="android:statusBarColor">@color/black</item>
 
+    </style>
+
+    <style name="InputViewPlaceholderTextStyle" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/greyDark</item>
+        <item name="fontFamily">@font/atcarquette_regular</item>
+        <item name="android:fontFamily">@font/atcarquette_regular</item>
+        <item name="textSize" tools:ignore="SmallSp">10sp</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="BaseDialogFragmentStyle" parent="Theme.AppCompat.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="DatePickerStyle">
+        <item name="android:theme">@style/DatePickerTheme</item>
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:calendarViewShown">false</item>
+        <item name="android:descendantFocusability">blocksDescendants</item>
+    </style>
+
+    <style name="DatePickerTheme">
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="colorControlNormal">@color/black</item>
+    </style>
+
+    <style name="SingleLineLabelStyle" parent="TextAppearance.AppCompat">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="MatchParentDimensionsViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="MatchParentEdgesViewStyle">
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
 
     <style name="TabBarStyle" parent="Widget.Design.BottomNavigationView">
