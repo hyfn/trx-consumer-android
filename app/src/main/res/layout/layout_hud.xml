@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewMain"
+    style="@style/MatchParentDimensionsViewStyle"
+    android:clickable="true"
+    android:visibility="gone"
+    android:focusable="true">
+
+    <com.trx.consumer.common.CommonImageView
+        style="@style/MatchParentDimensionsViewStyle"
+        android:alpha="0.05"
+        android:background="@color/black" />
+
+    <com.trx.consumer.common.CommonView
+        style="@style/MatchParentEdgesViewStyle"
+        android:layout_width="90dp"
+        android:layout_height="90dp">
+
+        <com.trx.consumer.common.CommonImageView
+            style="@style/MatchParentEdgesViewStyle"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:alpha="0.5"
+            android:background="@color/white"
+            app:cornerRadius="15dp" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            style="@style/MatchParentEdgesViewStyle"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_repeatMode="reverse"
+            app:lottie_speed="1.0" />
+
+    </com.trx.consumer.common.CommonView>
+
+</com.trx.consumer.common.CommonView>

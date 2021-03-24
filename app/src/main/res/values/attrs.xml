@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="InputView">
+        <attr name="inputViewState" format="enum">
+            <enum name="birthday" value="0" />
+            <enum name="card_number" value="1" />
+            <enum name="code" value="2" />
+            <enum name="cvc" value="3" />
+            <enum name="email" value="4" />
+            <enum name="expiration" value="5" />
+            <enum name="first" value="6" />
+            <enum name="last" value="7" />
+            <enum name="password" value="8" />
+            <enum name="phone" value="9" />
+            <enum name="promo" value="10" />
+            <enum name="zipcode" value="11" />
+        </attr>
+
+        <attr name="showLabel" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="CommonShapeable">
+        <attr name="backgroundColor" />
+        <attr name="strokeWidth" />
+        <attr name="strokeColor" />
+        <attr name="cornerRadius" />
+        <attr name="shapeAppearance" />
+        <attr name="outline" format="color" />
+        <attr name="shapeStyle" format="reference" />
+    </declare-styleable>
+
+</resources>

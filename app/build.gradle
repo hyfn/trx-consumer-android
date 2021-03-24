@@ -112,6 +112,7 @@ dependencies {
 
     implementation "com.google.android.material:material:$rootProject.materialVersion"
     implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
+    implementation "com.airbnb.android:lottie:$rootProject.lottieVersion"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.kotlinVersion"
