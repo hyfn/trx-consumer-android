@@ -25,7 +25,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="15dp"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/img_logo_trx"
+            android:src="@drawable/ic_img_placeholder"
             app:layout_constraintBottom_toTopOf="@id/lblWelcome"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -78,7 +78,7 @@
             <com.trx.consumer.common.CommonButton
                 android:id="@+id/btnFacebook"
                 style="@style/MatchParentDimensionsViewStyle"
-                android:drawableStart="@drawable/img_logo_facebook"
+                android:drawableStart="@drawable/ic_img_placeholder"
                 android:padding="13dp"
                 app:backgroundColor="@color/greyLightExtra" />
 
@@ -101,7 +101,7 @@
             <com.trx.consumer.common.CommonButton
                 android:id="@+id/btnGoogle"
                 style="@style/MatchParentDimensionsViewStyle"
-                android:drawableStart="@drawable/img_logo_google"
+                android:drawableStart="@drawable/ic_img_placeholder"
                 android:padding="13dp"
                 app:backgroundColor="@color/greyLightExtra" />
 
@@ -125,7 +125,7 @@
             <com.trx.consumer.common.CommonButton
                 android:id="@+id/btnApple"
                 style="@style/MatchParentDimensionsViewStyle"
-                android:drawableStart="@drawable/img_logo_apple"
+                android:drawableStart="@drawable/ic_img_placeholder"
                 android:padding="13dp"
                 app:backgroundColor="@color/greyLightExtra" />
 
