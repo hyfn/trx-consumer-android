@@ -129,4 +129,16 @@
         <item name="backgroundColor">@color/greyDarkExtra</item>
     </style>
 
+   // region Splash
+
+    <style name="SplashButtonLabelStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fontFamily">@font/atcarquette_bold</item>
+        <item name="android:gravity">center</item>
+        <item name="textSize">13sp</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+    </style>
+
 </resources>

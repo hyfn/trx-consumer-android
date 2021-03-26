@@ -7,16 +7,33 @@ class SplashViewModel() : BaseViewModel() {
 
     //region Events
     val eventLoadView = CommonLiveEvent<Void>()
-    val eventTapStart = CommonLiveEvent<Void>()
+    val eventTapFacebook = CommonLiveEvent<Void>()
+    val eventTapGoogle = CommonLiveEvent<Void>()
+    val eventTapApple = CommonLiveEvent<Void>()
+    val eventTapEmail = CommonLiveEvent<Void>()
+
     //endregion
 
     //region Functions
-    fun onLoadView() {
+    fun doLoadView() {
         eventLoadView.call()
     }
 
-    fun onTapStart() {
-        eventTapStart.call()
+    fun doTapFacebook() {
+        eventTapFacebook.call()
     }
+
+    fun doTapGoogle() {
+        eventTapGoogle.call()
+    }
+
+    fun doTapApple() {
+        eventTapApple.call()
+    }
+
+    fun doTapEmail() {
+        eventTapEmail.call()
+    }
+
     //endregion
 }

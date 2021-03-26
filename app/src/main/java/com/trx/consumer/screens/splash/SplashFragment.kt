@@ -1,46 +1,54 @@
 package com.trx.consumer.screens.splash
 
-import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
+import com.trx.consumer.base.viewBinding
+import com.trx.consumer.databinding.FragmentSplashBinding
+import com.trx.consumer.extensions.action
 
 class SplashFragment : BaseFragment(R.layout.fragment_splash) {
 
     //region Objects
     private val viewModel: SplashViewModel by activityViewModels()
+    private val viewBinding by viewBinding(FragmentSplashBinding::bind)
     //endregion
 
-    //region Setup
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.onLoadView()
-        bind()
-    }
-
-    private fun bind() {
-        viewModel.eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-        viewModel.eventTapStart.observe(viewLifecycleOwner, handleTapStart)
-
-        requireView().findViewById<Button>(R.id.btnStart).setOnClickListener {
-            viewModel.onTapStart()
+    override fun bind() {
+        viewBinding.apply {
+            btnFacebook.action { viewModel.doTapFacebook() }
+            btnGoogle.action { viewModel.doTapGoogle() }
+            btnApple.action { viewModel.doTapApple() }
+            btnEmail.action { viewModel.doTapEmail() }
         }
+
+        viewModel.apply {
+            eventTapFacebook.observe(viewLifecycleOwner, handleTapFacebook)
+            eventTapGoogle.observe(viewLifecycleOwner, handleTapGoogle)
+            eventTapApple.observe(viewLifecycleOwner, handleTapApple)
+            eventTapEmail.observe(viewLifecycleOwner, handleTapEmail)
+        }
+
+        viewModel.doLoadView()
     }
     //endregion
 
     //region Handlers
     private val handleLoadView = Observer<Void> {
-        requireView().apply {
-            findViewById<TextView>(R.id.tvTitle).text = getString(R.string.splash_title)
-            findViewById<TextView>(R.id.tvSubtitle).text = getString(R.string.splash_subtitle)
-            findViewById<Button>(R.id.btnStart).text = getString(R.string.splash_button)
-        }
     }
 
-    private val handleTapStart = Observer<Void> { }
+    private val handleTapFacebook = Observer<Void> {
+    }
+
+    private val handleTapGoogle = Observer<Void> {
+    }
+
+    private val handleTapApple = Observer<Void> {
+    }
+
+    private val handleTapEmail = Observer<Void> {
+    }
+
     //endregion
 }
