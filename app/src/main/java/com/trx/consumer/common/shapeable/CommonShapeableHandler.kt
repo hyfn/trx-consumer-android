@@ -76,7 +76,7 @@ open class CommonShapeableHandler<out T>(
                     borderWidth = getDimension(shapeableRes.borderWidthRes, 0F)
                 } else {
                     borderColor = outlineColor
-                    borderWidth = context.resources.getDimension(R.dimen.outlineBorderWidth)
+                    borderWidth = context.resources.getDimension(R.dimen.outline_border_width)
                 }
             }
             refreshBackground()
