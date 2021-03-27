@@ -8,10 +8,8 @@
 
     <string name="splash_title">Welcome to the TRX Training Club</string>
     <string name="splash_continue_label">CONTINUE WITH</string>
-    <string name="splash_facebook_button_label">FACEBOOK</string>
-    <string name="splash_google_button_label">GOOGLE</string>
-    <string name="splash_apple_button_label">APPLE</string>
     <string name="splash_email_button_label">EMAIL</string>
+    <string name="splash_sign_in_label">Don\'t have an account? <b><u>Sign up</u></b></string>
 
     <string name="inputview_placeholder_birthday">Birthday</string>
     <string name="inputview_placeholder_card_number">Card Number</string>
