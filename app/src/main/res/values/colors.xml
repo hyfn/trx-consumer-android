@@ -3,6 +3,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
+    <color name="blackRussian">#111113</color>
     <color name="white" tools:override="true">#FFFFFF</color>
 
     <color name="greyDarkExtra">#262626</color>
@@ -14,6 +15,7 @@
     <color name="blueDark">#2E496C</color>
     <color name="blue">#4C79B4</color>
     <color name="blueLight">#82D4EE</color>
+    <color name="blueVivid">#1877F2</color>
 
     <color name="purple">#C97EED</color>
     <color name="yellow">#FFE41F</color>

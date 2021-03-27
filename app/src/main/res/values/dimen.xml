@@ -11,7 +11,7 @@
 
     <dimen name="bottom_bar_height">10dp</dimen>
 
-    <dimen name="outlineBorderWidth">1dp</dimen>
+    <dimen name="outline_border_width">1dp</dimen>
 
     <dimen name="top_bar_height">60dp</dimen>
 

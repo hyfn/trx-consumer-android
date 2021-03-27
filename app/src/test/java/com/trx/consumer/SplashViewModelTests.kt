@@ -14,10 +14,10 @@ import org.mockito.MockitoAnnotations
 class SplashViewModelTests {
 
     @Mock
-    lateinit var handleLoadView: Observer<Void>
+    lateinit var handleTapEmail: Observer<Void>
 
     @Mock
-    lateinit var handleTapStart: Observer<Void>
+    lateinit var handleTapSignUp: Observer<Void>
 
     private lateinit var viewModel: SplashViewModel
 
@@ -29,8 +29,9 @@ class SplashViewModelTests {
         MockitoAnnotations.initMocks(this)
 
         viewModel = SplashViewModel().apply {
-            eventLoadView.observeForever(handleLoadView)
-            eventTapStart.observeForever(handleTapStart)
+
+            eventTapEmail.observeForever(handleTapEmail)
+            eventTapSignUp.observeForever(handleTapSignUp)
         }
     }
 
@@ -40,14 +41,15 @@ class SplashViewModelTests {
     }
 
     @Test
-    fun testLoadView() {
-        viewModel.onLoadView()
-        Mockito.verify(handleLoadView).onChanged(null)
+    fun testTapEmail() {
+        viewModel.doTapEmail()
+        Mockito.verify(handleTapEmail).onChanged(null)
     }
 
     @Test
-    fun testTapStart() {
-        viewModel.onTapStart()
-        Mockito.verify(handleTapStart).onChanged(null)
+    fun testTapSignUp() {
+        viewModel.doTapSignUp()
+        Mockito.verify(handleTapSignUp).onChanged(null)
     }
+
 }
