@@ -8,8 +8,9 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivHeader"
         android:layout_width="0dp"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/img_media_login"
         android:layout_height="195dp"
-        android:background="@color/blackRussian"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
