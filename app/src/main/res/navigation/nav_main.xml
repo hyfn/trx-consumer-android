@@ -17,10 +17,16 @@
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home" />
 
+    <fragment
+        android:id="@+id/login_fragment"
+        android:name="com.trx.consumer.screens.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login" />
+
     <dialog
         android:id="@+id/date_picker_fragment"
         android:name="com.trx.consumer.screens.datepicker.DatePickerFragment"
         android:label="DatePickerFragment"
-        tools:layout="@layout/fragment_date_picker"/>
+        tools:layout="@layout/fragment_date_picker" />
 
 </navigation>

@@ -39,4 +39,8 @@
 
     <string name="date_picker_done_button_label">Done</string>
 
+    <string name="login_sign_up">Don’t have an account? <u><b>Sign Up</b></u></string>
+    <string name="login_forgot">Forgot Password?</string>
+    <string name="login_log_in">Log in</string>
+
 </resources>
