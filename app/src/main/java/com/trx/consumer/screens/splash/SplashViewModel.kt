@@ -6,17 +6,20 @@ import com.trx.consumer.common.CommonLiveEvent
 class SplashViewModel() : BaseViewModel() {
 
     //region Events
-    val eventLoadView = CommonLiveEvent<Void>()
-    val eventTapStart = CommonLiveEvent<Void>()
+    val eventTapEmail = CommonLiveEvent<Void>()
+    val eventTapSignUp = CommonLiveEvent<Void>()
+
     //endregion
 
     //region Functions
-    fun onLoadView() {
-        eventLoadView.call()
+
+    fun doTapEmail() {
+        eventTapEmail.call()
     }
 
-    fun onTapStart() {
-        eventTapStart.call()
+    fun doTapSignUp() {
+        eventTapSignUp.call()
     }
+
     //endregion
 }
