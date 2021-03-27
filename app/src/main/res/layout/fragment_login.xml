@@ -9,7 +9,7 @@
         android:id="@+id/ivHeader"
         android:layout_width="0dp"
         android:layout_height="195dp"
-        android:background="@color/black"
+        android:background="@color/blackRussian"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -82,46 +82,40 @@
         android:gravity="center"
         android:text="@string/login_forgot"
         android:textAllCaps="true"
-        android:textColor="@color/black"
+        android:textColor="@color/blackRussian"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivPassword" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.trx.consumer.common.CommonButton
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/black"
-        android:fontFamily="@font/atcarquette_medium"
+        android:layout_marginBottom="32dp"
         android:gravity="center"
         android:text="@string/login_log_in"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:cornerRadius="25dp"
-        app:layout_constraintBottom_toTopOf="@id/btnSignup"
+        app:backgroundColor="@color/blackRussian"
+        app:layout_constraintBottom_toTopOf="@id/lblSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.trx.consumer.common.CommonButton
-        android:id="@+id/btnSignup"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="@dimen/bottom_bar_height"
-        android:background="@color/transparent"
-        android:fontFamily="@font/atcarquette_regular"
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblSignUp"
+        style="@style/CommonLabelStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:gravity="center"
-        android:text="@string/login_sign_up"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="14sp"
+        android:text="@string/splash_sign_in_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

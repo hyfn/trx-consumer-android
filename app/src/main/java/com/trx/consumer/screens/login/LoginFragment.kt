@@ -6,6 +6,7 @@ import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentLoginBinding
+import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
@@ -14,15 +15,22 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     private val viewBinding by viewBinding(FragmentLoginBinding::bind)
 
     override fun bind() {
-        viewBinding.btnBack.setOnClickListener { viewModel.doTapBack() }
-        viewModel.eventTapBack.observe(viewLifecycleOwner, handleTapBack)
+        viewBinding.apply {
+            btnBack.setOnClickListener { viewModel.doTapBack() }
+            lblSignUp.action { viewModel.doTapSignUp() }
+        }
+
+        viewModel.apply {
+            eventTapBack.observe(viewLifecycleOwner, handleTapBack)
+            eventTapSignUp.observe(viewLifecycleOwner, handleTapSignUp)
+        }
     }
 
     private val handleTapBack = Observer<Void> {
         NavigationManager.shared.dismiss(this)
     }
 
-    override fun onBackPressed() {
-        viewModel.doTapBack()
+    private val handleTapSignUp = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.register_fragment)
     }
 }
