@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    app:backgroundColor="@color/white">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.trx.consumer.common.CommonImageView
         android:id="@+id/ivHeader"
         android:layout_width="0dp"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/img_media_login"
         android:layout_height="195dp"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_media_login" />
 
     <com.trx.consumer.common.CommonLabel
         android:layout_width="wrap_content"
@@ -64,15 +64,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivHeader" />
 
+    <View
+        android:id="@+id/vLineOne"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivEmail" />
+
     <com.trx.consumer.views.input.InputView
         android:id="@+id/ivPassword"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="16dp"
         app:inputViewState="password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivEmail" />
+        app:layout_constraintTop_toBottomOf="@id/vLineOne" />
+
+    <View
+        android:id="@+id/vLineTwo"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPassword" />
 
     <com.trx.consumer.common.CommonButton
         android:id="@+id/btnForgotPassword"
@@ -88,7 +108,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivPassword" />
+        app:layout_constraintTop_toBottomOf="@id/vLineTwo" />
 
     <com.trx.consumer.common.CommonButton
         android:id="@+id/btnLogin"
@@ -131,4 +151,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.trx.consumer.common.CommonView>
