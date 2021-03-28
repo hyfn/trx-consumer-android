@@ -35,6 +35,12 @@
         android:label="EmailFragment"
         tools:layout="@layout/fragment_email" />
 
+    <fragment
+        android:id="@+id/welcome_fragment"
+        android:name="com.trx.consumer.screens.welcome.WelcomeFragment"
+        android:label="WelcomeFragment"
+        tools:layout="@layout/fragment_welcome" />
+
     <dialog
         android:id="@+id/date_picker_fragment"
         android:name="com.trx.consumer.screens.datepicker.DatePickerFragment"

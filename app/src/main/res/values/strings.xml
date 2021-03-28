@@ -58,4 +58,9 @@
     <string name="email_verification_email_sent_label">VERIFICATION EMAIL SENT</string>
     <string name="email_code_description">If you purchased a TRX Product, this will be on the KEY TO FREE card in the box.</string>
 
+    <string name="welcome_continue_button_label">Continue</string>
+    <string name="welcome_get_started_label">Get Started</string>
+    <string name="welcome_title_label">Welcome to the club,\n%1s</string>
+    <string name="welcome_description_label">With 3 new ways to train, TRX Training Club is your all-in-one virtual gym helping you to crush any goal. Anytime. Anywhere.</string>
+
 </resources>
