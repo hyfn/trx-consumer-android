@@ -13,4 +13,6 @@
 
     <dimen name="outline_border_width">1dp</dimen>
 
+    <dimen name="top_bar_height">60dp</dimen>
+
 </resources>

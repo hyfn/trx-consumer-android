@@ -40,4 +40,9 @@
 
     <string name="date_picker_done_button_label">Done</string>
 
+    <string name="register_title">Register</string>
+    <string name="register_sign_up_label">Don\'t have an account yet? <b><u>Register</u></b></string>
+    <string name="register_term_label">Agree to <b><u>Term &amp; Conditions</u></b></string>
+    <string name="register_create_account_button_label">Create Account</string>
+
 </resources>
