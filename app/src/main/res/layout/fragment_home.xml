@@ -11,7 +11,7 @@
         android:layout_height="35dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
-        android:text="Test"
+        android:text="@string/home_button_test_utility_label"
         android:fontFamily="@font/atcarquette_bold"
         android:textColor="@color/black"
         android:gravity="center"
