@@ -53,7 +53,6 @@ class NavigationManager {
         graph.startDestination = if (isLoggedIn) R.id.home_fragment else R.id.splash_fragment
         navController.graph = graph
         getTabBar(activity).apply {
-            itemIconTintList = null
             setupWithNavController(navController)
             setOnNavigationItemSelectedListener(handleItemListener(activity, navController))
             setOnNavigationItemReselectedListener { }
