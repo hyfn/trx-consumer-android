@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/home_fragment"
+        android:icon="@drawable/ic_tab_home_toggle"
+        android:title="@string/tab_home" />
+
+    <item
+        android:id="@+id/virtual_fragment"
+        android:icon="@drawable/ic_tab_virtual_toggle"
+        android:title="@string/tab_virtual_training" />
+
+    <item
+        android:id="@+id/live_fragment"
+        android:icon="@drawable/ic_tab_live_toggle"
+        android:title="@string/tab_live" />
+
+    <item
+        android:id="@+id/video_fragment"
+        android:icon="@drawable/ic_tab_video_toggle"
+        android:title="@string/tab_on_demand" />
+
 </menu>

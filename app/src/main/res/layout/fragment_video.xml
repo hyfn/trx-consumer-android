@@ -9,6 +9,6 @@
         style="@style/MatchParentEdgesViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to HomeFragment" />
+        android:text="Welcome to VideoFragment" />
 
 </com.trx.consumer.common.CommonView>

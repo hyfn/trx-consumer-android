@@ -51,5 +51,4 @@ class SplashViewModelTests {
         viewModel.doTapSignUp()
         Mockito.verify(handleTapSignUp).onChanged(null)
     }
-
 }
