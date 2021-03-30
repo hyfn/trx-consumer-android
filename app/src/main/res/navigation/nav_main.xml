@@ -48,6 +48,12 @@
         android:label="VideoFragment"
         tools:layout="@layout/fragment_video" />
 
+    <fragment
+        android:id="@+id/test_utility_fragment"
+        android:name="com.trx.consumer.screens.testutility.TestUtilityFragment"
+        android:label="TestUtilityFragment"
+        tools:layout="@layout/fragment_test_utility" />
+
     <dialog
         android:id="@+id/date_picker_fragment"
         android:name="com.trx.consumer.screens.datepicker.DatePickerFragment"

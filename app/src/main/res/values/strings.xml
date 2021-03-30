@@ -2,6 +2,8 @@
 
     <string name="app_name">TRX-Consumer</string>
 
+    <string name="home_button_test_utility_label">TEST</string>
+
     <string name="splash_title">Welcome to the TRX Training Club</string>
     <string name="splash_continue_label">CONTINUE WITH</string>
     <string name="splash_email_button_label">EMAIL</string>
