@@ -11,11 +11,6 @@
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash" />
 
-    <fragment
-        android:id="@+id/home_fragment"
-        android:name="com.trx.consumer.screens.home.HomeFragment"
-        android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/login_fragment"
@@ -28,6 +23,36 @@
         android:name="com.trx.consumer.screens.register.RegisterFragment"
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_register" />
+
+    <fragment
+        android:id="@+id/home_fragment"
+        android:name="com.trx.consumer.screens.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/virtual_fragment"
+        android:name="com.trx.consumer.screens.virtual.VirtualFragment"
+        android:label="VirtualFragment"
+        tools:layout="@layout/fragment_virtual" />
+
+    <fragment
+        android:id="@+id/live_fragment"
+        android:name="com.trx.consumer.screens.live.LiveFragment"
+        android:label="LiveFragment"
+        tools:layout="@layout/fragment_live" />
+
+    <fragment
+        android:id="@+id/video_fragment"
+        android:name="com.trx.consumer.screens.video.VideoFragment"
+        android:label="VideoFragment"
+        tools:layout="@layout/fragment_video" />
+
+    <fragment
+        android:id="@+id/test_utility_fragment"
+        android:name="com.trx.consumer.screens.testutility.TestUtilityFragment"
+        android:label="TestUtilityFragment"
+        tools:layout="@layout/fragment_test_utility" />
 
     <fragment
         android:id="@+id/email_fragment"
