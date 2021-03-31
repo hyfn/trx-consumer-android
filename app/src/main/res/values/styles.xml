@@ -57,10 +57,6 @@
         <item name="fontFamily">@font/atcarquette_bold</item>
     </style>
 
-    <style name="TabBarItemStyle">
-        <item name="android:fontFamily">@font/atcarquette_bold</item>
-    </style>
-
     <style name="CommonButtonLabelStyle" parent="TextAppearance.AppCompat">
         <item name="android:gravity">center</item>
         <item name="android:fontFamily">@font/atcarquette_bold</item>

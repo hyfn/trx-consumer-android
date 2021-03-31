@@ -62,6 +62,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivHeader" />
 
+    <View
+        android:id="@+id/vLine"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivEmail" />
+
     <com.trx.consumer.common.CommonLabel
         android:id="@+id/lblDescription"
         style="@style/CommonLabelStyle"
@@ -74,7 +84,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/vLine" />
 
     <com.trx.consumer.common.CommonLabel
         android:id="@+id/lblVerificationEmailSent"
