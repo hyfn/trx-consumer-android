@@ -2,9 +2,7 @@
 
     <string name="app_name">TRX-Consumer</string>
 
-    <string name="content_logo_image">Logo image</string>
-    <string name="content_hero_image">Hero image</string>
-    <string name="content_row_image">Row image</string>
+    <string name="home_button_test_utility_label">TEST</string>
 
     <string name="splash_title">Welcome to the TRX Training Club</string>
     <string name="splash_continue_label">CONTINUE WITH</string>
@@ -39,6 +37,11 @@
     <string name="content_blank" />
 
     <string name="date_picker_done_button_label">Done</string>
+
+    <string name="tab_home">HOME</string>
+    <string name="tab_virtual_training">VIRTUAL TRAINING</string>
+    <string name="tab_live">LIVE</string>
+    <string name="tab_on_demand">ON DEMAND</string>
 
     <string name="login_forgot">Forgot Password?</string>
     <string name="login_log_in">Log in</string>

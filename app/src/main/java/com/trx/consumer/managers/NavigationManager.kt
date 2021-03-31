@@ -14,7 +14,6 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.trx.consumer.R
-import java.lang.IllegalArgumentException
 
 class NavigationManager {
 
@@ -23,7 +22,12 @@ class NavigationManager {
     private val extraParcelable = "EXTRA_PARCELABLE"
     private val extraAny = "EXTRA_ANY"
 
-    private val listTab = listOf<Int>()
+    private val listTab = listOf(
+        R.id.home_fragment,
+        R.id.virtual_fragment,
+        R.id.live_fragment,
+        R.id.video_fragment
+    )
 
     private val listIgnoreTab = listOf<Int>()
 
@@ -51,6 +55,7 @@ class NavigationManager {
         getTabBar(activity).apply {
             setupWithNavController(navController)
             setOnNavigationItemSelectedListener(handleItemListener(activity, navController))
+            setOnNavigationItemReselectedListener { }
         }
         navController.addOnDestinationChangedListener(handleDestinationChangeListener(activity))
     }
