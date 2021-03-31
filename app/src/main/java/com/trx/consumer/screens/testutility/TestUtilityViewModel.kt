@@ -1,18 +1,21 @@
-package com.trx.consumer.screens.login
+package com.trx.consumer.screens.testutility
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 
-class LoginViewModel : BaseViewModel() {
+class TestUtilityViewModel : BaseViewModel() {
+
+    //region Events
 
     val eventTapBack = CommonLiveEvent<Void>()
-    val eventTapSignUp = CommonLiveEvent<Void>()
+
+    //endregion
+
+    //region Functions
 
     fun doTapBack() {
         eventTapBack.call()
     }
 
-    fun doTapSignUp() {
-        eventTapSignUp.call()
-    }
+    //endregion
 }

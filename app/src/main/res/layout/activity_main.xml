@@ -21,11 +21,16 @@
         android:id="@+id/tabBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/blueDark"
         android:visibility="gone"
         app:labelVisibilityMode="labeled"
+        android:background="@color/white"
+        app:itemTextAppearanceActive="@style/TabBarStyle"
+        app:itemTextAppearanceInactive="@style/TabBarStyle"
+        app:itemTextColor="@drawable/tab_bar_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/menu_bottom_nav"
+        tools:visibility="visible"/>
 
 </com.trx.consumer.common.CommonView>
