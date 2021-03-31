@@ -2,6 +2,7 @@ package com.trx.consumer.core
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.trx.consumer.R
 import com.trx.consumer.managers.NavigationManager
 
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun start() {
+        findViewById<BottomNavigationView>(R.id.tabBar).itemIconTintList = null
         NavigationManager.shared.launch(this, false)
     }
 }

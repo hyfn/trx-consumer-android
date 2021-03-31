@@ -69,6 +69,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivHeader" />
 
+        <View
+            android:id="@+id/vLineOne"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivEmail" />
+
         <com.trx.consumer.views.input.InputView
             android:id="@+id/ivPassword"
             android:layout_width="match_parent"
@@ -77,7 +87,17 @@
             app:inputViewState="password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivEmail" />
+            app:layout_constraintTop_toBottomOf="@id/vLineOne" />
+
+        <View
+            android:id="@+id/vLineTwo"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivPassword" />
 
         <com.trx.consumer.views.input.InputView
             android:id="@+id/ivConfirmPassword"
@@ -87,7 +107,17 @@
             app:inputViewState="password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivPassword" />
+            app:layout_constraintTop_toBottomOf="@id/vLineTwo" />
+
+        <View
+            android:id="@+id/vLineThree"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivConfirmPassword" />
 
         <com.trx.consumer.common.CommonLabel
             android:id="@+id/lblTerm"
@@ -99,7 +129,7 @@
             android:text="@string/register_term_label"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivConfirmPassword" />
+            app:layout_constraintTop_toBottomOf="@id/vLineThree" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/cbTerm"
@@ -108,7 +138,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivConfirmPassword" />
+            app:layout_constraintTop_toBottomOf="@id/vLineThree" />
 
 
         <com.trx.consumer.common.CommonButton
