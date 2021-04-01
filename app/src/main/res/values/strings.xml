@@ -38,6 +38,9 @@
     <string name="inputview_error_message_phone_number">Phone number is not valid</string>
     <string name="inputview_error_message_zip">Zip Code is not valid.</string>
 
+    <string name="login_forgot">Forgot Password?</string>
+    <string name="login_log_in">Log in</string>
+
     <string name="splash_title">Welcome to the TRX Training Club</string>
     <string name="splash_continue_label">CONTINUE WITH</string>
     <string name="splash_email_button_label">EMAIL</string>
@@ -50,8 +53,5 @@
 
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
-
-    <string name="login_forgot">Forgot Password?</string>
-    <string name="login_log_in">Log in</string>
 
 </resources>
