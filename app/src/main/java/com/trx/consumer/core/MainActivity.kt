@@ -17,6 +17,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun start() {
         findViewById<BottomNavigationView>(R.id.tabBar).itemIconTintList = null
-        NavigationManager.shared.launch(this, false)
+        NavigationManager.shared.launch(this, true)
     }
 }
