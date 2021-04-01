@@ -26,6 +26,10 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         }
     }
 
+    override fun onBackPressed() {
+        NavigationManager.shared.dismiss(this)
+    }
+
     private val handleTapBack = Observer<Void> {
         NavigationManager.shared.dismiss(this)
     }

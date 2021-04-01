@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:backgroundColor="@color/greyLightExtra"
+    tools:ignore="SmallSp">
+
+    <com.trx.consumer.common.CommonImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_img_placeholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearance="@style/CircularAppearance" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="15dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/atcarquette_semibold"
+        android:maxLines="2"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imgProfile"
+        app:layout_constraintTop_toTopOf="@id/imgProfile"
+        tools:text="Total Body Strength &amp; Conditioning" />
+
+    <com.trx.consumer.common.CommonButton
+        android:id="@+id/btnSelect"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.trx.consumer.common.CommonButton
+        android:id="@+id/btnBook"
+        android:layout_width="70dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:backgroundColor="@color/yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="VIEW" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="@font/atcarquette_bold"
+        android:textColor="@color/grey"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@id/lblTitle"
+        app:layout_constraintTop_toTopOf="@id/btnBook"
+        tools:text="60 MIN" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblSubtitle2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="@font/atcarquette_bold"
+        android:textColor="@color/grey"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@id/lblTitle"
+        app:layout_constraintTop_toBottomOf="@id/lblSubtitle"
+        tools:text="TODAY, 9 AM" />
+
+</com.trx.consumer.common.CommonView>
