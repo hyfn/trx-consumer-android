@@ -45,7 +45,7 @@ class LiveWorkoutAdapter(
 
     override fun onBindViewHolder(holder: CommonViewHolder, position: Int) {
         val item = items[position]
-        when(holder) {
+        when (holder) {
             is LiveWorkoutViewHolder -> holder.setup(item as LiveWorkoutModel, listener)
             is EmptyViewHolder -> holder.setup(true)
         }

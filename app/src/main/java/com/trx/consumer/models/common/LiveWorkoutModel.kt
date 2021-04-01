@@ -44,7 +44,7 @@ class LiveWorkoutModel(
         get() = "$dateDisplay, $time   $duration"
 
     val time: String
-        get() = date.format("h::mm a", zone = TimeZone.getDefault())
+        get() = date.format("h:mm a", zone = TimeZone.getDefault())
 
     companion object {
 
@@ -55,7 +55,7 @@ class LiveWorkoutModel(
                 imageUrl = "",
                 title = "TRX Strength & Conditioning",
                 startsAt = 1615917600000,
-                status = BookingViewState.BOOK
+                status = BookingViewState.VIEW
             )
         }
 

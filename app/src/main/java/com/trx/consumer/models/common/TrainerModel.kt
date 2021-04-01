@@ -14,4 +14,4 @@ class TrainerModel(
     var profilePhoto: String = "",
     var virtualTrainerProfileId: String = "",
     var key: String = ""
-): Parcelable
+) : Parcelable

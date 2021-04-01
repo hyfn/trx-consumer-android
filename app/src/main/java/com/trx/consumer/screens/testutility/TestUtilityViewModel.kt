@@ -12,7 +12,6 @@ class TestUtilityViewModel : BaseViewModel(), LiveWorkoutListener {
     val eventTapBack = CommonLiveEvent<Void>()
     val eventLoadLiveWorkouts = CommonLiveEvent<List<LiveWorkoutModel>>()
 
-
     //endregion
 
     //region Functions

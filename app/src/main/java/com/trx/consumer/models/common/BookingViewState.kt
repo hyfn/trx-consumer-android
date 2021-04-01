@@ -16,7 +16,7 @@ enum class BookingViewState {
     @get:StringRes
     val buttonTitle: Int
         get() {
-            return when(this) {
+            return when (this) {
                 BOOK -> R.string.booking_view_state_book_label
                 BOOKED -> R.string.booking_view_state_booked_label
                 VIEW -> R.string.booking_view_state_view_label
