@@ -55,7 +55,8 @@ class LiveWorkoutModel(
                 imageUrl = "",
                 title = "TRX Strength & Conditioning",
                 startsAt = 1615917600000,
-                status = BookingViewState.VIEW
+                status = BookingViewState.VIEW,
+                trainer = TrainerModel.test()
             )
         }
 

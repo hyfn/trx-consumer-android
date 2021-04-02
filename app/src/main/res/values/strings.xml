@@ -38,6 +38,13 @@
     <string name="inputview_error_message_phone_number">Phone number is not valid</string>
     <string name="inputview_error_message_zip">Zip Code is not valid.</string>
 
+    <string name="live_today_title_label">TODAY</string>
+    <string name="live_tomorrow_title_label">TOMORROW</string>
+    <string name="live_upcoming_title_label">NEXT WEEK</string>
+    <string name="live_button_schedule_label">SCHEDULE →</string>
+    <string name="live_trainers_title_label">LIVE TRAINERS</string>
+    <string name="live_promotions_title_label">FOR YOU</string>
+
     <string name="splash_title">Welcome to the TRX Training Club</string>
     <string name="splash_continue_label">CONTINUE WITH</string>
     <string name="splash_email_button_label">EMAIL</string>
