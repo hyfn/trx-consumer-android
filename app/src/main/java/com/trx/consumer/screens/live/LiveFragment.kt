@@ -60,16 +60,7 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
     //endregion
 
     //region Handlers
-    private val handleLoadView = Observer<Void> {
-        viewBinding.apply {
-            viewToday.lblTitle.text(getString(R.string.live_today_title_label))
-            viewTomorrow.lblTitle.text(getString(R.string.live_tomorrow_title_label))
-            viewUpcoming.apply {
-                lblTitle.text(getString(R.string.live_upcoming_title_label))
-                btnSchedule.isHidden = true
-            }
-        }
-    }
+    private val handleLoadView = Observer<Void> {}
 
     private val handleLoadPromotions = Observer<List<PromotionModel>> { promotions ->
         loadPromotions(promotions)
