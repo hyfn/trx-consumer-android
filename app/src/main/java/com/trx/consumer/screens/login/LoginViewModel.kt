@@ -5,17 +5,14 @@ import com.trx.consumer.common.CommonLiveEvent
 
 class LoginViewModel : BaseViewModel() {
 
-    //region Events
-
     val eventTapBack = CommonLiveEvent<Void>()
-
-    //endregion
-
-    //region Functions
+    val eventTapSignUp = CommonLiveEvent<Void>()
 
     fun doTapBack() {
         eventTapBack.call()
     }
 
-    //endregion
+    fun doTapSignUp() {
+        eventTapSignUp.call()
+    }
 }

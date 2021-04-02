@@ -58,6 +58,6 @@
         android:id="@+id/date_picker_fragment"
         android:name="com.trx.consumer.screens.datepicker.DatePickerFragment"
         android:label="DatePickerFragment"
-        tools:layout="@layout/fragment_date_picker"/>
+        tools:layout="@layout/fragment_date_picker" />
 
 </navigation>
