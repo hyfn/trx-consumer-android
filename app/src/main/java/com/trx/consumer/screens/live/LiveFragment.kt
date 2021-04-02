@@ -36,8 +36,8 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
 
         viewBinding.apply {
             viewToday.rvLiveWorkouts.adapter = todayAdapter
-            viewTomorrow.rvLiveWorkouts.adapter = todayAdapter
-            viewUpcoming.rvLiveWorkouts.adapter = todayAdapter
+            viewTomorrow.rvLiveWorkouts.adapter = tomorrowAdapter
+            viewUpcoming.rvLiveWorkouts.adapter = upcomingAdapter
             rvTrainerProfiles.adapter = trainerAdapter
             rvPromotions.adapter = promotionAdapter
         }
@@ -72,23 +72,69 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
     }
 
     private val handleLoadPromotions = Observer<List<PromotionModel>> { promotions ->
-        promotionAdapter.update(promotions)
+        loadPromotions(promotions)
     }
 
     private val handleLoadTrainers = Observer<List<TrainerModel>> { trainers ->
+        loadTrainers(trainers)
+    }
+
+    private val handleLoadWorkoutsToday = Observer<List<LiveWorkoutModel>> { workouts ->
+        loadWorkoutsToday(workouts)
+    }
+
+    private val handleLoadWorkoutsTomorrow = Observer<List<LiveWorkoutModel>> { workouts ->
+        loadWorkoutsTomorrow(workouts)
+    }
+
+    private val handleLoadWorkoutsRecommended = Observer<List<LiveWorkoutModel>> { workouts ->
+        loadWorkoutsRecommended(workouts)
+    }
+    //endregion
+
+    //region Functions
+
+    private fun loadPromotions(promotions: List<PromotionModel>) {
+        val hide = promotions.isEmpty()
+        promotionAdapter.update(promotions)
+        viewBinding.apply {
+            imgLinePromotions.isHidden = hide
+            viewPromotions.isHidden = hide
+        }
+    }
+
+    private fun loadTrainers(trainers: List<TrainerModel>) {
+        val hide = trainers.isEmpty()
         trainerAdapter.update(trainers)
+        viewBinding.apply {
+            imgLineTrainers.isHidden = hide
+            viewTrainers.isHidden = hide
+        }
     }
 
-    private val handleLoadWorkoutsToday = Observer<List<LiveWorkoutModel>> { liveWorkouts ->
-        todayAdapter.update(liveWorkouts)
+    private fun loadWorkoutsToday(workouts: List<LiveWorkoutModel>) {
+        todayAdapter.update(workouts)
+        viewBinding.apply {
+            viewToday.viewMain.isHidden = workouts.isEmpty()
+            viewToday.lblTitle.text(getString(R.string.live_today_title_label))
+        }
     }
 
-    private val handleLoadWorkoutsTomorrow = Observer<List<LiveWorkoutModel>> { liveWorkouts ->
-        tomorrowAdapter.update(liveWorkouts)
+    private fun loadWorkoutsTomorrow(workouts: List<LiveWorkoutModel>) {
+        tomorrowAdapter.update(workouts)
+        viewBinding.apply {
+            viewTomorrow.viewMain.isHidden = workouts.isEmpty()
+            viewTomorrow.lblTitle.text(getString(R.string.live_tomorrow_title_label))
+        }
     }
 
-    private val handleLoadWorkoutsRecommended = Observer<List<LiveWorkoutModel>> { liveWorkouts ->
-        upcomingAdapter.update(liveWorkouts)
+    private fun loadWorkoutsRecommended(workouts: List<LiveWorkoutModel>) {
+        upcomingAdapter.update(workouts)
+        viewBinding.viewUpcoming.apply {
+            viewMain.isHidden = workouts.isEmpty()
+            lblTitle.text(getString(R.string.live_upcoming_title_label))
+            btnSchedule.isHidden = true
+        }
     }
     //endregion
 }
