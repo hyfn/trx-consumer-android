@@ -17,7 +17,7 @@
 
             <include
                 android:id="@+id/viewToday"
-                layout="@layout/row_live_workout_section"
+                layout="@layout/layout_live_workout_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -25,7 +25,7 @@
 
             <include
                 android:id="@+id/viewTomorrow"
-                layout="@layout/row_live_workout_section"
+                layout="@layout/layout_live_workout_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -33,7 +33,7 @@
 
             <include
                 android:id="@+id/viewUpcoming"
-                layout="@layout/row_live_workout_section"
+                layout="@layout/layout_live_workout_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -96,7 +96,7 @@
                 app:layout_constraintTop_toBottomOf="@id/viewLine2">
 
                 <com.trx.consumer.common.CommonLabel
-                    android:id="@+id/lblTitle"
+                    android:id="@+id/lblPromotionsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginStart="15dp"
@@ -115,7 +115,7 @@
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/lblTitle"
+                    app:layout_constraintTop_toBottomOf="@id/lblPromotionsTitle"
                     tools:listitem="@layout/row_promotion_collection" />
 
             </com.trx.consumer.common.CommonView>
