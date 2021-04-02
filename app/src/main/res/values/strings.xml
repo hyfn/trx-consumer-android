@@ -62,12 +62,8 @@
     <string name="email_forgot_title">Forgot\nPassword</string>
     <string name="email_verify_title">Have a TRX Code?</string>
     <string name="email_lookup_second">Send Verification Email</string>
-    <string name="email_verify_resend">Resend Code</string>
     <string name="email_verify_submit">Submit</string>
-    <string name="email_verify_second">Verify Code</string>
     <string name="email_forgot_second">Reset Password</string>
-    <string name="email_verify_third"><font fgcolor="#16ACBB">Cancel</font></string>
-    <string name="email_forgot_third"><font fgcolor="#16ACBB">Nevermind</font></string>
     <string name="email_done_button_label">DONE</string>
     <string name="email_verification_email_sent_label">VERIFICATION EMAIL SENT</string>
     <string name="email_code_description">If you purchased a TRX Product, this will be on the KEY TO FREE card in the box.</string>
