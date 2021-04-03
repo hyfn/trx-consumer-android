@@ -2,12 +2,16 @@
 
     <string name="app_name">TRX-Consumer</string>
 
-    <string name="home_button_test_utility_label">TEST</string>
+    <string name="booking_view_state_book_label">BOOK</string>
+    <string name="booking_view_state_booked_label">BOOKED</string>
+    <string name="booking_view_state_view_label">VIEW</string>
+    <string name="booking_view_state_default_label">N/A</string>
 
-    <string name="splash_title">Welcome to the TRX Training Club</string>
-    <string name="splash_continue_label">CONTINUE WITH</string>
-    <string name="splash_email_button_label">EMAIL</string>
-    <string name="splash_sign_in_label">Don\'t have an account? <b><u>Sign up</u></b></string>
+    <string name="content_blank" />
+
+    <string name="date_picker_done_button_label">Done</string>
+
+    <string name="home_button_test_utility_label">TEST</string>
 
     <string name="inputview_placeholder_birthday">Birthday</string>
     <string name="inputview_placeholder_card_number">Card Number</string>
@@ -34,32 +38,32 @@
     <string name="inputview_error_message_phone_number">Phone number is not valid</string>
     <string name="inputview_error_message_zip">Zip Code is not valid.</string>
 
-    <string name="content_blank" />
+    <string name="login_forgot">Forgot Password?</string>
+    <string name="login_log_in">Log in</string>
 
-    <string name="date_picker_done_button_label">Done</string>
+    <string name="splash_title">Welcome to the TRX Training Club</string>
+    <string name="splash_continue_label">CONTINUE WITH</string>
+    <string name="splash_email_button_label">EMAIL</string>
+    <string name="splash_sign_in_label">Don\'t have an account? <b><u>Sign up</u></b></string>
 
     <string name="tab_home">HOME</string>
     <string name="tab_virtual_training">VIRTUAL TRAINING</string>
     <string name="tab_live">LIVE</string>
     <string name="tab_on_demand">ON DEMAND</string>
 
-    <string name="login_forgot">Forgot Password?</string>
-    <string name="login_log_in">Log in</string>
+    <string name="test_utility_nav_bar_title_label">Testing</string>
+    <string name="test_utility_live_workout_section_label">Live Workouts</string>
 
     <string name="register_title">Register</string>
-    <string name="register_sign_up_label">Don\'t have an account yet? <b><u>Register</u></b></string>
+    <string name="register_sign_in_label">Already have an account? <b><u>Log in</u></b></string>
     <string name="register_term_label">Agree to <b><u>Term &amp; Conditions</u></b></string>
     <string name="register_create_account_button_label">Create Account</string>
 
     <string name="email_forgot_title">Forgot\nPassword</string>
     <string name="email_verify_title">Have a TRX Code?</string>
     <string name="email_lookup_second">Send Verification Email</string>
-    <string name="email_verify_resend">Resend Code</string>
     <string name="email_verify_submit">Submit</string>
-    <string name="email_verify_second">Verify Code</string>
     <string name="email_forgot_second">Reset Password</string>
-    <string name="email_verify_third"><font fgcolor="#16ACBB">Cancel</font></string>
-    <string name="email_forgot_third"><font fgcolor="#16ACBB">Nevermind</font></string>
     <string name="email_done_button_label">DONE</string>
     <string name="email_verification_email_sent_label">VERIFICATION EMAIL SENT</string>
     <string name="email_code_description">If you purchased a TRX Product, this will be on the KEY TO FREE card in the box.</string>
