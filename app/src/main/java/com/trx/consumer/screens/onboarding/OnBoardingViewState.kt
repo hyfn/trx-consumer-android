@@ -1,5 +1,7 @@
 package com.trx.consumer.screens.onboarding
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.trx.consumer.R
 
 enum class OnBoardingViewState {
@@ -13,6 +15,7 @@ enum class OnBoardingViewState {
             DEMAND -> 2
         }
 
+    @get:StringRes
     val title: Int
         get() = when (this) {
             VIRTUAL -> R.string.onboarding_virtual_title
@@ -20,6 +23,7 @@ enum class OnBoardingViewState {
             DEMAND -> R.string.onboarding_demand_title
         }
 
+    @get:StringRes
     val description: Int
         get() = when (this) {
             VIRTUAL -> R.string.onboarding_virtual_description
@@ -27,6 +31,7 @@ enum class OnBoardingViewState {
             DEMAND -> R.string.onboarding_demand_description
         }
 
+    @get:DrawableRes
     val image: Int
         get() = when (this) {
             VIRTUAL -> R.drawable.img_media_onboarding_001
@@ -34,6 +39,7 @@ enum class OnBoardingViewState {
             DEMAND -> R.drawable.img_media_onboarding_003
         }
 
+    @get:StringRes
     val listItemOne: Int
         get() = when (this) {
             VIRTUAL -> R.string.onboarding_virtual_list_text_one
@@ -41,6 +47,7 @@ enum class OnBoardingViewState {
             DEMAND -> R.string.onboarding_demand_list_text_one
         }
 
+    @get:StringRes
     val listItemTwo: Int
         get() = when (this) {
             VIRTUAL -> R.string.onboarding_virtual_list_text_two
@@ -48,6 +55,7 @@ enum class OnBoardingViewState {
             DEMAND -> R.string.onboarding_demand_list_text_two
         }
 
+    @get:StringRes
     val listItemThree: Int
         get() = when (this) {
             VIRTUAL -> R.string.onboarding_virtual_list_text_three
@@ -57,8 +65,7 @@ enum class OnBoardingViewState {
 
     companion object {
         fun getStateFromPage(page: Int): OnBoardingViewState {
-            return values().firstOrNull { it.currentPage == page }
-                ?: VIRTUAL
+            return values().firstOrNull { it.currentPage == page } ?: VIRTUAL
         }
     }
 }

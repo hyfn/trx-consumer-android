@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.onboarding
 
-import android.annotation.SuppressLint
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
@@ -15,9 +14,7 @@ class OnBoardingFragment : BaseFragment(R.layout.fragment_onboarding) {
     private val viewModel: OnBoardingViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentOnboardingBinding::bind)
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun bind() {
-
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventTapClose.observe(viewLifecycleOwner, handleTapClose)

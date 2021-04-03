@@ -158,6 +158,15 @@
             app:layout_constraintTop_toBottomOf="@+id/vLineTwo"
             tools:text="@string/onboarding_virtual_list_text_one" />
 
+        <View
+            android:id="@+id/vLineThree"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblItemThree" />
 
         <com.trx.consumer.common.CommonButton
             android:id="@+id/btnContinue"
@@ -176,7 +185,7 @@
             app:backgroundColor="@color/blackRussian"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblItemThree" />
+            app:layout_constraintTop_toBottomOf="@+id/vLineThree" />
 
 
     </com.trx.consumer.common.CommonView>
