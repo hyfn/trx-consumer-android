@@ -1,14 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:backgroundColor="@color/white">
+    app:backgroundColor="@color/white"
+    tools:ignore="SmallSp">
 
-    <com.trx.consumer.common.CommonLabel
-        style="@style/MatchParentEdgesViewStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome to LiveFragment" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.trx.consumer.common.CommonView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/viewToday"
+                layout="@layout/layout_live_workout_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <include
+                android:id="@+id/viewTomorrow"
+                layout="@layout/layout_live_workout_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/viewToday"
+                tools:visibility="visible" />
+
+            <include
+                android:id="@+id/viewUpcoming"
+                layout="@layout/layout_live_workout_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/viewTomorrow" />
+
+            <com.trx.consumer.common.CommonImageView
+                android:id="@+id/imgLineTrainers"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/greyLightExtra"
+                app:layout_constraintTop_toBottomOf="@id/viewUpcoming"
+                tools:visibility="visible" />
+
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewTrainers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/greyLight"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/imgLineTrainers"
+                tools:visibility="visible">
+
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblTrainersTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/live_trainers_title_label"
+                    android:textColor="@color/grey"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.trx.consumer.common.CommonRecyclerView
+                    android:id="@+id/rvTrainerProfiles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/lblTrainersTitle"
+                    tools:listitem="@layout/row_trainer_profile_collection" />
+
+            </com.trx.consumer.common.CommonView>
+
+            <com.trx.consumer.common.CommonImageView
+                android:id="@+id/imgLinePromotions"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/greyLight"
+                app:layout_constraintTop_toBottomOf="@id/viewTrainers" />
+
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewPromotions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/imgLinePromotions"
+                tools:visibility="visible">
+
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblPromotionsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/live_promotions_title_label"
+                    android:textColor="@color/grey"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.trx.consumer.common.CommonRecyclerView
+                    android:id="@+id/rvPromotions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/lblPromotionsTitle"
+                    tools:listitem="@layout/row_promotion_collection" />
+
+            </com.trx.consumer.common.CommonView>
+
+            <com.trx.consumer.common.CommonImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/viewPromotions" />
+
+        </com.trx.consumer.common.CommonView>
+
+    </androidx.core.widget.NestedScrollView>
 
 </com.trx.consumer.common.CommonView>
