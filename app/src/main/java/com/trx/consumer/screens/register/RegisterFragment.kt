@@ -10,20 +10,14 @@ import com.trx.consumer.managers.NavigationManager
 
 class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
-    //region Objects
     private val viewModel: RegisterViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentRegisterBinding::bind)
-    //endregion
 
-    //region Setup
     override fun bind() {
         viewModel.eventTapBack.observe(viewLifecycleOwner, handleTapBack)
         viewBinding.btnBack.setOnClickListener { viewModel.doTapBack() }
     }
 
-    //endregion
-
-    //region Handlers
     private val handleTapBack = Observer<Void> {
         NavigationManager.shared.dismiss(this)
     }
@@ -31,6 +25,4 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
     override fun onBackPressed() {
         viewModel.doTapBack()
     }
-
-    //endregion
 }
