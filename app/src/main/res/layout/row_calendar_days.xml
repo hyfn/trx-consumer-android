@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewDays"
+    android:layout_width="45dp"
+    android:layout_height="90dp"
+    app:backgroundColor="@color/transparent">
+
+
+    <com.trx.consumer.common.CommonImageView
+        android:id="@+id/imgDot"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:contentDescription="@string/content_row_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_circle" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblTop"
+        android:layout_width="15dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/atcarquette_regular"
+        android:gravity="center"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/blackRussian"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgDot"
+        tools:text="T" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblBottom"
+        android:layout_width="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="35dp"
+        android:background="@drawable/ic_circle"
+        android:fontFamily="@font/atcarquette_regular"
+        android:gravity="center"
+        android:textColor="@color/blackRussian"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblTop"
+        tools:text="10" />
+
+
+</com.trx.consumer.common.CommonView>

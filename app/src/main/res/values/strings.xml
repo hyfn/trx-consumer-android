@@ -8,6 +8,9 @@
     <string name="booking_view_state_default_label">N/A</string>
 
     <string name="content_blank" />
+    <string name="content_row_image">Row image</string>
+
+    <string name="calendarview_this_week">This Week</string>
 
     <string name="date_picker_done_button_label">Done</string>
 

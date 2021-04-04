@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:backgroundColor="@color/white">
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblLeft"
+        android:layout_width="135dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="15dp"
+        android:fontFamily="@font/atcarquette_semibold"
+        android:gravity="center|start"
+        android:textColor="@color/blackRussian"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Left" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblRight"
+        android:layout_width="135dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="@font/atcarquette_semibold"
+        android:gravity="center|end"
+        android:textColor="@color/blackRussian"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Right" />
+
+    <com.trx.consumer.common.CommonRecyclerView
+        android:id="@+id/rvDays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblLeft"
+        tools:listitem="@layout/row_calendar_days" />
+
+</com.trx.consumer.common.CommonView>
