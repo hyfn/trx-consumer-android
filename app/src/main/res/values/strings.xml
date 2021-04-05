@@ -48,6 +48,13 @@
     <string name="login_forgot">Forgot Password?</string>
     <string name="login_log_in">Log in</string>
 
+    <string name="plans_choose_plan_label">Choose Plan</string>
+    <string name="plans_current_plan_label">Current Plan</string>
+    <string name="plans_title">Subscriptions</string>
+    <string name="plans_cancel_subscription_label">Cancel Subscription</string>
+    <string name="plans_last_bill_date_label">Last Bill Date:</string>
+    <string name="plans_next_bill_date_label">Next Bill Date:</string>
+
     <string name="splash_title">Welcome to the TRX Training Club</string>
     <string name="splash_continue_label">CONTINUE WITH</string>
     <string name="splash_email_button_label">EMAIL</string>

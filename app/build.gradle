@@ -69,6 +69,7 @@ android {
             buildConfigField "Integer", "kPasswordMinLength", "6"
             buildConfigField "String", "isMaintenanceMode", '"is_maintenance_mode"'
             buildConfigField "String", "minimumBuildNumber", '"minimum_build_number"'
+            buildConfigField "String", "kWaiversUrl", '"https://xpass.xpodev.com/api/locations/xponential-xpass/waiver.html"'
         }
         dev {
             buildConfigField "boolean", "DEVELOPMENT", "true"
