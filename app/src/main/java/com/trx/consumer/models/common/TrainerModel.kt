@@ -19,6 +19,9 @@ class TrainerModel(
     val firstNameAndLastInitial: String
         get() = "$firstName ${lastName.first()}."
 
+    val fullName: String
+        get() = "$firstName $lastName"
+
     companion object {
 
         fun test(): TrainerModel {
