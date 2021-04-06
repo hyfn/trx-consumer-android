@@ -63,5 +63,6 @@
 
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
+    <string name="test_utility_calendar_section_label">Calendar</string>
 
 </resources>

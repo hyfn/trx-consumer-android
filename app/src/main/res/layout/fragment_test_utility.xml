@@ -69,6 +69,31 @@
                 app:layout_constraintTop_toBottomOf="@id/lblLiveWorkouts"
                 tools:listitem="@layout/row_live_workout_collection" />
 
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/test_utility_calendar_section_label"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvLiveWorkouts" />
+
+            <com.trx.consumer.views.calendar.CalendarView
+                android:id="@+id/calendar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                app:calendarViewState="display"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblCalendar" />
+
+
         </com.trx.consumer.common.CommonView>
 
     </androidx.core.widget.NestedScrollView>
