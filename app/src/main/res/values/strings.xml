@@ -61,9 +61,4 @@
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
 
-    <string name="register_title">Register</string>
-    <string name="register_sign_in_label">Already have an account? <b><u>Log in</u></b></string>
-    <string name="register_term_label">Agree to <b><u>Term &amp; Conditions</u></b></string>
-    <string name="register_create_account_button_label">Create Account</string>
-
 </resources>
