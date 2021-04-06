@@ -69,4 +69,18 @@
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
     <string name="test_utility_plans_label">Plans</string>
 
+    <string name="register_title">Register</string>
+    <string name="register_sign_in_label">Already have an account? <b><u>Log in</u></b></string>
+    <string name="register_term_label">Agree to <b><u>Term &amp; Conditions</u></b></string>
+    <string name="register_create_account_button_label">Create Account</string>
+
+    <string name="email_forgot_title">Forgot\nPassword</string>
+    <string name="email_verify_title">Have a TRX Code?</string>
+    <string name="email_lookup_second">Send Verification Email</string>
+    <string name="email_verify_submit">Submit</string>
+    <string name="email_forgot_second">Reset Password</string>
+    <string name="email_done_button_label">DONE</string>
+    <string name="email_verification_email_sent_label">VERIFICATION EMAIL SENT</string>
+    <string name="email_code_description">If you purchased a TRX Product, this will be on the KEY TO FREE card in the box.</string>
+
 </resources>

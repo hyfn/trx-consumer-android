@@ -55,6 +55,12 @@
         tools:layout="@layout/fragment_test_utility" />
 
     <fragment
+        android:id="@+id/email_fragment"
+        android:name="com.trx.consumer.screens.email.EmailFragment"
+        android:label="EmailFragment"
+        tools:layout="@layout/fragment_email" />
+
+    <fragment
         android:id="@+id/plans_fragment"
         android:name="com.trx.consumer.screens.plans.PlansFragment"
         android:label="PlansFragment"
