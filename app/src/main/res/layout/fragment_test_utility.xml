@@ -69,6 +69,25 @@
                 app:layout_constraintTop_toBottomOf="@id/lblLiveWorkouts"
                 tools:listitem="@layout/row_live_workout_collection" />
 
+
+            <com.trx.consumer.common.CommonButton
+                android:id="@+id/btnPlans"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                android:backgroundTint="@color/black"
+                android:fontFamily="@font/atcarquette_semibold"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="@string/test_utility_plans_label"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvLiveWorkouts" />
+
         </com.trx.consumer.common.CommonView>
 
     </androidx.core.widget.NestedScrollView>

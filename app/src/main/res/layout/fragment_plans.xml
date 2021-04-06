@@ -10,7 +10,7 @@
     <com.trx.consumer.common.CommonView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp">
+        android:paddingBottom="40dp">
 
         <com.trx.consumer.common.CommonView
             android:id="@+id/viewNavBar"
@@ -49,7 +49,7 @@
             app:layout_constraintTop_toBottomOf="@+id/viewNavBar"
             app:textAllCaps="true" />
 
-        <com.trx.consumer.views.CommonRecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPlans"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -59,13 +59,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblTitle"
+            tools:itemCount="3"
             tools:listitem="@layout/row_plans" />
 
         <com.trx.consumer.common.CommonView
             android:id="@+id/viewDates"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             app:backgroundColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -136,7 +137,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblLastBillDateLabel"
                 tools:text="11/10/2020" />
-
 
         </com.trx.consumer.common.CommonView>
 

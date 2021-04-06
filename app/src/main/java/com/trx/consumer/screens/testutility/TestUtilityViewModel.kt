@@ -10,6 +10,7 @@ class TestUtilityViewModel : BaseViewModel(), LiveWorkoutListener {
     //region Events
 
     val eventTapBack = CommonLiveEvent<Void>()
+    val eventTapPlans = CommonLiveEvent<Void>()
     val eventLoadLiveWorkouts = CommonLiveEvent<List<LiveWorkoutModel>>()
 
     //endregion
@@ -30,6 +31,10 @@ class TestUtilityViewModel : BaseViewModel(), LiveWorkoutListener {
 
     fun doTapBack() {
         eventTapBack.call()
+    }
+
+    fun doTapPlans() {
+        eventTapPlans.call()
     }
 
     //endregion

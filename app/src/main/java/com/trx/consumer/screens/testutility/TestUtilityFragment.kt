@@ -28,12 +28,14 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
         viewBinding.apply {
             btnBack.action { viewModel.doTapBack() }
+            btnPlans.action { viewModel.doTapPlans() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
         }
 
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
+            eventTapPlans.observe(viewLifecycleOwner, handleTapPlans)
 
             doLoadView()
         }
@@ -44,6 +46,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     //region Handlers
     private val handleTapBack = Observer<Void> {
         NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleTapPlans = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.plans_fragment)
     }
 
     private val handleLoadLiveWorkouts = Observer<List<LiveWorkoutModel>> { liveWorkouts ->

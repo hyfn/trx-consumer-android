@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="15dp"
     android:paddingStart="15dp"
     android:paddingTop="10dp"
     android:paddingEnd="15dp"
@@ -52,16 +53,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/black"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center"
         android:padding="15dp"
-        android:text="@string/plans_choose_plan_label"
         android:textAllCaps="true"
-        android:textColor="@color/white"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/lblPrice"
+        tools:backgroundTint="@color/black"
+        tools:text="@string/plans_choose_plan_label"
+        tools:textColor="@color/white" />
 
 </com.trx.consumer.common.CommonView>

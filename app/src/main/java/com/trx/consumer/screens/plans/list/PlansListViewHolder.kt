@@ -17,9 +17,11 @@ class PlansListViewHolder(view: View) : CommonViewHolder(view) {
     fun setup(item: PlansListModel, listener: PlansListListener) {
         lblPrice.text(item.priceText)
         lblDescription.text(item.description)
-        btnPlan.text(item.state.buttonText)
-        btnPlan.textColor(item.state.buttonTextColor)
-        btnPlan.bgColor(item.state.buttonBgColor)
-        btnPlan.action { listener.doTapPlan(item) }
+        btnPlan.apply {
+            text = itemView.context.getString(item.state.buttonText)
+            textColor(item.state.buttonTextColor)
+            bgColor(item.state.buttonBgColor)
+            action { listener.doTapPlan(item) }
+        }
     }
 }
