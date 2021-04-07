@@ -3,6 +3,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
+    <color name="blackAlpha20">#33000000</color>
     <color name="blackRussian">#111113</color>
     <color name="white" tools:override="true">#FFFFFF</color>
 
@@ -10,7 +11,7 @@
     <color name="greyDark">#888888</color>
     <color name="grey">#A7A7A7</color>
     <color name="greyLight">#ECECEC</color>
-    <color name="greyLightExtra">#F6F6F6</color>
+    <color name="greyLightExtra">#F6F6F8</color>
 
     <color name="blueDark">#2E496C</color>
     <color name="blue">#4C79B4</color>
@@ -21,5 +22,6 @@
     <color name="yellow">#FFE41F</color>
     <color name="red">#F25160</color>
     <color name="green">#81F9BF</color>
+    <color name="greenSuccess">#00C361</color>
 
 </resources>

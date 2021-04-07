@@ -7,6 +7,7 @@ class LoginViewModel : BaseViewModel() {
 
     val eventTapBack = CommonLiveEvent<Void>()
     val eventTapSignUp = CommonLiveEvent<Void>()
+    val eventTapForgotPassword = CommonLiveEvent<Void>()
 
     fun doTapBack() {
         eventTapBack.call()
@@ -14,5 +15,9 @@ class LoginViewModel : BaseViewModel() {
 
     fun doTapSignUp() {
         eventTapSignUp.call()
+    }
+
+    fun doTapForgotPassword() {
+        eventTapForgotPassword.call()
     }
 }
