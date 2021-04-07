@@ -20,7 +20,6 @@
                 layout="@layout/layout_live_workout_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
@@ -30,7 +29,6 @@
                 layout="@layout/layout_live_workout_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/viewToday"
                 tools:visibility="visible" />
@@ -40,7 +38,6 @@
                 layout="@layout/layout_live_workout_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/viewTomorrow" />
 
@@ -57,7 +54,7 @@
                 android:id="@+id/viewTrainers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/greyLight"
                 android:visibility="gone"
@@ -67,7 +64,7 @@
                 <com.trx.consumer.common.CommonLabel
                     android:id="@+id/lblTrainersTitle"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/atcarquette_bold"
                     android:gravity="center_vertical"
@@ -101,7 +98,7 @@
                 android:id="@+id/viewPromotions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/imgLinePromotions"
                 tools:visibility="visible">
@@ -109,7 +106,7 @@
                 <com.trx.consumer.common.CommonLabel
                     android:id="@+id/lblPromotionsTitle"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/atcarquette_bold"
                     android:gravity="center_vertical"
@@ -123,7 +120,7 @@
                     android:id="@+id/rvPromotions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/lblPromotionsTitle"

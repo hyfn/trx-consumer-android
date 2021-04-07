@@ -12,6 +12,17 @@
     <string name="date_picker_done_button_label">Done</string>
 
     <string name="home_button_test_utility_label">TEST</string>
+    <string name="home_user_name_label">Welcome, %1$s</string>
+    <string name="home_user_sessions_label">%1$d SESSIONS</string>
+    <string name="home_user_classes_label">%1$d CLASSES</string>
+    <string name="home_user_workouts_label">%1$d WORKOUTS</string>
+    <string name="home_promotions_top_title_label">FOR YOU</string>
+    <string name="home_promotions_bottom_title_label">FOR YOU</string>
+    <string name="home_upcoming_title_label">UPCOMING</string>
+    <string name="home_book_with_title_label">BOOK WITH</string>
+    <string name="home_live_title_label">HOT NEW LIVE CLASSES</string>
+    <string name="home_on_demand_title_label">ON-DEMAND HOT &amp; NEW</string>
+    <string name="home_upcoming_button_label">VIEW ALL →</string>
 
     <string name="inputview_placeholder_birthday">Birthday</string>
     <string name="inputview_placeholder_card_number">Card Number</string>
@@ -40,7 +51,7 @@
 
     <string name="live_today_title_label">TODAY</string>
     <string name="live_tomorrow_title_label">TOMORROW</string>
-    <string name="live_upcoming_title_label">NEXT WEEK</string>
+    <string name="live_upcoming_title_label">UPCOMING</string>
     <string name="live_button_schedule_label">SCHEDULE →</string>
     <string name="live_trainers_title_label">LIVE TRAINERS</string>
     <string name="live_promotions_title_label">FOR YOU</string>
@@ -60,6 +71,15 @@
 
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
+    <string name="test_utility_virtual_workout_section_label">Virtual Workouts</string>
+    <string name="test_utility_video_workout_section_label">Video Workouts</string>
+    <string name="test_utility_promotion_section_label">Promotions</string>
+
+    <string name="video_workout_subtitle_prefix_label">with %1$s</string>
+
+    <string name="virtual_booking_button_title_book">BOOK</string>
+    <string name="virtual_booking_button_title_soon">JOIN NOW</string>
+    <string name="virtual_booking_button_title_future">JOIN</string>
 
     <string name="register_title">Register</string>
     <string name="register_sign_in_label">Already have an account? <b><u>Log in</u></b></string>
