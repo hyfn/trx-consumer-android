@@ -61,6 +61,12 @@
         tools:layout="@layout/fragment_email" />
 
     <fragment
+        android:id="@+id/welcome_fragment"
+        android:name="com.trx.consumer.screens.welcome.WelcomeFragment"
+        android:label="WelcomeFragment"
+        tools:layout="@layout/fragment_welcome" />
+
+    <fragment
         android:id="@+id/plans_fragment"
         android:name="com.trx.consumer.screens.plans.PlansFragment"
         android:label="PlansFragment"
