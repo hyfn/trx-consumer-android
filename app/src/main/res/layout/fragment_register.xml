@@ -32,7 +32,7 @@
             android:fontFamily="@font/atcarquette_bold"
             android:text="@string/register_title"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="32sp"
             app:layout_constraintBottom_toBottomOf="@+id/ivHeader"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -114,27 +114,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivConfirmPassword" />
 
-        <com.trx.consumer.common.CommonLabel
-            android:id="@+id/lblTerm"
-            android:layout_width="wrap_content"
+        <com.trx.consumer.common.CommonView
+            android:id="@+id/viewTerm"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/atcarquette_regular"
-            android:gravity="center_vertical"
-            android:text="@string/register_term_label"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vLineThree" />
-
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/cbTerm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="30dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vLineThree" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vLineThree">
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblTerm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/atcarquette_regular"
+                android:text="@string/register_term_label"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cbTerm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </com.trx.consumer.common.CommonView>
 
 
         <com.trx.consumer.common.CommonButton

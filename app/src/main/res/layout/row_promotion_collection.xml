@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="255dp"
+    android:layout_height="165dp"
+    android:layout_marginStart="15dp">
+
+    <include layout="@layout/row_promotion" />
+
+</com.trx.consumer.common.CommonView>

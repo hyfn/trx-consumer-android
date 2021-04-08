@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="160dp"
+    android:layout_marginStart="15dp">
+
+    <include layout="@layout/row_video_workout" />
+
+</com.trx.consumer.common.CommonView>
