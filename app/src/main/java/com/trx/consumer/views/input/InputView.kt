@@ -2,6 +2,7 @@ package com.trx.consumer.views.input
 
 import android.content.Context
 import android.text.InputType
+import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
@@ -56,6 +57,10 @@ class InputView @JvmOverloads constructor(
                 endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
                 endIconDrawable =
                     ContextCompat.getDrawable(context, R.drawable.ic_password_toggle_drawable)
+            }
+            if (mState == InputViewState.CVV) {
+                editText?.inputType = InputType.TYPE_NUMBER_VARIATION_PASSWORD
+                editText?.transformationMethod = PasswordTransformationMethod.getInstance()
             }
         }
 
