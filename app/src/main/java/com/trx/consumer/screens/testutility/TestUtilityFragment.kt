@@ -9,12 +9,15 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentTestUtilityBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.AccountModel
 import com.trx.consumer.models.common.LiveWorkoutModel
 import com.trx.consumer.models.common.PromotionModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
+import com.trx.consumer.models.params.UpdateParamsModel
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.promotion.PromotionAdapter
+import com.trx.consumer.screens.update.UpdateViewState
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutAdapter
 
@@ -40,6 +43,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
         viewBinding.apply {
             btnBack.action { viewModel.doTapBack() }
+            btnUpdate.action { viewModel.doTapUpdate() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoWorkoutAdapter
@@ -48,6 +52,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
+            eventTapUpdate.observe(viewLifecycleOwner, handleTapUpdate)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
@@ -62,6 +67,16 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     //region Handlers
     private val handleTapBack = Observer<Void> {
         NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleTapUpdate = Observer<Void> {
+        val params =
+            UpdateParamsModel(
+                UpdateViewState.EDIT,
+                AccountModel.testList(2),
+                AccountModel.test().email
+            )
+        NavigationManager.shared.present(this, R.id.update_fragment, params)
     }
 
     private val handleLoadLiveWorkouts = Observer<List<LiveWorkoutModel>> { liveWorkouts ->

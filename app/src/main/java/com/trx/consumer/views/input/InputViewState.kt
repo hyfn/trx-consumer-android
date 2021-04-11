@@ -127,7 +127,11 @@ enum class InputViewState(val placeholder: Int, vararg val type: Int) {
         textView.text?.let { userInput ->
             when (userInput.length) {
                 1 -> {
-                    if (userInput.first().toString().toInt() !in intArrayOf(0, 1) && before < count) {
+                    if (userInput.first().toString().toInt() !in intArrayOf(
+                            0,
+                            1
+                        ) && before < count
+                    ) {
                         val inputString = userInput.toString().toMutableList()
                         inputString.add(0, '0')
                         inputString.add('/')
@@ -223,7 +227,7 @@ enum class InputViewState(val placeholder: Int, vararg val type: Int) {
     val dateFormat: String?
         get() {
             return when (this) {
-                BIRTHDAY -> "yyyy-MM-dd"
+                BIRTHDAY -> "MM/dd/yyyy"
                 else -> null
             }
         }
