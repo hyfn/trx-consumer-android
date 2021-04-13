@@ -8,13 +8,11 @@
 
     <com.trx.consumer.common.CommonView
         android:id="@+id/viewNavBar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/top_bar_height"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="5dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.trx.consumer.common.CommonImageView
@@ -30,20 +28,17 @@
     </com.trx.consumer.common.CommonView>
 
     <ScrollView
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/btnSave"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewNavBar">
-
 
         <com.trx.consumer.common.CommonView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.trx.consumer.common.CommonImageView
-                android:id="@+id/ivProfile"
+                android:id="@+id/imgProfile"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -59,13 +54,13 @@
                 app:inputViewState="first"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivProfile" />
+                app:layout_constraintTop_toBottomOf="@id/imgProfile" />
 
             <View
                 android:id="@+id/vLine1"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/grey"
+                android:background="@color/greyLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivFirstName" />
@@ -83,7 +78,7 @@
                 android:id="@+id/vLine2"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/grey"
+                android:background="@color/greyLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivLastName" />
@@ -101,7 +96,7 @@
                 android:id="@+id/vLine3"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/grey"
+                android:background="@color/greyLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivBirthDate" />
@@ -119,7 +114,7 @@
                 android:id="@+id/vLine4"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/grey"
+                android:background="@color/greyLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivZipCode" />
@@ -161,40 +156,31 @@
 
             </com.trx.consumer.common.CommonView>
 
-
         </com.trx.consumer.common.CommonView>
-
 
     </ScrollView>
 
-
     <com.trx.consumer.common.CommonButton
         android:id="@+id/btnSave"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
-        android:fontFamily="@font/atcarquette_regular"
+        android:fontFamily="@font/atcarquette_bold"
         android:gravity="center"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="13sp"
         app:backgroundColor="@color/blackRussian"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         tools:text="@string/update_save_label" />
-
 
     <com.trx.consumer.common.CommonHudView
         android:id="@+id/hudView"
+        style="@style/MatchParentEdgesViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:visibility="gone" />
 
 </com.trx.consumer.common.CommonView>
