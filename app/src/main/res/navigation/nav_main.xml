@@ -67,6 +67,12 @@
         tools:layout="@layout/fragment_welcome" />
 
     <fragment
+        android:id="@+id/onboarding_fragment"
+        android:name="com.trx.consumer.screens.onboarding.OnBoardingFragment"
+        android:label="OnBoardingFragment"
+        tools:layout="@layout/fragment_onboarding" />
+
+    <fragment
         android:id="@+id/cards_fragment"
         android:name="com.trx.consumer.screens.cards.CardsFragment"
         android:label="CardsFragment"
