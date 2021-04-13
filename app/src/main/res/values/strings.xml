@@ -28,17 +28,17 @@
     <string name="home_upcoming_button_label">VIEW ALL →</string>
 
     <string name="inputview_placeholder_birthday">Birthday</string>
-    <string name="inputview_placeholder_card_number">CREDIT CARD NUMBER</string>
+    <string name="inputview_placeholder_card_number">Card Number</string>
     <string name="inputview_placeholder_code">Enter Code</string>
-    <string name="inputview_placeholder_cvv">CVV CODE</string>
+    <string name="inputview_placeholder_cvv">CVV</string>
     <string name="inputview_placeholder_email">Email</string>
-    <string name="inputview_placeholder_expiration">EXPIRTY DATE</string>
+    <string name="inputview_placeholder_expiration">Expiration</string>
     <string name="inputview_placeholder_first">First Name</string>
     <string name="inputview_placeholder_last">Last Name</string>
     <string name="inputview_placeholder_password">Password</string>
     <string name="inputview_placeholder_phone">Phone Number</string>
     <string name="inputview_placeholder_promo">Promo code</string>
-    <string name="inputview_placeholder_zip">ZIP CODE</string>
+    <string name="inputview_placeholder_zip">Zip Code</string>
 
     <string name="inputview_error_message_birthday">Birthday is not valid</string>
     <string name="inputview_error_message_card_number">Card Number is not valid.</string>
