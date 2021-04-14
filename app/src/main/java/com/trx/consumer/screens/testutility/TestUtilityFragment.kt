@@ -40,6 +40,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
         viewBinding.apply {
             btnBack.action { viewModel.doTapBack() }
+            btnWorkout.action { viewModel.doTapWorkout() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoWorkoutAdapter
@@ -48,6 +49,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
+            eventTapWorkout.observe(viewLifecycleOwner, handleTapWorkout)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
@@ -62,6 +64,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     //region Handlers
     private val handleTapBack = Observer<Void> {
         NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleTapWorkout = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.workout_fragment)
     }
 
     private val handleLoadLiveWorkouts = Observer<List<LiveWorkoutModel>> { liveWorkouts ->

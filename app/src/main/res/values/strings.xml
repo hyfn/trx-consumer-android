@@ -74,6 +74,7 @@
     <string name="test_utility_virtual_workout_section_label">Virtual Workouts</string>
     <string name="test_utility_video_workout_section_label">Video Workouts</string>
     <string name="test_utility_promotion_section_label">Promotions</string>
+    <string name="test_utility_workout_label">Workout</string>
 
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 
