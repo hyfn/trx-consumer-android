@@ -72,6 +72,12 @@
         android:label="OnBoardingFragment"
         tools:layout="@layout/fragment_onboarding" />
 
+    <fragment
+        android:id="@+id/cards_fragment"
+        android:name="com.trx.consumer.screens.cards.CardsFragment"
+        android:label="CardsFragment"
+        tools:layout="@layout/fragment_cards" />
+
     <dialog
         android:id="@+id/date_picker_fragment"
         android:name="com.trx.consumer.screens.datepicker.DatePickerFragment"
