@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="45dp"
+    app:backgroundColor="@color/greyLight">
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewNavBar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/top_bar_height"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.trx.consumer.common.CommonImageView
+            android:id="@+id/btnBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_btn_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.trx.consumer.common.CommonView>
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="@font/atcarquette_bold"
+        android:padding="10dp"
+        android:text="@string/cards_payment_method_label"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewNavBar"
+        app:textAllCaps="true" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblEmpty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="@font/atcarquette_regular"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/cards_empty_label"
+        android:textColor="@color/grey"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblTitle"
+        app:textAllCaps="true" />
+
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewCard"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="15dp"
+        android:visibility="gone"
+        app:backgroundColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblTitle">
+
+        <com.trx.consumer.common.CommonImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="30dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_img_card_amex" />
+
+        <com.trx.consumer.common.CommonLabel
+            android:id="@+id/lblType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/atcarquette_regular"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="American Express" />
+
+        <com.trx.consumer.common.CommonLabel
+            android:id="@+id/lblNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/atcarquette_regular"
+            android:gravity="end"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="4242" />
+
+    </com.trx.consumer.common.CommonView>
+
+    <com.trx.consumer.common.CommonButton
+        android:id="@+id/btnPayment"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:backgroundColor="@color/blackRussian"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/cards_add_payment_method_label" />
+
+    <com.trx.consumer.common.CommonHudView
+        android:id="@+id/hudView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</com.trx.consumer.common.CommonView>
