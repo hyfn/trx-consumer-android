@@ -74,7 +74,7 @@
                 android:id="@+id/vLineOne"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/grey"
+                android:background="@color/greyLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivEmail" />
@@ -93,7 +93,7 @@
                 android:id="@+id/vLineTwo"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/grey"
+                android:background="@color/greyLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivPassword" />
@@ -112,7 +112,7 @@
                 android:id="@+id/vLineThree"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/grey"
+                android:background="@color/greyLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivConfirmPassword" />
