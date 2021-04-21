@@ -60,7 +60,7 @@ android {
             buildConfigField "String", "kPlatform", '"mobile"'
             buildConfigField "String", "kClassDateTimeFormat", '"yyyy-MM-dd\'T\'HH:mm:ss.SSSX"'
             buildConfigField "Integer", "kVerificationCodeLimit", "6"
-            buildConfigField "Integer", "kExpirationDateLimit", "5"
+            buildConfigField "Integer", "kExpirationDateLimit", "7"
             buildConfigField "Integer", "kCreditCardLengthStandard", "16"
             buildConfigField "Integer", "kCreditCardLengthAmex", "15"
             buildConfigField "Integer", "kCVCLimit", "3"

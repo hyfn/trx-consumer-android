@@ -126,6 +126,16 @@ enum class InputViewState(val placeholder: Int, vararg val type: Int) {
     private fun expirationFormat(textView: TextInputEditText, before: Int, count: Int): Boolean? {
         textView.text?.let { userInput ->
             when (userInput.length) {
+                1 -> {
+                    if (userInput.first().toString().toInt() !in intArrayOf(0, 1) && before < count) {
+                        val inputString = userInput.toString().toMutableList()
+                        inputString.add(0, '0')
+                        inputString.add('/')
+                        textView.setText(inputString.joinToString(""))
+                        textView.setSelection(inputString.count())
+                    }
+                    return null
+                }
                 2 -> {
                     if (userInput[1].toInt() == 0) {
                         textView.text?.clear()
