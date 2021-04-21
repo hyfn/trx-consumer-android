@@ -21,6 +21,7 @@ class TestUtilityViewModel :
     //region Events
 
     val eventTapBack = CommonLiveEvent<Void>()
+    val eventTapCards = CommonLiveEvent<Void>()
     val eventTapAddCard = CommonLiveEvent<Void>()
     val eventLoadLiveWorkouts = CommonLiveEvent<List<LiveWorkoutModel>>()
     val eventLoadVirtualWorkouts = CommonLiveEvent<List<VirtualWorkoutModel>>()
@@ -56,6 +57,10 @@ class TestUtilityViewModel :
 
     fun doTapBack() {
         eventTapBack.call()
+    }
+
+    fun doTapCards() {
+        eventTapCards.call()
     }
 
     fun doTapAddCard() {

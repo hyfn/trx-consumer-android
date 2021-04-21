@@ -135,6 +135,36 @@
                 app:layout_constraintTop_toBottomOf="@id/lblPromotions"
                 tools:listitem="@layout/row_promotion_collection" />
 
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/test_utility_cards_label"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvPromotions" />
+
+            <com.trx.consumer.common.CommonButton
+                android:id="@+id/btnCards"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:gravity="center"
+                android:text="@string/test_utility_cards_label"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                app:backgroundColor="@color/blackRussian"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblCards" />
+
 
             <com.trx.consumer.common.CommonLabel
                 android:id="@+id/lblAddCard"
@@ -146,7 +176,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rvPromotions" />
+                app:layout_constraintTop_toBottomOf="@id/btnCards" />
 
 
             <com.trx.consumer.common.CommonButton
