@@ -63,7 +63,7 @@ android {
             buildConfigField "Integer", "kExpirationDateLimit", "7"
             buildConfigField "Integer", "kCreditCardLengthStandard", "16"
             buildConfigField "Integer", "kCreditCardLengthAmex", "15"
-            buildConfigField "Integer", "kCVCLimit", "4"
+            buildConfigField "Integer", "kCVCLimit", "3"
             buildConfigField "Integer", "kZipcodeMinLength", "5"
             buildConfigField "Integer", "kDefaultTextLimit", "40"
             buildConfigField "Integer", "kPasswordMinLength", "6"

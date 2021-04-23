@@ -2,6 +2,9 @@
 
     <string name="app_name">TRX-Consumer</string>
 
+    <string name="add_card_title">Update Payment Method</string>
+    <string name="add_card_update_label">Update</string>
+
     <string name="booking_view_state_book_label">BOOK</string>
     <string name="booking_view_state_booked_label">BOOKED</string>
     <string name="booking_view_state_view_label">VIEW</string>
@@ -36,9 +39,9 @@
     <string name="inputview_placeholder_birthday">Birthday</string>
     <string name="inputview_placeholder_card_number">Card Number</string>
     <string name="inputview_placeholder_code">Enter Code</string>
-    <string name="inputview_placeholder_cvc">CVC</string>
+    <string name="inputview_placeholder_cvv">CVV</string>
     <string name="inputview_placeholder_email">Email</string>
-    <string name="inputview_placeholder_expiration">Expiration(mmyyyy)</string>
+    <string name="inputview_placeholder_expiration">Expiration</string>
     <string name="inputview_placeholder_first">First Name</string>
     <string name="inputview_placeholder_last">Last Name</string>
     <string name="inputview_placeholder_password">Password</string>
@@ -49,7 +52,7 @@
     <string name="inputview_error_message_birthday">Birthday is not valid</string>
     <string name="inputview_error_message_card_number">Card Number is not valid.</string>
     <string name="inputview_error_message_code">Enter Code</string>
-    <string name="inputview_error_message_cvc">CVC is not valid.</string>
+    <string name="inputview_error_message_cvv">CVV is not valid.</string>
     <string name="inputview_error_message_email">Make sure you entered your email address correctly.</string>
     <string name="inputview_error_message_expiration">Expiration date is not valid</string>
     <string name="inputview_error_message_first_name">First name is not valid</string>
@@ -92,6 +95,7 @@
     <string name="test_utility_video_workout_section_label">Video Workouts</string>
     <string name="test_utility_promotion_section_label">Promotions</string>
     <string name="test_utility_cards_label">Cards</string>
+    <string name="test_utility_add_card_label">Add Card</string>
 
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 

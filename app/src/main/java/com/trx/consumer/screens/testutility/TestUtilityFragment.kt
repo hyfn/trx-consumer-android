@@ -41,6 +41,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         viewBinding.apply {
             btnBack.action { viewModel.doTapBack() }
             btnCards.action { viewModel.doTapCards() }
+            btnAddCard.action { viewModel.doTapAddCard() }
             btnPlans.action { viewModel.doTapPlans() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
@@ -51,6 +52,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventTapCards.observe(viewLifecycleOwner, handleTapCards)
+            eventTapAddCard.observe(viewLifecycleOwner, handleTapAddCard)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
             eventTapPlans.observe(viewLifecycleOwner, handleTapPlans)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
@@ -70,6 +72,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleTapCards = Observer<Void> {
         NavigationManager.shared.present(this, R.id.cards_fragment)
+    }
+
+    private val handleTapAddCard = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.add_card_fragment)
     }
 
     private val handleTapPlans = Observer<Void> {
