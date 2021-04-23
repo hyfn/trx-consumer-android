@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -39,15 +39,16 @@
             android:id="@+id/lblTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="55dp"
+            android:layout_marginStart="15dp"
             android:fontFamily="@font/atcarquette_bold"
             android:text="@string/plans_title"
             android:textColor="@color/black"
+            android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewNavBar"
-            app:textAllCaps="true" />
+            app:textAllCaps="true"
+            tools:ignore="SmallSp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPlans"
@@ -63,7 +64,7 @@
             tools:listitem="@layout/row_plans" />
 
         <com.trx.consumer.common.CommonView
-            android:id="@+id/viewDates"
+            android:id="@+id/viewBottom"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -152,8 +153,8 @@
             android:textColor="@color/red"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewDates" />
+            app:layout_constraintTop_toBottomOf="@+id/viewBottom" />
 
     </com.trx.consumer.common.CommonView>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

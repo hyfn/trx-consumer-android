@@ -4,28 +4,28 @@ import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.trx.consumer.R
 
-enum class PlansListViewState {
-    SELECTED,
-    UNSELECTED;
+enum class PlansViewState {
+    CURRENT,
+    OTHER;
 
     @get:ColorRes
     val buttonBgColor: Int
         get() = when (this) {
-            SELECTED -> R.color.grey
-            UNSELECTED -> R.color.black
+            CURRENT -> R.color.grey
+            OTHER -> R.color.black
         }
 
     @get:ColorRes
     val buttonTextColor: Int
         get() = when (this) {
-            SELECTED -> R.color.black
-            UNSELECTED -> R.color.white
+            CURRENT -> R.color.black
+            OTHER -> R.color.white
         }
 
     @get:StringRes
     val buttonText: Int
         get() = when (this) {
-            SELECTED -> R.string.plans_current_plan_label
-            UNSELECTED -> R.string.plans_choose_plan_label
+            CURRENT -> R.string.plans_current_plan_label
+            OTHER -> R.string.plans_choose_plan_label
         }
 }

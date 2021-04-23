@@ -6,12 +6,12 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.PlansListModel
+import com.trx.consumer.models.common.PlanModel
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
-class PlansListAdapter(
-    private val listener: PlansListListener,
+class PlansAdapter(
+    private val listener: PlansListener,
     scopeProvider: () -> CoroutineScope
 ) : CommonRecyclerViewAdapter(scopeProvider) {
 
@@ -25,7 +25,7 @@ class PlansListAdapter(
     override fun createCommonViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         return try {
             when (viewType) {
-                TYPE_PLANS_LIST -> PlansListViewHolder(
+                TYPE_PLANS_LIST -> PlansViewHolder(
                     LayoutInflater.from(parent.context)
                         .inflate(R.layout.row_plans, parent, false)
                 )
@@ -44,15 +44,15 @@ class PlansListAdapter(
     override fun onBindViewHolder(holder: CommonViewHolder, position: Int) {
         val item = items[position]
         when (holder) {
-            is PlansListViewHolder -> {
-                holder.setup(item as PlansListModel, listener)
+            is PlansViewHolder -> {
+                holder.setup(item as PlanModel, listener)
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is PlansListModel -> TYPE_PLANS_LIST
+            is PlanModel -> TYPE_PLANS_LIST
             else -> TYPE_EMPTY
         }
     }
@@ -60,7 +60,7 @@ class PlansListAdapter(
     override fun getItemCount(): Int = items.size
 
     // TODO: Replace temporary method
-    fun updatePlans(newPlans: List<PlansListModel>) {
+    fun updatePlans(newPlans: List<PlanModel>) {
         this.items.clear()
         this.items.addAll(newPlans)
         this.notifyDataSetChanged()
