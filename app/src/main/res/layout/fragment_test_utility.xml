@@ -198,6 +198,19 @@
                 app:layout_constraintTop_toBottomOf="@id/lblAddCard" />
 
 
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblPlans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/test_utility_add_card_label"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnAddCard" />
+
+
             <com.trx.consumer.common.CommonButton
                 android:id="@+id/btnPlans"
                 android:layout_width="0dp"
@@ -214,7 +227,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnAddCard" />
+                app:layout_constraintTop_toBottomOf="@+id/lblPlans" />
 
         </com.trx.consumer.common.CommonView>
 

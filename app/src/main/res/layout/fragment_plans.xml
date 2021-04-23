@@ -13,42 +13,51 @@
         android:paddingBottom="40dp">
 
         <com.trx.consumer.common.CommonView
-            android:id="@+id/viewNavBar"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:id="@+id/viewHeader"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/greyLight">
 
-            <com.trx.consumer.common.CommonImageButton
-                android:id="@+id/btnBack"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="15dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_btn_back"
-                app:layout_constraintBottom_toBottomOf="parent"
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewNavBar"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.trx.consumer.common.CommonImageButton
+                    android:id="@+id/btnBack"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_btn_back"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </com.trx.consumer.common.CommonView>
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:text="@string/plans_title"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:textAllCaps="true"
+                tools:ignore="SmallSp" />
 
 
         </com.trx.consumer.common.CommonView>
 
-        <com.trx.consumer.common.CommonLabel
-            android:id="@+id/lblTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:fontFamily="@font/atcarquette_bold"
-            android:text="@string/plans_title"
-            android:textColor="@color/black"
-            android:textSize="11sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewNavBar"
-            app:textAllCaps="true"
-            tools:ignore="SmallSp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPlans"
@@ -59,7 +68,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblTitle"
+            app:layout_constraintTop_toBottomOf="@+id/viewHeader"
             tools:itemCount="3"
             tools:listitem="@layout/row_plans" />
 
