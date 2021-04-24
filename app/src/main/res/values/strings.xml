@@ -2,10 +2,22 @@
 
     <string name="app_name">TRX-Consumer</string>
 
+    <string name="add_card_title">Update Payment Method</string>
+    <string name="add_card_update_label">Update</string>
+
     <string name="booking_view_state_book_label">BOOK</string>
     <string name="booking_view_state_booked_label">BOOKED</string>
     <string name="booking_view_state_view_label">VIEW</string>
     <string name="booking_view_state_default_label">N/A</string>
+
+    <string name="cards_payment_method_label">Payment Method</string>
+    <string name="cards_add_payment_method_label">Add Payment Method</string>
+    <string name="cards_update_payment_method_label">Update Payment Method</string>
+    <string name="cards_empty_label">You haven’t added a payment method yet</string>
+    <string name="cards_type_text_visa">Visa</string>
+    <string name="cards_type_text_master_card">Master Card</string>
+    <string name="cards_type_text_amex">American Express</string>
+    <string name="cards_type_text_credit_card">Credit Card</string>
 
     <string name="content_blank" />
     <string name="content_row_image">Row image</string>
@@ -30,9 +42,9 @@
     <string name="inputview_placeholder_birthday">Birthday</string>
     <string name="inputview_placeholder_card_number">Card Number</string>
     <string name="inputview_placeholder_code">Enter Code</string>
-    <string name="inputview_placeholder_cvc">CVC</string>
+    <string name="inputview_placeholder_cvv">CVV</string>
     <string name="inputview_placeholder_email">Email</string>
-    <string name="inputview_placeholder_expiration">Expiration(mmyyyy)</string>
+    <string name="inputview_placeholder_expiration">Expiration</string>
     <string name="inputview_placeholder_first">First Name</string>
     <string name="inputview_placeholder_last">Last Name</string>
     <string name="inputview_placeholder_password">Password</string>
@@ -43,7 +55,7 @@
     <string name="inputview_error_message_birthday">Birthday is not valid</string>
     <string name="inputview_error_message_card_number">Card Number is not valid.</string>
     <string name="inputview_error_message_code">Enter Code</string>
-    <string name="inputview_error_message_cvc">CVC is not valid.</string>
+    <string name="inputview_error_message_cvv">CVV is not valid.</string>
     <string name="inputview_error_message_email">Make sure you entered your email address correctly.</string>
     <string name="inputview_error_message_expiration">Expiration date is not valid</string>
     <string name="inputview_error_message_first_name">First name is not valid</string>
@@ -78,6 +90,8 @@
     <string name="test_utility_virtual_workout_section_label">Virtual Workouts</string>
     <string name="test_utility_video_workout_section_label">Video Workouts</string>
     <string name="test_utility_promotion_section_label">Promotions</string>
+    <string name="test_utility_cards_label">Cards</string>
+    <string name="test_utility_add_card_label">Add Card</string>
 
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 
@@ -103,6 +117,22 @@
     <string name="welcome_get_started_label">Get Started</string>
     <string name="welcome_title_label">Welcome to the club,\n%1s</string>
     <string name="welcome_description_label">With 3 new ways to train, TRX Training Club is your all-in-one virtual gym helping you to crush any goal. Anytime. Anywhere.</string>
+
+    <string name="onboarding_virtual_title">TRX virtual Training, coming soon</string>
+    <string name="onboarding_virtual_description">World-class Trainers. Anytime. Anywhere</string>
+    <string name="onboarding_virtual_list_text_one">Expert help and personalized support from hundreds of top-rated trainers</string>
+    <string name="onboarding_virtual_list_text_two">Stay accountable with a fully customized plan built for you</string>
+    <string name="onboarding_virtual_list_text_three">Virtual and in-person training to help you crush your goals, no matter what they are</string>
+    <string name="onboarding_live_title">TRX Live</string>
+    <string name="onboarding_live_description">Feel the energy of the group</string>
+    <string name="onboarding_live_list_text_one">New live classes every day from the comfort of your home</string>
+    <string name="onboarding_live_list_text_two">Stay fresh and fit with certified, world-class instructors</string>
+    <string name="onboarding_live_list_text_three">Sweat with virtual classmates and feel the burn together</string>
+    <string name="onboarding_demand_title">TRX On-demand</string>
+    <string name="onboarding_demand_description">Your fitness journey, your way.</string>
+    <string name="onboarding_demand_list_text_one">Find new ways to crush your goals on your time, at your pace</string>
+    <string name="onboarding_demand_list_text_two">Huge library of exclusive on-demand video workouts from top TRX pros</string>
+    <string name="onboarding_demand_list_text_three">Get your heart rate up with tons of diverse workouts to choose from</string>
 
 
 </resources>
