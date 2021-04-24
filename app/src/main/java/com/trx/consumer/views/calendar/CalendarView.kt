@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.trx.consumer.R
 import com.trx.consumer.common.CommonView
 import com.trx.consumer.databinding.LayoutCalendarBinding
-import com.trx.consumer.extensions.dp
 import com.trx.consumer.extensions.getInputType
 import com.trx.consumer.extensions.lifecycleScope
 import com.trx.consumer.extensions.monthString
+import com.trx.consumer.extensions.yearMonthDayString
 import com.trx.consumer.extensions.yearString
 import com.trx.consumer.models.common.CalendarModel
 import com.trx.consumer.models.common.DaysModel
@@ -22,38 +22,33 @@ import com.trx.consumer.views.calendar.days.DaysTapListener
 import com.trx.consumer.views.calendar.days.DaysUpdateListener
 import java.util.Calendar
 import java.util.Date
+import kotlin.math.roundToInt
 
 class CalendarView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : CommonView(context, attrs), DaysUpdateListener {
 
-    private val binding = LayoutCalendarBinding.inflate(LayoutInflater.from(context), this, true)
+    private val binding = LayoutCalendarBinding
+        .inflate(LayoutInflater.from(context), this, true)
 
-    private var state: CalendarViewState = CalendarViewState.DISPLAY
-    private var tapListener: DaysTapListener? = null
     private var totalDays: Int = 0
     private lateinit var daysAdapter: DaysAdapter
-    private var currentSelectedDate: Date = Date()
     private val calendarModel: CalendarModel = CalendarModel()
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.CalendarView).use {
             totalDays = it.getInt(R.styleable.CalendarView_totalDays, 7)
-            state = it.getInputType(
+            calendarModel.state = it.getInputType(
                 R.styleable.CalendarView_calendarViewState,
                 CalendarViewState.DISPLAY
             )
         }
 
-        rvDays.layoutManager = object : LinearLayoutManager(
-            context,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        ) {
+        rvDays.layoutManager = object : LinearLayoutManager(context, HORIZONTAL, false) {
             override fun checkLayoutParams(lp: RecyclerView.LayoutParams): Boolean {
-                // Screen width - (Margin Start + Margin End) - (Width of Days) / (Spaces between days)
-                lp.width = ((width - (2 * 15.dp) - (45.dp * 7)) / 6.0).toInt()
+                //  (Screen width) / (Number of days to show)
+                lp.width = (width / totalDays.toFloat()).roundToInt()
                 return true
             }
         }
@@ -62,32 +57,28 @@ class CalendarView @JvmOverloads constructor(
     }
 
     private fun update() {
-        when (state) {
+        daysAdapter = when (calendarModel.state) {
             CalendarViewState.DISPLAY -> {
                 lblLeft.text = context.getString(R.string.calendarview_this_week)
-                kotlin.run {
-                    daysAdapter = DaysAdapter { lifecycleScope }
-                }.also {
-                    rvDays.adapter = daysAdapter
-                }
+                DaysAdapter { lifecycleScope }
             }
             CalendarViewState.PICKER -> {
-                kotlin.run {
-                    daysAdapter = DaysAdapter(this, tapListener) { lifecycleScope }
-                }.also {
-                    rvDays.adapter = daysAdapter
+                DaysAdapter(this) { lifecycleScope }.also {
+                    doUpdateDate(calendarModel.selectedDate)
                 }
-                doUpdateDate(Date())
             }
         }
+
+        rvDays.adapter = daysAdapter
         setDays()
     }
 
+    //  When calendarModel.state == CalendarViewState.PICKER, call this
+    //  in BaseFragment's bind() function.
     fun setTapListener(listener: DaysTapListener) {
-        tapListener = listener
+        daysAdapter.updateTapListener(listener)
     }
 
-    //  Only called once during initialization
     fun setDays(days: Int? = null) {
         days?.let { totalDays = it }
 
@@ -107,7 +98,10 @@ class CalendarView @JvmOverloads constructor(
     }
 
     fun loadCalendarModel(model: CalendarModel) {
-        calendarModel.listEvents = model.listEvents
+        calendarModel.apply {
+            state = model.state
+            listEvents = model.listEvents
+        }
         rvDays.suppressLayout(false)
         rvDays.suppressLayout(calendarModel.state == CalendarViewState.DISPLAY)
     }
@@ -115,10 +109,10 @@ class CalendarView @JvmOverloads constructor(
     override fun doUpdateDate(date: Date) {
         lblLeft.text = date.monthString()
         lblRight.text = date.yearString()
-        if (currentSelectedDate != date) {
+        if (calendarModel.selectedDate.yearMonthDayString() != date.yearMonthDayString()) {
             daysAdapter.updateSelected(date)
+            calendarModel.selectedDate = date
         }
-        currentSelectedDate = date
     }
 
     private val lblLeft

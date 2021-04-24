@@ -6,9 +6,11 @@ import java.util.Date
 
 class CalendarModel(var state: CalendarViewState = CalendarViewState.DISPLAY) {
 
-    var listDays = mutableListOf<DaysModel>()
+    var selectedDate: Date = Date()
 
-    var listEvents = mutableListOf<DaysModel>()
+    var listDays = listOf<DaysModel>()
+
+    var listEvents = listOf<DaysModel>()
 
     var initialDate: Date? = listDays.firstOrNull()?.date
 
