@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:backgroundColor="@color/white">
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewHeader"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        app:backgroundColor="@color/greyLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.trx.consumer.common.CommonView
+            android:id="@+id/viewNavBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/top_bar_height"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.trx.consumer.common.CommonImageView
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_btn_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </com.trx.consumer.common.CommonView>
+
+        <com.trx.consumer.common.CommonLabel
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/atcarquette_bold"
+            android:text="@string/add_card_title"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:textAllCaps="true" />
+
+    </com.trx.consumer.common.CommonView>
+
+    <com.trx.consumer.views.input.InputView
+        android:id="@+id/ivCardNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:inputViewState="card_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewHeader" />
+
+    <View
+        android:id="@+id/vLine"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/greyLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivCardNumber" />
+
+    <com.trx.consumer.views.input.InputView
+        android:id="@+id/ivExpiryDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:inputViewState="expiration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vLine" />
+
+    <View
+        android:id="@+id/vLine1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/greyLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivExpiryDate" />
+
+    <com.trx.consumer.views.input.InputView
+        android:id="@+id/ivCvvCode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:inputViewState="cvv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vLine1" />
+
+    <View
+        android:id="@+id/vLine2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/greyLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivCvvCode" />
+
+    <com.trx.consumer.views.input.InputView
+        android:id="@+id/ivZipCode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:inputViewState="zipcode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vLine2" />
+
+    <View
+        android:id="@+id/vLine3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/greyLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivZipCode" />
+
+    <com.trx.consumer.common.CommonButton
+        android:id="@+id/btnUpdate"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="45dp"
+        android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center"
+        android:text="@string/add_card_update_label"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:backgroundColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</com.trx.consumer.common.CommonView>

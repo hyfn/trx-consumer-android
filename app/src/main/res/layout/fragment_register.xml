@@ -1,155 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:backgroundColor="@color/white">
 
-    <com.trx.consumer.common.CommonView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:backgroundColor="@color/white">
-
-        <com.trx.consumer.common.CommonImageView
-            android:id="@+id/ivHeader"
-            android:layout_width="0dp"
-            android:layout_height="195dp"
-            android:scaleType="fitXY"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/img_media_register" />
-
-        <com.trx.consumer.common.CommonLabel
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="@font/atcarquette_bold"
-            android:text="@string/register_title"
-            android:textColor="@color/white"
-            android:textSize="32sp"
-            app:layout_constraintBottom_toBottomOf="@+id/ivHeader"
-            app:layout_constraintStart_toStartOf="parent" />
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@+id/viewBottom"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.trx.consumer.common.CommonView
-            android:id="@+id/layoutNavBar"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/top_bar_height"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <com.trx.consumer.common.CommonImageView
-                android:id="@+id/btnBack"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_btn_back_white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </com.trx.consumer.common.CommonView>
-
-        <com.trx.consumer.views.input.InputView
-            android:id="@+id/ivEmail"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="16dp"
-            app:inputViewState="email"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivHeader" />
-
-        <View
-            android:id="@+id/vLineOne"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@color/grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivEmail" />
-
-        <com.trx.consumer.views.input.InputView
-            android:id="@+id/ivPassword"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="1dp"
-            app:inputViewState="password"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vLineOne" />
-
-        <View
-            android:id="@+id/vLineTwo"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@color/grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivPassword" />
-
-        <com.trx.consumer.views.input.InputView
-            android:id="@+id/ivConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="1dp"
-            app:inputViewState="password"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vLineTwo" />
-
-        <View
-            android:id="@+id/vLineThree"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@color/grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivConfirmPassword" />
-
-        <com.trx.consumer.common.CommonView
-            android:id="@+id/viewTerm"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vLineThree">
+                android:id="@+id/ivHeader"
+                android:layout_width="match_parent"
+                android:layout_height="195dp"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/img_media_register" />
 
             <com.trx.consumer.common.CommonLabel
-                android:id="@+id/lblTerm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/atcarquette_regular"
-                android:text="@string/register_term_label"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:text="@string/register_title"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivHeader"
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/cbTerm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewNavBar"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/top_bar_height"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.trx.consumer.common.CommonImageView
+                    android:id="@+id/btnBack"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_btn_back_white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.trx.consumer.common.CommonView>
+
+            <com.trx.consumer.views.input.InputView
+                android:id="@+id/ivEmail"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                app:inputViewState="email"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivHeader" />
+
+            <View
+                android:id="@+id/vLineOne"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/greyLight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivEmail" />
+
+            <com.trx.consumer.views.input.InputView
+                android:id="@+id/ivPassword"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="1dp"
+                app:inputViewState="password"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vLineOne" />
+
+            <View
+                android:id="@+id/vLineTwo"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/greyLight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivPassword" />
+
+            <com.trx.consumer.views.input.InputView
+                android:id="@+id/ivConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="1dp"
+                app:inputViewState="password"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vLineTwo" />
+
+            <View
+                android:id="@+id/vLineThree"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/greyLight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivConfirmPassword" />
+
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewTerm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="30dp"
+                app:layout_constraintTop_toBottomOf="@id/vLineThree">
+
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblTerm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/atcarquette_regular"
+                    android:text="@string/register_term_label"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/cbTerm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.trx.consumer.common.CommonView>
 
         </com.trx.consumer.common.CommonView>
 
+    </ScrollView>
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewBottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.trx.consumer.common.CommonButton
             android:id="@+id/btnCreateAccount"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
@@ -162,23 +172,24 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             app:backgroundColor="@color/blackRussian"
-            app:layout_constraintBottom_toTopOf="@+id/btnSignUp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/btnSignUp" />
 
         <com.trx.consumer.common.CommonButton
             android:id="@+id/btnSignUp"
             style="@style/CommonLabelStyle"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:gravity="center"
             android:text="@string/register_sign_in_label"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
+            app:layout_constraintBottom_toBottomOf="parent" />
     </com.trx.consumer.common.CommonView>
 
-</ScrollView>
+    <com.trx.consumer.common.CommonHudView
+        android:id="@+id/hudView"
+        style="@style/MatchParentEdgesViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+</com.trx.consumer.common.CommonView>

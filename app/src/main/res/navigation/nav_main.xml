@@ -73,6 +73,18 @@
         tools:layout="@layout/fragment_onboarding" />
 
     <fragment
+        android:id="@+id/cards_fragment"
+        android:name="com.trx.consumer.screens.cards.CardsFragment"
+        android:label="CardsFragment"
+        tools:layout="@layout/fragment_cards" />
+
+    <fragment
+        android:id="@+id/add_card_fragment"
+        android:name="com.trx.consumer.screens.addcard.AddCardFragment"
+        android:label="AddCardFragment"
+        tools:layout="@layout/fragment_add_card" />
+
+    <fragment
         android:id="@+id/update_fragment"
         android:name="com.trx.consumer.screens.update.UpdateFragment"
         android:label="UpdateFragment"
