@@ -13,6 +13,8 @@ import com.trx.consumer.models.common.LiveWorkoutModel
 import com.trx.consumer.models.common.PromotionModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
+import com.trx.consumer.models.params.ContentParamsModel
+import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.promotion.PromotionAdapter
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
@@ -42,6 +44,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnBack.action { viewModel.doTapBack() }
             btnCards.action { viewModel.doTapCards() }
             btnAddCard.action { viewModel.doTapAddCard() }
+            btnContent.action { viewModel.doTapContent() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoWorkoutAdapter
@@ -52,6 +55,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventTapCards.observe(viewLifecycleOwner, handleTapCards)
             eventTapAddCard.observe(viewLifecycleOwner, handleTapAddCard)
+            eventTapContent.observe(viewLifecycleOwner, handleTapContent)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
@@ -74,6 +78,15 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleTapAddCard = Observer<Void> {
         NavigationManager.shared.present(this, R.id.add_card_fragment)
+    }
+
+    private val handleTapContent = Observer<Void> {
+        val model = ContentParamsModel(ContentViewState.PLAIN, "Terms & Conditions", "Test")
+        NavigationManager.shared.present(
+            this,
+            R.id.content_fragment,
+            model
+        )
     }
 
     private val handleLoadLiveWorkouts = Observer<List<LiveWorkoutModel>> { liveWorkouts ->

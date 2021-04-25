@@ -20,6 +20,8 @@
     <string name="cards_type_text_credit_card">Credit Card</string>
 
     <string name="content_blank" />
+    <string name="content_message">No %1$s available</string>
+    <string name="content_btnprimary_txt">"Accept &amp; Continue"</string>
 
     <string name="date_picker_done_button_label">Done</string>
 
@@ -88,6 +90,7 @@
     <string name="test_utility_promotion_section_label">Promotions</string>
     <string name="test_utility_cards_label">Cards</string>
     <string name="test_utility_add_card_label">Add Card</string>
+    <string name="test_utility_content_label">Content</string>
 
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 
