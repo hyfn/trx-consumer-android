@@ -223,7 +223,7 @@ enum class InputViewState(val placeholder: Int, vararg val type: Int) {
     val dateFormat: String?
         get() {
             return when (this) {
-                BIRTHDAY -> "yyyy-MM-dd"
+                BIRTHDAY -> "MM/dd/yyyy"
                 else -> null
             }
         }

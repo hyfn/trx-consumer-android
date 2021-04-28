@@ -84,6 +84,12 @@
         android:label="AddCardFragment"
         tools:layout="@layout/fragment_add_card" />
 
+    <fragment
+        android:id="@+id/update_fragment"
+        android:name="com.trx.consumer.screens.update.UpdateFragment"
+        android:label="UpdateFragment"
+        tools:layout="@layout/fragment_update" />
+
     <dialog
         android:id="@+id/date_picker_fragment"
         android:name="com.trx.consumer.screens.datepicker.DatePickerFragment"
