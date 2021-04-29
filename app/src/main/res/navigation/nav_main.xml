@@ -85,6 +85,12 @@
         tools:layout="@layout/fragment_add_card" />
 
     <fragment
+        android:id="@+id/update_fragment"
+        android:name="com.trx.consumer.screens.update.UpdateFragment"
+        android:label="UpdateFragment"
+        tools:layout="@layout/fragment_update" />
+
+    <fragment
         android:id="@+id/content_fragment"
         android:name="com.trx.consumer.screens.content.ContentFragment"
         android:label="ContentFragment"
