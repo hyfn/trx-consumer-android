@@ -14,7 +14,9 @@ import com.trx.consumer.models.common.LiveWorkoutModel
 import com.trx.consumer.models.common.PromotionModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
+import com.trx.consumer.models.params.ContentParamsModel
 import com.trx.consumer.models.params.UpdateParamsModel
+import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.promotion.PromotionAdapter
 import com.trx.consumer.screens.update.UpdateViewState
@@ -46,6 +48,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnCards.action { viewModel.doTapCards() }
             btnAddCard.action { viewModel.doTapAddCard() }
             btnUpdate.action { viewModel.doTapUpdate() }
+            btnContent.action { viewModel.doTapContent() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoWorkoutAdapter
@@ -57,6 +60,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapCards.observe(viewLifecycleOwner, handleTapCards)
             eventTapAddCard.observe(viewLifecycleOwner, handleTapAddCard)
             eventTapUpdate.observe(viewLifecycleOwner, handleTapUpdate)
+            eventTapContent.observe(viewLifecycleOwner, handleTapContent)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
@@ -89,6 +93,15 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
                 AccountModel.test().email
             )
         NavigationManager.shared.present(this, R.id.update_fragment, params)
+    }
+
+    private val handleTapContent = Observer<Void> {
+        val model = ContentParamsModel(ContentViewState.PLAIN, "Terms & Conditions", "Test")
+        NavigationManager.shared.present(
+            this,
+            R.id.content_fragment,
+            model
+        )
     }
 
     private val handleLoadLiveWorkouts = Observer<List<LiveWorkoutModel>> { liveWorkouts ->
