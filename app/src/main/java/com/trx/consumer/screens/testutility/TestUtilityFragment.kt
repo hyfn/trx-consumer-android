@@ -14,8 +14,8 @@ import com.trx.consumer.models.common.LiveWorkoutModel
 import com.trx.consumer.models.common.PromotionModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
-import com.trx.consumer.models.params.UpdateParamsModel
 import com.trx.consumer.models.params.ContentParamsModel
+import com.trx.consumer.models.params.UpdateParamsModel
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.promotion.PromotionAdapter
