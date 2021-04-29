@@ -30,8 +30,8 @@ enum class InputViewState(val placeholder: Int, vararg val type: Int) {
         R.string.inputview_placeholder_code,
         InputType.TYPE_CLASS_NUMBER
     ),
-    CVC(
-        R.string.inputview_placeholder_cvc,
+    CVV(
+        R.string.inputview_placeholder_cvv,
         InputType.TYPE_CLASS_NUMBER
     ),
     EMAIL(
@@ -75,7 +75,7 @@ enum class InputViewState(val placeholder: Int, vararg val type: Int) {
             FIRST -> R.string.inputview_error_message_first_name
             CARD_NUMBER -> R.string.inputview_error_message_card_number
             CODE -> R.string.inputview_error_message_code
-            CVC -> R.string.inputview_error_message_cvc
+            CVV -> R.string.inputview_error_message_cvv
             EMAIL -> R.string.inputview_error_message_email
             EXPIRATION -> R.string.inputview_error_message_expiration
             LAST -> R.string.inputview_error_message_last_name
@@ -89,7 +89,7 @@ enum class InputViewState(val placeholder: Int, vararg val type: Int) {
         return when (this) {
             CARD_NUMBER -> text.count() <= kCreditCardLengthStandard
             CODE -> text.count() <= kVerificationCodeLimit
-            CVC -> text.count() <= kCVCLimit
+            CVV -> text.count() <= kCVCLimit
             EMAIL -> !text.contains(" ")
             EXPIRATION -> null
             PASSWORD -> !text.contains(" ")
@@ -102,7 +102,7 @@ enum class InputViewState(val placeholder: Int, vararg val type: Int) {
         return when (this) {
             BIRTHDAY -> text.isNotEmpty()
             CARD_NUMBER -> text.count() in listOf(kCreditCardLengthAmex, kCreditCardLengthStandard)
-            CVC -> text.count() >= kCVCLimit - 1
+            CVV -> text.count() >= kCVCLimit - 1
             EMAIL -> Patterns.EMAIL_ADDRESS.matcher(text).matches()
             EXPIRATION -> text.count() == kExpirationDateLimit
             FIRST -> !Pattern.compile("[^a-zA-Z]").matcher(text).find()
@@ -223,7 +223,7 @@ enum class InputViewState(val placeholder: Int, vararg val type: Int) {
     val dateFormat: String?
         get() {
             return when (this) {
-                BIRTHDAY -> "yyyy-MM-dd"
+                BIRTHDAY -> "MM/dd/yyyy"
                 else -> null
             }
         }

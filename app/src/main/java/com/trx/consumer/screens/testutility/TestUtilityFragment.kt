@@ -9,12 +9,17 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentTestUtilityBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.AccountModel
 import com.trx.consumer.models.common.LiveWorkoutModel
 import com.trx.consumer.models.common.PromotionModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
+import com.trx.consumer.models.params.ContentParamsModel
+import com.trx.consumer.models.params.UpdateParamsModel
+import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.promotion.PromotionAdapter
+import com.trx.consumer.screens.update.UpdateViewState
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutAdapter
 
@@ -40,6 +45,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
         viewBinding.apply {
             btnBack.action { viewModel.doTapBack() }
+            btnCards.action { viewModel.doTapCards() }
+            btnAddCard.action { viewModel.doTapAddCard() }
+            btnUpdate.action { viewModel.doTapUpdate() }
+            btnContent.action { viewModel.doTapContent() }
             btnWorkout.action { viewModel.doTapWorkout() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
@@ -49,6 +58,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
+            eventTapCards.observe(viewLifecycleOwner, handleTapCards)
+            eventTapAddCard.observe(viewLifecycleOwner, handleTapAddCard)
+            eventTapUpdate.observe(viewLifecycleOwner, handleTapUpdate)
+            eventTapContent.observe(viewLifecycleOwner, handleTapContent)
             eventTapWorkout.observe(viewLifecycleOwner, handleTapWorkout)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
@@ -64,6 +77,33 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     //region Handlers
     private val handleTapBack = Observer<Void> {
         NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleTapCards = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.cards_fragment)
+    }
+
+    private val handleTapAddCard = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.add_card_fragment)
+    }
+
+    private val handleTapUpdate = Observer<Void> {
+        val params =
+            UpdateParamsModel(
+                UpdateViewState.EDIT,
+                AccountModel.testList(2),
+                AccountModel.test().email
+            )
+        NavigationManager.shared.present(this, R.id.update_fragment, params)
+    }
+
+    private val handleTapContent = Observer<Void> {
+        val model = ContentParamsModel(ContentViewState.PLAIN, "Terms & Conditions", "Test")
+        NavigationManager.shared.present(
+            this,
+            R.id.content_fragment,
+            model
+        )
     }
 
     private val handleTapWorkout = Observer<Void> {
