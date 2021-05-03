@@ -19,9 +19,9 @@ class PlansViewHolder(view: View) : CommonViewHolder(view) {
         lblPrice.text = item.cost
         lblDescription.text = item.description
         btnPlan.apply {
-            text = itemView.context.getString(item.state.buttonText)
-            textColor(item.state.buttonTextColor)
-            bgColor(item.state.buttonBgColor)
+            text = itemView.context.getString(item.primaryState.buttonText)
+            textColor(item.primaryState.buttonTextColor)
+            bgColor(item.primaryState.buttonBgColor)
             action { listener.doTapPlan(item) }
         }
     }

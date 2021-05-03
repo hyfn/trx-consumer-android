@@ -10,11 +10,10 @@ class PlanModel(
     var title: String?,
     var description: String?,
     var cost: String?,
-    var startsAt: Int = 0
+    var startsAt: Int = 0,
+    var primaryState: PlansViewState = PlansViewState.OTHER
 
 ) : Parcelable {
-
-    var state: PlansViewState = PlansViewState.OTHER
 
     companion object {
 
