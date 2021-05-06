@@ -20,6 +20,8 @@
     <string name="cards_type_text_credit_card">Credit Card</string>
 
     <string name="content_blank" />
+    <string name="content_message">No %1$s available</string>
+    <string name="content_btnprimary_txt">"Accept &amp; Continue"</string>
     <string name="content_row_image">Row image</string>
 
     <string name="calendarview_this_week">This Week</string>
@@ -74,6 +76,13 @@
     <string name="login_forgot">Forgot Password?</string>
     <string name="login_log_in">Log in</string>
 
+    <string name="plans_choose_plan_label">Choose Plan</string>
+    <string name="plans_current_plan_label">Current Plan</string>
+    <string name="plans_title">Subscriptions</string>
+    <string name="plans_cancel_subscription_label">Cancel Subscription</string>
+    <string name="plans_last_bill_date_label">Last Bill Date:</string>
+    <string name="plans_next_bill_date_label">Next Bill Date:</string>
+
     <string name="splash_title">Welcome to the TRX Training Club</string>
     <string name="splash_continue_label">CONTINUE WITH</string>
     <string name="splash_email_button_label">EMAIL</string>
@@ -87,11 +96,14 @@
     <string name="test_utility_calendar_section_label">Calendar</string>
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
+    <string name="test_utility_plans_label">Plans</string>
     <string name="test_utility_virtual_workout_section_label">Virtual Workouts</string>
     <string name="test_utility_video_workout_section_label">Video Workouts</string>
     <string name="test_utility_promotion_section_label">Promotions</string>
     <string name="test_utility_cards_label">Cards</string>
     <string name="test_utility_add_card_label">Add Card</string>
+    <string name="test_utility_update_label">Update</string>
+    <string name="test_utility_content_label">Content</string>
 
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 
@@ -112,6 +124,10 @@
     <string name="email_done_button_label">DONE</string>
     <string name="email_verification_email_sent_label">VERIFICATION EMAIL SENT</string>
     <string name="email_code_description">If you purchased a TRX Product, this will be on the KEY TO FREE card in the box.</string>
+
+    <string name="update_save_label">Save</string>
+    <string name="update_save_changes_label">Save Changes</string>
+    <string name="update_agreement_label">Agree to <u>Liability Waiver</u></string>
 
     <string name="welcome_continue_button_label">Continue</string>
     <string name="welcome_get_started_label">Get Started</string>
