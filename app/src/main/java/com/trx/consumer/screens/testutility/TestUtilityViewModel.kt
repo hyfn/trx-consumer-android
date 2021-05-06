@@ -25,6 +25,7 @@ class TestUtilityViewModel :
     val eventTapAddCard = CommonLiveEvent<Void>()
     val eventTapUpdate = CommonLiveEvent<Void>()
     val eventTapContent = CommonLiveEvent<Void>()
+    val eventTapPlans = CommonLiveEvent<Void>()
     val eventLoadLiveWorkouts = CommonLiveEvent<List<LiveWorkoutModel>>()
     val eventLoadVirtualWorkouts = CommonLiveEvent<List<VirtualWorkoutModel>>()
     val eventLoadVideoWorkouts = CommonLiveEvent<List<VideoModel>>()
@@ -75,6 +76,10 @@ class TestUtilityViewModel :
 
     fun doTapContent() {
         eventTapContent.call()
+    }
+
+    fun doTapPlans() {
+        eventTapPlans.call()
     }
 
     override fun doTapBook(model: LiveWorkoutModel) {}
