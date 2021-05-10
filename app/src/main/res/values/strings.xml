@@ -100,6 +100,15 @@
     <string name="test_utility_add_card_label">Add Card</string>
     <string name="test_utility_update_label">Update</string>
     <string name="test_utility_content_label">Content</string>
+    <string name="test_utility_trainer_label">Trainer</string>
+
+    <string name="trainer_about_me_label">About Me</string>
+    <string name="trainer_upcoming_classes_label">Upcoming Classes</string>
+    <string name="trainer_button_view_schedule">VIEW SCHEDULE   →</string>
+    <string name="trainer_services_label">Services</string>
+    <string name="trainer_on_demand_classes_label">On-Demand Classes</string>
+    <string name="trainer_button_see_all">SEE ALL   →</string>
+    <string name="trainer_for_you_label">For You</string>
 
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 
