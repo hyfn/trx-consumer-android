@@ -80,6 +80,25 @@
     <string name="plans_last_bill_date_label">Last Bill Date:</string>
     <string name="plans_next_bill_date_label">Next Bill Date:</string>
 
+    <string name="settings_title">SETTINGS</string>
+    <string name="settings_edit_profile">Edit Profile</string>
+    <string name="settings_subscriptions">Subscriptions</string>
+    <string name="settings_payment_methods">Payment Methods</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_shop">Shop TRX Products</string>
+    <string name="settings_getting_started">Getting Started Videos</string>
+    <string name="settings_terms_and_conditions">Terms &amp; Conditions</string>
+    <string name="settings_contact_support">Contact Support</string>
+    <string name="settings_workout_live">Workout (Live)</string>
+    <string name="settings_workout_video">Workout (Video)</string>
+    <string name="settings_workout_virtual">Workout (Virtual)</string>
+    <string name="settings_trainer">Trainer</string>
+    <string name="settings_on_boarding_vpt">Onboarding VPT</string>
+    <string name="settings_welcome">Welcome</string>
+    <string name="settings_logout">Log Out</string>
+    <string name="settings_schedule_trainer">Schedule Trainer</string>
+    <string name="settings_schedule_user_virtual">Schedule User Virtual</string>
+
     <string name="splash_title">Welcome to the TRX Training Club</string>
     <string name="splash_continue_label">CONTINUE WITH</string>
     <string name="splash_email_button_label">EMAIL</string>
@@ -100,6 +119,7 @@
     <string name="test_utility_add_card_label">Add Card</string>
     <string name="test_utility_update_label">Update</string>
     <string name="test_utility_content_label">Content</string>
+    <string name="test_utility_settings_label">Settings</string>
 
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 

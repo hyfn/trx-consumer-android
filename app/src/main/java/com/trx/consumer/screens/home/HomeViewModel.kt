@@ -2,9 +2,9 @@ package com.trx.consumer.screens.home
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.models.UserModel
 import com.trx.consumer.models.common.LiveWorkoutModel
 import com.trx.consumer.models.common.PromotionModel
+import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.screens.liveworkout.LiveWorkoutListener

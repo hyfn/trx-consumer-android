@@ -1,9 +1,4 @@
-package com.trx.consumer.models
-
-import com.trx.consumer.models.common.AccountModel
-import com.trx.consumer.models.common.BalanceModel
-import com.trx.consumer.models.common.ClassModel
-import com.trx.consumer.models.common.PurchaseModel
+package com.trx.consumer.models.common
 
 class UserModel(
     var identifier: String = "",
@@ -20,7 +15,8 @@ class UserModel(
     var balance: BalanceModel = BalanceModel(),
     var purchases: List<PurchaseModel> = listOf(),
     var bookings: List<ClassModel> = listOf(),
-    var freeClasses: List<ClassModel> = listOf()
+    var freeClasses: List<ClassModel> = listOf(),
+    var card: CardModel? = null
 ) {
 
     val fullName: String

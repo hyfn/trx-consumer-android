@@ -11,9 +11,9 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.UserModel
 import com.trx.consumer.models.common.LiveWorkoutModel
 import com.trx.consumer.models.common.PromotionModel
+import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter

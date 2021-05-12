@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:backgroundColor="@color/greyLightExtra">
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.trx.consumer.common.CommonView
+            android:id="@+id/viewNavBar"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/top_bar_height"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.trx.consumer.common.CommonImageView
+                android:id="@+id/btnBack"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_btn_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </com.trx.consumer.common.CommonView>
+
+        <com.trx.consumer.common.CommonLabel
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/atcarquette_bold"
+            android:text="@string/settings_title"
+            android:textColor="@color/blackRussian"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="SmallSp" />
+
+
+    </com.trx.consumer.common.CommonView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewHeader">
+
+        <com.trx.consumer.common.CommonView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.trx.consumer.common.CommonRecyclerView
+                android:id="@+id/rvSettings"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@+id/lblVersion"
+                app:layout_constraintTop_toBottomOf="@+id/viewHeader"
+                tools:listitem="@layout/row_settings_option" />
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblVersion"
+                android:layout_width="match_parent"
+                android:layout_height="85dp"
+                android:backgroundTint="@color/greyLightExtra"
+                android:fontFamily="@font/atcarquette_regular"
+                android:gravity="center"
+                android:textColor="@color/greyDark"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="App Version" />
+        </com.trx.consumer.common.CommonView>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.trx.consumer.common.CommonHudView
+        android:id="@+id/hudView"
+        style="@style/MatchParentEdgesViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+</com.trx.consumer.common.CommonView>

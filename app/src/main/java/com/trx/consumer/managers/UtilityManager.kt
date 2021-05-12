@@ -25,7 +25,7 @@ class UtilityManager {
     }
 
     fun versionDisplay(): String {
-        return "v" + appVersion() + "." + buildVersion()
+        return "App Version " + buildVersion() + "." + appVersion()
     }
 
     companion object {
