@@ -3,10 +3,10 @@ package com.trx.consumer.screens.home
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.models.UserModel
-import com.trx.consumer.models.common.LiveWorkoutModel
 import com.trx.consumer.models.common.PromotionModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
+import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.screens.liveworkout.LiveWorkoutListener
 import com.trx.consumer.screens.promotion.PromotionListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
@@ -28,7 +28,7 @@ class HomeViewModel :
     val eventLoadPromotionsBottom = CommonLiveEvent<List<PromotionModel>>()
     val eventLoadUpcoming = CommonLiveEvent<List<VirtualWorkoutModel>>()
     val eventLoadBookWith = CommonLiveEvent<List<VirtualWorkoutModel>>()
-    val eventLoadLive = CommonLiveEvent<List<LiveWorkoutModel>>()
+    val eventLoadLive = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadOnDemand = CommonLiveEvent<List<VideoModel>>()
     val eventLoadUser = CommonLiveEvent<UserModel>()
 
@@ -62,7 +62,7 @@ class HomeViewModel :
     }
 
     fun doLoadLive() {
-        eventLoadLive.postValue(LiveWorkoutModel.testList(5))
+        eventLoadLive.postValue(WorkoutModel.testList(5))
     }
 
     fun doLoadOnDemand() {
@@ -75,9 +75,9 @@ class HomeViewModel :
 
     override fun doTapSelect(model: VirtualWorkoutModel) {}
 
-    override fun doTapBook(model: LiveWorkoutModel) {}
+    override fun doTapBook(model: WorkoutModel) {}
 
-    override fun doTapSelect(model: LiveWorkoutModel) {}
+    override fun doTapSelect(model: WorkoutModel) {}
 
     override fun doTapSelect(model: VideoModel) {}
 

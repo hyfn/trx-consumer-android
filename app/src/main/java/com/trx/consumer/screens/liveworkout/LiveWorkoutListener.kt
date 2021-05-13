@@ -1,10 +1,10 @@
 package com.trx.consumer.screens.liveworkout
 
-import com.trx.consumer.models.common.LiveWorkoutModel
+import com.trx.consumer.models.common.WorkoutModel
 
 interface LiveWorkoutListener {
 
-    fun doTapBook(model: LiveWorkoutModel)
+    fun doTapBook(model: WorkoutModel)
 
-    fun doTapSelect(model: LiveWorkoutModel)
+    fun doTapSelect(model: WorkoutModel)
 }

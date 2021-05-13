@@ -1,5 +1,7 @@
 package com.trx.consumer.models.common
 
+import com.trx.consumer.BuildConfig.kBaseUrl
+
 enum class EndpointModel {
 
     BOOK_CANCEL,
@@ -79,6 +81,29 @@ enum class EndpointModel {
                 UPDATE,
                 USER -> true
                 else -> false
+            }
+        }
+
+    val path: String
+        get() {
+            val prefix = kBaseUrl
+            return when (this) {
+                BOOK_CANCEL -> prefix + "bookings/cancel"
+                BOOKINGS -> prefix + "bookings"
+                BOOK_PROGRAM_CONFIRM -> prefix + "bookings/program/confirm"
+                BOOK_PROGRAM_INTENT -> prefix + "bookings/program"
+                BOOK_SESSION_CONFIRM -> prefix + "bookings/session/confirm"
+                BOOK_SESSION_INTENT -> prefix + "bookings/session"
+                LOGIN, LOGOUT, REGISTER -> prefix + "auth"
+                PAYMENT_ADD, PAYMENT_DELETE -> prefix + "stripe/payment-method"
+                PLANS -> prefix + "subscriptions"
+                PROGRAM_AVAILABILITY -> prefix + "programs"
+                PROMOTIONS -> prefix + "ctas"
+                SUBSCRIPTION_ADD, SUBSCRIPTION_DELETE -> prefix + "subscriptions"
+                TRAINER, TRAINERS, TRAINER_PROGRAMS, TRAINER_SESSIONS -> prefix + "trainers"
+                UPDATE, USER -> prefix + "user"
+                VIDEOS -> prefix + "videos"
+                WORKOUTS -> prefix + "sessions"
             }
         }
 }

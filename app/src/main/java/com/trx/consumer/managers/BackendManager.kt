@@ -7,10 +7,7 @@ import com.trx.consumer.models.core.ResponseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class BackendManager(
-    private val api: BaseApi,
-    private val cacheManager: CacheManager
-) {
+class BackendManager(private val api: BaseApi, private val cacheManager: CacheManager) {
 
     suspend fun call(request: RequestModel): ResponseModel {
         return withContext(Dispatchers.IO) {
@@ -48,5 +45,10 @@ class BackendManager(
             LogManager.log("Response: [${endpoint.type.name}] $queryPath \n${responseModel.responseString}")
             responseModel
         }
+    }
+
+    suspend fun workouts(): ResponseModel {
+        val path = EndpointModel.WORKOUTS.path
+        return call(RequestModel(endpoint = EndpointModel.WORKOUTS, path = path, params = null))
     }
 }

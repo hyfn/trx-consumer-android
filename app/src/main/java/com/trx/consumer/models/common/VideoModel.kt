@@ -1,5 +1,9 @@
 package com.trx.consumer.models.common
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 class VideoModel(
     var name: String = "",
     var duration: Int = 0,
@@ -10,7 +14,7 @@ class VideoModel(
     var level: String = "",
     var focus: String = "",
     var body: List<String> = listOf()
-) {
+) : Parcelable {
 
     val videoDuration: String
         get() = "${duration / 60_000} MINS"

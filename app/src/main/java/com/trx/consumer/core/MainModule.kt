@@ -1,6 +1,9 @@
 package com.trx.consumer.core
 
+import android.app.Application
 import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.trx.consumer.BuildConfig.kBaseUrl
 import com.trx.consumer.base.BaseApi
 import com.trx.consumer.managers.BackendManager
@@ -27,6 +30,11 @@ import javax.inject.Singleton
 object MainModule {
 
     private const val REGULAR_TIMEOUT = 60L
+
+    @Provides
+    @Singleton
+    fun provideCache(application: Application): Cache =
+        Cache(application.cacheDir, 20L * 1024 * 1024)
 
     @Provides
     @Singleton
@@ -71,6 +79,15 @@ object MainModule {
                     .build()
             }
         }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson = GsonBuilder().create()
+
+    @Provides
+    @Singleton
+    fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory =
+        GsonConverterFactory.create(gson)
 
     @Provides
     @Singleton
