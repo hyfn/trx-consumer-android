@@ -17,28 +17,28 @@ interface BaseApi {
     suspend fun post(
         @Url url: String,
         @Header("Authorization") authorization: String? = null,
-        @Body params: HashMap<String, Any>
+        @Body params: Map<String, @JvmSuppressWildcards Any>
     ): Response<Any>
 
     @GET
     suspend fun get(
         @Url url: String,
         @Header("Authorization") authorization: String? = null,
-        @QueryMap options: HashMap<String, Any>
+        @QueryMap options: Map<String, @JvmSuppressWildcards Any>
     ): Response<Any>
 
     @PUT
     suspend fun put(
         @Url url: String,
         @Header("Authorization") authorization: String? = null,
-        @Body params: HashMap<String, Any>
+        @Body params: Map<String, @JvmSuppressWildcards Any>
     ): Response<Any>
 
     @HTTP(method = "DELETE", hasBody = true)
     suspend fun delete(
         @Url url: String,
         @Header("Authorization") authorization: String? = null,
-        @Body params: HashMap<String, Any>
+        @Body params: Map<String, @JvmSuppressWildcards Any>
     ): Response<Any>
 
     // Todo: May need to use @HTTP(method = "PATCH"), needs investigation.
@@ -46,6 +46,6 @@ interface BaseApi {
     suspend fun patch(
         @Url url: String,
         @Header("Authorization") authorization: String? = null,
-        @Body params: HashMap<String, Any>
+        @Body params: Map<String, @JvmSuppressWildcards Any>
     ): Response<Any>
 }

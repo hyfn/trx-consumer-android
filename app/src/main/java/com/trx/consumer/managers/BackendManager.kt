@@ -4,6 +4,7 @@ import com.trx.consumer.base.BaseApi
 import com.trx.consumer.models.common.EndpointModel
 import com.trx.consumer.models.core.RequestModel
 import com.trx.consumer.models.core.ResponseModel
+import com.trx.consumer.models.responses.UserResponseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -13,7 +14,7 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return withContext(Dispatchers.IO) {
             val endpoint = request.endpoint
             val url = request.path
-            val params = request.params ?: hashMapOf()
+            val params = request.params ?: mapOf()
             val accessToken = cacheManager.accessToken()
             val token = if (endpoint.isAuthenticated && !accessToken.isNullOrEmpty()) {
                 "Bearer $accessToken"
@@ -45,6 +46,50 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
             LogManager.log("Response: [${endpoint.type.name}] $queryPath \n${responseModel.responseString}")
             responseModel
         }
+    }
+
+    suspend fun login(email: String, password: String): ResponseModel {
+        val params = mapOf<String, Any>(
+            "email" to email,
+            "password" to password
+        )
+        val path = EndpointModel.LOGIN.path
+        val response = call(
+            RequestModel(endpoint = EndpointModel.LOGIN, path = path, params = params)
+        )
+        if (!response.isSuccess) return response
+        try {
+            val model = UserResponseModel.parse(response.responseString)
+            cacheManager.accessToken(model.jwt)
+        } catch (e: Exception) {
+            LogManager.log(e)
+        }
+        return user()
+    }
+
+    suspend fun register(params: Map<String, Any>): ResponseModel {
+        val path = EndpointModel.REGISTER.path
+        val response = call(
+            RequestModel(endpoint = EndpointModel.REGISTER, path = path, params = params)
+        )
+        if (!response.isSuccess) return response
+        try {
+            val model = UserResponseModel.parse(response.responseString)
+            cacheManager.accessToken(model.jwt)
+        } catch (e: Exception) {
+            LogManager.log(e)
+        }
+        return user()
+    }
+
+    suspend fun user(): ResponseModel {
+        val path = EndpointModel.USER.path
+        val response = call(RequestModel(endpoint = EndpointModel.USER, path = path, params = null))
+        if (response.isSuccess) {
+            val model = UserResponseModel.parse(response.responseString)
+            cacheManager.user(model.user)
+        }
+        return response
     }
 
     suspend fun workouts(): ResponseModel {

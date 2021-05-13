@@ -1,5 +1,6 @@
 package com.trx.consumer.screens.login
 
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
@@ -7,6 +8,7 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentLoginBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.params.EmailParamsModel
 import com.trx.consumer.screens.email.EmailViewState
@@ -18,28 +20,59 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     override fun bind() {
         viewBinding.apply {
-            btnBack.setOnClickListener { viewModel.doTapBack() }
+            ivEmail.setInputViewListener(viewModel)
+            ivPassword.setInputViewListener(viewModel)
+
+            btnBack.action { viewModel.doTapBack() }
             lblSignUp.action { viewModel.doTapSignUp() }
+            btnLogin.action {
+                viewModel.doDismissKeyboard()
+                viewModel.doTapLogin()
+            }
             btnForgotPassword.action { viewModel.doTapForgotPassword() }
         }
 
         viewModel.apply {
+            eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventTapSignUp.observe(viewLifecycleOwner, handleTapSignUp)
             eventTapForgotPassword.observe(viewLifecycleOwner, handleTapForgotPassword)
+            eventLoadError.observe(viewLifecycleOwner, handleLoadError)
+            eventValidateError.observe(viewLifecycleOwner, handleValidateError)
+            eventTapLogin.observe(viewLifecycleOwner, handleTapLogin)
+            eventShowHud.observe(viewLifecycleOwner, handleShowHud)
+            eventDismissKeyboard.observe(viewLifecycleOwner, handleDismissKeyboard)
         }
     }
 
-    override fun onBackPressed() {
-        NavigationManager.shared.dismiss(this)
+    private val handleLoadView = Observer<Void> {
+        LogManager.log("handleLoadView")
     }
 
-    private val handleTapBack = Observer<Void> {
-        NavigationManager.shared.dismiss(this)
+    private val handleLoadError = Observer<String> { error ->
+        // TODO: Display Alert once implemented
+        with(requireContext()) {
+            Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private val handleValidateError = Observer<Int> { error ->
+        // TODO: Display ErrorAlert once implemented
+        with(requireContext()) {
+            Toast.makeText(this, getString(error), Toast.LENGTH_LONG).show()
+        }
     }
 
     private val handleTapSignUp = Observer<Void> {
         NavigationManager.shared.present(this, R.id.register_fragment)
+    }
+
+    private val handleTapLogin = Observer<Void> {
+        NavigationManager.shared.loggedInLaunchSequence(this)
+    }
+
+    private val handleShowHud = Observer<Boolean> { show ->
+        viewBinding.hudView.isVisible = show
     }
 
     private val handleTapForgotPassword = Observer<Void> {
@@ -48,5 +81,24 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             R.id.email_fragment,
             EmailParamsModel(EmailViewState.FORGOT)
         )
+    }
+
+    private val handleTapBack = Observer<Void> {
+        NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleDismissKeyboard = Observer<Void> {
+        dismissKeyboard()
+    }
+
+    private fun dismissKeyboard() {
+        viewBinding.apply {
+            ivEmail.dismiss()
+            ivPassword.dismiss()
+        }
+    }
+
+    override fun onBackPressed() {
+        NavigationManager.shared.dismiss(this)
     }
 }

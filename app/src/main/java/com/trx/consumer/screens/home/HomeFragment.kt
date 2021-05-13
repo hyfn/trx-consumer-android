@@ -192,25 +192,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             with(requireContext()) {
                 // Temporary, logic will likely change
                 lblUserName.text = getString(R.string.home_user_name_label, model.firstName)
-                lblSessions.text = getString(R.string.home_user_sessions_label, model.bookings.size)
-                lblClasses.text = getString(
-                    R.string.home_user_classes_label,
-                    model.freeClasses.size
-                )
-                lblWorkouts.text = getString(
-                    R.string.home_user_workouts_label,
-                    model.freeClasses.size
-                )
-
-                lblSessions.textColor(
-                    if (model.bookings.isEmpty()) R.color.greyLight else R.color.black
-                )
-                lblClasses.textColor(
-                    if (model.freeClasses.isEmpty()) R.color.greyLight else R.color.black
-                )
-                lblWorkouts.textColor(
-                    if (model.freeClasses.isEmpty()) R.color.greyLight else R.color.black
-                )
             }
         }
     }
