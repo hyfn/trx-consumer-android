@@ -74,12 +74,14 @@ android {
         dev {
             buildConfigField "boolean", "DEVELOPMENT", "true"
             applicationId "com.comma.trx.consumer.dev"
+            buildConfigField "String", "kBaseUrl", '"https://trx.sprintfwd.com/api/"' //TODO: - Confirm for dev
             buildConfigField "Boolean", "isReportingDisabled", "false"
             buildConfigField "Integer", "kFirebaseFetchInterval", "3"
         }
         prod {
             buildConfigField "boolean", "DEVELOPMENT", "false"
             applicationId "com.comma.trx.consumer"
+            buildConfigField "String", "kBaseUrl", '"https://trx.sprintfwd.com/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "true"
             buildConfigField "Integer", "kFirebaseFetchInterval", "30"
         }

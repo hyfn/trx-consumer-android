@@ -12,10 +12,10 @@ import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.UserModel
-import com.trx.consumer.models.common.LiveWorkoutModel
 import com.trx.consumer.models.common.PromotionModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
+import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.promotion.PromotionAdapter
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
@@ -108,7 +108,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         loadBookWith(workouts)
     }
 
-    private val handleLive = Observer<List<LiveWorkoutModel>> { workouts ->
+    private val handleLive = Observer<List<WorkoutModel>> { workouts ->
         loadLive(workouts)
     }
 
@@ -158,7 +158,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
     }
 
-    private fun loadLive(workouts: List<LiveWorkoutModel>) {
+    private fun loadLive(workouts: List<WorkoutModel>) {
         val hide = workouts.isEmpty()
         liveAdapter.update(workouts)
         viewBinding.apply {

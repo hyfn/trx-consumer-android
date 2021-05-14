@@ -3,7 +3,7 @@ package com.trx.consumer.models.common
 import androidx.annotation.StringRes
 import com.trx.consumer.R
 
-enum class BookingViewState {
+enum class BookingState {
     BOOK,
     BOOKED,
     CANCELLED,

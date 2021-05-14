@@ -10,10 +10,10 @@ import com.trx.consumer.databinding.FragmentTestUtilityBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.AccountModel
-import com.trx.consumer.models.common.LiveWorkoutModel
 import com.trx.consumer.models.common.PromotionModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
+import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.ContentParamsModel
 import com.trx.consumer.models.params.UpdateParamsModel
 import com.trx.consumer.screens.content.ContentViewState
@@ -110,7 +110,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         NavigationManager.shared.present(this, R.id.plans_fragment)
     }
 
-    private val handleLoadLiveWorkouts = Observer<List<LiveWorkoutModel>> { liveWorkouts ->
+    private val handleLoadLiveWorkouts = Observer<List<WorkoutModel>> { liveWorkouts ->
         liveWorkoutAdapter.update(liveWorkouts)
     }
 

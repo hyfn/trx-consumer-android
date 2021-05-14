@@ -1,19 +1,23 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
+import com.trx.consumer.extensions.map
 import kotlinx.parcelize.Parcelize
+import org.json.JSONObject
 
 @Parcelize
 class TrainerModel(
     var bio: String = "",
-    var firstName: String = "",
-    var lastName: String = "",
-    var gender: String = "",
-    var liveTrainer: Boolean = false,
+    var isFeatured: Boolean = false,
+    val isLive: Boolean = false,
+    var key: String = "",
     var mantra: String = "",
     var profilePhoto: String = "",
+    val trainerCertifications: List<String> = emptyList(),
+    val trainerCoachingStyle: String = "",
     var virtualTrainerProfileId: String = "",
-    var key: String = ""
+    var firstName: String = "",
+    var lastName: String = ""
 ) : Parcelable {
 
     val firstNameAndLastInitial: String
@@ -23,6 +27,24 @@ class TrainerModel(
         get() = "$firstName $lastName"
 
     companion object {
+
+        fun parse(jsonObject: JSONObject): TrainerModel {
+            return with(jsonObject) {
+                TrainerModel(
+                    bio = optString("bio"),
+                    isFeatured = optBoolean("featuredTrainer"),
+                    isLive = optBoolean("liveTrainer"),
+                    key = optString("key"),
+                    mantra = optString("mantra"),
+                    profilePhoto = optString("profilePhoto"),
+                    trainerCertifications = optJSONArray("trainerCertifications").map(),
+                    trainerCoachingStyle = optString("trainerCoachingStyle"),
+                    virtualTrainerProfileId = optString("virtualTrainerProfileId"),
+                    firstName = optString("firstName"),
+                    lastName = optString("lastName")
+                )
+            }
+        }
 
         fun test(): TrainerModel {
             return TrainerModel(
