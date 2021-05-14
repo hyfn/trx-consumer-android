@@ -113,9 +113,9 @@ class RegisterViewModel @ViewModelInject constructor(
 
     //endregion
 
-    private val params: Map<String, Any>
+    private val params: HashMap<String, Any>
         get() {
-            return mapOf(
+            return hashMapOf(
                 "email" to email,
                 "password" to password,
                 "firstName" to "new",

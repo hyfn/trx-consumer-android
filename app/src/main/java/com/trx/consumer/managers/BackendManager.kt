@@ -14,7 +14,7 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return withContext(Dispatchers.IO) {
             val endpoint = request.endpoint
             val url = request.path
-            val params = request.params ?: mapOf()
+            val params = request.params ?: hashMapOf()
             val accessToken = cacheManager.accessToken()
             val token = if (endpoint.isAuthenticated && !accessToken.isNullOrEmpty()) {
                 "Bearer $accessToken"
@@ -49,7 +49,7 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
     }
 
     suspend fun login(email: String, password: String): ResponseModel {
-        val params = mapOf<String, Any>(
+        val params = hashMapOf<String, Any>(
             "email" to email,
             "password" to password
         )
@@ -67,7 +67,7 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return user()
     }
 
-    suspend fun register(params: Map<String, Any>): ResponseModel {
+    suspend fun register(params: HashMap<String, Any>): ResponseModel {
         val path = EndpointModel.REGISTER.path
         val response = call(
             RequestModel(endpoint = EndpointModel.REGISTER, path = path, params = params)

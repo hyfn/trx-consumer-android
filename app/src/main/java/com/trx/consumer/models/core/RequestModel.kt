@@ -5,5 +5,5 @@ import com.trx.consumer.models.common.EndpointModel
 data class RequestModel(
     val endpoint: EndpointModel,
     val path: String,
-    val params: Map<String, Any>?
+    val params: HashMap<String, Any>?
 )
