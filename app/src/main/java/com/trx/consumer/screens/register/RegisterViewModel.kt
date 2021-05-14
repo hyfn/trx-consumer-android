@@ -20,7 +20,7 @@ class RegisterViewModel @ViewModelInject constructor(
     val eventLoadView = CommonLiveEvent<Void>()
     val eventTapLogin = CommonLiveEvent<Void>()
     val eventTapTermsConditions = CommonLiveEvent<Void>()
-    val eventLoadError = CommonLiveEvent<String>()
+    val eventShowError = CommonLiveEvent<String>()
     val eventLoadButton = CommonLiveEvent<Boolean>()
     val eventLoadProfile = CommonLiveEvent<Void>()
     val eventDismissKeyboard = CommonLiveEvent<Void>()
@@ -59,26 +59,7 @@ class RegisterViewModel @ViewModelInject constructor(
     }
 
     fun doCreateAccount() {
-        if (!InputViewState.EMAIL.validate(email)) {
-            val message = InputViewState.EMAIL.errorMessage
-            eventValidateError.postValue(message)
-            return
-        }
-        if (!InputViewState.PASSWORD.validate(password)) {
-            val message = InputViewState.PASSWORD.errorMessage
-            eventValidateError.postValue(message)
-            return
-        }
-        if (password != confirmPassword) {
-            val message = InputViewState.CONFIRM_PASSWORD.errorMessage
-            eventValidateError.postValue(message)
-            return
-        }
-        if (!checked) {
-            val message = R.string.register_terms_conditions_error
-            eventValidateError.postValue(message)
-            return
-        }
+        if (!validate()) return
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = backendManager.register(params)
@@ -86,7 +67,7 @@ class RegisterViewModel @ViewModelInject constructor(
             if (response.isSuccess) {
                 eventLoadProfile.call()
             } else {
-                eventLoadError.postValue(response.errorMessage)
+                eventShowError.postValue(response.errorMessage)
             }
         }
     }
@@ -109,6 +90,30 @@ class RegisterViewModel @ViewModelInject constructor(
 
     fun doDismissKeyboard() {
         eventDismissKeyboard.call()
+    }
+
+    private fun validate(): Boolean {
+        if (!InputViewState.EMAIL.validate(email)) {
+            val message = InputViewState.EMAIL.errorMessage
+            eventValidateError.postValue(message)
+            return false
+        }
+        if (!InputViewState.PASSWORD.validate(password)) {
+            val message = InputViewState.PASSWORD.errorMessage
+            eventValidateError.postValue(message)
+            return false
+        }
+        if (password != confirmPassword) {
+            val message = InputViewState.CONFIRM_PASSWORD.errorMessage
+            eventValidateError.postValue(message)
+            return false
+        }
+        if (!checked) {
+            val message = R.string.register_terms_conditions_error
+            eventValidateError.postValue(message)
+            return false
+        }
+        return true
     }
 
     //endregion
