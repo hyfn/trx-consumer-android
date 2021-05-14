@@ -12,6 +12,7 @@ import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.params.EmailParamsModel
 import com.trx.consumer.screens.email.EmailViewState
+import com.trx.consumer.screens.erroralert.ErrorAlertModel
 
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
@@ -57,10 +58,9 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     }
 
     private val handleValidateError = Observer<Int> { error ->
-        // TODO: Display ErrorAlert once implemented
-        with(requireContext()) {
-            Toast.makeText(this, getString(error), Toast.LENGTH_LONG).show()
-        }
+        LogManager.log("handleValidateError")
+        val model = ErrorAlertModel.error(message = getString(error))
+        NavigationManager.shared.present(this, R.id.error_fragment, model)
     }
 
     private val handleTapSignUp = Observer<Void> {

@@ -13,7 +13,9 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentRegisterBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.screens.erroralert.ErrorAlertModel
 
 class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
@@ -84,10 +86,9 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
     }
 
     private val handleValidateError = Observer<Int> { error ->
-        // TODO: Display ErrorAlert once implemented
-        with(requireContext()) {
-            Toast.makeText(this, getString(error), Toast.LENGTH_LONG).show()
-        }
+        LogManager.log("handleValidateError")
+        val model = ErrorAlertModel.error(message = getString(error))
+        NavigationManager.shared.present(this, R.id.error_fragment, model)
     }
 
     private val handleLoadProfile = Observer<Void> {
