@@ -5,7 +5,6 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
@@ -13,7 +12,9 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentRegisterBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.screens.erroralert.ErrorAlertModel
 
 class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
@@ -39,7 +40,7 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventLoadProfile.observe(viewLifecycleOwner, handleLoadProfile)
-            eventLoadError.observe(viewLifecycleOwner, handleLoadError)
+            eventShowError.observe(viewLifecycleOwner, handleShowError)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
             eventTapLogin.observe(viewLifecycleOwner, handleTapLogin)
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
@@ -76,18 +77,16 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         }
     }
 
-    private val handleLoadError = Observer<String> { error ->
-        // TODO: Display Alert once implemented
-        with(requireContext()) {
-            Toast.makeText(this, error, Toast.LENGTH_LONG).show()
-        }
+    private val handleShowError = Observer<String> { error ->
+        LogManager.log("handleShowError")
+        val model = ErrorAlertModel.error(message = error)
+        NavigationManager.shared.present(this, R.id.error_fragment, model)
     }
 
     private val handleValidateError = Observer<Int> { error ->
-        // TODO: Display ErrorAlert once implemented
-        with(requireContext()) {
-            Toast.makeText(this, getString(error), Toast.LENGTH_LONG).show()
-        }
+        LogManager.log("handleValidateError")
+        val model = ErrorAlertModel.error(message = getString(error))
+        NavigationManager.shared.present(this, R.id.error_fragment, model)
     }
 
     private val handleLoadProfile = Observer<Void> {

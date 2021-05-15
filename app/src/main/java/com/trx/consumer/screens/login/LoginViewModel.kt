@@ -14,7 +14,7 @@ class LoginViewModel @ViewModelInject constructor(
 ) : BaseViewModel(), InputViewListener {
 
     val eventLoadView = CommonLiveEvent<Void>()
-    val eventLoadError = CommonLiveEvent<String>()
+    val eventShowError = CommonLiveEvent<String>()
     val eventTapLogin = CommonLiveEvent<Void>()
     val eventDismissKeyboard = CommonLiveEvent<Void>()
     val eventValidateError = CommonLiveEvent<Int>()
@@ -31,16 +31,7 @@ class LoginViewModel @ViewModelInject constructor(
     }
 
     fun doTapLogin() {
-        if (!InputViewState.EMAIL.validate(email)) {
-            val message = InputViewState.EMAIL.errorMessage
-            eventValidateError.postValue(message)
-            return
-        }
-        if (!InputViewState.PASSWORD.validate(password)) {
-            val message = InputViewState.PASSWORD.errorMessage
-            eventValidateError.postValue(message)
-            return
-        }
+        if (!validate()) return
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = backendManager.login(email, password)
@@ -48,7 +39,7 @@ class LoginViewModel @ViewModelInject constructor(
             if (response.isSuccess) {
                 eventTapLogin.call()
             } else {
-                eventLoadError.postValue(response.errorMessage)
+                eventShowError.postValue(response.errorMessage)
             }
         }
     }
@@ -80,5 +71,19 @@ class LoginViewModel @ViewModelInject constructor(
 
     fun doDismissKeyboard() {
         eventDismissKeyboard.call()
+    }
+
+    private fun validate(): Boolean {
+        if (!InputViewState.EMAIL.validate(email)) {
+            val message = InputViewState.EMAIL.errorMessage
+            eventValidateError.postValue(message)
+            return false
+        }
+        if (!InputViewState.PASSWORD.validate(password)) {
+            val message = InputViewState.PASSWORD.errorMessage
+            eventValidateError.postValue(message)
+            return false
+        }
+        return true
     }
 }

@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.login
 
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
@@ -12,6 +11,7 @@ import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.params.EmailParamsModel
 import com.trx.consumer.screens.email.EmailViewState
+import com.trx.consumer.screens.erroralert.ErrorAlertModel
 
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
@@ -37,7 +37,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventTapSignUp.observe(viewLifecycleOwner, handleTapSignUp)
             eventTapForgotPassword.observe(viewLifecycleOwner, handleTapForgotPassword)
-            eventLoadError.observe(viewLifecycleOwner, handleLoadError)
+            eventShowError.observe(viewLifecycleOwner, handleShowError)
             eventValidateError.observe(viewLifecycleOwner, handleValidateError)
             eventTapLogin.observe(viewLifecycleOwner, handleTapLogin)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
@@ -49,18 +49,16 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         LogManager.log("handleLoadView")
     }
 
-    private val handleLoadError = Observer<String> { error ->
-        // TODO: Display Alert once implemented
-        with(requireContext()) {
-            Toast.makeText(this, error, Toast.LENGTH_LONG).show()
-        }
+    private val handleShowError = Observer<String> { error ->
+        LogManager.log("handleShowError")
+        val model = ErrorAlertModel.error(message = error)
+        NavigationManager.shared.present(this, R.id.error_fragment, model)
     }
 
     private val handleValidateError = Observer<Int> { error ->
-        // TODO: Display ErrorAlert once implemented
-        with(requireContext()) {
-            Toast.makeText(this, getString(error), Toast.LENGTH_LONG).show()
-        }
+        LogManager.log("handleValidateError")
+        val model = ErrorAlertModel.error(message = getString(error))
+        NavigationManager.shared.present(this, R.id.error_fragment, model)
     }
 
     private val handleTapSignUp = Observer<Void> {
