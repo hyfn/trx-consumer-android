@@ -126,7 +126,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
-
+    
     // Schedule
     implementation "com.github.alamkanak:android-week-view:$rootProject.weekVersion"
     implementation "com.github.kizitonwose:CalendarView:$rootProject.calendarVersion"

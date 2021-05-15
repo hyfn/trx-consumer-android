@@ -47,6 +47,7 @@
     <string name="inputview_placeholder_first">First Name</string>
     <string name="inputview_placeholder_last">Last Name</string>
     <string name="inputview_placeholder_password">Password</string>
+    <string name="inputview_placeholder_confirm_password">Confirm Password</string>
     <string name="inputview_placeholder_phone">Phone Number</string>
     <string name="inputview_placeholder_promo">Promo code</string>
     <string name="inputview_placeholder_zip">Zip Code</string>
@@ -55,11 +56,12 @@
     <string name="inputview_error_message_card_number">Card Number is not valid.</string>
     <string name="inputview_error_message_code">Enter Code</string>
     <string name="inputview_error_message_cvv">CVV is not valid.</string>
-    <string name="inputview_error_message_email">Make sure you entered your email address correctly.</string>
+    <string name="inputview_error_message_email">Please enter a valid Email.</string>
     <string name="inputview_error_message_expiration">Expiration date is not valid</string>
     <string name="inputview_error_message_first_name">First name is not valid</string>
     <string name="inputview_error_message_last_name">Last name is not valid</string>
-    <string name="inputview_error_message_password">Password must be at least 6 characters</string>
+    <string name="inputview_error_message_password">The password must be at least 6 characters.</string>
+    <string name="inputview_error_message_confirm_password">Your password and confirm password do not match.</string>
     <string name="inputview_error_message_phone_number">Phone number is not valid</string>
     <string name="inputview_error_message_zip">Zip Code is not valid.</string>
 
@@ -109,8 +111,10 @@
 
     <string name="register_title">Register</string>
     <string name="register_sign_in_label">Already have an account? <b><u>Log in</u></b></string>
-    <string name="register_term_label">Agree to <b><u>Term &amp; Conditions</u></b></string>
+    <string name="register_terms">Agree to Terms &amp; Conditions</string>
+    <string name="register_terms_conditions">Terms &amp; Conditions</string>
     <string name="register_create_account_button_label">Create Account</string>
+    <string name="register_terms_conditions_error">Please select Terms &amp; Conditions.</string>
 
     <string name="email_forgot_title">Forgot\nPassword</string>
     <string name="email_verify_title">Have a TRX Code?</string>

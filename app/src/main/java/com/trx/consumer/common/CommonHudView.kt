@@ -22,11 +22,11 @@ class CommonHudView @JvmOverloads constructor(
 
     fun show() {
         viewBinding.viewMain.visibility = View.VISIBLE
-        viewBinding.animationView.playAnimation()
+        // viewBinding.animationView.playAnimation()
     }
 
     fun hide() {
-        viewBinding.animationView.pauseAnimation()
+        // viewBinding.animationView.pauseAnimation()
         viewBinding.viewMain.visibility = View.GONE
     }
 

@@ -56,6 +56,10 @@ enum class InputViewState(val placeholder: Int, vararg val type: Int) {
         R.string.inputview_placeholder_password,
         InputType.TYPE_TEXT_VARIATION_PASSWORD
     ),
+    CONFIRM_PASSWORD(
+        R.string.inputview_placeholder_confirm_password,
+        InputType.TYPE_TEXT_VARIATION_PASSWORD
+    ),
     PHONE(
         R.string.inputview_placeholder_phone,
         InputType.TYPE_CLASS_PHONE
@@ -80,6 +84,7 @@ enum class InputViewState(val placeholder: Int, vararg val type: Int) {
             EXPIRATION -> R.string.inputview_error_message_expiration
             LAST -> R.string.inputview_error_message_last_name
             PASSWORD -> R.string.inputview_error_message_password
+            CONFIRM_PASSWORD -> R.string.inputview_error_message_confirm_password
             PHONE -> R.string.inputview_error_message_phone_number
             ZIPCODE -> R.string.inputview_error_message_zip
             else -> R.string.content_blank
