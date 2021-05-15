@@ -25,7 +25,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="15dp"
             android:layout_marginBottom="10dp"
-            android:src="@mipmap/ic_launcher_foreground"
+            android:src="@drawable/ic_img_logo_splash"
             app:layout_constraintBottom_toTopOf="@id/lblWelcome"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -60,7 +60,8 @@
             android:fontFamily="@font/atcarquette_bold"
             android:gravity="center_vertical"
             android:text="@string/splash_continue_label"
-            android:textSize="12sp" />
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
 
         <com.trx.consumer.common.CommonButton
             android:id="@+id/btnEmail"
