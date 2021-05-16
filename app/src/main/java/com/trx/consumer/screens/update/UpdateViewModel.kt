@@ -73,19 +73,21 @@ class UpdateViewModel @ViewModelInject constructor(
     fun doLoadView() {
         viewModelScope.launch {
             eventLoadState.postValue(state)
-            eventShowHud.postValue(true)
-            val response = backendManager.user()
-            eventShowHud.postValue(false)
-            if (response.isSuccess) {
-                val model = UserResponseModel.parse(response.responseString)
-                model.user.let {
-                    firstName = it.firstName
-                    lastName = it.lastName
-                    birthday = it.birthday
-                    zipCode = it.zipCode
-                    eventLoadUser.postValue(it)
-                }
-            } else eventLoadError.postValue("There was an error")
+            if (state == UpdateViewState.EDIT) {
+                eventShowHud.postValue(true)
+                val response = backendManager.user()
+                eventShowHud.postValue(false)
+                if (response.isSuccess) {
+                    val model = UserResponseModel.parse(response.responseString)
+                    model.user.let {
+                        firstName = it.firstName
+                        lastName = it.lastName
+                        birthday = it.birthday
+                        zipCode = it.zipCode
+                        eventLoadUser.postValue(it)
+                    }
+                } else eventLoadError.postValue("There was an error")
+            }
         }
     }
 
@@ -94,7 +96,7 @@ class UpdateViewModel @ViewModelInject constructor(
     }
 
     fun doTapContinue() {
-        doCallContinue()
+        doCallUpdate()
     }
 
     fun doTapCheckbox(isChecked: Boolean) {
@@ -115,7 +117,7 @@ class UpdateViewModel @ViewModelInject constructor(
         eventUpdateDate.postValue(birthday)
     }
 
-    private fun doCallContinue() {
+    private fun doCallUpdate() {
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = backendManager.update(params)
