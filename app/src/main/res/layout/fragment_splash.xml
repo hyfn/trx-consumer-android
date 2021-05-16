@@ -56,19 +56,20 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/atcarquette_bold"
             android:gravity="center_vertical"
             android:text="@string/splash_continue_label"
             android:textSize="11sp"
-            tools:ignore="SmallSp" />
+            tools:ignore="SmallSp"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <com.trx.consumer.common.CommonButton
             android:id="@+id/btnEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
             android:fontFamily="@font/atcarquette_bold"
             android:gravity="center"
