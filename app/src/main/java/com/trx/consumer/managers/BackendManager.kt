@@ -99,14 +99,6 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
 
     // TODO: Temporary method used in UpdateViewModel
     suspend fun update(params: HashMap<String, Any>): ResponseModel {
-        cacheManager.user()?.apply {
-            firstName = params["firstName"] as String
-            lastName = params["lastName"] as String
-            birthday = params["birthday"] as String
-        }?.let {
-            cacheManager.user(it)
-        }
-
         val path = EndpointModel.UPDATE.path
         return call(RequestModel(endpoint = EndpointModel.UPDATE, path = path, params = params))
     }
