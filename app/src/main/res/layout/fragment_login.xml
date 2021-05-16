@@ -156,9 +156,6 @@
 
     <com.trx.consumer.common.CommonHudView
         android:id="@+id/hudView"
-        style="@style/MatchParentEdgesViewStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+        style="@style/MatchParentDimensionsViewStyle" />
 
 </com.trx.consumer.common.CommonView>

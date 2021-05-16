@@ -108,4 +108,10 @@
         android:label="DatePickerFragment"
         tools:layout="@layout/fragment_date_picker" />
 
+    <dialog
+        android:id="@+id/error_fragment"
+        android:name="com.trx.consumer.screens.erroralert.ErrorAlertFragment"
+        android:label="ErrorAlertFragment"
+        tools:layout="@layout/fragment_error_alert"/>
+
 </navigation>
