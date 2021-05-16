@@ -8,6 +8,7 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentUpdateBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.UserModel
@@ -70,10 +71,7 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
     private val handleLoadState = Observer<UpdateViewState> {
         viewBinding.apply {
             btnContinue.text = getString(it.buttonTitle)
-            if (it == UpdateViewState.CREATE) {
-                lblAgreement.isVisible = true
-                cbAgreement.isVisible = true
-            }
+            viewAgreement.isHidden = (it == UpdateViewState.EDIT)
         }
     }
 
