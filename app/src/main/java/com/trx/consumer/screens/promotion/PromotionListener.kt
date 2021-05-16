@@ -1,8 +1,8 @@
 package com.trx.consumer.screens.promotion
 
-import com.trx.consumer.models.common.PromotionModel
+import com.trx.consumer.models.common.PromoModel
 
 interface PromotionListener {
 
-    fun doTapPromotion(model: PromotionModel)
+    fun doTapPromo(model: PromoModel)
 }

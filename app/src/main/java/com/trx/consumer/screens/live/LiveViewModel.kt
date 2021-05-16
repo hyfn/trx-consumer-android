@@ -2,7 +2,7 @@ package com.trx.consumer.screens.live
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.models.common.PromotionModel
+import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.screens.liveworkout.LiveWorkoutListener
@@ -19,7 +19,7 @@ class LiveViewModel :
 
     val eventLoadView = CommonLiveEvent<Void>()
 
-    val eventLoadPromotions = CommonLiveEvent<List<PromotionModel>>()
+    val eventLoadPromotions = CommonLiveEvent<List<PromoModel>>()
     val eventLoadTrainers = CommonLiveEvent<List<TrainerModel>>()
     val eventLoadWorkoutsToday = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadWorkoutsTomorrow = CommonLiveEvent<List<WorkoutModel>>()
@@ -33,7 +33,7 @@ class LiveViewModel :
     }
 
     fun doLoadPromotions() {
-        eventLoadPromotions.postValue(PromotionModel.testList(5))
+        eventLoadPromotions.postValue(PromoModel.testList(5))
     }
 
     fun doLoadSessions() {
@@ -53,6 +53,6 @@ class LiveViewModel :
 
     override fun doTapTrainerProfile(model: TrainerModel) {}
 
-    override fun doTapPromotion(model: PromotionModel) {}
+    override fun doTapPromo(model: PromoModel) {}
     //endregion
 }

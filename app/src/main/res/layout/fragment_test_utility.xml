@@ -126,7 +126,7 @@
                 app:layout_constraintTop_toBottomOf="@id/rvVideoWorkouts" />
 
             <com.trx.consumer.common.CommonRecyclerView
-                android:id="@+id/rvPromotions"
+                android:id="@+id/rv_promos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -145,7 +145,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rvPromotions" />
+                app:layout_constraintTop_toBottomOf="@id/rv_promos" />
 
             <com.trx.consumer.common.CommonButton
                 android:id="@+id/btnCards"

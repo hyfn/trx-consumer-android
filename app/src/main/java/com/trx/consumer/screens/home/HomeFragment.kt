@@ -13,10 +13,10 @@ import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.UserModel
-import com.trx.consumer.models.common.PromotionModel
+import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.VideoModel
-import com.trx.consumer.screens.promotion.PromotionAdapter
-import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
+import com.trx.consumer.screens.promotion.PromoAdapter
+import com.trx.consumer.screens.videoworkout.VideoAdapter
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
@@ -24,40 +24,38 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentHomeBinding::bind)
 
-    private lateinit var promotionTopAdapter: PromotionAdapter
-    private lateinit var onDemandAdapter: VideoWorkoutAdapter
-    private lateinit var promotionBottomAdapter: PromotionAdapter
+    private lateinit var videosAdapter: VideoAdapter
+    private lateinit var promoAdapter: PromoAdapter
 
     //endregion
 
     //region Setup
     override fun bind() {
-        promotionTopAdapter = PromotionAdapter(viewModel) { lifecycleScope }
-        onDemandAdapter = VideoWorkoutAdapter(viewModel) { lifecycleScope }
-        promotionBottomAdapter = PromotionAdapter(viewModel) { lifecycleScope }
+        videosAdapter = VideoAdapter(viewModel) { lifecycleScope }
+        promoAdapter = PromoAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
             btnTest.action { viewModel.doTapTest() }
-            viewBanner.btnPrimary.action { viewModel.doTapPrimary() }
-            viewOnDemand.rvVideoWorkouts.adapter = onDemandAdapter
-            viewForYou.rvPromotions.adapter = promotionBottomAdapter
+            viewBanner.btnPrimary.action { viewModel.doTapBanner() }
+            viewVideos.rvVideoWorkouts.adapter = videosAdapter
+            viewPromos.rvPromos.adapter = promoAdapter
         }
 
         viewModel.apply {
             eventTapTest.observe(viewLifecycleOwner, handleTapTest)
 
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-            eventLoadOnDemand.observe(viewLifecycleOwner, handleOnDemand)
-            eventLoadPromotionsBottom.observe(viewLifecycleOwner, handleLoadPromotionsBottom)
+            eventLoadVideos.observe(viewLifecycleOwner, handleLoadVideos)
+            eventLoadPromos.observe(viewLifecycleOwner, handleLoadPromos)
             eventLoadUser.observe(viewLifecycleOwner, handleLoadUser)
-            eventLoadBannerView.observe(viewLifecycleOwner, handleLoadBannerView)
+            eventLoadBanner.observe(viewLifecycleOwner, handleLoadBanner)
 
-            eventTapPrimary.observe(viewLifecycleOwner, handleTapPrimary)
+            eventTapBanner.observe(viewLifecycleOwner, handleTapBanner)
 
             doLoadView()
             doLoadBanner()
-            doLoadOnDemand()
-            doLoadPromotionsBottom()
+            doLoadVideos()
+            doLoadPromos()
         }
     }
     //endregion
@@ -76,46 +74,46 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
     }
 
-    private val handleOnDemand = Observer<List<VideoModel>> { workouts ->
-        loadOnDemand(workouts)
+    private val handleLoadVideos = Observer<List<VideoModel>> { workouts ->
+        loadVideos(workouts)
     }
 
-    private val handleLoadPromotionsBottom = Observer<List<PromotionModel>> { promotions ->
-        loadPromotionsBottom(promotions)
+    private val handleLoadPromos = Observer<List<PromoModel>> { promotions ->
+        loadPromos(promotions)
     }
 
     private val handleLoadUser = Observer<UserModel> { user ->
         loadUser(user)
     }
 
-    private val handleLoadBannerView = Observer<Boolean> { show ->
+    private val handleLoadBanner = Observer<Boolean> { show ->
         viewBinding.apply {
             viewBanner.viewMain.isVisible = show
             viewBanner.viewMain.requestLayout()
         }
     }
 
-    private val handleTapPrimary = Observer<Void> {}
+    private val handleTapBanner = Observer<Void> {}
 
     //endregion
 
     //region Functions
 
-    private fun loadOnDemand(workouts: List<VideoModel>) {
+    private fun loadVideos(workouts: List<VideoModel>) {
         val hide = workouts.isEmpty()
-        onDemandAdapter.update(workouts)
+        videosAdapter.update(workouts)
         viewBinding.apply {
-            viewOnDemand.lblTitle.text = getString(R.string.home_on_demand_title_label)
+            viewVideos.lblTitle.text = getString(R.string.home_on_demand_title_label)
             imgLineOnDemand.isHidden = hide
-            viewOnDemand.viewMain.isHidden = hide
+            viewVideos.viewMain.isHidden = hide
         }
     }
 
-    private fun loadPromotionsBottom(promotions: List<PromotionModel>) {
-        promotionBottomAdapter.update(promotions)
+    private fun loadPromos(promos: List<PromoModel>) {
+        promoAdapter.update(promos)
         viewBinding.apply {
-            viewForYou.lblTitle.text = getString(R.string.home_promotions_top_title_label)
-            viewForYou.viewMain.isHidden = promotions.isEmpty()
+            viewPromos.lblTitle.text = getString(R.string.home_promotions_top_title_label)
+            viewPromos.viewMain.isHidden = promos.isEmpty()
         }
     }
 
