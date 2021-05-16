@@ -31,6 +31,8 @@ class HomeViewModel :
     val eventLoadLive = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadOnDemand = CommonLiveEvent<List<VideoModel>>()
     val eventLoadUser = CommonLiveEvent<UserModel>()
+    val eventShowBannerView = CommonLiveEvent<Boolean>()
+    val eventLoadMore = CommonLiveEvent<Void>()
 
     //endregion
 
@@ -39,6 +41,7 @@ class HomeViewModel :
     fun doLoadView() {
         eventLoadView.call()
         eventLoadUser.postValue(UserModel.test())
+        eventShowBannerView.postValue(true)
     }
 
     fun doTapTest() {
@@ -67,6 +70,10 @@ class HomeViewModel :
 
     fun doLoadOnDemand() {
         eventLoadOnDemand.postValue(VideoModel.testList(5))
+    }
+
+    fun doLoadMore() {
+        eventLoadMore.call()
     }
 
     override fun doTapPromotion(model: PromotionModel) {}

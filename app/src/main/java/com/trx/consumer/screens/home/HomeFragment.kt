@@ -1,5 +1,6 @@
 package com.trx.consumer.screens.home
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -47,13 +48,13 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
         viewBinding.apply {
             btnTest.action { viewModel.doTapTest() }
-
             viewForYouTop.rvPromotions.adapter = promotionTopAdapter
             viewUpcoming.rvVirtualWorkouts.adapter = upcomingAdapter
             viewBookWith.rvVirtualWorkouts.adapter = bookWithAdapter
             viewLive.rvLiveWorkouts.adapter = liveAdapter
             viewOnDemand.rvVideoWorkouts.adapter = onDemandAdapter
             viewForYouBottom.rvPromotions.adapter = promotionBottomAdapter
+            viewBanner.btnPrimary.action { viewModel.doLoadMore() }
         }
 
         viewModel.apply {
@@ -67,6 +68,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             eventLoadOnDemand.observe(viewLifecycleOwner, handleOnDemand)
             eventLoadPromotionsBottom.observe(viewLifecycleOwner, handleLoadPromotionsBottom)
             eventLoadUser.observe(viewLifecycleOwner, handleLoadUser)
+            eventShowBannerView.observe(viewLifecycleOwner, handleShowBannerView)
+            eventLoadMore.observe(viewLifecycleOwner, handleLoadMore)
 
             doLoadView()
             doLoadPromotionsTop()
@@ -122,6 +125,16 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private val handleLoadUser = Observer<UserModel> { user ->
         loadUser(user)
+    }
+
+    private val handleShowBannerView = Observer<Boolean> { show ->
+        viewBinding.apply {
+            viewBanner.viewMain.isVisible = show
+            viewBanner.viewMain.requestLayout()
+        }
+    }
+
+    private val handleLoadMore = Observer<Void> {
     }
 
     //endregion

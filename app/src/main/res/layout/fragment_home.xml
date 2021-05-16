@@ -107,11 +107,18 @@
             </com.trx.consumer.common.CommonView>
 
             <include
+                android:id="@+id/viewBanner"
+                layout="@layout/layout_banner_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/viewUserInfo"/>
+
+            <include
                 android:id="@+id/viewForYouTop"
                 layout="@layout/layout_promotion_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/viewUserInfo" />
+                app:layout_constraintTop_toBottomOf="@id/viewBanner" />
 
             <com.trx.consumer.common.CommonImageView
                 android:id="@+id/imgLineForYouTop"
