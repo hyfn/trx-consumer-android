@@ -92,7 +92,7 @@ class UpdateViewModel @ViewModelInject constructor(
             lastName.isNotEmpty() &&
             birthday.isNotEmpty() &&
             zipCode.isNotEmpty() &&
-            (if (state == UpdateViewState.CREATE) true else checked)
+            (if (state == UpdateViewState.CREATE) checked else true)
         eventLoadButton.postValue(enabled)
     }
 
