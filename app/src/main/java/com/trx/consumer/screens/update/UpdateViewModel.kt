@@ -6,6 +6,8 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.format
 import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.models.UserModel
+import com.trx.consumer.models.responses.UserResponseModel
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
 import kotlinx.coroutines.launch
@@ -46,7 +48,8 @@ class UpdateViewModel @ViewModelInject constructor(
 
     //region Events
 
-    val eventLoadView = CommonLiveEvent<UpdateViewState>()
+    val eventLoadState = CommonLiveEvent<UpdateViewState>()
+    val eventLoadUser = CommonLiveEvent<UserModel>()
     val eventLoadButton = CommonLiveEvent<Boolean>()
     val eventLoadSuccess = CommonLiveEvent<String>()
     val eventLoadError = CommonLiveEvent<String>()
@@ -66,7 +69,22 @@ class UpdateViewModel @ViewModelInject constructor(
     //region Actions
 
     fun doLoadView() {
-        eventLoadView.postValue(state)
+        viewModelScope.launch {
+            eventLoadState.postValue(state)
+            eventShowHud.postValue(true)
+            val response = backendManager.user()
+            eventShowHud.postValue(false)
+            if (response.isSuccess) {
+                val model = UserResponseModel.parse(response.responseString)
+                model.user.let {
+                    firstName = it.firstName
+                    lastName = it.lastName
+                    birthday = it.birthday
+                    zipCode = it.zipCode
+                    eventLoadUser.postValue(it)
+                }
+            } else eventLoadError.postValue("There was an error")
+        }
     }
 
     fun doTapBack() {

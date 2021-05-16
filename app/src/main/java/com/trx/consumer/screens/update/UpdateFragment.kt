@@ -10,6 +10,7 @@ import com.trx.consumer.databinding.FragmentUpdateBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.UserModel
 import com.trx.consumer.models.params.UpdateParamsModel
 
 class UpdateFragment : BaseFragment(R.layout.fragment_update) {
@@ -42,7 +43,8 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
         viewModel.apply {
             state = model.state
 
-            eventLoadView.observe(viewLifecycleOwner, handleLoadView)
+            eventLoadState.observe(viewLifecycleOwner, handleLoadState)
+            eventLoadUser.observe(viewLifecycleOwner, handleLoadUser)
             eventLoadButton.observe(viewLifecycleOwner, handleLoadButton)
             eventLoadSuccess.observe(viewLifecycleOwner, handleLoadSuccess)
             eventLoadError.observe(viewLifecycleOwner, handleLoadError)
@@ -65,13 +67,22 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
 
     //region Handlers
 
-    private val handleLoadView = Observer<UpdateViewState> {
+    private val handleLoadState = Observer<UpdateViewState> {
         viewBinding.apply {
             btnContinue.text = getString(it.buttonTitle)
             if (it == UpdateViewState.CREATE) {
                 lblAgreement.isVisible = true
                 cbAgreement.isVisible = true
             }
+        }
+    }
+
+    private val handleLoadUser = Observer<UserModel> { user ->
+        viewBinding.apply {
+            ivFirstName.text = user.firstName
+            ivLastName.text = user.lastName
+            ivBirthDate.text = user.birthday
+            ivZipCode.text = user.zipCode
         }
     }
 
