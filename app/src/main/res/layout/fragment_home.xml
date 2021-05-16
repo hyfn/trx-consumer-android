@@ -36,22 +36,12 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.trx.consumer.common.CommonImageView
-                    android:id="@+id/igmUserPhoto"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="30dp"
-                    android:src="@drawable/ic_img_placeholder"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:shapeAppearance="@style/CircularAppearance" />
-
                 <com.trx.consumer.common.CommonLabel
                     android:id="@+id/lblUserName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="60dp"
                     android:layout_marginEnd="20dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/atcarquette_semibold"
@@ -59,50 +49,25 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/igmUserPhoto"
-                    app:layout_constraintTop_toTopOf="@id/igmUserPhoto"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="Welcome, Kristoph" />
 
                 <com.trx.consumer.common.CommonLabel
-                    android:id="@+id/lblSessions"
+                    android:id="@+id/lblPlan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/atcarquette_bold"
                     android:maxLines="1"
-                    android:textColor="@color/greyLight"
+                    android:textColor="@color/grey"
                     android:textSize="11sp"
-                    app:layout_constraintStart_toEndOf="@id/igmUserPhoto"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lblUserName"
-                    tools:text="0 SESSIONS" />
-
-                <com.trx.consumer.common.CommonLabel
-                    android:id="@+id/lblClasses"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/atcarquette_bold"
-                    android:textColor="@color/greyLight"
-                    android:textSize="11sp"
-                    app:layout_constraintStart_toEndOf="@id/lblSessions"
-                    app:layout_constraintTop_toBottomOf="@id/lblUserName"
-                    tools:text="0 CLASSES" />
-
-                <com.trx.consumer.common.CommonLabel
-                    android:id="@+id/lblWorkouts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/atcarquette_bold"
-                    android:textColor="@color/greyLight"
-                    android:textSize="11sp"
-                    app:layout_constraintStart_toEndOf="@id/lblClasses"
-                    app:layout_constraintTop_toBottomOf="@id/lblUserName"
-                    tools:text="0 WORKOUTS" />
+                    tools:text="UNLIMITED" />
 
             </com.trx.consumer.common.CommonView>
 

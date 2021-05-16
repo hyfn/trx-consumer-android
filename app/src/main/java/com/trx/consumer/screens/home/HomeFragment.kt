@@ -90,13 +90,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private val handleLoadView = Observer<Void> {
-        viewBinding.apply {
-            with(requireContext()) {
-                lblClasses.text = getString(R.string.home_user_classes_label, 0)
-                lblSessions.text = getString(R.string.home_user_sessions_label, 0)
-                lblWorkouts.text = getString(R.string.home_user_workouts_label, 0)
-            }
-        }
+       viewBinding.lblPlan.text = "UNLIMITED" // Testing should be removed
     }
 
     private val handleLoadPromotionsTop = Observer<List<PromotionModel>> { promotions ->
