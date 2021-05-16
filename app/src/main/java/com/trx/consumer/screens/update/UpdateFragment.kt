@@ -14,8 +14,14 @@ import com.trx.consumer.models.params.UpdateParamsModel
 
 class UpdateFragment : BaseFragment(R.layout.fragment_update) {
 
+    //region Objects
+
     private val viewModel: UpdateViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentUpdateBinding::bind)
+
+    //endregion
+
+    //region Initializers
 
     override fun bind() {
         val model = NavigationManager.shared.params(this) as UpdateParamsModel
@@ -30,37 +36,38 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
                 viewModel.doTapCheckbox(isChecked)
             }
             btnBack.action { viewModel.doTapBack() }
-            btnSave.action { viewModel.doTapSave() }
+            btnContinue.action { viewModel.doTapContinue() }
         }
 
         viewModel.apply {
             state = model.state
 
-            eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-            eventUpdateDate.observe(viewLifecycleOwner, handleUpdateDate)
-            eventShowHud.observe(viewLifecycleOwner, handleShowHud)
             eventLoadButton.observe(viewLifecycleOwner, handleLoadButton)
             eventLoadSuccess.observe(viewLifecycleOwner, handleLoadSuccess)
             eventLoadError.observe(viewLifecycleOwner, handleLoadError)
+
+            eventTapBack.observe(viewLifecycleOwner, handleTapBack)
+            eventTapTermsAndConditions.observe(viewLifecycleOwner, handleTapTermsAndConditions)
+            eventTapWaivers.observe(viewLifecycleOwner, handleTapWaiver)
+
+            eventUpdateDate.observe(viewLifecycleOwner, handleUpdateDate)
+
             eventShowOnboarding.observe(viewLifecycleOwner, handleShowOnboarding)
             eventShowVerification.observe(viewLifecycleOwner, handleShowVerification)
+            eventShowHud.observe(viewLifecycleOwner, handleShowHud)
 
             doLoadView()
         }
     }
 
-    override fun onBackPressed() {
-        viewModel.doTapBack()
-    }
+    //endregion
 
-    private val handleTapBack = Observer<Void> {
-        NavigationManager.shared.dismiss(this)
-    }
+    //region Handlers
 
     private val handleLoadView = Observer<UpdateViewState> {
         viewBinding.apply {
-            btnSave.text = getString(it.buttonTitle)
+            btnContinue.text = getString(it.buttonTitle)
             if (it == UpdateViewState.CREATE) {
                 lblAgreement.isVisible = true
                 cbAgreement.isVisible = true
@@ -69,7 +76,7 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
     }
 
     private val handleLoadButton = Observer<Boolean> {
-        viewBinding.btnSave.isEnabled = it
+        viewBinding.btnContinue.isEnabled = it
     }
 
     private val handleLoadSuccess = Observer<String> {
@@ -80,6 +87,28 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
     private val handleLoadError = Observer<String> {
         LogManager.log("handleLoadError: $it")
         // TODO: ErrorAlertModel modal presentation
+    }
+
+    private val handleTapBack = Observer<Void> {
+        NavigationManager.shared.dismiss(this)
+    }
+
+    override fun onBackPressed() {
+        viewModel.doTapBack()
+    }
+
+    private val handleTapTermsAndConditions = Observer<Void> {
+        LogManager.log("handleTapTermsAndConditions")
+        //  TODO: Add call to showTermWaivers()
+    }
+
+    private val handleTapWaiver = Observer<Void> {
+        LogManager.log("handleTapWaiver")
+        //  TODO: Add call to showTermWaivers()
+    }
+
+    private val handleUpdateDate = Observer<String> {
+        viewBinding.ivBirthDate.text = it
     }
 
     private val handleShowOnboarding = Observer<Void> {
@@ -94,11 +123,9 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
         // TODO: EmailFragment CODE state presentation
     }
 
-    private val handleUpdateDate = Observer<String> {
-        viewBinding.ivBirthDate.text = it
-    }
-
     private val handleShowHud = Observer<Boolean> { show ->
         viewBinding.hudView.isVisible = show
     }
+
+    //endregion
 }

@@ -30,7 +30,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnSave"
+        app:layout_constraintBottom_toTopOf="@+id/btnContinue"
         app:layout_constraintTop_toBottomOf="@+id/viewNavBar">
 
         <com.trx.consumer.common.CommonView
@@ -158,7 +158,7 @@
     </ScrollView>
 
     <com.trx.consumer.common.CommonButton
-        android:id="@+id/btnSave"
+        android:id="@+id/btnContinue"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
@@ -170,7 +170,7 @@
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="13sp"
-        android:backgroundTint="@color/save_button_tint_color"
+        android:backgroundTint="@color/continue_button_state_color"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="@string/update_save_label" />
 

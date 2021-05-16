@@ -16,31 +16,65 @@ class UpdateViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
 ) : BaseViewModel(), InputViewListener {
 
+    //region Objects
+
     var state = UpdateViewState.CREATE
+
+    //endregion
+
+    //region Variables
+
     private var firstName: String = ""
     private var lastName: String = ""
     private var birthday: String = ""
     private var zipCode: String = ""
     private var checked = false
 
-    val eventLoadView = CommonLiveEvent<UpdateViewState>()
-    val eventTapBack = CommonLiveEvent<Void>()
-    val eventUpdateDate = CommonLiveEvent<String>()
-    val eventShowHud = CommonLiveEvent<Boolean>()
-    val eventLoadButton = CommonLiveEvent<Boolean>()
+    //endregion
 
+    //region Params
+
+    private val params: HashMap<String, Any>
+        get() = hashMapOf(
+            "firstName" to firstName,
+            "lastName" to lastName,
+            "birthday" to birthday,
+            "postalCode" to zipCode
+        )
+
+    //endregion
+
+    //region Events
+
+    val eventLoadView = CommonLiveEvent<UpdateViewState>()
+    val eventLoadButton = CommonLiveEvent<Boolean>()
     val eventLoadSuccess = CommonLiveEvent<String>()
     val eventLoadError = CommonLiveEvent<String>()
 
+    val eventTapBack = CommonLiveEvent<Void>()
+    val eventTapTermsAndConditions = CommonLiveEvent<Void>()
+    val eventTapWaivers = CommonLiveEvent<Void>()
+
+    val eventUpdateDate = CommonLiveEvent<String>()
+
     val eventShowOnboarding = CommonLiveEvent<Void>()
     val eventShowVerification = CommonLiveEvent<Void>()
+    val eventShowHud = CommonLiveEvent<Boolean>()
+
+    //endregion
+
+    //region Actions
+
+    fun doLoadView() {
+        eventLoadView.postValue(state)
+    }
 
     fun doTapBack() {
         eventTapBack.call()
     }
 
-    fun doTapSave() {
-        doCallSave()
+    fun doTapContinue() {
+        doCallContinue()
     }
 
     fun doTapCheckbox(isChecked: Boolean) {
@@ -48,14 +82,23 @@ class UpdateViewModel @ViewModelInject constructor(
         validate()
     }
 
-    fun doLoadView() {
-        eventLoadView.postValue(state)
+    fun doTapTermsAndConditions() {
+        eventTapTermsAndConditions.call()
     }
 
-    private fun doCallSave() {
+    fun doTapWaivers() {
+        eventTapWaivers.call()
+    }
+
+    override fun doUpdateDate(date: Date, identifier: InputViewState) {
+        val birthday = date.format(format = identifier.dateFormat, zone = TimeZone.getDefault())
+        eventUpdateDate.postValue(birthday)
+    }
+
+    private fun doCallContinue() {
         viewModelScope.launch {
             eventShowHud.postValue(true)
-            val response = backendManager.save(requestSave)
+            val response = backendManager.update(params)
             eventShowHud.postValue(false)
             if (response.isSuccess) {
                 when (state) {
@@ -96,16 +139,5 @@ class UpdateViewModel @ViewModelInject constructor(
         eventLoadButton.postValue(enabled)
     }
 
-    override fun doUpdateDate(date: Date, identifier: InputViewState) {
-        val birthday = date.format(format = identifier.dateFormat, zone = TimeZone.getDefault())
-        eventUpdateDate.postValue(birthday)
-    }
-
-    private val requestSave: HashMap<String, Any>
-        get() = hashMapOf(
-            "firstName" to firstName,
-            "lastName" to lastName,
-            "birthday" to birthday,
-            "postalCode" to zipCode
-        )
+    //endregion
 }

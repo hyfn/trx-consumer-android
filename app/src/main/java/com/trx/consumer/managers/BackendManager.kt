@@ -98,7 +98,7 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
     }
 
     // TODO: Temporary method used in UpdateViewModel
-    suspend fun save(params: HashMap<String, Any>): ResponseModel {
+    suspend fun update(params: HashMap<String, Any>): ResponseModel {
         cacheManager.user()?.apply {
             firstName = params["firstName"] as String
             lastName = params["lastName"] as String
