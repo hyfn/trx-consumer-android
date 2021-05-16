@@ -79,63 +79,11 @@
                 app:layout_constraintTop_toBottomOf="@id/viewUserInfo"/>
 
             <include
-                android:id="@+id/viewForYouTop"
-                layout="@layout/layout_promotion_section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/viewBanner" />
-
-            <com.trx.consumer.common.CommonImageView
-                android:id="@+id/imgLineForYouTop"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/greyLight"
-                app:layout_constraintTop_toBottomOf="@id/viewForYouTop" />
-
-            <include
-                android:id="@+id/viewUpcoming"
-                layout="@layout/layout_virtual_workout_section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/imgLineForYouTop" />
-
-            <include
-                android:id="@+id/viewBookWith"
-                layout="@layout/layout_virtual_workout_section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/viewUpcoming" />
-
-            <com.trx.consumer.common.CommonImageView
-                android:id="@+id/imgLineBookWith"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/greyLight"
-                app:layout_constraintTop_toBottomOf="@id/viewBookWith" />
-
-            <include
-                android:id="@+id/viewLive"
-                layout="@layout/layout_live_workout_section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/imgLineBookWith" />
-
-            <com.trx.consumer.common.CommonImageView
-                android:id="@+id/imgLineLive"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/greyLight"
-                app:layout_constraintTop_toBottomOf="@id/viewLive" />
-
-            <include
                 android:id="@+id/viewOnDemand"
                 layout="@layout/layout_video_workout_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/imgLineLive" />
+                app:layout_constraintTop_toBottomOf="@id/viewBanner" />
 
             <com.trx.consumer.common.CommonImageView
                 android:id="@+id/imgLineOnDemand"
@@ -146,11 +94,19 @@
                 app:layout_constraintTop_toBottomOf="@id/viewOnDemand" />
 
             <include
-                android:id="@+id/viewForYouBottom"
+                android:id="@+id/viewForYou"
                 layout="@layout/layout_promotion_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/imgLineOnDemand" />
+
+            <com.trx.consumer.common.CommonImageView
+                android:id="@+id/imgLineForYou"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/greyLight"
+                app:layout_constraintTop_toBottomOf="@id/viewForYou" />
 
         </com.trx.consumer.common.CommonView>
 

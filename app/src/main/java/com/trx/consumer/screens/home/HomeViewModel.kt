@@ -5,18 +5,12 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.models.UserModel
 import com.trx.consumer.models.common.PromotionModel
 import com.trx.consumer.models.common.VideoModel
-import com.trx.consumer.models.common.VirtualWorkoutModel
-import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.screens.liveworkout.LiveWorkoutListener
 import com.trx.consumer.screens.promotion.PromotionListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
-import com.trx.consumer.screens.virtualworkout.VirtualWorkoutListener
 
 class HomeViewModel :
     BaseViewModel(),
     PromotionListener,
-    VirtualWorkoutListener,
-    LiveWorkoutListener,
     VideoWorkoutListener {
 
     //region Events
@@ -24,15 +18,12 @@ class HomeViewModel :
     val eventTapTest = CommonLiveEvent<Void>()
 
     val eventLoadView = CommonLiveEvent<Void>()
-    val eventLoadPromotionsTop = CommonLiveEvent<List<PromotionModel>>()
     val eventLoadPromotionsBottom = CommonLiveEvent<List<PromotionModel>>()
-    val eventLoadUpcoming = CommonLiveEvent<List<VirtualWorkoutModel>>()
-    val eventLoadBookWith = CommonLiveEvent<List<VirtualWorkoutModel>>()
-    val eventLoadLive = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadOnDemand = CommonLiveEvent<List<VideoModel>>()
     val eventLoadUser = CommonLiveEvent<UserModel>()
-    val eventShowBannerView = CommonLiveEvent<Boolean>()
-    val eventLoadMore = CommonLiveEvent<Void>()
+    val eventTapPrimary = CommonLiveEvent<Void>()
+
+    val eventLoadBannerView = CommonLiveEvent<Boolean>()
 
     //endregion
 
@@ -41,51 +32,29 @@ class HomeViewModel :
     fun doLoadView() {
         eventLoadView.call()
         eventLoadUser.postValue(UserModel.test())
-        eventShowBannerView.postValue(true)
     }
 
     fun doTapTest() {
         eventTapTest.call()
     }
 
-    fun doLoadPromotionsTop() {
-        eventLoadPromotionsTop.postValue(PromotionModel.testList(5))
+    fun doLoadBanner() {
+        eventLoadBannerView.postValue(true)
     }
 
     fun doLoadPromotionsBottom() {
         eventLoadPromotionsBottom.postValue(PromotionModel.testList(5))
     }
 
-    fun doLoadUpcoming() {
-        eventLoadUpcoming.postValue(VirtualWorkoutModel.testListVariety())
-    }
-
-    fun doLoadBookWith() {
-        eventLoadBookWith.postValue(VirtualWorkoutModel.testListVariety())
-    }
-
-    fun doLoadLive() {
-        eventLoadLive.postValue(WorkoutModel.testList(5))
-    }
-
     fun doLoadOnDemand() {
         eventLoadOnDemand.postValue(VideoModel.testList(5))
     }
 
-    fun doLoadMore() {
-        eventLoadMore.call()
+    fun doTapPrimary() {
+        eventTapPrimary.call()
     }
 
     override fun doTapPromotion(model: PromotionModel) {}
-
-    override fun doTapPrimary(model: VirtualWorkoutModel) {}
-
-    override fun doTapSelect(model: VirtualWorkoutModel) {}
-
-    override fun doTapBook(model: WorkoutModel) {}
-
-    override fun doTapSelect(model: WorkoutModel) {}
-
     override fun doTapSelect(model: VideoModel) {}
 
     //endregion

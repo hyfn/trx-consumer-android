@@ -35,8 +35,10 @@
     <string name="home_upcoming_title_label">UPCOMING</string>
     <string name="home_book_with_title_label">BOOK WITH</string>
     <string name="home_live_title_label">HOT NEW LIVE CLASSES</string>
-    <string name="home_on_demand_title_label">ON-DEMAND HOT &amp; NEW</string>
+    <string name="home_on_demand_title_label">ON-DEMAND WORKOUTS</string>
     <string name="home_upcoming_button_label">VIEW ALL →</string>
+    <string name="home_dummy_plan_label">UNLIMITED</string>
+
 
     <string name="inputview_placeholder_birthday">Birthday</string>
     <string name="inputview_placeholder_card_number">Card Number</string>
