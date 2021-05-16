@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.update
 
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
@@ -31,9 +30,10 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
         viewBinding.apply {
             ivFirstName.setInputViewListener(viewModel)
             ivLastName.setInputViewListener(viewModel)
-            ivZipCode.setInputViewListener(viewModel)
             ivBirthDate.showDatePicker(this@UpdateFragment)
             ivBirthDate.setInputViewListener(viewModel)
+            ivZipCode.setInputViewListener(viewModel)
+            ivPassword.setInputViewListener(viewModel)
             cbAgreement.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.doTapCheckbox(isChecked)
             }
@@ -81,6 +81,7 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
             ivLastName.text = user.lastName
             ivBirthDate.text = user.birthday
             ivZipCode.text = user.zipCode
+            ivPassword.text = user.password
         }
     }
 
