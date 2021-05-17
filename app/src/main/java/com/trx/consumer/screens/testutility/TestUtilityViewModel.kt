@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
-import com.trx.consumer.models.common.PromotionModel
+import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.models.common.WorkoutModel
@@ -36,7 +36,7 @@ class TestUtilityViewModel @ViewModelInject constructor(
     val eventLoadLiveWorkouts = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadVirtualWorkouts = CommonLiveEvent<List<VirtualWorkoutModel>>()
     val eventLoadVideoWorkouts = CommonLiveEvent<List<VideoModel>>()
-    val eventLoadPromotions = CommonLiveEvent<List<PromotionModel>>()
+    val eventLoadPromotions = CommonLiveEvent<List<PromoModel>>()
 
     //endregion
 
@@ -70,7 +70,7 @@ class TestUtilityViewModel @ViewModelInject constructor(
     }
 
     private fun doLoadPromotions() {
-        eventLoadPromotions.postValue(PromotionModel.testList(5))
+        eventLoadPromotions.postValue(PromoModel.testList(5))
     }
 
     fun doTapBack() {
@@ -111,7 +111,7 @@ class TestUtilityViewModel @ViewModelInject constructor(
 
     override fun doTapSelect(model: VideoModel) {}
 
-    override fun doTapPromotion(model: PromotionModel) {}
+    override fun doTapPromo(model: PromoModel) {}
 
     //endregion
 }

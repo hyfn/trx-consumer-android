@@ -35,8 +35,14 @@
     <string name="home_upcoming_title_label">UPCOMING</string>
     <string name="home_book_with_title_label">BOOK WITH</string>
     <string name="home_live_title_label">HOT NEW LIVE CLASSES</string>
-    <string name="home_on_demand_title_label">ON-DEMAND HOT &amp; NEW</string>
+    <string name="home_on_demand_title_label">ON-DEMAND WORKOUTS</string>
     <string name="home_upcoming_button_label">VIEW ALL →</string>
+    <string name="home_dummy_plan_label">UNLIMITED</string>
+    <string name="home_banner_description_label">Try TRX Training Club and experience LIVE Classes and get matched with a Virtual Personal Trainer for free.</string>
+    <string name="home_banner_btn_label">LEARN MORE</string>
+    <string name="home_banner_title_label">More Ways to Train</string>
+    <string name="home_banner_section_title_label">TRY TRX TRAINING CLUB</string>
+
 
     <string name="inputview_placeholder_birthday">Birthday</string>
     <string name="inputview_placeholder_card_number">Card Number</string>
@@ -153,6 +159,5 @@
     <string name="onboarding_demand_list_text_one">Find new ways to crush your goals on your time, at your pace</string>
     <string name="onboarding_demand_list_text_two">Huge library of exclusive on-demand video workouts from top TRX pros</string>
     <string name="onboarding_demand_list_text_three">Get your heart rate up with tons of diverse workouts to choose from</string>
-
 
 </resources>
