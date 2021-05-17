@@ -2,12 +2,13 @@
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewMain"
     android:layout_width="match_parent"
     android:layout_height="160dp"
     android:layout_marginTop="15dp">
 
     <com.trx.consumer.common.CommonImageView
-        android:id="@+id/imgBg"
+        android:id="@+id/imgPoster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:backgroundTint="@color/black"
@@ -39,7 +40,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="5dp"
-        android:fontFamily="@font/atcarquette_bold"
+        android:fontFamily="@font/atcarquette_semibold"
         android:gravity="center_vertical"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -54,7 +55,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
-        android:fontFamily="@font/atcarquette_bold"
+        android:fontFamily="@font/atcarquette_semibold"
         android:gravity="center_vertical"
         android:textColor="@color/white"
         android:textSize="14sp"

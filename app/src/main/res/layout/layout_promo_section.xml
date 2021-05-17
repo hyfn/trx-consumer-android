@@ -23,7 +23,7 @@
         tools:ignore="SmallSp" />
 
     <com.trx.consumer.common.CommonRecyclerView
-        android:id="@+id/rvPromotions"
+        android:id="@+id/rv_promos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"

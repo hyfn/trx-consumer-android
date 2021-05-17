@@ -8,7 +8,7 @@ import com.trx.consumer.common.CommonLabel
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.extensions.load
 import com.trx.consumer.extensions.upperCased
-import com.trx.consumer.models.common.PromotionModel
+import com.trx.consumer.models.common.PromoModel
 
 class PromotionViewHolder(view: View) : CommonViewHolder(view) {
 
@@ -16,9 +16,9 @@ class PromotionViewHolder(view: View) : CommonViewHolder(view) {
     private val lblTitle: CommonLabel = view.findViewById(R.id.lblTitle)
     private val btnSelect: CommonButton = view.findViewById(R.id.btnSelect)
 
-    fun setup(model: PromotionModel, listener: PromotionListener) {
+    fun setup(model: PromoModel, listener: PromotionListener) {
         imgBg.load(model.imageUrl)
         lblTitle.text(model.title.upperCased())
-        btnSelect.action { listener.doTapPromotion(model) }
+        btnSelect.action { listener.doTapPromo(model) }
     }
 }
