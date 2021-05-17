@@ -1,4 +1,4 @@
-package com.trx.consumer.screens.videoworkout
+package com.trx.consumer.screens.promotion
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,13 +6,13 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.VideoModel
+import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 import java.lang.Exception
 
-class VideoWorkoutAdapter(
-    private val listener: VideoWorkoutListener,
+class PromoAdapter(
+    private val listener: PromotionListener,
     scopeProvider: () -> CoroutineScope
 ) : CommonRecyclerViewAdapter(scopeProvider) {
 
@@ -26,10 +26,10 @@ class VideoWorkoutAdapter(
     override fun createCommonViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         return try {
             when (viewType) {
-                TYPE_ROW -> VideoWorkoutViewHolder(
+                TYPE_ROW -> PromotionViewHolder(
                     LayoutInflater
                         .from(parent.context)
-                        .inflate(R.layout.row_video_workout_collection, parent, false)
+                        .inflate(R.layout.row_promotion_collection, parent, false)
                 )
                 else -> EmptyViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.row_empty, parent, false)
@@ -46,7 +46,7 @@ class VideoWorkoutAdapter(
     override fun onBindViewHolder(holder: CommonViewHolder, position: Int) {
         val item = items[position]
         when (holder) {
-            is VideoWorkoutViewHolder -> holder.setup(item as VideoModel, listener)
+            is PromotionViewHolder -> holder.setup(item as PromoModel, listener)
             is EmptyViewHolder -> holder.setup(true)
         }
     }
@@ -54,10 +54,10 @@ class VideoWorkoutAdapter(
     override fun getItemCount(): Int = items.size
 
     override fun getItemViewType(position: Int): Int {
-        return if (items[position] is VideoModel) TYPE_ROW else TYPE_EMPTY
+        return if (items[position] is PromoModel) TYPE_ROW else TYPE_EMPTY
     }
 
-    fun update(newItems: List<VideoModel>) {
+    fun update(newItems: List<PromoModel>) {
         items.apply {
             clear()
             addAll(newItems)

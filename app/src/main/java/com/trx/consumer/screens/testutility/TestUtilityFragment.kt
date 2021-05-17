@@ -10,7 +10,7 @@ import com.trx.consumer.databinding.FragmentTestUtilityBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.AccountModel
-import com.trx.consumer.models.common.PromotionModel
+import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.models.common.WorkoutModel
@@ -18,9 +18,9 @@ import com.trx.consumer.models.params.ContentParamsModel
 import com.trx.consumer.models.params.UpdateParamsModel
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
-import com.trx.consumer.screens.promotion.PromotionAdapter
+import com.trx.consumer.screens.promotion.PromoAdapter
 import com.trx.consumer.screens.update.UpdateViewState
-import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
+import com.trx.consumer.screens.videoworkout.VideoAdapter
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutAdapter
 
 class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
@@ -31,8 +31,8 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private lateinit var liveWorkoutAdapter: LiveWorkoutAdapter
     private lateinit var virtualWorkoutAdapter: VirtualWorkoutAdapter
-    private lateinit var videoWorkoutAdapter: VideoWorkoutAdapter
-    private lateinit var promotionAdapter: PromotionAdapter
+    private lateinit var videoAdapter: VideoAdapter
+    private lateinit var promoAdapter: PromoAdapter
 
     //endregion
 
@@ -40,8 +40,8 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     override fun bind() {
         liveWorkoutAdapter = LiveWorkoutAdapter(viewModel) { lifecycleScope }
         virtualWorkoutAdapter = VirtualWorkoutAdapter(viewModel) { lifecycleScope }
-        videoWorkoutAdapter = VideoWorkoutAdapter(viewModel) { lifecycleScope }
-        promotionAdapter = PromotionAdapter(viewModel) { lifecycleScope }
+        videoAdapter = VideoAdapter(viewModel) { lifecycleScope }
+        promoAdapter = PromoAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
             btnBack.action { viewModel.doTapBack() }
@@ -52,8 +52,8 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnPlans.action { viewModel.doTapPlans() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
-            rvVideoWorkouts.adapter = videoWorkoutAdapter
-            rvPromotions.adapter = promotionAdapter
+            rvVideoWorkouts.adapter = videoAdapter
+            rvPromos.adapter = promoAdapter
         }
 
         viewModel.apply {
@@ -119,11 +119,11 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleLoadVideoWorkouts = Observer<List<VideoModel>> { videoWorkouts ->
-        videoWorkoutAdapter.update(videoWorkouts)
+        videoAdapter.update(videoWorkouts)
     }
 
-    private val handleLoadPromotions = Observer<List<PromotionModel>> { promotions ->
-        promotionAdapter.update(promotions)
+    private val handleLoadPromotions = Observer<List<PromoModel>> { promotions ->
+        promoAdapter.update(promotions)
     }
 
     //endregion
