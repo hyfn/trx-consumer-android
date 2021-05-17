@@ -186,13 +186,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
-        android:backgroundTint="@color/greyDark"
         android:enabled="false"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="13sp"
+        app:backgroundColor="@color/greyDark"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="@string/update_save_label" />
 
