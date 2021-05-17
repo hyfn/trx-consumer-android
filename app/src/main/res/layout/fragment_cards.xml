@@ -48,7 +48,7 @@
         app:textAllCaps="true" />
 
     <com.trx.consumer.common.CommonLabel
-        android:id="@+id/lblEmpty"
+        android:id="@+id/lblEmptyTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -76,10 +76,11 @@
         app:backgroundColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblTitle">
+        app:layout_constraintTop_toBottomOf="@+id/lblTitle"
+        tools:visibility="visible">
 
         <com.trx.consumer.common.CommonImageView
-            android:id="@+id/ivIcon"
+            android:id="@+id/imgCard"
             android:layout_width="45dp"
             android:layout_height="30dp"
             android:layout_marginStart="30dp"
@@ -98,7 +99,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/ivIcon"
+            app:layout_constraintStart_toEndOf="@+id/imgCard"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="American Express" />
 
@@ -119,7 +120,7 @@
     </com.trx.consumer.common.CommonView>
 
     <com.trx.consumer.common.CommonButton
-        android:id="@+id/btnPayment"
+        android:id="@+id/btnEditCard"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
@@ -144,6 +145,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </com.trx.consumer.common.CommonView>

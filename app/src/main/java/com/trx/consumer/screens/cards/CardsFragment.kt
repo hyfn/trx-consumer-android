@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.cards
 
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
@@ -8,6 +7,7 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentCardsBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.CardModel
@@ -45,40 +45,27 @@ class CardsFragment : BaseFragment(R.layout.fragment_cards) {
     private val handleLoadViewSuccess = Observer<CardModel?> {
         it?.let { model ->
             viewBinding.apply {
-                viewCard.isVisible = true
-                lblEmpty.isVisible = false
-                ivIcon.setImageResource(model.imageName)
+                viewCard.isHidden = false
+                lblEmptyTitle.isHidden = true
+                imgCard.setImageResource(model.imageName)
                 lblType.text = lblType.context.getString(model.typeText)
                 lblNumber.text = model.number
-                btnPayment.text = getString(R.string.cards_update_payment_method_label)
+                btnEditCard.text = getString(R.string.cards_update_payment_method_label)
+                btnEditCard.action { viewModel.doTapReplace() }
             }
         } ?: run {
             viewBinding.apply {
-                viewCard.isVisible = false
-                lblEmpty.isVisible = true
-                btnPayment.text = getString(R.string.cards_add_payment_method_label)
+                viewCard.isHidden = true
+                lblEmptyTitle.isHidden = false
+                btnEditCard.text = getString(R.string.cards_add_payment_method_label)
+                btnEditCard.action { viewModel.doTapAdd() }
             }
         }
-
-        // viewBinding.apply {
-        //     if (it != null) {
-        //         viewCard.isVisible = true
-        //         lblEmpty.isVisible = false
-        //         ivIcon.setImageResource(it.imageName)
-        //         lblType.text = lblType.context.getString(it.typeText)
-        //         lblNumber.text = it.number
-        //         btnPayment.text = getString(R.string.cards_update_payment_method_label)
-        //     } else {
-        //         viewCard.isVisible = false
-        //         lblEmpty.isVisible = true
-        //         btnPayment.text = getString(R.string.cards_add_payment_method_label)
-        //     }
-        // }
     }
 
     private val handleLoadViewFailure = Observer<Void> {
         LogManager.log("handleLoadViewFailure")
-        //  TODO: Add AlertModel
+        //  TODO: Add AlertModel when implemented
 /*        val model =
             AlertModel.error("Could not load cards")
         model.setPrimaryButton(R.string.alert_primary_back) {
