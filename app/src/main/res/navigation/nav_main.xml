@@ -106,7 +106,7 @@
         android:id="@+id/filter_fragment"
         android:name="com.trx.consumer.screens.filter.FilterFragment"
         android:label="FilterFragment"
-        tools:layout="@layout/fragment_filters" />
+        tools:layout="@layout/fragment_filter" />
 
     <dialog
         android:id="@+id/date_picker_fragment"
