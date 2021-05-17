@@ -116,6 +116,7 @@ class UpdateViewModel @ViewModelInject constructor(
     override fun doUpdateDate(date: Date, identifier: InputViewState) {
         val birthday = date.format(format = identifier.dateFormat, zone = TimeZone.getDefault())
         eventUpdateDate.postValue(birthday)
+        validate()
     }
 
     private fun doCallUpdate() {
@@ -154,14 +155,14 @@ class UpdateViewModel @ViewModelInject constructor(
             else -> {
             }
         }
-        if (isValidInput) validate()
+        validate()
     }
 
     private fun validate() {
-        val enabled = firstName.isNotEmpty() &&
-            lastName.isNotEmpty() &&
-            birthday.isNotEmpty() &&
-            zipCode.isNotEmpty() &&
+        val enabled = InputViewState.FIRST.validate(firstName) &&
+            InputViewState.LAST.validate(lastName) &&
+            InputViewState.BIRTHDAY.validate(birthday) &&
+            InputViewState.ZIPCODE.validate(zipCode) &&
             (if (state == UpdateViewState.CREATE) checked else true)
         eventLoadButton.postValue(enabled)
     }
