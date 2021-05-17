@@ -320,37 +320,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblVideo" />
 
-            <com.trx.consumer.common.CommonLabel
-                android:id="@+id/lblVideos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/test_utility_videos_label"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnVideo" />
-
-
-            <com.trx.consumer.common.CommonButton
-                android:id="@+id/btnVideos"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:fontFamily="@font/atcarquette_bold"
-                android:gravity="center"
-                android:text="@string/test_utility_videos_label"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblVideos" />
-
         </com.trx.consumer.common.CommonView>
 
     </androidx.core.widget.NestedScrollView>

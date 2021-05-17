@@ -12,6 +12,7 @@ import com.trx.consumer.databinding.FragmentVideoBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.params.VideoParamsModel
 import com.trx.consumer.screens.video.list.VideoAdapter
 
 class VideoFragment : BaseFragment(R.layout.fragment_video) {
@@ -29,6 +30,7 @@ class VideoFragment : BaseFragment(R.layout.fragment_video) {
             eventLoadWorkouts.observe(viewLifecycleOwner, handleLoadWorkouts)
             eventLoadCollections.observe(viewLifecycleOwner, handleLoadCollections)
             eventLoadPrograms.observe(viewLifecycleOwner, handleLoadPrograms)
+            eventTapVideo.observe(viewLifecycleOwner, handleTapVideo)
         }
 
         viewBinding.apply {
@@ -49,6 +51,14 @@ class VideoFragment : BaseFragment(R.layout.fragment_video) {
 
     private val handleTapBack = Observer<Void> {
         NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleTapVideo = Observer<WorkoutModel> {
+        NavigationManager.shared.present(
+            this,
+            R.id.videos_fragment,
+            VideoParamsModel(it)
+        )
     }
 
     private val handleLoadWorkouts = Observer<List<WorkoutModel>> {

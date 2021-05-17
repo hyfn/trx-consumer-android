@@ -109,7 +109,6 @@
     <string name="test_utility_update_label">Update</string>
     <string name="test_utility_content_label">Content</string>
     <string name="test_utility_video_label">Video</string>
-    <string name="test_utility_videos_label">Videos</string>
 
     <string name="video_tab_workouts_label">WORKOUTS</string>
     <string name="video_tab_collections_label">COLLECTIONS</string>

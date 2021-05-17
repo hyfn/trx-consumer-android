@@ -22,7 +22,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.trx.consumer.common.CommonImageView
-                    android:id="@+id/ivHeader"
+                    android:id="@+id/imgHeader"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"

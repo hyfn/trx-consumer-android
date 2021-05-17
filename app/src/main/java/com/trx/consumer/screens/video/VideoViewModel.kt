@@ -11,6 +11,7 @@ class VideoViewModel : BaseViewModel(), VideoListener {
     val eventLoadCollections = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadPrograms = CommonLiveEvent<List<WorkoutModel>>()
     val eventTapBack = CommonLiveEvent<Void>()
+    val eventTapVideo = CommonLiveEvent<WorkoutModel>()
 
     fun doLoadWorkouts() {
         eventLoadWorkouts.postValue(WorkoutModel.testList(15))
@@ -29,5 +30,6 @@ class VideoViewModel : BaseViewModel(), VideoListener {
     }
 
     override fun doTapVideo(model: WorkoutModel) {
+        eventTapVideo.postValue(model)
     }
 }
