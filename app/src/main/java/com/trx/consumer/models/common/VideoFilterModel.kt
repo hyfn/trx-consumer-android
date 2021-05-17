@@ -5,9 +5,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class VideoFilterModel(
-    var id: Int = 0,
-    var title: String = "",
-    var values: List<String> = listOf()
+    val id: Int = 0,
+    val title: String = "",
+    val values: List<String> = listOf()
 ) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
@@ -23,11 +23,7 @@ class VideoFilterModel(
             val list = mutableListOf<VideoFilterModel>()
             repeat(count) { index ->
                 list.add(
-                    VideoFilterModel().apply {
-                        id = index
-                        title = "Test filter $index"
-                        values = listOf("option1", "option2")
-                    }
+                    VideoFilterModel(index, "Test filter $index", listOf("option1", "option2"))
                 )
             }
             return list
