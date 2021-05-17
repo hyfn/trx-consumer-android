@@ -18,6 +18,7 @@ import com.trx.consumer.models.params.ContentParamsModel
 import com.trx.consumer.models.params.UpdateParamsModel
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
+import com.trx.consumer.screens.player.PlayerActivity
 import com.trx.consumer.screens.promotion.PromoAdapter
 import com.trx.consumer.screens.update.UpdateViewState
 import com.trx.consumer.screens.videoworkout.VideoAdapter
@@ -50,6 +51,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnUpdate.action { viewModel.doTapUpdate() }
             btnContent.action { viewModel.doTapContent() }
             btnPlans.action { viewModel.doTapPlans() }
+            btnPlayer.action { viewModel.doTapPlayer() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoAdapter
@@ -64,6 +66,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapContent.observe(viewLifecycleOwner, handleTapContent)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
             eventTapPlans.observe(viewLifecycleOwner, handleTapPlans)
+            eventTapPlayer.observe(viewLifecycleOwner, handleTapPlayer)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
             eventLoadPromotions.observe(viewLifecycleOwner, handleLoadPromotions)
@@ -108,6 +111,15 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleTapPlans = Observer<Void> {
         NavigationManager.shared.present(this, R.id.plans_fragment)
+    }
+
+    private val handleTapPlayer = Observer<Void> {
+        val video = VideoModel.test().apply { id = "6232799349001" }
+        NavigationManager.shared.presentActivity(
+            requireActivity(),
+            PlayerActivity::class.java,
+            video
+        )
     }
 
     private val handleLoadLiveWorkouts = Observer<List<WorkoutModel>> { liveWorkouts ->
