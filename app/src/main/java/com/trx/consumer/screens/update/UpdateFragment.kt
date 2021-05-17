@@ -11,6 +11,7 @@ import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.UserModel
+import com.trx.consumer.screens.erroralert.ErrorAlertModel
 
 class UpdateFragment : BaseFragment(R.layout.fragment_update) {
 
@@ -85,9 +86,11 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
     }
 
     private val handleLoadButton = Observer<Boolean> { enabled ->
-        viewBinding.btnContinue.apply {
-            isEnabled = enabled
-            bgColor(if (enabled) R.color.black else R.color.greyDark)
+        viewBinding.apply {
+            btnContinue.apply {
+                isEnabled = enabled
+                bgColor(if (enabled) R.color.black else R.color.greyDark)
+            }
         }
     }
 
@@ -98,7 +101,8 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
 
     private val handleLoadError = Observer<String> {
         LogManager.log("handleLoadError: $it")
-        // TODO: ErrorAlertModel modal presentation
+        val model = ErrorAlertModel.error(message = it)
+        NavigationManager.shared.present(this, R.id.error_fragment, model)
     }
 
     private val handleTapBack = Observer<Void> {

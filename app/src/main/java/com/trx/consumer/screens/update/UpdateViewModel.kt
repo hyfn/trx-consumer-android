@@ -2,6 +2,7 @@ package com.trx.consumer.screens.update
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
+import com.trx.consumer.BuildConfig.kIsVerificationEnabled
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.format
@@ -125,13 +126,16 @@ class UpdateViewModel @ViewModelInject constructor(
             if (response.isSuccess) {
                 when (state) {
                     UpdateViewState.CREATE -> {
-                        eventShowVerification.call()
-                        eventShowOnboarding.call()
+                        if (kIsVerificationEnabled) {
+                            eventShowVerification.call()
+                        } else {
+                            eventShowOnboarding.call()
+                        }
                     }
-                    UpdateViewState.EDIT -> eventLoadSuccess.postValue("Success: TEMP")
+                    UpdateViewState.EDIT -> eventLoadSuccess.postValue("Changes saved")
                 }
             } else {
-                eventLoadError.postValue("Error: TEMP")
+                eventLoadError.postValue(response.errorMessage)
             }
         }
     }
@@ -150,7 +154,7 @@ class UpdateViewModel @ViewModelInject constructor(
             else -> {
             }
         }
-        validate()
+        if (isValidInput) validate()
     }
 
     private fun validate() {
