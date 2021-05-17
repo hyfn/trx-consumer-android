@@ -10,8 +10,8 @@ import com.trx.consumer.models.common.VideoFilterModel
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
-class FilterAdapter (
-    private val listener: FilterListener,
+class VideoFilterAdapter(
+    private val listener: VideoFilterListener,
     scopeProvider: () -> CoroutineScope
 ) : CommonRecyclerViewAdapter(scopeProvider) {
 
@@ -21,7 +21,6 @@ class FilterAdapter (
     }
 
     private val items: MutableList<Any> = mutableListOf()
-
 
     override fun createCommonViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         return try {
@@ -58,24 +57,14 @@ class FilterAdapter (
     }
 
     fun reset() {
-       /* this.items.forEach {
-            (it as? VideoFilterModel)?.let { item ->
-                item.state.isSelected = true
-            }
-        }
-        this.notifyDataSetChanged()*/
+       //TO-DO
     }
 
-    fun update(newItem: VideoFilterModel) {
-        /*this.items.firstOrNull {
-            it as VideoFilterModel
-            it.name == newItem.name
-        }?.let {
-            (it as? VideoFilterModel)?.let { item ->
-                item.state.isSelected = !item.state.isSelected
-            }
+    override fun getItemViewType(position: Int): Int {
+        return when (items[position]) {
+            is VideoFilterModel -> TYPE_ROW
+            else -> TYPE_EMPTY
         }
-        this.notifyDataSetChanged()*/
     }
 
     override fun getItemCount(): Int = items.size

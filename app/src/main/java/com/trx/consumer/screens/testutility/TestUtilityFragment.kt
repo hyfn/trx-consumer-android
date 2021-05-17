@@ -11,11 +11,13 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.AccountModel
 import com.trx.consumer.models.common.PromoModel
+import com.trx.consumer.models.common.VideoFilterModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.ContentParamsModel
 import com.trx.consumer.models.params.UpdateParamsModel
+import com.trx.consumer.models.params.VideoFilterParamsModel
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.promotion.PromoAdapter
@@ -50,6 +52,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnUpdate.action { viewModel.doTapUpdate() }
             btnContent.action { viewModel.doTapContent() }
             btnPlans.action { viewModel.doTapPlans() }
+            btnFilter.action { viewModel.doTapFilter() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoAdapter
@@ -62,6 +65,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapAddCard.observe(viewLifecycleOwner, handleTapAddCard)
             eventTapUpdate.observe(viewLifecycleOwner, handleTapUpdate)
             eventTapContent.observe(viewLifecycleOwner, handleTapContent)
+            eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
             eventTapPlans.observe(viewLifecycleOwner, handleTapPlans)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
@@ -108,6 +112,11 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleTapPlans = Observer<Void> {
         NavigationManager.shared.present(this, R.id.plans_fragment)
+    }
+
+    private val handleTapFilter = Observer<Void> {
+        val model = VideoFilterParamsModel(VideoFilterModel.test(10))
+        NavigationManager.shared.present(this, R.id.filter_fragment, model)
     }
 
     private val handleLoadLiveWorkouts = Observer<List<WorkoutModel>> { liveWorkouts ->

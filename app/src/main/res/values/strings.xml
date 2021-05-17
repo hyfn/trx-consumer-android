@@ -108,6 +108,7 @@
     <string name="test_utility_add_card_label">Add Card</string>
     <string name="test_utility_update_label">Update</string>
     <string name="test_utility_content_label">Content</string>
+    <string name="test_utility_filter_label">Filters</string>
 
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 
@@ -159,5 +160,6 @@
     <string name="filter_btn_close_label">CLOSE</string>
     <string name="filter_btn_clear_filters_label">CLEAR FILTERS</string>
     <string name="filter_btn_apply_label">APPLY</string>
+    <string name="filter_empty_list_label">There are no filter</string>
 
 </resources>

@@ -4,10 +4,10 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class VideoFilterModel (
-    val id: Int,
-    var title: String,
-    val values : List<String> = listOf()
+class VideoFilterModel(
+    var id: Int = 0,
+    var title: String = "",
+    var values: List<String> = listOf()
 ) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
@@ -20,16 +20,17 @@ class VideoFilterModel (
 
     companion object {
         fun test(count: Int): MutableList<VideoFilterModel> {
-            val model = VideoFilterModel(25, "Test Filter", listOf("option1", "option2"))
             val list = mutableListOf<VideoFilterModel>()
             repeat(count) { index ->
-                model.apply {
-                    title = "$title $index"
-                }
-                list.add(model)
+                list.add(
+                    VideoFilterModel().apply {
+                        id = index
+                        title = "Test filter $index"
+                        values = listOf("option1", "option2")
+                    }
+                )
             }
             return list
         }
     }
-
 }
