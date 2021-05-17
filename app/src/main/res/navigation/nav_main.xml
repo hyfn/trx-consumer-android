@@ -106,6 +106,12 @@
         android:id="@+id/filter_fragment"
         android:name="com.trx.consumer.screens.filter.FilterFragment"
         android:label="FilterFragment"
+        tools:layout="@layout/fragment_filter" />
+
+    <fragment
+        android:id="@+id/filters_fragment"
+        android:name="com.trx.consumer.screens.filters.FiltersFragment"
+        android:label="FiltersFragment"
         tools:layout="@layout/fragment_filters" />
 
     <dialog

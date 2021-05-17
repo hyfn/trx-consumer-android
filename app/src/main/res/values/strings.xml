@@ -162,4 +162,7 @@
     <string name="filter_btn_apply_label">APPLY</string>
     <string name="filter_empty_list_label">There are no filter</string>
 
+    <string name="filters_btn_back_label">BACK</string>
+    <string name="filters_btn_all_label">All</string>
+
 </resources>

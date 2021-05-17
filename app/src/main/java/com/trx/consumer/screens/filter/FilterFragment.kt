@@ -7,18 +7,18 @@ import androidx.lifecycle.lifecycleScope
 import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
-import com.trx.consumer.databinding.FragmentFiltersBinding
+import com.trx.consumer.databinding.FragmentFilterBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.VideoFilterModel
 import com.trx.consumer.models.params.VideoFilterParamsModel
 
-class FilterFragment : BaseFragment(R.layout.fragment_filters) {
+class FilterFragment : BaseFragment(R.layout.fragment_filter) {
 
     //region Objects
     private val viewModel: FilterViewModel by viewModels()
-    private val viewBinding by viewBinding(FragmentFiltersBinding::bind)
+    private val viewBinding by viewBinding(FragmentFilterBinding::bind)
 
     private var adapter: VideoFilterAdapter? = null
 
@@ -79,7 +79,7 @@ class FilterFragment : BaseFragment(R.layout.fragment_filters) {
 
     private val handleTapFilter = Observer<VideoFilterModel> { model ->
         LogManager.log("handleTapFilter: ${model.title}")
-        //NavigationManager.shared.dismiss(this,R.id.filter_option_fragment, model ) move to new screen to populate the filter values
+        NavigationManager.shared.present(this, R.id.filters_fragment, model)
     }
     //endregion
 
