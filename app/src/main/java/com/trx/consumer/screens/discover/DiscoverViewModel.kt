@@ -1,11 +1,11 @@
-package com.trx.consumer.screens.video
+package com.trx.consumer.screens.discover
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.screens.video.list.VideoListener
+import com.trx.consumer.screens.discover.list.DiscoverListener
 
-class VideoViewModel : BaseViewModel(), VideoListener {
+class DiscoverViewModel : BaseViewModel(), DiscoverListener {
 
     val eventLoadWorkouts = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadCollections = CommonLiveEvent<List<WorkoutModel>>()
@@ -28,6 +28,6 @@ class VideoViewModel : BaseViewModel(), VideoListener {
         eventTapBack.call()
     }
 
-    override fun doTapVideo(model: WorkoutModel) {
+    override fun doTapDiscover(model: WorkoutModel) {
     }
 }
