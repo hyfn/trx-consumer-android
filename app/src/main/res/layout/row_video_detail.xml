@@ -2,12 +2,13 @@
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewMain"
     android:layout_width="match_parent"
     android:layout_height="160dp"
     android:layout_marginTop="15dp">
 
     <com.trx.consumer.common.CommonImageView
-        android:id="@+id/imgBg"
+        android:id="@+id/imgPoster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:backgroundTint="@color/black"
