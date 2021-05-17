@@ -11,7 +11,6 @@ import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.UserModel
-import com.trx.consumer.models.params.UpdateParamsModel
 
 class UpdateFragment : BaseFragment(R.layout.fragment_update) {
 
@@ -25,7 +24,7 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
     //region Initializers
 
     override fun bind() {
-        val model = NavigationManager.shared.params(this) as UpdateParamsModel
+        val updateState = NavigationManager.shared.params(this) as UpdateViewState
 
         viewBinding.apply {
             ivFirstName.setInputViewListener(viewModel)
@@ -42,7 +41,7 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
         }
 
         viewModel.apply {
-            state = model.state
+            state = updateState
 
             eventLoadState.observe(viewLifecycleOwner, handleLoadState)
             eventLoadUser.observe(viewLifecycleOwner, handleLoadUser)
@@ -85,8 +84,11 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
         }
     }
 
-    private val handleLoadButton = Observer<Boolean> {
-        viewBinding.btnContinue.isEnabled = it
+    private val handleLoadButton = Observer<Boolean> { enabled ->
+        viewBinding.btnContinue.apply {
+            isEnabled = enabled
+            bgColor(if (enabled) R.color.black else R.color.greyDark)
+        }
     }
 
     private val handleLoadSuccess = Observer<String> {

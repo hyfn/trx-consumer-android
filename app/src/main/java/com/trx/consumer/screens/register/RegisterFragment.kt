@@ -14,7 +14,6 @@ import com.trx.consumer.databinding.FragmentRegisterBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.params.UpdateParamsModel
 import com.trx.consumer.screens.erroralert.ErrorAlertModel
 import com.trx.consumer.screens.update.UpdateViewState
 
@@ -92,8 +91,7 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
     }
 
     private val handleLoadProfile = Observer<Void> {
-        val params = UpdateParamsModel(UpdateViewState.CREATE, listOf(), "")
-        NavigationManager.shared.dismiss(this, R.id.update_fragment, params)
+        NavigationManager.shared.dismiss(this, R.id.update_fragment, UpdateViewState.CREATE)
     }
 
     private val handleShowHud = Observer<Boolean> { show ->
