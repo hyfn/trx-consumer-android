@@ -96,4 +96,9 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         val path = EndpointModel.WORKOUTS.path
         return call(RequestModel(endpoint = EndpointModel.WORKOUTS, path = path, params = null))
     }
+
+    suspend fun update(params: HashMap<String, Any>): ResponseModel {
+        val path = EndpointModel.UPDATE.path
+        return call(RequestModel(endpoint = EndpointModel.UPDATE, path = path, params = params))
+    }
 }

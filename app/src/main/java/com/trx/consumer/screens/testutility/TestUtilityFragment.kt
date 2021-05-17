@@ -9,7 +9,6 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentTestUtilityBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.common.AccountModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.VideoFilterModel
 import com.trx.consumer.models.common.VideoModel
@@ -92,13 +91,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapUpdate = Observer<Void> {
-        val params =
-            UpdateParamsModel(
-                UpdateViewState.EDIT,
-                AccountModel.testList(2),
-                AccountModel.test().email
-            )
-        NavigationManager.shared.present(this, R.id.update_fragment, params)
+        NavigationManager.shared.present(this, R.id.update_fragment, UpdateViewState.EDIT)
     }
 
     private val handleTapContent = Observer<Void> {
