@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:backgroundColor="@color/white">
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_bar_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.trx.consumer.common.CommonButton
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="15dp"
+            android:drawableStart="@drawable/ic_img_arrow_black_left"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/atcarquette_bold"
+            android:gravity="center_vertical"
+            android:text="@string/filters_btn_back_label"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.trx.consumer.common.CommonLabel
+            android:id="@+id/lblTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="@font/atcarquette_bold"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Duration" />
+
+    </com.trx.consumer.common.CommonView>
+
+    <com.trx.consumer.common.CommonButton
+        android:id="@+id/btnSelectAll"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="@font/atcarquette_medium"
+        android:gravity="center"
+        android:text="@string/filters_btn_all_label"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:backgroundColor="@color/greyLightExtra"
+        app:layout_constraintBottom_toTopOf="@+id/rvFilters"
+        app:layout_constraintTop_toBottomOf="@+id/viewNavBar"
+        tools:text="All" />
+
+    <com.trx.consumer.common.CommonRecyclerView
+        android:id="@+id/rvFilters"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSelectAll" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblEmptyList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/filter_empty_list_label"
+        android:visibility="gone" />
+
+</com.trx.consumer.common.CommonView>

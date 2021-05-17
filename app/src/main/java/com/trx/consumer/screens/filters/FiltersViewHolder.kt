@@ -32,7 +32,8 @@ class FiltersViewHolder(view: View) : CommonViewHolder(view) {
         }
         viewFilter.apply {
             setBackgroundColor(
-                ContextCompat.getColor(context, if (isSelected) R.color.black else R.color.greyLight
+                ContextCompat.getColor(
+                    context, if (isSelected) R.color.black else R.color.greyLightExtra
                 )
             )
         }
