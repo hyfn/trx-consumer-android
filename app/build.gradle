@@ -16,6 +16,24 @@ android {
         viewBinding true
     }
 
+    signingConfigs {
+        signingConfigs {
+            devRelease {
+                storeFile file("../extra/keystores/dev.keystore")
+                keyPassword System.getenv('DEV_KEYPASS')
+                storePassword System.getenv('DEV_STOREPASS')
+                keyAlias System.getenv('DEV_KEYALIAS')
+            }
+
+            prodRelease {
+                storeFile file("../extra/keystores/prod.keystore")
+                keyPassword System.getenv('PROD_KEYPASS')
+                storePassword System.getenv('PROD_STOREPASS')
+                keyAlias System.getenv('PROD_KEYALIAS')
+            }
+        }
+    }
+
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
@@ -79,6 +97,7 @@ android {
             buildConfigField "String", "kBaseUrl", '"https://trx-dashboard-dev.vercel.app/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "false"
             buildConfigField "Integer", "kFirebaseFetchInterval", "3"
+            signingConfig signingConfigs.devRelease
         }
         prod {
             applicationId "com.trx.consumer"
@@ -86,6 +105,7 @@ android {
             buildConfigField "String", "kBaseUrl", '"https://digital.trxtraining.com/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "true"
             buildConfigField "Integer", "kFirebaseFetchInterval", "30"
+            signingConfig signingConfigs.prodRelease
         }
     }
     sourceSets {
