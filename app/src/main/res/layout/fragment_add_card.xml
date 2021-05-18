@@ -154,7 +154,7 @@
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="13sp"
-        app:backgroundColor="@color/black"
+        app:backgroundColor="@color/greyDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

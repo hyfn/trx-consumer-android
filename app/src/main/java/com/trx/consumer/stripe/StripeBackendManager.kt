@@ -46,13 +46,13 @@ class StripeBackendManager(private val api: BaseApi, private val cacheManager: C
         }
     }
 
-    suspend fun createPaymentMethod(): StripeResponseModel {
+    suspend fun createPaymentMethod(params: HashMap<String, Any>): StripeResponseModel {
         val path = StripeEndpointModel.CREATE_PAYMENT_METHOD.path
         return call(
             StripeRequestModel(
                 stripeEndpoint = StripeEndpointModel.CREATE_PAYMENT_METHOD,
                 path = path,
-                params = null
+                params = params
             )
         )
     }
