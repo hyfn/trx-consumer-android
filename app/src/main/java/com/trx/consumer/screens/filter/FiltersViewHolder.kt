@@ -10,10 +10,19 @@ import com.trx.consumer.models.common.FilterModel
 class FiltersViewHolder(view: View) : CommonViewHolder(view) {
 
     private val lblTitle: CommonLabel = view.findViewById(R.id.lblTitle)
+    private val lblSelectedFilter: CommonLabel = view.findViewById(R.id.lblSelectedFilter)
     private val viewFilter: CommonView = view.findViewById(R.id.viewFilter)
 
-    fun setup(item: FilterModel, listener: FiltersListener) {
-        lblTitle.text = item.title
-        viewFilter.action { listener.doTapFilter(item) }
+    fun setup(model: FilterModel, listener: FiltersListener) {
+        lblTitle.text = model.title
+        val count = model.values.count { it.isSelected }
+        if (count == 1) {
+            model.values.firstOrNull { it.isSelected }?.let { optionModel ->
+                lblSelectedFilter.text = optionModel.name
+            }
+        } else {
+            lblSelectedFilter.text = ""
+        }
+        viewFilter.action { listener.doTapFilter(model) }
     }
 }

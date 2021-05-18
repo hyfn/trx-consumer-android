@@ -12,6 +12,7 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.FilterModel
+import com.trx.consumer.models.params.FilterParamsModel
 
 
 class FilterOptionsFragment : BaseFragment(R.layout.fragment_options) {
@@ -26,8 +27,9 @@ class FilterOptionsFragment : BaseFragment(R.layout.fragment_options) {
     //region Setuo
     override fun bind() {
 
-        val params = NavigationManager.shared.params(this) as FilterModel
-        viewModel.params = params
+        val params = NavigationManager.shared.params(this) as FilterParamsModel
+        viewModel.model = params.list.find { it.id == params.selectedFilter }
+        viewModel.param = params
         adapter = FilterOptionsAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
@@ -65,10 +67,9 @@ class FilterOptionsFragment : BaseFragment(R.layout.fragment_options) {
         adapter?.update(model.values)
     }
 
-    private val handleTapBack = Observer<FilterModel> { model ->
+    private val handleTapBack = Observer<FilterParamsModel> { model ->
         LogManager.log("handleTapBack")
-        NavigationManager.shared.dismiss(this)
-        //NavigationManager.shared.dismiss(this, R.id.filter_fragment, model)
+        NavigationManager.shared.dismiss(this, R.id.filter_fragment, model)
     }
 
     private val handleTapFilterValue = Observer<FilterModel> { model ->

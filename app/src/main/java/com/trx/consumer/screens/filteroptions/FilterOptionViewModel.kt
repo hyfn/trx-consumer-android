@@ -4,39 +4,41 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.FilterOptionsModel
+import com.trx.consumer.models.params.FilterParamsModel
 
 
 class FilterOptionViewModel : BaseViewModel(), FilterOptionsListener {
 
-    var params: FilterModel? = null
+    var model: FilterModel? = null
+    var param: FilterParamsModel? = null
 
     val eventLoadView = CommonLiveEvent<FilterModel>()
 
-    val eventTapBack = CommonLiveEvent<FilterModel>()
+    val eventTapBack = CommonLiveEvent<FilterParamsModel>()
     val eventTapFilterValue = CommonLiveEvent<FilterModel>()
     val eventTapSelectAll = CommonLiveEvent<FilterModel>()
 
     fun doLoadView() {
-        params?.let { safeParams ->
+        model?.let { safeParams ->
             eventLoadView.postValue(safeParams)
         }
     }
 
     fun doTapBack() {
-        eventTapBack.postValue(params)
+        eventTapBack.postValue(param)
     }
 
     fun onBackPressed() {
-        eventTapBack.call()
+        eventTapBack.postValue(param)
     }
 
     fun doTapSelectAll() {
-        params?.values?.forEach { model -> model.isSelected = true  }
-        eventTapSelectAll.postValue(params)
+        model?.values?.forEach { model -> model.isSelected = true  }
+        eventTapSelectAll.postValue(model)
     }
 
     override fun doTapFilterValue(model: FilterOptionsModel) {
-        params?.values?.find { model == it }?.isSelected = model.isSelected
-        eventTapFilterValue.postValue(params)
+        this.model?.values?.find { model == it }?.isSelected = model.isSelected
+        eventTapFilterValue.postValue(this.model)
     }
 }

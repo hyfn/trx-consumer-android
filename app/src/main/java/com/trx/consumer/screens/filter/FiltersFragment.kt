@@ -1,5 +1,6 @@
 package com.trx.consumer.screens.filter
 
+import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -27,8 +28,9 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
     //region Setuo
     override fun bind() {
 
-        val params = NavigationManager.shared.params(this) as FilterParamsModel
-        viewModel.params = params
+        val model = NavigationManager.shared.params(this) as FilterParamsModel
+        viewModel.params = model
+
         adapter = FiltersAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
@@ -45,9 +47,15 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
             eventTapClose.observe(viewLifecycleOwner, handleTapClose)
             eventTapReset.observe(viewLifecycleOwner, handleTapReset)
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
+            eventSetSelected.observe(viewLifecycleOwner, handleSetSelected)
         }
 
         viewModel.doLoadView()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("Hello", viewModel.params)
     }
 
     //region - Handlers
@@ -73,13 +81,18 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
         NavigationManager.shared.dismiss(this)
     }
 
-    private val handleTapReset = Observer<Void> {
+    private val handleTapReset = Observer<FilterParamsModel> { model ->
         LogManager.log("handleTapReset")
+        adapter?.update(model.list)
     }
 
-    private val handleTapFilter = Observer<FilterModel> { model ->
-        LogManager.log("handleTapFilter: ${model.title}")
+    private val handleTapFilter = Observer<FilterParamsModel> { model ->
+        LogManager.log("handleTapFilter")
         NavigationManager.shared.present(this, R.id.filter_options_fragment, model)
+    }
+
+    private val handleSetSelected = Observer<FilterParamsModel?> { model ->
+        model?.let {  safeModel -> adapter?.update(safeModel.list) }
     }
     //endregion
 

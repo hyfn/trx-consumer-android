@@ -134,7 +134,7 @@ class NavigationManager {
         getNavController(fragment.requireActivity()).navigate(destination, bundle)
     }
 
-    private fun getNavController(activity: FragmentActivity): NavController {
+    fun getNavController(activity: FragmentActivity): NavController {
         val navHostFragment = activity
             .supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -187,6 +187,8 @@ class NavigationManager {
     private fun getTabBar(activity: FragmentActivity): BottomNavigationView {
         return activity.findViewById(R.id.tabBar)
     }
+
+
 
     companion object {
 

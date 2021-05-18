@@ -77,7 +77,7 @@
         android:id="@+id/lblEmptyList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/filters_empty_list_label"
+        android:text="@string/filter_empty_list_label"
         android:visibility="gone" />
 
 </com.trx.consumer.common.CommonView>
