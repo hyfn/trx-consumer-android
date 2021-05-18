@@ -2,18 +2,19 @@ package com.trx.consumer.screens.filteroptions
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.FilterOptionsModel
-import com.trx.consumer.models.common.VideoFilterModel
+
 
 class FilterOptionViewModel : BaseViewModel(), FilterOptionsListener {
 
-    var params: VideoFilterModel? = null
+    var params: FilterModel? = null
 
-    val eventLoadView = CommonLiveEvent<VideoFilterModel>()
+    val eventLoadView = CommonLiveEvent<FilterModel>()
 
-    val eventTapBack = CommonLiveEvent<VideoFilterModel>()
-    val eventTapFilterValue = CommonLiveEvent<VideoFilterModel>()
-    val eventTapSelectAll = CommonLiveEvent<VideoFilterModel>()
+    val eventTapBack = CommonLiveEvent<FilterModel>()
+    val eventTapFilterValue = CommonLiveEvent<FilterModel>()
+    val eventTapSelectAll = CommonLiveEvent<FilterModel>()
 
     fun doLoadView() {
         params?.let { safeParams ->

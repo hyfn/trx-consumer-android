@@ -11,7 +11,8 @@ import com.trx.consumer.databinding.FragmentOptionsBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.common.VideoFilterModel
+import com.trx.consumer.models.common.FilterModel
+
 
 class FilterOptionsFragment : BaseFragment(R.layout.fragment_options) {
 
@@ -25,7 +26,7 @@ class FilterOptionsFragment : BaseFragment(R.layout.fragment_options) {
     //region Setuo
     override fun bind() {
 
-        val params = NavigationManager.shared.params(this) as VideoFilterModel
+        val params = NavigationManager.shared.params(this) as FilterModel
         viewModel.params = params
         adapter = FilterOptionsAdapter(viewModel) { lifecycleScope }
 
@@ -48,7 +49,7 @@ class FilterOptionsFragment : BaseFragment(R.layout.fragment_options) {
     //endregion
 
     //region - Handlers
-    private val handleLoadView = Observer<VideoFilterModel> { model ->
+    private val handleLoadView = Observer<FilterModel> { model ->
         LogManager.log("handleLoadView")
         viewBinding.lblTitle.text = model.title
         if (model.values.isNotEmpty()) adapter?.update(model.values)
@@ -60,17 +61,17 @@ class FilterOptionsFragment : BaseFragment(R.layout.fragment_options) {
         }
     }
 
-    private val handleTapSelectAll = Observer<VideoFilterModel> { model ->
+    private val handleTapSelectAll = Observer<FilterModel> { model ->
         adapter?.update(model.values)
     }
 
-    private val handleTapBack = Observer<VideoFilterModel> { model ->
+    private val handleTapBack = Observer<FilterModel> { model ->
         LogManager.log("handleTapBack")
         NavigationManager.shared.dismiss(this)
         //NavigationManager.shared.dismiss(this, R.id.filter_fragment, model)
     }
 
-    private val handleTapFilterValue = Observer<VideoFilterModel> { model ->
+    private val handleTapFilterValue = Observer<FilterModel> { model ->
         LogManager.log("handleTapBack")
         adapter?.update(model.values)
     }
