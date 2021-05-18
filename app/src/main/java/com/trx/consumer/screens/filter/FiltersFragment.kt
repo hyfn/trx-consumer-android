@@ -6,7 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
-import com.trx.consumer.databinding.FragmentFilterBinding
+import com.trx.consumer.databinding.FragmentFiltersBinding
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.FilterModel
@@ -16,7 +16,7 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
 
     //region Objects
     private val viewModel: FiltersViewModel by viewModels()
-    private val viewBinding by viewBinding(FragmentFilterBinding::bind)
+    private val viewBinding by viewBinding(FragmentFiltersBinding::bind)
 
     private var adapter: FiltersAdapter? = null
 
