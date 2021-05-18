@@ -77,6 +77,7 @@ android {
             buildConfigField "String", "kBaseUrl", '"https://trx-dashboard-dev.vercel.app/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "false"
             buildConfigField "Integer", "kFirebaseFetchInterval", "3"
+            buildConfigField "String", "kStripeApiKey", '"pk_test_VG0f1gcydmawXMMYQSydPkw500ipbL8dW8"'
         }
         prod {
             buildConfigField "boolean", "DEVELOPMENT", "false"
@@ -84,6 +85,7 @@ android {
             buildConfigField "String", "kBaseUrl", '"https://digital.trxtraining.com/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "true"
             buildConfigField "Integer", "kFirebaseFetchInterval", "30"
+            buildConfigField "String", "kStripeApiKey", '"pk_live_Nrhi2HdHwsfQ5OSiPhhtwuah00yvGgjwWe"'
         }
     }
     sourceSets {
@@ -134,6 +136,9 @@ dependencies {
     // Glide
     implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
+
+    // Stripe
+    implementation "com.stripe:stripe-android:$rootProject.stripeVersion"
 
     // Navigation graph
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navGraphVersion"
