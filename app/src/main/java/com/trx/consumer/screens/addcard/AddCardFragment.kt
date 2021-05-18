@@ -60,7 +60,12 @@ class AddCardFragment : BaseFragment(R.layout.fragment_add_card) {
     }
 
     private val handleLoadButton = Observer<Boolean> { enabled ->
-        viewBinding.btnSave.isEnabled = enabled
+        viewBinding.apply {
+            btnSave.apply {
+                isEnabled = enabled
+                bgColor(if (enabled) R.color.black else R.color.greyDark)
+            }
+        }
     }
 
     private val handleTapBack = Observer<Void> {
@@ -101,7 +106,7 @@ class AddCardFragment : BaseFragment(R.layout.fragment_add_card) {
     */
     }
 
-    private val handleSaveError = Observer<Void> {
+    private val handleSaveError = Observer<String> { message ->
         LogManager.log("handleSaveError")
         /*  TODO: Implement when AlertModel added.
         val model = AlertModel.error(requireContext().getString(R.string.add_card_save_error))
