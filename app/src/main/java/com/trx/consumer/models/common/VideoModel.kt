@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 class VideoModel(
     var name: String = "",
     var duration: Int = 0,
-    var id: Int = 0,
+    var id: String = "0",
     var poster: String = "",
     var trainer: TrainerModel = TrainerModel(),
     var equipment: List<String> = listOf(),
