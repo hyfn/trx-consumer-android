@@ -10,7 +10,9 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.CardModel
+import com.trx.consumer.screens.alert.AlertViewState
 
 class CardsFragment : BaseFragment(R.layout.fragment_cards) {
 
@@ -59,16 +61,21 @@ class CardsFragment : BaseFragment(R.layout.fragment_cards) {
 
     private val handleLoadViewFailure = Observer<Void> {
         LogManager.log("handleLoadViewFailure")
-        //  TODO: Add AlertModel when implemented
-/*        val model =
-            AlertModel.error("Could not load cards")
-        model.setPrimaryButton(R.string.alert_primary_back) {
+        val model = AlertModel.create("CARDS", "Could not load cards")
+        model.setPrimaryButton(
+            title = R.string.alert_primary_back,
+            state = AlertViewState.NEUTRAL
+        ) {
             NavigationManager.shared.dismiss(this, null)
         }
-        model.setPrimaryButton(R.string.alert_secondary_report) {
-            UtilityManager.shared.showContactSupport()
+        model.setSecondaryButton(
+            title = R.string.alert_secondary_report,
+            state = AlertViewState.NEGATIVE
+        ) {
+            //  TODO: Add when showContactSupport is imported.
+            //  UtilityManager.shared.showContactSupport()
         }
-        NavigationManager.shared.present(this, R.id.alert_fragment, model)*/
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
     private val handleTapAdd = Observer<Void> {
