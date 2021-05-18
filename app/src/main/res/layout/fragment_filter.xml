@@ -26,7 +26,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
-            android:text="@string/filter_btn_close_label"
+            android:text="@string/filters_btn_close_label"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -42,7 +42,7 @@
             android:layout_marginEnd="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
-            android:text="@string/filter_btn_clear_filters_label"
+            android:text="@string/filters_btn_clear_filters_label"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -66,7 +66,7 @@
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="14sp"
-        android:text="@string/filter_btn_apply_label"
+        android:text="@string/filters_btn_apply_label"
         android:fontFamily="@font/atcarquette_bold"
         app:backgroundColor="@color/black"
         android:layout_marginStart="15dp"
@@ -79,6 +79,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:text="@string/filter_empty_list_label" />
+        android:text="@string/filters_empty_list_label" />
 
 </com.trx.consumer.common.CommonView>
