@@ -35,6 +35,7 @@ android {
     }
 
     defaultConfig {
+        applicationId "com.trx.consumer"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
