@@ -11,6 +11,7 @@ import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.UserModel
+import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.screens.erroralert.ErrorAlertModel
 
 class UpdateFragment : BaseFragment(R.layout.fragment_update) {
@@ -94,9 +95,14 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
         }
     }
 
-    private val handleLoadSuccess = Observer<String> {
+    private val handleLoadSuccess = Observer<Void> {
         LogManager.log("handleLoadSuccess: $it")
-        // TODO: AlertModel modal presentation
+        val model = AlertModel.create(
+            title = "",
+            message = getString(R.string.update_load_success_message)
+        )
+        model.setSecondaryButton(0)
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
     private val handleLoadError = Observer<String> {

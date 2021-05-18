@@ -27,7 +27,7 @@ class FiltersAdapter(
             when (viewType) {
                 TYPE_ROW -> FiltersViewHolder(
                     LayoutInflater.from(parent.context)
-                        .inflate(R.layout.row_video_filter, parent, false)
+                        .inflate(R.layout.row_filters, parent, false)
                 )
                 else -> EmptyViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.row_empty, parent, false)
@@ -57,7 +57,7 @@ class FiltersAdapter(
     }
 
     fun reset() {
-        // TO-DO
+        // TODO:
     }
 
     override fun getItemViewType(position: Int): Int {
