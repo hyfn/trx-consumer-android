@@ -17,7 +17,6 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.comma.trx.consumer"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
@@ -75,15 +74,15 @@ android {
             buildConfigField "Boolean", "kIsVerificationEnabled", "false"
         }
         dev {
+            applicationId "com.trx.consumer.dev"
             buildConfigField "boolean", "DEVELOPMENT", "true"
-            applicationId "com.comma.trx.consumer.dev"
             buildConfigField "String", "kBaseUrl", '"https://trx-dashboard-dev.vercel.app/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "false"
             buildConfigField "Integer", "kFirebaseFetchInterval", "3"
         }
         prod {
+            applicationId "com.trx.consumer"
             buildConfigField "boolean", "DEVELOPMENT", "false"
-            applicationId "com.comma.trx.consumer"
             buildConfigField "String", "kBaseUrl", '"https://digital.trxtraining.com/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "true"
             buildConfigField "Integer", "kFirebaseFetchInterval", "30"
