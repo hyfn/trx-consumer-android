@@ -1,4 +1,4 @@
-package com.trx.consumer.screens.video.list
+package com.trx.consumer.screens.discover.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,8 +10,8 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
-class VideoAdapter(
-    private val listener: VideoListener,
+class DiscoverAdapter(
+    private val listener: DiscoverListener,
     scopeProvider: () -> CoroutineScope
 ) : CommonRecyclerViewAdapter(scopeProvider) {
 
@@ -25,7 +25,7 @@ class VideoAdapter(
     override fun createCommonViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         return try {
             when (viewType) {
-                TYPE_VIDEO_LIST -> VideoViewHolder(
+                TYPE_VIDEO_LIST -> DiscoverViewHolder(
                     LayoutInflater.from(parent.context)
                         .inflate(R.layout.row_video_detail, parent, false)
                 )
@@ -44,7 +44,7 @@ class VideoAdapter(
     override fun onBindViewHolder(holder: CommonViewHolder, position: Int) {
         val item = items[position]
         when (holder) {
-            is VideoViewHolder -> {
+            is DiscoverViewHolder -> {
                 holder.setup(item as WorkoutModel, listener)
             }
         }

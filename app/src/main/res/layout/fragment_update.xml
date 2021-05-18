@@ -30,7 +30,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnSave"
+        app:layout_constraintBottom_toTopOf="@+id/btnContinue"
         app:layout_constraintTop_toBottomOf="@+id/viewNavBar">
 
         <com.trx.consumer.common.CommonView
@@ -117,6 +117,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivZipCode" />
 
+            <com.trx.consumer.views.input.InputView
+                android:id="@+id/ivPassword"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:visibility="gone"
+                app:inputViewState="password"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vLine4" />
+
+            <View
+                android:id="@+id/vLine5"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/greyLight"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivPassword" />
+
             <com.trx.consumer.common.CommonView
                 android:id="@+id/viewAgreement"
                 android:layout_width="0dp"
@@ -124,9 +146,11 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="25dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vLine4">
+                app:layout_constraintTop_toBottomOf="@id/vLine5"
+                tools:visibility="visible">
 
                 <com.trx.consumer.common.CommonLabel
                     android:id="@+id/lblAgreement"
@@ -135,7 +159,6 @@
                     android:fontFamily="@font/atcarquette_semibold"
                     android:text="@string/update_agreement_label"
                     android:textSize="14sp"
-                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -145,7 +168,6 @@
                     android:id="@+id/cbAgreement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -158,18 +180,19 @@
     </ScrollView>
 
     <com.trx.consumer.common.CommonButton
-        android:id="@+id/btnSave"
+        android:id="@+id/btnContinue"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
+        android:enabled="false"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="13sp"
-        app:backgroundColor="@color/blackRussian"
+        app:backgroundColor="@color/greyDark"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="@string/update_save_label" />
 

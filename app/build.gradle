@@ -70,6 +70,9 @@ android {
             buildConfigField "String", "isMaintenanceMode", '"is_maintenance_mode"'
             buildConfigField "String", "minimumBuildNumber", '"minimum_build_number"'
             buildConfigField "String", "trxUrl", '"http://trx.sprintfwd.com"'
+            buildConfigField "String", "kBrightcoveAccountId", '"6204326362001"'
+            buildConfigField "String", "kBrightcovePolicyKey", '"BCpkADawqM0NIVZ3stgK7lsrNpSnMb54yV2-XP_RMBl9gBL5hOvH_cjmnfU_kxS1QjYqucj3ZQTBRiGZhrd09drVaY-IAEgg9IYebBSliKZI8iSzYpvmdUQgwST2dVv4toFYU1clp89h7_qj"'
+            buildConfigField "Boolean", "kIsVerificationEnabled", "false"
         }
         dev {
             buildConfigField "boolean", "DEVELOPMENT", "true"
@@ -144,6 +147,9 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$rootProject.hiltViewModelversion"
     kapt "androidx.hilt:hilt-compiler:$rootProject.hiltViewModelversion"
+
+    // Video playback
+    implementation "com.brightcove.player:exoplayer2:$rootProject.brightcoveVersion"
 
     // Testing dependencies
     androidTestImplementation "androidx.test.ext:junit:$rootProject.junitVersion"

@@ -1,4 +1,4 @@
-package com.trx.consumer.screens.video
+package com.trx.consumer.screens.discover
 
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -8,20 +8,19 @@ import androidx.lifecycle.lifecycleScope
 import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
-import com.trx.consumer.databinding.FragmentVideoBinding
+import com.trx.consumer.databinding.FragmentDiscoverBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.models.params.VideoParamsModel
-import com.trx.consumer.screens.video.list.VideoAdapter
+import com.trx.consumer.screens.discover.list.DiscoverAdapter
 
-class VideoFragment : BaseFragment(R.layout.fragment_video) {
+class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
-    private val viewModel: VideoViewModel by viewModels()
-    private val viewBinding by viewBinding(FragmentVideoBinding::bind)
+    private val viewModel: DiscoverViewModel by viewModels()
+    private val viewBinding by viewBinding(FragmentDiscoverBinding::bind)
 
-    private lateinit var adapter: VideoAdapter
-    private var currentState = VideoViewState.WORKOUT
+    private lateinit var adapter: DiscoverAdapter
+    private var currentState = DiscoverViewState.WORKOUT
 
     override fun bind() {
 
@@ -30,16 +29,15 @@ class VideoFragment : BaseFragment(R.layout.fragment_video) {
             eventLoadWorkouts.observe(viewLifecycleOwner, handleLoadWorkouts)
             eventLoadCollections.observe(viewLifecycleOwner, handleLoadCollections)
             eventLoadPrograms.observe(viewLifecycleOwner, handleLoadPrograms)
-            eventTapVideo.observe(viewLifecycleOwner, handleTapVideo)
         }
 
         viewBinding.apply {
-            adapter = VideoAdapter(viewModel) { lifecycleScope }
+            adapter = DiscoverAdapter(viewModel) { lifecycleScope }
             rvVideo.adapter = adapter
 
-            btnWorkouts.action { changeState(VideoViewState.WORKOUT) }
-            btnCollections.action { changeState(VideoViewState.COLLECTIONS) }
-            btnPrograms.action { changeState(VideoViewState.PROGRAMS) }
+            btnWorkouts.action { changeState(DiscoverViewState.WORKOUT) }
+            btnCollections.action { changeState(DiscoverViewState.COLLECTIONS) }
+            btnPrograms.action { changeState(DiscoverViewState.PROGRAMS) }
         }
 
         viewModel.doLoadWorkouts()
@@ -51,14 +49,6 @@ class VideoFragment : BaseFragment(R.layout.fragment_video) {
 
     private val handleTapBack = Observer<Void> {
         NavigationManager.shared.dismiss(this)
-    }
-
-    private val handleTapVideo = Observer<WorkoutModel> {
-        NavigationManager.shared.present(
-            this,
-            R.id.videos_fragment,
-            VideoParamsModel(it)
-        )
     }
 
     private val handleLoadWorkouts = Observer<List<WorkoutModel>> {
@@ -73,7 +63,7 @@ class VideoFragment : BaseFragment(R.layout.fragment_video) {
         adapter.updateVideos(it)
     }
 
-    private fun changeState(newState: VideoViewState) {
+    private fun changeState(newState: DiscoverViewState) {
         currentState = newState
 
         viewBinding.apply {
@@ -85,7 +75,7 @@ class VideoFragment : BaseFragment(R.layout.fragment_video) {
             indicatorPrograms.isVisible = false
 
             when (newState) {
-                VideoViewState.WORKOUT -> {
+                DiscoverViewState.WORKOUT -> {
                     btnWorkouts.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
@@ -95,7 +85,7 @@ class VideoFragment : BaseFragment(R.layout.fragment_video) {
                     indicatorWorkouts.isVisible = true
                     viewModel.doLoadWorkouts()
                 }
-                VideoViewState.COLLECTIONS -> {
+                DiscoverViewState.COLLECTIONS -> {
                     btnCollections.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),

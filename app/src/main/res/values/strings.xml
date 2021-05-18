@@ -4,6 +4,8 @@
 
     <string name="add_card_title">Update Payment Method</string>
     <string name="add_card_update_label">Update</string>
+    
+    <string name="alert_button_title_dismiss">Dismiss</string>
 
     <string name="booking_view_state_book_label">BOOK</string>
     <string name="booking_view_state_booked_label">BOOKED</string>
@@ -101,6 +103,7 @@
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
     <string name="test_utility_plans_label">Plans</string>
+    <string name="test_utility_player_label">Player</string>
     <string name="test_utility_virtual_workout_section_label">Virtual Workouts</string>
     <string name="test_utility_video_workout_section_label">Video Workouts</string>
     <string name="test_utility_promotion_section_label">Promotions</string>
@@ -108,7 +111,10 @@
     <string name="test_utility_add_card_label">Add Card</string>
     <string name="test_utility_update_label">Update</string>
     <string name="test_utility_content_label">Content</string>
-    <string name="test_utility_video_label">Video</string>
+    <string name="test_utility_discover_label">Discover</string>
+    <string name="test_utility_alert_label">Alert</string>
+    <string name="test_utility_alert_button_primary_label">Do something</string>
+    <string name="test_utility_alert_button_secondary_label">Thanks, I\'ll pass</string>
 
     <string name="video_tab_workouts_label">WORKOUTS</string>
     <string name="video_tab_collections_label">COLLECTIONS</string>
@@ -140,6 +146,7 @@
     <string name="update_save_label">Save</string>
     <string name="update_save_changes_label">Save Changes</string>
     <string name="update_agreement_label">Agree to <u>Liability Waiver</u></string>
+    <string name="update_load_success_message">Changes saved</string>
 
     <string name="welcome_continue_button_label">Continue</string>
     <string name="welcome_get_started_label">Get Started</string>
