@@ -45,11 +45,11 @@
 
 
     <string name="inputview_placeholder_birthday">Birthday</string>
-    <string name="inputview_placeholder_card_number">Card Number</string>
+    <string name="inputview_placeholder_card_number">Credit Card Number</string>
     <string name="inputview_placeholder_code">Enter Code</string>
-    <string name="inputview_placeholder_cvv">CVV</string>
+    <string name="inputview_placeholder_cvv">CVV Code</string>
     <string name="inputview_placeholder_email">Email</string>
-    <string name="inputview_placeholder_expiration">Expiration</string>
+    <string name="inputview_placeholder_expiration">Expiration Date</string>
     <string name="inputview_placeholder_first">First Name</string>
     <string name="inputview_placeholder_last">Last Name</string>
     <string name="inputview_placeholder_password">Password</string>

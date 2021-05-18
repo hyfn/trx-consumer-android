@@ -30,12 +30,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
+                android:minHeight="35dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_btn_back"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <com.trx.consumer.common.CommonImageView
+                android:id="@+id/btnClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:minHeight="35dp"
+                android:scaleType="centerInside"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </com.trx.consumer.common.CommonView>
 
@@ -55,9 +67,10 @@
     </com.trx.consumer.common.CommonView>
 
     <com.trx.consumer.views.input.InputView
-        android:id="@+id/ivCardNumber"
+        android:id="@+id/txtNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:nextFocusDown="@id/txtExpiration"
         app:inputViewState="card_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,12 +83,13 @@
         android:background="@color/greyLight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivCardNumber" />
+        app:layout_constraintTop_toBottomOf="@id/txtNumber" />
 
     <com.trx.consumer.views.input.InputView
-        android:id="@+id/ivExpiryDate"
+        android:id="@+id/txtExpiration"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:nextFocusDown="@id/txtCVC"
         app:inputViewState="expiration"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,12 +102,13 @@
         android:background="@color/greyLight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivExpiryDate" />
+        app:layout_constraintTop_toBottomOf="@id/txtExpiration" />
 
     <com.trx.consumer.views.input.InputView
-        android:id="@+id/ivCvvCode"
+        android:id="@+id/txtCVC"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:nextFocusDown="@id/txtZip"
         app:inputViewState="cvv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,12 +121,13 @@
         android:background="@color/greyLight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivCvvCode" />
+        app:layout_constraintTop_toBottomOf="@id/txtCVC" />
 
     <com.trx.consumer.views.input.InputView
-        android:id="@+id/ivZipCode"
+        android:id="@+id/txtZip"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:nextFocusDown="@id/btnUpdate"
         app:inputViewState="zipcode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +140,7 @@
         android:background="@color/greyLight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivZipCode" />
+        app:layout_constraintTop_toBottomOf="@id/txtZip" />
 
     <com.trx.consumer.common.CommonButton
         android:id="@+id/btnUpdate"
