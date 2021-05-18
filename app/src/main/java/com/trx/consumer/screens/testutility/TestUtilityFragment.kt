@@ -9,15 +9,16 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentTestUtilityBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.PromoModel
-import com.trx.consumer.models.common.VideoFilterModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.ContentParamsModel
-import com.trx.consumer.models.params.VideoFilterParamsModel
+import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
+import com.trx.consumer.screens.player.PlayerActivity
 import com.trx.consumer.screens.promotion.PromoAdapter
 import com.trx.consumer.screens.update.UpdateViewState
 import com.trx.consumer.screens.videoworkout.VideoAdapter
@@ -50,7 +51,9 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnUpdate.action { viewModel.doTapUpdate() }
             btnContent.action { viewModel.doTapContent() }
             btnPlans.action { viewModel.doTapPlans() }
+            btnPlayer.action { viewModel.doTapPlayer() }
             btnFilter.action { viewModel.doTapFilter() }
+            btnDiscover.action { viewModel.doTapDiscover() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoAdapter
@@ -66,6 +69,8 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
             eventTapPlans.observe(viewLifecycleOwner, handleTapPlans)
+            eventTapPlayer.observe(viewLifecycleOwner, handleTapPlayer)
+            eventTapDiscover.observe(viewLifecycleOwner, handleTapDiscover)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
             eventLoadPromotions.observe(viewLifecycleOwner, handleLoadPromotions)
@@ -102,8 +107,21 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         NavigationManager.shared.present(this, R.id.plans_fragment)
     }
 
+    private val handleTapPlayer = Observer<Void> {
+        val video = VideoModel.test().apply { id = "6232799349001" }
+        NavigationManager.shared.presentActivity(
+            requireActivity(),
+            PlayerActivity::class.java,
+            video
+        )
+    }
+
+    private val handleTapDiscover = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.discover_fragment)
+    }
+
     private val handleTapFilter = Observer<Void> {
-        val model = VideoFilterParamsModel(VideoFilterModel.test(10))
+        val model = FilterParamsModel(FilterModel.test(10))
         NavigationManager.shared.present(this, R.id.filter_fragment, model)
     }
 

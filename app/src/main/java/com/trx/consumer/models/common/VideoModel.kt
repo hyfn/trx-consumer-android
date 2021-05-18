@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 class VideoModel(
     var name: String = "",
     var duration: Int = 0,
-    var id: Int = 0,
+    var id: String = "0",
     var poster: String = "",
     var trainer: TrainerModel = TrainerModel(),
     var equipment: List<String> = listOf(),
@@ -17,7 +17,7 @@ class VideoModel(
 ) : Parcelable {
 
     val videoDuration: String
-        get() = "${duration / 60_000} MINS"
+        get() = "${duration / 60_000} MIN"
 
     companion object {
 

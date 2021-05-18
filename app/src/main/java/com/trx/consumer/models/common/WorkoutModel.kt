@@ -88,7 +88,8 @@ class WorkoutModel(
                 title = "TRX Strength & Conditioning",
                 startsAt = 1615917600000,
                 state = BookingState.VIEW,
-                trainer = TrainerModel.test()
+                trainer = TrainerModel.test(),
+                video = VideoModel.test()
             )
         }
 

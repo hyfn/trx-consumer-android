@@ -110,7 +110,7 @@
 
     <fragment
         android:id="@+id/filter_fragment"
-        android:name="com.trx.consumer.screens.filter.FilterFragment"
+        android:name="com.trx.consumer.screens.filter.FiltersFragment"
         android:label="FilterFragment"
         tools:layout="@layout/fragment_filter" />
 

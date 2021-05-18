@@ -101,6 +101,7 @@
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
     <string name="test_utility_plans_label">Plans</string>
+    <string name="test_utility_player_label">Player</string>
     <string name="test_utility_virtual_workout_section_label">Virtual Workouts</string>
     <string name="test_utility_video_workout_section_label">Video Workouts</string>
     <string name="test_utility_promotion_section_label">Promotions</string>
@@ -109,7 +110,11 @@
     <string name="test_utility_update_label">Update</string>
     <string name="test_utility_content_label">Content</string>
     <string name="test_utility_filter_label">Filters</string>
+    <string name="test_utility_discover_label">Discover</string>
 
+    <string name="video_tab_workouts_label">WORKOUTS</string>
+    <string name="video_tab_collections_label">COLLECTIONS</string>
+    <string name="video_tab_programs_label">PROGRAMS</string>
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 
     <string name="virtual_booking_button_title_book">BOOK</string>
@@ -164,5 +169,4 @@
 
     <string name="filters_btn_back_label">BACK</string>
     <string name="filters_btn_all_label">All</string>
-
 </resources>
