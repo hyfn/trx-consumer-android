@@ -3,18 +3,14 @@ package com.trx.consumer.stripe
 import com.trx.consumer.base.BaseApi
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.EndpointModel
-import com.trx.consumer.models.core.RequestModel
-import com.trx.consumer.models.core.ResponseModel
-import com.trx.consumer.models.responses.UserResponseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class StripeBackendManager(private val api: BaseApi, private val cacheManager: CacheManager) {
 
-    suspend fun call(request: RequestModel): ResponseModel {
+    suspend fun call(request: StripeRequestModel): StripeResponseModel {
         return withContext(Dispatchers.IO) {
-            val endpoint = request.endpoint
+            val endpoint = request.stripeEndpoint
             val url = request.path
             val params = request.params ?: hashMapOf()
             val accessToken = cacheManager.accessToken()
@@ -36,66 +32,28 @@ class StripeBackendManager(private val api: BaseApi, private val cacheManager: C
                 queryPath += "$key=$value"
             }
             LogManager.log("Request: [${endpoint.type.name}] $queryPath")
-            val responseModel = ResponseModel.parse(
+            val stripeResponseModel = StripeResponseModel.parse(
                 when (endpoint.type) {
-                    EndpointModel.Type.POST -> api.post(url, token, params)
-                    EndpointModel.Type.GET -> api.get(url, token, params)
-                    EndpointModel.Type.PUT -> api.put(url, token, params)
-                    EndpointModel.Type.DELETE -> api.delete(url, token, params)
-                    EndpointModel.Type.PATCH -> api.patch(url, token, params)
+                    StripeEndpointModel.Type.POST -> api.post(url, token, params)
+                    StripeEndpointModel.Type.GET -> api.get(url, token, params)
+                    StripeEndpointModel.Type.PUT -> api.put(url, token, params)
+                    StripeEndpointModel.Type.DELETE -> api.delete(url, token, params)
+                    StripeEndpointModel.Type.PATCH -> api.patch(url, token, params)
                 }
             )
-            LogManager.log("Response: [${endpoint.type.name}] $queryPath \n${responseModel.responseString}")
-            responseModel
+            LogManager.log("Response: [${endpoint.type.name}] $queryPath \n${stripeResponseModel.responseString}")
+            stripeResponseModel
         }
     }
 
-    suspend fun login(email: String, password: String): ResponseModel {
-        val params = hashMapOf<String, Any>(
-            "email" to email,
-            "password" to password
+    suspend fun createPaymentMethod(): StripeResponseModel {
+        val path = StripeEndpointModel.CREATE_PAYMENT_METHOD.path
+        return call(
+            StripeRequestModel(
+                stripeEndpoint = StripeEndpointModel.CREATE_PAYMENT_METHOD,
+                path = path,
+                params = null
+            )
         )
-        val path = EndpointModel.LOGIN.path
-        val response = call(
-            RequestModel(endpoint = EndpointModel.LOGIN, path = path, params = params)
-        )
-        if (!response.isSuccess) return response
-        try {
-            val model = UserResponseModel.parse(response.responseString)
-            cacheManager.accessToken(model.jwt)
-        } catch (e: Exception) {
-            LogManager.log(e)
-        }
-        return user()
-    }
-
-    suspend fun register(params: HashMap<String, Any>): ResponseModel {
-        val path = EndpointModel.REGISTER.path
-        val response = call(
-            RequestModel(endpoint = EndpointModel.REGISTER, path = path, params = params)
-        )
-        if (!response.isSuccess) return response
-        try {
-            val model = UserResponseModel.parse(response.responseString)
-            cacheManager.accessToken(model.jwt)
-        } catch (e: Exception) {
-            LogManager.log(e)
-        }
-        return user()
-    }
-
-    suspend fun user(): ResponseModel {
-        val path = EndpointModel.USER.path
-        val response = call(RequestModel(endpoint = EndpointModel.USER, path = path, params = null))
-        if (response.isSuccess) {
-            val model = UserResponseModel.parse(response.responseString)
-            cacheManager.user(model.user)
-        }
-        return response
-    }
-
-    suspend fun workouts(): ResponseModel {
-        val path = EndpointModel.WORKOUTS.path
-        return call(RequestModel(endpoint = EndpointModel.WORKOUTS, path = path, params = null))
     }
 }
