@@ -67,6 +67,16 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return user()
     }
 
+    suspend fun paymentAdd(id: String): ResponseModel {
+        val path = EndpointModel.PAYMENT_ADD.path + "/" + id
+        return call(RequestModel(endpoint = EndpointModel.PAYMENT_ADD, path, params = null))
+    }
+
+    suspend fun paymentDelete(id: String): ResponseModel {
+        val path = EndpointModel.PAYMENT_DELETE.path + "/" + id
+        return call(RequestModel(endpoint = EndpointModel.PAYMENT_ADD, path, params = null))
+    }
+
     suspend fun register(params: HashMap<String, Any>): ResponseModel {
         val path = EndpointModel.REGISTER.path
         val response = call(
