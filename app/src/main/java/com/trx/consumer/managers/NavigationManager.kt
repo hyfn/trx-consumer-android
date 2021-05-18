@@ -1,6 +1,8 @@
 package com.trx.consumer.managers
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.IdRes
@@ -94,9 +96,17 @@ class NavigationManager {
     }
 
     fun params(fragment: Fragment): Any? {
-        var extraP: Any? = fragment.arguments?.getParcelable(extraParcelable)
+        return extras(fragment.arguments)
+    }
+
+    fun params(intent: Intent): Any? {
+        return extras(intent.extras)
+    }
+
+    private fun extras(bundle: Bundle?): Any? {
+        var extraP: Any? = bundle?.getParcelable(extraParcelable)
         extraP?.let { safeP -> return safeP }
-        extraP = fragment.arguments?.get(extraAny)
+        extraP = bundle?.get(extraAny)
         extraP?.let { safeA -> return safeA }
         return null
     }
@@ -107,6 +117,17 @@ class NavigationManager {
             else -> bundleOf(extraAny to params)
         }
         show(source, fragment, bundle)
+    }
+
+    fun <T : Activity> presentActivity(source: Activity, activity: Class<T>, params: Any? = null) {
+        val bundle = when (params) {
+            is Parcelable -> bundleOf(extraParcelable to params)
+            else -> bundleOf(extraAny to params)
+        }
+        Intent(source, activity).apply {
+            putExtras(bundle)
+            source.startActivity(this)
+        }
     }
 
     private fun show(fragment: Fragment, @IdRes destination: Int, bundle: Bundle? = null) {
