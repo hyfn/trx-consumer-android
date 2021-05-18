@@ -57,7 +57,7 @@ class FiltersAdapter(
     }
 
     fun reset() {
-        // TO-DO
+        // TODO:
     }
 
     override fun getItemViewType(position: Int): Int {
