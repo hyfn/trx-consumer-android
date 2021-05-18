@@ -11,21 +11,20 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.load
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.models.params.VideoParamsModel
-import com.trx.consumer.screens.video.list.VideoAdapter
+import com.trx.consumer.screens.discover.list.DiscoverAdapter
 
 class VideosFragment : BaseFragment(R.layout.fragment_videos) {
 
     private val viewModel: VideosViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentVideosBinding::bind)
 
-    private lateinit var adapter: VideoAdapter
+    private lateinit var adapter: DiscoverAdapter
 
     override fun bind() {
-        val model = NavigationManager.shared.params(this) as VideoParamsModel
+        val model = NavigationManager.shared.params(this) as WorkoutModel
 
         viewModel.apply {
-            workoutModel = model.workoutModel
+            workoutModel = model
 
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
@@ -34,7 +33,7 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
         }
 
         viewBinding.apply {
-            adapter = VideoAdapter(viewModel) { lifecycleScope }
+            adapter = DiscoverAdapter(viewModel) { lifecycleScope }
             rvRelatedVideos.adapter = adapter
 
             btnBack.action { viewModel.doTapBack() }
