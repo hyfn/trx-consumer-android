@@ -2,19 +2,19 @@ package com.trx.consumer.screens.filter
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.models.common.VideoFilterModel
-import com.trx.consumer.models.params.VideoFilterParamsModel
+import com.trx.consumer.models.common.FilterModel
+import com.trx.consumer.models.params.FilterParamsModel
 
-class FilterViewModel : BaseViewModel(), VideoFilterListener {
+class FiltersViewModel : BaseViewModel(), FiltersListener {
 
-    var params: VideoFilterParamsModel? = null
+    var params: FilterParamsModel? = null
 
-    val eventLoadView = CommonLiveEvent<VideoFilterParamsModel>()
+    val eventLoadView = CommonLiveEvent<FilterParamsModel>()
 
-    val eventTapApply = CommonLiveEvent<VideoFilterParamsModel>()
+    val eventTapApply = CommonLiveEvent<FilterParamsModel>()
     val eventTapClose = CommonLiveEvent<Void>()
     val eventTapReset = CommonLiveEvent<Void>()
-    val eventTapFilter = CommonLiveEvent<VideoFilterModel>()
+    val eventTapFilter = CommonLiveEvent<FilterModel>()
 
     fun doLoadView() {
         params?.let { safeParams ->
@@ -40,7 +40,7 @@ class FilterViewModel : BaseViewModel(), VideoFilterListener {
         }
     }
 
-    override fun doTapFilter(model: VideoFilterModel) {
+    override fun doTapFilter(model: FilterModel) {
         eventTapFilter.postValue(model)
     }
 }

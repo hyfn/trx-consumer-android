@@ -6,12 +6,12 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.VideoFilterModel
+import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
-class VideoFilterAdapter(
-    private val listener: VideoFilterListener,
+class FiltersAdapter(
+    private val listener: FiltersListener,
     scopeProvider: () -> CoroutineScope
 ) : CommonRecyclerViewAdapter(scopeProvider) {
 
@@ -25,7 +25,7 @@ class VideoFilterAdapter(
     override fun createCommonViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         return try {
             when (viewType) {
-                TYPE_ROW -> VideoFilterViewHolder(
+                TYPE_ROW -> FiltersViewHolder(
                     LayoutInflater.from(parent.context)
                         .inflate(R.layout.row_video_filter, parent, false)
                 )
@@ -44,13 +44,13 @@ class VideoFilterAdapter(
     override fun onBindViewHolder(holder: CommonViewHolder, position: Int) {
         val item = items[position]
         when (holder) {
-            is VideoFilterViewHolder -> {
-                holder.setup(item as VideoFilterModel, listener)
+            is FiltersViewHolder -> {
+                holder.setup(item as FilterModel, listener)
             }
         }
     }
 
-    fun update(newItems: List<VideoFilterModel>) {
+    fun update(newItems: List<FilterModel>) {
         this.items.clear()
         this.items.addAll(newItems)
         this.notifyDataSetChanged()
@@ -62,7 +62,7 @@ class VideoFilterAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is VideoFilterModel -> TYPE_ROW
+            is FilterModel -> TYPE_ROW
             else -> TYPE_EMPTY
         }
     }

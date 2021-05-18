@@ -11,25 +11,25 @@ import com.trx.consumer.databinding.FragmentFilterBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.common.VideoFilterModel
-import com.trx.consumer.models.params.VideoFilterParamsModel
+import com.trx.consumer.models.common.FilterModel
+import com.trx.consumer.models.params.FilterParamsModel
 
-class FilterFragment : BaseFragment(R.layout.fragment_filter) {
+class FiltersFragment : BaseFragment(R.layout.fragment_filter) {
 
     //region Objects
-    private val viewModel: FilterViewModel by viewModels()
+    private val viewModel: FiltersViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentFilterBinding::bind)
 
-    private var adapter: VideoFilterAdapter? = null
+    private var adapter: FiltersAdapter? = null
 
     //endregion
 
     //region Setuo
     override fun bind() {
 
-        val params = NavigationManager.shared.params(this) as VideoFilterParamsModel
+        val params = NavigationManager.shared.params(this) as FilterParamsModel
         viewModel.params = params
-        adapter = VideoFilterAdapter(viewModel) { lifecycleScope }
+        adapter = FiltersAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
             rvFilters.adapter = adapter
@@ -51,7 +51,7 @@ class FilterFragment : BaseFragment(R.layout.fragment_filter) {
     }
 
     //region - Handlers
-    private val handleLoadView = Observer<VideoFilterParamsModel> { model ->
+    private val handleLoadView = Observer<FilterParamsModel> { model ->
         LogManager.log("handleLoad")
         if (model.list.isNotEmpty()) loadView(model)
         else {
@@ -62,7 +62,7 @@ class FilterFragment : BaseFragment(R.layout.fragment_filter) {
         }
     }
 
-    private val handleTapApply = Observer<VideoFilterParamsModel> { model ->
+    private val handleTapApply = Observer<FilterParamsModel> { model ->
         LogManager.log("handlerTapApply")
         NavigationManager.shared.dismiss(this) // remove after TESTING
         // NavigationManager.shared.dismiss(this,R.id.video_fragment, model ) screen should go back to previous screen with videoFilterParamsModel
@@ -77,7 +77,7 @@ class FilterFragment : BaseFragment(R.layout.fragment_filter) {
         LogManager.log("handleTapReset")
     }
 
-    private val handleTapFilter = Observer<VideoFilterModel> { model ->
+    private val handleTapFilter = Observer<FilterModel> { model ->
         LogManager.log("handleTapFilter: ${model.title}")
         // NavigationManager.shared.dismiss(this,R.id.filter_option_fragment, model ) move to new screen to populate the filter values
     }
@@ -88,7 +88,7 @@ class FilterFragment : BaseFragment(R.layout.fragment_filter) {
         viewModel.onBackPressed()
     }
 
-    private fun loadView(model: VideoFilterParamsModel) {
+    private fun loadView(model: FilterParamsModel) {
         adapter?.update(model.list)
     }
 
