@@ -165,6 +165,6 @@
     <string name="filters_btn_close_label">CLOSE</string>
     <string name="filters_btn_clear_filters_label">CLEAR FILTERS</string>
     <string name="filters_btn_apply_label">APPLY</string>
-    <string name="filters_empty_list_label">There are no filter</string>
+    <string name="filters_empty_list_label">There are no filters</string>
 
 </resources>
