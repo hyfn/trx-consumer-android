@@ -54,7 +54,7 @@ class UpdateViewModel @ViewModelInject constructor(
     val eventLoadState = CommonLiveEvent<UpdateViewState>()
     val eventLoadUser = CommonLiveEvent<UserModel>()
     val eventLoadButton = CommonLiveEvent<Boolean>()
-    val eventLoadSuccess = CommonLiveEvent<String>()
+    val eventLoadSuccess = CommonLiveEvent<Void>()
     val eventLoadError = CommonLiveEvent<String>()
 
     val eventTapBack = CommonLiveEvent<Void>()
@@ -133,7 +133,7 @@ class UpdateViewModel @ViewModelInject constructor(
                             eventShowOnboarding.call()
                         }
                     }
-                    UpdateViewState.EDIT -> eventLoadSuccess.postValue("Changes saved")
+                    UpdateViewState.EDIT -> eventLoadSuccess.call()
                 }
             } else {
                 eventLoadError.postValue(response.errorMessage)
