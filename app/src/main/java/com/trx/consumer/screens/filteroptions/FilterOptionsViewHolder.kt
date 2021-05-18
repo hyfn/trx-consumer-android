@@ -1,19 +1,18 @@
-package com.trx.consumer.screens.filters
+package com.trx.consumer.screens.filteroptions
 
-import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.trx.consumer.R
 import com.trx.consumer.common.CommonLabel
 import com.trx.consumer.common.CommonView
 import com.trx.consumer.common.CommonViewHolder
-import com.trx.consumer.common.FilterValueModel
+import com.trx.consumer.models.common.FilterOptionsModel
 
-class FiltersViewHolder(view: View) : CommonViewHolder(view) {
+class FilterOptionsViewHolder(view: View) : CommonViewHolder(view) {
     private val lblTitle: CommonLabel = view.findViewById(R.id.lblTitle)
     private val viewFilter: CommonView = view.findViewById(R.id.viewFilter)
 
-    fun setup(model: FilterValueModel, listener: FiltersListener) {
+    fun setup(model: FilterOptionsModel, listener: FilterOptionsListener) {
         lblTitle.text = model.name
         setBackGroundColor(model.isSelected)
         viewFilter.action {

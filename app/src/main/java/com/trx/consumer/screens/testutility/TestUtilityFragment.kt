@@ -95,11 +95,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleTapContent = Observer<Void> {
         val model = ContentParamsModel(ContentViewState.PLAIN, "Terms & Conditions", "Test")
-        NavigationManager.shared.present(
-            this,
-            R.id.content_fragment,
-            model
-        )
+        NavigationManager.shared.present(this, R.id.content_fragment, model)
     }
 
     private val handleTapPlans = Observer<Void> {

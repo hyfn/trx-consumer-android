@@ -79,7 +79,7 @@ class FilterFragment : BaseFragment(R.layout.fragment_filter) {
 
     private val handleTapFilter = Observer<VideoFilterModel> { model ->
         LogManager.log("handleTapFilter: ${model.title}")
-        NavigationManager.shared.present(this, R.id.filters_fragment, model)
+        NavigationManager.shared.present(this, R.id.filter_options_fragment, model)
     }
     //endregion
 

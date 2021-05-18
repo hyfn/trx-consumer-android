@@ -1,14 +1,13 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
-import com.trx.consumer.common.FilterValueModel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class VideoFilterModel(
     val id: Int = 0,
     val title: String = "",
-    val values: List<FilterValueModel> = listOf()
+    val values: List<FilterOptionsModel> = listOf()
 ) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
@@ -26,7 +25,7 @@ class VideoFilterModel(
                 list.add(
                     VideoFilterModel(
                         index, "Test filter $index",
-                        listOf(FilterValueModel("option1"), FilterValueModel("option2"))
+                        listOf(FilterOptionsModel("option1"), FilterOptionsModel("option2"))
                     )
                 )
             }

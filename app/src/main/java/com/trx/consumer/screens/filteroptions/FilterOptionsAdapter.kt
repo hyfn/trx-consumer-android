@@ -1,16 +1,16 @@
-package com.trx.consumer.screens.filters
+package com.trx.consumer.screens.filteroptions
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.trx.consumer.R
 import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
-import com.trx.consumer.common.FilterValueModel
+import com.trx.consumer.models.common.FilterOptionsModel
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
-class FiltersAdapter(private val listener: FiltersListener, scopeProvider: () -> CoroutineScope) :
+class FilterOptionsAdapter(private val listener: FilterOptionsListener, scopeProvider: () -> CoroutineScope) :
     CommonRecyclerViewAdapter(scopeProvider) {
     companion object {
         private const val TYPE_EMPTY = -1
@@ -22,7 +22,7 @@ class FiltersAdapter(private val listener: FiltersListener, scopeProvider: () ->
     override fun createCommonViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         return try {
             when (viewType) {
-                TYPE_ROW -> FiltersViewHolder(
+                TYPE_ROW -> FilterOptionsViewHolder(
                     LayoutInflater.from(parent.context)
                         .inflate(R.layout.row_filters, parent, false)
                 )
@@ -41,13 +41,13 @@ class FiltersAdapter(private val listener: FiltersListener, scopeProvider: () ->
     override fun onBindViewHolder(holder: CommonViewHolder, position: Int) {
         val item = items[position]
         when (holder) {
-            is FiltersViewHolder -> {
-                holder.setup(item as FilterValueModel, listener)
+            is FilterOptionsViewHolder -> {
+                holder.setup(item as FilterOptionsModel, listener)
             }
         }
     }
 
-    fun update(newItems: List<FilterValueModel>) {
+    fun update(newItems: List<FilterOptionsModel>) {
         this.items.clear()
         this.items.addAll(newItems)
         this.notifyDataSetChanged()
@@ -59,7 +59,7 @@ class FiltersAdapter(private val listener: FiltersListener, scopeProvider: () ->
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is FilterValueModel -> TYPE_ROW
+            is FilterOptionsModel -> TYPE_ROW
             else -> TYPE_EMPTY
         }
     }
