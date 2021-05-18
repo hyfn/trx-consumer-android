@@ -79,7 +79,7 @@ class FilterFragment : BaseFragment(R.layout.fragment_filter) {
 
     private val handleTapFilter = Observer<VideoFilterModel> { model ->
         LogManager.log("handleTapFilter: ${model.title}")
-        //NavigationManager.shared.dismiss(this,R.id.filter_option_fragment, model ) move to new screen to populate the filter values
+        // NavigationManager.shared.dismiss(this,R.id.filter_option_fragment, model ) move to new screen to populate the filter values
     }
     //endregion
 

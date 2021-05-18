@@ -57,7 +57,7 @@ class VideoFilterAdapter(
     }
 
     fun reset() {
-       //TO-DO
+        // TO-DO
     }
 
     override fun getItemViewType(position: Int): Int {
