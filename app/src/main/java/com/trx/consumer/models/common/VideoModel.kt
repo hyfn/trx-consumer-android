@@ -17,7 +17,7 @@ class VideoModel(
 ) : Parcelable {
 
     val videoDuration: String
-        get() = "${duration / 60_000} MINS"
+        get() = "${duration / 60_000} MIN"
 
     companion object {
 

@@ -50,6 +50,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnContent.action { viewModel.doTapContent() }
             btnPlans.action { viewModel.doTapPlans() }
             btnPlayer.action { viewModel.doTapPlayer() }
+            btnDiscover.action { viewModel.doTapDiscover() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoAdapter
@@ -65,6 +66,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
             eventTapPlans.observe(viewLifecycleOwner, handleTapPlans)
             eventTapPlayer.observe(viewLifecycleOwner, handleTapPlayer)
+            eventTapDiscover.observe(viewLifecycleOwner, handleTapDiscover)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
             eventLoadPromotions.observe(viewLifecycleOwner, handleLoadPromotions)
@@ -112,6 +114,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             PlayerActivity::class.java,
             video
         )
+    }
+
+    private val handleTapDiscover = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.discover_fragment)
     }
 
     private val handleLoadLiveWorkouts = Observer<List<WorkoutModel>> { liveWorkouts ->

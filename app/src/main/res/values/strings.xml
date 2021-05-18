@@ -109,7 +109,11 @@
     <string name="test_utility_add_card_label">Add Card</string>
     <string name="test_utility_update_label">Update</string>
     <string name="test_utility_content_label">Content</string>
+    <string name="test_utility_discover_label">Discover</string>
 
+    <string name="video_tab_workouts_label">WORKOUTS</string>
+    <string name="video_tab_collections_label">COLLECTIONS</string>
+    <string name="video_tab_programs_label">PROGRAMS</string>
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 
     <string name="virtual_booking_button_title_book">BOOK</string>
