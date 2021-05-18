@@ -76,8 +76,7 @@
         app:backgroundColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblTitle"
-        tools:visibility="visible">
+        app:layout_constraintTop_toBottomOf="@+id/lblTitle">
 
         <com.trx.consumer.common.CommonImageView
             android:id="@+id/imgCard"
@@ -127,14 +126,14 @@
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center"
+        android:text="@string/cards_add_payment_method_label"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="13sp"
         app:backgroundColor="@color/blackRussian"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/cards_add_payment_method_label" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.trx.consumer.common.CommonHudView
         android:id="@+id/hudView"

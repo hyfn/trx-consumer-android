@@ -26,6 +26,7 @@ class CardsFragment : BaseFragment(R.layout.fragment_cards) {
     override fun bind() {
         viewBinding.apply {
             btnBack.action { viewModel.doTapBack() }
+            btnEditCard.action { viewModel.doTapAdd() }
         }
         viewModel.apply {
             eventLoadViewSuccess.observe(viewLifecycleOwner, handleLoadViewSuccess)
@@ -52,13 +53,6 @@ class CardsFragment : BaseFragment(R.layout.fragment_cards) {
                 lblNumber.text = model.number
                 btnEditCard.text = getString(R.string.cards_update_payment_method_label)
                 btnEditCard.action { viewModel.doTapReplace() }
-            }
-        } ?: run {
-            viewBinding.apply {
-                viewCard.isHidden = true
-                lblEmptyTitle.isHidden = false
-                btnEditCard.text = getString(R.string.cards_add_payment_method_label)
-                btnEditCard.action { viewModel.doTapAdd() }
             }
         }
     }
