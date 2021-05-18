@@ -157,10 +157,10 @@
     <string name="onboarding_demand_list_text_two">Huge library of exclusive on-demand video workouts from top TRX pros</string>
     <string name="onboarding_demand_list_text_three">Get your heart rate up with tons of diverse workouts to choose from</string>
 
-    <string name="filter_btn_close_label">CLOSE</string>
-    <string name="filter_btn_clear_filters_label">CLEAR FILTERS</string>
-    <string name="filter_btn_apply_label">APPLY</string>
-    <string name="filter_empty_list_label">There are no filter</string>
+    <string name="filters_btn_close_label">CLOSE</string>
+    <string name="filters_btn_clear_filters_label">CLEAR FILTERS</string>
+    <string name="filters_btn_apply_label">APPLY</string>
+    <string name="filters_empty_list_label">There are no filter</string>
 
     <string name="filters_btn_back_label">BACK</string>
     <string name="filters_btn_all_label">All</string>
