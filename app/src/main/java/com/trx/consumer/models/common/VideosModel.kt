@@ -9,4 +9,4 @@ class VideosModel(
     val poster: String = "",
     val trainer: TrainerModel = TrainerModel(),
     val videos: List<VideoModel> = emptyList()
-): Parcelable
+) : Parcelable
