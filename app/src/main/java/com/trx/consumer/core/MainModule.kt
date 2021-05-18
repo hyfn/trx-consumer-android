@@ -8,6 +8,7 @@ import com.trx.consumer.BuildConfig.kBaseUrl
 import com.trx.consumer.base.BaseApi
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
+import com.trx.consumer.stripe.StripeBackendManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -115,4 +116,9 @@ object MainModule {
     @Singleton
     fun provideBackendManager(api: BaseApi, cacheManager: CacheManager): BackendManager =
         BackendManager(api, cacheManager)
+
+    @Provides
+    @Singleton
+    fun provideStripeBackendManager(api: BaseApi, cacheManager: CacheManager): StripeBackendManager =
+        StripeBackendManager(api, cacheManager)
 }
