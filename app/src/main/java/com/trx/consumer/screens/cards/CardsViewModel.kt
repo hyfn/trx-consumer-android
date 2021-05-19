@@ -40,7 +40,7 @@ class CardsViewModel @ViewModelInject constructor(
             eventShowHud.postValue(true)
             val response = backendManager.user()
             eventShowHud.postValue(false)
-            if (response.isSuccess && (response.statusCode != 404)) {
+            if (response.isSuccess) {
                 cacheManager.user()?.card?.let {
                     model = it
                     eventLoadViewSuccess.postValue(model)
