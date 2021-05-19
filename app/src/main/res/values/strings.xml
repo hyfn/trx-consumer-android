@@ -177,5 +177,6 @@
 
     <string name="filter_options_btn_back_label">BACK</string>
     <string name="filters_options_btn_all_label">All</string>
-    <string name="filters_options_selected_filter">Selected</string>
+    <string name="filters_options_selected_filter_label">Selected %1$d</string>
+    <string name="filters_options_selected_filter_default_label"> </string>
 </resources>

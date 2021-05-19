@@ -16,15 +16,15 @@ class FiltersViewHolder(view: View) : CommonViewHolder(view) {
     fun setup(model: FilterModel, listener: FiltersListener) {
         lblTitle.text = model.title
         val count = model.values.count { it.isSelected }
-        if (count == 1) {
-            model.values.firstOrNull { it.isSelected }?.let { optionModel ->
-                lblSelectedFilter.text = optionModel.name
+        lblSelectedFilter.apply {
+            text = if (count == 1) {
+                model.values.firstOrNull { it.isSelected }?.let { it -> it.name }
+            } else if (count > 1 && count < model.values.size) {
+                context.getString(R.string.filters_options_selected_filter_label, count)
+            } else {
+                context.getString(R.string.filters_options_selected_filter_default_label)
             }
-        } else if (count > 1 && count < model.values.size) {
-            lblSelectedFilter.text = "Selected $count"
-        } else {
-            lblSelectedFilter.text = ""
+            viewFilter.action { listener.doTapFilter(model) }
         }
-        viewFilter.action { listener.doTapFilter(model) }
     }
 }
