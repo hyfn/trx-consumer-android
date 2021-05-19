@@ -6,6 +6,7 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
+import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.CardModel
 import com.trx.consumer.models.common.PurchaseModel
 import com.trx.consumer.stripe.StripeBackendManager
@@ -108,24 +109,30 @@ class AddCardViewModel @ViewModelInject constructor(
                 )
             } else {
                 card?.let {
-                    eventShowHud.postValue(true)
-                    val response = stripeBackendManager.createStripePaymentMethod(it)
-                    eventShowHud.postValue(false)
-                    response?.let { id ->
-                        paymentMethodId?.let { currentId ->
-                            eventShowHud.postValue(true)
-                            val deleteResponse = backendManager.paymentDelete(currentId)
-                            eventShowHud.postValue(false)
-                            if (deleteResponse.isSuccess) {
-                                doCallAddPayment(currentId)
-                            } else {
-                                eventSaveError.postValue("There was an error updating your card")
+                    try {
+                        eventShowHud.postValue(true)
+                        val response = stripeBackendManager.createStripePaymentMethod(it)
+                        eventShowHud.postValue(false)
+                        response?.let { id ->
+                            paymentMethodId?.let { currentId ->
+                                eventShowHud.postValue(true)
+                                val deleteResponse = backendManager.paymentDelete(currentId)
+                                eventShowHud.postValue(false)
+                                if (deleteResponse.isSuccess) {
+                                    doCallAddPayment(currentId)
+                                } else {
+                                    eventSaveError.postValue("There was an error updating your card")
+                                }
+                            } ?: run {
+                                doCallAddPayment(id)
                             }
                         } ?: run {
-                            doCallAddPayment(id)
+                            eventSaveError.postValue("There is an error with the expiration")
                         }
-                    } ?: run {
-                        eventSaveError.postValue("There is an error with the expiration")
+                    } catch (e: Exception) {
+                        eventShowHud.postValue(false)
+                        LogManager.log(e)
+                        e.message?.let { error -> eventSaveError.postValue(error) }
                     }
                 } ?: run {
                     eventSaveError.postValue("There is an error with the expiration")
