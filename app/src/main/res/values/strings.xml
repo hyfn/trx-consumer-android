@@ -99,6 +99,7 @@
     <string name="tab_virtual_training">VIRTUAL TRAINING</string>
     <string name="tab_live">LIVE</string>
     <string name="tab_on_demand">ON DEMAND</string>
+    <string name="tab_settings">SETTINGS</string>
 
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
