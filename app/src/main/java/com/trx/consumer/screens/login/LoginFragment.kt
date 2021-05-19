@@ -23,7 +23,6 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             ivEmail.setInputViewListener(viewModel)
             ivPassword.setInputViewListener(viewModel)
 
-
             btnBack.action { viewModel.doTapBack() }
             lblSignUp.action { viewModel.doTapSignUp() }
             btnLogin.action {
