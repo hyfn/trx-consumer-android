@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 class FilterModel(
     val id: Int = 0,
     val title: String = "",
-    var values: List<FilterOptionModel> = listOf()
+    val values: List<FilterOptionModel> = listOf()
 ) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
