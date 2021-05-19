@@ -111,6 +111,7 @@
     <string name="test_utility_add_card_label">Add Card</string>
     <string name="test_utility_update_label">Update</string>
     <string name="test_utility_content_label">Content</string>
+    <string name="test_utility_filter_label">Filters</string>
     <string name="test_utility_discover_label">Discover</string>
     <string name="test_utility_alert_label">Alert</string>
     <string name="test_utility_alert_button_primary_label">Do something</string>
@@ -168,5 +169,10 @@
     <string name="onboarding_demand_list_text_one">Find new ways to crush your goals on your time, at your pace</string>
     <string name="onboarding_demand_list_text_two">Huge library of exclusive on-demand video workouts from top TRX pros</string>
     <string name="onboarding_demand_list_text_three">Get your heart rate up with tons of diverse workouts to choose from</string>
+
+    <string name="filter_btn_close_label">CLOSE</string>
+    <string name="filter_btn_clear_filters_label">CLEAR FILTERS</string>
+    <string name="filter_btn_apply_label">APPLY</string>
+    <string name="filter_empty_list_label">There are no filters</string>
 
 </resources>

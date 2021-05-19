@@ -108,6 +108,12 @@
         android:label="VideosFragment"
         tools:layout="@layout/fragment_videos" />
 
+    <fragment
+        android:id="@+id/filter_fragment"
+        android:name="com.trx.consumer.screens.filter.FiltersFragment"
+        android:label="FilterFragment"
+        tools:layout="@layout/fragment_filters" />
+
     <dialog
         android:id="@+id/date_picker_fragment"
         android:name="com.trx.consumer.screens.datepicker.DatePickerFragment"

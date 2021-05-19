@@ -10,12 +10,14 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentTestUtilityBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.ContentParamsModel
+import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
@@ -53,6 +55,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnContent.action { viewModel.doTapContent() }
             btnPlans.action { viewModel.doTapPlans() }
             btnPlayer.action { viewModel.doTapPlayer() }
+            btnFilter.action { viewModel.doTapFilter() }
             btnDiscover.action { viewModel.doTapDiscover() }
             btnAlert.action { viewModel.doTapAlert() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
@@ -67,6 +70,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapAddCard.observe(viewLifecycleOwner, handleTapAddCard)
             eventTapUpdate.observe(viewLifecycleOwner, handleTapUpdate)
             eventTapContent.observe(viewLifecycleOwner, handleTapContent)
+            eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
             eventTapPlans.observe(viewLifecycleOwner, handleTapPlans)
             eventTapPlayer.observe(viewLifecycleOwner, handleTapPlayer)
@@ -138,6 +142,11 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             state = AlertViewState.NEGATIVE
         )
         NavigationManager.shared.present(this, R.id.alert_fragment, params = model)
+    }
+
+    private val handleTapFilter = Observer<Void> {
+        val model = FilterParamsModel(FilterModel.test(10))
+        NavigationManager.shared.present(this, R.id.filter_fragment, model)
     }
 
     private val handleLoadLiveWorkouts = Observer<List<WorkoutModel>> { liveWorkouts ->
