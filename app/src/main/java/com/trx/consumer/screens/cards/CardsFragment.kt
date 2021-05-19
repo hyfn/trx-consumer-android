@@ -53,7 +53,9 @@ class CardsFragment : BaseFragment(R.layout.fragment_cards) {
                 imgCard.setImageResource(model.imageName)
                 lblType.text = lblType.context.getString(model.typeText)
                 lblNumber.text = model.number
-                btnEditCard.text = getString(R.string.cards_update_payment_method_label)
+                btnEditCard.text = btnEditCard.context.getString(
+                    R.string.cards_update_payment_method_label
+                )
                 btnEditCard.action { viewModel.doTapReplace() }
             }
         }
