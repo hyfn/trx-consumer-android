@@ -55,15 +55,18 @@ class CardModel(
 
     val params: HashMap<String, Any>
         get() =
-            hashMapOf(
-                "type" to "card",
-                "card" to hashMapOf<String, Any>(
-                    "number" to number,
-                    "exp_month" to expMonth,
-                    "exp_year" to expYear,
-                    "cvc" to securityCode
+            HashMap<String, Any>().apply {
+                put("type", "card")
+                put(
+                    "card",
+                    HashMap<String, Any>().apply {
+                        put("number", number)
+                        put("exp_month", expMonth)
+                        put("exp_year", expYear)
+                        put("cvc", securityCode)
+                    }
                 )
-            )
+            }
 
     companion object {
 

@@ -28,11 +28,15 @@ class AddCardFragment : BaseFragment(R.layout.fragment_add_card) {
         viewBinding.apply {
             btnBack.action { viewModel.doTapBack() }
             btnClose.action { viewModel.doTapClose() }
-
             btnSave.action {
                 viewModel.doDismissKeyboard()
                 viewModel.doTapSave()
             }
+
+            txtNumber.setInputViewListener(viewModel)
+            txtExpiration.setInputViewListener(viewModel)
+            txtCVC.setInputViewListener(viewModel)
+            txtZip.setInputViewListener(viewModel)
         }
 
         viewModel.apply {
