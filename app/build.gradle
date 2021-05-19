@@ -161,7 +161,7 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
 
     // Stripe Android SDK
-    implementation 'com.stripe:stripe-android:16.8.0'
+    implementation "com.stripe:stripe-android:$rootProject.stripeVersion"
 
     // Navigation graph
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navGraphVersion"

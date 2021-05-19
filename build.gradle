@@ -43,6 +43,8 @@ buildscript {
 
         brightcoveVersion = '6.16.2'
 
+        stripeVersion = '16.8.0'
+
         // AndroidX
         activityKtxVersion = '1.1.0'
         constraintLayoutVersion = '2.0.4'
