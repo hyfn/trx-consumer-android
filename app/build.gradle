@@ -16,8 +16,26 @@ android {
         viewBinding true
     }
 
+    signingConfigs {
+        signingConfigs {
+            devRelease {
+                storeFile file("../extra/keystores/dev.keystore")
+                keyPassword System.getenv('DEV_KEYPASS')
+                storePassword System.getenv('DEV_STOREPASS')
+                keyAlias System.getenv('DEV_KEYALIAS')
+            }
+
+            prodRelease {
+                storeFile file("../extra/keystores/prod.keystore")
+                keyPassword System.getenv('PROD_KEYPASS')
+                storePassword System.getenv('PROD_STOREPASS')
+                keyAlias System.getenv('PROD_KEYALIAS')
+            }
+        }
+    }
+
     defaultConfig {
-        applicationId "com.comma.trx.consumer"
+        applicationId "com.trx.consumer"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
@@ -75,18 +93,20 @@ android {
             buildConfigField "Boolean", "kIsVerificationEnabled", "false"
         }
         dev {
+            applicationId "com.trx.consumer.dev"
             buildConfigField "boolean", "DEVELOPMENT", "true"
-            applicationId "com.comma.trx.consumer.dev"
             buildConfigField "String", "kBaseUrl", '"https://trx-dashboard-dev.vercel.app/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "false"
             buildConfigField "Integer", "kFirebaseFetchInterval", "3"
+            signingConfig signingConfigs.devRelease
         }
         prod {
+            applicationId "com.trx.consumer"
             buildConfigField "boolean", "DEVELOPMENT", "false"
-            applicationId "com.comma.trx.consumer"
             buildConfigField "String", "kBaseUrl", '"https://digital.trxtraining.com/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "true"
             buildConfigField "Integer", "kFirebaseFetchInterval", "30"
+            signingConfig signingConfigs.prodRelease
         }
     }
     sourceSets {
