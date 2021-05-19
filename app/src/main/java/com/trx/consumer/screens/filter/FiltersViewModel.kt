@@ -10,7 +10,6 @@ class FiltersViewModel : BaseViewModel(), FiltersListener {
     var params: FilterParamsModel? = null
 
     val eventLoadView = CommonLiveEvent<FilterParamsModel>()
-    val eventSetSelected = CommonLiveEvent<FilterParamsModel?>()
 
     val eventTapApply = CommonLiveEvent<FilterParamsModel>()
     val eventTapClose = CommonLiveEvent<Void>()
@@ -32,7 +31,7 @@ class FiltersViewModel : BaseViewModel(), FiltersListener {
     }
 
     fun doTapReset() {
-        params?.list?.forEach { filter -> filter.values.forEach{ option-> option.isSelected = true} }
+        params?.list?.forEach { filter -> filter.values.forEach { option -> option.isSelected = true } }
         eventTapReset.postValue(params)
     }
 
@@ -40,11 +39,6 @@ class FiltersViewModel : BaseViewModel(), FiltersListener {
         params?.let { safeParams ->
             eventTapApply.postValue(safeParams)
         }
-    }
-
-    fun setSelectedFilter(model: FilterModel) {
-        params?.list?.find { model == it }?.values = model.values
-        eventSetSelected.postValue(params)
     }
 
     override fun doTapFilter(model: FilterModel) {

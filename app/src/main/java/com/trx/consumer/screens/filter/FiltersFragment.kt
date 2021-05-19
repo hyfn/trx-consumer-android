@@ -12,7 +12,6 @@ import com.trx.consumer.databinding.FragmentFiltersBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.params.FilterParamsModel
 
 class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
@@ -47,7 +46,6 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
             eventTapClose.observe(viewLifecycleOwner, handleTapClose)
             eventTapReset.observe(viewLifecycleOwner, handleTapReset)
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
-            eventSetSelected.observe(viewLifecycleOwner, handleSetSelected)
         }
 
         viewModel.doLoadView()
@@ -91,9 +89,6 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
         NavigationManager.shared.present(this, R.id.filter_options_fragment, model)
     }
 
-    private val handleSetSelected = Observer<FilterParamsModel?> { model ->
-        model?.let {  safeModel -> adapter?.update(safeModel.list) }
-    }
     //endregion
 
     //region - Functions
