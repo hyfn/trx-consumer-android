@@ -32,8 +32,8 @@
     </style>
 
     <style name="DatePickerTheme">
-        <item name="android:textColorPrimary">@color/black</item>
-        <item name="colorControlNormal">@color/black</item>
+        <item name="android:textColorPrimary">@color/greyDark</item>
+        <item name="colorControlNormal">@color/greyDark</item>
     </style>
 
     <style name="SingleLineLabelStyle" parent="TextAppearance.AppCompat">

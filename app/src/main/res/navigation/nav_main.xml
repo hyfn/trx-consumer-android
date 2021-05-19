@@ -43,10 +43,10 @@
         tools:layout="@layout/fragment_live" />
 
     <fragment
-        android:id="@+id/video_fragment"
-        android:name="com.trx.consumer.screens.video.VideoFragment"
-        android:label="VideoFragment"
-        tools:layout="@layout/fragment_video" />
+        android:id="@+id/discover_fragment"
+        android:name="com.trx.consumer.screens.discover.DiscoverFragment"
+        android:label="DiscoverFragment"
+        tools:layout="@layout/fragment_discover" />
 
     <fragment
         android:id="@+id/test_utility_fragment"
@@ -102,6 +102,18 @@
         android:label="PlansFragment"
         tools:layout="@layout/fragment_plans" />
 
+    <fragment
+        android:id="@+id/videos_fragment"
+        android:name="com.trx.consumer.screens.videos.VideosFragment"
+        android:label="VideosFragment"
+        tools:layout="@layout/fragment_videos" />
+
+    <fragment
+        android:id="@+id/filter_fragment"
+        android:name="com.trx.consumer.screens.filter.FiltersFragment"
+        android:label="FilterFragment"
+        tools:layout="@layout/fragment_filters" />
+
     <dialog
         android:id="@+id/date_picker_fragment"
         android:name="com.trx.consumer.screens.datepicker.DatePickerFragment"
@@ -112,6 +124,12 @@
         android:id="@+id/error_fragment"
         android:name="com.trx.consumer.screens.erroralert.ErrorAlertFragment"
         android:label="ErrorAlertFragment"
-        tools:layout="@layout/fragment_error_alert"/>
+        tools:layout="@layout/fragment_error_alert" />
+
+    <dialog
+        android:id="@+id/alert_fragment"
+        android:name="com.trx.consumer.screens.alert.AlertFragment"
+        android:label="AlertFragment"
+        tools:layout="@layout/fragment_alert" />
 
 </navigation>

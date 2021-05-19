@@ -41,6 +41,8 @@ buildscript {
 
         lottieVersion='3.4.0'
 
+        brightcoveVersion = '6.16.2'
+
         // AndroidX
         activityKtxVersion = '1.1.0'
         constraintLayoutVersion = '2.0.4'
@@ -76,6 +78,7 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
+        maven { url 'https://repo.brightcove.com/releases' }
     }
 }
 

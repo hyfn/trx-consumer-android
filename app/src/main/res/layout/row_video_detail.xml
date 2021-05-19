@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewMain"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:layout_marginTop="15dp">
+
+    <com.trx.consumer.common.CommonImageView
+        android:id="@+id/imgPoster"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/black"
+        android:scaleType="centerCrop"
+        android:tint="@color/blackAlpha20"
+        tools:src="@drawable/ic_img_placeholder"
+        tools:tint="@color/blackAlpha20" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/atcarquette_bold"
+        android:textColor="@color/yellow"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toTopOf="@id/lblTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="SmallSp"
+        tools:text="60 MIN" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/atcarquette_semibold"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/lblSubtitle"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Foll Body Power Pump" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/atcarquette_semibold"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="with Jaime M." />
+
+    <com.trx.consumer.common.CommonButton
+        android:id="@+id/btnSelect"
+        style="@style/MatchParentDimensionsViewStyle" />
+
+</com.trx.consumer.common.CommonView>
