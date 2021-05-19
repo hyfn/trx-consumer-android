@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 class FilterModel(
     val id: Int = 0,
     val title: String = "",
-    var values: List<FilterOptionsModel> = listOf()
+    var values: List<FilterOptionModel> = listOf()
 ) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
@@ -26,10 +26,10 @@ class FilterModel(
                     FilterModel(
                         index, "Test filter $index",
                         listOf(
-                            FilterOptionsModel("option1"),
-                            FilterOptionsModel("option2"),
-                            FilterOptionsModel("option3"),
-                            FilterOptionsModel("option4")
+                            FilterOptionModel("option1"),
+                            FilterOptionModel("option2"),
+                            FilterOptionModel("option3"),
+                            FilterOptionModel("option4")
                         )
                     )
                 )

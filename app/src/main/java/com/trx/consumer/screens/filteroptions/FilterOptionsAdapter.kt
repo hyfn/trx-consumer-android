@@ -6,7 +6,7 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.FilterOptionsModel
+import com.trx.consumer.models.common.FilterOptionModel
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
@@ -42,24 +42,20 @@ class FilterOptionsAdapter(private val listener: FilterOptionsListener, scopePro
         val item = items[position]
         when (holder) {
             is FilterOptionsViewHolder -> {
-                holder.setup(item as FilterOptionsModel, listener)
+                holder.setup(item as FilterOptionModel, listener)
             }
         }
     }
 
-    fun update(newItems: List<FilterOptionsModel>) {
+    fun update(newItems: List<FilterOptionModel>) {
         this.items.clear()
         this.items.addAll(newItems)
         this.notifyDataSetChanged()
     }
 
-    fun reset() {
-        // TO-DO
-    }
-
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is FilterOptionsModel -> TYPE_ROW
+            is FilterOptionModel -> TYPE_ROW
             else -> TYPE_EMPTY
         }
     }
