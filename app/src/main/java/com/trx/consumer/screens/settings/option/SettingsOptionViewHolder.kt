@@ -7,7 +7,9 @@ import androidx.core.content.res.ResourcesCompat
 import com.trx.consumer.R
 import com.trx.consumer.common.CommonButton
 import com.trx.consumer.common.CommonLabel
+import com.trx.consumer.common.CommonView
 import com.trx.consumer.common.CommonViewHolder
+import com.trx.consumer.extensions.margin
 import com.trx.consumer.screens.settings.SettingsModel
 
 class SettingsOptionViewHolder(view: View) : CommonViewHolder(view) {
@@ -15,8 +17,12 @@ class SettingsOptionViewHolder(view: View) : CommonViewHolder(view) {
     private val lblTitle: CommonLabel = view.findViewById(R.id.lblTitle)
     private val lblSubtitle: CommonLabel = view.findViewById(R.id.lblSubtitle)
     private val btnSelect: CommonButton = view.findViewById(R.id.btnSelect)
+    private val viewMain: CommonView = view.findViewById(R.id.viewMain)
 
     fun setup(model: SettingsModel, listener: SettingsOptionListener) {
+
+        if (model.setMarginBottom)
+            viewMain.margin(0F, 0F, 0F, 15F)
 
         lblTitle.apply {
             text = itemView.context.getString(model.title)

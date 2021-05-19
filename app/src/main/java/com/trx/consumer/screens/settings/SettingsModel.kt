@@ -9,6 +9,7 @@ class SettingsModel {
 
     var user: UserModel? = null
     var type: SettingsType = SettingsType.EDIT_PROFILE
+    var setMarginBottom = false
 
     val title: Int
         get() = type.title
@@ -42,23 +43,24 @@ class SettingsModel {
         }
 
     companion object {
-        fun create(user: UserModel?, type: SettingsType): SettingsModel =
+        fun create(user: UserModel?, type: SettingsType, setMarginBottom: Boolean): SettingsModel =
             SettingsModel().apply {
                 this.user = user
                 this.type = type
+                this.setMarginBottom = setMarginBottom
             }
 
         fun list(user: UserModel?): MutableList<Any> {
             return mutableListOf<Any>().apply {
-                add(create(null, SettingsType.EDIT_PROFILE))
-                add(create(user, SettingsType.SUBSCRIPTIONS))
-                add(create(user, SettingsType.PAYMENT_METHODS))
-                add(create(user, SettingsType.NOTIFICATIONS))
-                add(create(null, SettingsType.SHOP))
-                add(create(null, SettingsType.GETTING_STARTED))
-                add(create(null, SettingsType.CONTACT_SUPPORT))
-                add(create(null, SettingsType.TERMS_AND_CONDITIONS))
-                add(create(null, SettingsType.LOGOUT))
+                add(create(null, SettingsType.EDIT_PROFILE, true))
+                add(create(user, SettingsType.SUBSCRIPTIONS, false))
+                add(create(user, SettingsType.PAYMENT_METHODS, false))
+                add(create(user, SettingsType.NOTIFICATIONS, true))
+                add(create(null, SettingsType.SHOP, false))
+                add(create(null, SettingsType.GETTING_STARTED, false))
+                add(create(null, SettingsType.CONTACT_SUPPORT, false))
+                add(create(null, SettingsType.TERMS_AND_CONDITIONS, true))
+                add(create(null, SettingsType.LOGOUT, false))
             }
         }
     }
