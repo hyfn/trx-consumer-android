@@ -20,6 +20,8 @@ class FiltersViewHolder(view: View) : CommonViewHolder(view) {
             model.values.firstOrNull { it.isSelected }?.let { optionModel ->
                 lblSelectedFilter.text = optionModel.name
             }
+        } else if (count > 1 && count < model.values.size) {
+            lblSelectedFilter.text = "Selected $count"
         } else {
             lblSelectedFilter.text = ""
         }

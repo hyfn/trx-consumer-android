@@ -42,6 +42,6 @@ class FiltersViewModel : BaseViewModel(), FiltersListener {
     }
 
     override fun doTapFilter(model: FilterModel) {
-        eventTapFilter.postValue(params?.apply { selectedFilter = model.id })
+        eventTapFilter.postValue(params?.apply { selectedModel = model })
     }
 }

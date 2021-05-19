@@ -11,11 +11,11 @@ class FilterModel(
 ) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
-        return other === this || (other is FilterModel && other.id == id)
+        return other === this || (other is FilterModel && other.title == title)
     }
 
     override fun hashCode(): Int {
-        return id.hashCode()
+        return title.hashCode()
     }
 
     companion object {
@@ -25,7 +25,12 @@ class FilterModel(
                 list.add(
                     FilterModel(
                         index, "Test filter $index",
-                        listOf(FilterOptionsModel("option1"), FilterOptionsModel("option2"))
+                        listOf(
+                            FilterOptionsModel("option1"),
+                            FilterOptionsModel("option2"),
+                            FilterOptionsModel("option3"),
+                            FilterOptionsModel("option4")
+                        )
                     )
                 )
             }

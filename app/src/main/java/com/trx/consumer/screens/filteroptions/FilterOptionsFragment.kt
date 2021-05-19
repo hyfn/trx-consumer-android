@@ -27,7 +27,7 @@ class FilterOptionsFragment : BaseFragment(R.layout.fragment_options) {
     override fun bind() {
 
         val params = NavigationManager.shared.params(this) as FilterParamsModel
-        viewModel.model = params.list.find { it.id == params.selectedFilter }
+        viewModel.model = params.list.find { it == params.selectedModel }
         viewModel.param = params
         adapter = FilterOptionsAdapter(viewModel) { lifecycleScope }
 

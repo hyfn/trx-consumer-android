@@ -175,6 +175,7 @@
     <string name="filter_btn_apply_label">APPLY</string>
     <string name="filter_empty_list_label">There are no filters</string>
 
-    <string name="filters_btn_back_label">BACK</string>
-    <string name="filters_btn_all_label">All</string>
+    <string name="filter_options_btn_back_label">BACK</string>
+    <string name="filters_options_btn_all_label">All</string>
+    <string name="filters_options_selected_filter">Selected</string>
 </resources>
