@@ -176,7 +176,7 @@ enum class InputViewState(val placeholder: Int, vararg val type: Int) {
                 set(Calendar.MONTH, monthInt - 1)
                 set(Calendar.YEAR, yearInt)
             }
-            val inputMonth = inputDate.get(Calendar.MONTH)
+            val inputMonth = inputDate.get(Calendar.MONTH) + 1
             val inputYear = inputDate.get(Calendar.YEAR)
 
             val currentDate = Calendar.getInstance()
