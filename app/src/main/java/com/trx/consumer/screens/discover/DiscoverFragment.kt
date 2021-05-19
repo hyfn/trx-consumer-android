@@ -29,6 +29,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             eventLoadWorkouts.observe(viewLifecycleOwner, handleLoadWorkouts)
             eventLoadCollections.observe(viewLifecycleOwner, handleLoadCollections)
             eventLoadPrograms.observe(viewLifecycleOwner, handleLoadPrograms)
+            eventTapDiscover.observe(viewLifecycleOwner, handleTapDiscover)
         }
 
         viewBinding.apply {
@@ -49,6 +50,14 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
     private val handleTapBack = Observer<Void> {
         NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleTapDiscover = Observer<WorkoutModel> {
+        NavigationManager.shared.present(
+            this,
+            R.id.videos_fragment,
+            it
+        )
     }
 
     private val handleLoadWorkouts = Observer<List<WorkoutModel>> {

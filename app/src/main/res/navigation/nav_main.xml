@@ -109,6 +109,12 @@
         tools:layout="@layout/fragment_options" />
 
     <fragment
+        android:id="@+id/videos_fragment"
+        android:name="com.trx.consumer.screens.videos.VideosFragment"
+        android:label="VideosFragment"
+        tools:layout="@layout/fragment_videos" />
+
+    <fragment
         android:id="@+id/filter_fragment"
         android:name="com.trx.consumer.screens.filter.FiltersFragment"
         android:label="FilterFragment"
@@ -124,7 +130,7 @@
         android:id="@+id/error_fragment"
         android:name="com.trx.consumer.screens.erroralert.ErrorAlertFragment"
         android:label="ErrorAlertFragment"
-        tools:layout="@layout/fragment_error_alert"/>
+        tools:layout="@layout/fragment_error_alert" />
 
     <dialog
         android:id="@+id/alert_fragment"
