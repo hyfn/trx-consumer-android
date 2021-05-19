@@ -82,7 +82,7 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
             ivLastName.text = user.lastName
             ivBirthDate.text = user.birthday
             ivZipCode.text = user.zipCode
-            // ivPassword.text = user.password
+            ivPassword.text = user.password
         }
     }
 
