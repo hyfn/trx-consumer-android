@@ -9,7 +9,6 @@ import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.models.common.CardModel
 import com.trx.consumer.models.common.PurchaseModel
 import com.trx.consumer.stripe.StripeBackendManager
-import com.trx.consumer.stripe.StripeCreatePaymentMethodResponseModel
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
 import kotlinx.coroutines.launch
@@ -36,7 +35,7 @@ class AddCardViewModel @ViewModelInject constructor(
     private val card: CardModel?
         get() {
             if (expirationDate.isEmpty()) return null
-            val expMonth = expirationDate.substringBefore("/")
+            val expMonth = expirationDate.substringBefore("/").replaceFirst("0", "")
             val expYear = expirationDate.substringAfter("/")
             return CardModel(
                 number = cardNumber,
@@ -103,15 +102,33 @@ class AddCardViewModel @ViewModelInject constructor(
 
     fun doTapSave() {
         viewModelScope.launch {
-            if (InputViewState.EXPIRATION.expirationValidation(expirationDate)) {
+            if (!InputViewState.EXPIRATION.expirationValidation(expirationDate)) {
                 eventValidateError.postValue(
                     "It looks like your card is expired. Check your information and try again."
                 )
             } else {
                 card?.let {
                     eventShowHud.postValue(true)
-                    val response = stripeBackendManager.createPaymentMethod(it.params)
+                    // val response = stripeBackendManager.createPaymentMethod(it.params)
+                    val response = stripeBackendManager.createStripePaymentMethod(it)
                     eventShowHud.postValue(false)
+                    response?.let { id ->
+                        paymentMethodId?.let { id ->
+                            eventShowHud.postValue(true)
+                            val deleteResponse = backendManager.paymentDelete(id)
+                            eventShowHud.postValue(false)
+                            if (deleteResponse.isSuccess) {
+                                doCallAddPayment(id)
+                            } else {
+                                eventSaveError.postValue("There was an error updating your card")
+                            }
+                        } ?: run {
+                            doCallAddPayment(id)
+                        }
+                    } ?: run {
+                        eventSaveError.postValue("There is an error with the expiration")
+                    }
+                    /*
                     if (response.isSuccess) {
                         try {
                             val model = StripeCreatePaymentMethodResponseModel
@@ -133,6 +150,7 @@ class AddCardViewModel @ViewModelInject constructor(
                             eventSaveError.postValue("There was an error saving your card.")
                         }
                     }
+                    */
                 } ?: run {
                     eventSaveError.postValue("There is an error with the expiration")
                 }
