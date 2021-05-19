@@ -24,7 +24,7 @@ class FilterOptionsAdapter(private val listener: FilterOptionsListener, scopePro
             when (viewType) {
                 TYPE_ROW -> FilterOptionsViewHolder(
                     LayoutInflater.from(parent.context)
-                        .inflate(R.layout.row_filters, parent, false)
+                        .inflate(R.layout.row_filter_options, parent, false)
                 )
                 else -> EmptyViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.row_empty, parent, false)
