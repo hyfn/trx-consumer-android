@@ -171,6 +171,9 @@ dependencies {
     // Video playback
     implementation "com.brightcove.player:exoplayer2:$rootProject.brightcoveVersion"
 
+    // IAP
+    implementation "com.revenuecat.purchases:purchases:$rootProject.revenuecatVersion"
+
     // Testing dependencies
     androidTestImplementation "androidx.test.ext:junit:$rootProject.junitVersion"
     androidTestImplementation "org.mockito:mockito-android:$rootProject.mockitoVersion"
