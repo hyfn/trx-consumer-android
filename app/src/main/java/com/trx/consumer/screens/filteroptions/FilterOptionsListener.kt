@@ -1,7 +1,7 @@
 package com.trx.consumer.screens.filteroptions
 
-import com.trx.consumer.models.common.FilterOptionsModel
+import com.trx.consumer.models.common.FilterOptionModel
 
 interface FilterOptionsListener {
-    fun doTapFilterValue(model: FilterOptionsModel)
+    fun doTapFilterOption(model: FilterOptionModel)
 }

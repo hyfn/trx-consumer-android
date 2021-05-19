@@ -3,7 +3,7 @@ package com.trx.consumer.screens.filteroptions
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.models.common.FilterModel
-import com.trx.consumer.models.common.FilterOptionsModel
+import com.trx.consumer.models.common.FilterOptionModel
 import com.trx.consumer.models.params.FilterParamsModel
 
 class FilterOptionViewModel : BaseViewModel(), FilterOptionsListener {
@@ -14,7 +14,7 @@ class FilterOptionViewModel : BaseViewModel(), FilterOptionsListener {
     val eventLoadView = CommonLiveEvent<FilterModel>()
 
     val eventTapBack = CommonLiveEvent<FilterParamsModel>()
-    val eventTapFilterValue = CommonLiveEvent<FilterModel>()
+    val eventTapFilterOption = CommonLiveEvent<FilterModel>()
     val eventTapSelectAll = CommonLiveEvent<FilterModel>()
 
     fun doLoadView() {
@@ -36,8 +36,8 @@ class FilterOptionViewModel : BaseViewModel(), FilterOptionsListener {
         eventTapSelectAll.postValue(model)
     }
 
-    override fun doTapFilterValue(model: FilterOptionsModel) {
+    override fun doTapFilterOption(model: FilterOptionModel) {
         this.model?.values?.find { model == it }?.isSelected = model.isSelected
-        eventTapFilterValue.postValue(this.model)
+        eventTapFilterOption.postValue(this.model)
     }
 }

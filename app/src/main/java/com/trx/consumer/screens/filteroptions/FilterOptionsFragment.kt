@@ -40,7 +40,7 @@ class FilterOptionsFragment : BaseFragment(R.layout.fragment_options) {
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
-            eventTapFilterValue.observe(viewLifecycleOwner, handleTapFilterValue)
+            eventTapFilterOption.observe(viewLifecycleOwner, handleTapFilterOption)
             eventTapSelectAll.observe(viewLifecycleOwner, handleTapSelectAll)
         }
 
@@ -71,7 +71,7 @@ class FilterOptionsFragment : BaseFragment(R.layout.fragment_options) {
         NavigationManager.shared.dismiss(this, R.id.filter_fragment, model)
     }
 
-    private val handleTapFilterValue = Observer<FilterModel> { model ->
+    private val handleTapFilterOption = Observer<FilterModel> { model ->
         LogManager.log("handleTapBack")
         adapter?.update(model.values)
     }
