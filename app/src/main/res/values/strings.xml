@@ -6,6 +6,9 @@
     <string name="add_card_update_label">Update</string>
     
     <string name="alert_button_title_dismiss">Dismiss</string>
+    <string name="alert_primary_back">Take me back</string>
+    <string name="alert_primary_cool">Cool</string>
+    <string name="alert_secondary_report">Report an issue</string>
 
     <string name="booking_view_state_book_label">BOOK</string>
     <string name="booking_view_state_booked_label">BOOKED</string>

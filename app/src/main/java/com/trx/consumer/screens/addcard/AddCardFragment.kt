@@ -10,7 +10,9 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.PurchaseModel
+import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.erroralert.ErrorAlertModel
 
 class AddCardFragment : BaseFragment(R.layout.fragment_add_card) {
@@ -87,41 +89,46 @@ class AddCardFragment : BaseFragment(R.layout.fragment_add_card) {
 
     private val handleSaveSuccess = Observer<Void> {
         LogManager.log("handleSaveSuccess")
-
-    /*  TODO: Implement when AlertModel added. 
-        val model = AlertModel.success("Card successfully added")
-        val previousFragment = NavigationManager.shared.previousFragment(requireActivity())
-        model.setPrimaryButton(R.string._alert_default_dismiss) {
-            previousFragment?.let { safePreviousFragment ->
-                if (safePreviousFragment in listOf(
-                        R.id._cards_fragment,
-                        R.id._purchase_fragment,
-                        R.id._plans_fragment
-                    )
-                ) {
-                    NavigationManager.shared.dismiss(this, safePreviousFragment)
-                } else {
-                    NavigationManager.shared.dismiss(this, null)
-                }
-            }
+        val model = AlertModel.create("SUCCESS", "Card successfully added")
+        //  TODO: Rework logic in later flow. 
+        // val previousFragment = NavigationManager.shared.previousFragment(requireActivity())
+        model.setPrimaryButton(R.string.alert_primary_cool) {
+            //  TODO: Rework logic in later flow. 
+            // previousFragment?.let { safePreviousFragment ->
+            // if (safePreviousFragment in listOf(
+            // R.id.cards_fragment,
+            //  TODO: Add PurchaseFragment when imported
+            // R.id.purchase_fragment,
+            // R.id.plans_fragment
+            // )
+            // ) {
+            //     NavigationManager.shared.dismiss(this, safePreviousFragment)
+            // } else {
+            NavigationManager.shared.dismiss(this, null)
+            // }
+            // }
         }
         model.setSecondaryButton(0)
-        NavigationManager.shared.present(this, R.id._alert_fragment, model)   
-    */
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
-    private val handleSaveError = Observer<String> { message ->
+    private val handleSaveError = Observer<String> { value ->
         LogManager.log("handleSaveError")
-        /*  TODO: Implement when AlertModel added.
-        val model = AlertModel.error(requireContext().getString(R.string.add_card_save_error))
-        model.setPrimaryButton(R.string._class_view_state_take_back) {
-            NavigationManager.shared.dismiss(this)
+        val model = AlertModel.create("ERROR", value)
+        model.setPrimaryButton(
+            title = R.string.alert_primary_back,
+            state = AlertViewState.NEUTRAL
+        ) {
+            NavigationManager.shared.dismiss(this, null)
         }
-        model.setSecondaryButton(R.string._alert_secondary_report) {
-            UtilityManager.shared.showContactSupport()
+        model.setSecondaryButton(
+            title = R.string.alert_secondary_report,
+            state = AlertViewState.NEGATIVE
+        ) {
+            //  TODO: Add when showSupportEmail() is imported.
+            //  UtilityManager.shared.showSupportEmail()
         }
-        NavigationManager.shared.present(this, R.id._alert_fragment, model)
-        */
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
     private val handleValidateError = Observer<String> { message ->
@@ -131,12 +138,12 @@ class AddCardFragment : BaseFragment(R.layout.fragment_add_card) {
     }
 
     private val handleShowPurchase = Observer<PurchaseModel> { purchaseModel ->
-        LogManager.log("handleShowPurchase")
+        LogManager.log("handleShowPurchase: $purchaseModel")
         /* TODO: Not yet implemented in iOS
         NavigationManager.shared.dismiss(
             this,
             R.id.purchase_fragment,
-            XpassPurchaseModel
+            PurchaseModel
         )
         */
     }
