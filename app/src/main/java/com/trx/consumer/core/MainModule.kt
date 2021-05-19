@@ -4,7 +4,9 @@ import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.stripe.android.Stripe
 import com.trx.consumer.BuildConfig.kBaseUrl
+import com.trx.consumer.BuildConfig.kStripeApiKey
 import com.trx.consumer.base.BaseApi
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
@@ -119,6 +121,15 @@ object MainModule {
 
     @Provides
     @Singleton
-    fun provideStripeBackendManager(api: BaseApi, cacheManager: CacheManager): StripeBackendManager =
-        StripeBackendManager(api, cacheManager)
+    fun provideStripe(@ApplicationContext context: Context): Stripe =
+        Stripe(context, kStripeApiKey)
+
+    @Provides
+    @Singleton
+    fun provideStripeBackendManager(
+        api: BaseApi,
+        cacheManager: CacheManager,
+        stripe: Stripe
+    ): StripeBackendManager =
+        StripeBackendManager(api, cacheManager, stripe)
 }
