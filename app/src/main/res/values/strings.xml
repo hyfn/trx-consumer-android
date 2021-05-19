@@ -113,6 +113,7 @@
     <string name="test_utility_content_label">Content</string>
     <string name="test_utility_discover_label">Discover</string>
     <string name="test_utility_alert_label">Alert</string>
+    <string name="test_utility_welcome_label">Welcome</string>
     <string name="test_utility_alert_button_primary_label">Do something</string>
     <string name="test_utility_alert_button_secondary_label">Thanks, I\'ll pass</string>
 
@@ -146,10 +147,16 @@
     <string name="update_agreement_label">Agree to <u>Liability Waiver</u></string>
     <string name="update_load_success_message">Changes saved</string>
 
-    <string name="welcome_continue_button_label">Continue</string>
     <string name="welcome_get_started_label">Get Started</string>
-    <string name="welcome_title_label">Welcome to the club,\n%1s</string>
-    <string name="welcome_description_label">With 3 new ways to train, TRX Training Club is your all-in-one virtual gym helping you to crush any goal. Anytime. Anywhere.</string>
+    <string name="welcome_state_welcome_button_label">Continue</string>
+    <string name="welcome_state_promo_button_label">Promo</string>
+    <string name="welcome_state_restore_button_label">Restore</string>
+    <string name="welcome_state_welcome_title">Welcome to the club,\n%1s</string>
+    <string name="welcome_state_promo_title">Promo title</string>
+    <string name="welcome_state_restore_title">Restore title</string>
+    <string name="welcome_state_welcome_description">With 3 new ways to train, TRX Training Club is your all-in-one virtual gym helping you to crush any goal. Anytime. Anywhere.</string>
+    <string name="welcome_state_promo_description">Promo description</string>
+    <string name="welcome_state_restore_description">Restore description</string>
 
     <string name="onboarding_virtual_title">TRX virtual Training, coming soon</string>
     <string name="onboarding_virtual_description">World-class Trainers. Anytime. Anywhere</string>
@@ -166,5 +173,6 @@
     <string name="onboarding_demand_list_text_one">Find new ways to crush your goals on your time, at your pace</string>
     <string name="onboarding_demand_list_text_two">Huge library of exclusive on-demand video workouts from top TRX pros</string>
     <string name="onboarding_demand_list_text_three">Get your heart rate up with tons of diverse workouts to choose from</string>
+    <string name="onboarding_continue_button_label">Continue</string>
 
 </resources>

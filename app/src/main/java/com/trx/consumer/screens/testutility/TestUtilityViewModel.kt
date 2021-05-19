@@ -35,6 +35,7 @@ class TestUtilityViewModel @ViewModelInject constructor(
     val eventTapPlayer = CommonLiveEvent<Void>()
     val eventTapDiscover = CommonLiveEvent<Void>()
     val eventTapAlert = CommonLiveEvent<Void>()
+    val eventTapWelcome = CommonLiveEvent<Void>()
     val eventLoadLiveWorkouts = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadVirtualWorkouts = CommonLiveEvent<List<VirtualWorkoutModel>>()
     val eventLoadVideoWorkouts = CommonLiveEvent<List<VideoModel>>()
@@ -109,6 +110,10 @@ class TestUtilityViewModel @ViewModelInject constructor(
 
     fun doTapAlert() {
         eventTapAlert.call()
+    }
+
+    fun doTapWelcome() {
+        eventTapWelcome.call()
     }
 
     override fun doTapBook(model: WorkoutModel) {}

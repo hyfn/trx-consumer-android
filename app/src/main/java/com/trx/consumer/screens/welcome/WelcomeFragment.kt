@@ -14,6 +14,10 @@ class WelcomeFragment : BaseFragment(R.layout.fragment_welcome) {
     private val viewBinding by viewBinding(FragmentWelcomeBinding::bind)
 
     override fun bind() {
+
+        val state = NavigationManager.shared.params(this) as WelcomeState
+        viewModel.state = state
+
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventTapClose.observe(viewLifecycleOwner, handleTapClose)
@@ -35,8 +39,12 @@ class WelcomeFragment : BaseFragment(R.layout.fragment_welcome) {
         NavigationManager.shared.dismiss(this)
     }
 
-    private val handleLoadView = Observer<Void> {
-        viewBinding.lblTitle.text = getString(R.string.welcome_title_label, "Carly")
+    private val handleLoadView = Observer<WelcomeState> { state ->
+        viewBinding.apply {
+            lblTitle.apply { text = context.getString(state.title, "Carly") }
+            lblDescription.apply { text = context.getString(state.description) }
+            btnContinue.apply { text = context.getString(state.buttonTitle) }
+        }
     }
 
     override fun onBackPressed() {
