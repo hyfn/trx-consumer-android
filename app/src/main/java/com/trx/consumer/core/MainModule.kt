@@ -126,10 +126,6 @@ object MainModule {
 
     @Provides
     @Singleton
-    fun provideStripeBackendManager(
-        api: BaseApi,
-        cacheManager: CacheManager,
-        stripe: Stripe
-    ): StripeBackendManager =
-        StripeBackendManager(api, cacheManager, stripe)
+    fun provideStripeBackendManager(stripe: Stripe): StripeBackendManager =
+        StripeBackendManager(stripe)
 }

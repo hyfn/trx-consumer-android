@@ -109,16 +109,15 @@ class AddCardViewModel @ViewModelInject constructor(
             } else {
                 card?.let {
                     eventShowHud.postValue(true)
-                    // val response = stripeBackendManager.createPaymentMethod(it.params)
                     val response = stripeBackendManager.createStripePaymentMethod(it)
                     eventShowHud.postValue(false)
                     response?.let { id ->
-                        paymentMethodId?.let { id ->
+                        paymentMethodId?.let { currentId ->
                             eventShowHud.postValue(true)
-                            val deleteResponse = backendManager.paymentDelete(id)
+                            val deleteResponse = backendManager.paymentDelete(currentId)
                             eventShowHud.postValue(false)
                             if (deleteResponse.isSuccess) {
-                                doCallAddPayment(id)
+                                doCallAddPayment(currentId)
                             } else {
                                 eventSaveError.postValue("There was an error updating your card")
                             }
@@ -128,29 +127,6 @@ class AddCardViewModel @ViewModelInject constructor(
                     } ?: run {
                         eventSaveError.postValue("There is an error with the expiration")
                     }
-                    /*
-                    if (response.isSuccess) {
-                        try {
-                            val model = StripeCreatePaymentMethodResponseModel
-                                .parse(response.responseString)
-
-                            paymentMethodId?.let { id ->
-                                eventShowHud.postValue(true)
-                                val deleteResponse = backendManager.paymentDelete(id)
-                                eventShowHud.postValue(false)
-                                if (deleteResponse.isSuccess) {
-                                    doCallAddPayment(model.id)
-                                } else {
-                                    eventSaveError.postValue("There was an error updating your card")
-                                }
-                            } ?: run {
-                                doCallAddPayment(model.id)
-                            }
-                        } catch (e: Exception) {
-                            eventSaveError.postValue("There was an error saving your card.")
-                        }
-                    }
-                    */
                 } ?: run {
                     eventSaveError.postValue("There is an error with the expiration")
                 }
