@@ -1,5 +1,6 @@
 package com.trx.consumer.screens.testutility
 
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -9,18 +10,21 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentTestUtilityBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.common.AccountModel
-import com.trx.consumer.models.common.LiveWorkoutModel
-import com.trx.consumer.models.common.PromotionModel
+import com.trx.consumer.models.common.AlertModel
+import com.trx.consumer.models.common.FilterModel
+import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
+import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.ContentParamsModel
-import com.trx.consumer.models.params.UpdateParamsModel
+import com.trx.consumer.models.params.FilterParamsModel
+import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
-import com.trx.consumer.screens.promotion.PromotionAdapter
+import com.trx.consumer.screens.player.PlayerActivity
+import com.trx.consumer.screens.promotion.PromoAdapter
 import com.trx.consumer.screens.update.UpdateViewState
-import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
+import com.trx.consumer.screens.videoworkout.VideoAdapter
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutAdapter
 
 class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
@@ -31,8 +35,8 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private lateinit var liveWorkoutAdapter: LiveWorkoutAdapter
     private lateinit var virtualWorkoutAdapter: VirtualWorkoutAdapter
-    private lateinit var videoWorkoutAdapter: VideoWorkoutAdapter
-    private lateinit var promotionAdapter: PromotionAdapter
+    private lateinit var videoAdapter: VideoAdapter
+    private lateinit var promoAdapter: PromoAdapter
 
     //endregion
 
@@ -40,8 +44,8 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     override fun bind() {
         liveWorkoutAdapter = LiveWorkoutAdapter(viewModel) { lifecycleScope }
         virtualWorkoutAdapter = VirtualWorkoutAdapter(viewModel) { lifecycleScope }
-        videoWorkoutAdapter = VideoWorkoutAdapter(viewModel) { lifecycleScope }
-        promotionAdapter = PromotionAdapter(viewModel) { lifecycleScope }
+        videoAdapter = VideoAdapter(viewModel) { lifecycleScope }
+        promoAdapter = PromoAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
             btnBack.action { viewModel.doTapBack() }
@@ -50,11 +54,15 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnUpdate.action { viewModel.doTapUpdate() }
             btnContent.action { viewModel.doTapContent() }
             btnPlans.action { viewModel.doTapPlans() }
+            btnPlayer.action { viewModel.doTapPlayer() }
+            btnFilter.action { viewModel.doTapFilter() }
+            btnDiscover.action { viewModel.doTapDiscover() }
+            btnAlert.action { viewModel.doTapAlert() }
             btnSettings.action { viewModel.doTapSettings() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
-            rvVideoWorkouts.adapter = videoWorkoutAdapter
-            rvPromotions.adapter = promotionAdapter
+            rvVideoWorkouts.adapter = videoAdapter
+            rvPromos.adapter = promoAdapter
         }
 
         viewModel.apply {
@@ -63,12 +71,17 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapAddCard.observe(viewLifecycleOwner, handleTapAddCard)
             eventTapUpdate.observe(viewLifecycleOwner, handleTapUpdate)
             eventTapContent.observe(viewLifecycleOwner, handleTapContent)
+            eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
             eventTapPlans.observe(viewLifecycleOwner, handleTapPlans)
+            eventTapPlayer.observe(viewLifecycleOwner, handleTapPlayer)
+            eventTapDiscover.observe(viewLifecycleOwner, handleTapDiscover)
+            eventTapAlert.observe(viewLifecycleOwner, handleTapAlert)
+            eventTapSettings.observe(viewLifecycleOwner, handleTapSettings)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
             eventLoadPromotions.observe(viewLifecycleOwner, handleLoadPromotions)
-            eventTapSettings.observe(viewLifecycleOwner, handleTapSettings)
+
             doLoadView()
         }
     }
@@ -89,13 +102,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapUpdate = Observer<Void> {
-        val params =
-            UpdateParamsModel(
-                UpdateViewState.EDIT,
-                AccountModel.testList(2),
-                AccountModel.test().email
-            )
-        NavigationManager.shared.present(this, R.id.update_fragment, params)
+        NavigationManager.shared.present(this, R.id.update_fragment, UpdateViewState.EDIT)
     }
 
     private val handleTapContent = Observer<Void> {
@@ -111,11 +118,44 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         NavigationManager.shared.present(this, R.id.plans_fragment)
     }
 
+    private val handleTapPlayer = Observer<Void> {
+        val video = VideoModel.test().apply { id = "6232799349001" }
+        NavigationManager.shared.presentActivity(
+            requireActivity(),
+            PlayerActivity::class.java,
+            video
+        )
+    }
+
+    private val handleTapDiscover = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.discover_fragment)
+    }
+
+    private val handleTapAlert = Observer<Void> {
+        val model = AlertModel.create(title = "This is a title", message = "This is a message")
+        model.setPrimaryButton(
+            title = R.string.test_utility_alert_button_primary_label,
+            state = AlertViewState.POSITIVE
+        ) {
+            Toast.makeText(requireContext(), "Did something", Toast.LENGTH_LONG).show()
+        }
+        model.setSecondaryButton(
+            title = R.string.test_utility_alert_button_secondary_label,
+            state = AlertViewState.NEGATIVE
+        )
+        NavigationManager.shared.present(this, R.id.alert_fragment, params = model)
+    }
+
+    private val handleTapFilter = Observer<Void> {
+        val model = FilterParamsModel(FilterModel.test(10))
+        NavigationManager.shared.present(this, R.id.filter_fragment, model)
+    }
+
     private val handleTapSettings = Observer<Void> {
         NavigationManager.shared.present(this, R.id.settings_fragment)
     }
 
-    private val handleLoadLiveWorkouts = Observer<List<LiveWorkoutModel>> { liveWorkouts ->
+    private val handleLoadLiveWorkouts = Observer<List<WorkoutModel>> { liveWorkouts ->
         liveWorkoutAdapter.update(liveWorkouts)
     }
 
@@ -124,11 +164,11 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleLoadVideoWorkouts = Observer<List<VideoModel>> { videoWorkouts ->
-        videoWorkoutAdapter.update(videoWorkouts)
+        videoAdapter.update(videoWorkouts)
     }
 
-    private val handleLoadPromotions = Observer<List<PromotionModel>> { promotions ->
-        promotionAdapter.update(promotions)
+    private val handleLoadPromotions = Observer<List<PromoModel>> { promotions ->
+        promoAdapter.update(promotions)
     }
 
     //endregion

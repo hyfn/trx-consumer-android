@@ -5,6 +5,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.QueryMap
@@ -35,6 +36,14 @@ interface BaseApi {
 
     @HTTP(method = "DELETE", hasBody = true)
     suspend fun delete(
+        @Url url: String,
+        @Header("Authorization") authorization: String? = null,
+        @Body params: HashMap<String, Any>
+    ): Response<Any>
+
+    // Todo: May need to use @HTTP(method = "PATCH"), needs investigation.
+    @PATCH
+    suspend fun patch(
         @Url url: String,
         @Header("Authorization") authorization: String? = null,
         @Body params: HashMap<String, Any>

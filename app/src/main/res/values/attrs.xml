@@ -12,9 +12,10 @@
             <enum name="first" value="6" />
             <enum name="last" value="7" />
             <enum name="password" value="8" />
-            <enum name="phone" value="9" />
-            <enum name="promo" value="10" />
-            <enum name="zipcode" value="11" />
+            <enum name="confirm_password" value="9" />
+            <enum name="phone" value="10" />
+            <enum name="promo" value="11" />
+            <enum name="zipcode" value="12" />
         </attr>
 
         <attr name="showLabel" format="boolean" />

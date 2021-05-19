@@ -1,19 +1,23 @@
 package com.trx.consumer.models.common
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 class VideoModel(
     var name: String = "",
     var duration: Int = 0,
-    var id: Int = 0,
+    var id: String = "0",
     var poster: String = "",
     var trainer: TrainerModel = TrainerModel(),
     var equipment: List<String> = listOf(),
     var level: String = "",
     var focus: String = "",
     var body: List<String> = listOf()
-) {
+) : Parcelable {
 
     val videoDuration: String
-        get() = "${duration / 60_000} MINS"
+        get() = "${duration / 60_000} MIN"
 
     companion object {
 

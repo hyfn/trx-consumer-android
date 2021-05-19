@@ -1,22 +1,16 @@
 package com.trx.consumer.models.common
 
+import org.json.JSONObject
+
 class UserModel(
-    var identifier: String = "",
+    var birthday: String = "",
+    val card: CardModel? = null,
+    val cardPaymentMethod: String? = null,
     var email: String = "",
+    var password: String = "",
+    var zipCode: String = "",
     var firstName: String = "",
     var lastName: String = "",
-    var accessToken: String = "",
-    var zipCode: String = "",
-    var birthday: String = "",
-    var phoneNumber: String = "",
-    var password: String = "",
-    var accessTokenExpiry: Int = 0,
-    var accounts: List<AccountModel> = listOf(),
-    var balance: BalanceModel = BalanceModel(),
-    var purchases: List<PurchaseModel> = listOf(),
-    var bookings: List<ClassModel> = listOf(),
-    var freeClasses: List<ClassModel> = listOf(),
-    var card: CardModel? = null
 ) {
 
     val fullName: String
@@ -24,16 +18,22 @@ class UserModel(
 
     companion object {
 
+        fun parse(jsonObject: JSONObject): UserModel {
+            return UserModel(
+                birthday = jsonObject.optString("birthday"),
+                email = jsonObject.optString("email"),
+                zipCode = jsonObject.optString("postalCode"),
+                firstName = jsonObject.optString("firstName"),
+                lastName = jsonObject.optString("lastName")
+            )
+        }
+
         fun test(): UserModel {
             return UserModel(
-                identifier = "75396008",
                 email = "myo+xpdemoreview1@sprintfwd.com",
                 firstName = "Myo",
                 lastName = "Kyaw",
-                accessToken = "f67526a73b0c439c617bbcca3380df9d",
-                accessTokenExpiry = 1605803719,
                 zipCode = "90036",
-                freeClasses = listOf(ClassModel(), ClassModel())
             )
         }
     }

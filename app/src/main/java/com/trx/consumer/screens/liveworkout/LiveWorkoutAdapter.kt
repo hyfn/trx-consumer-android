@@ -6,7 +6,7 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.LiveWorkoutModel
+import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 import java.lang.Exception
@@ -46,7 +46,7 @@ class LiveWorkoutAdapter(
     override fun onBindViewHolder(holder: CommonViewHolder, position: Int) {
         val item = items[position]
         when (holder) {
-            is LiveWorkoutViewHolder -> holder.setup(item as LiveWorkoutModel, listener)
+            is LiveWorkoutViewHolder -> holder.setup(item as WorkoutModel, listener)
             is EmptyViewHolder -> holder.setup(true)
         }
     }
@@ -54,10 +54,10 @@ class LiveWorkoutAdapter(
     override fun getItemCount(): Int = items.size
 
     override fun getItemViewType(position: Int): Int {
-        return if (items[position] is LiveWorkoutModel) TYPE_ROW else TYPE_EMPTY
+        return if (items[position] is WorkoutModel) TYPE_ROW else TYPE_EMPTY
     }
 
-    fun update(newItems: List<LiveWorkoutModel>) {
+    fun update(newItems: List<WorkoutModel>) {
         items.apply {
             clear()
             addAll(newItems)

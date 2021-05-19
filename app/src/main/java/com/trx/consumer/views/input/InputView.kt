@@ -51,7 +51,7 @@ class InputView @JvmOverloads constructor(
         layoutInput.apply {
             isHintEnabled = isShowingLabel
             hint = context.getString(mState.placeholder)
-            if (mState == InputViewState.PASSWORD) {
+            if (mState == InputViewState.PASSWORD || mState == InputViewState.CONFIRM_PASSWORD) {
                 editText?.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
                 endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
                 endIconDrawable =

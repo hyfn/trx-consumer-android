@@ -1,4 +1,4 @@
-package com.trx.consumer.screens.videoworkout
+package com.trx.consumer.screens.discover.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,19 +6,18 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.VideoModel
+import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
-import java.lang.Exception
 
-class VideoWorkoutAdapter(
-    private val listener: VideoWorkoutListener,
+class DiscoverAdapter(
+    private val listener: DiscoverListener,
     scopeProvider: () -> CoroutineScope
 ) : CommonRecyclerViewAdapter(scopeProvider) {
 
     companion object {
         private const val TYPE_EMPTY = -1
-        private const val TYPE_ROW = 1
+        private const val TYPE_VIDEO_LIST = 1
     }
 
     private val items: MutableList<Any> = mutableListOf()
@@ -26,10 +25,9 @@ class VideoWorkoutAdapter(
     override fun createCommonViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         return try {
             when (viewType) {
-                TYPE_ROW -> VideoWorkoutViewHolder(
-                    LayoutInflater
-                        .from(parent.context)
-                        .inflate(R.layout.row_video_workout_collection, parent, false)
+                TYPE_VIDEO_LIST -> DiscoverViewHolder(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.row_video_detail, parent, false)
                 )
                 else -> EmptyViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.row_empty, parent, false)
@@ -46,22 +44,24 @@ class VideoWorkoutAdapter(
     override fun onBindViewHolder(holder: CommonViewHolder, position: Int) {
         val item = items[position]
         when (holder) {
-            is VideoWorkoutViewHolder -> holder.setup(item as VideoModel, listener)
-            is EmptyViewHolder -> holder.setup(true)
+            is DiscoverViewHolder -> {
+                holder.setup(item as WorkoutModel, listener)
+            }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (items[position]) {
+            is WorkoutModel -> TYPE_VIDEO_LIST
+            else -> TYPE_EMPTY
         }
     }
 
     override fun getItemCount(): Int = items.size
 
-    override fun getItemViewType(position: Int): Int {
-        return if (items[position] is VideoModel) TYPE_ROW else TYPE_EMPTY
-    }
-
-    fun update(newItems: List<VideoModel>) {
-        items.apply {
-            clear()
-            addAll(newItems)
-            notifyDataSetChanged()
-        }
+    fun updateVideos(newWorkouts: List<WorkoutModel>) {
+        this.items.clear()
+        this.items.addAll(newWorkouts)
+        this.notifyDataSetChanged()
     }
 }

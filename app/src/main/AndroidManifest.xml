@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".core.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,13 +14,20 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.trx.consumer.core.MainActivity"
+            android:name=".core.MainActivity"
             android:windowSoftInputMode="adjustResize">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
+
         </activity>
+
+        <activity
+            android:name=".screens.player.PlayerActivity"
+            android:configChanges="orientation|screenSize" />
 
     </application>
 
