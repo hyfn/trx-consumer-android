@@ -34,12 +34,12 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
             ivBirthDate.showDatePicker(this@UpdateFragment)
             ivBirthDate.setInputViewListener(viewModel)
             ivZipCode.setInputViewListener(viewModel)
-            //ivPassword.setInputViewListener(viewModel)
+            ivPassword.setInputViewListener(viewModel)
             cbAgreement.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.doTapCheckbox(isChecked)
             }
             btnBack.action { viewModel.doTapBack() }
-            //btnContinue.action { viewModel.doTapContinue() }
+            btnContinue.action { viewModel.doTapContinue() }
         }
 
         viewModel.apply {
@@ -71,7 +71,7 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
 
     private val handleLoadState = Observer<UpdateViewState> {
         viewBinding.apply {
-            //btnContinue.text = getString(it.buttonTitle)
+            btnContinue.text = getString(it.buttonTitle)
             viewAgreement.isHidden = (it == UpdateViewState.EDIT)
         }
     }
@@ -82,16 +82,16 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
             ivLastName.text = user.lastName
             ivBirthDate.text = user.birthday
             ivZipCode.text = user.zipCode
-            //ivPassword.text = user.password
+            // ivPassword.text = user.password
         }
     }
 
     private val handleLoadButton = Observer<Boolean> { enabled ->
         viewBinding.apply {
-//            btnContinue.apply {
-//                isEnabled = enabled
-//                bgColor(if (enabled) R.color.black else R.color.greyDark)
-//            }
+            btnContinue.apply {
+                isEnabled = enabled
+                bgColor(if (enabled) R.color.black else R.color.greyDark)
+            }
         }
     }
 

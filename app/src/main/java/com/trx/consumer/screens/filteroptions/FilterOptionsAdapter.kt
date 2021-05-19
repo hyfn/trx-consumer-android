@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import com.trx.consumer.R
 import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
-import com.trx.consumer.models.common.FilterOptionsModel
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.FilterOptionsModel
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
@@ -54,7 +54,7 @@ class FilterOptionsAdapter(private val listener: FilterOptionsListener, scopePro
     }
 
     fun reset() {
-        //TO-DO
+        // TO-DO
     }
 
     override fun getItemViewType(position: Int): Int {

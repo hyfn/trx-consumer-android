@@ -6,7 +6,6 @@ import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.FilterOptionsModel
 import com.trx.consumer.models.params.FilterParamsModel
 
-
 class FilterOptionViewModel : BaseViewModel(), FilterOptionsListener {
 
     var model: FilterModel? = null
@@ -33,7 +32,7 @@ class FilterOptionViewModel : BaseViewModel(), FilterOptionsListener {
     }
 
     fun doTapSelectAll() {
-        model?.values?.forEach { model -> model.isSelected = true  }
+        model?.values?.forEach { model -> model.isSelected = true }
         eventTapSelectAll.postValue(model)
     }
 

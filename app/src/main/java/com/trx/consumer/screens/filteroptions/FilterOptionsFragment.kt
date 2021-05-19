@@ -14,7 +14,6 @@ import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.params.FilterParamsModel
 
-
 class FilterOptionsFragment : BaseFragment(R.layout.fragment_options) {
 
     //region Objects
