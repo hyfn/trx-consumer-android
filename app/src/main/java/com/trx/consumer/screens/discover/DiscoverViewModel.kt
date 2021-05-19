@@ -11,6 +11,7 @@ class DiscoverViewModel : BaseViewModel(), DiscoverListener {
     val eventLoadCollections = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadPrograms = CommonLiveEvent<List<WorkoutModel>>()
     val eventTapBack = CommonLiveEvent<Void>()
+    val eventTapDiscover = CommonLiveEvent<WorkoutModel>()
 
     fun doLoadWorkouts() {
         eventLoadWorkouts.postValue(WorkoutModel.testList(15))
@@ -29,5 +30,6 @@ class DiscoverViewModel : BaseViewModel(), DiscoverListener {
     }
 
     override fun doTapDiscover(model: WorkoutModel) {
+        eventTapDiscover.postValue(model)
     }
 }

@@ -122,6 +122,8 @@
     <string name="video_tab_programs_label">PROGRAMS</string>
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 
+    <string name="videos_profile_label">Profile</string>
+
     <string name="virtual_booking_button_title_book">BOOK</string>
     <string name="virtual_booking_button_title_soon">JOIN NOW</string>
     <string name="virtual_booking_button_title_future">JOIN</string>
