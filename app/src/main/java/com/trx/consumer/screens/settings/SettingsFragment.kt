@@ -21,11 +21,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     override fun bind() {
         adapter = SettingsOptionAdapter(viewModel) { lifecycleScope }
 
-        viewBinding.apply {
-            rvSettings.adapter = adapter
-
-            btnBack.setOnClickListener { viewModel.doTapBack() }
-        }
+        viewBinding.rvSettings.adapter = adapter
 
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
@@ -39,7 +35,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         NavigationManager.shared.dismiss(this)
     }
 
-    private val handleLoadView = Observer<MutableList<Any>> { list ->
+    private val handleLoadView = Observer<List<Any>> { list ->
         viewBinding.lblVersion.text = UtilityManager.shared.versionDisplay()
         adapter.update(list)
     }

@@ -4,12 +4,11 @@ import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import com.trx.consumer.R
 import com.trx.consumer.common.CommonButton
 import com.trx.consumer.common.CommonLabel
-import com.trx.consumer.common.CommonView
 import com.trx.consumer.common.CommonViewHolder
-import com.trx.consumer.extensions.margin
 import com.trx.consumer.screens.settings.SettingsModel
 
 class SettingsOptionViewHolder(view: View) : CommonViewHolder(view) {
@@ -17,17 +16,13 @@ class SettingsOptionViewHolder(view: View) : CommonViewHolder(view) {
     private val lblTitle: CommonLabel = view.findViewById(R.id.lblTitle)
     private val lblSubtitle: CommonLabel = view.findViewById(R.id.lblSubtitle)
     private val btnSelect: CommonButton = view.findViewById(R.id.btnSelect)
-    private val viewMain: CommonView = view.findViewById(R.id.viewMain)
 
     fun setup(model: SettingsModel, listener: SettingsOptionListener) {
 
-        if (model.setMarginBottom)
-            viewMain.margin(0F, 0F, 0F, 15F)
-
         lblTitle.apply {
             text = itemView.context.getString(model.title)
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, model.textSize.toFloat())
-            setTextColor(ContextCompat.getColor(itemView.context, model.textColor))
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, model.titleTextSize.toFloat())
+            setTextColor(ContextCompat.getColor(itemView.context, model.titleTextColor))
         }
 
         lblSubtitle.text = model.subtitle
@@ -35,7 +30,7 @@ class SettingsOptionViewHolder(view: View) : CommonViewHolder(view) {
         if (model.subtitle.isEmpty()) {
             lblTitle.apply {
                 typeface = ResourcesCompat.getFont(itemView.context, R.font.atcarquette_regular)
-                lblSubtitle.visibility = View.GONE
+                lblSubtitle.isVisible = false
             }
         } else {
             lblTitle.apply {
@@ -44,6 +39,7 @@ class SettingsOptionViewHolder(view: View) : CommonViewHolder(view) {
                 setTextColor(ContextCompat.getColor(itemView.context, R.color.greyDark))
                 isAllCaps = true
             }
+            lblSubtitle.isVisible = true
         }
 
         btnSelect.action { listener.doTapSettings(model) }

@@ -8,7 +8,7 @@ import com.trx.consumer.screens.settings.option.SettingsOptionListener
 class SettingsViewModel : BaseViewModel(), SettingsOptionListener {
 
     val eventTapBack = CommonLiveEvent<Void>()
-    val eventLoadView = CommonLiveEvent<MutableList<Any>>()
+    val eventLoadView = CommonLiveEvent<List<Any>>()
 
     fun doTapBack() {
         eventTapBack.call()
