@@ -55,13 +55,13 @@
                     android:layout_height="0dp"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="@+id/viewHeader"
-                    app:layout_constraintTop_toBottomOf="@+id/viewNavBar" />
+                    app:layout_constraintTop_toTopOf="@+id/viewHeader" />
 
                 <com.trx.consumer.common.CommonLabel
                     android:id="@+id/lblDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginBottom="15dp"
                     android:fontFamily="@font/atcarquette_bold"
                     android:textColor="@color/white"
@@ -75,7 +75,7 @@
                     android:id="@+id/lblTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="15dp"
                     android:fontFamily="@font/atcarquette_bold"
@@ -88,7 +88,7 @@
                     android:id="@+id/lblSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginBottom="20dp"
                     android:fontFamily="@font/atcarquette_bold"
                     android:textColor="@color/yellow"
@@ -148,7 +148,8 @@
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:outline="@color/black" />
 
                 <View
                     android:layout_width="match_parent"

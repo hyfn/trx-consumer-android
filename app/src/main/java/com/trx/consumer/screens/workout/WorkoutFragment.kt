@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.workout
 
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
@@ -31,19 +30,8 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
     private val handleLoadView = Observer<BookingViewState> {
         viewBinding.apply {
-            btnPrimary.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    it.buttonBackgroundColor
-                )
-            )
-
-            btnPrimary.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    it.buttonTitleColor
-                )
-            )
+            btnPrimary.bgColor(it.buttonBackgroundColor)
+            btnPrimary.textColor(it.buttonTitleColor)
         }
     }
 
