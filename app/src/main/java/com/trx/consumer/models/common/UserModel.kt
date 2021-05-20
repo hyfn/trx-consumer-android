@@ -1,6 +1,5 @@
-package com.trx.consumer.models
+package com.trx.consumer.models.common
 
-import com.trx.consumer.models.common.CardModel
 import org.json.JSONObject
 
 class UserModel(

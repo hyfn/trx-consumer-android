@@ -1,6 +1,6 @@
 package com.trx.consumer.models.responses
 
-import com.trx.consumer.models.UserModel
+import com.trx.consumer.models.common.UserModel
 import org.json.JSONObject
 
 class UserResponseModel(val user: UserModel, val jwt: String = "") {
