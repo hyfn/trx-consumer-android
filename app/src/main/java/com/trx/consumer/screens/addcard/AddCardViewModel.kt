@@ -108,16 +108,13 @@ class AddCardViewModel @ViewModelInject constructor(
                     "It looks like your card is expired. Check your information and try again."
                 )
             } else {
+                eventShowHud.postValue(true)
                 card?.let {
                     try {
-                        eventShowHud.postValue(true)
                         val response = stripeBackendManager.createStripePaymentMethod(it)
-                        eventShowHud.postValue(false)
                         response?.let { id ->
                             paymentMethodId?.let { currentId ->
-                                eventShowHud.postValue(true)
                                 val deleteResponse = backendManager.paymentDelete(currentId)
-                                eventShowHud.postValue(false)
                                 if (deleteResponse.isSuccess) {
                                     doCallAddPayment(currentId)
                                 } else {
@@ -130,13 +127,13 @@ class AddCardViewModel @ViewModelInject constructor(
                             eventSaveError.postValue("There is an error with the expiration")
                         }
                     } catch (e: Exception) {
-                        eventShowHud.postValue(false)
                         LogManager.log(e)
                         e.message?.let { error -> eventSaveError.postValue(error) }
                     }
                 } ?: run {
                     eventSaveError.postValue("There is an error with the expiration")
                 }
+                eventShowHud.postValue(false)
             }
         }
     }
