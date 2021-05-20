@@ -130,8 +130,6 @@ class AddCardViewModel @ViewModelInject constructor(
                         LogManager.log(e)
                         e.message?.let { error -> eventSaveError.postValue(error) }
                     }
-                } ?: run {
-                    eventSaveError.postValue("There is an error with the expiration")
                 }
                 eventShowHud.postValue(false)
             }
