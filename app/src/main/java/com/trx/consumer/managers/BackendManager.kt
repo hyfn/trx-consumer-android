@@ -88,6 +88,7 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         if (response.isSuccess) {
             val model = UserResponseModel.parse(response.responseString)
             cacheManager.user(model.user)
+            IAPManager.shared.identify(model.user.uid)
         }
         return response
     }

@@ -4,6 +4,7 @@ import com.trx.consumer.models.common.CardModel
 import org.json.JSONObject
 
 class UserModel(
+    val uid: String = "",
     var birthday: String = "",
     val card: CardModel? = null,
     val cardPaymentMethod: String? = null,
@@ -21,6 +22,7 @@ class UserModel(
 
         fun parse(jsonObject: JSONObject): UserModel {
             return UserModel(
+                uid = jsonObject.optString("uid"),
                 birthday = jsonObject.optString("birthday"),
                 email = jsonObject.optString("email"),
                 zipCode = jsonObject.optString("postalCode"),

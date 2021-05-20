@@ -91,6 +91,7 @@ android {
             buildConfigField "String", "kBrightcoveAccountId", '"6204326362001"'
             buildConfigField "String", "kBrightcovePolicyKey", '"BCpkADawqM0NIVZ3stgK7lsrNpSnMb54yV2-XP_RMBl9gBL5hOvH_cjmnfU_kxS1QjYqucj3ZQTBRiGZhrd09drVaY-IAEgg9IYebBSliKZI8iSzYpvmdUQgwST2dVv4toFYU1clp89h7_qj"'
             buildConfigField "Boolean", "kIsVerificationEnabled", "false"
+            buildConfigField "String", "kRevenueCatEntitlementOnDemand", '"ondemand"'
         }
         dev {
             applicationId "com.trx.consumer.dev"
@@ -98,6 +99,7 @@ android {
             buildConfigField "String", "kBaseUrl", '"https://trx-dashboard-dev.vercel.app/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "false"
             buildConfigField "Integer", "kFirebaseFetchInterval", "3"
+            buildConfigField "String", "kRevenueCatSdkKey", '"TFfhYYKJobQCRvboEbJYkDQnnidHgxFv"'
             signingConfig signingConfigs.devRelease
         }
         prod {
@@ -106,6 +108,7 @@ android {
             buildConfigField "String", "kBaseUrl", '"https://digital.trxtraining.com/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "true"
             buildConfigField "Integer", "kFirebaseFetchInterval", "30"
+            buildConfigField "String", "kRevenueCatSdkKey", '"elFuvmHaXyXUfXeSzSKVyBzfagfFlgCI"'
             signingConfig signingConfigs.prodRelease
         }
     }
