@@ -22,7 +22,7 @@ class PlansViewHolder(view: View) : CommonViewHolder(view) {
             text = itemView.context.getString(item.primaryState.buttonText)
             textColor(item.primaryState.buttonTextColor)
             bgColor(item.primaryState.buttonBgColor)
-            action { listener.doTapPlan(item) }
+            action { listener.doTapChoosePlan(item) }
         }
     }
 }
