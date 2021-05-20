@@ -17,18 +17,18 @@ import com.trx.consumer.models.params.FilterParamsModel
 class FilterOptionsFragment : BaseFragment(R.layout.fragment_filter_options) {
 
     //region Objects
-    private val viewModel: FilterOptionViewModel by viewModels()
+    private val viewModel: FilterOptionsViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentFilterOptionsBinding::bind)
 
     private var adapter: FilterOptionsAdapter? = null
     //endregion
 
-    //region Setuo
+    //region Setup
     override fun bind() {
 
         val params = NavigationManager.shared.params(this) as FilterParamsModel
-        viewModel.model = params.list.find { it == params.selectedModel }
-        viewModel.param = params
+        viewModel.filter = params.selectedModel
+        viewModel.params = params
         adapter = FilterOptionsAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
@@ -52,7 +52,7 @@ class FilterOptionsFragment : BaseFragment(R.layout.fragment_filter_options) {
     //region - Handlers
     private val handleLoadView = Observer<FilterModel> { model ->
         LogManager.log("handleLoadView")
-        viewBinding.lblTitle.text = model.title
+        viewBinding.lblFilterTitle.text = model.title
         if (model.values.isNotEmpty()) adapter?.update(model.values)
         else {
             viewBinding.apply {

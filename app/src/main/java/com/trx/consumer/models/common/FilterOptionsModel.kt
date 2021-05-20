@@ -4,13 +4,13 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class FilterOptionModel(val name: String, var isSelected: Boolean = true) : Parcelable {
+class FilterOptionsModel(val value: String, var isSelected: Boolean = true) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
-        return other === this || (other is FilterOptionModel && other.name == name)
+        return other === this || (other is FilterOptionsModel && other.value == value)
     }
 
     override fun hashCode(): Int {
-        return name.hashCode()
+        return value.hashCode()
     }
 }
