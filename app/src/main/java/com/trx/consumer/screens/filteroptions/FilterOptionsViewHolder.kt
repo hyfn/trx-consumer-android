@@ -13,28 +13,14 @@ class FilterOptionsViewHolder(view: View) : CommonViewHolder(view) {
     private val viewFilter: CommonView = view.findViewById(R.id.viewFilter)
 
     fun setup(model: FilterOptionModel, listener: FilterOptionsListener) {
-        lblTitle.text = model.name
-        setBackgroundColor(model.isSelected)
-        viewFilter.action {
-            model.apply {
+        model.apply {
+            lblTitle.text = name
+            lblTitle.textColor(if (isSelected) R.color.white else R.color.black)
+            viewFilter.bgColor(if (isSelected) R.color.black else R.color.greyLightExtra)
+            viewFilter.action {
                 isSelected = !isSelected
                 listener.doTapFilterOption(this)
             }
-        }
-    }
-
-    private fun setBackgroundColor(isSelected: Boolean) {
-        lblTitle.apply {
-            setTextColor(
-                ContextCompat.getColor(context, if (isSelected) R.color.white else R.color.black)
-            )
-        }
-        viewFilter.apply {
-            setBackgroundColor(
-                ContextCompat.getColor(
-                    context, if (isSelected) R.color.black else R.color.greyLightExtra
-                )
-            )
         }
     }
 }
