@@ -124,7 +124,7 @@ class AddCardViewModel @ViewModelInject constructor(
                                 doCallAddPayment(id)
                             }
                         } ?: run {
-                            eventSaveError.postValue("There is an error with the expiration")
+                            eventSaveError.postValue("There was an error updating your card")
                         }
                     } catch (e: Exception) {
                         LogManager.log(e)
