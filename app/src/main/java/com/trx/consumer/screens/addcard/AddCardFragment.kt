@@ -66,11 +66,9 @@ class AddCardFragment : BaseFragment(R.layout.fragment_add_card) {
     }
 
     private val handleLoadButton = Observer<Boolean> { enabled ->
-        viewBinding.apply {
-            btnSave.apply {
-                isEnabled = enabled
-                bgColor(if (enabled) R.color.black else R.color.greyDark)
-            }
+        viewBinding.btnSave.apply {
+            isEnabled = enabled
+            bgColor(if (enabled) R.color.black else R.color.greyDark)
         }
     }
 
