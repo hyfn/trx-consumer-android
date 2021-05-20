@@ -1,5 +1,6 @@
 package com.trx.consumer.screens.home
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -11,15 +12,11 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.UserModel
-import com.trx.consumer.models.common.LiveWorkoutModel
-import com.trx.consumer.models.common.PromotionModel
+import com.trx.consumer.models.common.PromoModel
+import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
-import com.trx.consumer.models.common.VirtualWorkoutModel
-import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
-import com.trx.consumer.screens.promotion.PromotionAdapter
-import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
-import com.trx.consumer.screens.virtualworkout.VirtualWorkoutAdapter
+import com.trx.consumer.screens.promotion.PromoAdapter
+import com.trx.consumer.screens.videoworkout.VideoAdapter
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
@@ -27,54 +24,38 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentHomeBinding::bind)
 
-    private lateinit var promotionTopAdapter: PromotionAdapter
-    private lateinit var upcomingAdapter: VirtualWorkoutAdapter
-    private lateinit var bookWithAdapter: VirtualWorkoutAdapter
-    private lateinit var liveAdapter: LiveWorkoutAdapter
-    private lateinit var onDemandAdapter: VideoWorkoutAdapter
-    private lateinit var promotionBottomAdapter: PromotionAdapter
+    private lateinit var videosAdapter: VideoAdapter
+    private lateinit var promoAdapter: PromoAdapter
 
     //endregion
 
     //region Setup
     override fun bind() {
-        promotionTopAdapter = PromotionAdapter(viewModel) { lifecycleScope }
-        upcomingAdapter = VirtualWorkoutAdapter(viewModel) { lifecycleScope }
-        bookWithAdapter = VirtualWorkoutAdapter(viewModel) { lifecycleScope }
-        liveAdapter = LiveWorkoutAdapter(viewModel) { lifecycleScope }
-        onDemandAdapter = VideoWorkoutAdapter(viewModel) { lifecycleScope }
-        promotionBottomAdapter = PromotionAdapter(viewModel) { lifecycleScope }
+        videosAdapter = VideoAdapter(viewModel) { lifecycleScope }
+        promoAdapter = PromoAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
             btnTest.action { viewModel.doTapTest() }
-
-            viewForYouTop.rvPromotions.adapter = promotionTopAdapter
-            viewUpcoming.rvVirtualWorkouts.adapter = upcomingAdapter
-            viewBookWith.rvVirtualWorkouts.adapter = bookWithAdapter
-            viewLive.rvLiveWorkouts.adapter = liveAdapter
-            viewOnDemand.rvVideoWorkouts.adapter = onDemandAdapter
-            viewForYouBottom.rvPromotions.adapter = promotionBottomAdapter
+            viewBanner.btnPrimary.action { viewModel.doTapBanner() }
+            viewVideos.rvVideoWorkouts.adapter = videosAdapter
+            viewPromos.rvPromos.adapter = promoAdapter
         }
 
         viewModel.apply {
             eventTapTest.observe(viewLifecycleOwner, handleTapTest)
 
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-            eventLoadPromotionsTop.observe(viewLifecycleOwner, handleLoadPromotionsTop)
-            eventLoadUpcoming.observe(viewLifecycleOwner, handleLoadUpcoming)
-            eventLoadBookWith.observe(viewLifecycleOwner, handleLoadBookWith)
-            eventLoadLive.observe(viewLifecycleOwner, handleLive)
-            eventLoadOnDemand.observe(viewLifecycleOwner, handleOnDemand)
-            eventLoadPromotionsBottom.observe(viewLifecycleOwner, handleLoadPromotionsBottom)
+            eventLoadVideos.observe(viewLifecycleOwner, handleLoadVideos)
+            eventLoadPromos.observe(viewLifecycleOwner, handleLoadPromos)
             eventLoadUser.observe(viewLifecycleOwner, handleLoadUser)
+            eventLoadBanner.observe(viewLifecycleOwner, handleLoadBanner)
+
+            eventTapBanner.observe(viewLifecycleOwner, handleTapBanner)
 
             doLoadView()
-            doLoadPromotionsTop()
-            doLoadUpcoming()
-            doLoadBookWith()
-            doLoadLive()
-            doLoadOnDemand()
-            doLoadPromotionsBottom()
+            doLoadBanner()
+            doLoadVideos()
+            doLoadPromos()
         }
     }
     //endregion
@@ -87,103 +68,52 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private val handleLoadView = Observer<Void> {
+        LogManager.log("handleLoadView")
         viewBinding.apply {
-            with(requireContext()) {
-                lblClasses.text = getString(R.string.home_user_classes_label, 0)
-                lblSessions.text = getString(R.string.home_user_sessions_label, 0)
-                lblWorkouts.text = getString(R.string.home_user_workouts_label, 0)
-            }
+            lblPlan.text = lblPlan.context.getText(R.string.home_dummy_plan_label)
         }
     }
 
-    private val handleLoadPromotionsTop = Observer<List<PromotionModel>> { promotions ->
-        loadPromotionsTop(promotions)
+    private val handleLoadVideos = Observer<List<VideoModel>> { workouts ->
+        loadVideos(workouts)
     }
 
-    private val handleLoadUpcoming = Observer<List<VirtualWorkoutModel>> { workouts ->
-        loadUpcoming(workouts)
-    }
-
-    private val handleLoadBookWith = Observer<List<VirtualWorkoutModel>> { workouts ->
-        loadBookWith(workouts)
-    }
-
-    private val handleLive = Observer<List<LiveWorkoutModel>> { workouts ->
-        loadLive(workouts)
-    }
-
-    private val handleOnDemand = Observer<List<VideoModel>> { workouts ->
-        loadOnDemand(workouts)
-    }
-
-    private val handleLoadPromotionsBottom = Observer<List<PromotionModel>> { promotions ->
-        loadPromotionsBottom(promotions)
+    private val handleLoadPromos = Observer<List<PromoModel>> { promotions ->
+        loadPromos(promotions)
     }
 
     private val handleLoadUser = Observer<UserModel> { user ->
         loadUser(user)
     }
 
+    private val handleLoadBanner = Observer<Boolean> { show ->
+        viewBinding.apply {
+            viewBanner.viewMain.isVisible = show
+            viewBanner.viewMain.requestLayout()
+        }
+    }
+
+    private val handleTapBanner = Observer<Void> {}
+
     //endregion
 
     //region Functions
 
-    private fun loadPromotionsTop(promotions: List<PromotionModel>) {
-        val hide = promotions.isEmpty()
-        promotionTopAdapter.update(promotions)
-        viewBinding.apply {
-            viewForYouTop.lblTitle.text = getString(R.string.home_promotions_top_title_label)
-            imgLineForYouTop.isHidden = hide
-            viewForYouTop.viewMain.isHidden = hide
-        }
-    }
-
-    private fun loadUpcoming(workouts: List<VirtualWorkoutModel>) {
-        upcomingAdapter.update(workouts)
-        viewBinding.apply {
-            viewUpcoming.lblTitle.text = getString(R.string.live_upcoming_title_label)
-            viewUpcoming.btnView.isHidden = false
-            viewUpcoming.viewMain.isHidden = workouts.isEmpty()
-        }
-    }
-
-    private fun loadBookWith(workouts: List<VirtualWorkoutModel>) {
+    private fun loadVideos(workouts: List<VideoModel>) {
         val hide = workouts.isEmpty()
-        bookWithAdapter.update(workouts)
+        videosAdapter.update(workouts)
         viewBinding.apply {
-            viewBookWith.lblTitle.text = getString(R.string.home_book_with_title_label)
-            viewBookWith.btnView.isHidden = true
-            imgLineBookWith.isHidden = hide
-            viewBookWith.viewMain.isHidden = hide
-        }
-    }
-
-    private fun loadLive(workouts: List<LiveWorkoutModel>) {
-        val hide = workouts.isEmpty()
-        liveAdapter.update(workouts)
-        viewBinding.apply {
-            viewLive.lblTitle.text = getString(R.string.home_live_title_label)
-            viewLive.btnSchedule.isHidden = true
-            imgLineLive.isHidden = hide
-            viewLive.viewMain.isHidden = hide
-        }
-    }
-
-    private fun loadOnDemand(workouts: List<VideoModel>) {
-        val hide = workouts.isEmpty()
-        onDemandAdapter.update(workouts)
-        viewBinding.apply {
-            viewOnDemand.lblTitle.text = getString(R.string.home_on_demand_title_label)
+            viewVideos.lblTitle.text = getString(R.string.home_on_demand_title_label)
             imgLineOnDemand.isHidden = hide
-            viewOnDemand.viewMain.isHidden = hide
+            viewVideos.viewMain.isHidden = hide
         }
     }
 
-    private fun loadPromotionsBottom(promotions: List<PromotionModel>) {
-        promotionBottomAdapter.update(promotions)
+    private fun loadPromos(promos: List<PromoModel>) {
+        promoAdapter.update(promos)
         viewBinding.apply {
-            viewForYouBottom.lblTitle.text = getString(R.string.home_promotions_top_title_label)
-            viewForYouBottom.viewMain.isHidden = promotions.isEmpty()
+            viewPromos.lblTitle.text = getString(R.string.home_promotions_top_title_label)
+            viewPromos.viewMain.isHidden = promos.isEmpty()
         }
     }
 
@@ -192,25 +122,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             with(requireContext()) {
                 // Temporary, logic will likely change
                 lblUserName.text = getString(R.string.home_user_name_label, model.firstName)
-                lblSessions.text = getString(R.string.home_user_sessions_label, model.bookings.size)
-                lblClasses.text = getString(
-                    R.string.home_user_classes_label,
-                    model.freeClasses.size
-                )
-                lblWorkouts.text = getString(
-                    R.string.home_user_workouts_label,
-                    model.freeClasses.size
-                )
-
-                lblSessions.textColor(
-                    if (model.bookings.isEmpty()) R.color.greyLight else R.color.black
-                )
-                lblClasses.textColor(
-                    if (model.freeClasses.isEmpty()) R.color.greyLight else R.color.black
-                )
-                lblWorkouts.textColor(
-                    if (model.freeClasses.isEmpty()) R.color.greyLight else R.color.black
-                )
             }
         }
     }

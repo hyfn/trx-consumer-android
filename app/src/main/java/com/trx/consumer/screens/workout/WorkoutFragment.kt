@@ -7,7 +7,7 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentWorkoutBinding
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.common.BookingViewState
+import com.trx.consumer.models.common.BookingState
 
 class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
@@ -28,7 +28,7 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
         NavigationManager.shared.dismiss(this)
     }
 
-    private val handleLoadView = Observer<BookingViewState> {
+    private val handleLoadView = Observer<BookingState> {
         viewBinding.apply {
             btnPrimary.bgColor(it.buttonBackgroundColor)
             btnPrimary.textColor(it.buttonTitleColor)

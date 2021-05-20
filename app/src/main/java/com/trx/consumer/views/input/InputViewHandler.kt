@@ -59,11 +59,7 @@ class InputViewHandler(
 
     fun textFieldDidEndEditing(inputString: String) {
         val isValidInput = mState.validate(inputString)
-        val validationError = if (isValidInput) {
-            null
-        } else {
-            editTextView.context.getString(mState.errorMessage)
-        }
+        val validationError = editTextView.context.getString(mState.errorMessage)
         mListener?.didUpdateText(inputString, isValidInput, validationError, mState)
     }
 

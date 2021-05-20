@@ -103,7 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="1dp"
-                app:inputViewState="password"
+                app:inputViewState="confirm_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vLineTwo" />
@@ -121,7 +121,7 @@
                 android:id="@+id/viewTerm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="30dp"
                 app:layout_constraintTop_toBottomOf="@id/vLineThree">
@@ -131,8 +131,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/atcarquette_regular"
-                    android:text="@string/register_term_label"
+                    android:text="@string/register_terms"
                     android:textSize="16sp"
+                    android:textColorHighlight="@color/grey"
+                    android:textColorLink="@color/grey"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -172,10 +174,10 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             app:backgroundColor="@color/blackRussian"
-            app:layout_constraintBottom_toTopOf="@+id/btnSignUp" />
+            app:layout_constraintBottom_toTopOf="@+id/btnLogin" />
 
         <com.trx.consumer.common.CommonButton
-            android:id="@+id/btnSignUp"
+            android:id="@+id/btnLogin"
             style="@style/CommonLabelStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -187,9 +189,6 @@
 
     <com.trx.consumer.common.CommonHudView
         android:id="@+id/hudView"
-        style="@style/MatchParentEdgesViewStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+        style="@style/MatchParentDimensionsViewStyle" />
 
 </com.trx.consumer.common.CommonView>
