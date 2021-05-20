@@ -106,7 +106,7 @@
         android:id="@+id/filter_options_fragment"
         android:name="com.trx.consumer.screens.filteroptions.FilterOptionsFragment"
         android:label="FilterOptionsFragment"
-        tools:layout="@layout/fragment_options" />
+        tools:layout="@layout/fragment_filter_options" />
 
     <fragment
         android:id="@+id/videos_fragment"
