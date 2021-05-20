@@ -10,8 +10,8 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.UserModel
 import com.trx.consumer.models.common.AlertModel
+import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.screens.erroralert.ErrorAlertModel
 
 class UpdateFragment : BaseFragment(R.layout.fragment_update) {

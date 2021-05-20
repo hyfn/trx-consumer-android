@@ -12,8 +12,8 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.UserModel
 import com.trx.consumer.models.common.PromoModel
+import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.screens.promotion.PromoAdapter
 import com.trx.consumer.screens.videoworkout.VideoAdapter
