@@ -6,9 +6,7 @@ import com.stripe.android.model.CardParams
 import com.stripe.android.model.PaymentMethodCreateParams
 import com.trx.consumer.models.common.CardModel
 
-class StripeBackendManager(
-    private val stripe: Stripe
-) {
+class StripeBackendManager(private val stripe: Stripe) {
 
     suspend fun createStripePaymentMethod(card: CardModel): String? {
         val stripeCard = PaymentMethodCreateParams.createCard(
