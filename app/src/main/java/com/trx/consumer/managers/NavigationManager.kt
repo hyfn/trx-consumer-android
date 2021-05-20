@@ -15,8 +15,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.trx.consumer.BuildConfig
 import com.trx.consumer.R
-import com.trx.consumer.constants.Constant
 
 class NavigationManager {
 
@@ -26,7 +26,7 @@ class NavigationManager {
     private val extraAny = "EXTRA_ANY"
 
     private val listTab =
-        if (Constant.isVersion2Enabled)
+        if (BuildConfig.isVersion2Enabled)
             listOf(
                 R.id.home_fragment,
                 R.id.virtual_fragment,
@@ -65,10 +65,10 @@ class NavigationManager {
         navController.graph = graph
         getTabBar(activity).apply {
             menu.clear()
-            if (Constant.isVersion2Enabled)
-                inflateMenu(R.menu.menu_bottom_nav)
+            if (BuildConfig.isVersion2Enabled)
+                inflateMenu(R.menu.menu_bottom_nav_v2)
             else
-                inflateMenu(R.menu.second_menu_bottom_nav)
+                inflateMenu(R.menu.menu_bottom_nav)
 
             setupWithNavController(navController)
             setOnNavigationItemSelectedListener(handleItemListener(activity, navController))
@@ -101,10 +101,10 @@ class NavigationManager {
         isGuestMode = guest
         getTabBar(activity).apply {
             menu.clear()
-            if (Constant.isVersion2Enabled)
-                inflateMenu(R.menu.menu_bottom_nav)
+            if (BuildConfig.isVersion2Enabled)
+                inflateMenu(R.menu.menu_bottom_nav_v2)
             else
-                inflateMenu(R.menu.second_menu_bottom_nav)
+                inflateMenu(R.menu.menu_bottom_nav)
         }
         val navController = getNavController(activity)
         val start = if (login) R.id.home_fragment else R.id.splash_fragment
