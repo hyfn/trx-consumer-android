@@ -2,8 +2,8 @@ package com.trx.consumer.screens.home
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.models.UserModel
 import com.trx.consumer.models.common.PromoModel
+import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.screens.promotion.PromotionListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener

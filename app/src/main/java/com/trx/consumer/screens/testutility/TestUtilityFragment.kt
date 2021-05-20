@@ -10,8 +10,8 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentTestUtilityBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.AlertModel
+import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VirtualWorkoutModel
@@ -60,6 +60,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnDiscover.action { viewModel.doTapDiscover() }
             btnAlert.action { viewModel.doTapAlert() }
             btnWelcome.action { viewModel.doTapWelcome() }
+            btnSettings.action { viewModel.doTapSettings() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoAdapter
@@ -79,6 +80,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapDiscover.observe(viewLifecycleOwner, handleTapDiscover)
             eventTapAlert.observe(viewLifecycleOwner, handleTapAlert)
             eventTapWelcome.observe(viewLifecycleOwner, handleTapWelcome)
+            eventTapSettings.observe(viewLifecycleOwner, handleTapSettings)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
             eventLoadPromotions.observe(viewLifecycleOwner, handleLoadPromotions)
@@ -154,6 +156,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleTapWelcome = Observer<Void> {
         NavigationManager.shared.present(this, R.id.welcome_fragment, WelcomeState.WELCOME)
+    }
+
+    private val handleTapSettings = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.settings_fragment)
     }
 
     private val handleLoadLiveWorkouts = Observer<List<WorkoutModel>> { liveWorkouts ->

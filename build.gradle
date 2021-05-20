@@ -42,6 +42,7 @@ buildscript {
         lottieVersion='3.4.0'
 
         brightcoveVersion = '6.16.2'
+        revenuecatVersion = "4.2.0"
 
         stripeVersion = '16.8.0'
 

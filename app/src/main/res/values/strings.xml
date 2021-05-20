@@ -4,7 +4,7 @@
 
     <string name="add_card_title">Update Payment Method</string>
     <string name="add_card_update_label">Update</string>
-    
+
     <string name="alert_button_title_dismiss">Dismiss</string>
     <string name="alert_primary_back">Take me back</string>
     <string name="alert_primary_cool">Cool</string>
@@ -93,6 +93,15 @@
     <string name="plans_last_bill_date_label">Last Bill Date:</string>
     <string name="plans_next_bill_date_label">Next Bill Date:</string>
 
+    <string name="settings_title">SETTINGS</string>
+    <string name="settings_subscriptions">Subscriptions</string>
+    <string name="settings_shop">Shop TRX Products</string>
+    <string name="settings_getting_started">Getting Started Videos</string>
+    <string name="settings_terms_and_conditions">Terms &amp; Conditions</string>
+    <string name="settings_contact_support">Contact Support</string>
+    <string name="settings_restore_purchases">Restore Purchases</string>
+    <string name="settings_logout">Log Out</string>
+
     <string name="splash_title">Welcome to the TRX Training Club</string>
     <string name="splash_continue_label">CONTINUE WITH</string>
     <string name="splash_email_button_label">EMAIL</string>
@@ -120,6 +129,7 @@
     <string name="test_utility_welcome_label">Welcome</string>
     <string name="test_utility_alert_button_primary_label">Do something</string>
     <string name="test_utility_alert_button_secondary_label">Thanks, I\'ll pass</string>
+    <string name="test_utility_settings_label">Settings</string>
 
     <string name="video_tab_workouts_label">WORKOUTS</string>
     <string name="video_tab_collections_label">COLLECTIONS</string>
