@@ -26,6 +26,7 @@ import com.trx.consumer.screens.promotion.PromoAdapter
 import com.trx.consumer.screens.update.UpdateViewState
 import com.trx.consumer.screens.videoworkout.VideoAdapter
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutAdapter
+import com.trx.consumer.screens.welcome.WelcomeState
 
 class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
@@ -58,6 +59,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnFilter.action { viewModel.doTapFilter() }
             btnDiscover.action { viewModel.doTapDiscover() }
             btnAlert.action { viewModel.doTapAlert() }
+            btnWelcome.action { viewModel.doTapWelcome() }
             btnSettings.action { viewModel.doTapSettings() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
@@ -77,6 +79,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapPlayer.observe(viewLifecycleOwner, handleTapPlayer)
             eventTapDiscover.observe(viewLifecycleOwner, handleTapDiscover)
             eventTapAlert.observe(viewLifecycleOwner, handleTapAlert)
+            eventTapWelcome.observe(viewLifecycleOwner, handleTapWelcome)
             eventTapSettings.observe(viewLifecycleOwner, handleTapSettings)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
@@ -149,6 +152,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     private val handleTapFilter = Observer<Void> {
         val model = FilterParamsModel(FilterModel.test(10))
         NavigationManager.shared.present(this, R.id.filter_fragment, model)
+    }
+
+    private val handleTapWelcome = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.welcome_fragment, WelcomeState.WELCOME)
     }
 
     private val handleTapSettings = Observer<Void> {
