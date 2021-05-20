@@ -82,6 +82,16 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return user()
     }
 
+    suspend fun subscriptionAdd(params: HashMap<String, Any>): ResponseModel {
+        val path = EndpointModel.SUBSCRIPTION_ADD.path
+        return call(RequestModel(endpoint = EndpointModel.SUBSCRIPTION_ADD, path = path, params = params))
+    }
+
+    suspend fun subscriptionDelete(params: HashMap<String, Any>): ResponseModel {
+        val path = EndpointModel.SUBSCRIPTION_DELETE.path
+        return call(RequestModel(endpoint = EndpointModel.SUBSCRIPTION_DELETE, path = path, params = params))
+    }
+
     suspend fun user(): ResponseModel {
         val path = EndpointModel.USER.path
         val response = call(RequestModel(endpoint = EndpointModel.USER, path = path, params = null))

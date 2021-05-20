@@ -1,11 +1,17 @@
 package com.trx.consumer.screens.plans
 
+import androidx.hilt.lifecycle.ViewModelInject
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.models.common.PlanModel
 import com.trx.consumer.screens.plans.list.PlansListener
 
-class PlansViewModel : BaseViewModel(), PlansListener {
+class PlansViewModel @ViewModelInject constructor(
+    private val backendManager: BackendManager,
+    private val cacheManager: CacheManager
+) : BaseViewModel(), PlansListener {
 
     //region Events
 
