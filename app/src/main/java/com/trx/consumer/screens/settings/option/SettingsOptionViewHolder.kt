@@ -35,7 +35,6 @@ class SettingsOptionViewHolder(view: View) : CommonViewHolder(view) {
         } else {
             lblTitle.apply {
                 typeface = ResourcesCompat.getFont(itemView.context, R.font.atcarquette_bold)
-                setTextSize(TypedValue.COMPLEX_UNIT_SP, 10.toFloat())
                 setTextColor(ContextCompat.getColor(itemView.context, R.color.greyDark))
                 isAllCaps = true
             }
