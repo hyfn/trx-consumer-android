@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.filter
 
-import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer

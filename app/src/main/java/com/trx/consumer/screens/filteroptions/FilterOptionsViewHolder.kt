@@ -1,7 +1,6 @@
 package com.trx.consumer.screens.filteroptions
 
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.trx.consumer.R
 import com.trx.consumer.common.CommonLabel
 import com.trx.consumer.common.CommonView
