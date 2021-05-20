@@ -15,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.trx.consumer.BuildConfig
 import com.trx.consumer.R
 
 class NavigationManager {
@@ -24,12 +25,20 @@ class NavigationManager {
     private val extraParcelable = "EXTRA_PARCELABLE"
     private val extraAny = "EXTRA_ANY"
 
-    private val listTab = listOf(
-        R.id.home_fragment,
-        R.id.virtual_fragment,
-        R.id.live_fragment,
-        R.id.video_fragment
-    )
+    private val listTab =
+        if (BuildConfig.isVersion2Enabled)
+            listOf(
+                R.id.home_fragment,
+                R.id.virtual_fragment,
+                R.id.live_fragment,
+                R.id.video_fragment
+            )
+        else
+            listOf(
+                R.id.home_fragment,
+                R.id.video_fragment,
+                R.id.settings_fragment
+            )
 
     private val listIgnoreTab = listOf<Int>()
 
@@ -55,6 +64,12 @@ class NavigationManager {
         graph.startDestination = if (isLoggedIn) R.id.home_fragment else R.id.splash_fragment
         navController.graph = graph
         getTabBar(activity).apply {
+            menu.clear()
+            if (BuildConfig.isVersion2Enabled)
+                inflateMenu(R.menu.menu_bottom_nav_v2)
+            else
+                inflateMenu(R.menu.menu_bottom_nav)
+
             setupWithNavController(navController)
             setOnNavigationItemSelectedListener(handleItemListener(activity, navController))
             setOnNavigationItemReselectedListener { }
@@ -86,7 +101,10 @@ class NavigationManager {
         isGuestMode = guest
         getTabBar(activity).apply {
             menu.clear()
-            inflateMenu(R.menu.menu_bottom_nav)
+            if (BuildConfig.isVersion2Enabled)
+                inflateMenu(R.menu.menu_bottom_nav_v2)
+            else
+                inflateMenu(R.menu.menu_bottom_nav)
         }
         val navController = getNavController(activity)
         val start = if (login) R.id.home_fragment else R.id.splash_fragment

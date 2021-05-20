@@ -7,7 +7,7 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.format
 import com.trx.consumer.managers.BackendManager
-import com.trx.consumer.models.UserModel
+import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.responses.UserResponseModel
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState

@@ -114,6 +114,18 @@
         android:label="FilterFragment"
         tools:layout="@layout/fragment_filters" />
 
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="com.trx.consumer.screens.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/workout_fragment"
+        android:name="com.trx.consumer.screens.workout.WorkoutFragment"
+        android:label="WorkoutFragment"
+        tools:layout="@layout/fragment_workout" />
+
     <dialog
         android:id="@+id/date_picker_fragment"
         android:name="com.trx.consumer.screens.datepicker.DatePickerFragment"
