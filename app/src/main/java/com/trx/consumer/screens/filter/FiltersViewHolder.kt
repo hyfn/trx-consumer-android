@@ -17,9 +17,7 @@ class FiltersViewHolder(view: View) : CommonViewHolder(view) {
         lblTitle.text = model.title
         val count = model.values.count { it.isSelected }
         lblSelectedFilter.apply {
-            text = if (count == 1) {
-                model.values.find { it.isSelected }?.name
-            } else if (count > 1 && count < model.values.size) {
+            text = if (count < model.values.size) {
                 context.getString(R.string.filters_options_selected_filter_label, count)
             } else {
                 context.getString(R.string.filters_options_selected_filter_default_label)
