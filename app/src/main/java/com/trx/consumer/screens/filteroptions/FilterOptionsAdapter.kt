@@ -10,7 +10,10 @@ import com.trx.consumer.models.common.FilterOptionModel
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
-class FilterOptionsAdapter(private val listener: FilterOptionsListener, scopeProvider: () -> CoroutineScope) :
+class FilterOptionsAdapter(
+    private val listener: FilterOptionsListener,
+    scopeProvider: () -> CoroutineScope
+) :
     CommonRecyclerViewAdapter(scopeProvider) {
     companion object {
         private const val TYPE_EMPTY = -1

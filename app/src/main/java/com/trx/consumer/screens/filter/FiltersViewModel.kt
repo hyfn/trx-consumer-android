@@ -31,7 +31,11 @@ class FiltersViewModel : BaseViewModel(), FiltersListener {
     }
 
     fun doTapReset() {
-        params?.list?.forEach { filter -> filter.values.forEach { option -> option.isSelected = true } }
+        params?.list?.forEach { filter ->
+            filter.values.forEach { option ->
+                option.isSelected = true
+            }
+        }
         eventTapReset.postValue(params)
     }
 
@@ -42,6 +46,7 @@ class FiltersViewModel : BaseViewModel(), FiltersListener {
     }
 
     override fun doTapFilter(model: FilterModel) {
-        eventTapFilter.postValue(params?.apply { selectedModel = model })
+        params?.selectedModel = model
+        eventTapFilter.postValue(params)
     }
 }

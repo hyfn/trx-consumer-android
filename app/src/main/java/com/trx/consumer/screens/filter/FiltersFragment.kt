@@ -51,11 +51,6 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
         viewModel.doLoadView()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable("Hello", viewModel.params)
-    }
-
     //region - Handlers
     private val handleLoadView = Observer<FilterParamsModel> { model ->
         LogManager.log("handleLoad")
