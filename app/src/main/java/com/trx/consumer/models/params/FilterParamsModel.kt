@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class FilterParamsModel(
     var selectedModel: FilterModel = FilterModel(),
-    var list: List<FilterModel> = listOf()
+    var lstFilters: List<FilterModel> = listOf()
 ) : Parcelable

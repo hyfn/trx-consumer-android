@@ -141,7 +141,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapFilter = Observer<Void> {
-        val model = FilterParamsModel(list = FilterModel.testList(10))
+        val model = FilterParamsModel(lstFilters = FilterModel.testList(10))
         NavigationManager.shared.present(this, R.id.filter_fragment, model)
     }
 
