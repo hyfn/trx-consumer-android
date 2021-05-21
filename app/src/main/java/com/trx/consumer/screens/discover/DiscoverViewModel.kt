@@ -6,6 +6,7 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.models.common.FilterModel
+import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.models.responses.VideoResponseModel
@@ -17,8 +18,11 @@ class DiscoverViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
 ) : BaseViewModel(), DiscoverListener, DiscoverFilterListener {
 
+    var workouts: List<VideoModel> = listOf()
+    var collections: List<VideoModel> = listOf()
+    var programs: List<VideoModel> = listOf()
     var params: FilterParamsModel = FilterParamsModel()
-    var filters: List<FilterModel> = params.lstFilters
+    var filters: List<FilterModel> = listOf()
 
     val eventLoadWorkouts = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadCollections = CommonLiveEvent<List<WorkoutModel>>()
@@ -35,8 +39,11 @@ class DiscoverViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = backendManager.videos()
-            if(response.isSuccess){
+            if (response.isSuccess) {
                 val model = VideoResponseModel.parse(response.responseString)
+                workouts = model.workouts
+                collections = model.collections
+                programs = model.programs
                 filters = model.filters
             }
             eventShowHud.postValue(false)
