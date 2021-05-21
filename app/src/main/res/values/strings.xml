@@ -1,13 +1,24 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name">TRX-Consumer</string>
 
     <string name="add_card_title">Update Payment Method</string>
     <string name="add_card_update_label">Update</string>
 
+    <string name="alert_button_title_dismiss">Dismiss</string>
+    <string name="alert_primary_back">Take me back</string>
+    <string name="alert_secondary_report">Report an issue</string>
+    <string name="alert_confirm_message">Are you sure?</string>
+    <string name="alert_nevermind_label">Nevermind</string>
+    <string name="alert_logout_message">You will be logged out</string>
+    <string name="alert_logout_confirm_label">Yes, log me out</string>
+
     <string name="booking_view_state_book_label">BOOK</string>
     <string name="booking_view_state_booked_label">BOOKED</string>
     <string name="booking_view_state_view_label">VIEW</string>
+    <string name="booking_view_state_video_label">START</string>
+    <string name="booking_view_state_join_label">JOIN</string>
+    <string name="booking_view_state_cancel_label" tools:ignore="ButtonCase">CANCEL</string>
     <string name="booking_view_state_default_label">N/A</string>
 
     <string name="cards_payment_method_label">Payment Method</string>
@@ -38,8 +49,14 @@
     <string name="home_upcoming_title_label">UPCOMING</string>
     <string name="home_book_with_title_label">BOOK WITH</string>
     <string name="home_live_title_label">HOT NEW LIVE CLASSES</string>
-    <string name="home_on_demand_title_label">ON-DEMAND HOT &amp; NEW</string>
+    <string name="home_on_demand_title_label">ON-DEMAND WORKOUTS</string>
     <string name="home_upcoming_button_label">VIEW ALL →</string>
+    <string name="home_dummy_plan_label">UNLIMITED</string>
+    <string name="home_banner_description_label">Try TRX Training Club and experience LIVE Classes and get matched with a Virtual Personal Trainer for free.</string>
+    <string name="home_banner_btn_label">LEARN MORE</string>
+    <string name="home_banner_title_label">More Ways to Train</string>
+    <string name="home_banner_section_title_label">TRY TRX TRAINING CLUB</string>
+
 
     <string name="inputview_placeholder_birthday">Birthday</string>
     <string name="inputview_placeholder_card_number">Card Number</string>
@@ -50,6 +67,7 @@
     <string name="inputview_placeholder_first">First Name</string>
     <string name="inputview_placeholder_last">Last Name</string>
     <string name="inputview_placeholder_password">Password</string>
+    <string name="inputview_placeholder_confirm_password">Confirm Password</string>
     <string name="inputview_placeholder_phone">Phone Number</string>
     <string name="inputview_placeholder_promo">Promo code</string>
     <string name="inputview_placeholder_zip">Zip Code</string>
@@ -58,11 +76,12 @@
     <string name="inputview_error_message_card_number">Card Number is not valid.</string>
     <string name="inputview_error_message_code">Enter Code</string>
     <string name="inputview_error_message_cvv">CVV is not valid.</string>
-    <string name="inputview_error_message_email">Make sure you entered your email address correctly.</string>
+    <string name="inputview_error_message_email">Please enter a valid Email.</string>
     <string name="inputview_error_message_expiration">Expiration date is not valid</string>
     <string name="inputview_error_message_first_name">First name is not valid</string>
     <string name="inputview_error_message_last_name">Last name is not valid</string>
-    <string name="inputview_error_message_password">Password must be at least 6 characters</string>
+    <string name="inputview_error_message_password">The password must be at least 6 characters.</string>
+    <string name="inputview_error_message_confirm_password">Your password and confirm password do not match.</string>
     <string name="inputview_error_message_phone_number">Phone number is not valid</string>
     <string name="inputview_error_message_zip">Zip Code is not valid.</string>
 
@@ -83,6 +102,15 @@
     <string name="plans_last_bill_date_label">Last Bill Date:</string>
     <string name="plans_next_bill_date_label">Next Bill Date:</string>
 
+    <string name="settings_title">SETTINGS</string>
+    <string name="settings_subscriptions">Subscriptions</string>
+    <string name="settings_shop">Shop TRX Products</string>
+    <string name="settings_getting_started">Getting Started Videos</string>
+    <string name="settings_terms_and_conditions">Terms &amp; Conditions</string>
+    <string name="settings_contact_support">Contact Support</string>
+    <string name="settings_restore_purchases">Restore Purchases</string>
+    <string name="settings_logout">Log Out</string>
+
     <string name="splash_title">Welcome to the TRX Training Club</string>
     <string name="splash_continue_label">CONTINUE WITH</string>
     <string name="splash_email_button_label">EMAIL</string>
@@ -92,11 +120,13 @@
     <string name="tab_virtual_training">VIRTUAL TRAINING</string>
     <string name="tab_live">LIVE</string>
     <string name="tab_on_demand">ON DEMAND</string>
+    <string name="tab_settings">SETTINGS</string>
 
     <string name="test_utility_calendar_section_label">Calendar</string>
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
     <string name="test_utility_plans_label">Plans</string>
+    <string name="test_utility_player_label">Player</string>
     <string name="test_utility_virtual_workout_section_label">Virtual Workouts</string>
     <string name="test_utility_video_workout_section_label">Video Workouts</string>
     <string name="test_utility_promotion_section_label">Promotions</string>
@@ -104,8 +134,21 @@
     <string name="test_utility_add_card_label">Add Card</string>
     <string name="test_utility_update_label">Update</string>
     <string name="test_utility_content_label">Content</string>
+    <string name="test_utility_filter_label">Filters</string>
+    <string name="test_utility_discover_label">Discover</string>
+    <string name="test_utility_alert_label">Alert</string>
+    <string name="test_utility_welcome_label">Welcome</string>
+    <string name="test_utility_alert_button_primary_label">Do something</string>
+    <string name="test_utility_alert_button_secondary_label">Thanks, I\'ll pass</string>
+    <string name="test_utility_settings_label">Settings</string>
+    <string name="test_utility_workout_label">Workout</string>
 
+    <string name="video_tab_workouts_label">WORKOUTS</string>
+    <string name="video_tab_collections_label">COLLECTIONS</string>
+    <string name="video_tab_programs_label">PROGRAMS</string>
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
+
+    <string name="videos_profile_label">Profile</string>
 
     <string name="virtual_booking_button_title_book">BOOK</string>
     <string name="virtual_booking_button_title_soon">JOIN NOW</string>
@@ -113,8 +156,10 @@
 
     <string name="register_title">Register</string>
     <string name="register_sign_in_label">Already have an account? <b><u>Log in</u></b></string>
-    <string name="register_term_label">Agree to <b><u>Term &amp; Conditions</u></b></string>
+    <string name="register_terms">Agree to Terms &amp; Conditions</string>
+    <string name="register_terms_conditions">Terms &amp; Conditions</string>
     <string name="register_create_account_button_label">Create Account</string>
+    <string name="register_terms_conditions_error">Please select Terms &amp; Conditions.</string>
 
     <string name="email_forgot_title">Forgot\nPassword</string>
     <string name="email_verify_title">Have a TRX Code?</string>
@@ -128,11 +173,23 @@
     <string name="update_save_label">Save</string>
     <string name="update_save_changes_label">Save Changes</string>
     <string name="update_agreement_label">Agree to <u>Liability Waiver</u></string>
+    <string name="update_load_success_message">Changes saved</string>
 
-    <string name="welcome_continue_button_label">Continue</string>
     <string name="welcome_get_started_label">Get Started</string>
-    <string name="welcome_title_label">Welcome to the club,\n%1s</string>
-    <string name="welcome_description_label">With 3 new ways to train, TRX Training Club is your all-in-one virtual gym helping you to crush any goal. Anytime. Anywhere.</string>
+    <string name="welcome_state_welcome_button_label">Continue</string>
+    <string name="welcome_state_promo_button_label">Promo</string>
+    <string name="welcome_state_restore_button_label">Restore</string>
+    <string name="welcome_state_welcome_title">Welcome to the club,\n%1s</string>
+    <string name="welcome_state_promo_title">Promo title</string>
+    <string name="welcome_state_restore_title">Restore title</string>
+    <string name="welcome_state_welcome_description">With 3 new ways to train, TRX Training Club is your all-in-one virtual gym helping you to crush any goal. Anytime. Anywhere.</string>
+    <string name="welcome_state_promo_description">Promo description</string>
+    <string name="welcome_state_restore_description">Restore description</string>
+
+    <string name="workout_profile_label">Profile</string>
+    <string name="workout_book_session_label">Book Session</string>
+    <string name="workout_join_session_label">Join Session</string>
+    <string name="workout_cancel_session_label">Cancel Session</string>
 
     <string name="onboarding_virtual_title">TRX virtual Training, coming soon</string>
     <string name="onboarding_virtual_description">World-class Trainers. Anytime. Anywhere</string>
@@ -149,6 +206,15 @@
     <string name="onboarding_demand_list_text_one">Find new ways to crush your goals on your time, at your pace</string>
     <string name="onboarding_demand_list_text_two">Huge library of exclusive on-demand video workouts from top TRX pros</string>
     <string name="onboarding_demand_list_text_three">Get your heart rate up with tons of diverse workouts to choose from</string>
+    <string name="onboarding_continue_button_label">Continue</string>
 
+    <string name="filter_btn_close_label">CLOSE</string>
+    <string name="filter_btn_clear_filters_label">CLEAR FILTERS</string>
+    <string name="filter_btn_apply_label">APPLY</string>
+    <string name="filter_empty_list_label">There are no filters</string>
 
+    <string name="filter_options_btn_back_label">BACK</string>
+    <string name="filters_options_btn_all_label">Clear Filters</string>
+    <string name="filters_options_selected_filter_label">(%1$d)</string>
+    <string name="filters_options_selected_filter_default_label"> </string>
 </resources>

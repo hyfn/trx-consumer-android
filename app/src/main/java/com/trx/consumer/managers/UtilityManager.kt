@@ -1,8 +1,10 @@
 package com.trx.consumer.managers
 
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.trx.consumer.BuildConfig
+import com.trx.consumer.extensions.openBrowser
 
 class UtilityManager {
 
@@ -25,7 +27,12 @@ class UtilityManager {
     }
 
     fun versionDisplay(): String {
-        return "v" + appVersion() + "." + buildVersion()
+        return "App Version ${buildVersion()}.${appVersion()}"
+    }
+
+    fun openUrl(context: Context, url: String) {
+        LogManager.log("openUrl: $url")
+        context.openBrowser(url)
     }
 
     companion object {

@@ -2,9 +2,9 @@ package com.trx.consumer.screens.live
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.models.common.LiveWorkoutModel
-import com.trx.consumer.models.common.PromotionModel
+import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.TrainerModel
+import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.screens.liveworkout.LiveWorkoutListener
 import com.trx.consumer.screens.promotion.PromotionListener
 import com.trx.consumer.screens.trainerprofile.TrainerProfileListener
@@ -19,11 +19,11 @@ class LiveViewModel :
 
     val eventLoadView = CommonLiveEvent<Void>()
 
-    val eventLoadPromotions = CommonLiveEvent<List<PromotionModel>>()
+    val eventLoadPromotions = CommonLiveEvent<List<PromoModel>>()
     val eventLoadTrainers = CommonLiveEvent<List<TrainerModel>>()
-    val eventLoadWorkoutsToday = CommonLiveEvent<List<LiveWorkoutModel>>()
-    val eventLoadWorkoutsTomorrow = CommonLiveEvent<List<LiveWorkoutModel>>()
-    val eventLoadWorkoutsRecommended = CommonLiveEvent<List<LiveWorkoutModel>>()
+    val eventLoadWorkoutsToday = CommonLiveEvent<List<WorkoutModel>>()
+    val eventLoadWorkoutsTomorrow = CommonLiveEvent<List<WorkoutModel>>()
+    val eventLoadWorkoutsRecommended = CommonLiveEvent<List<WorkoutModel>>()
     //endregion
 
     //region Functions
@@ -33,11 +33,11 @@ class LiveViewModel :
     }
 
     fun doLoadPromotions() {
-        eventLoadPromotions.postValue(PromotionModel.testList(5))
+        eventLoadPromotions.postValue(PromoModel.testList(5))
     }
 
     fun doLoadSessions() {
-        val liveWorkouts = LiveWorkoutModel.testList(5)
+        val liveWorkouts = WorkoutModel.testList(5)
         eventLoadWorkoutsToday.postValue(liveWorkouts)
         eventLoadWorkoutsTomorrow.postValue(liveWorkouts)
         eventLoadWorkoutsRecommended.postValue(liveWorkouts)
@@ -47,12 +47,12 @@ class LiveViewModel :
         eventLoadTrainers.postValue(TrainerModel.testList(5))
     }
 
-    override fun doTapBook(model: LiveWorkoutModel) {}
+    override fun doTapBook(model: WorkoutModel) {}
 
-    override fun doTapSelect(model: LiveWorkoutModel) {}
+    override fun doTapSelect(model: WorkoutModel) {}
 
     override fun doTapTrainerProfile(model: TrainerModel) {}
 
-    override fun doTapPromotion(model: PromotionModel) {}
+    override fun doTapPromo(model: PromoModel) {}
     //endregion
 }
