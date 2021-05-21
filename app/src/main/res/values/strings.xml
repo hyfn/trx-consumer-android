@@ -176,7 +176,7 @@
     <string name="filter_empty_list_label">There are no filters</string>
 
     <string name="filter_options_btn_back_label">BACK</string>
-    <string name="filters_options_btn_all_label">All</string>
+    <string name="filters_options_btn_all_label">Clear Filter</string>
     <string name="filters_options_selected_filter_label">(%1$d)</string>
     <string name="filters_options_selected_filter_default_label"> </string>
 </resources>

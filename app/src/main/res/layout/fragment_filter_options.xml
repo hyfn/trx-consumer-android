@@ -49,7 +49,7 @@
     </com.trx.consumer.common.CommonView>
 
     <com.trx.consumer.common.CommonButton
-        android:id="@+id/btnSelectAll"
+        android:id="@+id/btnReset"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="15dp"
@@ -71,7 +71,7 @@
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnSelectAll"
+        app:layout_constraintTop_toBottomOf="@id/btnReset"
         tools:listitem="@layout/row_filter_options"/>
 
     <com.trx.consumer.common.CommonLabel

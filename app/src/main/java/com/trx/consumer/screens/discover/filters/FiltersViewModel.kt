@@ -33,7 +33,7 @@ class FiltersViewModel : BaseViewModel(), FiltersListener {
     fun doTapReset() {
         params?.lstFilters?.forEach { filter ->
             filter.values.forEach { option ->
-                option.isSelected = true
+                option.isSelected = false
             }
         }
         eventTapReset.postValue(params)
