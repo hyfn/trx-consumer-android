@@ -7,18 +7,13 @@
         android:title="@string/tab_home" />
 
     <item
-        android:id="@+id/virtual_fragment"
-        android:icon="@drawable/ic_tab_virtual_toggle"
-        android:title="@string/tab_virtual_training" />
-
-    <item
-        android:id="@+id/live_fragment"
-        android:icon="@drawable/ic_tab_live_toggle"
-        android:title="@string/tab_live" />
-
-    <item
-        android:id="@+id/video_fragment"
+        android:id="@+id/discover_fragment"
         android:icon="@drawable/ic_tab_video_toggle"
         android:title="@string/tab_on_demand" />
+
+    <item
+        android:id="@+id/settings_fragment"
+        android:icon="@drawable/ic_tab_settings_toggle"
+        android:title="@string/tab_settings" />
 
 </menu>

@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.preferencesKey
 import androidx.datastore.preferences.createDataStore
 import com.google.gson.Gson
-import com.trx.consumer.models.UserModel
+import com.trx.consumer.models.common.UserModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -21,6 +21,15 @@ class CacheManager(context: Context) {
         val kDidLaunchFromNotification = preferencesKey<String>("DidLaunchFromNotification")
         val kLastFetchFirebaseDate = preferencesKey<String>("LastFetchFirebaseDate")
         val kCurrentUser = preferencesKey<String>("CurrentUser")
+    }
+
+    suspend fun isLoggedIn(): Boolean {
+        return withContext(Dispatchers.IO) {
+            dataStore.data.map {
+                val token = Gson().fromJson(it[kBackendAccessToken], String::class.java)
+                !token.isNullOrEmpty()
+            }.firstOrNull() ?: false
+        }
     }
 
     suspend fun accessToken(): String? {

@@ -11,7 +11,7 @@ interface InputViewListener {
     fun didUpdateText(
         userInput: String,
         isValidInput: Boolean,
-        validationError: String?,
+        validationError: String,
         identifier: InputViewState
     ) {
     }

@@ -16,8 +16,26 @@ android {
         viewBinding true
     }
 
+    signingConfigs {
+        signingConfigs {
+            devRelease {
+                storeFile file("../extra/keystores/dev.keystore")
+                keyPassword System.getenv('DEV_KEYPASS')
+                storePassword System.getenv('DEV_STOREPASS')
+                keyAlias System.getenv('DEV_KEYALIAS')
+            }
+
+            prodRelease {
+                storeFile file("../extra/keystores/prod.keystore")
+                keyPassword System.getenv('PROD_KEYPASS')
+                storePassword System.getenv('PROD_STOREPASS')
+                keyAlias System.getenv('PROD_KEYALIAS')
+            }
+        }
+    }
+
     defaultConfig {
-        applicationId "com.comma.trx.consumer"
+        applicationId "com.trx.consumer"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
@@ -70,18 +88,30 @@ android {
             buildConfigField "String", "isMaintenanceMode", '"is_maintenance_mode"'
             buildConfigField "String", "minimumBuildNumber", '"minimum_build_number"'
             buildConfigField "String", "trxUrl", '"http://trx.sprintfwd.com"'
+            buildConfigField "String", "kProductsUrl", '"https://store.trxtraining.com"'
+            buildConfigField "String", "kContactSupportUrl", '"https://www.trxtraining.com/contact-us"'
+            buildConfigField "String", "kTermsConditionsUrl", '"https://www.trxtraining.com/terms-of-use"'
+            buildConfigField "String", "kGettingStartedVideosUrl", '"https://www.trxtraining.com/getting-started"'
+            buildConfigField "String", "kBrightcoveAccountId", '"6204326362001"'
+            buildConfigField "String", "kBrightcovePolicyKey", '"BCpkADawqM0NIVZ3stgK7lsrNpSnMb54yV2-XP_RMBl9gBL5hOvH_cjmnfU_kxS1QjYqucj3ZQTBRiGZhrd09drVaY-IAEgg9IYebBSliKZI8iSzYpvmdUQgwST2dVv4toFYU1clp89h7_qj"'
+            buildConfigField "Boolean", "kIsVerificationEnabled", "false"
+            buildConfigField "Boolean", "isVersion2Enabled", "false"
         }
         dev {
+            applicationId "com.trx.consumer.dev"
             buildConfigField "boolean", "DEVELOPMENT", "true"
-            applicationId "com.comma.trx.consumer.dev"
+            buildConfigField "String", "kBaseUrl", '"https://trx-dashboard-dev.vercel.app/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "false"
             buildConfigField "Integer", "kFirebaseFetchInterval", "3"
+            signingConfig signingConfigs.devRelease
         }
         prod {
+            applicationId "com.trx.consumer"
             buildConfigField "boolean", "DEVELOPMENT", "false"
-            applicationId "com.comma.trx.consumer"
+            buildConfigField "String", "kBaseUrl", '"https://digital.trxtraining.com/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "true"
             buildConfigField "Integer", "kFirebaseFetchInterval", "30"
+            signingConfig signingConfigs.prodRelease
         }
     }
     sourceSets {
@@ -142,6 +172,12 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$rootProject.hiltViewModelversion"
     kapt "androidx.hilt:hilt-compiler:$rootProject.hiltViewModelversion"
+
+    // Video playback
+    implementation "com.brightcove.player:exoplayer2:$rootProject.brightcoveVersion"
+
+    // IAP
+    implementation "com.revenuecat.purchases:purchases:$rootProject.revenuecatVersion"
 
     // Testing dependencies
     androidTestImplementation "androidx.test.ext:junit:$rootProject.junitVersion"

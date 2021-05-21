@@ -30,7 +30,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/menu_bottom_nav"
+        app:menu="@menu/menu_bottom_nav_v2"
         tools:visibility="visible"/>
 
 </com.trx.consumer.common.CommonView>

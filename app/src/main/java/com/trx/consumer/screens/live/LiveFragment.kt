@@ -8,11 +8,11 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentLiveBinding
 import com.trx.consumer.extensions.isHidden
-import com.trx.consumer.models.common.LiveWorkoutModel
-import com.trx.consumer.models.common.PromotionModel
+import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.TrainerModel
+import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
-import com.trx.consumer.screens.promotion.PromotionAdapter
+import com.trx.consumer.screens.promotion.PromoAdapter
 import com.trx.consumer.screens.trainerprofile.TrainerProfileAdapter
 
 class LiveFragment : BaseFragment(R.layout.fragment_live) {
@@ -25,21 +25,21 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
     private lateinit var tomorrowAdapter: LiveWorkoutAdapter
     private lateinit var upcomingAdapter: LiveWorkoutAdapter
     private lateinit var trainerAdapter: TrainerProfileAdapter
-    private lateinit var promotionAdapter: PromotionAdapter
+    private lateinit var promoAdapter: PromoAdapter
 
     override fun bind() {
         todayAdapter = LiveWorkoutAdapter(viewModel) { lifecycleScope }
         tomorrowAdapter = LiveWorkoutAdapter(viewModel) { lifecycleScope }
         upcomingAdapter = LiveWorkoutAdapter(viewModel) { lifecycleScope }
         trainerAdapter = TrainerProfileAdapter(viewModel) { lifecycleScope }
-        promotionAdapter = PromotionAdapter(viewModel) { lifecycleScope }
+        promoAdapter = PromoAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
             viewToday.rvLiveWorkouts.adapter = todayAdapter
             viewTomorrow.rvLiveWorkouts.adapter = tomorrowAdapter
             viewUpcoming.rvLiveWorkouts.adapter = upcomingAdapter
             rvTrainerProfiles.adapter = trainerAdapter
-            rvPromotions.adapter = promotionAdapter
+            rvPromos.adapter = promoAdapter
         }
 
         viewModel.apply {
@@ -62,7 +62,7 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
     //region Handlers
     private val handleLoadView = Observer<Void> {}
 
-    private val handleLoadPromotions = Observer<List<PromotionModel>> { promotions ->
+    private val handleLoadPromotions = Observer<List<PromoModel>> { promotions ->
         loadPromotions(promotions)
     }
 
@@ -70,24 +70,24 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
         loadTrainers(trainers)
     }
 
-    private val handleLoadWorkoutsToday = Observer<List<LiveWorkoutModel>> { workouts ->
+    private val handleLoadWorkoutsToday = Observer<List<WorkoutModel>> { workouts ->
         loadWorkoutsToday(workouts)
     }
 
-    private val handleLoadWorkoutsTomorrow = Observer<List<LiveWorkoutModel>> { workouts ->
+    private val handleLoadWorkoutsTomorrow = Observer<List<WorkoutModel>> { workouts ->
         loadWorkoutsTomorrow(workouts)
     }
 
-    private val handleLoadWorkoutsRecommended = Observer<List<LiveWorkoutModel>> { workouts ->
+    private val handleLoadWorkoutsRecommended = Observer<List<WorkoutModel>> { workouts ->
         loadWorkoutsRecommended(workouts)
     }
     //endregion
 
     //region Functions
 
-    private fun loadPromotions(promotions: List<PromotionModel>) {
-        val hide = promotions.isEmpty()
-        promotionAdapter.update(promotions)
+    private fun loadPromotions(promos: List<PromoModel>) {
+        val hide = promos.isEmpty()
+        promoAdapter.update(promos)
         viewBinding.apply {
             imgLinePromotions.isHidden = hide
             viewPromotions.isHidden = hide
@@ -103,7 +103,7 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
         }
     }
 
-    private fun loadWorkoutsToday(workouts: List<LiveWorkoutModel>) {
+    private fun loadWorkoutsToday(workouts: List<WorkoutModel>) {
         todayAdapter.update(workouts)
         viewBinding.apply {
             viewToday.viewMain.isHidden = workouts.isEmpty()
@@ -111,7 +111,7 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
         }
     }
 
-    private fun loadWorkoutsTomorrow(workouts: List<LiveWorkoutModel>) {
+    private fun loadWorkoutsTomorrow(workouts: List<WorkoutModel>) {
         tomorrowAdapter.update(workouts)
         viewBinding.apply {
             viewTomorrow.viewMain.isHidden = workouts.isEmpty()
@@ -119,7 +119,7 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
         }
     }
 
-    private fun loadWorkoutsRecommended(workouts: List<LiveWorkoutModel>) {
+    private fun loadWorkoutsRecommended(workouts: List<WorkoutModel>) {
         upcomingAdapter.update(workouts)
         viewBinding.viewUpcoming.apply {
             viewMain.isHidden = workouts.isEmpty()

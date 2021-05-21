@@ -5,12 +5,14 @@ import com.trx.consumer.common.CommonLiveEvent
 
 class WelcomeViewModel : BaseViewModel() {
 
-    val eventLoadView = CommonLiveEvent<Void>()
+    var state: WelcomeState = WelcomeState.WELCOME
+
+    val eventLoadView = CommonLiveEvent<WelcomeState>()
     val eventTapBack = CommonLiveEvent<Void>()
     val eventTapClose = CommonLiveEvent<Void>()
 
     fun doLoadView() {
-        eventLoadView.call()
+        eventLoadView.postValue(state)
     }
 
     fun doTapBack() {

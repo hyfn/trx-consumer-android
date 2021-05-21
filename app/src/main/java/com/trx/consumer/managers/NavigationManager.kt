@@ -1,6 +1,8 @@
 package com.trx.consumer.managers
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.IdRes
@@ -13,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.trx.consumer.BuildConfig
 import com.trx.consumer.R
 
 class NavigationManager {
@@ -22,12 +25,21 @@ class NavigationManager {
     private val extraParcelable = "EXTRA_PARCELABLE"
     private val extraAny = "EXTRA_ANY"
 
-    private val listTab = listOf(
-        R.id.home_fragment,
-        R.id.virtual_fragment,
-        R.id.live_fragment,
-        R.id.video_fragment
-    )
+    private val listTab =
+        if (BuildConfig.isVersion2Enabled) {
+            listOf(
+                R.id.home_fragment,
+                R.id.virtual_fragment,
+                R.id.live_fragment,
+                R.id.discover_fragment
+            )
+        } else {
+            listOf(
+                R.id.home_fragment,
+                R.id.discover_fragment,
+                R.id.settings_fragment
+            )
+        }
 
     private val listIgnoreTab = listOf<Int>()
 
@@ -53,6 +65,12 @@ class NavigationManager {
         graph.startDestination = if (isLoggedIn) R.id.home_fragment else R.id.splash_fragment
         navController.graph = graph
         getTabBar(activity).apply {
+            menu.clear()
+            if (BuildConfig.isVersion2Enabled)
+                inflateMenu(R.menu.menu_bottom_nav_v2)
+            else
+                inflateMenu(R.menu.menu_bottom_nav)
+
             setupWithNavController(navController)
             setOnNavigationItemSelectedListener(handleItemListener(activity, navController))
             setOnNavigationItemReselectedListener { }
@@ -84,7 +102,10 @@ class NavigationManager {
         isGuestMode = guest
         getTabBar(activity).apply {
             menu.clear()
-            inflateMenu(R.menu.menu_bottom_nav)
+            if (BuildConfig.isVersion2Enabled)
+                inflateMenu(R.menu.menu_bottom_nav_v2)
+            else
+                inflateMenu(R.menu.menu_bottom_nav)
         }
         val navController = getNavController(activity)
         val start = if (login) R.id.home_fragment else R.id.splash_fragment
@@ -94,9 +115,17 @@ class NavigationManager {
     }
 
     fun params(fragment: Fragment): Any? {
-        var extraP: Any? = fragment.arguments?.getParcelable(extraParcelable)
+        return extras(fragment.arguments)
+    }
+
+    fun params(intent: Intent): Any? {
+        return extras(intent.extras)
+    }
+
+    private fun extras(bundle: Bundle?): Any? {
+        var extraP: Any? = bundle?.getParcelable(extraParcelable)
         extraP?.let { safeP -> return safeP }
-        extraP = fragment.arguments?.get(extraAny)
+        extraP = bundle?.get(extraAny)
         extraP?.let { safeA -> return safeA }
         return null
     }
@@ -107,6 +136,17 @@ class NavigationManager {
             else -> bundleOf(extraAny to params)
         }
         show(source, fragment, bundle)
+    }
+
+    fun <T : Activity> presentActivity(source: Activity, activity: Class<T>, params: Any? = null) {
+        val bundle = when (params) {
+            is Parcelable -> bundleOf(extraParcelable to params)
+            else -> bundleOf(extraAny to params)
+        }
+        Intent(source, activity).apply {
+            putExtras(bundle)
+            source.startActivity(this)
+        }
     }
 
     private fun show(fragment: Fragment, @IdRes destination: Int, bundle: Bundle? = null) {
