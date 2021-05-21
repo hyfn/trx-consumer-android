@@ -1,4 +1,4 @@
-package com.trx.consumer.screens.discover.filter
+package com.trx.consumer.screens.discover.filters
 
 import android.view.View
 import com.trx.consumer.R

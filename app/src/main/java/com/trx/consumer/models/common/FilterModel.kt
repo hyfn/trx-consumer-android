@@ -27,7 +27,8 @@ class FilterModel(
                     repeat(5) { index ->
                         add(FilterOptionsModel("option $index"))
                     }
-                })
+                }
+            )
         }
 
         fun testList(count: Int): List<FilterModel> {

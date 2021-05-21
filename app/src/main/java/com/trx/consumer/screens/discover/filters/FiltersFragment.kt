@@ -1,4 +1,4 @@
-package com.trx.consumer.screens.discover.filter
+package com.trx.consumer.screens.discover.filters
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -53,7 +53,7 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
     //region - Handlers
     private val handleLoadView = Observer<FilterParamsModel> { model ->
         LogManager.log("handleLoad")
-        if (model.list.isNotEmpty()) loadView(model)
+        if (model.lstFilters.isNotEmpty()) loadView(model)
         else {
             viewBinding.apply {
                 rvFilters.isVisible = false
@@ -75,7 +75,7 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
 
     private val handleTapReset = Observer<FilterParamsModel> { model ->
         LogManager.log("handleTapReset")
-        adapter?.update(model.list)
+        adapter?.update(model.lstFilters)
     }
 
     private val handleTapFilter = Observer<FilterParamsModel> { model ->
@@ -91,7 +91,7 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
     }
 
     private fun loadView(model: FilterParamsModel) {
-        adapter?.update(model.list)
+        adapter?.update(model.lstFilters)
     }
 
     //endregion

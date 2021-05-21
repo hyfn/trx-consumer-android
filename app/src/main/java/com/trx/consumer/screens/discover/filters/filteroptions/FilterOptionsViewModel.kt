@@ -1,4 +1,4 @@
-package com.trx.consumer.screens.discover.filter.filteroptions
+package com.trx.consumer.screens.discover.filters.filteroptions
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent

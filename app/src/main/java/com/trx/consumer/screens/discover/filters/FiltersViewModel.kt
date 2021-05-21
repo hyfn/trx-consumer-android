@@ -1,4 +1,4 @@
-package com.trx.consumer.screens.discover.filter
+package com.trx.consumer.screens.discover.filters
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -31,7 +31,7 @@ class FiltersViewModel : BaseViewModel(), FiltersListener {
     }
 
     fun doTapReset() {
-        params?.list?.forEach { filter ->
+        params?.lstFilters?.forEach { filter ->
             filter.values.forEach { option ->
                 option.isSelected = true
             }
