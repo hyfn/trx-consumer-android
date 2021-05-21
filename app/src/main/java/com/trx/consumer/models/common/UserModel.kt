@@ -1,7 +1,10 @@
 package com.trx.consumer.models.common
 
+import com.trx.consumer.extensions.format
 import com.trx.consumer.managers.LogManager
 import org.json.JSONObject
+import java.util.Date
+import kotlin.math.roundToLong
 
 class UserModel(
     var birthday: String = "",
@@ -20,7 +23,9 @@ class UserModel(
 
     //  TODO: Add correct logic
     val subscription: String?
-        get() = "Test"
+        get() = if (!subscriptionIsCancelled) {
+            subscriptions.keys.firstOrNull()
+        } else null
 
     val subscriptionIsCancelled: Boolean
         get() {
@@ -29,9 +34,18 @@ class UserModel(
             } ?: false
         }
 
-    //  TODO: Add correct logic
+    val subRenewsDate: Date?
+        get() = subscriptions.values.firstOrNull()?.let {
+            Date(it.currentPeriodEnd.roundToLong())
+        }
+
     val subscriptionRenewsDateDisplay: String?
-        get() = "Test"
+        get() =
+            subscriptions.values.firstOrNull()?.let {
+                if (!it.cancelAtPeriodEnd) {
+                    subRenewsDate?.format(format = "MM/dd/YYY")
+                } else null
+            }
 
     val subscriptionText: String
         get() = if (!subscriptionIsCancelled && subscriptions.keys.contains("UNLIMITED")) {

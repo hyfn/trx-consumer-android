@@ -82,6 +82,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
 
     private val handleLoadPlans = Observer<List<PlanModel>> {
         LogManager.log("handleLoadPlans")
+        adapter.updatePlans(it)
     }
 
     private val handleTapBack = Observer<Void> {
