@@ -10,6 +10,11 @@ import kotlinx.coroutines.withContext
 
 class BackendManager(private val api: BaseApi, private val cacheManager: CacheManager) {
 
+    suspend fun updateBeforeLogout() {
+        cacheManager.accessToken(null)
+        cacheManager.user(null)
+    }
+
     suspend fun call(request: RequestModel): ResponseModel {
         return withContext(Dispatchers.IO) {
             val endpoint = request.endpoint
@@ -90,6 +95,12 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
             cacheManager.user(model.user)
         }
         return response
+    }
+
+    suspend fun logout(): ResponseModel {
+        updateBeforeLogout()
+        val path = EndpointModel.LOGOUT.path
+        return call(RequestModel(endpoint = EndpointModel.LOGOUT, path = path, params = null))
     }
 
     suspend fun workouts(): ResponseModel {

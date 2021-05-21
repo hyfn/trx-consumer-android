@@ -26,19 +26,20 @@ class NavigationManager {
     private val extraAny = "EXTRA_ANY"
 
     private val listTab =
-        if (BuildConfig.isVersion2Enabled)
+        if (BuildConfig.isVersion2Enabled) {
             listOf(
                 R.id.home_fragment,
                 R.id.virtual_fragment,
                 R.id.live_fragment,
-                R.id.video_fragment
+                R.id.discover_fragment
             )
-        else
+        } else {
             listOf(
                 R.id.home_fragment,
-                R.id.video_fragment,
+                R.id.discover_fragment,
                 R.id.settings_fragment
             )
+        }
 
     private val listIgnoreTab = listOf<Int>()
 
