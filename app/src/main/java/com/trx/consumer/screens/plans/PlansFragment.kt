@@ -72,8 +72,9 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
             "Are you sure you want to cancel your $it subscription?"
         } ?: "Are you sure you want to cancel your subscription?"
 
-        //  Not possible since setSecondaryButton accepts String Int.
-        // val cancelTitle = value?.let { "Cancel $value" } ?: "Cancel"
+        //  Not handled like iOS. setSecondaryButton accepts String ints
+        //  so doing below and applying that to setSecondaryButton won't work.
+        //  val cancelTitle = value?.let { "Cancel $value" } ?: "Cancel"
 
         val model = AlertModel.create(title = "", message = message)
         model.setPrimaryButton(title = R.string.alert_primary_keep_subscription)
