@@ -44,9 +44,12 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
             eventLoadPlans.observe(viewLifecycleOwner, handleLoadPlans)
 
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
+
+            eventShowHud.observe(viewLifecycleOwner, handleShowHud)
         }
 
         viewModel.doLoadView()
+        viewModel.doLoadPlans()
     }
 
     //endregion
@@ -89,5 +92,8 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
         viewModel.doTapBack()
     }
 
+    private val handleShowHud = Observer<Boolean> { show ->
+        viewBinding.hudView.isVisible = show
+    }
     //endregion
 }
