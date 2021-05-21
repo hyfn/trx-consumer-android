@@ -103,6 +103,12 @@
         tools:layout="@layout/fragment_plans" />
 
     <fragment
+        android:id="@+id/filter_options_fragment"
+        android:name="com.trx.consumer.screens.discover.filters.filteroptions.FilterOptionsFragment"
+        android:label="FilterOptionsFragment"
+        tools:layout="@layout/fragment_filter_options" />
+
+    <fragment
         android:id="@+id/videos_fragment"
         android:name="com.trx.consumer.screens.videos.VideosFragment"
         android:label="VideosFragment"
@@ -110,9 +116,21 @@
 
     <fragment
         android:id="@+id/filter_fragment"
-        android:name="com.trx.consumer.screens.filter.FiltersFragment"
+        android:name="com.trx.consumer.screens.discover.filters.FiltersFragment"
         android:label="FilterFragment"
         tools:layout="@layout/fragment_filters" />
+
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="com.trx.consumer.screens.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/workout_fragment"
+        android:name="com.trx.consumer.screens.workout.WorkoutFragment"
+        android:label="WorkoutFragment"
+        tools:layout="@layout/fragment_workout" />
 
     <dialog
         android:id="@+id/date_picker_fragment"

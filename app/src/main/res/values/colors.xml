@@ -23,5 +23,6 @@
     <color name="red">#F01C1C</color>
     <color name="green">#81F9BF</color>
     <color name="greenSuccess">#00C361</color>
+    <color name="redAlpha">#FEE8E8</color>
 
 </resources>
