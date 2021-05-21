@@ -1,4 +1,4 @@
-package com.trx.consumer.screens.discover.filter
+package com.trx.consumer.screens.discover.filters
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
