@@ -35,7 +35,7 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
             rvFilters.adapter = adapter
 
             btnApply.action { viewModel.doTapApply() }
-            btnClear.action { viewModel.doTapReset() }
+            btnReset.action { viewModel.doTapReset() }
             btnClose.action { viewModel.doTapClose() }
         }
 

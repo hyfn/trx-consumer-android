@@ -15,7 +15,7 @@ class FilterOptionsViewModel : BaseViewModel(), FilterOptionsListener {
 
     val eventTapBack = CommonLiveEvent<FilterParamsModel>()
     val eventTapFilterOption = CommonLiveEvent<FilterModel>()
-    val eventTapSelectAll = CommonLiveEvent<FilterModel>()
+    val eventTapReset = CommonLiveEvent<FilterModel>()
 
     fun doLoadView() {
         filter.let { safeParams ->
@@ -31,9 +31,9 @@ class FilterOptionsViewModel : BaseViewModel(), FilterOptionsListener {
         eventTapBack.postValue(params)
     }
 
-    fun doTapSelectAll() {
-        filter.values.forEach { model -> model.isSelected = true }
-        eventTapSelectAll.postValue(filter)
+    fun doTapReset() {
+        filter.values.forEach { model -> model.isSelected = false }
+        eventTapReset.postValue(filter)
     }
 
     override fun doTapFilterOption(model: FilterOptionsModel) {

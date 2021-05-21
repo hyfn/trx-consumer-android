@@ -33,7 +33,7 @@ class FilterOptionsFragment : BaseFragment(R.layout.fragment_filter_options) {
 
         viewBinding.apply {
             rvFilters.adapter = adapter
-            btnSelectAll.action { viewModel.doTapSelectAll() }
+            btnReset.action { viewModel.doTapReset() }
             btnBack.action { viewModel.doTapBack() }
         }
 
@@ -41,7 +41,7 @@ class FilterOptionsFragment : BaseFragment(R.layout.fragment_filter_options) {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventTapFilterOption.observe(viewLifecycleOwner, handleTapFilterOption)
-            eventTapSelectAll.observe(viewLifecycleOwner, handleTapSelectAll)
+            eventTapReset.observe(viewLifecycleOwner, handleTapReset)
         }
 
         viewModel.doLoadView()
@@ -62,7 +62,7 @@ class FilterOptionsFragment : BaseFragment(R.layout.fragment_filter_options) {
         }
     }
 
-    private val handleTapSelectAll = Observer<FilterModel> { model ->
+    private val handleTapReset = Observer<FilterModel> { model ->
         adapter?.update(model.values)
     }
 
