@@ -23,6 +23,15 @@ class CacheManager(context: Context) {
         val kCurrentUser = preferencesKey<String>("CurrentUser")
     }
 
+    suspend fun isLoggedIn(): Boolean {
+        return withContext(Dispatchers.IO) {
+            dataStore.data.map {
+                val token = Gson().fromJson(it[kBackendAccessToken], String::class.java)
+                !token.isNullOrEmpty()
+            }.firstOrNull() ?: false
+        }
+    }
+
     suspend fun accessToken(): String? {
         return withContext(Dispatchers.IO) {
             dataStore.data.map {
