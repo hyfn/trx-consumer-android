@@ -16,11 +16,12 @@ class DiscoverViewModel : BaseViewModel(), DiscoverListener, DiscoverFilterListe
     val eventLoadWorkouts = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadCollections = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadPrograms = CommonLiveEvent<List<WorkoutModel>>()
+    val eventLoadFilters = CommonLiveEvent<List<FilterModel>>()
+    
     val eventTapBack = CommonLiveEvent<Void>()
     val eventTapDiscover = CommonLiveEvent<WorkoutModel>()
     val eventTapFilter = CommonLiveEvent<FilterParamsModel>()
     val eventTapDiscoverFilter = CommonLiveEvent<FilterParamsModel>()
-    val eventLoadFilters = CommonLiveEvent<List<FilterModel>>()
 
     fun doLoadView() {
         params.lstFilters = filters
