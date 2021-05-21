@@ -8,7 +8,7 @@ import com.trx.consumer.models.common.CardModel
 
 class StripeBackendManager(private val stripe: Stripe) {
 
-    suspend fun createStripePaymentMethod(card: CardModel): String? {
+    suspend fun createPaymentMethod(card: CardModel): String? {
         val stripeCard = PaymentMethodCreateParams.createCard(
             CardParams(
                 number = card.number,

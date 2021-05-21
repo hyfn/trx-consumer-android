@@ -111,7 +111,7 @@ class AddCardViewModel @ViewModelInject constructor(
                 eventShowHud.postValue(true)
                 card?.let {
                     try {
-                        val response = stripeBackendManager.createStripePaymentMethod(it)
+                        val response = stripeBackendManager.createPaymentMethod(it)
                         response?.let { id ->
                             paymentMethodId?.let { currentId ->
                                 val deleteResponse = backendManager.paymentDelete(currentId)
