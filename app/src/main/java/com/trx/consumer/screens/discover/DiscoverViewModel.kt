@@ -1,14 +1,21 @@
 package com.trx.consumer.screens.discover
 
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.FilterParamsModel
+import com.trx.consumer.models.responses.VideoResponseModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterListener
 import com.trx.consumer.screens.discover.list.DiscoverListener
+import kotlinx.coroutines.launch
 
-class DiscoverViewModel : BaseViewModel(), DiscoverListener, DiscoverFilterListener {
+class DiscoverViewModel @ViewModelInject constructor(
+    private val backendManager: BackendManager
+) : BaseViewModel(), DiscoverListener, DiscoverFilterListener {
 
     var params: FilterParamsModel = FilterParamsModel()
     var filters: List<FilterModel> = FilterModel.testList(7)
@@ -17,6 +24,7 @@ class DiscoverViewModel : BaseViewModel(), DiscoverListener, DiscoverFilterListe
     val eventLoadCollections = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadPrograms = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadFilters = CommonLiveEvent<List<FilterModel>>()
+    val eventShowHud = CommonLiveEvent<Boolean>()
 
     val eventTapBack = CommonLiveEvent<Void>()
     val eventTapDiscover = CommonLiveEvent<WorkoutModel>()
@@ -24,8 +32,17 @@ class DiscoverViewModel : BaseViewModel(), DiscoverListener, DiscoverFilterListe
     val eventTapDiscoverFilter = CommonLiveEvent<FilterParamsModel>()
 
     fun doLoadView() {
-        params.lstFilters = filters
-        eventLoadFilters.postValue(filters)
+        viewModelScope.launch {
+            eventShowHud.postValue(true)
+            val response = backendManager.videos()
+            if(response.isSuccess){
+                val model = VideoResponseModel.parse(response.responseString)
+                filters = model.filters
+            }
+            eventShowHud.postValue(false)
+            params.lstFilters = filters
+            eventLoadFilters.postValue(filters)
+        }
         doLoadWorkouts()
     }
 

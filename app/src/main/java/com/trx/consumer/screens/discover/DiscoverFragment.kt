@@ -36,6 +36,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             eventTapDiscover.observe(viewLifecycleOwner, handleTapDiscover)
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadFilters.observe(viewLifecycleOwner, handleLoadFilters)
+            eventShowHud.observe(viewLifecycleOwner, handleShowHud)
             eventTapDiscoverFilter.observe(viewLifecycleOwner, handlerTapDiscoverFilter)
         }
 
@@ -60,6 +61,10 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
     private val handleTapBack = Observer<Void> {
         NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleShowHud = Observer<Boolean> { show ->
+        viewBinding.hudView.isVisible = show
     }
 
     private val handleTapDiscover = Observer<WorkoutModel> {

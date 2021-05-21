@@ -2,12 +2,13 @@ package com.trx.consumer.models.common
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import org.json.JSONObject
 
 @Parcelize
 class FilterModel(
-    val identifier: String = "",
+    var identifier: String = "",
     var title: String = "",
-    val values: MutableList<FilterOptionsModel> = mutableListOf()
+    var values: MutableList<FilterOptionsModel> = mutableListOf()
 ) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
@@ -19,6 +20,22 @@ class FilterModel(
     }
 
     companion object {
+        fun filters(jsonObject: JSONObject?): ArrayList<FilterModel> {
+            return ArrayList<FilterModel>().apply {
+                jsonObject?.let { safeJson ->
+                    val keys: Iterator<Any> = safeJson.keys()
+                    while (keys.hasNext()) {
+                        add(FilterModel().apply {
+                            val key = keys.next() as String
+                            title = key
+                            val value = safeJson.optJSONObject(key)
+                            values = FilterOptionsModel.parse(value)
+                        })
+                    }
+                }
+            }
+        }
+
         fun test(): FilterModel {
             return FilterModel(
                 "_identifier",
@@ -41,3 +58,4 @@ class FilterModel(
         }
     }
 }
+
