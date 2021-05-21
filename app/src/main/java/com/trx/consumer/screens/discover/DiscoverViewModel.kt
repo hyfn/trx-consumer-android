@@ -18,7 +18,7 @@ class DiscoverViewModel @ViewModelInject constructor(
 ) : BaseViewModel(), DiscoverListener, DiscoverFilterListener {
 
     var params: FilterParamsModel = FilterParamsModel()
-    var filters: List<FilterModel> = FilterModel.testList(7)
+    var filters: List<FilterModel> = params.lstFilters
 
     val eventLoadWorkouts = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadCollections = CommonLiveEvent<List<WorkoutModel>>()

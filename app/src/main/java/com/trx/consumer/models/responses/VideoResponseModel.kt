@@ -1,8 +1,6 @@
 package com.trx.consumer.models.responses
 
-import com.trx.consumer.extensions.iterator
 import com.trx.consumer.models.common.FilterModel
-import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
 import org.json.JSONArray
 import org.json.JSONObject
@@ -21,14 +19,14 @@ data class VideoResponseModel(
                 val data = jsonObject.optJSONObject("data")
 
                 workouts =
-                    getObjectList(
+                    getVideos(
                         data?.optJSONObject("workouts")?.optJSONArray("videos")
                     )
-                collections = getObjectList(
+                collections = getVideos(
                     (data?.optJSONArray("collections")?.get(0) as JSONObject)
                         .optJSONArray("videos")
                 )
-                programs = getObjectList(
+                programs = getVideos(
                     (data.optJSONArray("programs")?.get(0) as JSONObject)
                         .optJSONArray("videos")
                 )
@@ -37,7 +35,7 @@ data class VideoResponseModel(
             }
         }
 
-        private fun getObjectList(jsonArray: JSONArray?): ArrayList<VideoModel> {
+        private fun getVideos(jsonArray: JSONArray?): ArrayList<VideoModel> {
             return ArrayList<VideoModel>().apply {
                 jsonArray?.let { safeJson ->
                     for (index in 0 until safeJson.length()) {
