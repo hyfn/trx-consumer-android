@@ -5,6 +5,7 @@
     <color name="black">#000000</color>
     <color name="blackAlpha20">#33000000</color>
     <color name="blackRussian">#111113</color>
+    <color name="charcoal">#19191C</color>
     <color name="white" tools:override="true">#FFFFFF</color>
 
     <color name="greyDarkExtra">#6D6D6D</color>

@@ -26,7 +26,8 @@ class VideoModel(
                 name = "Full Body Power Pump",
                 duration = 3600000,
                 poster = "https://cf-images.us-east-1.prod.boltdns.net/v1/jit/6204326362001/9ad5d77c-99f7-4c65-8a2d-40ac2546fd01/main/1280x720/55s189ms/match/image.jpg",
-                trainer = TrainerModel.test()
+                trainer = TrainerModel.test(),
+                id = "6232799349001"
             )
         }
 
