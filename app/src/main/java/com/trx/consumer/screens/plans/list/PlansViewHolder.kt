@@ -5,19 +5,33 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonButton
 import com.trx.consumer.common.CommonLabel
 import com.trx.consumer.common.CommonViewHolder
+import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.models.common.PlanModel
 
 class PlansViewHolder(view: View) : CommonViewHolder(view) {
 
     private val lblTitle: CommonLabel = view.findViewById(R.id.lblTitle)
-    private val lblPrice: CommonLabel = view.findViewById(R.id.lblPrice)
     private val lblDescription: CommonLabel = view.findViewById(R.id.lblDescription)
+    private val lblCost: CommonLabel = view.findViewById(R.id.lblCost)
     private val btnPlan: CommonButton = view.findViewById(R.id.btnPlan)
 
     fun setup(item: PlanModel, listener: PlansListener) {
-        lblTitle.text = item.title
-        lblPrice.text = item.cost
-        lblDescription.text = item.description
+        item.title?.let { lblTitle.text = it }
+
+        item.cost?.let {
+            lblCost.apply {
+                text = it
+                isHidden = it.isEmpty()
+            }
+        }
+
+        item.description?.let {
+            lblDescription.apply {
+                text = it
+                isHidden = it.isEmpty()
+            }
+        }
+
         btnPlan.apply {
             text = itemView.context.getString(item.primaryState.buttonText)
             textColor(item.primaryState.buttonTextColor)

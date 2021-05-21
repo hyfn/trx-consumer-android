@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp"
     android:paddingStart="15dp"
     android:paddingTop="10dp"
     android:paddingEnd="15dp"
-    android:paddingBottom="10dp"
+    android:paddingBottom="15dp"
     app:backgroundColor="@color/white">
 
     <com.trx.consumer.common.CommonLabel
         android:id="@+id/lblTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center_vertical"
         android:textAllCaps="true"
         android:textColor="@color/black"
         android:textSize="12sp"
@@ -26,41 +26,42 @@
 
     <com.trx.consumer.common.CommonLabel
         android:id="@+id/lblDescription"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:fontFamily="@font/atcarquette_regular"
+        android:textColor="@color/grey"
         android:textSize="14sp"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblTitle"
         tools:text="$15 per Live Class\n$15 per Group Class" />
 
     <com.trx.consumer.common.CommonLabel
-        android:id="@+id/lblPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:id="@+id/lblCost"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         android:fontFamily="@font/atcarquette_regular"
+        android:gravity="center_vertical"
         android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblDescription"
         tools:text="$19.99 per Month" />
 
-
     <com.trx.consumer.common.CommonButton
         android:id="@+id/btnPlan"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center"
+        android:minHeight="50dp"
         android:padding="15dp"
         android:textAllCaps="true"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblPrice"
+        app:layout_constraintTop_toBottomOf="@+id/lblCost"
         tools:backgroundTint="@color/black"
         tools:text="@string/plans_choose_plan_label"
         tools:textColor="@color/white" />
