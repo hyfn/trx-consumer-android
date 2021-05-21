@@ -5,8 +5,10 @@ import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.google.gson.JsonParser
+import android.content.Context
 import com.trx.consumer.BuildConfig
 import com.trx.consumer.BuildConfig.kTRXSupportEmail
+import com.trx.consumer.extensions.openBrowser
 
 class UtilityManager {
 
@@ -40,6 +42,11 @@ class UtilityManager {
         if (intent.resolveActivity(fragment.requireActivity().packageManager) != null) {
             fragment.startActivity(intent)
         }
+    }
+  
+    fun openUrl(context: Context, url: String) {
+        LogManager.log("openUrl: $url")
+        context.openBrowser(url)
     }
 
     companion object {

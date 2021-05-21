@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name">TRX-Consumer</string>
 
@@ -9,10 +9,17 @@
     <string name="alert_primary_back">Take me back</string>
     <string name="alert_primary_cool">Cool</string>
     <string name="alert_secondary_report">Report an issue</string>
+    <string name="alert_confirm_message">Are you sure?</string>
+    <string name="alert_nevermind_label">Nevermind</string>
+    <string name="alert_logout_message">You will be logged out</string>
+    <string name="alert_logout_confirm_label">Yes, log me out</string>
 
     <string name="booking_view_state_book_label">BOOK</string>
     <string name="booking_view_state_booked_label">BOOKED</string>
     <string name="booking_view_state_view_label">VIEW</string>
+    <string name="booking_view_state_video_label">START</string>
+    <string name="booking_view_state_join_label">JOIN</string>
+    <string name="booking_view_state_cancel_label" tools:ignore="ButtonCase">CANCEL</string>
     <string name="booking_view_state_default_label">N/A</string>
 
     <string name="cards_payment_method_label">Payment Method</string>
@@ -111,6 +118,7 @@
     <string name="tab_virtual_training">VIRTUAL TRAINING</string>
     <string name="tab_live">LIVE</string>
     <string name="tab_on_demand">ON DEMAND</string>
+    <string name="tab_settings">SETTINGS</string>
 
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
@@ -130,6 +138,7 @@
     <string name="test_utility_alert_button_primary_label">Do something</string>
     <string name="test_utility_alert_button_secondary_label">Thanks, I\'ll pass</string>
     <string name="test_utility_settings_label">Settings</string>
+    <string name="test_utility_workout_label">Workout</string>
 
     <string name="video_tab_workouts_label">WORKOUTS</string>
     <string name="video_tab_collections_label">COLLECTIONS</string>
@@ -174,6 +183,11 @@
     <string name="welcome_state_promo_description">Promo description</string>
     <string name="welcome_state_restore_description">Restore description</string>
 
+    <string name="workout_profile_label">Profile</string>
+    <string name="workout_book_session_label">Book Session</string>
+    <string name="workout_join_session_label">Join Session</string>
+    <string name="workout_cancel_session_label">Cancel Session</string>
+
     <string name="onboarding_virtual_title">TRX virtual Training, coming soon</string>
     <string name="onboarding_virtual_description">World-class Trainers. Anytime. Anywhere</string>
     <string name="onboarding_virtual_list_text_one">Expert help and personalized support from hundreds of top-rated trainers</string>
@@ -196,4 +210,8 @@
     <string name="filter_btn_apply_label">APPLY</string>
     <string name="filter_empty_list_label">There are no filters</string>
 
+    <string name="filter_options_btn_back_label">BACK</string>
+    <string name="filters_options_btn_all_label">Clear Filters</string>
+    <string name="filters_options_selected_filter_label">(%1$d)</string>
+    <string name="filters_options_selected_filter_default_label"> </string>
 </resources>
