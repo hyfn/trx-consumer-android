@@ -67,6 +67,11 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return user()
     }
 
+    suspend fun plans(): ResponseModel {
+        val path = EndpointModel.PLANS.path
+        return call(RequestModel(endpoint = EndpointModel.PLANS, path = path, params = null))
+    }
+
     suspend fun register(params: HashMap<String, Any>): ResponseModel {
         val path = EndpointModel.REGISTER.path
         val response = call(
@@ -82,14 +87,18 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return user()
     }
 
-    suspend fun subscriptionAdd(params: HashMap<String, Any>): ResponseModel {
+    suspend fun subscriptionAdd(id: String, country: String = "US"): ResponseModel {
         val path = EndpointModel.SUBSCRIPTION_ADD.path
+        val params = hashMapOf<String, Any>(
+            "subscriptionType" to id,
+            "country" to country
+        )
         return call(RequestModel(endpoint = EndpointModel.SUBSCRIPTION_ADD, path = path, params = params))
     }
 
-    suspend fun subscriptionDelete(params: HashMap<String, Any>): ResponseModel {
-        val path = EndpointModel.SUBSCRIPTION_DELETE.path
-        return call(RequestModel(endpoint = EndpointModel.SUBSCRIPTION_DELETE, path = path, params = params))
+    suspend fun subscriptionDelete(id: String): ResponseModel {
+        val path = EndpointModel.SUBSCRIPTION_DELETE.path + "/$id"
+        return call(RequestModel(endpoint = EndpointModel.SUBSCRIPTION_DELETE, path = path, params = null))
     }
 
     suspend fun user(): ResponseModel {
