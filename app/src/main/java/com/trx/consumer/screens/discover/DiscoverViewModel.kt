@@ -17,7 +17,7 @@ class DiscoverViewModel : BaseViewModel(), DiscoverListener, DiscoverFilterListe
     val eventLoadCollections = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadPrograms = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadFilters = CommonLiveEvent<List<FilterModel>>()
-    
+
     val eventTapBack = CommonLiveEvent<Void>()
     val eventTapDiscover = CommonLiveEvent<WorkoutModel>()
     val eventTapFilter = CommonLiveEvent<FilterParamsModel>()
