@@ -1,8 +1,12 @@
 package com.trx.consumer.managers
 
+import android.content.Intent
+import android.net.Uri
+import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.trx.consumer.BuildConfig
+import com.trx.consumer.BuildConfig.kTRXSupportEmail
 
 class UtilityManager {
 
@@ -26,6 +30,16 @@ class UtilityManager {
 
     fun versionDisplay(): String {
         return "App Version ${buildVersion()}.${appVersion()}"
+    }
+
+    fun showSupportEmail(fragment: Fragment) {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, arrayListOf(kTRXSupportEmail))
+        }
+        if (intent.resolveActivity(fragment.requireActivity().packageManager) != null) {
+            fragment.startActivity(intent)
+        }
     }
 
     companion object {

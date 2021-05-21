@@ -10,6 +10,7 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.managers.UtilityManager
 import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.PurchaseModel
 import com.trx.consumer.screens.alert.AlertViewState
@@ -123,8 +124,7 @@ class AddCardFragment : BaseFragment(R.layout.fragment_add_card) {
             title = R.string.alert_secondary_report,
             state = AlertViewState.NEGATIVE
         ) {
-            //  TODO: Add when showSupportEmail() is imported.
-            //  UtilityManager.shared.showSupportEmail()
+            UtilityManager.shared.showSupportEmail(this)
         }
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
