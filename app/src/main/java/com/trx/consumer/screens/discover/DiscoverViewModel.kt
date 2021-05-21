@@ -23,7 +23,7 @@ class DiscoverViewModel : BaseViewModel(), DiscoverListener, DiscoverFilterListe
     val eventLoadFilters = CommonLiveEvent<List<FilterModel>>()
 
     fun doLoadView() {
-        params.list = filters
+        params.lstFilters = filters
         eventLoadFilters.postValue(filters)
         doLoadWorkouts()
     }
