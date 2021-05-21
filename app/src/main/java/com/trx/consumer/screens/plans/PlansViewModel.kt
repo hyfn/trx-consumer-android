@@ -30,7 +30,7 @@ class PlansViewModel @ViewModelInject constructor(
     val eventLoadCancelSubscription = CommonLiveEvent<String?>()
     val eventLoadConfirmSubscription = CommonLiveEvent<PlanModel>()
     val eventLoadError = CommonLiveEvent<String>()
-    val eventLoadNextBillDate = CommonLiveEvent<String>()
+    val eventLoadNextBillDate = CommonLiveEvent<String?>()
     val eventLoadView = CommonLiveEvent<Void>()
     val eventLoadPlans = CommonLiveEvent<List<PlanModel>>()
 
