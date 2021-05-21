@@ -1,4 +1,4 @@
-package com.trx.consumer.screens.filter
+package com.trx.consumer.screens.discover.filter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,4 +1,4 @@
-package com.trx.consumer.screens.filteroptions
+package com.trx.consumer.screens.discover.filter.filteroptions
 
 import com.trx.consumer.models.common.FilterOptionsModel
 
