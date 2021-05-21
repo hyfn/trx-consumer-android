@@ -43,7 +43,7 @@ class DaysAdapter(
     fun updateSelected(current: Date) {
         this.items.indexOfFirst { it.state.isSelected }.let {
             if (it != -1) {
-                items.get(it).state.isSelected = false
+                items[it].state.isSelected = false
             }
         }
 
