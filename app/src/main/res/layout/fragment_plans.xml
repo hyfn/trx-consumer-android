@@ -83,6 +83,7 @@
                 android:id="@+id/viewNextBill"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
+                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.trx.consumer.common.CommonLabel
@@ -132,6 +133,7 @@
                 android:id="@+id/viewLastBill"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/viewNextBill">
 
                 <com.trx.consumer.common.CommonLabel
@@ -192,16 +194,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewBottom" />
 
-    </com.trx.consumer.common.CommonView>
+        <com.trx.consumer.common.CommonHudView
+            android:id="@+id/hudView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.trx.consumer.common.CommonHudView
-        android:id="@+id/hudView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </com.trx.consumer.common.CommonView>
 
 </androidx.core.widget.NestedScrollView>

@@ -7,6 +7,9 @@
 
     <string name="alert_button_title_dismiss">Dismiss</string>
     <string name="alert_primary_back">Take me back</string>
+    <string name="alert_primary_keep_subscription">No, keep my subscription</string>
+    <string name="alert_primary_submit_payment">Submit Payment</string>
+    <string name="alert_secondary_cancel">Cancel</string>
     <string name="alert_secondary_report">Report an issue</string>
 
     <string name="booking_view_state_book_label">BOOK</string>
