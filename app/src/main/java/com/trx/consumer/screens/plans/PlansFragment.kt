@@ -29,7 +29,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
     override fun bind() {
         viewBinding.apply {
             adapter = PlansAdapter(viewModel) { lifecycleScope }
-            rvPlans.adapter = adapter
+            viewSubscriptions.adapter = adapter
 
             btnBack.action { viewModel.doTapBack() }
         }
