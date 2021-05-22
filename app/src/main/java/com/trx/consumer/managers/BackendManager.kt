@@ -48,7 +48,9 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
                     EndpointModel.Type.PATCH -> api.patch(url, token, params)
                 }
             )
-            LogManager.log("Response: [${endpoint.type.name}] $queryPath \n${responseModel.responseString}")
+            LogManager.log(
+                "Response: [${endpoint.type.name}] $queryPath \n${responseModel.responseString}"
+            )
             responseModel
         }
     }
@@ -108,12 +110,24 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
             "subscriptionType" to id,
             "country" to country
         )
-        return call(RequestModel(endpoint = EndpointModel.SUBSCRIPTION_ADD, path = path, params = params))
+        return call(
+            RequestModel(
+                endpoint = EndpointModel.SUBSCRIPTION_ADD,
+                path = path,
+                params = params
+            )
+        )
     }
 
     suspend fun subscriptionDelete(id: String): ResponseModel {
         val path = EndpointModel.SUBSCRIPTION_DELETE.path + "/$id"
-        return call(RequestModel(endpoint = EndpointModel.SUBSCRIPTION_DELETE, path = path, params = null))
+        return call(
+            RequestModel(
+                endpoint = EndpointModel.SUBSCRIPTION_DELETE,
+                path = path,
+                params = null
+            )
+        )
     }
 
     suspend fun user(): ResponseModel {
