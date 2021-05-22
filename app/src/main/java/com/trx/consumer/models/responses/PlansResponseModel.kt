@@ -7,8 +7,8 @@ import org.json.JSONObject
 
 class PlansResponseModel(private var subscription: SubscriptionsModel = SubscriptionsModel()) {
 
-    fun plans(subscriptionText: String?): List<PlanModel> {
-        return subscriptionText?.let { text ->
+    fun plans(subscriptionText: String?): List<PlanModel> =
+        subscriptionText?.let { text ->
             val list = subscription.plans.map { it.plan }.toMutableList()
             list.indexOfFirst { it.title == text }.let { index ->
                 if (index != -1) {
@@ -20,7 +20,6 @@ class PlansResponseModel(private var subscription: SubscriptionsModel = Subscrip
             }
             list
         } ?: subscription.plans.map { it.plan }
-    }
 
     companion object {
 
