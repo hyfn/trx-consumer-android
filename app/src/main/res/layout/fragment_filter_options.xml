@@ -15,18 +15,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.trx.consumer.common.CommonButton
+        <com.trx.consumer.common.CommonImageButton
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="15dp"
-            android:drawableStart="@drawable/ic_btn_back"
-            android:drawablePadding="10dp"
-            android:fontFamily="@font/atcarquette_bold"
-            android:gravity="center_vertical"
-            android:text="@string/filter_options_btn_back_label"
-            android:textColor="@color/black"
-            android:textSize="13sp"
+            android:src="@drawable/ic_btn_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
