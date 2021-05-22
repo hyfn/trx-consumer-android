@@ -27,14 +27,14 @@ class UserModel(
             subscriptions.keys.firstOrNull()
         } else null
 
-    val subscriptionIsCancelled: Boolean
+    private val subscriptionIsCancelled: Boolean
         get() {
             return subscriptions.keys.firstOrNull()?.let { key ->
                 subscriptions[key]?.cancelAtPeriodEnd ?: false
             } ?: false
         }
 
-    val subRenewsDate: Date?
+    private val subRenewsDate: Date?
         get() = subscriptions.values.firstOrNull()?.let {
             Date(it.currentPeriodEnd.roundToLong())
         }
@@ -68,15 +68,6 @@ class UserModel(
             ).apply {
                 try {
                     jsonObject.getJSONObject("subscriptions").let { subsJSONObject ->
-                        //  TODO: Remove after testing.
-                        // val keys = subsJSONObject.keys()
-                        // while (keys.hasNext()) {
-                        //     val key = keys.next()
-                        //     val userSubsJSONObject = subsJSONObject.get(key) as JSONObject
-                        //     val userSubs = UserSubscriptionModel.parse(userSubsJSONObject)
-                        //     subscriptions[key] = userSubs
-                        // }
-
                         subsJSONObject.keys().forEach { key ->
                             val userSubsJSONObject = subsJSONObject.get(key) as JSONObject
                             val userSubs = UserSubscriptionModel.parse(userSubsJSONObject)
