@@ -53,6 +53,11 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         }
     }
 
+    suspend fun banner(): ResponseModel {
+        val path = EndpointModel.BANNER.path
+        return call(RequestModel(endpoint = EndpointModel.BANNER, path = path, params = null))
+    }
+
     suspend fun login(email: String, password: String): ResponseModel {
         val params = hashMapOf<String, Any>(
             "email" to email,
@@ -80,6 +85,11 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
     suspend fun paymentDelete(id: String): ResponseModel {
         val path = EndpointModel.PAYMENT_DELETE.path + "/" + id
         return call(RequestModel(endpoint = EndpointModel.PAYMENT_DELETE, path, params = null))
+    }
+
+    suspend fun promos(): ResponseModel {
+        val path = EndpointModel.PROMOTIONS.path
+        return call(RequestModel(endpoint = EndpointModel.PROMOTIONS, path = path, params = null))
     }
 
     suspend fun register(params: HashMap<String, Any>): ResponseModel {
