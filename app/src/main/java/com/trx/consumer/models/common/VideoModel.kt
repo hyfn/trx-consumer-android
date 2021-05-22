@@ -12,7 +12,7 @@ class VideoModel(
     var duration: Int = 0,
     var id: String = "0",
     var poster: String = "",
-    var trainer: TrainerModel? = TrainerModel(),
+    var trainer: TrainerModel = TrainerModel(),
     var equipment: List<String> = listOf(),
     var level: String = "",
     var focus: String = "",
@@ -25,12 +25,13 @@ class VideoModel(
     companion object {
 
         fun parse(jsonObject: JSONObject): VideoModel {
+            val trainerObject = jsonObject.optJSONObject("trainer")
             return VideoModel().apply {
                 name = jsonObject.optString("name")
                 duration = jsonObject.optInt("duration")
                 id = jsonObject.optString("id")
                 name = jsonObject.optString("poster")
-                trainer = TrainerModel.parse(jsonObject.optJSONObject("trainer"))
+                trainer = trainerObject?.let { TrainerModel.parse(it) } ?: TrainerModel()
                 equipment = getStringList(jsonObject.optJSONArray("equipment"))
                 level = jsonObject.optString("level")
                 focus = jsonObject.optString("focus")
@@ -43,7 +44,8 @@ class VideoModel(
                 name = "Full Body Power Pump",
                 duration = 3600000,
                 poster = "https://cf-images.us-east-1.prod.boltdns.net/v1/jit/6204326362001/9ad5d77c-99f7-4c65-8a2d-40ac2546fd01/main/1280x720/55s189ms/match/image.jpg",
-                trainer = TrainerModel.test()
+                trainer = TrainerModel.test(),
+                id = "6232799349001"
             )
         }
 
