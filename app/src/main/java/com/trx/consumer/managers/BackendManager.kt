@@ -88,8 +88,8 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
     }
 
     suspend fun promos(): ResponseModel {
-        val path = EndpointModel.PROMOTIONS.path
-        return call(RequestModel(endpoint = EndpointModel.PROMOTIONS, path = path, params = null))
+        val path = EndpointModel.PROMOS.path
+        return call(RequestModel(endpoint = EndpointModel.PROMOS, path = path, params = null))
     }
 
     suspend fun register(params: HashMap<String, Any>): ResponseModel {

@@ -17,7 +17,7 @@ enum class EndpointModel {
     PAYMENT_DELETE,
     PLANS,
     PROGRAM_AVAILABILITY,
-    PROMOTIONS,
+    PROMOS,
     REGISTER,
     SUBSCRIPTION_ADD,
     SUBSCRIPTION_DELETE,
@@ -100,7 +100,7 @@ enum class EndpointModel {
                 PAYMENT_ADD, PAYMENT_DELETE -> prefix + "stripe/payment-method"
                 PLANS -> prefix + "subscriptions"
                 PROGRAM_AVAILABILITY -> prefix + "programs"
-                PROMOTIONS -> prefix + "copy/ctas"
+                PROMOS -> prefix + "copy/ctas"
                 SUBSCRIPTION_ADD, SUBSCRIPTION_DELETE -> prefix + "subscriptions"
                 TRAINER, TRAINERS, TRAINER_PROGRAMS, TRAINER_SESSIONS -> prefix + "trainers"
                 UPDATE, USER -> prefix + "user"
