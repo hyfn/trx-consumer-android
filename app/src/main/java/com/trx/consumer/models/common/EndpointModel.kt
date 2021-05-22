@@ -4,6 +4,7 @@ import com.trx.consumer.BuildConfig.kBaseUrl
 
 enum class EndpointModel {
 
+    BANNER,
     BOOK_CANCEL,
     BOOKINGS,
     BOOK_PROGRAM_CONFIRM,
@@ -88,6 +89,7 @@ enum class EndpointModel {
         get() {
             val prefix = kBaseUrl
             return when (this) {
+                BANNER -> "mobile-modal"
                 BOOK_CANCEL -> prefix + "bookings/cancel"
                 BOOKINGS -> prefix + "bookings"
                 BOOK_PROGRAM_CONFIRM -> prefix + "bookings/program/confirm"
