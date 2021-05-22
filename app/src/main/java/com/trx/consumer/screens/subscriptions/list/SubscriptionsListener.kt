@@ -1,7 +1,7 @@
 package com.trx.consumer.screens.subscriptions.list
 
-import com.trx.consumer.models.common.PlanModel
+import com.trx.consumer.models.common.SubscriptionModel
 
 interface SubscriptionsListener {
-    fun doTapSubscription(model: PlanModel)
+    fun doTapSubscription(model: SubscriptionModel)
 }

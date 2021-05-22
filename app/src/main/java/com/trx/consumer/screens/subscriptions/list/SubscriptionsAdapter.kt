@@ -6,7 +6,7 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.PlanModel
+import com.trx.consumer.models.common.SubscriptionModel
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
@@ -45,14 +45,14 @@ class SubscriptionsAdapter(
         val item = items[position]
         when (holder) {
             is SubscriptionsViewHolder -> {
-                holder.setup(item as PlanModel, listener)
+                holder.setup(item as SubscriptionModel, listener)
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is PlanModel -> TYPE_SUBSCRIPTION_LIST
+            is SubscriptionModel -> TYPE_SUBSCRIPTION_LIST
             else -> TYPE_EMPTY
         }
     }
@@ -60,7 +60,7 @@ class SubscriptionsAdapter(
     override fun getItemCount(): Int = items.size
 
     // TODO: Replace temporary method
-    fun updateSubscriptions(newSubscriptions: List<PlanModel>) {
+    fun updateSubscriptions(newSubscriptions: List<SubscriptionModel>) {
         this.items.clear()
         this.items.addAll(newSubscriptions)
         this.notifyDataSetChanged()

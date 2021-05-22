@@ -2,22 +2,22 @@ package com.trx.consumer.screens.subscriptions
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.models.common.PlanModel
+import com.trx.consumer.models.common.SubscriptionModel
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsListener
 
 class SubscriptionsViewModel : BaseViewModel(), SubscriptionsListener {
 
-    val eventLoadView = CommonLiveEvent<List<PlanModel>>()
+    val eventLoadView = CommonLiveEvent<List<SubscriptionModel>>()
     val eventTapBack = CommonLiveEvent<Void>()
 
     fun doLoadView() {
-        eventLoadView.postValue(PlanModel.testList(5))
+        eventLoadView.postValue(SubscriptionModel.testList(5))
     }
 
     fun doTapBack() {
         eventTapBack.call()
     }
 
-    override fun doTapSubscription(model: PlanModel) {
+    override fun doTapSubscription(model: SubscriptionModel) {
     }
 }

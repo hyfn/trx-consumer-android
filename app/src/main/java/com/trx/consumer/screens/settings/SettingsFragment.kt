@@ -59,7 +59,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     private val handleTapSubscriptions = Observer<Void> {
         LogManager.log("handleTapSubscriptions")
-        NavigationManager.shared.present(this, R.id.plans_fragment)
+        NavigationManager.shared.present(this, R.id.subscriptions_fragment)
     }
 
     private val handleTapContactSupport = Observer<Void> {

@@ -9,7 +9,7 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentSubscriptionsBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.common.PlanModel
+import com.trx.consumer.models.common.SubscriptionModel
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsAdapter
 
 class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
@@ -39,7 +39,7 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
         NavigationManager.shared.dismiss(this)
     }
 
-    private val handleLoadView = Observer<List<PlanModel>> {
+    private val handleLoadView = Observer<List<SubscriptionModel>> {
         adapter.updateSubscriptions(it)
     }
 
