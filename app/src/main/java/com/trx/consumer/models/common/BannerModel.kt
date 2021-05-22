@@ -6,12 +6,12 @@ import org.json.JSONObject
 
 @Parcelize
 class BannerModel(
-    var isActive: Boolean,
-    var modalButtonText: String,
-    var modalDescription: String,
-    var modalImageUrl: String,
-    var modalTitle: String,
-    var offerButtonLink: String
+    var isActive: Boolean = false,
+    var modalButtonText: String = "",
+    var modalDescription: String = "",
+    var modalImageUrl: String = "",
+    var modalTitle: String = "",
+    var offerButtonLink: String = ""
 ) : Parcelable {
 
     companion object {
