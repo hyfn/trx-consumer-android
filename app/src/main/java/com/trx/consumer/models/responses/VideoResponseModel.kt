@@ -31,7 +31,8 @@ data class VideoResponseModel(
                         .optJSONArray("videos")
                 )
                 filters = FilterModel.filters(
-                    (data.optJSONObject("filters") as JSONObject))
+                    (data.optJSONObject("filters") as JSONObject)
+                )
             }
         }
 

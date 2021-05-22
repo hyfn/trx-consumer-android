@@ -26,12 +26,14 @@ class FilterModel(
                 jsonObject?.let { safeJson ->
                     val keys: Iterator<Any> = safeJson.keys()
                     while (keys.hasNext()) {
-                        add(FilterModel().apply {
-                            val key = keys.next() as String
-                            title = key.capitalize(Locale.ROOT)
-                            val value = safeJson.optJSONObject(key)
-                            values = FilterOptionsModel.parse(value)
-                        })
+                        add(
+                            FilterModel().apply {
+                                val key = keys.next() as String
+                                title = key.capitalize(Locale.ROOT)
+                                val value = safeJson.optJSONObject(key)
+                                values = FilterOptionsModel.parse(value)
+                            }
+                        )
                     }
                 }
             }
@@ -59,4 +61,3 @@ class FilterModel(
         }
     }
 }
-

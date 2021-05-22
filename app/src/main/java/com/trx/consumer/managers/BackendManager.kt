@@ -117,5 +117,4 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         val path = EndpointModel.VIDEOS.path
         return call(RequestModel(endpoint = EndpointModel.VIDEOS, path = path, params = null))
     }
-
 }

@@ -13,10 +13,12 @@ class FilterOptionsModel(var value: String = "", var isSelected: Boolean = false
                 jsonObject?.let { safeJson ->
                     val keys: Iterator<Any> = safeJson.keys()
                     while (keys.hasNext()) {
-                        add(FilterOptionsModel().apply {
-                            val key = keys.next() as String
-                            value = safeJson.optString(key)
-                        })
+                        add(
+                            FilterOptionsModel().apply {
+                                val key = keys.next() as String
+                                value = safeJson.optString(key)
+                            }
+                        )
                     }
                 }
             }

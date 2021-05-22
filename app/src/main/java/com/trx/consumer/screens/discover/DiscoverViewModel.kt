@@ -49,8 +49,11 @@ class DiscoverViewModel @ViewModelInject constructor(
             eventShowHud.postValue(false)
             params.lstFilters = filters
             eventLoadFilters.postValue(filters)
+            eventLoadWorkouts.postValue(WorkoutModel.testList(15))
+            eventLoadCollections.postValue(WorkoutModel.testList(15))
+            eventLoadPrograms.postValue(WorkoutModel.testList(15))
         }
-        doLoadWorkouts()
+
     }
 
     fun doLoadWorkouts() {
