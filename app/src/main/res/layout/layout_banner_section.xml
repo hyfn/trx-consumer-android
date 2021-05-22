@@ -76,6 +76,7 @@
         android:layout_marginBottom="15dp"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center"
+        android:textAllCaps="true"
         android:textColor="@color/black"
         android:textSize="13sp"
         app:backgroundColor="@color/yellow"
