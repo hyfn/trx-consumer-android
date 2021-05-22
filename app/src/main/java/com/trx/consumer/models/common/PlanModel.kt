@@ -7,9 +7,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 class PlanModel(
     var key: String = "",
-    var title: String? = null,
-    var description: String?,
-    var cost: String?,
+    var title: String = "",
+    var description: String = "",
+    var cost: String = "",
     var primaryState: PlansViewState = PlansViewState.OTHER,
     var startsAt: Int = 0
 ) : Parcelable {

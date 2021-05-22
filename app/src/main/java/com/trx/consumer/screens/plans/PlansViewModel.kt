@@ -9,6 +9,7 @@ import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.PlanModel
 import com.trx.consumer.models.common.UserModel
+import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.PlansResponseModel
 import com.trx.consumer.screens.plans.list.PlansListener
 import kotlinx.coroutines.launch
@@ -49,24 +50,21 @@ class PlansViewModel @ViewModelInject constructor(
     fun doLoadPlans() {
         viewModelScope.launch {
             eventShowHud.postValue(true)
-            backendManager.user().let {
-                cacheManager.user()?.let { user ->
-                    userModel = user
-                    (user.subscription != null).let { value ->
-                        eventLoadCanCancel.postValue(value)
+            backendManager.user()
+            cacheManager.user()?.let { user ->
+                userModel = user
+                eventLoadCanCancel.postValue(user.subscription != null)
+                eventLoadNextBillDate.postValue(user.subscriptionRenewsDateDisplay)
+            }
+            val response = backendManager.plans()
+            if (response.isSuccess) {
+                try {
+                    val model = PlansResponseModel.parse(response.responseString)
+                    userModel?.subscriptionText.let {
+                        eventLoadPlans.postValue(model.plans(it))
                     }
-                    eventLoadNextBillDate.postValue(user.subscriptionRenewsDateDisplay)
-                }
-                val response = backendManager.plans()
-                if (response.isSuccess) {
-                    try {
-                        val model = PlansResponseModel.parse(response.responseString)
-                        userModel?.subscriptionText.let {
-                            eventLoadPlans.postValue(model.plans(it))
-                        }
-                    } catch (e: Exception) {
-                        LogManager.log(e)
-                    }
+                } catch (e: Exception) {
+                    LogManager.log(e)
                 }
             }
             eventShowHud.postValue(false)
@@ -80,7 +78,7 @@ class PlansViewModel @ViewModelInject constructor(
             if (response.isSuccess) {
                 doLoadPlans()
             } else {
-                eventLoadError.postValue("There was an error")
+                eventLoadError.postValue(ResponseModel.genericErrorMessage)
             }
             eventShowHud.postValue(false)
         }
@@ -98,7 +96,7 @@ class PlansViewModel @ViewModelInject constructor(
                     if (response.isSuccess) {
                         doLoadPlans()
                     } else {
-                        eventLoadError.postValue("There was no error")
+                        eventLoadError.postValue(ResponseModel.genericErrorMessage)
                     }
                 }
             }
@@ -109,7 +107,7 @@ class PlansViewModel @ViewModelInject constructor(
     override fun doTapChoosePlan(model: PlanModel) {
         viewModelScope.launch {
             cacheManager.user()?.let { user ->
-                if (user.subscriptionText != "Pay As You Go") {
+                if (user.subscriptionText != UserModel.kSubscriptionNamePay) {
                     eventLoadCancelSubscription.postValue(user.subscription)
                 }
             } ?: run {

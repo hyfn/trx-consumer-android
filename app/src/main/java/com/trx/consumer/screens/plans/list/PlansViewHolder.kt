@@ -16,16 +16,16 @@ class PlansViewHolder(view: View) : CommonViewHolder(view) {
     private val btnPlan: CommonButton = view.findViewById(R.id.btnPlan)
 
     fun setup(item: PlanModel, listener: PlansListener) {
-        item.title?.let { lblTitle.text = it }
+        lblTitle.text = item.title
 
-        item.cost?.let {
+        item.cost.let {
             lblCost.apply {
                 text = it
                 isHidden = it.isEmpty()
             }
         }
 
-        item.description?.let {
+        item.description.let {
             lblDescription.apply {
                 text = it
                 isHidden = it.isEmpty()
