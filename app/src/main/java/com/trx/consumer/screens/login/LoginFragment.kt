@@ -22,8 +22,6 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         viewBinding.apply {
             ivEmail.setInputViewListener(viewModel)
             ivPassword.setInputViewListener(viewModel)
-            ivEmail.text = "devender197@gmail.com"
-            ivPassword.text = "password"
 
             btnBack.action { viewModel.doTapBack() }
             lblSignUp.action { viewModel.doTapSignUp() }
