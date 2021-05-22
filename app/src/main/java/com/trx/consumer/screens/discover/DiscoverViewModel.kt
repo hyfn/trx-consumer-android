@@ -53,7 +53,6 @@ class DiscoverViewModel @ViewModelInject constructor(
             eventLoadCollections.postValue(WorkoutModel.testList(15))
             eventLoadPrograms.postValue(WorkoutModel.testList(15))
         }
-
     }
 
     fun doLoadWorkouts() {

@@ -9,7 +9,7 @@ import java.util.Locale
 class FilterModel(
     var identifier: String = "",
     var title: String = "",
-    var values: MutableList<FilterOptionsModel> = mutableListOf()
+    var values: List<FilterOptionsModel> = mutableListOf()
 ) : Parcelable {
 
     override fun equals(other: Any?): Boolean {

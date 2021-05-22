@@ -8,7 +8,7 @@ import org.json.JSONObject
 class FilterOptionsModel(var value: String = "", var isSelected: Boolean = false) : Parcelable {
 
     companion object {
-        fun parse(jsonObject: JSONObject?): MutableList<FilterOptionsModel> {
+        fun parse(jsonObject: JSONObject?): List<FilterOptionsModel> {
             return mutableListOf<FilterOptionsModel>().apply {
                 jsonObject?.let { safeJson ->
                     val keys: Iterator<Any> = safeJson.keys()
