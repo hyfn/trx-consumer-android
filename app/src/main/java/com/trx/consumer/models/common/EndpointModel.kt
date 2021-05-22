@@ -89,7 +89,7 @@ enum class EndpointModel {
         get() {
             val prefix = kBaseUrl
             return when (this) {
-                BANNER -> "mobile-modal"
+                BANNER -> "copy/mobile-modal"
                 BOOK_CANCEL -> prefix + "bookings/cancel"
                 BOOKINGS -> prefix + "bookings"
                 BOOK_PROGRAM_CONFIRM -> prefix + "bookings/program/confirm"
@@ -100,7 +100,7 @@ enum class EndpointModel {
                 PAYMENT_ADD, PAYMENT_DELETE -> prefix + "stripe/payment-method"
                 PLANS -> prefix + "subscriptions"
                 PROGRAM_AVAILABILITY -> prefix + "programs"
-                PROMOTIONS -> prefix + "ctas"
+                PROMOTIONS -> prefix + "copy/ctas"
                 SUBSCRIPTION_ADD, SUBSCRIPTION_DELETE -> prefix + "subscriptions"
                 TRAINER, TRAINERS, TRAINER_PROGRAMS, TRAINER_SESSIONS -> prefix + "trainers"
                 UPDATE, USER -> prefix + "user"

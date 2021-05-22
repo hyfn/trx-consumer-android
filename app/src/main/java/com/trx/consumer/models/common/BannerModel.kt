@@ -18,7 +18,7 @@ class BannerModel(
 
         fun parse(jsonObject: JSONObject): BannerModel {
             return BannerModel(
-                isActive = jsonObject.optBoolean("isActive"),
+                isActive = jsonObject.optBoolean("active"),
                 modalButtonText = jsonObject.optString("modalButtonText"),
                 modalDescription = jsonObject.optString("modalDescription"),
                 modalImageUrl = jsonObject.optString("modalImageUrl"),
