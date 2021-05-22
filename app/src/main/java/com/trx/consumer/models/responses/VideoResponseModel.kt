@@ -6,10 +6,10 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 data class VideoResponseModel(
-    var workouts: ArrayList<VideoModel> = ArrayList(),
-    var collections: ArrayList<VideoModel> = ArrayList(),
-    var programs: ArrayList<VideoModel> = ArrayList(),
-    var filters: ArrayList<FilterModel> = ArrayList()
+    var workouts: List<VideoModel> = listOf(),
+    var collections: List<VideoModel> = listOf(),
+    var programs: List<VideoModel> = listOf(),
+    var filters: List<FilterModel> = listOf()
 ) {
 
     companion object {
