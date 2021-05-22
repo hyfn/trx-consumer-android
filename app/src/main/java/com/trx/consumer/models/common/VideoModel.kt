@@ -25,13 +25,15 @@ class VideoModel(
     companion object {
 
         fun parse(jsonObject: JSONObject): VideoModel {
-            val trainerObject = jsonObject.optJSONObject("trainer")
             return VideoModel().apply {
-                name = jsonObject.optString("name")
-                duration = jsonObject.optInt("duration")
-                id = jsonObject.optString("id")
-                poster = jsonObject.optString("poster")
-                trainer = trainerObject?.let { TrainerModel.parse(it) } ?: TrainerModel()
+                jsonObject.optJSONObject("video")?.let { videoJson ->
+                    name = videoJson.optString("name")
+                    duration = videoJson.optInt("duration")
+                    id = videoJson.optString("id")
+                    poster = videoJson.optString("poster")
+                }
+                trainer = jsonObject.optJSONObject("trainer")?.let { TrainerModel.parse(it) }
+                    ?: TrainerModel()
                 equipment = getStringList(jsonObject.optJSONArray("equipment"))
                 level = jsonObject.optString("level")
                 focus = jsonObject.optString("focus")

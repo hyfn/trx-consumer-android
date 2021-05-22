@@ -31,9 +31,8 @@ class TrainerModel(
 
     companion object {
 
-        fun parse(jsonObject: JSONObject?): TrainerModel {
+        fun parse(jsonObject: JSONObject): TrainerModel {
             return TrainerModel().apply {
-                jsonObject?.let {
                     bio = jsonObject.optString("bio")
                     isFeatured = jsonObject.optBoolean("featuredTrainer")
                     isLive = jsonObject.optBoolean("liveTrainer")
@@ -45,7 +44,6 @@ class TrainerModel(
                     virtualTrainerProfileId = jsonObject.optString("virtualTrainerProfileId")
                     firstName = jsonObject.optString("firstName")
                     lastName = jsonObject.optString("lastName")
-                }
             }
         }
 

@@ -42,9 +42,7 @@ data class VideoResponseModel(
                     for (index in 0 until safeJson.length()) {
                         safeJson.get(index)?.let {
                             if (it is JSONObject) {
-                                it.optJSONObject("video")?.let { videoJson ->
-                                    add(VideoModel.parse(videoJson))
-                                }
+                                add(VideoModel.parse(it))
                             }
                         }
                     }

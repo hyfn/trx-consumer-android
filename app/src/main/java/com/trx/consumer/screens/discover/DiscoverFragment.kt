@@ -70,7 +70,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     private val handleTapDiscover = Observer<VideoModel> {
         NavigationManager.shared.present(
             this,
-            R.id.videos_fragment,
+            R.id.workout_fragment,
             it
         )
     }

@@ -20,7 +20,7 @@ class DiscoverViewHolder(view: View) : CommonViewHolder(view) {
     fun setup(item: VideoModel, listener: DiscoverListener) {
         lblHeader.text = item.videoDuration
         lblTitle.text = item.name
-        lblSubtitle.text = "With ${item.trainer?.firstName}"
+        lblSubtitle.text = item.trainer.displayName
         imgPoster.load(item.poster)
         viewMain.action { listener.doTapDiscover(item) }
     }
