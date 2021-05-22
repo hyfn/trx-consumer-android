@@ -7,6 +7,7 @@
 
     <string name="alert_button_title_dismiss">Dismiss</string>
     <string name="alert_primary_back">Take me back</string>
+    <string name="alert_primary_cool">Cool</string>
     <string name="alert_secondary_report">Report an issue</string>
     <string name="alert_confirm_message">Are you sure?</string>
     <string name="alert_nevermind_label">Nevermind</string>
@@ -56,11 +57,11 @@
 
 
     <string name="inputview_placeholder_birthday">Birthday</string>
-    <string name="inputview_placeholder_card_number">Card Number</string>
+    <string name="inputview_placeholder_card_number">Credit Card Number</string>
     <string name="inputview_placeholder_code">Enter Code</string>
-    <string name="inputview_placeholder_cvv">CVV</string>
+    <string name="inputview_placeholder_cvv">CVV Code</string>
     <string name="inputview_placeholder_email">Email</string>
-    <string name="inputview_placeholder_expiration">Expiration</string>
+    <string name="inputview_placeholder_expiration">Expiration Date</string>
     <string name="inputview_placeholder_first">First Name</string>
     <string name="inputview_placeholder_last">Last Name</string>
     <string name="inputview_placeholder_password">Password</string>

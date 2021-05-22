@@ -1,9 +1,13 @@
 package com.trx.consumer.managers
 
-import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.google.gson.JsonParser
+import android.content.Context
 import com.trx.consumer.BuildConfig
+import com.trx.consumer.BuildConfig.kTRXSupportEmail
 import com.trx.consumer.extensions.openBrowser
 
 class UtilityManager {
@@ -30,6 +34,16 @@ class UtilityManager {
         return "App Version ${buildVersion()}.${appVersion()}"
     }
 
+    fun showSupportEmail(fragment: Fragment) {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, arrayListOf(kTRXSupportEmail))
+        }
+        if (intent.resolveActivity(fragment.requireActivity().packageManager) != null) {
+            fragment.startActivity(intent)
+        }
+    }
+  
     fun openUrl(context: Context, url: String) {
         LogManager.log("openUrl: $url")
         context.openBrowser(url)
