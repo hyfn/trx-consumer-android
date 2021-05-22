@@ -1,4 +1,4 @@
-package com.trx.consumer.screens.filter
+package com.trx.consumer.screens.discover.filters
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -13,8 +13,8 @@ class FiltersViewModel : BaseViewModel(), FiltersListener {
 
     val eventTapApply = CommonLiveEvent<FilterParamsModel>()
     val eventTapClose = CommonLiveEvent<Void>()
-    val eventTapReset = CommonLiveEvent<Void>()
-    val eventTapFilter = CommonLiveEvent<FilterModel>()
+    val eventTapReset = CommonLiveEvent<FilterParamsModel>()
+    val eventTapFilter = CommonLiveEvent<FilterParamsModel>()
 
     fun doLoadView() {
         params?.let { safeParams ->
@@ -31,7 +31,12 @@ class FiltersViewModel : BaseViewModel(), FiltersListener {
     }
 
     fun doTapReset() {
-        eventTapReset.call()
+        params?.lstFilters?.forEach { filter ->
+            filter.values.forEach { option ->
+                option.isSelected = false
+            }
+        }
+        eventTapReset.postValue(params)
     }
 
     fun doTapApply() {
@@ -41,6 +46,7 @@ class FiltersViewModel : BaseViewModel(), FiltersListener {
     }
 
     override fun doTapFilter(model: FilterModel) {
-        eventTapFilter.postValue(model)
+        params?.selectedModel = model
+        eventTapFilter.postValue(params)
     }
 }

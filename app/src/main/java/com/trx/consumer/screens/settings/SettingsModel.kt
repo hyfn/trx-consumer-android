@@ -16,6 +16,7 @@ class SettingsModel {
     val subtitle: String
         get() =
             when (type) {
+                // TODO: Display text based on user's subscription
                 SettingsType.SUBSCRIPTIONS -> "ACTIVE | Renews Oct. 29, 2020"
                 else -> ""
             }
@@ -41,18 +42,16 @@ class SettingsModel {
             }
 
         fun list(user: UserModel?): List<Any> {
-            return mutableListOf<Any>().apply {
-                add(create(user, SettingsType.SUBSCRIPTIONS))
-                add(0)
-                add(create(null, SettingsType.SHOP))
-                add(create(null, SettingsType.GETTING_STARTED))
-                add(create(null, SettingsType.CONTACT_SUPPORT))
-                add(create(null, SettingsType.TERMS_AND_CONDITIONS))
-                add(0)
-                add(create(null, SettingsType.RESTORE_PURCHASES))
-                add(0)
-                add(create(null, SettingsType.LOGOUT))
-            }
+            return listOf(
+                create(user, SettingsType.SUBSCRIPTIONS),
+                0,
+                create(null, SettingsType.SHOP),
+                create(null, SettingsType.GETTING_STARTED),
+                create(null, SettingsType.CONTACT_SUPPORT),
+                create(null, SettingsType.TERMS_AND_CONDITIONS),
+                0,
+                create(null, SettingsType.LOGOUT)
+            )
         }
     }
 }
@@ -63,7 +62,7 @@ enum class SettingsType {
     GETTING_STARTED,
     CONTACT_SUPPORT,
     TERMS_AND_CONDITIONS,
-    RESTORE_PURCHASES,
+    RESTORE,
     LOGOUT;
 
     @get:StringRes
@@ -74,7 +73,7 @@ enum class SettingsType {
             GETTING_STARTED -> R.string.settings_getting_started
             TERMS_AND_CONDITIONS -> R.string.settings_terms_and_conditions
             CONTACT_SUPPORT -> R.string.settings_contact_support
-            RESTORE_PURCHASES -> R.string.settings_restore_purchases
+            RESTORE -> R.string.settings_restore_purchases
             LOGOUT -> R.string.settings_logout
         }
 }
