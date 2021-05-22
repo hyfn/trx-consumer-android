@@ -36,6 +36,8 @@ class PlayerActivity : BrightcovePlayer() {
     private var videoWidth = 0
     private var videoHeight = 0
 
+    private var viewBinding: ViewBinding? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_player)
         brightcoveVideoView = findViewById(R.id.viewPlayerContainer)
@@ -48,8 +50,19 @@ class PlayerActivity : BrightcovePlayer() {
     private fun bind() {
         val video = NavigationManager.shared.params(intent) as VideoModel
 
-        findViewById<CommonImageButton>(R.id.btnRotate).action { rotate() }
-        findViewById<CommonImageButton>(R.id.btnEndWorkout).action { finish() }
+        viewBinding = ViewBinding(
+            lblTitle = findViewById(R.id.lblTitle),
+            lblTrainer = findViewById(R.id.lblTrainer),
+            lblParticipants = findViewById(R.id.lblParticipants),
+            imgParticipants = findViewById(R.id.imgParticipants),
+            btnEndWorkout = findViewById(R.id.btnEndWorkout),
+            btnRotate = findViewById(R.id.btnRotate),
+            btnScreenCast = findViewById(R.id.btnScreenCast),
+        ).apply {
+            btnRotate.action { rotate() }
+            btnEndWorkout.action { finish() }
+        }
+
         loadView(video)
         loadPlayer(video.id)
 
@@ -58,12 +71,12 @@ class PlayerActivity : BrightcovePlayer() {
     }
 
     private fun loadView(video: VideoModel) {
-        findViewById<CommonLabel>(R.id.lblTitle).text = video.name
-        findViewById<CommonLabel>(R.id.lblTrainer).text = video.trainer.fullName
-        // TODO: Implement participants when ready
-        findViewById<CommonLabel>(
-            R.id.lblParticipants
-        ).text = getString(R.string.player_participants_label, 0)
+        viewBinding?.apply {
+            lblTitle.text = video.name
+            lblTrainer.text = video.trainer.fullName
+            // TODO: Implement participants when ready
+            lblParticipants.text = getString(R.string.player_participants_label, 0)
+        }
     }
 
     private fun loadPlayer(videoId: String) {
@@ -85,19 +98,15 @@ class PlayerActivity : BrightcovePlayer() {
     }
 
     private fun handleOverlay(showingController: Boolean) {
-        val lblTitle = findViewById<CommonLabel>(R.id.lblTitle)
-        val lblTrainer = findViewById<CommonLabel>(R.id.lblTrainer)
-        val imgParticipants = findViewById<CommonImageView>(R.id.imgParticipants)
-        val lblParticipants = findViewById<CommonLabel>(R.id.lblParticipants)
-        val btnEndWorkout = findViewById<CommonButton>(R.id.btnEndWorkout)
-
         val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-        imgParticipants.isVisible = isPortrait
-        lblParticipants.isVisible = isPortrait
-        lblTitle.textSize = if (isPortrait) 32f else 18f
-        lblTitle.isVisible = isPortrait || showingController
-        lblTrainer.isVisible = isPortrait || showingController
-        btnEndWorkout.isEnabled = isPortrait
+        viewBinding?.apply {
+            imgParticipants.isVisible = isPortrait
+            lblParticipants.isVisible = isPortrait
+            lblTitle.textSize = if (isPortrait) 32f else 18f
+            lblTitle.isVisible = isPortrait || showingController
+            lblTrainer.isVisible = isPortrait || showingController
+            btnEndWorkout.isEnabled = isPortrait
+        }
     }
 
     private fun handleEvents(eventEmitter: EventEmitter) {
@@ -165,4 +174,21 @@ class PlayerActivity : BrightcovePlayer() {
             brightcoveVideoView.renderView?.setVideoSize(videoWidth, videoHeight)
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        viewBinding = null
+        videoSizeKnown = false
+    }
+
+    private class ViewBinding(
+        val lblTitle: CommonLabel,
+        val lblTrainer: CommonLabel,
+        val imgParticipants: CommonImageView,
+        val lblParticipants: CommonLabel,
+        val btnEndWorkout: CommonButton,
+        val btnRotate: CommonImageButton,
+        val btnScreenCast: CommonImageButton
+    )
 }

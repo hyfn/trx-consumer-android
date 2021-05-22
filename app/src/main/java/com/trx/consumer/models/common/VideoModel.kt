@@ -12,7 +12,7 @@ class VideoModel(
     var duration: Int = 0,
     var id: String = "0",
     var poster: String = "",
-    var trainer: TrainerModel? = TrainerModel(),
+    var trainer: TrainerModel = TrainerModel(),
     var equipment: List<String> = listOf(),
     var level: String = "",
     var focus: String = "",
@@ -25,12 +25,13 @@ class VideoModel(
     companion object {
 
         fun parse(jsonObject: JSONObject): VideoModel {
+            val trainerObject = jsonObject.optJSONObject("trainer")
             return VideoModel().apply {
                 name = jsonObject.optString("name")
                 duration = jsonObject.optInt("duration")
                 id = jsonObject.optString("id")
                 name = jsonObject.optString("poster")
-                trainer = TrainerModel.parse(jsonObject.optJSONObject("trainer"))
+                trainer = trainerObject?.let { TrainerModel.parse(it) } ?: TrainerModel()
                 equipment = getStringList(jsonObject.optJSONArray("equipment"))
                 level = jsonObject.optString("level")
                 focus = jsonObject.optString("focus")
