@@ -31,20 +31,20 @@ class TrainerModel(
 
     companion object {
 
-        fun parse(jsonObject: JSONObject): TrainerModel {
-            return with(jsonObject) {
+        fun parse(jsonObject: JSONObject?): TrainerModel? {
+            return jsonObject?.let { jsonObj ->
                 TrainerModel(
-                    bio = optString("bio"),
-                    isFeatured = optBoolean("featuredTrainer"),
-                    isLive = optBoolean("liveTrainer"),
-                    key = optString("key"),
-                    mantra = optString("mantra"),
-                    profilePhoto = optString("profilePhoto"),
-                    trainerCertifications = optJSONArray("trainerCertifications").map(),
-                    trainerCoachingStyle = optString("trainerCoachingStyle"),
-                    virtualTrainerProfileId = optString("virtualTrainerProfileId"),
-                    firstName = optString("firstName"),
-                    lastName = optString("lastName")
+                    bio = jsonObj.optString("bio"),
+                    isFeatured = jsonObj.optBoolean("featuredTrainer"),
+                    isLive = jsonObj.optBoolean("liveTrainer"),
+                    key = jsonObj.optString("key"),
+                    mantra = jsonObj.optString("mantra"),
+                    profilePhoto = jsonObj.optString("profilePhoto"),
+                    trainerCertifications = jsonObj.optJSONArray("trainerCertifications").map(),
+                    trainerCoachingStyle = jsonObj.optString("trainerCoachingStyle"),
+                    virtualTrainerProfileId = jsonObj.optString("virtualTrainerProfileId"),
+                    firstName = jsonObj.optString("firstName"),
+                    lastName = jsonObj.optString("lastName")
                 )
             }
         }

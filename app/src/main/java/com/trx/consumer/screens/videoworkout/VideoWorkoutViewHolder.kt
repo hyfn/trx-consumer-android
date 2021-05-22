@@ -22,7 +22,7 @@ class VideoWorkoutViewHolder(view: View) : CommonViewHolder(view) {
         lblSubtitle.apply {
             text = context.getString(
                 R.string.video_workout_subtitle_prefix_label,
-                model.trainer.fullName
+                model.trainer?.fullName
             )
         }
         lblWorkout.text = model.videoDuration
