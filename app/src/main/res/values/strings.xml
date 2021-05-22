@@ -10,7 +10,12 @@
     <string name="alert_primary_keep_subscription">No, keep my subscription</string>
     <string name="alert_primary_submit_payment">Submit Payment</string>
     <string name="alert_secondary_cancel">Cancel</string>
+    <string name="alert_primary_cool">Cool</string>
     <string name="alert_secondary_report">Report an issue</string>
+    <string name="alert_confirm_message">Are you sure?</string>
+    <string name="alert_nevermind_label">Nevermind</string>
+    <string name="alert_logout_message">You will be logged out</string>
+    <string name="alert_logout_confirm_label">Yes, log me out</string>
 
     <string name="booking_view_state_book_label">BOOK</string>
     <string name="booking_view_state_booked_label">BOOKED</string>
@@ -55,11 +60,11 @@
 
 
     <string name="inputview_placeholder_birthday">Birthday</string>
-    <string name="inputview_placeholder_card_number">Card Number</string>
+    <string name="inputview_placeholder_card_number">Credit Card Number</string>
     <string name="inputview_placeholder_code">Enter Code</string>
-    <string name="inputview_placeholder_cvv">CVV</string>
+    <string name="inputview_placeholder_cvv">CVV Code</string>
     <string name="inputview_placeholder_email">Email</string>
-    <string name="inputview_placeholder_expiration">Expiration</string>
+    <string name="inputview_placeholder_expiration">Expiration Date</string>
     <string name="inputview_placeholder_first">First Name</string>
     <string name="inputview_placeholder_last">Last Name</string>
     <string name="inputview_placeholder_password">Password</string>
@@ -208,4 +213,8 @@
     <string name="filter_btn_apply_label">APPLY</string>
     <string name="filter_empty_list_label">There are no filters</string>
 
+    <string name="filter_options_btn_back_label">BACK</string>
+    <string name="filters_options_btn_all_label">Clear Filters</string>
+    <string name="filters_options_selected_filter_label">(%1$d)</string>
+    <string name="filters_options_selected_filter_default_label"> </string>
 </resources>

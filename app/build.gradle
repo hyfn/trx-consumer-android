@@ -88,9 +88,14 @@ android {
             buildConfigField "String", "isMaintenanceMode", '"is_maintenance_mode"'
             buildConfigField "String", "minimumBuildNumber", '"minimum_build_number"'
             buildConfigField "String", "trxUrl", '"http://trx.sprintfwd.com"'
+            buildConfigField "String", "kProductsUrl", '"https://store.trxtraining.com"'
+            buildConfigField "String", "kContactSupportUrl", '"https://www.trxtraining.com/contact-us"'
+            buildConfigField "String", "kTermsConditionsUrl", '"https://www.trxtraining.com/terms-of-use"'
+            buildConfigField "String", "kGettingStartedVideosUrl", '"https://www.trxtraining.com/getting-started"'
             buildConfigField "String", "kBrightcoveAccountId", '"6204326362001"'
             buildConfigField "String", "kBrightcovePolicyKey", '"BCpkADawqM0NIVZ3stgK7lsrNpSnMb54yV2-XP_RMBl9gBL5hOvH_cjmnfU_kxS1QjYqucj3ZQTBRiGZhrd09drVaY-IAEgg9IYebBSliKZI8iSzYpvmdUQgwST2dVv4toFYU1clp89h7_qj"'
             buildConfigField "Boolean", "kIsVerificationEnabled", "false"
+            buildConfigField "String", "kTRXSupportEmail", '"digital@trxtraining.com"'
             buildConfigField "Boolean", "isVersion2Enabled", "false"
         }
         dev {
@@ -99,6 +104,7 @@ android {
             buildConfigField "String", "kBaseUrl", '"https://trx-dashboard-dev.vercel.app/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "false"
             buildConfigField "Integer", "kFirebaseFetchInterval", "3"
+            buildConfigField "String", "kStripeApiKey", '"pk_test_VG0f1gcydmawXMMYQSydPkw500ipbL8dW8"'
             signingConfig signingConfigs.devRelease
         }
         prod {
@@ -107,6 +113,7 @@ android {
             buildConfigField "String", "kBaseUrl", '"https://digital.trxtraining.com/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "true"
             buildConfigField "Integer", "kFirebaseFetchInterval", "30"
+            buildConfigField "String", "kStripeApiKey", '"pk_live_Nrhi2HdHwsfQ5OSiPhhtwuah00yvGgjwWe"'
             signingConfig signingConfigs.prodRelease
         }
     }
@@ -158,6 +165,9 @@ dependencies {
     // Glide
     implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
+
+    // Stripe Android SDK
+    implementation "com.stripe:stripe-android:$rootProject.stripeVersion"
 
     // Navigation graph
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navGraphVersion"

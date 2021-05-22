@@ -9,7 +9,7 @@ import kotlin.math.roundToLong
 class UserModel(
     var birthday: String = "",
     val card: CardModel? = null,
-    val cardPaymentMethod: String? = null,
+    val cardPaymentMethodId: String? = null,
     var email: String = "",
     var password: String = "",
     var subscriptions: HashMap<String, UserSubscriptionModel> = hashMapOf(),

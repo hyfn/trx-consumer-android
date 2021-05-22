@@ -36,7 +36,7 @@
         android:layout_marginBottom="15dp"
         android:fontFamily="@font/atcarquette_regular"
         android:gravity="center_vertical"
-        android:textColor="@color/blackRussian"
+        android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblTitle"

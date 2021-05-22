@@ -10,6 +10,11 @@ import kotlinx.coroutines.withContext
 
 class BackendManager(private val api: BaseApi, private val cacheManager: CacheManager) {
 
+    suspend fun updateBeforeLogout() {
+        cacheManager.accessToken(null)
+        cacheManager.user(null)
+    }
+
     suspend fun call(request: RequestModel): ResponseModel {
         return withContext(Dispatchers.IO) {
             val endpoint = request.endpoint
@@ -72,6 +77,16 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return call(RequestModel(endpoint = EndpointModel.PLANS, path = path, params = null))
     }
 
+    suspend fun paymentAdd(id: String): ResponseModel {
+        val path = EndpointModel.PAYMENT_ADD.path + "/" + id
+        return call(RequestModel(endpoint = EndpointModel.PAYMENT_ADD, path, params = null))
+    }
+
+    suspend fun paymentDelete(id: String): ResponseModel {
+        val path = EndpointModel.PAYMENT_DELETE.path + "/" + id
+        return call(RequestModel(endpoint = EndpointModel.PAYMENT_DELETE, path, params = null))
+    }
+
     suspend fun register(params: HashMap<String, Any>): ResponseModel {
         val path = EndpointModel.REGISTER.path
         val response = call(
@@ -111,6 +126,12 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return response
     }
 
+    suspend fun logout(): ResponseModel {
+        updateBeforeLogout()
+        val path = EndpointModel.LOGOUT.path
+        return call(RequestModel(endpoint = EndpointModel.LOGOUT, path = path, params = null))
+    }
+
     suspend fun workouts(): ResponseModel {
         val path = EndpointModel.WORKOUTS.path
         return call(RequestModel(endpoint = EndpointModel.WORKOUTS, path = path, params = null))
@@ -119,5 +140,10 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
     suspend fun update(params: HashMap<String, Any>): ResponseModel {
         val path = EndpointModel.UPDATE.path
         return call(RequestModel(endpoint = EndpointModel.UPDATE, path = path, params = params))
+    }
+
+    suspend fun videos(): ResponseModel {
+        val path = EndpointModel.VIDEOS.path
+        return call(RequestModel(endpoint = EndpointModel.VIDEOS, path = path, params = null))
     }
 }
