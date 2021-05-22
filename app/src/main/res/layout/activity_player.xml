@@ -7,6 +7,93 @@
     tools:ignore="SmallSp">
 
     <com.trx.consumer.common.CommonView
+        android:id="@+id/viewButtons"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        app:layout_constraintTop_toBottomOf="@id/viewPlayerContainer">
+
+        <View
+            android:id="@+id/viewLineBottom"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/greyDarkExtra"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <View
+            android:id="@+id/viewLineTop"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/greyDarkExtra"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/viewLineVertical"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/greyDarkExtra"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.trx.consumer.common.CommonImageButton
+            android:id="@+id/btnRotate"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_rotate_white"
+            android:tint="@color/grey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/viewLineVertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.trx.consumer.common.CommonImageButton
+            android:id="@+id/btnScreenCast"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_screencast_white"
+            android:tint="@color/grey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/viewLineVertical"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.trx.consumer.common.CommonView>
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewBottom"
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        app:backgroundColor="@color/charcoal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.trx.consumer.common.CommonButton
+            android:id="@+id/btnEndWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="@font/atcarquette_semibold"
+            android:gravity="center"
+            android:text="@string/player_end_workout_button_label"
+            android:textColor="@color/greyLightExtra"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:outline="@color/greyLightExtra" />
+
+    </com.trx.consumer.common.CommonView>
+
+    <com.brightcove.player.view.BrightcoveExoPlayerVideoView
+        android:id="@+id/viewPlayerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginTop="15dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/viewInfo" />
+
+    <com.trx.consumer.common.CommonView
         android:id="@+id/viewInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,80 +147,5 @@
 
     </com.trx.consumer.common.CommonView>
 
-    <com.brightcove.player.view.BrightcoveExoPlayerVideoView
-        android:id="@+id/viewPlayerContainer"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@id/viewInfo" />
-
-    <com.trx.consumer.common.CommonView
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        app:layout_constraintTop_toBottomOf="@id/viewPlayerContainer">
-
-        <View
-            android:id="@+id/viewLineHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/greyDarkExtra"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <View
-            android:id="@+id/viewLineVertical"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:background="@color/greyDarkExtra"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <com.trx.consumer.common.CommonImageButton
-            android:id="@+id/btnRotate"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_rotate_white"
-            android:tint="@color/grey"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/viewLineVertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.trx.consumer.common.CommonImageButton
-            android:id="@+id/btnScreenCast"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_screencast_white"
-            android:tint="@color/grey"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/viewLineVertical"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </com.trx.consumer.common.CommonView>
-
-    <com.trx.consumer.common.CommonView
-        android:layout_width="match_parent"
-        android:layout_height="135dp"
-        app:backgroundColor="@color/charcoal"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <com.trx.consumer.common.CommonButton
-            android:id="@+id/btnEndWorkout"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:fontFamily="@font/atcarquette_semibold"
-            android:gravity="center"
-            android:text="END WORKOUT"
-            android:textColor="@color/greyLightExtra"
-            android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:outline="@color/greyLightExtra" />
-
-    </com.trx.consumer.common.CommonView>
 
 </com.trx.consumer.common.CommonView>
