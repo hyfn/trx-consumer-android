@@ -1,7 +1,7 @@
 package com.trx.consumer.screens.discover.list
 
-import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.common.VideoModel
 
 interface DiscoverListener {
-    fun doTapDiscover(model: WorkoutModel)
+    fun doTapDiscover(model: VideoModel)
 }

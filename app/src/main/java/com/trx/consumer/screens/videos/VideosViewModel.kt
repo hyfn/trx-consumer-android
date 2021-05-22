@@ -2,6 +2,7 @@ package com.trx.consumer.screens.videos
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.screens.discover.list.DiscoverListener
 
@@ -20,6 +21,7 @@ class VideosViewModel : BaseViewModel(), DiscoverListener {
         eventLoadView.postValue(workoutModel)
     }
 
-    override fun doTapDiscover(model: WorkoutModel) {
+    override fun doTapDiscover(model: VideoModel) {
+        TODO("Not yet implemented")
     }
 }

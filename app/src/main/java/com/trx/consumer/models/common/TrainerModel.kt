@@ -9,12 +9,12 @@ import org.json.JSONObject
 class TrainerModel(
     var bio: String = "",
     var isFeatured: Boolean = false,
-    val isLive: Boolean = false,
+    var isLive: Boolean = false,
     var key: String = "",
     var mantra: String = "",
     var profilePhoto: String = "",
-    val trainerCertifications: List<String> = emptyList(),
-    val trainerCoachingStyle: String = "",
+    var trainerCertifications: List<String> = emptyList(),
+    var trainerCoachingStyle: String = "",
     var virtualTrainerProfileId: String = "",
     var firstName: String = "",
     var lastName: String = ""
@@ -31,21 +31,21 @@ class TrainerModel(
 
     companion object {
 
-        fun parse(jsonObject: JSONObject?): TrainerModel? {
-            return jsonObject?.let { jsonObj ->
-                TrainerModel(
-                    bio = jsonObj.optString("bio"),
-                    isFeatured = jsonObj.optBoolean("featuredTrainer"),
-                    isLive = jsonObj.optBoolean("liveTrainer"),
-                    key = jsonObj.optString("key"),
-                    mantra = jsonObj.optString("mantra"),
-                    profilePhoto = jsonObj.optString("profilePhoto"),
-                    trainerCertifications = jsonObj.optJSONArray("trainerCertifications").map(),
-                    trainerCoachingStyle = jsonObj.optString("trainerCoachingStyle"),
-                    virtualTrainerProfileId = jsonObj.optString("virtualTrainerProfileId"),
-                    firstName = jsonObj.optString("firstName"),
-                    lastName = jsonObj.optString("lastName")
-                )
+        fun parse(jsonObject: JSONObject?): TrainerModel {
+            return TrainerModel().apply {
+                jsonObject?.let {
+                    bio = jsonObject.optString("bio")
+                    isFeatured = jsonObject.optBoolean("featuredTrainer")
+                    isLive = jsonObject.optBoolean("liveTrainer")
+                    key = jsonObject.optString("key")
+                    mantra = jsonObject.optString("mantra")
+                    profilePhoto = jsonObject.optString("profilePhoto")
+                    trainerCertifications = jsonObject.optJSONArray("trainerCertifications").map()
+                    trainerCoachingStyle = jsonObject.optString("trainerCoachingStyle")
+                    virtualTrainerProfileId = jsonObject.optString("virtualTrainerProfileId")
+                    firstName = jsonObject.optString("firstName")
+                    lastName = jsonObject.optString("lastName")
+                }
             }
         }
 

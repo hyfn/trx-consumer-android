@@ -58,7 +58,7 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
             lblTrainerName.text = it.trainer.fullName
             lblSummary.text = it.trainer.bio
             imgTrainerProfile.load(it.trainer.profilePhoto)
-            adapter.updateVideos(WorkoutModel.testList(5))
+            // adapter.updateVideos(WorkoutModel.testList(5))
         }
     }
 }

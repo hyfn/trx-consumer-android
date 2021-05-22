@@ -6,7 +6,7 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
@@ -45,23 +45,23 @@ class DiscoverAdapter(
         val item = items[position]
         when (holder) {
             is DiscoverViewHolder -> {
-                holder.setup(item as WorkoutModel, listener)
+                holder.setup(item as VideoModel, listener)
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is WorkoutModel -> TYPE_VIDEO_LIST
+            is VideoModel -> TYPE_VIDEO_LIST
             else -> TYPE_EMPTY
         }
     }
 
     override fun getItemCount(): Int = items.size
 
-    fun updateVideos(newWorkouts: List<WorkoutModel>) {
+    fun updateVideos(videos: List<VideoModel>) {
         this.items.clear()
-        this.items.addAll(newWorkouts)
+        this.items.addAll(videos)
         this.notifyDataSetChanged()
     }
 }

@@ -29,7 +29,7 @@ class VideoModel(
                 name = jsonObject.optString("name")
                 duration = jsonObject.optInt("duration")
                 id = jsonObject.optString("id")
-                name = jsonObject.optString("poster")
+                poster = jsonObject.optString("poster")
                 trainer = TrainerModel.parse(jsonObject.optJSONObject("trainer"))
                 equipment = getStringList(jsonObject.optJSONArray("equipment"))
                 level = jsonObject.optString("level")

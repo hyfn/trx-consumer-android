@@ -40,7 +40,13 @@ data class VideoResponseModel(
             return ArrayList<VideoModel>().apply {
                 jsonArray?.let { safeJson ->
                     for (index in 0 until safeJson.length()) {
-                        add(VideoModel.parse(safeJson.get(0) as JSONObject))
+                        safeJson.get(index)?.let {
+                            if (it is JSONObject) {
+                                it.optJSONObject("video")?.let { videoJson ->
+                                    add(VideoModel.parse(videoJson))
+                                }
+                            }
+                        }
                     }
                 }
             }

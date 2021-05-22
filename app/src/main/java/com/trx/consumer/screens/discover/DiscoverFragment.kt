@@ -12,7 +12,7 @@ import com.trx.consumer.databinding.FragmentDiscoverBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.FilterModel
-import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterAdapter
 import com.trx.consumer.screens.discover.list.DiscoverAdapter
@@ -67,7 +67,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         viewBinding.hudView.isVisible = show
     }
 
-    private val handleTapDiscover = Observer<WorkoutModel> {
+    private val handleTapDiscover = Observer<VideoModel> {
         NavigationManager.shared.present(
             this,
             R.id.videos_fragment,
@@ -75,15 +75,15 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         )
     }
 
-    private val handleLoadWorkouts = Observer<List<WorkoutModel>> {
+    private val handleLoadWorkouts = Observer<List<VideoModel>> {
         adapter.updateVideos(it)
     }
 
-    private val handleLoadCollections = Observer<List<WorkoutModel>> {
+    private val handleLoadCollections = Observer<List<VideoModel>> {
         adapter.updateVideos(it)
     }
 
-    private val handleLoadPrograms = Observer<List<WorkoutModel>> {
+    private val handleLoadPrograms = Observer<List<VideoModel>> {
         adapter.updateVideos(it)
     }
 
