@@ -29,9 +29,7 @@ class SubscriptionModel(
                 key = jsonObject.optString("key", ""),
                 price = jsonObject.optDouble("price", 0.0),
                 title = jsonObject.optString("title", ""),
-                valueProps = jsonObject.optJSONArray("valueProps")?.let { jsonArray ->
-                    jsonArray.map { it.toString() }
-                } ?: listOf()
+                valueProps = jsonObject.optJSONArray("valueProps").map()
             )
         }
     }
