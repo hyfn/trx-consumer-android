@@ -11,8 +11,8 @@ class UserSubscriptionModel(
 
         fun parse(jsonObject: JSONObject): UserSubscriptionModel =
             UserSubscriptionModel(
-                cancelAtPeriodEnd = jsonObject.optBoolean("subscription.cancel_at_period_end", false),
-                currentPeriodEnd = jsonObject.optDouble("subscription.current_period_end", 0.0)
+                cancelAtPeriodEnd = jsonObject.optBoolean("subscription.cancel_at_period_end"),
+                currentPeriodEnd = jsonObject.optDouble("subscription.current_period_end")
             )
     }
 }
