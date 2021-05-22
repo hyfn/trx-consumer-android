@@ -1,7 +1,10 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
+import com.trx.consumer.extensions.iterator
 import kotlinx.parcelize.Parcelize
+import org.json.JSONArray
+import org.json.JSONObject
 
 @Parcelize
 class VideoModel(
@@ -9,7 +12,7 @@ class VideoModel(
     var duration: Int = 0,
     var id: String = "0",
     var poster: String = "",
-    var trainer: TrainerModel = TrainerModel(),
+    var trainer: TrainerModel? = TrainerModel(),
     var equipment: List<String> = listOf(),
     var level: String = "",
     var focus: String = "",
@@ -20,6 +23,20 @@ class VideoModel(
         get() = "${duration / 60_000} MIN"
 
     companion object {
+
+        fun parse(jsonObject: JSONObject): VideoModel {
+            return VideoModel().apply {
+                name = jsonObject.optString("name")
+                duration = jsonObject.optInt("duration")
+                id = jsonObject.optString("id")
+                name = jsonObject.optString("poster")
+                trainer = TrainerModel.parse(jsonObject.optJSONObject("trainer"))
+                equipment = getStringList(jsonObject.optJSONArray("equipment"))
+                level = jsonObject.optString("level")
+                focus = jsonObject.optString("focus")
+                body = getStringList(jsonObject.optJSONArray("body"))
+            }
+        }
 
         fun test(): VideoModel {
             return VideoModel(
@@ -33,6 +50,16 @@ class VideoModel(
 
         fun testList(count: Int): List<VideoModel> {
             return (0 until count).map { test() }
+        }
+
+        private fun getStringList(jsonArray: JSONArray?): List<String> {
+            return mutableListOf<String>().apply {
+                jsonArray?.let { safeJson ->
+                    for (index in 0 until safeJson.length()) {
+                        add(jsonArray[index] as String)
+                    }
+                }
+            }
         }
     }
 }

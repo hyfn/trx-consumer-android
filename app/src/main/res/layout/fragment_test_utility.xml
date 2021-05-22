@@ -160,7 +160,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="13sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblCards" />
@@ -192,7 +192,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblAddCard" />
@@ -222,7 +222,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblUpdate" />
@@ -253,7 +253,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblContent" />
@@ -284,7 +284,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblPlans" />
@@ -314,7 +314,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblFilter" />
@@ -344,7 +344,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblDiscover" />
@@ -375,7 +375,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblPlayer" />
@@ -405,7 +405,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblAlert" />
@@ -435,7 +435,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblWelcome" />
@@ -465,7 +465,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblSettings" />
@@ -495,7 +495,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblWorkout" />

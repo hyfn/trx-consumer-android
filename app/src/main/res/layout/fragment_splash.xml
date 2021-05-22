@@ -74,7 +74,7 @@
             android:fontFamily="@font/atcarquette_bold"
             android:gravity="center"
             android:text="@string/splash_email_button_label"
-            android:textColor="@color/blackRussian"
+            android:textColor="@color/black"
             android:textSize="13sp"
             app:backgroundColor="@color/greyLightExtra"
             app:layout_constraintTop_toBottomOf="@id/lblContinue" />

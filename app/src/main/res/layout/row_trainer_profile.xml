@@ -23,7 +23,7 @@
         android:layout_marginTop="5dp"
         android:fontFamily="@font/atcarquette_regular"
         android:gravity="center"
-        android:textColor="@color/blackRussian"
+        android:textColor="@color/black"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
