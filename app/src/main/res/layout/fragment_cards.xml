@@ -34,7 +34,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="15dp"
         android:fontFamily="@font/atcarquette_bold"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:padding="10dp"
         android:text="@string/cards_payment_method_label"
         android:textColor="@color/black"

@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="15dp"
             android:fontFamily="@font/atcarquette_bold"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:text="@string/settings_title"
             android:textColor="@color/black"
             android:textSize="11sp"
