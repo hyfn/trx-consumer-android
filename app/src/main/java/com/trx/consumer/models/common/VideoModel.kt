@@ -31,8 +31,6 @@ class VideoModel(
                 duration = jsonObject.optInt("duration")
                 id = jsonObject.optString("id")
                 poster = jsonObject.optString("poster")
-                trainer = TrainerModel.parse(jsonObject.optJSONObject("trainer"))
-                name = jsonObject.optString("poster")
                 trainer = trainerObject?.let { TrainerModel.parse(it) } ?: TrainerModel()
                 equipment = getStringList(jsonObject.optJSONArray("equipment"))
                 level = jsonObject.optString("level")
