@@ -3,6 +3,7 @@ package com.trx.consumer.models.common
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
+import java.util.Locale
 
 @Parcelize
 class FilterModel(
@@ -27,7 +28,7 @@ class FilterModel(
                     while (keys.hasNext()) {
                         add(FilterModel().apply {
                             val key = keys.next() as String
-                            title = key
+                            title = key.capitalize(Locale.ROOT)
                             val value = safeJson.optJSONObject(key)
                             values = FilterOptionsModel.parse(value)
                         })
