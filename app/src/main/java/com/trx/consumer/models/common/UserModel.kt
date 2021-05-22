@@ -6,7 +6,7 @@ class UserModel(
     val uid: String = "",
     var birthday: String = "",
     val card: CardModel? = null,
-    val cardPaymentMethod: String? = null,
+    val cardPaymentMethodId: String? = null,
     var email: String = "",
     var password: String = "",
     var zipCode: String = "",
@@ -18,6 +18,9 @@ class UserModel(
         get() = "$firstName $lastName"
 
     companion object {
+
+        val kSubscriptionNamePay = "Pay As You Go"
+        val kSubscriptionNameUnlimited = "Unlimited LIVE Classes"
 
         fun parse(jsonObject: JSONObject): UserModel {
             return UserModel(

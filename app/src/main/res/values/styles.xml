@@ -130,4 +130,9 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="BrightcoveControlBar.Custom">
+        <item name="brightcove_full_screen">false</item>
+        <item name="brightcove_rewind">false</item>
+    </style>
+
 </resources>

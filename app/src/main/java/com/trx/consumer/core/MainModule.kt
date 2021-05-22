@@ -4,11 +4,20 @@ import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.stripe.android.Stripe
 import com.trx.consumer.BuildConfig.kBaseUrl
+import com.trx.consumer.BuildConfig.kStripeApiKey
 import com.trx.consumer.base.BaseApi
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
+
+<<<<<<< HEAD
 import com.trx.consumer.managers.ConfigManager
+
+=======
+import com.trx.consumer.stripe.StripeBackendManager
+
+>>>>>>> e7305e2bbfd965c21415be5d5cf5cb35a583e3fc
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -120,4 +129,13 @@ object MainModule {
     @Provides
     @Singleton
     fun provideConfigManager(): ConfigManager = ConfigManager()
-}
+
+    @Provides
+    @Singleton
+    fun provideStripe(@ApplicationContext context: Context): Stripe =
+        Stripe(context, kStripeApiKey)
+
+    @Provides
+    @Singleton
+    fun provideStripeBackendManager(stripe: Stripe): StripeBackendManager =
+        StripeBackendManager(stripe)

@@ -39,7 +39,7 @@ enum class EmailViewState {
 
     @get:ColorRes
     val successButtonTextColor: Int
-        get() = R.color.blackRussian
+        get() = R.color.black
 
     @get:ColorRes
     val normalButtonTextColor: Int
@@ -47,5 +47,5 @@ enum class EmailViewState {
 
     @get:ColorRes
     val normalButtonBgColor: Int
-        get() = R.color.blackRussian
+        get() = R.color.black
 }
