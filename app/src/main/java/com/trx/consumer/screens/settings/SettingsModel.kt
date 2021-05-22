@@ -24,7 +24,7 @@ class SettingsModel {
     val titleTextColor: Int
         get() = when (type) {
             SettingsType.LOGOUT -> R.color.red
-            else -> R.color.blackRussian
+            else -> R.color.black
         }
 
     val titleTextSize: Int

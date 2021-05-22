@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:backgroundColor="@color/white">
@@ -18,19 +19,17 @@
             android:id="@+id/viewNavBar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/top_bar_height"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.trx.consumer.common.CommonImageView
                 android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:minHeight="35dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_btn_back"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -39,14 +38,13 @@
 
             <com.trx.consumer.common.CommonImageView
                 android:id="@+id/btnClose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:minHeight="35dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="10dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_btn_close_white"
                 android:tint="@color/black"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -55,16 +53,18 @@
 
         <com.trx.consumer.common.CommonLabel
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/atcarquette_bold"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="15dp"
+            android:fontFamily="@font/atcarquette_semibold"
+            android:gravity="center_vertical"
             android:text="@string/add_card_title"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:textAllCaps="true" />
+            app:textAllCaps="true"
+            tools:ignore="SmallSp" />
 
     </com.trx.consumer.common.CommonView>
 
