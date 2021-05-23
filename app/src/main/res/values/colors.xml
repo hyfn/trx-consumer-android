@@ -4,7 +4,6 @@
     <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
     <color name="blackAlpha20">#33000000</color>
-    <color name="charcoal">#19191C</color>
     <color name="white" tools:override="true">#FFFFFF</color>
 
     <color name="greyDarkExtra">#6D6D6D</color>
@@ -16,13 +15,11 @@
     <color name="blueDark">#2E496C</color>
     <color name="blue">#4C79B4</color>
     <color name="blueLight">#82D4EE</color>
-    <color name="blueVivid">#1877F2</color>
 
     <color name="purple">#C97EED</color>
     <color name="yellow">#FFE41F</color>
     <color name="red">#F01C1C</color>
-    <color name="green">#81F9BF</color>
-    <color name="greenSuccess">#00C361</color>
+    <color name="green">#00C361</color>
     <color name="redAlpha">#FEE8E8</color>
 
     <!-- Brightcove player -->
