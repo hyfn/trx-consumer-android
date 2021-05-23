@@ -10,7 +10,8 @@ enum class BookingState {
     CANCEL,
     JOIN,
     VIDEO,
-    VIEW;
+    VIEW,
+    DISABLED;
 
     val show: Boolean
         get() = this == BOOKED || this == BOOK
@@ -39,6 +40,7 @@ enum class BookingState {
                 VIDEO -> R.color.white
                 VIEW -> R.color.white
                 CANCEL -> R.color.red
+                else -> R.color.white
             }
         }
 
@@ -52,6 +54,7 @@ enum class BookingState {
                 VIDEO -> R.color.black
                 VIEW -> R.color.black
                 CANCEL -> R.color.redLight
+                else -> R.color.black
             }
         }
 }

@@ -21,13 +21,13 @@ class WorkoutModel(
     val priceInCents: Int = 0,
     val remaining: String = "",
     val trainer: TrainerModel = TrainerModel(),
-    val state: BookingState = BookingState.BOOK,
-    val mode: String = "",
+    var state: BookingState = BookingState.BOOK,
+    var mode: String = "",
     val identifier: String = "",
     val sessionId: String = "",
     val cancelId: String? = null,
     val bookingTimestamp: Double = 0.0,
-    val video: VideoModel = VideoModel()
+    var video: VideoModel = VideoModel()
 ) : Parcelable {
 
     val date: Date

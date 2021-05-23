@@ -234,4 +234,7 @@
     <string name="filters_options_btn_all_label">Clear Filters</string>
     <string name="filters_options_selected_filter_label">(%1$d)</string>
     <string name="filters_options_selected_filter_default_label"> </string>
+
+    <string name="videos_related_label">Related Workouts</string>
+    <string name="videos_btn_primary_label">Start Workout</string>
 </resources>

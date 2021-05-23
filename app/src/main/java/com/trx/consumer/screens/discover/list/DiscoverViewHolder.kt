@@ -7,7 +7,8 @@ import com.trx.consumer.common.CommonLabel
 import com.trx.consumer.common.CommonView
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.extensions.load
-import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.common.VideoModel
+import com.trx.consumer.models.common.VideosModel
 
 class DiscoverViewHolder(view: View) : CommonViewHolder(view) {
 
@@ -17,11 +18,18 @@ class DiscoverViewHolder(view: View) : CommonViewHolder(view) {
     private val imgPoster: CommonImageView = view.findViewById(R.id.imgPoster)
     private val viewMain: CommonView = view.findViewById(R.id.viewMain)
 
-    fun setup(item: WorkoutModel, listener: DiscoverListener) {
-        lblHeader.text = item.duration
-        lblTitle.text = item.video.name
+    fun setup(item: VideoModel, listener: DiscoverListener) {
+        lblHeader.text = item.videoDuration
+        lblTitle.text = item.name
         lblSubtitle.text = item.trainer.displayName
-        imgPoster.load(item.video.poster)
-        viewMain.action { listener.doTapDiscover(item) }
+        imgPoster.load(item.poster)
+        viewMain.action { listener.doTapVideo(item) }
+    }
+    fun setup(item: VideosModel, listener: DiscoverListener) {
+        lblHeader.text = item.numberOfVideosDisplay
+        lblTitle.text = item.title
+        lblSubtitle.text = item.trainer.displayName
+        imgPoster.load(item.poster)
+        viewMain.action { listener.doTapVideos(item) }
     }
 }
