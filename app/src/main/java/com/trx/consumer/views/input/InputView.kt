@@ -17,6 +17,7 @@ import com.trx.consumer.extensions.dismiss
 import com.trx.consumer.extensions.getInputType
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.screens.datepicker.DatePickerModel
+import com.trx.consumer.screens.email.EmailViewState
 import java.util.TimeZone
 
 class InputView @JvmOverloads constructor(
@@ -104,6 +105,21 @@ class InputView @JvmOverloads constructor(
         mInputViewHandler.setHandlerState(newState)
         layoutInput.hint = context.getString(newState.placeholder)
         update()
+    }
+
+    fun setEmailInputViewState(state: EmailViewState) {
+        state.contentType.let { newState ->
+            mState = newState
+            mInputViewHandler.setHandlerState(newState)
+            update()
+        }
+
+        //  TODO: Possibly set hintTextAppearance
+        layoutInput.apply {
+            hint = context.getString(state.title)
+            placeholderText = context.getString(state.placeholder)
+            isExpandedHintEnabled = false
+        }
     }
 
     fun dismiss() {
