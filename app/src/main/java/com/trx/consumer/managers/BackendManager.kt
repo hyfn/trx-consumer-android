@@ -53,6 +53,12 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         }
     }
 
+    suspend fun forgot(email: String): ResponseModel {
+        val params = hashMapOf<String, Any>("email" to email)
+        val path = EndpointModel.LOGIN.path
+        return call(RequestModel(endpoint = EndpointModel.FORGOT, path = path, params = params))
+    }
+
     suspend fun login(email: String, password: String): ResponseModel {
         val params = hashMapOf<String, Any>(
             "email" to email,
