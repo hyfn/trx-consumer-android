@@ -16,7 +16,7 @@ class VideosViewModel : BaseViewModel(), DiscoverListener {
     val eventTapBack = CommonLiveEvent<Void>()
     val eventLoadView = CommonLiveEvent<VideosModel>()
     val eventTapVideo = CommonLiveEvent<VideoModel>()
-    val eventTapProfile =  CommonLiveEvent<TrainerModel>()
+    val eventTapProfile = CommonLiveEvent<TrainerModel>()
     val eventTapStartWorkout = CommonLiveEvent<WorkoutModel>()
 
     fun doLoadView() {

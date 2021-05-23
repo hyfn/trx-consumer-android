@@ -71,11 +71,10 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
     }
 
     private val handleTapStartWorkout = Observer<WorkoutModel> {
-        //NavigationManager.shared.present(this, R.id.player_view, it) TODO: Player start from here
+        // NavigationManager.shared.present(this, R.id.player_view, it) TODO: Player start from here
     }
 
     private val handleTapProfile = Observer<TrainerModel> { model ->
-        NavigationManager.shared.present(this, R.id.workout_fragment, model)
+        NavigationManager.shared.present(this, R.id.trainer_fragment, model)
     }
-
 }
