@@ -19,7 +19,7 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
     private val viewModel: SubscriptionsViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentSubscriptionsBinding::bind)
 
-    private var state = SubscriptionsViewState.CURRENT
+    private var state = SubscriptionsViewState.OTHER
 
     private lateinit var adapter: SubscriptionsAdapter
 
