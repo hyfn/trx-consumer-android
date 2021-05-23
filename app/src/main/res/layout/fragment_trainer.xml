@@ -63,7 +63,7 @@
                     android:fontFamily="@font/atcarquette_bold"
                     android:gravity="center"
                     android:text="Arnold B."
-                    android:textColor="@color/blackRussian"
+                    android:textColor="@color/black"
                     android:textSize="32sp"
                     app:layout_constraintTop_toBottomOf="@id/imgPhoto"
                     tools:text="Arnold B." />
@@ -90,7 +90,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
                 android:fontFamily="@font/atcarquette_regular"
-                android:textColor="@color/blackRussian"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/lblAboutMe" />
 
@@ -125,7 +125,7 @@
                 android:padding="15dp"
                 android:text="@string/trainer_button_view_schedule"
                 android:textAllCaps="true"
-                android:textColor="@color/blackRussian"
+                android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vLineOne" />
@@ -206,7 +206,7 @@
                 android:padding="15dp"
                 android:text="@string/trainer_button_see_all"
                 android:textAllCaps="true"
-                android:textColor="@color/blackRussian"
+                android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vLineThree" />
