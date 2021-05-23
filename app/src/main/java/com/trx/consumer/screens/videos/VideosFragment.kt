@@ -10,6 +10,7 @@ import com.trx.consumer.databinding.FragmentVideosBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.load
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.screens.discover.list.DiscoverAdapter
 
@@ -28,6 +29,8 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
 
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
+            eventTapDiscoverWorkout.observe(viewLifecycleOwner, handleTapDiscoverWorkout)
+            eventTapDiscoverCollections.observe(viewLifecycleOwner, handleTapDiscoverCollections)
 
             doLoadView()
         }
@@ -56,7 +59,15 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
             lblTrainerName.text = model.trainer.fullName
             lblSummary.text = model.description
             imgTrainerProfile.load(model.trainer.profilePhoto)
-             adapter.updateVideos(model.videos)
+            adapter.updateVideos(model.videos)
         }
+    }
+
+    private val handleTapDiscoverWorkout = Observer<VideoModel> {
+        NavigationManager.shared.present(this, R.id.workout_fragment, it)
+    }
+
+    private val handleTapDiscoverCollections = Observer<VideosModel> {
+        NavigationManager.shared.present(this, R.id.videos_fragment, it)
     }
 }

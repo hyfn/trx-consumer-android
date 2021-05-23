@@ -29,7 +29,7 @@ data class VideoResponseModel(
                     }
                 }
 
-                data.optJSONArray("programs")?.let { safeJson ->
+                data?.optJSONArray("programs")?.let { safeJson ->
                     for (index in 0 until safeJson.length()) {
                         safeJson.get(index)?.let {
                             if (it is JSONObject) {
@@ -48,6 +48,8 @@ data class VideoResponseModel(
                         }
                     }
                 }
+
+                filters = FilterModel.filters((data?.optJSONObject("filters") as JSONObject))
 
             }
         }

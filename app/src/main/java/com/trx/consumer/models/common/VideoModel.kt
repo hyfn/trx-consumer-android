@@ -10,6 +10,7 @@ import org.json.JSONObject
 class VideoModel(
     var name: String = "",
     var duration: Int = 0,
+    var description: String = "",
     var id: String = "0",
     var poster: String = "",
     var trainer: TrainerModel = TrainerModel(),
@@ -31,6 +32,7 @@ class VideoModel(
                     duration = videoJson.optInt("duration")
                     id = videoJson.optString("id")
                     poster = videoJson.optString("poster")
+                    description = videoJson.optString("description")
                 }
                 trainer = jsonObject.optJSONObject("trainer")?.let { TrainerModel.parse(it) }
                     ?: TrainerModel()
