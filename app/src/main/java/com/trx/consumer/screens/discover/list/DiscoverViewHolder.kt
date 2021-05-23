@@ -8,6 +8,7 @@ import com.trx.consumer.common.CommonView
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.extensions.load
 import com.trx.consumer.models.common.VideoModel
+import com.trx.consumer.models.common.VideosModel
 
 class DiscoverViewHolder(view: View) : CommonViewHolder(view) {
 
@@ -22,6 +23,13 @@ class DiscoverViewHolder(view: View) : CommonViewHolder(view) {
         lblTitle.text = item.name
         lblSubtitle.text = item.trainer.displayName
         imgPoster.load(item.poster)
-        viewMain.action { listener.doTapDiscover(item) }
+        viewMain.action { listener.doTapDiscoverWorkout(item) }
+    }
+    fun setup(item: VideosModel, listener: DiscoverListener) {
+        lblHeader.text = item.numberOfVideosDisplay
+        lblTitle.text = item.title
+        lblSubtitle.text = item.trainer.displayName
+        imgPoster.load(item.poster)
+        viewMain.action { listener.doTapDiscoverCollections(item) }
     }
 }

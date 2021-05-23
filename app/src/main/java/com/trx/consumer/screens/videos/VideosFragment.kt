@@ -10,7 +10,7 @@ import com.trx.consumer.databinding.FragmentVideosBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.load
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.screens.discover.list.DiscoverAdapter
 
 class VideosFragment : BaseFragment(R.layout.fragment_videos) {
@@ -21,10 +21,10 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
     private lateinit var adapter: DiscoverAdapter
 
     override fun bind() {
-        val model = NavigationManager.shared.params(this) as WorkoutModel
+        val model = NavigationManager.shared.params(this) as VideosModel
 
         viewModel.apply {
-            workoutModel = model
+            videosModel = model
 
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
@@ -48,17 +48,15 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
         NavigationManager.shared.dismiss(this)
     }
 
-    private val handleLoadView = Observer<WorkoutModel> {
+    private val handleLoadView = Observer<VideosModel> { model ->
         viewBinding.apply {
-            imgHeader.load(it.imageUrl)
-            lblTitle.text = it.video.name
-            lblSubtitle.text = it.duration
-            lblRelatedItems.text = "Related Workouts"
-            btnPrimary.text = "Start Workout"
-            lblTrainerName.text = it.trainer.fullName
-            lblSummary.text = it.trainer.bio
-            imgTrainerProfile.load(it.trainer.profilePhoto)
-            // adapter.updateVideos(WorkoutModel.testList(5))
+            imgHeader.load(model.poster)
+            lblTitle.text = model.title
+            lblSubtitle.text = model.numberOfVideosDisplay
+            lblTrainerName.text = model.trainer.fullName
+            lblSummary.text = model.description
+            imgTrainerProfile.load(model.trainer.profilePhoto)
+             adapter.updateVideos(model.videos)
         }
     }
 }

@@ -13,6 +13,7 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.VideoModel
+import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterAdapter
 import com.trx.consumer.screens.discover.list.DiscoverAdapter
@@ -33,7 +34,8 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             eventLoadWorkouts.observe(viewLifecycleOwner, handleLoadWorkouts)
             eventLoadCollections.observe(viewLifecycleOwner, handleLoadCollections)
             eventLoadPrograms.observe(viewLifecycleOwner, handleLoadPrograms)
-            eventTapDiscover.observe(viewLifecycleOwner, handleTapDiscover)
+            eventTapDiscoverWorkout.observe(viewLifecycleOwner, handleTapDiscoverWorkout)
+            eventTapDiscoverCollections.observe(viewLifecycleOwner, handleTapDiscoverCollections)
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadFilters.observe(viewLifecycleOwner, handleLoadFilters)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
@@ -67,23 +69,23 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         viewBinding.hudView.isVisible = show
     }
 
-    private val handleTapDiscover = Observer<VideoModel> {
-        NavigationManager.shared.present(
-            this,
-            R.id.workout_fragment,
-            it
-        )
+    private val handleTapDiscoverWorkout = Observer<VideoModel> {
+        NavigationManager.shared.present(this, R.id.workout_fragment, it)
+    }
+
+    private val handleTapDiscoverCollections = Observer<VideosModel> {
+        NavigationManager.shared.present(this, R.id.videos_fragment, it)
     }
 
     private val handleLoadWorkouts = Observer<List<VideoModel>> {
         adapter.updateVideos(it)
     }
 
-    private val handleLoadCollections = Observer<List<VideoModel>> {
+    private val handleLoadCollections = Observer<List<VideosModel>> {
         adapter.updateVideos(it)
     }
 
-    private val handleLoadPrograms = Observer<List<VideoModel>> {
+    private val handleLoadPrograms = Observer<List<VideosModel>> {
         adapter.updateVideos(it)
     }
 
