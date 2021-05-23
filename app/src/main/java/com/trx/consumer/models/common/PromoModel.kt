@@ -2,16 +2,26 @@ package com.trx.consumer.models.common
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import org.json.JSONObject
 
 @Parcelize
 class PromoModel(
-    var identifier: String = "",
-    var ctaHref: String = "",
-    var title: String = "",
-    var imageUrl: String = ""
+    var identifier: String,
+    var ctaHref: String,
+    var title: String,
+    var imageUrl: String
 ) : Parcelable {
 
     companion object {
+
+        fun parse(jsonObject: JSONObject): PromoModel {
+            return PromoModel(
+                identifier = jsonObject.getString("productId"),
+                ctaHref = jsonObject.getString("ctaHref"),
+                title = jsonObject.getString("whiteText"),
+                imageUrl = jsonObject.getString("imageUrl")
+            )
+        }
 
         fun test(): PromoModel {
             return PromoModel(

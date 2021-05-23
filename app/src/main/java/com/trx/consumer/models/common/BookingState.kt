@@ -51,7 +51,7 @@ enum class BookingState {
                 JOIN -> R.color.black
                 VIDEO -> R.color.black
                 VIEW -> R.color.black
-                CANCEL -> R.color.redAlpha
+                CANCEL -> R.color.redLight
             }
         }
 }

@@ -112,5 +112,9 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <com.trx.consumer.common.CommonHudView
+        android:id="@+id/hudView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </com.trx.consumer.common.CommonView>
