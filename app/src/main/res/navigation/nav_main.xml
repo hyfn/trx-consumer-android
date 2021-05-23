@@ -138,6 +138,12 @@
         android:label="WorkoutFragment"
         tools:layout="@layout/fragment_workout" />
 
+    <fragment
+        android:id="@+id/trainer_fragment"
+        android:name="com.trx.consumer.screens.trainer.TrainerFragment"
+        android:label="TrainerFragment"
+        tools:layout="@layout/fragment_trainer" />
+
     <dialog
         android:id="@+id/date_picker_fragment"
         android:name="com.trx.consumer.screens.datepicker.DatePickerFragment"

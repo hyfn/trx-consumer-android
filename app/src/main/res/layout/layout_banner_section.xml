@@ -5,84 +5,83 @@
     android:id="@+id/viewMain"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:visibility="gone"
     app:backgroundColor="@color/white"
-    tools:ignore="SmallSp">
+    tools:ignore="SmallSp"
+    tools:visibility="visible">
 
     <com.trx.consumer.common.CommonLabel
-        android:id="@+id/lblTitle"
+        android:id="@+id/lblBanner"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center"
+        android:text="@string/home_banner_section_title_label"
         android:textColor="@color/grey"
         android:textSize="11sp"
-        android:text="@string/home_banner_section_title_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="TRY TRX TRAINING CLUB" />
 
-    <com.trx.consumer.common.CommonView
+    <com.trx.consumer.common.CommonImageView
+        android:id="@+id/imgBanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/lblTitle">
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblBanner"
+        tools:src="@drawable/img_media_home" />
 
-        <com.trx.consumer.common.CommonImageView
-            android:id="@+id/imgBg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_media_home"/>
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblTitle"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@id/lblSubtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="More Ways to Train" />
 
-        <com.trx.consumer.common.CommonLabel
-            android:id="@+id/lblSubtitle"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:textSize="24sp"
-            android:gravity="center_vertical"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/atcarquette_bold"
-            android:textColor="@color/white"
-            android:text="@string/home_banner_title_label"
-            app:layout_constraintBottom_toTopOf="@id/lblDescription"
-            tools:text="More Ways to Train"/>
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblSubtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/atcarquette_regular"
+        android:lineSpacingExtra="4sp"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@id/btnPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_goneMarginBottom="15dp"
+        tools:text="Try TRX Training Club and experience LIVE Classes and get matched with a Virtual Personal Trainer for free. " />
 
-        <com.trx.consumer.common.CommonLabel
-            android:id="@+id/lblDescription"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:textSize="15sp"
-            android:text="@string/home_banner_description_label"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/atcarquette_regular"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/btnPrimary"
-            tools:text="Try TRX Training Club and experience LIVE Classes and get matched with a Virtual Personal Trainer for free. "/>
-
-        <com.trx.consumer.common.CommonButton
-            android:id="@+id/btnPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
-            android:fontFamily="@font/atcarquette_bold"
-            android:gravity="center"
-            android:text="@string/home_banner_btn_label"
-            android:textColor="@color/black"
-            android:textSize="13sp"
-            app:backgroundColor="@color/yellow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:visibility="visible"
-            tools:text="LEARN MORE"/>
-
-    </com.trx.consumer.common.CommonView>
-
+    <com.trx.consumer.common.CommonButton
+        android:id="@+id/btnPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        app:backgroundColor="@color/yellow"
+        app:layout_constraintBottom_toBottomOf="@id/imgBanner"
+        tools:text="LEARN MORE"
+        tools:visibility="visible" />
 
 </com.trx.consumer.common.CommonView>
