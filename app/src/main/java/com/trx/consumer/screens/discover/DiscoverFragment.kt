@@ -16,7 +16,6 @@ import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterAdapter
-import com.trx.consumer.screens.discover.list.DiscoverAdapter
 import com.trx.consumer.screens.videoworkout.VideoAdapter
 
 class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {

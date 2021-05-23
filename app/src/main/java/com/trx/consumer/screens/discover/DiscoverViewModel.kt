@@ -11,7 +11,6 @@ import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.models.responses.VideoResponseModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterListener
-import com.trx.consumer.screens.discover.list.DiscoverListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 import kotlinx.coroutines.launch
 

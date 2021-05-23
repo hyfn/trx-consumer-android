@@ -8,8 +8,6 @@ import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
-import com.trx.consumer.screens.discover.list.DiscoverAdapter
-import com.trx.consumer.screens.discover.list.DiscoverViewHolder
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 import java.lang.Exception

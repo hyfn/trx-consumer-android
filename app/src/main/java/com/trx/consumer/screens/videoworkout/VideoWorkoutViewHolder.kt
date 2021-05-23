@@ -9,7 +9,6 @@ import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.extensions.load
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
-import com.trx.consumer.screens.discover.list.DiscoverListener
 
 class VideoWorkoutViewHolder(view: View) : CommonViewHolder(view) {
 
