@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:backgroundColor="@color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <com.trx.consumer.common.CommonView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp">
+
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewHeader"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:backgroundColor="@color/greyLightExtra">
+
+                <com.trx.consumer.common.CommonView
+                    android:id="@+id/viewNavBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/top_bar_height"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="5dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.trx.consumer.common.CommonImageView
+                        android:id="@+id/btnBack"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_btn_back"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </com.trx.consumer.common.CommonView>
+
+                <com.trx.consumer.common.CommonImageView
+                    android:id="@+id/imgPhoto"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="30dp"
+                    android:src="@drawable/ic_img_placeholder"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/viewNavBar"
+                    app:shapeAppearance="@style/CircularAppearance" />
+
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="center"
+                    android:text="Arnold B."
+                    android:textColor="@color/blackRussian"
+                    android:textSize="32sp"
+                    app:layout_constraintTop_toBottomOf="@id/imgPhoto"
+                    tools:text="Arnold B." />
+
+
+            </com.trx.consumer.common.CommonView>
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblAboutMe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/atcarquette_bold"
+                android:padding="15dp"
+                android:text="@string/trainer_about_me_label"
+                android:textAllCaps="true"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@+id/viewHeader" />
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/atcarquette_regular"
+                android:textColor="@color/blackRussian"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@+id/lblAboutMe" />
+
+            <View
+                android:id="@+id/vLineOne"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/greyLight"
+                app:layout_constraintTop_toBottomOf="@+id/lblSummary" />
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblUpcomingClasses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:padding="15dp"
+                android:text="@string/trainer_upcoming_classes_label"
+                android:textAllCaps="true"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vLineOne" />
+
+            <com.trx.consumer.common.CommonButton
+                android:id="@+id/btnViewSchedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:padding="15dp"
+                android:text="@string/trainer_button_view_schedule"
+                android:textAllCaps="true"
+                android:textColor="@color/blackRussian"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vLineOne" />
+
+            <com.trx.consumer.common.CommonRecyclerView
+                android:id="@+id/rvUpcomingClasses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/lblUpcomingClasses"
+                tools:listitem="@layout/row_live_workout_collection" />
+
+            <View
+                android:id="@+id/vLineTwo"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/greyLight"
+                app:layout_constraintTop_toBottomOf="@+id/rvUpcomingClasses" />
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblServices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:padding="15dp"
+                android:text="@string/trainer_services_label"
+                android:textAllCaps="true"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vLineTwo" />
+
+            <com.trx.consumer.common.CommonRecyclerView
+                android:id="@+id/rvServices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/lblServices"
+                tools:itemCount="2"
+                tools:listitem="@layout/row_trainer_service" />
+
+            <View
+                android:id="@+id/vLineThree"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/greyLight"
+                app:layout_constraintTop_toBottomOf="@+id/rvServices" />
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblOnDemandClasses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:padding="15dp"
+                android:text="@string/trainer_on_demand_classes_label"
+                android:textAllCaps="true"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vLineThree" />
+
+            <com.trx.consumer.common.CommonButton
+                android:id="@+id/btnSeeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:padding="15dp"
+                android:text="@string/trainer_button_see_all"
+                android:textAllCaps="true"
+                android:textColor="@color/blackRussian"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vLineThree" />
+
+            <com.trx.consumer.common.CommonRecyclerView
+                android:id="@+id/rvOnDemandClasses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/lblOnDemandClasses"
+                tools:itemCount="2"
+                tools:listitem="@layout/row_trainer_on_demand_class" />
+
+            <View
+                android:id="@+id/vLineFour"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/greyLight"
+                app:layout_constraintTop_toBottomOf="@+id/rvOnDemandClasses" />
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblForYou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:padding="15dp"
+                android:text="@string/trainer_for_you_label"
+                android:textAllCaps="true"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vLineFour" />
+
+            <include
+                layout="@layout/layout_trainer_for_you_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/lblForYou" />
+
+
+        </com.trx.consumer.common.CommonView>
+
+
+    </ScrollView>
+
+</com.trx.consumer.common.CommonView>

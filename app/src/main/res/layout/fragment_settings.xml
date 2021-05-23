@@ -7,24 +7,27 @@
     app:backgroundColor="@color/greyLightExtra">
 
     <com.trx.consumer.common.CommonView
-        android:id="@+id/viewHeader"
+        android:id="@+id/viewNavBar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/top_bar_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.trx.consumer.common.CommonLabel
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/lblTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginStart="15dp"
-            android:layout_marginBottom="20dp"
             android:fontFamily="@font/atcarquette_bold"
+            android:gravity="center_vertical"
             android:text="@string/settings_title"
-            android:textColor="@color/blackRussian"
+            android:textColor="@color/black"
             android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="SmallSp" />
-
 
     </com.trx.consumer.common.CommonView>
 
@@ -33,7 +36,7 @@
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewHeader">
+        app:layout_constraintTop_toBottomOf="@id/viewNavBar">
 
         <com.trx.consumer.common.CommonView
             android:layout_width="match_parent"

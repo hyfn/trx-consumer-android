@@ -53,6 +53,11 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         }
     }
 
+    suspend fun banner(): ResponseModel {
+        val path = EndpointModel.BANNER.path
+        return call(RequestModel(endpoint = EndpointModel.BANNER, path = path, params = null))
+    }
+
     suspend fun login(email: String, password: String): ResponseModel {
         val params = hashMapOf<String, Any>(
             "email" to email,
@@ -70,6 +75,21 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
             LogManager.log(e)
         }
         return user()
+    }
+
+    suspend fun paymentAdd(id: String): ResponseModel {
+        val path = EndpointModel.PAYMENT_ADD.path + "/" + id
+        return call(RequestModel(endpoint = EndpointModel.PAYMENT_ADD, path, params = null))
+    }
+
+    suspend fun paymentDelete(id: String): ResponseModel {
+        val path = EndpointModel.PAYMENT_DELETE.path + "/" + id
+        return call(RequestModel(endpoint = EndpointModel.PAYMENT_DELETE, path, params = null))
+    }
+
+    suspend fun promos(): ResponseModel {
+        val path = EndpointModel.PROMOS.path
+        return call(RequestModel(endpoint = EndpointModel.PROMOS, path = path, params = null))
     }
 
     suspend fun register(params: HashMap<String, Any>): ResponseModel {
@@ -111,5 +131,10 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
     suspend fun update(params: HashMap<String, Any>): ResponseModel {
         val path = EndpointModel.UPDATE.path
         return call(RequestModel(endpoint = EndpointModel.UPDATE, path = path, params = params))
+    }
+
+    suspend fun videos(): ResponseModel {
+        val path = EndpointModel.VIDEOS.path
+        return call(RequestModel(endpoint = EndpointModel.VIDEOS, path = path, params = null))
     }
 }

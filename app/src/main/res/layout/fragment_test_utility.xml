@@ -181,7 +181,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="13sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblCards" />
@@ -213,7 +213,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblAddCard" />
@@ -243,7 +243,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblUpdate" />
@@ -274,7 +274,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblContent" />
@@ -305,7 +305,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblPlans" />
@@ -335,7 +335,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblFilter" />
@@ -365,7 +365,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblDiscover" />
@@ -396,7 +396,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblPlayer" />
@@ -426,7 +426,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblAlert" />
@@ -456,7 +456,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblWelcome" />
@@ -486,7 +486,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblSettings" />
@@ -516,11 +516,40 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblWorkout" />
 
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblTrainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/test_utility_trainer_label"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnWorkout" />
+
+            <com.trx.consumer.common.CommonButton
+                android:id="@+id/btnTrainer"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:gravity="center"
+                android:text="@string/test_utility_trainer_label"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:backgroundColor="@color/blackRussian"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblTrainer" />
 
         </com.trx.consumer.common.CommonView>
 
