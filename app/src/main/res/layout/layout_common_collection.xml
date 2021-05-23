@@ -5,8 +5,10 @@
     android:id="@+id/viewMain"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:visibility="gone"
     app:backgroundColor="@color/white"
-    tools:ignore="SmallSp">
+    tools:ignore="SmallSp"
+    tools:visibility="visible">
 
     <com.trx.consumer.common.CommonLabel
         android:id="@+id/lblTitle"
@@ -30,14 +32,14 @@
         android:layout_marginEnd="15dp"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center"
-        android:text="@string/live_button_schedule_label"
         android:textColor="@color/black"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="SCHEDULE →" />
 
     <com.trx.consumer.common.CommonRecyclerView
-        android:id="@+id/rvLiveWorkouts"
+        android:id="@+id/rvCollection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"

@@ -1,8 +1,10 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
-import android.text.format.DateUtils
+import com.trx.consumer.BuildConfig
+import com.trx.consumer.extensions.elapsedMin
 import com.trx.consumer.extensions.format
+import com.trx.consumer.extensions.isToday
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.time.Instant
@@ -21,22 +23,22 @@ class WorkoutModel(
     val priceInCents: Int = 0,
     val remaining: String = "",
     val trainer: TrainerModel = TrainerModel(),
-    val state: BookingState = BookingState.BOOK,
+    var state: BookingState = BookingState.BOOK,
     val mode: String = "",
-    val identifier: String = "",
-    val sessionId: String = "",
-    val cancelId: String? = null,
+    var identifier: String = "",
+    var sessionId: String = "",
+    var cancelId: String? = null,
     val bookingTimestamp: Double = 0.0,
     val video: VideoModel = VideoModel()
 ) : Parcelable {
 
     val date: Date
-        get() = Date.from(Instant.ofEpochMilli(startsAt.toLong()))
+        get() = Date.from(Instant.ofEpochMilli(startsAt))
 
     val dateDisplay: String
         get() {
             val date = date
-            return if (DateUtils.isToday(date.time)) {
+            return if (date.isToday()) {
                 "Today"
             } else {
                 date.format(format = "MMM d", zone = TimeZone.getDefault())
@@ -54,6 +56,39 @@ class WorkoutModel(
 
     val time: String
         get() = date.format("h:mm a", zone = TimeZone.getDefault())
+
+    val isCanceled: Boolean
+        get() = canceledAt != null
+
+    val workoutState: WorkoutViewState
+        get() = WorkoutViewState.from(mode)
+
+    // Updated workout model when it comes from the booking endpoint.
+    val booking: WorkoutModel
+        get() {
+            state = BookingState.BOOKED
+            cancelId = when (workoutState) {
+                WorkoutViewState.LIVE -> identifier
+                WorkoutViewState.VIRTUAL -> sessionId
+                else -> cancelId
+            }
+            val tempIdentifier = sessionId
+            sessionId = identifier
+            identifier = tempIdentifier
+
+            return this
+        }
+
+    val cellViewStatus: WorkoutCellViewState
+        get() {
+            if (workoutState == WorkoutViewState.VIRTUAL) {
+                if (date.elapsedMin() < BuildConfig.kMinutesAfterCanJoin) {
+                    return WorkoutCellViewState.SOON
+                }
+            }
+            return WorkoutCellViewState.VIEW
+        }
+
 
     companion object {
 

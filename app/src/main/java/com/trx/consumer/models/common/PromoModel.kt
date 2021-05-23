@@ -16,10 +16,10 @@ class PromoModel(
 
         fun parse(jsonObject: JSONObject): PromoModel {
             return PromoModel(
-                identifier = jsonObject.getString("productId"),
-                ctaHref = jsonObject.getString("ctaHref"),
-                title = jsonObject.getString("whiteText"),
-                imageUrl = jsonObject.getString("imageUrl")
+                identifier = jsonObject.optString("productId"),
+                ctaHref = jsonObject.optString("ctaHref"),
+                title = jsonObject.optString("whiteText"),
+                imageUrl = jsonObject.optString("imageUrl")
             )
         }
 

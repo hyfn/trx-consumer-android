@@ -4,7 +4,7 @@ import com.trx.consumer.models.common.WorkoutModel
 
 interface LiveWorkoutListener {
 
-    fun doTapBook(model: WorkoutModel)
+    fun doTapBookLiveWorkout(model: WorkoutModel)
 
-    fun doTapSelect(model: WorkoutModel)
+    fun doTapSelectLiveWorkout(model: WorkoutModel)
 }

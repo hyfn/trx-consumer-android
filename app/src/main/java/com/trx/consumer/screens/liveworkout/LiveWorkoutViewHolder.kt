@@ -27,8 +27,8 @@ class LiveWorkoutViewHolder(view: View) : CommonViewHolder(view) {
 
         btnBook.apply {
             text(context.getString(model.state.buttonTitle))
-            action { listener.doTapBook(model) }
+            action { listener.doTapBookLiveWorkout(model) }
         }
-        btnSelect.action { listener.doTapSelect(model) }
+        btnSelect.action { listener.doTapSelectLiveWorkout(model) }
     }
 }

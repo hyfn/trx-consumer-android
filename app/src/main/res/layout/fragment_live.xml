@@ -16,29 +16,31 @@
             android:layout_height="match_parent">
 
             <include
-                android:id="@+id/viewToday"
-                layout="@layout/layout_live_workout_section"
+                android:id="@+id/viewUpcoming"
+                layout="@layout/layout_common_collection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <include
+                android:id="@+id/viewToday"
+                layout="@layout/layout_common_collection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/viewUpcoming" />
 
             <include
                 android:id="@+id/viewTomorrow"
-                layout="@layout/layout_live_workout_section"
+                layout="@layout/layout_common_collection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/viewToday"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toBottomOf="@id/viewToday" />
 
             <include
-                android:id="@+id/viewUpcoming"
-                layout="@layout/layout_live_workout_section"
+                android:id="@+id/viewRecommended"
+                layout="@layout/layout_common_collection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/viewTomorrow" />
 
             <com.trx.consumer.common.CommonImageView
@@ -47,44 +49,16 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/greyLightExtra"
-                app:layout_constraintTop_toBottomOf="@id/viewUpcoming"
+                app:layout_constraintTop_toBottomOf="@id/viewRecommended"
                 tools:visibility="visible" />
 
-            <com.trx.consumer.common.CommonView
+            <include
                 android:id="@+id/viewTrainers"
+                layout="@layout/layout_common_collection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/greyLight"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/imgLineTrainers"
-                tools:visibility="visible">
-
-                <com.trx.consumer.common.CommonLabel
-                    android:id="@+id/lblTrainersTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:fontFamily="@font/atcarquette_bold"
-                    android:gravity="center_vertical"
-                    android:text="@string/live_trainers_title_label"
-                    android:textColor="@color/grey"
-                    android:textSize="11sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.trx.consumer.common.CommonRecyclerView
-                    android:id="@+id/rvTrainerProfiles"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/lblTrainersTitle"
-                    tools:listitem="@layout/row_trainer_profile_collection" />
-
-            </com.trx.consumer.common.CommonView>
+                app:layout_constraintTop_toBottomOf="@id/imgLineTrainers" />
 
             <com.trx.consumer.common.CommonImageView
                 android:id="@+id/imgLinePromotions"
@@ -92,50 +66,23 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/greyLight"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/viewTrainers" />
 
-            <com.trx.consumer.common.CommonView
+            <include
                 android:id="@+id/viewPromotions"
+                layout="@layout/layout_common_collection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/imgLinePromotions"
-                tools:visibility="visible">
-
-                <com.trx.consumer.common.CommonLabel
-                    android:id="@+id/lblPromotionsTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:fontFamily="@font/atcarquette_bold"
-                    android:gravity="center_vertical"
-                    android:text="@string/live_promotions_title_label"
-                    android:textColor="@color/grey"
-                    android:textSize="11sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.trx.consumer.common.CommonRecyclerView
-                    android:id="@+id/rv_promos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/lblPromotionsTitle"
-                    tools:listitem="@layout/row_promotion_collection" />
-
-            </com.trx.consumer.common.CommonView>
-
-            <com.trx.consumer.common.CommonImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                app:layout_constraintTop_toBottomOf="@id/viewPromotions" />
+                app:layout_constraintTop_toBottomOf="@id/imgLinePromotions"/>
 
         </com.trx.consumer.common.CommonView>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.trx.consumer.common.CommonHudView
+        android:id="@+id/hudView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </com.trx.consumer.common.CommonView>

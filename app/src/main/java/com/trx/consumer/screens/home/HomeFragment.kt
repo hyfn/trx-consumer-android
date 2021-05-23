@@ -141,7 +141,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private fun loadPromos(promos: List<PromoModel>) {
         promoAdapter.update(promos)
         viewBinding.apply {
-            viewPromos.lblTitle.text = getString(R.string.home_promotions_top_title_label)
+            viewPromos.lblTitle.text = getString(R.string.promotions_top_title_label)
             viewPromos.viewMain.isHidden = promos.isEmpty()
         }
     }
