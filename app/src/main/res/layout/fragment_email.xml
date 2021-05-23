@@ -14,38 +14,38 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.trx.consumer.common.CommonView
+            android:id="@+id/viewHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.trx.consumer.common.CommonImageView
-                android:id="@+id/ivHeader"
-                android:layout_width="0dp"
-                android:layout_height="240dp"
+                android:id="@+id/imgHeader"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img_media_email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/img_media_email_code" />
 
             <com.trx.consumer.common.CommonLabel
-                android:id="@+id/lblTitle"
+                android:id="@+id/lblHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="30dp"
                 android:fontFamily="@font/atcarquette_bold"
                 android:textColor="@color/white"
                 android:textSize="32sp"
-                app:layout_constraintBottom_toBottomOf="@+id/ivHeader"
+                app:layout_constraintBottom_toBottomOf="@+id/imgHeader"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="@string/email_forgot_title" />
+                tools:text="@string/email_code_header_title" />
 
             <com.trx.consumer.common.CommonView
                 android:id="@+id/viewNavBar"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/top_bar_height"
                 android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -63,13 +63,14 @@
             </com.trx.consumer.common.CommonView>
 
             <com.trx.consumer.views.input.InputView
-                android:id="@+id/ivEmail"
-                android:layout_width="0dp"
+                android:id="@+id/txtEmail"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
-                app:inputViewState="email"
+                android:layout_marginTop="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivHeader" />
+                app:layout_constraintTop_toBottomOf="@id/imgHeader"
+                tools:inputViewState="code" />
 
             <View
                 android:id="@+id/vLine"
@@ -78,22 +79,23 @@
                 android:background="@color/greyLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivEmail" />
+                app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
 
             <com.trx.consumer.common.CommonLabel
                 android:id="@+id/lblDescription"
-                style="@style/CommonLabelStyle"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="@string/email_code_description"
-                android:visibility="gone"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/atcarquette_regular"
+                android:lineSpacingExtra="5sp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vLine" />
-
+                app:layout_constraintTop_toBottomOf="@+id/vLine"
+                tools:text="@string/email_code_description" />
 
         </com.trx.consumer.common.CommonView>
 
@@ -109,32 +111,19 @@
             android:id="@+id/btnSendEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
             android:fontFamily="@font/atcarquette_bold"
             android:gravity="center"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:visibility="visible"
             app:backgroundColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="@string/email_lookup_second" />
-
-        <com.trx.consumer.common.CommonLabel
-            android:id="@+id/lblVerificationEmailSent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:gravity="center"
-            android:text="@string/email_verification_email_sent_label"
-            android:textColor="@color/greenSuccess"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/btnSendEmail" />
+            tools:text="@string/email_code_button_label" />
 
     </com.trx.consumer.common.CommonView>
 
