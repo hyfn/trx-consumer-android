@@ -15,8 +15,9 @@ class EmailFragment : BaseFragment(R.layout.fragment_email) {
     private val viewBinding by viewBinding(FragmentEmailBinding::bind)
 
     override fun bind() {
-        val state = NavigationManager.shared.params(this) as EmailViewState
-        viewModel.state = state
+        (NavigationManager.shared.params(this) as? EmailViewState)?.let { emailViewState ->
+            viewModel.state = emailViewState
+        }
 
         viewBinding.btnBack.setOnClickListener { viewModel.doTapBack() }
 
@@ -36,13 +37,7 @@ class EmailFragment : BaseFragment(R.layout.fragment_email) {
 
     private val handleLoadState = Observer<EmailViewState> { state ->
         LogManager.log("handleLoadState")
-        viewBinding.apply {
-            imgHeader.setImageResource(state.headerImage)
-            lblHeader.setText(state.headerTitle)
-            txtEmail.setEmailInputViewState(state)
-            lblDescription.setText(state.description)
-            btnSendEmail.text = getString(state.buttonTitle)
-        }
+        loadEmailViewState(state)
     }
 
     private val handleLoadButton = Observer<Boolean> { enabled ->
@@ -59,5 +54,15 @@ class EmailFragment : BaseFragment(R.layout.fragment_email) {
 
     override fun onBackPressed() {
         viewModel.doTapBack()
+    }
+
+    fun loadEmailViewState(state: EmailViewState) {
+        viewBinding.apply {
+            imgHeader.setImageResource(state.headerImage)
+            lblHeader.setText(state.headerTitle)
+            txtEmail.setEmailInputViewState(state)
+            lblDescription.setText(state.description)
+            btnSendEmail.text = getString(state.buttonTitle)
+        }
     }
 }
