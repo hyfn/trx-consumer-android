@@ -9,7 +9,8 @@ class SubscriptionModel(
     var title: String?,
     var description: String?,
     var cost: String?,
-    var startsAt: Int = 0
+    var startsAt: Int = 0,
+    var isActive: Boolean = false
 ) : Parcelable {
 
     companion object {

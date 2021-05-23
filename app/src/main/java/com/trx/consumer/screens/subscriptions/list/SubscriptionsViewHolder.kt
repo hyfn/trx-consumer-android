@@ -17,7 +17,7 @@ class SubscriptionsViewHolder(view: View) : CommonViewHolder(view) {
     fun setup(
         item: SubscriptionModel,
         subscriptionsViewState: SubscriptionsViewState,
-        listener: SubscriptionsListener
+        listenerIAP: SubscriptionsListener
     ) {
         lblTitle.text = item.title
         lblPrice.text = item.cost
@@ -26,7 +26,7 @@ class SubscriptionsViewHolder(view: View) : CommonViewHolder(view) {
             text = itemView.context.getString(subscriptionsViewState.buttonText)
             textColor(subscriptionsViewState.buttonTextColor)
             bgColor(subscriptionsViewState.buttonBgColor)
-            action { listener.doTapSubscription(item) }
+            action { listenerIAP.doTapSubscription(item) }
         }
     }
 }

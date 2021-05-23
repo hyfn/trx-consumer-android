@@ -3,15 +3,18 @@ package com.trx.consumer.screens.subscriptions
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.models.common.SubscriptionModel
+import com.trx.consumer.models.common.SubscriptionsModel
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsListener
 
 class SubscriptionsViewModel : BaseViewModel(), SubscriptionsListener {
 
-    val eventLoadView = CommonLiveEvent<List<SubscriptionModel>>()
+    var model: SubscriptionsModel = SubscriptionsModel()
+
+    val eventLoadView = CommonLiveEvent<SubscriptionsModel>()
     val eventTapBack = CommonLiveEvent<Void>()
 
     fun doLoadView() {
-        eventLoadView.postValue(SubscriptionModel.testList(5))
+        eventLoadView.postValue(model)
     }
 
     fun doTapBack() {

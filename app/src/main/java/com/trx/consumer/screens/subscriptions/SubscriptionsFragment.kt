@@ -10,7 +10,7 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentSubscriptionsBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.common.SubscriptionModel
+import com.trx.consumer.models.common.SubscriptionsModel
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsAdapter
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsViewState
 
@@ -18,8 +18,6 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
 
     private val viewModel: SubscriptionsViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentSubscriptionsBinding::bind)
-
-    private var state = SubscriptionsViewState.OTHER
 
     private lateinit var adapter: SubscriptionsAdapter
 
@@ -30,7 +28,7 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
         }
 
         viewBinding.apply {
-            adapter = SubscriptionsAdapter(viewModel, state) { lifecycleScope }
+            adapter = SubscriptionsAdapter(viewModel) { lifecycleScope }
             rvSubscriptions.adapter = adapter
 
             btnBack.action { viewModel.doTapBack() }
@@ -43,14 +41,10 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
         NavigationManager.shared.dismiss(this)
     }
 
-    private val handleLoadView = Observer<List<SubscriptionModel>> {
-        if (state == SubscriptionsViewState.CURRENT) {
-            viewBinding.apply {
-                viewBottom.isVisible = true
-                btnCancelSubscription.isVisible = true
-            }
-        }
-        adapter.updateSubscriptions(it)
+    private val handleLoadView = Observer<SubscriptionsModel> { model ->
+        val isActive = model.state == SubscriptionsViewState.CURRENT
+        viewBinding.viewBottom.isVisible = isActive
+        adapter.update(model)
     }
 
     override fun onBackPressed() {
