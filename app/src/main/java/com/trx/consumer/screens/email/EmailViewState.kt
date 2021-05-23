@@ -55,4 +55,18 @@ enum class EmailViewState {
             FORGOT -> R.string.email_forgot_button_label
             CODE -> R.string.email_code_button_label
         }
+
+    @get:StringRes
+    val success: Int
+        get() = when (this) {
+            FORGOT -> R.string.email_forgot_success
+            CODE -> R.string.email_code_success
+        }
+
+    @get:StringRes
+    val error: Int
+        get() = when (this) {
+            FORGOT -> R.string.email_forgot_error
+            CODE -> R.string.email_code_error
+        }
 }

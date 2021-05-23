@@ -165,12 +165,16 @@
     <string name="email_forgot_placeholder">Your email</string>
     <string name="email_forgot_description">If you forgot your password, you can reset it here.</string>
     <string name="email_forgot_button_label">Reset</string>
+    <string name="email_forgot_success">Verification email sent</string>
+    <string name="email_forgot_error">Invalid email. Please try again.</string>
 
     <string name="email_code_header_title">Have a TRX Code?</string>
     <string name="email_code_title">KEY-TO-FREE</string>
     <string name="email_code_placeholder">Enter key</string>
     <string name="email_code_description">If you purchased a TRX Product, this will be on the KEY TO FREE card in the box.</string>
     <string name="email_code_button_label">Submit</string>
+    <string name="email_code_success">Code submitted</string>
+    <string name="email_code_error">Invalid code. Please try again.</string>
 
     <string name="update_save_label">Save</string>
     <string name="update_save_changes_label">Save Changes</string>
