@@ -11,7 +11,7 @@ class SubscriptionsViewModel : BaseViewModel(), SubscriptionsListener {
     val eventTapBack = CommonLiveEvent<Void>()
 
     fun doLoadView() {
-        eventLoadView.postValue(SubscriptionModel.testList(5))
+        eventLoadView.postValue(SubscriptionModel.testList(1))
     }
 
     fun doTapBack() {

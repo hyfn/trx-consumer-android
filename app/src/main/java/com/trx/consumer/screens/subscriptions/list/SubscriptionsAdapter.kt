@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 
 class SubscriptionsAdapter(
     private val listener: SubscriptionsListener,
+    private val subscriptionsViewState: SubscriptionsViewState,
     scopeProvider: () -> CoroutineScope
 ) : CommonRecyclerViewAdapter(scopeProvider) {
 
@@ -45,7 +46,7 @@ class SubscriptionsAdapter(
         val item = items[position]
         when (holder) {
             is SubscriptionsViewHolder -> {
-                holder.setup(item as SubscriptionModel, listener)
+                holder.setup(item as SubscriptionModel, subscriptionsViewState, listener)
             }
         }
     }
