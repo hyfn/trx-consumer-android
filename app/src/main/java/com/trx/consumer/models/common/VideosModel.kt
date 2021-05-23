@@ -1,6 +1,7 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
+import com.trx.consumer.extensions.forEach
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.Locale
@@ -22,21 +23,15 @@ class VideosModel(
                 description = jsonObject.optString("description")
                 thumbnail = jsonObject.optString("thumbnail")
                 poster = jsonObject.optString("poster")
-                trainer = jsonObject.optJSONObject("firstTrainer")?.let {
-                    TrainerModel.parse(it)
-                } ?: TrainerModel()
-                jsonObject.optJSONArray("videos")?.let { safeJson ->
-                    for (index in 0 until safeJson.length()) {
-                        safeJson.get(index)?.let {
-                            if (it is JSONObject) {
-                                videos.add(VideoModel.parse(it))
-                            }
-                        }
-                    }
+                trainer = jsonObject.optJSONObject("firstTrainer")?.let { TrainerModel.parse(it) }
+                    ?: TrainerModel()
+                jsonObject.optJSONArray("videos")?.forEach {
+                        videos.add(VideoModel.parse(it))
                 }
             }
         }
     }
+
 
     val numberOfVideosDisplay: String
         get() {

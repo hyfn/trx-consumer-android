@@ -10,24 +10,20 @@ class VideosViewModel : BaseViewModel(), DiscoverListener {
 
     val eventTapBack = CommonLiveEvent<Void>()
     val eventLoadView = CommonLiveEvent<VideosModel>()
-    val eventTapDiscoverWorkout = CommonLiveEvent<VideoModel>()
-    val eventTapDiscoverCollections = CommonLiveEvent<VideosModel>()
+    val eventTapVideo = CommonLiveEvent<VideoModel>()
 
-    lateinit var videosModel: VideosModel
+     var model: VideosModel = VideosModel()
 
     fun doTapBack() {
         eventTapBack.call()
     }
 
     fun doLoadView() {
-        eventLoadView.postValue(videosModel)
+        eventLoadView.postValue(model)
     }
 
-    override fun doTapDiscoverWorkout(model: VideoModel) {
-        eventTapDiscoverWorkout.postValue(model)
+    override fun doTapVideo(model: VideoModel) {
+        eventTapVideo.postValue(model)
     }
 
-    override fun doTapDiscoverCollections(model: VideosModel) {
-        eventTapDiscoverCollections.postValue(model)
-    }
 }

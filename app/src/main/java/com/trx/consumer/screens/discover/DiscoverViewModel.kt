@@ -31,8 +31,8 @@ class DiscoverViewModel @ViewModelInject constructor(
     val eventShowHud = CommonLiveEvent<Boolean>()
 
     val eventTapBack = CommonLiveEvent<Void>()
-    val eventTapDiscoverWorkout = CommonLiveEvent<VideoModel>()
-    val eventTapDiscoverCollections = CommonLiveEvent<VideosModel>()
+    val eventTapVideo = CommonLiveEvent<VideoModel>()
+    val eventTapVideos = CommonLiveEvent<VideosModel>()
     val eventTapFilter = CommonLiveEvent<FilterParamsModel>()
     val eventTapDiscoverFilter = CommonLiveEvent<FilterParamsModel>()
 
@@ -74,12 +74,12 @@ class DiscoverViewModel @ViewModelInject constructor(
         eventTapFilter.postValue(params)
     }
 
-    override fun doTapDiscoverWorkout(model: VideoModel) {
-        eventTapDiscoverWorkout.postValue(model)
+    override fun doTapVideo(model: VideoModel) {
+        eventTapVideo.postValue(model)
     }
 
-    override fun doTapDiscoverCollections(model: VideosModel) {
-        eventTapDiscoverCollections.postValue(model)
+    override fun doTapVideos(model: VideosModel) {
+        eventTapVideos.postValue(model)
     }
 
     override fun doTapDiscoverFilter(filter: FilterModel) {

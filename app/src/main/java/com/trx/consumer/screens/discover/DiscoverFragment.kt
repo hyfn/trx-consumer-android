@@ -34,8 +34,8 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             eventLoadWorkouts.observe(viewLifecycleOwner, handleLoadWorkouts)
             eventLoadCollections.observe(viewLifecycleOwner, handleLoadCollections)
             eventLoadPrograms.observe(viewLifecycleOwner, handleLoadPrograms)
-            eventTapDiscoverWorkout.observe(viewLifecycleOwner, handleTapDiscoverWorkout)
-            eventTapDiscoverCollections.observe(viewLifecycleOwner, handleTapDiscoverCollections)
+            eventTapVideo.observe(viewLifecycleOwner, handleTapVideo)
+            eventTapVideos.observe(viewLifecycleOwner, handleTapVideos)
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadFilters.observe(viewLifecycleOwner, handleLoadFilters)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
@@ -69,11 +69,11 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         viewBinding.hudView.isVisible = show
     }
 
-    private val handleTapDiscoverWorkout = Observer<VideoModel> {
+    private val handleTapVideo = Observer<VideoModel> {
         NavigationManager.shared.present(this, R.id.workout_fragment, it)
     }
 
-    private val handleTapDiscoverCollections = Observer<VideosModel> {
+    private val handleTapVideos = Observer<VideosModel> {
         NavigationManager.shared.present(this, R.id.videos_fragment, it)
     }
 

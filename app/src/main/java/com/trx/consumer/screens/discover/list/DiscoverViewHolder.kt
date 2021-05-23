@@ -23,13 +23,13 @@ class DiscoverViewHolder(view: View) : CommonViewHolder(view) {
         lblTitle.text = item.name
         lblSubtitle.text = item.trainer.displayName
         imgPoster.load(item.poster)
-        viewMain.action { listener.doTapDiscoverWorkout(item) }
+        viewMain.action { listener.doTapVideo(item) }
     }
     fun setup(item: VideosModel, listener: DiscoverListener) {
         lblHeader.text = item.numberOfVideosDisplay
         lblTitle.text = item.title
         lblSubtitle.text = item.trainer.displayName
         imgPoster.load(item.poster)
-        viewMain.action { listener.doTapDiscoverCollections(item) }
+        viewMain.action { listener.doTapVideos(item) }
     }
 }

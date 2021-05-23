@@ -44,7 +44,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-
                 </com.trx.consumer.common.CommonView>
 
                 <com.trx.consumer.common.CommonImageView
@@ -142,6 +141,7 @@
                     android:fontFamily="@font/atcarquette_medium"
                     android:gravity="center"
                     android:text="@string/workout_profile_label"
+                    android:textAllCaps="true"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"

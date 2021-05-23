@@ -18,6 +18,14 @@ inline fun <T> JSONArray?.map(crossinline transform: (JSONObject) -> T): List<T>
     }
 }
 
+inline fun JSONArray.forEach(action: (JSONObject) -> Unit) {
+    for (index in 0 until this.length()) {
+        val obj = this.get(index)
+        if (obj is JSONObject) action(obj)
+    }
+}
+
+
 /**
  * Maps elements of a [JSONArray] into a list of specified type [T] if they can be casted. Elements
  * that cannot be casted are ignored.

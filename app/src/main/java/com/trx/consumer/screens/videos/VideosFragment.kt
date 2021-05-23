@@ -25,12 +25,11 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
         val model = NavigationManager.shared.params(this) as VideosModel
 
         viewModel.apply {
-            videosModel = model
+            this.model = model
 
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-            eventTapDiscoverWorkout.observe(viewLifecycleOwner, handleTapDiscoverWorkout)
-            eventTapDiscoverCollections.observe(viewLifecycleOwner, handleTapDiscoverCollections)
+            eventTapVideo.observe(viewLifecycleOwner, handleTapVideo)
 
             doLoadView()
         }
@@ -63,7 +62,7 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
         }
     }
 
-    private val handleTapDiscoverWorkout = Observer<VideoModel> {
+    private val handleTapVideo = Observer<VideoModel> {
         NavigationManager.shared.present(this, R.id.workout_fragment, it)
     }
 
