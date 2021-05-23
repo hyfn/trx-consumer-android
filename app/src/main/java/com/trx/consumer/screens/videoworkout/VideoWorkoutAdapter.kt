@@ -12,7 +12,7 @@ import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 import java.lang.Exception
 
-class VideoAdapter(
+class VideoWorkoutAdapter(
     private val listener: VideoWorkoutListener,
     scopeProvider: () -> CoroutineScope
 ) : CommonRecyclerViewAdapter(scopeProvider) {
