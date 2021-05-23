@@ -1,35 +1,100 @@
 package com.trx.consumer.screens.email
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.views.input.InputViewListener
+import com.trx.consumer.views.input.InputViewState
+import kotlinx.coroutines.launch
 
 class EmailViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
-) : BaseViewModel() {
+) : BaseViewModel(), InputViewListener {
+
+    //region Objects
 
     var state: EmailViewState = EmailViewState.FORGOT
+
+    //endregion
+
+    //region Variables
+
+    var email: String = ""
+    var code: String = ""
+
+    //endregion
+
+    //region Events
 
     val eventLoadView = CommonLiveEvent<Void>()
     val eventLoadState = CommonLiveEvent<EmailViewState>()
     val eventLoadButton = CommonLiveEvent<Boolean>()
 
     val eventTapBack = CommonLiveEvent<Void>()
-    val eventTapSendEmail = CommonLiveEvent<EmailViewState>()
-    val eventTapReset = CommonLiveEvent<Void>()
 
-    val eventValidateError = CommonLiveEvent<String>()
+    val eventSendEmailSuccess = CommonLiveEvent<Int>()
+    val eventSendEmailError = CommonLiveEvent<Int>()
+
     val eventDismissKeyboard = CommonLiveEvent<Void>()
     val eventShowHud = CommonLiveEvent<Boolean>()
 
-    fun doTapBack() {
-        eventTapBack.call()
-    }
+    //endregion
+
+    //region Actions
 
     fun doLoadView() {
         eventLoadView.call()
         eventLoadState.postValue(state)
         eventLoadButton.postValue(false)
     }
+
+    private fun doCallSendEmail() {
+        eventDismissKeyboard.call()
+        viewModelScope.launch {
+            eventShowHud.postValue(true)
+            val response = when (state) {
+                EmailViewState.FORGOT -> backendManager.forgot(email)
+                EmailViewState.CODE -> backendManager.code(code)
+            }
+            eventShowHud.postValue(false)
+            if (response.isSuccess) {
+                eventSendEmailSuccess.postValue(state.success)
+            } else {
+                eventSendEmailError.postValue(state.error)
+            }
+        }
+    }
+
+    fun doTapBack() {
+        eventTapBack.call()
+    }
+
+    fun doTapSendEmail() {
+        doCallSendEmail()
+    }
+
+    override fun doUpdateText(
+        userInput: String,
+        isValidInput: Boolean,
+        identifier: InputViewState
+    ) {
+        when (identifier) {
+            InputViewState.EMAIL -> email = if (isValidInput) userInput.trim() else ""
+            InputViewState.CODE -> code = if (isValidInput) userInput else ""
+            else -> { }
+        }
+        validate()
+    }
+
+    private fun validate() {
+        val enabled: Boolean = when (state) {
+            EmailViewState.FORGOT -> InputViewState.EMAIL.validate(email)
+            EmailViewState.CODE -> InputViewState.CODE.validate(code)
+        }
+        eventLoadButton.postValue(enabled)
+    }
+
+    //endregion
 }
