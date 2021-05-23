@@ -4,7 +4,6 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
-import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.screens.discover.list.DiscoverListener
 
 class VideosViewModel : BaseViewModel(), DiscoverListener {
@@ -31,5 +30,4 @@ class VideosViewModel : BaseViewModel(), DiscoverListener {
     override fun doTapDiscoverCollections(model: VideosModel) {
         eventTapDiscoverCollections.postValue(model)
     }
-
 }

@@ -1,7 +1,6 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
-import com.trx.consumer.extensions.upperCased
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.Locale

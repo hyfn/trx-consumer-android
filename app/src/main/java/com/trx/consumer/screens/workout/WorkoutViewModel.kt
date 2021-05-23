@@ -2,7 +2,6 @@ package com.trx.consumer.screens.workout
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.models.common.BookingState
 import com.trx.consumer.models.common.WorkoutModel
 
 class WorkoutViewModel : BaseViewModel() {

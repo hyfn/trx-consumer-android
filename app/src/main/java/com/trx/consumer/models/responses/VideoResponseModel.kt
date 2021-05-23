@@ -3,7 +3,6 @@ package com.trx.consumer.models.responses
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
-import org.json.JSONArray
 import org.json.JSONObject
 
 data class VideoResponseModel(
@@ -50,7 +49,6 @@ data class VideoResponseModel(
                 }
 
                 filters = FilterModel.filters((data?.optJSONObject("filters") as JSONObject))
-
             }
         }
     }
