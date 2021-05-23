@@ -10,8 +10,10 @@ import com.trx.consumer.databinding.FragmentVideosBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.load
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
+import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.screens.discover.list.DiscoverAdapter
 
 class VideosFragment : BaseFragment(R.layout.fragment_videos) {
@@ -30,6 +32,8 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventTapVideo.observe(viewLifecycleOwner, handleTapVideo)
+            eventTapStartWorkout.observe(viewLifecycleOwner, handleTapStartWorkout)
+            eventTapProfile.observe(viewLifecycleOwner, handleTapProfile)
 
             doLoadView()
         }
@@ -62,11 +66,16 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
         }
     }
 
-    private val handleTapVideo = Observer<VideoModel> {
-        NavigationManager.shared.present(this, R.id.workout_fragment, it)
+    private val handleTapVideo = Observer<VideoModel> { model ->
+        NavigationManager.shared.present(this, R.id.workout_fragment, model)
     }
 
-    private val handleTapDiscoverCollections = Observer<VideosModel> {
-        NavigationManager.shared.present(this, R.id.videos_fragment, it)
+    private val handleTapStartWorkout = Observer<WorkoutModel> {
+        //NavigationManager.shared.present(this, R.id.player_view, it) TODO: Player start from here
     }
+
+    private val handleTapProfile = Observer<TrainerModel> { model ->
+        NavigationManager.shared.present(this, R.id.workout_fragment, model)
+    }
+
 }
