@@ -7,6 +7,9 @@
 
     <string name="alert_button_title_dismiss">Dismiss</string>
     <string name="alert_primary_back">Take me back</string>
+    <string name="alert_primary_keep_subscription">No, keep my subscription</string>
+    <string name="alert_primary_submit_payment">Submit Payment</string>
+    <string name="alert_secondary_cancel">Cancel</string>
     <string name="alert_primary_cool">Cool</string>
     <string name="alert_secondary_report">Report an issue</string>
     <string name="alert_confirm_message">Are you sure?</string>
@@ -34,6 +37,9 @@
     <string name="content_blank" />
     <string name="content_message">No %1$s available</string>
     <string name="content_btnprimary_txt">"Accept &amp; Continue"</string>
+    <string name="content_row_image">Row image</string>
+
+    <string name="calendarview_this_week">This Week</string>
 
     <string name="date_picker_done_button_label">Done</string>
 
@@ -95,7 +101,8 @@
     <string name="plans_choose_plan_label">Choose Plan</string>
     <string name="plans_current_plan_label">Current Plan</string>
     <string name="plans_title">Subscriptions</string>
-    <string name="plans_cancel_subscription_label">Cancel Subscription</string>
+    <string name="plans_cancel_subscription_message"> Are you sure you want to cancel your %s subscription?</string>
+    <string name="plans_cancel_button_label">Cancel Subscription</string>
     <string name="plans_last_bill_date_label">Last Bill Date:</string>
     <string name="plans_next_bill_date_label">Next Bill Date:</string>
 
@@ -122,6 +129,7 @@
     <string name="tab_on_demand">ON DEMAND</string>
     <string name="tab_settings">SETTINGS</string>
 
+    <string name="test_utility_calendar_section_label">Calendar</string>
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
     <string name="test_utility_plans_label">Plans</string>
@@ -141,6 +149,15 @@
     <string name="test_utility_alert_button_secondary_label">Thanks, I\'ll pass</string>
     <string name="test_utility_settings_label">Settings</string>
     <string name="test_utility_workout_label">Workout</string>
+    <string name="test_utility_trainer_label">Trainer</string>
+
+    <string name="trainer_about_me_label">About Me</string>
+    <string name="trainer_upcoming_classes_label">Upcoming Classes</string>
+    <string name="trainer_button_view_schedule">VIEW SCHEDULE   →</string>
+    <string name="trainer_services_label">Services</string>
+    <string name="trainer_on_demand_classes_label">On-Demand Classes</string>
+    <string name="trainer_button_see_all">SEE ALL   →</string>
+    <string name="trainer_for_you_label">For You</string>
 
     <string name="video_tab_workouts_label">WORKOUTS</string>
     <string name="video_tab_collections_label">COLLECTIONS</string>
@@ -223,4 +240,7 @@
     <string name="filters_options_btn_all_label">Clear Filters</string>
     <string name="filters_options_selected_filter_label">(%1$d)</string>
     <string name="filters_options_selected_filter_default_label"> </string>
+
+    <string name="videos_related_label">Related Workouts</string>
+    <string name="videos_btn_primary_label">Start Workout</string>
 </resources>

@@ -8,6 +8,7 @@ import com.trx.consumer.common.CommonLabel
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.extensions.load
 import com.trx.consumer.models.common.VideoModel
+import com.trx.consumer.models.common.VideosModel
 
 class VideoWorkoutViewHolder(view: View) : CommonViewHolder(view) {
 
@@ -17,16 +18,19 @@ class VideoWorkoutViewHolder(view: View) : CommonViewHolder(view) {
     private val imgBg: CommonImageView = view.findViewById(R.id.imgBg)
     private val btnSelect: CommonButton = view.findViewById(R.id.btnSelect)
 
-    fun setup(model: VideoModel, listener: VideoWorkoutListener) {
-        lblTitle.text = model.name
-        lblSubtitle.apply {
-            text = context.getString(
-                R.string.video_workout_subtitle_prefix_label,
-                model.trainer.fullName
-            )
-        }
-        lblWorkout.text = model.videoDuration
-        imgBg.load(model.poster)
-        btnSelect.action { listener.doTapSelect(model) }
+    fun setup(item: VideoModel, listener: VideoWorkoutListener) {
+        lblWorkout.text = item.videoDuration
+        lblTitle.text = item.name
+        lblSubtitle.text = item.trainer.displayName
+        imgBg.load(item.poster)
+        btnSelect.action { listener.doTapVideo(item) }
+    }
+
+    fun setup(item: VideosModel, listener: VideoWorkoutListener) {
+        lblWorkout.text = item.numberOfVideosDisplay
+        lblTitle.text = item.title
+        lblSubtitle.text = item.trainer.displayName
+        imgBg.load(item.poster)
+        btnSelect.action { listener.doTapVideos(item) }
     }
 }

@@ -6,13 +6,12 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class PlanModel(
-    var key: String?,
-    var title: String?,
-    var description: String?,
-    var cost: String?,
-    var startsAt: Int = 0,
-    var primaryState: PlansViewState = PlansViewState.OTHER
-
+    var key: String = "",
+    var title: String = "",
+    var description: String = "",
+    var cost: String = "",
+    var primaryState: PlansViewState = PlansViewState.OTHER,
+    var startsAt: Int = 0
 ) : Parcelable {
 
     companion object {
@@ -20,7 +19,7 @@ class PlanModel(
         fun test(): PlanModel {
             return PlanModel(
                 key = "",
-                title = "UNlimited live classes",
+                title = "Unlimited live classes",
                 description = "unlimited lIVE classes \nHundreds of on-demand videos \nfree virtual training intro sessions. \ndiscounts on TRX products",
                 cost = "$19.99 per month",
                 startsAt = 1

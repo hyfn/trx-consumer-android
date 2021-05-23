@@ -12,17 +12,18 @@ import com.trx.consumer.databinding.FragmentDiscoverBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.FilterModel
-import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.common.VideoModel
+import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterAdapter
-import com.trx.consumer.screens.discover.list.DiscoverAdapter
+import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 
 class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
     private val viewModel: DiscoverViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentDiscoverBinding::bind)
 
-    private lateinit var adapter: DiscoverAdapter
+    private lateinit var adapter: VideoWorkoutAdapter
     private lateinit var discoverAdapter: DiscoverFilterAdapter
     private var currentState = DiscoverViewState.WORKOUT
 
@@ -33,7 +34,8 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             eventLoadWorkouts.observe(viewLifecycleOwner, handleLoadWorkouts)
             eventLoadCollections.observe(viewLifecycleOwner, handleLoadCollections)
             eventLoadPrograms.observe(viewLifecycleOwner, handleLoadPrograms)
-            eventTapDiscover.observe(viewLifecycleOwner, handleTapDiscover)
+            eventTapVideo.observe(viewLifecycleOwner, handleTapVideo)
+            eventTapVideos.observe(viewLifecycleOwner, handleTapVideos)
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadFilters.observe(viewLifecycleOwner, handleLoadFilters)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
@@ -41,7 +43,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         }
 
         viewBinding.apply {
-            adapter = DiscoverAdapter(viewModel) { lifecycleScope }
+            adapter = VideoWorkoutAdapter(viewModel) { lifecycleScope }
             discoverAdapter = DiscoverFilterAdapter(viewModel) { lifecycleScope }
             rvVideo.adapter = adapter
             rvFilters.adapter = discoverAdapter
@@ -67,24 +69,24 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         viewBinding.hudView.isVisible = show
     }
 
-    private val handleTapDiscover = Observer<WorkoutModel> {
-        NavigationManager.shared.present(
-            this,
-            R.id.videos_fragment,
-            it
-        )
+    private val handleTapVideo = Observer<VideoModel> {
+        NavigationManager.shared.present(this, R.id.workout_fragment, it)
     }
 
-    private val handleLoadWorkouts = Observer<List<WorkoutModel>> {
-        adapter.updateVideos(it)
+    private val handleTapVideos = Observer<VideosModel> {
+        NavigationManager.shared.present(this, R.id.videos_fragment, it)
     }
 
-    private val handleLoadCollections = Observer<List<WorkoutModel>> {
-        adapter.updateVideos(it)
+    private val handleLoadWorkouts = Observer<List<VideoModel>> {
+        adapter.update(it)
     }
 
-    private val handleLoadPrograms = Observer<List<WorkoutModel>> {
-        adapter.updateVideos(it)
+    private val handleLoadCollections = Observer<List<VideosModel>> {
+        adapter.update(it)
+    }
+
+    private val handleLoadPrograms = Observer<List<VideosModel>> {
+        adapter.update(it)
     }
 
     private val handleLoadFilters = Observer<List<FilterModel>> { list ->

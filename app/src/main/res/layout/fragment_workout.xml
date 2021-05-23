@@ -35,17 +35,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <com.trx.consumer.common.CommonImageView
+                    <com.trx.consumer.common.CommonImageButton
                         android:id="@+id/btnBack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        android:scaleType="centerInside"
                         android:src="@drawable/ic_btn_back_white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
 
                 </com.trx.consumer.common.CommonView>
 
@@ -53,7 +50,7 @@
                     android:id="@+id/imgHeader"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="@+id/viewHeader"
                     app:layout_constraintTop_toTopOf="@+id/viewHeader" />
 
@@ -66,10 +63,25 @@
                     android:fontFamily="@font/atcarquette_bold"
                     android:textColor="@color/white"
                     android:textSize="12sp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/lblTitle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:textAllCaps="true"
                     tools:text="Today, 11 AM" />
+
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:textColor="@color/yellow"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toTopOf="@+id/lblTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:textAllCaps="true"
+                    tools:text="60 Min   $19.99" />
 
                 <com.trx.consumer.common.CommonLabel
                     android:id="@+id/lblTitle"
@@ -81,22 +93,8 @@
                     android:fontFamily="@font/atcarquette_bold"
                     android:textColor="@color/white"
                     android:textSize="32sp"
-                    app:layout_constraintBottom_toTopOf="@+id/lblSubtitle"
-                    tools:text="Small Group Training" />
-
-                <com.trx.consumer.common.CommonLabel
-                    android:id="@+id/lblSubtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginBottom="20dp"
-                    android:fontFamily="@font/atcarquette_bold"
-                    android:textColor="@color/yellow"
-                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/imgHeader"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:textAllCaps="true"
-                    tools:text="60 Min   $19.99" />
+                    tools:text="Small Group Training" />
 
             </com.trx.consumer.common.CommonView>
 

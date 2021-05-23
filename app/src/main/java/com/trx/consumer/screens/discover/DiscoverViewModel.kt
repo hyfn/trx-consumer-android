@@ -7,31 +7,32 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.VideoModel
-import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.models.responses.VideoResponseModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterListener
-import com.trx.consumer.screens.discover.list.DiscoverListener
+import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 import kotlinx.coroutines.launch
 
 class DiscoverViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
-) : BaseViewModel(), DiscoverListener, DiscoverFilterListener {
+) : BaseViewModel(), VideoWorkoutListener, DiscoverFilterListener {
 
     var workouts: List<VideoModel> = listOf()
-    var collections: List<VideoModel> = listOf()
-    var programs: List<VideoModel> = listOf()
+    var collections: List<VideosModel> = listOf()
+    var programs: List<VideosModel> = listOf()
     var params: FilterParamsModel = FilterParamsModel()
     var filters: List<FilterModel> = listOf()
 
-    val eventLoadWorkouts = CommonLiveEvent<List<WorkoutModel>>()
-    val eventLoadCollections = CommonLiveEvent<List<WorkoutModel>>()
-    val eventLoadPrograms = CommonLiveEvent<List<WorkoutModel>>()
+    val eventLoadWorkouts = CommonLiveEvent<List<VideoModel>>()
+    val eventLoadCollections = CommonLiveEvent<List<VideosModel>>()
+    val eventLoadPrograms = CommonLiveEvent<List<VideosModel>>()
     val eventLoadFilters = CommonLiveEvent<List<FilterModel>>()
     val eventShowHud = CommonLiveEvent<Boolean>()
 
     val eventTapBack = CommonLiveEvent<Void>()
-    val eventTapDiscover = CommonLiveEvent<WorkoutModel>()
+    val eventTapVideo = CommonLiveEvent<VideoModel>()
+    val eventTapVideos = CommonLiveEvent<VideosModel>()
     val eventTapFilter = CommonLiveEvent<FilterParamsModel>()
     val eventTapDiscoverFilter = CommonLiveEvent<FilterParamsModel>()
 
@@ -49,22 +50,20 @@ class DiscoverViewModel @ViewModelInject constructor(
             eventShowHud.postValue(false)
             params.lstFilters = filters
             eventLoadFilters.postValue(filters)
-            eventLoadWorkouts.postValue(WorkoutModel.testList(15))
-            eventLoadCollections.postValue(WorkoutModel.testList(15))
-            eventLoadPrograms.postValue(WorkoutModel.testList(15))
+            doLoadWorkouts()
         }
     }
 
     fun doLoadWorkouts() {
-        eventLoadWorkouts.postValue(WorkoutModel.testList(15))
+        eventLoadWorkouts.postValue(workouts)
     }
 
     fun doLoadCollections() {
-        eventLoadCollections.postValue(WorkoutModel.testList(15))
+        eventLoadCollections.postValue(collections)
     }
 
     fun doLoadPrograms() {
-        eventLoadPrograms.postValue(WorkoutModel.testList(15))
+        eventLoadPrograms.postValue(programs)
     }
 
     fun doTapBack() {
@@ -75,8 +74,12 @@ class DiscoverViewModel @ViewModelInject constructor(
         eventTapFilter.postValue(params)
     }
 
-    override fun doTapDiscover(model: WorkoutModel) {
-        eventTapDiscover.postValue(model)
+    override fun doTapVideo(model: VideoModel) {
+        eventTapVideo.postValue(model)
+    }
+
+    override fun doTapVideos(model: VideosModel) {
+        eventTapVideos.postValue(model)
     }
 
     override fun doTapDiscoverFilter(filter: FilterModel) {

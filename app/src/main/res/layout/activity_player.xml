@@ -64,7 +64,7 @@
         android:id="@+id/viewBottom"
         android:layout_width="match_parent"
         android:layout_height="135dp"
-        app:backgroundColor="@color/charcoal"
+        app:backgroundColor="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.trx.consumer.common.CommonButton
