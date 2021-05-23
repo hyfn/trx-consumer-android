@@ -121,7 +121,7 @@
             android:textColor="@color/white"
             android:textSize="13sp"
             android:visibility="visible"
-            app:backgroundColor="@color/black"
+            app:backgroundColor="@color/greyDark"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="@string/email_code_button_label" />
 
