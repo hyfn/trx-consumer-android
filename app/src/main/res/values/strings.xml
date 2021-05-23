@@ -34,6 +34,9 @@
     <string name="content_blank" />
     <string name="content_message">No %1$s available</string>
     <string name="content_btnprimary_txt">"Accept &amp; Continue"</string>
+    <string name="content_row_image">Row image</string>
+
+    <string name="calendarview_this_week">This Week</string>
 
     <string name="date_picker_done_button_label">Done</string>
 
@@ -123,6 +126,7 @@
     <string name="tab_on_demand">ON DEMAND</string>
     <string name="tab_settings">SETTINGS</string>
 
+    <string name="test_utility_calendar_section_label">Calendar</string>
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
     <string name="test_utility_plans_label">Plans</string>

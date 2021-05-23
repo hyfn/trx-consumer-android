@@ -136,6 +136,27 @@
                 tools:listitem="@layout/row_promotion_collection" />
 
             <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/test_utility_calendar_section_label"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_promos" />
+
+            <com.trx.consumer.views.calendar.CalendarView
+                android:id="@+id/calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblCalendar" />
+
+            <com.trx.consumer.common.CommonLabel
                 android:id="@+id/lblCards"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -145,7 +166,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_promos" />
+                app:layout_constraintTop_toBottomOf="@id/calendar" />
 
             <com.trx.consumer.common.CommonButton
                 android:id="@+id/btnCards"
@@ -525,7 +546,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:backgroundColor="@color/blackRussian"
+                app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblTrainer" />
