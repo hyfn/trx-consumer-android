@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/greyLightExtra">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/greyLightExtra"
@@ -198,7 +198,7 @@
 
         </com.trx.consumer.common.CommonView>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <com.trx.consumer.common.CommonHudView
         android:id="@+id/hudView"
