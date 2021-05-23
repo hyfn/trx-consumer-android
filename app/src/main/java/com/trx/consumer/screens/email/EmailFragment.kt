@@ -7,7 +7,6 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentEmailBinding
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.params.EmailParamsModel
 
 class EmailFragment : BaseFragment(R.layout.fragment_email) {
 
@@ -15,8 +14,8 @@ class EmailFragment : BaseFragment(R.layout.fragment_email) {
     private val viewBinding by viewBinding(FragmentEmailBinding::bind)
 
     override fun bind() {
-        val model = NavigationManager.shared.params(this) as EmailParamsModel
-        viewModel.state = model.state
+        val state = NavigationManager.shared.params(this) as EmailViewState
+        viewModel.state = state
 
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)

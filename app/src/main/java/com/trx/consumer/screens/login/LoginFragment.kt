@@ -9,7 +9,6 @@ import com.trx.consumer.databinding.FragmentLoginBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.params.EmailParamsModel
 import com.trx.consumer.screens.email.EmailViewState
 import com.trx.consumer.screens.erroralert.ErrorAlertModel
 
@@ -77,7 +76,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         NavigationManager.shared.present(
             this,
             R.id.email_fragment,
-            EmailParamsModel(EmailViewState.FORGOT)
+            EmailViewState.FORGOT
         )
     }
 
