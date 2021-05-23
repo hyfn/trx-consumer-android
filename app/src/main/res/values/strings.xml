@@ -99,7 +99,8 @@
     <string name="plans_choose_plan_label">Choose Plan</string>
     <string name="plans_current_plan_label">Current Plan</string>
     <string name="plans_title">Subscriptions</string>
-    <string name="plans_cancel_subscription_label">Cancel Subscription</string>
+    <string name="plans_cancel_subscription_message"> Are you sure you want to cancel your %s subscription?</string>
+    <string name="plans_cancel_button_label">Cancel Subscription</string>
     <string name="plans_last_bill_date_label">Last Bill Date:</string>
     <string name="plans_next_bill_date_label">Next Bill Date:</string>
 

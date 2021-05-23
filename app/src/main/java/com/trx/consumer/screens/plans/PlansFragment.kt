@@ -68,9 +68,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
 
     private val handleLoadCancelSubscription = Observer<String?> { value ->
         LogManager.log("handleLoadCancelSubscription")
-        val message = value?.let {
-            "Are you sure you want to cancel your $it subscription?"
-        } ?: "Are you sure you want to cancel your subscription?"
+        val message = getString(R.string.plans_cancel_subscription_message, value)
 
         //  Not handled like iOS. setSecondaryButton accepts String ints
         //  so doing below and applying that to setSecondaryButton won't work.

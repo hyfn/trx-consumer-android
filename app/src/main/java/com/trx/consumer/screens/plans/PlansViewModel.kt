@@ -19,12 +19,6 @@ class PlansViewModel @ViewModelInject constructor(
     private val cacheManager: CacheManager
 ) : BaseViewModel(), PlansListener {
 
-    //region Objects
-
-    private var userModel: UserModel? = null
-
-    //endregion
-
     //region Events
 
     val eventLoadCanCancel = CommonLiveEvent<Boolean>()
@@ -49,6 +43,7 @@ class PlansViewModel @ViewModelInject constructor(
 
     fun doLoadPlans() {
         viewModelScope.launch {
+            var userModel: UserModel? = null
             eventShowHud.postValue(true)
             backendManager.user()
             cacheManager.user()?.let { user ->
@@ -106,13 +101,13 @@ class PlansViewModel @ViewModelInject constructor(
 
     override fun doTapChoosePlan(model: PlanModel) {
         viewModelScope.launch {
-            cacheManager.user()?.let { user ->
-                if (user.subscriptionText != UserModel.kSubscriptionNamePay) {
-                    eventLoadCancelSubscription.postValue(user.subscription)
+            cacheManager.user()?.let { safeUser ->
+                if (safeUser.subscriptionText != UserModel.kSubscriptionNamePay) {
+                    eventLoadCancelSubscription.postValue(safeUser.subscription)
+                    return@launch
                 }
-            } ?: run {
-                eventLoadConfirmSubscription.postValue(model)
             }
+            eventLoadConfirmSubscription.postValue(model)
         }
     }
 
