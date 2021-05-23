@@ -26,12 +26,11 @@ class VideosModel(
                 trainer = jsonObject.optJSONObject("firstTrainer")?.let { TrainerModel.parse(it) }
                     ?: TrainerModel()
                 jsonObject.optJSONArray("videos")?.forEach {
-                        videos.add(VideoModel.parse(it))
+                    videos.add(VideoModel.parse(it))
                 }
             }
         }
     }
-
 
     val numberOfVideosDisplay: String
         get() {

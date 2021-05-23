@@ -12,7 +12,7 @@ class VideosViewModel : BaseViewModel(), DiscoverListener {
     val eventLoadView = CommonLiveEvent<VideosModel>()
     val eventTapVideo = CommonLiveEvent<VideoModel>()
 
-     var model: VideosModel = VideosModel()
+    var model: VideosModel = VideosModel()
 
     fun doTapBack() {
         eventTapBack.call()
@@ -25,5 +25,4 @@ class VideosViewModel : BaseViewModel(), DiscoverListener {
     override fun doTapVideo(model: VideoModel) {
         eventTapVideo.postValue(model)
     }
-
 }

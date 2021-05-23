@@ -5,5 +5,5 @@ import com.trx.consumer.models.common.VideosModel
 
 interface DiscoverListener {
     fun doTapVideo(model: VideoModel)
-    fun doTapVideos(model: VideosModel){}
+    fun doTapVideos(model: VideosModel) {}
 }

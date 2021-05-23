@@ -52,7 +52,6 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             viewTrainer.isHidden = false
             imgTrainerProfile.load(model.video.trainer.profilePhoto)
             lblTrainerName.text = model.video.trainer.fullName
-            btnTrainerProfile.text = "Profile"
             btnPrimary.bgColor(model.state.buttonBackgroundColor)
             btnPrimary.textColor(model.state.buttonTitleColor)
             btnPrimary.apply { text = context.getString(model.state.buttonTitle) }

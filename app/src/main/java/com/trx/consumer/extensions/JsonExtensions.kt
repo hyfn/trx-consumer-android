@@ -25,7 +25,6 @@ inline fun JSONArray.forEach(action: (JSONObject) -> Unit) {
     }
 }
 
-
 /**
  * Maps elements of a [JSONArray] into a list of specified type [T] if they can be casted. Elements
  * that cannot be casted are ignored.
