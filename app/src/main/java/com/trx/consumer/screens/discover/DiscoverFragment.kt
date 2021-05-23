@@ -17,13 +17,14 @@ import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterAdapter
 import com.trx.consumer.screens.discover.list.DiscoverAdapter
+import com.trx.consumer.screens.videoworkout.VideoAdapter
 
 class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
     private val viewModel: DiscoverViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentDiscoverBinding::bind)
 
-    private lateinit var adapter: DiscoverAdapter
+    private lateinit var adapter: VideoAdapter
     private lateinit var discoverAdapter: DiscoverFilterAdapter
     private var currentState = DiscoverViewState.WORKOUT
 
@@ -43,7 +44,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         }
 
         viewBinding.apply {
-            adapter = DiscoverAdapter(viewModel) { lifecycleScope }
+            adapter = VideoAdapter(viewModel) { lifecycleScope }
             discoverAdapter = DiscoverFilterAdapter(viewModel) { lifecycleScope }
             rvVideo.adapter = adapter
             rvFilters.adapter = discoverAdapter
@@ -78,15 +79,15 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     }
 
     private val handleLoadWorkouts = Observer<List<VideoModel>> {
-        adapter.updateVideos(it)
+        adapter.update(it)
     }
 
     private val handleLoadCollections = Observer<List<VideosModel>> {
-        adapter.updateVideos(it)
+        adapter.update(it)
     }
 
     private val handleLoadPrograms = Observer<List<VideosModel>> {
-        adapter.updateVideos(it)
+        adapter.update(it)
     }
 
     private val handleLoadFilters = Observer<List<FilterModel>> { list ->

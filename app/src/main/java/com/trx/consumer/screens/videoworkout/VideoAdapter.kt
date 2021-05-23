@@ -7,6 +7,9 @@ import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.VideoModel
+import com.trx.consumer.models.common.VideosModel
+import com.trx.consumer.screens.discover.list.DiscoverAdapter
+import com.trx.consumer.screens.discover.list.DiscoverViewHolder
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 import java.lang.Exception
@@ -29,7 +32,7 @@ class VideoAdapter(
                 TYPE_ROW -> VideoWorkoutViewHolder(
                     LayoutInflater
                         .from(parent.context)
-                        .inflate(R.layout.row_video_workout_collection, parent, false)
+                        .inflate(R.layout.row_video_workout_table, parent, false)
                 )
                 else -> EmptyViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.row_empty, parent, false)
@@ -46,18 +49,28 @@ class VideoAdapter(
     override fun onBindViewHolder(holder: CommonViewHolder, position: Int) {
         val item = items[position]
         when (holder) {
-            is VideoWorkoutViewHolder -> holder.setup(item as VideoModel, listener)
-            is EmptyViewHolder -> holder.setup(true)
+            is VideoWorkoutViewHolder -> {
+                when (item) {
+                    is VideoModel ->
+                        holder.setup(item, listener)
+                    is VideosModel ->
+                        holder.setup(item, listener)
+                }
+            }
         }
     }
 
     override fun getItemCount(): Int = items.size
 
     override fun getItemViewType(position: Int): Int {
-        return if (items[position] is VideoModel) TYPE_ROW else TYPE_EMPTY
+        return when (items[position]) {
+            is VideoModel -> TYPE_ROW
+            is VideosModel -> TYPE_ROW
+            else -> TYPE_EMPTY
+        }
     }
 
-    fun update(newItems: List<VideoModel>) {
+    fun update(newItems: List<Any>) {
         items.apply {
             clear()
             addAll(newItems)
