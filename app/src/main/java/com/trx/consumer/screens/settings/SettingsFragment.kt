@@ -32,7 +32,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-            eventTapSubscriptions.observe(viewLifecycleOwner, handleTapSubscriptions)
+            eventTapPlans.observe(viewLifecycleOwner, handleTapPlans)
             eventTapContactSupport.observe(viewLifecycleOwner, handleTapContactSupport)
             eventTapGettingStarted.observe(viewLifecycleOwner, handleTapGetStarted)
             eventTapTermsAndConditions.observe(viewLifecycleOwner, handleTapTermsAndConditions)
@@ -57,8 +57,8 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         adapter.update(list)
     }
 
-    private val handleTapSubscriptions = Observer<Void> {
-        LogManager.log("handleTapSubscriptions")
+    private val handleTapPlans = Observer<Void> {
+        LogManager.log("handleTapPlans")
         NavigationManager.shared.present(this, R.id.plans_fragment)
     }
 

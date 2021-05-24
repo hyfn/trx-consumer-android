@@ -8,7 +8,7 @@ import com.trx.consumer.models.common.UserModel
 class SettingsModel {
 
     var user: UserModel? = null
-    var type: SettingsType = SettingsType.SUBSCRIPTIONS
+    var type: SettingsType = SettingsType.PLANS
 
     val title: Int
         get() = type.title
@@ -17,7 +17,7 @@ class SettingsModel {
         get() =
             when (type) {
                 // TODO: Display text based on user's subscription
-                SettingsType.SUBSCRIPTIONS -> "ACTIVE | Renews Oct. 29, 2020"
+                SettingsType.PLANS -> "ACTIVE | Renews Oct. 29, 2020"
                 else -> ""
             }
 
@@ -30,7 +30,7 @@ class SettingsModel {
 
     val titleTextSize: Int
         get() = when (type) {
-            SettingsType.SUBSCRIPTIONS -> 10
+            SettingsType.PLANS -> 10
             else -> 16
         }
 
@@ -43,7 +43,7 @@ class SettingsModel {
 
         fun list(user: UserModel?): List<Any> {
             return listOf(
-                create(user, SettingsType.SUBSCRIPTIONS),
+                create(user, SettingsType.PLANS),
                 0,
                 create(null, SettingsType.SHOP),
                 create(null, SettingsType.GETTING_STARTED),
@@ -57,7 +57,7 @@ class SettingsModel {
 }
 
 enum class SettingsType {
-    SUBSCRIPTIONS,
+    PLANS,
     SHOP,
     GETTING_STARTED,
     CONTACT_SUPPORT,
@@ -68,7 +68,7 @@ enum class SettingsType {
     @get:StringRes
     val title: Int
         get() = when (this) {
-            SUBSCRIPTIONS -> R.string.settings_subscriptions
+            PLANS -> R.string.settings_plans
             SHOP -> R.string.settings_shop
             GETTING_STARTED -> R.string.settings_getting_started
             TERMS_AND_CONDITIONS -> R.string.settings_terms_and_conditions

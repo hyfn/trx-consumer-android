@@ -16,7 +16,7 @@ class SettingsViewModel @ViewModelInject constructor(
     private val cacheManager: CacheManager
 ) : BaseViewModel(), SettingsOptionListener {
 
-    val eventTapSubscriptions = CommonLiveEvent<Void>()
+    val eventTapPlans = CommonLiveEvent<Void>()
     val eventTapTermsAndConditions = CommonLiveEvent<Void>()
     val eventTapContactSupport = CommonLiveEvent<Void>()
     val eventTapGettingStarted = CommonLiveEvent<Void>()
@@ -48,7 +48,7 @@ class SettingsViewModel @ViewModelInject constructor(
 
     override fun doTapSettings(model: SettingsModel) {
         when (model.type) {
-            SettingsType.SUBSCRIPTIONS -> eventTapSubscriptions.call()
+            SettingsType.PLANS -> eventTapPlans.call()
             SettingsType.SHOP -> eventTapShop.call()
             SettingsType.GETTING_STARTED -> eventTapGettingStarted.call()
             SettingsType.CONTACT_SUPPORT -> eventTapContactSupport.call()

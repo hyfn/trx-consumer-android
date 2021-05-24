@@ -5,21 +5,21 @@ import com.trx.consumer.managers.LogManager
 import org.json.JSONObject
 import java.lang.Exception
 
-class SubscriptionsModel(
-    var free: SubscriptionModel = SubscriptionModel(),
-    var plans: List<SubscriptionModel> = listOf()
+class PlansModel(
+    var free: PlanModel = PlanModel(),
+    var plans: List<PlanModel> = listOf()
 ) {
 
     companion object {
 
-        fun parse(jsonObject: JSONObject): SubscriptionsModel =
-            SubscriptionsModel(
+        fun parse(jsonObject: JSONObject): PlansModel =
+            PlansModel(
                 free = jsonObject.optJSONObject("free")?.let {
-                    SubscriptionModel.parse(it)
-                } ?: SubscriptionModel(),
+                    PlanModel.parse(it)
+                } ?: PlanModel(),
                 plans = try {
                     jsonObject.getJSONArray("plans").let { jsonArray ->
-                        jsonArray.map { SubscriptionModel.parse(it) }
+                        jsonArray.map { PlanModel.parse(it) }
                     }
                 } catch (e: Exception) {
                     LogManager.log(e)
