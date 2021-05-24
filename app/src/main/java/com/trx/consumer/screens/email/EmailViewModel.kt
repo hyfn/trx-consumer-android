@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.managers.LogManager
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
 import kotlinx.coroutines.launch
@@ -50,13 +51,10 @@ class EmailViewModel @ViewModelInject constructor(
         eventLoadButton.postValue(false)
     }
 
-    private fun doCallSendEmail() {
+    private fun doCallForgot() {
         viewModelScope.launch {
             eventShowHud.postValue(true)
-            val response = when (state) {
-                EmailViewState.FORGOT -> backendManager.forgot(email)
-                EmailViewState.CODE -> backendManager.code(code)
-            }
+            val response = backendManager.forgot(email)
             eventShowHud.postValue(false)
             if (response.isSuccess) {
                 eventSendEmailSuccess.postValue(state.success)
@@ -66,12 +64,30 @@ class EmailViewModel @ViewModelInject constructor(
         }
     }
 
+    //  TODO: Add function body when CODE endpoint is implemented.
+    private fun doCallCode() {
+        viewModelScope.launch {
+            LogManager.log("doCallCode")
+            // eventShowHud.postValue(true)
+            // val response = backendManager.code(code)
+            // eventShowHud.postValue(false)
+            // if (response.isSuccess) {
+            //     eventSendEmailSuccess.postValue(state.success)
+            // } else {
+            //     eventSendEmailError.postValue(state.error)
+            // }
+        }
+    }
+
     fun doTapBack() {
         eventTapBack.call()
     }
 
     fun doTapSendEmail() {
-        doCallSendEmail()
+        when (state) {
+            EmailViewState.FORGOT -> doCallForgot()
+            EmailViewState.CODE -> doCallCode()
+        }
     }
 
     override fun doUpdateText(

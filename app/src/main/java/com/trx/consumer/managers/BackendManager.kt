@@ -55,15 +55,6 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         }
     }
 
-    //  TODO: Temp function body. Complete once code endpoint is complete. 
-    suspend fun code(code: String): ResponseModel =
-        ResponseModel(
-            statusCode = 0,
-            isSuccess = false,
-            errorMessage = "",
-            responseString = ""
-        )
-
     suspend fun forgot(email: String): ResponseModel {
         val params = hashMapOf<String, Any>("email" to email)
         val path = EndpointModel.FORGOT.path
