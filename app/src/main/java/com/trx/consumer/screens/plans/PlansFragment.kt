@@ -38,8 +38,8 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
 
         viewModel.apply {
             eventLoadCanCancel.observe(viewLifecycleOwner, handleLoadCanCancel)
-            eventLoadCancelSubscription.observe(viewLifecycleOwner, handleLoadCancelSubscription)
-            eventLoadConfirmSubscription.observe(viewLifecycleOwner, handleLoadConfirmSubscription)
+            eventLoadCancelPlan.observe(viewLifecycleOwner, handleLoadCancelPlan)
+            eventLoadConfirmPlan.observe(viewLifecycleOwner, handleLoadConfirmPlan)
             eventLoadError.observe(viewLifecycleOwner, handleLoadError)
             eventLoadNextBillDate.observe(viewLifecycleOwner, handleLoadNextBillDate)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
@@ -66,8 +66,8 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
         }
     }
 
-    private val handleLoadCancelSubscription = Observer<String?> { value ->
-        LogManager.log("handleLoadCancelSubscription")
+    private val handleLoadCancelPlan = Observer<String?> { value ->
+        LogManager.log("handleLoadCancelPlan")
         val message = getString(R.string.plans_cancel_message, value)
 
         //  Not handled like iOS. setSecondaryButton accepts String ints
@@ -83,8 +83,8 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
-    private val handleLoadConfirmSubscription = Observer<PlanModel> { value ->
-        LogManager.log("handleLoadConfirmSubscription")
+    private val handleLoadConfirmPlan = Observer<PlanModel> { value ->
+        LogManager.log("handleLoadConfirmPlan")
         val message = if (value.cost.isNotEmpty()) {
             "Are you sure you want to subscribe for ${value.cost}?"
         } else {
