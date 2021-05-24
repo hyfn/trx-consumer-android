@@ -48,7 +48,9 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
                     EndpointModel.Type.PATCH -> api.patch(url, token, params)
                 }
             )
-            LogManager.log("Response: [${endpoint.type.name}] $queryPath \n${responseModel.responseString}")
+            LogManager.log(
+                "Response: [${endpoint.type.name}] $queryPath \n${responseModel.responseString}"
+            )
             responseModel
         }
     }
@@ -75,6 +77,11 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
             LogManager.log(e)
         }
         return user()
+    }
+
+    suspend fun plans(): ResponseModel {
+        val path = EndpointModel.PLANS.path
+        return call(RequestModel(endpoint = EndpointModel.PLANS, path = path, params = null))
     }
 
     suspend fun paymentAdd(id: String): ResponseModel {
@@ -105,6 +112,32 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
             LogManager.log(e)
         }
         return user()
+    }
+
+    suspend fun planAdd(id: String, country: String = "US"): ResponseModel {
+        val path = EndpointModel.PLAN_ADD.path
+        val params = hashMapOf<String, Any>(
+            "subscriptionType" to id,
+            "country" to country
+        )
+        return call(
+            RequestModel(
+                endpoint = EndpointModel.PLAN_ADD,
+                path = path,
+                params = params
+            )
+        )
+    }
+
+    suspend fun planDelete(id: String): ResponseModel {
+        val path = EndpointModel.PLAN_DELETE.path + "/$id"
+        return call(
+            RequestModel(
+                endpoint = EndpointModel.PLAN_DELETE,
+                path = path,
+                params = null
+            )
+        )
     }
 
     suspend fun user(): ResponseModel {

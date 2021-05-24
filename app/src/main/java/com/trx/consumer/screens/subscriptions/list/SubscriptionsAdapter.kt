@@ -62,7 +62,7 @@ class SubscriptionsAdapter(
     override fun getItemCount(): Int = items.size
 
     fun update(model: SubscriptionsModel) {
-        val list = if (model.state == SubscriptionsViewState.CURRENT) { model.subscriptions } else { model.current }
+        val list = if (model.state == SubscriptionsViewState.CURRENT) { model.current } else { model.subscriptions }
         this.state = model.state
         this.items.clear()
         this.items.addAll(list)

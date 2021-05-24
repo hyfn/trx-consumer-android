@@ -150,7 +150,6 @@
                         app:textAllCaps="true"
                         tools:ignore="SmallSp" />
 
-
                     <com.trx.consumer.common.CommonLabel
                         android:id="@+id/lblNextBillDate"
                         android:layout_width="0dp"

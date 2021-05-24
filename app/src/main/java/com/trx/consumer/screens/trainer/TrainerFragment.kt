@@ -13,7 +13,7 @@ import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
-import com.trx.consumer.screens.videoworkout.VideoAdapter
+import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 
 class TrainerFragment : BaseFragment(R.layout.fragment_trainer) {
 
@@ -21,11 +21,11 @@ class TrainerFragment : BaseFragment(R.layout.fragment_trainer) {
     private val viewBinding by viewBinding(FragmentTrainerBinding::bind)
 
     private lateinit var upComingClassesAdapter: LiveWorkoutAdapter
-    private lateinit var onDemandClassesAdapter: VideoAdapter
+    private lateinit var onDemandClassesAdapter: VideoWorkoutAdapter
 
     override fun bind() {
         upComingClassesAdapter = LiveWorkoutAdapter(viewModel) { lifecycleScope }
-        onDemandClassesAdapter = VideoAdapter(viewModel) { lifecycleScope }
+        onDemandClassesAdapter = VideoWorkoutAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
             rvUpcomingClasses.adapter = upComingClassesAdapter

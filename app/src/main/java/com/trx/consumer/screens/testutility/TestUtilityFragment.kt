@@ -24,7 +24,7 @@ import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.player.PlayerActivity
 import com.trx.consumer.screens.promotion.PromoAdapter
 import com.trx.consumer.screens.update.UpdateViewState
-import com.trx.consumer.screens.videoworkout.VideoAdapter
+import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutAdapter
 import com.trx.consumer.screens.welcome.WelcomeState
 
@@ -36,7 +36,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private lateinit var liveWorkoutAdapter: LiveWorkoutAdapter
     private lateinit var virtualWorkoutAdapter: VirtualWorkoutAdapter
-    private lateinit var videoAdapter: VideoAdapter
+    private lateinit var videoAdapter: VideoWorkoutAdapter
     private lateinit var promoAdapter: PromoAdapter
 
     //endregion
@@ -45,7 +45,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     override fun bind() {
         liveWorkoutAdapter = LiveWorkoutAdapter(viewModel) { lifecycleScope }
         virtualWorkoutAdapter = VirtualWorkoutAdapter(viewModel) { lifecycleScope }
-        videoAdapter = VideoAdapter(viewModel) { lifecycleScope }
+        videoAdapter = VideoWorkoutAdapter(viewModel) { lifecycleScope }
         promoAdapter = PromoAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {

@@ -62,6 +62,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         NavigationManager.shared.present(this, R.id.subscriptions_fragment)
     }
 
+    private val handleTapPlans = Observer<Void> {
+        LogManager.log("handleTapPlans")
+        NavigationManager.shared.present(this, R.id.plans_fragment)
+    }
+
     private val handleTapContactSupport = Observer<Void> {
         LogManager.log("handleTapContactSupport")
         UtilityManager.shared.openUrl(requireContext(), kContactSupportUrl)

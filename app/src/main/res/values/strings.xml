@@ -7,6 +7,9 @@
 
     <string name="alert_button_title_dismiss">Dismiss</string>
     <string name="alert_primary_back">Take me back</string>
+    <string name="alert_primary_keep_plan">No, keep my plan</string>
+    <string name="alert_primary_submit_payment">Submit Payment</string>
+    <string name="alert_secondary_cancel">Cancel</string>
     <string name="alert_primary_cool">Cool</string>
     <string name="alert_secondary_report">Report an issue</string>
     <string name="alert_confirm_message">Are you sure?</string>
@@ -98,8 +101,9 @@
 
     <string name="plans_choose_plan_label">Choose Plan</string>
     <string name="plans_current_plan_label">Current Plan</string>
-    <string name="plans_title">Subscriptions</string>
-    <string name="plans_cancel_subscription_label">Cancel Subscription</string>
+    <string name="plans_title">Plans</string>
+    <string name="plans_cancel_message"> Are you sure you want to cancel your %s plan?</string>
+    <string name="plans_cancel_button_label">Cancel Plan</string>
     <string name="plans_last_bill_date_label">Last Bill Date:</string>
     <string name="plans_next_bill_date_label">Next Bill Date:</string>
 
@@ -107,6 +111,7 @@
     <string name="player_end_workout_button_label">END WORKOUT</string>
 
     <string name="settings_title">SETTINGS</string>
+    <string name="settings_plans">Plans</string>
     <string name="settings_subscriptions">Subscriptions</string>
     <string name="settings_shop">Shop TRX Products</string>
     <string name="settings_getting_started">Getting Started Videos</string>
@@ -235,4 +240,7 @@
     <string name="filters_options_btn_all_label">Clear Filters</string>
     <string name="filters_options_selected_filter_label">(%1$d)</string>
     <string name="filters_options_selected_filter_default_label"> </string>
+
+    <string name="videos_related_label">Related Workouts</string>
+    <string name="videos_btn_primary_label">Start Workout</string>
 </resources>

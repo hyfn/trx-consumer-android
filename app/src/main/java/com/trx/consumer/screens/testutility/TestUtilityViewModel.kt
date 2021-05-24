@@ -144,7 +144,7 @@ class TestUtilityViewModel @ViewModelInject constructor(
 
     override fun doTapSelect(model: VirtualWorkoutModel) {}
 
-    override fun doTapSelect(model: VideoModel) {}
+    override fun doTapVideo(model: VideoModel) {}
 
     override fun doTapPromo(model: PromoModel) {}
 
