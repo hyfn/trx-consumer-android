@@ -57,7 +57,7 @@
                 app:textAllCaps="true" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/viewSubscriptions"
+                android:id="@+id/viewPlans"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -75,7 +75,7 @@
                 app:backgroundColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewSubscriptions">
+                app:layout_constraintTop_toBottomOf="@+id/viewPlans">
 
                 <com.trx.consumer.common.CommonView
                     android:id="@+id/viewNextBill"
@@ -179,7 +179,7 @@
             </com.trx.consumer.common.CommonView>
 
             <com.trx.consumer.common.CommonButton
-                android:id="@+id/btnCancelSubscription"
+                android:id="@+id/btnCancelPlan"
                 android:layout_width="0dp"
                 android:layout_height="75dp"
                 android:layout_marginTop="20dp"

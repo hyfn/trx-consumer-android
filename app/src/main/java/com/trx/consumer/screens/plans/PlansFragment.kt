@@ -32,7 +32,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
     override fun bind() {
         viewBinding.apply {
             adapter = PlansAdapter(viewModel) { lifecycleScope }
-            viewSubscriptions.adapter = adapter
+            viewPlans.adapter = adapter
             btnBack.action { viewModel.doTapBack() }
         }
 
@@ -61,21 +61,21 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
     private val handleLoadCanCancel = Observer<Boolean> { value ->
         LogManager.log("handleLoadCanCancel")
         viewBinding.apply {
-            btnCancelSubscription.isHidden = !value
+            btnCancelPlan.isHidden = !value
             viewNextBill.isHidden = !value
         }
     }
 
     private val handleLoadCancelSubscription = Observer<String?> { value ->
         LogManager.log("handleLoadCancelSubscription")
-        val message = getString(R.string.plans_cancel_subscription_message, value)
+        val message = getString(R.string.plans_cancel_message, value)
 
         //  Not handled like iOS. setSecondaryButton accepts String ints
         //  so doing below and applying that to setSecondaryButton won't work.
         //  val cancelTitle = value?.let { "Cancel $value" } ?: "Cancel"
 
         val model = AlertModel.create(title = "", message = message)
-        model.setPrimaryButton(title = R.string.alert_primary_keep_subscription)
+        model.setPrimaryButton(title = R.string.alert_primary_keep_plan)
         model.setSecondaryButton(title = R.string.alert_secondary_cancel) {
             viewModel.doTapUnsubscribe()
         }
