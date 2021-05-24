@@ -31,7 +31,10 @@ class EmailFragment : BaseFragment(R.layout.fragment_email) {
 
         viewBinding.apply {
             btnBack.action { viewModel.doTapBack() }
-            btnSendEmail.action { viewModel.doTapSendEmail() }
+            btnSendEmail.action {
+                viewModel.doDismissKeyboard()
+                viewModel.doTapSendEmail()
+            }
         }
 
         viewModel.apply {
@@ -113,7 +116,7 @@ class EmailFragment : BaseFragment(R.layout.fragment_email) {
     }
 
     private val handleShowHud = Observer<Boolean> { show ->
-        viewBinding.hudView.isVisible = show
+        viewBinding.emailHudView.isVisible = show
     }
 
     //endregion
@@ -124,7 +127,10 @@ class EmailFragment : BaseFragment(R.layout.fragment_email) {
         viewBinding.apply {
             imgHeader.setImageResource(state.headerImage)
             lblHeader.setText(state.headerTitle)
-            txtEmail.setEmailInputViewState(state)
+            txtEmail.apply {
+                setInputViewListener(viewModel)
+                setEmailInputViewState(state)
+            }
             lblDescription.setText(state.description)
             btnSendEmail.text = getString(state.buttonTitle)
         }

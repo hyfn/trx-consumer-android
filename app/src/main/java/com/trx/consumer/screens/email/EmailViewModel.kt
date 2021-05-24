@@ -51,7 +51,6 @@ class EmailViewModel @ViewModelInject constructor(
     }
 
     private fun doCallSendEmail() {
-        eventDismissKeyboard.call()
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = when (state) {
@@ -94,6 +93,10 @@ class EmailViewModel @ViewModelInject constructor(
             EmailViewState.CODE -> InputViewState.CODE.validate(code)
         }
         eventLoadButton.postValue(enabled)
+    }
+
+    fun doDismissKeyboard() {
+        eventDismissKeyboard.call()
     }
 
     //endregion
