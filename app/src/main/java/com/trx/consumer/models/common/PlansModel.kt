@@ -6,8 +6,8 @@ import org.json.JSONObject
 import java.lang.Exception
 
 class PlansModel(
-    var free: SubscriptionModel = SubscriptionModel(),
-    var plans: List<SubscriptionModel> = listOf()
+    var free: PlanModel = PlanModel(),
+    var plans: List<PlanModel> = listOf()
 ) {
 
     companion object {
@@ -15,11 +15,11 @@ class PlansModel(
         fun parse(jsonObject: JSONObject): PlansModel =
             PlansModel(
                 free = jsonObject.optJSONObject("free")?.let {
-                    SubscriptionModel.parse(it)
-                } ?: SubscriptionModel(),
+                    PlanModel.parse(it)
+                } ?: PlanModel(),
                 plans = try {
                     jsonObject.getJSONArray("plans").let { jsonArray ->
-                        jsonArray.map { SubscriptionModel.parse(it) }
+                        jsonArray.map { PlanModel.parse(it) }
                     }
                 } catch (e: Exception) {
                     LogManager.log(e)

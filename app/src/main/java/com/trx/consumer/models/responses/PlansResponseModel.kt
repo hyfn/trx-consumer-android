@@ -9,7 +9,7 @@ class PlansResponseModel(private var plan: PlansModel = PlansModel()) {
 
     fun plans(planText: String?): List<PlanModel> =
         planText?.let { text ->
-            val list = plan.plans.map { it.plan }.toMutableList()
+            val list = plan.plans.toMutableList()
             list.indexOfFirst { it.title == text }.let { index ->
                 if (index != -1) {
                     list.removeAt(index).let { planModel ->
@@ -19,7 +19,7 @@ class PlansResponseModel(private var plan: PlansModel = PlansModel()) {
                 }
             }
             list
-        } ?: plan.plans.map { it.plan }
+        } ?: plan.plans
 
     companion object {
 
