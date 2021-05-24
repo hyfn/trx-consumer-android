@@ -63,7 +63,7 @@
             </com.trx.consumer.common.CommonView>
 
             <com.trx.consumer.views.input.InputView
-                android:id="@+id/txtEmail"
+                android:id="@+id/txtSendEmail"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="15dp"
@@ -79,7 +79,7 @@
                 android:background="@color/greyLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+                app:layout_constraintTop_toBottomOf="@+id/txtSendEmail" />
 
             <com.trx.consumer.common.CommonLabel
                 android:id="@+id/lblDescription"
