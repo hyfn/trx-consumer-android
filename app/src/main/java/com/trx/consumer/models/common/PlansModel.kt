@@ -5,15 +5,15 @@ import com.trx.consumer.managers.LogManager
 import org.json.JSONObject
 import java.lang.Exception
 
-class SubscriptionsModel(
+class PlansModel(
     var free: SubscriptionModel = SubscriptionModel(),
     var plans: List<SubscriptionModel> = listOf()
 ) {
 
     companion object {
 
-        fun parse(jsonObject: JSONObject): SubscriptionsModel =
-            SubscriptionsModel(
+        fun parse(jsonObject: JSONObject): PlansModel =
+            PlansModel(
                 free = jsonObject.optJSONObject("free")?.let {
                     SubscriptionModel.parse(it)
                 } ?: SubscriptionModel(),
