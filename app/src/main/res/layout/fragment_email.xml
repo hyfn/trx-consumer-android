@@ -90,8 +90,8 @@
                 android:layout_marginEnd="15dp"
                 android:fontFamily="@font/atcarquette_regular"
                 android:lineSpacingExtra="5sp"
-                android:textSize="16sp"
                 android:textColor="@color/black"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vLine"
@@ -130,10 +130,10 @@
     <com.trx.consumer.common.CommonHudView
         android:id="@+id/emailHudView"
         android:layout_width="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_height="match_parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </com.trx.consumer.common.CommonView>
