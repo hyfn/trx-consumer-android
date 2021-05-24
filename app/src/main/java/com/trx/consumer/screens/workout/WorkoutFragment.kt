@@ -63,7 +63,7 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             lblSubtitle.text(model.video.videoDuration)
 
             viewTrainer.isHidden = false
-            imgTrainerProfile.load(model.video.trainer.profilePhoto)
+            imgTrainerPhoto.load(model.video.trainer.profilePhoto)
             lblTrainerName.text(model.video.trainer.fullName)
 
             btnPrimary.apply { text = context.getString(model.bookViewStatus.buttonTitle) }
@@ -81,7 +81,7 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             lblSubtitle.text = model.video.videoDuration
 
             viewTrainer.isHidden = false
-            imgTrainerProfile.load(model.video.trainer.profilePhoto)
+            imgTrainerPhoto.load(model.video.trainer.profilePhoto)
             lblTrainerName.text = model.video.trainer.fullName
             btnPrimary.bgColor(model.state.buttonBackgroundColor)
             btnPrimary.textColor(model.state.buttonTitleColor)
