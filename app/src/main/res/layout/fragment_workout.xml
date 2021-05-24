@@ -29,7 +29,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/img_media_welcome"
                     app:layout_constraintBottom_toBottomOf="@+id/viewHeader"
                     app:layout_constraintTop_toTopOf="@+id/viewHeader" />
 
