@@ -45,7 +45,7 @@ class DiscoverViewModel @ViewModelInject constructor(
                 workouts = model.workouts
                 collections = model.collections
                 programs = model.programs
-                filters = model.filters
+                if (filters.isEmpty()) filters = model.filters
             }
             eventShowHud.postValue(false)
             params.lstFilters = filters

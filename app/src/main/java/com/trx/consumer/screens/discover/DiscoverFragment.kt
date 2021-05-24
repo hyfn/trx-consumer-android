@@ -28,6 +28,10 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     private var currentState = DiscoverViewState.WORKOUT
 
     override fun bind() {
+        NavigationManager.shared.params(this)?.let { params ->
+            if (params is FilterParamsModel)
+                viewModel.filters = params.lstFilters
+        }
 
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
