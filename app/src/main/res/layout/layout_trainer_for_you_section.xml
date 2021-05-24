@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:backgroundTint="@color/grey"
+    android:layout_width="match_parent"
+    android:layout_height="90dp">
+
+    <com.trx.consumer.common.CommonImageView
+        android:id="@+id/imgBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblTitle"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fontFamily="@font/atcarquette_medium"
+        android:lineSpacingExtra="4dp"
+        android:maxLines="3"
+        android:padding="15dp"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="View Jamie’s Product Recommendations" />
+
+</com.trx.consumer.common.CommonView>

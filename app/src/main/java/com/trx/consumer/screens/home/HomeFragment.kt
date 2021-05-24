@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.home
 
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -10,13 +9,16 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentHomeBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
+import com.trx.consumer.extensions.load
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.managers.UtilityManager
+import com.trx.consumer.models.common.BannerModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.screens.promotion.PromoAdapter
-import com.trx.consumer.screens.videoworkout.VideoAdapter
+import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
@@ -24,14 +26,14 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentHomeBinding::bind)
 
-    private lateinit var videosAdapter: VideoAdapter
+    private lateinit var videosAdapter: VideoWorkoutAdapter
     private lateinit var promoAdapter: PromoAdapter
 
     //endregion
 
     //region Setup
     override fun bind() {
-        videosAdapter = VideoAdapter(viewModel) { lifecycleScope }
+        videosAdapter = VideoWorkoutAdapter(viewModel) { lifecycleScope }
         promoAdapter = PromoAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
@@ -51,6 +53,9 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             eventLoadBanner.observe(viewLifecycleOwner, handleLoadBanner)
 
             eventTapBanner.observe(viewLifecycleOwner, handleTapBanner)
+
+            eventShowPromo.observe(viewLifecycleOwner, handleShowPromo)
+            eventShowHud.observe(viewLifecycleOwner, handleShowHud)
 
             doLoadView()
             doLoadBanner()
@@ -86,18 +91,42 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         loadUser(user)
     }
 
-    private val handleLoadBanner = Observer<Boolean> { show ->
-        viewBinding.apply {
-            viewBanner.viewMain.isVisible = show
-            viewBanner.viewMain.requestLayout()
+    private val handleLoadBanner = Observer<BannerModel> { banner ->
+        LogManager.log("handleLoadBanner: isActive - ${banner.isActive}")
+        loadBanner(banner)
+    }
+
+    private val handleTapBanner = Observer<String> { url ->
+        LogManager.log("handleTapBanner: $url")
+        if (url.isNotEmpty()) UtilityManager.shared.openUrl(requireContext(), url)
+    }
+
+    private val handleShowPromo = Observer<PromoModel> { promo ->
+        LogManager.log("handleShowPromo: ${promo.ctaHref}")
+        promo.ctaHref.let { url ->
+            if (url.isNotEmpty()) UtilityManager.shared.openUrl(requireContext(), url)
         }
     }
 
-    private val handleTapBanner = Observer<Void> {}
+    private val handleShowHud = Observer<Boolean> { show ->
+        viewBinding.hudView.isVisible = show
+    }
 
     //endregion
 
     //region Functions
+
+    private fun loadBanner(banner: BannerModel) {
+        viewBinding.apply {
+            viewBanner.lblBanner.text = getString(R.string.home_banner_section_title_label)
+            viewBanner.imgBanner.load(banner.modalImageUrl)
+            viewBanner.lblTitle.text = banner.modalTitle
+            viewBanner.lblSubtitle.text = banner.modalDescription
+            viewBanner.btnPrimary.text = banner.modalButtonText
+            viewBanner.viewMain.isHidden = !banner.isActive
+            viewBanner.viewMain.requestLayout()
+        }
+    }
 
     private fun loadVideos(workouts: List<VideoModel>) {
         val hide = workouts.isEmpty()
