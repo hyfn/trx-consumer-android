@@ -19,8 +19,8 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     override fun bind() {
         viewBinding.apply {
-            ivEmail.setInputViewListener(viewModel)
-            ivPassword.setInputViewListener(viewModel)
+            txtEmail.setInputViewListener(viewModel)
+            txtPassword.setInputViewListener(viewModel)
 
             btnBack.action { viewModel.doTapBack() }
             lblSignUp.action { viewModel.doTapSignUp() }
@@ -90,8 +90,8 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     private fun dismissKeyboard() {
         viewBinding.apply {
-            ivEmail.dismiss()
-            ivPassword.dismiss()
+            txtEmail.dismiss()
+            txtPassword.dismiss()
         }
     }
 

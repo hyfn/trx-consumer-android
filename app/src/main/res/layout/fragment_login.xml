@@ -60,7 +60,7 @@
             </com.trx.consumer.common.CommonView>
 
             <com.trx.consumer.views.input.InputView
-                android:id="@+id/ivEmail"
+                android:id="@+id/txtEmail"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="15dp"
@@ -76,10 +76,10 @@
                 android:background="@color/greyLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivEmail" />
+                app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
 
             <com.trx.consumer.views.input.InputView
-                android:id="@+id/ivPassword"
+                android:id="@+id/txtPassword"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="16dp"
@@ -95,7 +95,7 @@
                 android:background="@color/greyLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivPassword" />
+                app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
 
             <com.trx.consumer.common.CommonButton
                 android:id="@+id/btnForgotPassword"
