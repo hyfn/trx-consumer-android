@@ -7,12 +7,14 @@ import org.json.JSONObject
 class BookingResponseModel(val workouts: MutableList<WorkoutModel> = mutableListOf()) {
 
     /* val calendarModelLive: CalendarModel
+    TODO: need to implement proper logic
          get() = CalendarModel(CalendarViewState.PICKER).apply {
              listDays = CalendarModel.createListOfDays()
              listEvents = lstLiveUpcoming.map { it.date }
          }
 
      val calendarModelVirtual: CalendarModel
+     TODO: need to implement proper logic
          get() = CalendarModel(CalendarViewState.DISPLAY).apply {
              listDays = CalendarModel.createListOfDays()
              listEvents = lstVirtualUpcoming.map { date }
@@ -22,11 +24,13 @@ class BookingResponseModel(val workouts: MutableList<WorkoutModel> = mutableList
         get() = workouts.filter { it.isCanceled }.sortedBy { it.startsAt }.map { it.booking }
 
     /*var lstLiveUpcoming: List<WorkoutModel>
+    TODO: need to implement proper logic
         get() = lstWorkoutsSorted.filter { it.workoutState == WorkoutViewState.LIVE }
             .filter { it.date.(than: Date().dateByAddingValue(kMinutesAfterCanJoin, unit:.minute)) }
 
 
     var lstVirtualUpcoming: <WorkoutModel>
+    TODO: need to implement proper logic
         get() =lstWorkoutsSorted.filter { $0.workoutState == . virtual }.filter { $0.date.isLater(than: Date()) }*/
 
     companion object {
