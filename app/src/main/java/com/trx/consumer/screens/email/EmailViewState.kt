@@ -69,4 +69,10 @@ enum class EmailViewState {
             FORGOT -> R.string.email_forgot_error
             CODE -> R.string.email_code_error
         }
+
+    val inputViewState: InputViewState
+        get() = when (this) {
+            FORGOT -> InputViewState.EMAIL
+            CODE -> InputViewState.CODE
+        }
 }
