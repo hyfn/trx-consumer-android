@@ -15,12 +15,12 @@ enum class EndpointModel {
     LOGOUT,
     PAYMENT_ADD,
     PAYMENT_DELETE,
+    PLAN_ADD,
+    PLAN_DELETE,
     PLANS,
     PROGRAM_AVAILABILITY,
     PROMOS,
     REGISTER,
-    SUBSCRIPTION_ADD,
-    SUBSCRIPTION_DELETE,
     TRAINER,
     TRAINERS,
     TRAINER_PROGRAMS,
@@ -41,7 +41,7 @@ enum class EndpointModel {
     val type: Type
         get() {
             return when (this) {
-                BOOK_CANCEL, LOGOUT, PAYMENT_DELETE, SUBSCRIPTION_DELETE -> {
+                BOOK_CANCEL, LOGOUT, PAYMENT_DELETE, PLAN_DELETE -> {
                     Type.DELETE
                 }
                 UPDATE -> {
@@ -52,8 +52,8 @@ enum class EndpointModel {
                 BOOK_SESSION_CONFIRM,
                 BOOK_SESSION_INTENT,
                 PAYMENT_ADD,
-                REGISTER,
-                SUBSCRIPTION_ADD -> {
+                PLAN_ADD,
+                REGISTER -> {
                     Type.POST
                 }
                 LOGIN -> {
@@ -77,8 +77,8 @@ enum class EndpointModel {
                 LOGOUT,
                 PAYMENT_ADD,
                 PAYMENT_DELETE,
-                SUBSCRIPTION_ADD,
-                SUBSCRIPTION_DELETE,
+                PLAN_ADD,
+                PLAN_DELETE,
                 UPDATE,
                 USER -> true
                 else -> false
@@ -98,10 +98,9 @@ enum class EndpointModel {
                 BOOK_SESSION_INTENT -> prefix + "bookings/session"
                 LOGIN, LOGOUT, REGISTER -> prefix + "auth"
                 PAYMENT_ADD, PAYMENT_DELETE -> prefix + "stripe/payment-method"
-                PLANS -> prefix + "subscriptions"
+                PLAN_ADD, PLAN_DELETE, PLANS -> prefix + "subscriptions"
                 PROGRAM_AVAILABILITY -> prefix + "programs"
                 PROMOS -> prefix + "copy/ctas"
-                SUBSCRIPTION_ADD, SUBSCRIPTION_DELETE -> prefix + "subscriptions"
                 TRAINER, TRAINERS, TRAINER_PROGRAMS, TRAINER_SESSIONS -> prefix + "trainers"
                 UPDATE, USER -> prefix + "user"
                 VIDEOS -> prefix + "videos"

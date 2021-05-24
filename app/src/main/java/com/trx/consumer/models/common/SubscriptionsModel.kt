@@ -1,30 +1,12 @@
 package com.trx.consumer.models.common
 
-import com.trx.consumer.extensions.map
-import com.trx.consumer.managers.LogManager
-import org.json.JSONObject
-import java.lang.Exception
+import android.os.Parcelable
+import com.trx.consumer.screens.subscriptions.list.SubscriptionsViewState
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 class SubscriptionsModel(
-    var free: SubscriptionModel = SubscriptionModel(),
-    var plans: List<SubscriptionModel> = listOf()
-) {
-
-    companion object {
-
-        fun parse(jsonObject: JSONObject): SubscriptionsModel =
-            SubscriptionsModel(
-                free = jsonObject.optJSONObject("free")?.let {
-                    SubscriptionModel.parse(it)
-                } ?: SubscriptionModel(),
-                plans = try {
-                    jsonObject.getJSONArray("plans").let { jsonArray ->
-                        jsonArray.map { SubscriptionModel.parse(it) }
-                    }
-                } catch (e: Exception) {
-                    LogManager.log(e)
-                    listOf()
-                }
-            )
-    }
-}
+    var state: SubscriptionsViewState = SubscriptionsViewState.CURRENT,
+    var subscriptions: List<SubscriptionModel> = SubscriptionModel.testList(10),
+    var current: List<SubscriptionModel> = SubscriptionModel.testList(1),
+) : Parcelable
