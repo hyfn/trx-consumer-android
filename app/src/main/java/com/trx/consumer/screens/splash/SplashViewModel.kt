@@ -1,10 +1,7 @@
 package com.trx.consumer.screens.splash
 
-import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.managers.IAPManager
-import kotlinx.coroutines.launch
 
 class SplashViewModel() : BaseViewModel() {
 
@@ -17,9 +14,7 @@ class SplashViewModel() : BaseViewModel() {
     //region Functions
 
     fun doTapEmail() {
-        viewModelScope.launch {
-            IAPManager.shared.packages()
-        }
+        eventTapEmail.call()
     }
 
     fun doTapSignUp() {
