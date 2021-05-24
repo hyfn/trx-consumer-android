@@ -98,11 +98,11 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     }
 
     private val handlerTapDiscoverFilter = Observer<FilterParamsModel> { params ->
-        NavigationManager.shared.present(this, R.id.filter_fragment, params)
+        NavigationManager.shared.present(this, R.id.filter_fragment, params.copyModel())
     }
 
     private val handleTapFilter = Observer<FilterParamsModel> { params ->
-        NavigationManager.shared.present(this, R.id.filter_fragment, params)
+        NavigationManager.shared.present(this, R.id.filter_fragment, params.copyModel())
     }
 
     private fun changeState(newState: DiscoverViewState) {
