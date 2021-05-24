@@ -61,7 +61,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
     private val handleLoadCanCancel = Observer<Boolean> { value ->
         LogManager.log("handleLoadCanCancel")
         viewBinding.apply {
-            btnCancelPlan.isHidden = !value
+            btnCancel.isHidden = !value
             viewNextBill.isHidden = !value
         }
     }
