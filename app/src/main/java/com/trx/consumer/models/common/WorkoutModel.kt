@@ -2,7 +2,10 @@ package com.trx.consumer.models.common
 
 import android.os.Parcelable
 import android.text.format.DateUtils
+import com.trx.consumer.BuildConfig.kMinutesBeforeCanJoin
+import com.trx.consumer.extensions.elapsedMin
 import com.trx.consumer.extensions.format
+import com.trx.consumer.screens.workout.WorkoutViewState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.time.Instant
@@ -23,15 +26,23 @@ class WorkoutModel(
     val trainer: TrainerModel = TrainerModel(),
     var state: BookingState = BookingState.BOOK,
     var mode: String = "",
-    val identifier: String = "",
-    val sessionId: String = "",
-    val cancelId: String? = null,
+    var identifier: String = "",
+    var sessionId: String = "",
+    var cancelId: String? = null,
     val bookingTimestamp: Double = 0.0,
     var video: VideoModel = VideoModel()
 ) : Parcelable {
 
+    override fun equals(other: Any?): Boolean {
+        return other === this || (other is WorkoutModel && other.identifier == identifier)
+    }
+
+    override fun hashCode(): Int {
+        return identifier.hashCode()
+    }
+
     val date: Date
-        get() = Date.from(Instant.ofEpochMilli(startsAt.toLong()))
+        get() = Date.from(Instant.ofEpochMilli(startsAt))
 
     val dateDisplay: String
         get() {
@@ -54,6 +65,33 @@ class WorkoutModel(
 
     val time: String
         get() = date.format("h:mm a", zone = TimeZone.getDefault())
+
+    val workoutState: WorkoutViewState
+        get() = WorkoutViewState.from(mode)
+
+    val isCanceled: Boolean
+        get() = canceledAt != null
+
+    val booking: WorkoutModel
+        get() = this.apply {
+            state = BookingState.BOOKED
+            when (workoutState) {
+                WorkoutViewState.LIVE -> cancelId = identifier
+                WorkoutViewState.VIRTUAL -> cancelId = sessionId
+                else -> {
+                }
+            }
+            sessionId = identifier.also { identifier = sessionId }
+        }
+
+    val bookViewStatus: BookingState
+        get() = when (state) {
+            BookingState.BOOKED -> {
+                if (date.elapsedMin() < kMinutesBeforeCanJoin) BookingState.JOIN else BookingState.CANCEL
+            }
+            BookingState.DISABLED -> BookingState.VIDEO
+            else -> BookingState.BOOK
+        }
 
     companion object {
 

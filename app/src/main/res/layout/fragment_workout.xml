@@ -24,6 +24,15 @@
                 android:layout_height="270dp"
                 app:backgroundColor="@color/grey">
 
+                <com.trx.consumer.common.CommonImageView
+                    android:id="@+id/imgHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_media_welcome"
+                    app:layout_constraintBottom_toBottomOf="@+id/viewHeader"
+                    app:layout_constraintTop_toTopOf="@+id/viewHeader" />
+
                 <com.trx.consumer.common.CommonView
                     android:id="@+id/viewNavBar"
                     android:layout_width="match_parent"
@@ -46,13 +55,6 @@
 
                 </com.trx.consumer.common.CommonView>
 
-                <com.trx.consumer.common.CommonImageView
-                    android:id="@+id/imgHeader"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="@+id/viewHeader"
-                    app:layout_constraintTop_toTopOf="@+id/viewHeader" />
 
                 <com.trx.consumer.common.CommonLabel
                     android:id="@+id/lblDate"
