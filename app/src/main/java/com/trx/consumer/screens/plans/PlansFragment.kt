@@ -86,9 +86,9 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
     private val handleLoadConfirmPlan = Observer<PlanModel> { value ->
         LogManager.log("handleLoadConfirmPlan")
         val message = if (value.cost.isNotEmpty()) {
-            "Are you sure you want to subscribe for ${value.cost}?"
+            "Are you sure you want to add plan for ${value.cost}?"
         } else {
-            "Are you sure you want to subscribe?"
+            "Are you sure you want to add plan?"
         }
 
         val model = AlertModel.create(title = "", message = message)
