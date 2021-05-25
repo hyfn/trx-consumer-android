@@ -7,14 +7,13 @@ import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.BookingAlertModel
-import com.trx.consumer.models.common.ClassModel
 
 class BookingAlertViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager
 ) : BaseViewModel() {
 
-    var model: ClassModel? = null
+    var model: BookingAlertModel? = null
     var isCallingBook = false
     private val isGuest = NavigationManager.shared.isGuestMode
 
