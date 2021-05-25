@@ -8,7 +8,7 @@ import org.json.JSONObject
 
 @Parcelize
 class BookingAlertModel(
-    var card: CardModel = CardModel(),
+    var card: CardModel? = null,
     var workout: WorkoutModel
 ) : Parcelable {
 
@@ -35,9 +35,7 @@ class BookingAlertModel(
 
         fun parse(jsonObject: JSONObject): BookingAlertModel =
             BookingAlertModel(
-                card = jsonObject.optJSONObject("card")?.let {
-                    CardModel.parse(it)
-                } ?: CardModel(),
+                card = jsonObject.optJSONObject("card")?.let { CardModel.parse(it) },
                 workout = jsonObject.optJSONObject("workout")?.let {
                     WorkoutModel.parse(it)
                 } ?: WorkoutModel()
