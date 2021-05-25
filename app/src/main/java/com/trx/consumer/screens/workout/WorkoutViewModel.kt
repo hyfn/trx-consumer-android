@@ -7,10 +7,10 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.BookingState
+import com.trx.consumer.models.states.BookingViewState
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.models.responses.BookingResponseModel
+import com.trx.consumer.models.responses.BookingsResponseModel
 import kotlinx.coroutines.launch
 
 class WorkoutViewModel @ViewModelInject constructor(
@@ -21,11 +21,9 @@ class WorkoutViewModel @ViewModelInject constructor(
     var model: WorkoutModel = WorkoutModel()
 
     val eventLoadView = CommonLiveEvent<WorkoutModel>()
-    val eventTapBack = CommonLiveEvent<Void>()
-
-    var eventLoadVideoView = CommonLiveEvent<WorkoutModel>()
     var eventLoadWorkoutView = CommonLiveEvent<WorkoutModel>()
 
+    val eventTapBack = CommonLiveEvent<Void>()
     var eventTapBookLive = CommonLiveEvent<WorkoutModel>()
     var eventTapProfile = CommonLiveEvent<TrainerModel>()
     var eventTapStartWorkout = CommonLiveEvent<WorkoutModel>()
@@ -43,18 +41,18 @@ class WorkoutViewModel @ViewModelInject constructor(
     }
 
     private fun doLoadVideo() {
-        eventLoadVideoView.postValue(model)
+        eventLoadView.postValue(model)
     }
 
     private fun doLoadWorkout() {
-        if (model.state != BookingState.BOOKED) {
+        if (model.state != BookingViewState.BOOKED) {
             viewModelScope.launch {
                 val response = backendManager.bookings()
                 if (response.isSuccess) {
-                    val bookingModel = BookingResponseModel.parse(response.responseString)
-                    bookingModel.lstWorkoutsSorted.firstOrNull { it == model }?.let { model ->
-                        model.state = BookingState.BOOKED
-                        model.cancelId = model.cancelId
+                    val bookingModel = BookingsResponseModel.parse(response.responseString)
+                    bookingModel.lstWorkoutsSorted.firstOrNull { it == model }?.let { booking ->
+                        model.state = BookingViewState.BOOKED
+                        model.cancelId = booking.cancelId
                     }
                     eventLoadWorkoutView.postValue(model)
                 }
@@ -75,16 +73,17 @@ class WorkoutViewModel @ViewModelInject constructor(
         when (model.workoutState) {
             WorkoutViewState.VIDEO -> eventTapStartWorkout.postValue(model)
             WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> {
-                if (model.bookViewStatus == BookingState.JOIN) {
+                if (model.bookViewStatus == BookingViewState.JOIN) {
                     eventTapStartWorkout.postValue(model)
-                }
-                viewModelScope.launch {
-                    cacheManager.user()?.card?.let {
-                        backendManager.user().let {
+                } else {
+                    viewModelScope.launch {
+                        cacheManager.user()?.card?.let {
                             eventTapBookLive.postValue(model)
+                        } ?: run {
+                            backendManager.user().let {
+                                eventTapBookLive.postValue(model)
+                            }
                         }
-                    } ?: run {
-                        eventTapBookLive.postValue(model)
                     }
                 }
             }

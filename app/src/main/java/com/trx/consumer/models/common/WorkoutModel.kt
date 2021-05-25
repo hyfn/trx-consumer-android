@@ -5,6 +5,7 @@ import android.text.format.DateUtils
 import com.trx.consumer.BuildConfig.kMinutesBeforeCanJoin
 import com.trx.consumer.extensions.elapsedMin
 import com.trx.consumer.extensions.format
+import com.trx.consumer.models.states.BookingViewState
 import com.trx.consumer.screens.workout.WorkoutViewState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
@@ -24,7 +25,7 @@ class WorkoutModel(
     val priceInCents: Int = 0,
     val remaining: String = "",
     val trainer: TrainerModel = TrainerModel(),
-    var state: BookingState = BookingState.BOOK,
+    var state: BookingViewState = BookingViewState.BOOK,
     var mode: String = "",
     var identifier: String = "",
     var sessionId: String = "",
@@ -69,12 +70,12 @@ class WorkoutModel(
     val workoutState: WorkoutViewState
         get() = WorkoutViewState.from(mode)
 
-    val isCanceled: Boolean
+    val isCancelled: Boolean
         get() = canceledAt != null
 
     val booking: WorkoutModel
         get() = this.apply {
-            state = BookingState.BOOKED
+            state = BookingViewState.BOOKED
             when (workoutState) {
                 WorkoutViewState.LIVE -> cancelId = identifier
                 WorkoutViewState.VIRTUAL -> cancelId = sessionId
@@ -84,13 +85,14 @@ class WorkoutModel(
             sessionId = identifier.also { identifier = sessionId }
         }
 
-    val bookViewStatus: BookingState
+    val bookViewStatus: BookingViewState
         get() = when (state) {
-            BookingState.BOOKED -> {
-                if (date.elapsedMin() < kMinutesBeforeCanJoin) BookingState.JOIN else BookingState.CANCEL
+            BookingViewState.BOOKED -> {
+                if (date.elapsedMin() < kMinutesBeforeCanJoin) BookingViewState.JOIN
+                else BookingViewState.CANCEL
             }
-            BookingState.DISABLED -> BookingState.VIDEO
-            else -> BookingState.BOOK
+            BookingViewState.DISABLED -> BookingViewState.VIDEO
+            else -> BookingViewState.BOOK
         }
 
     companion object {
@@ -125,7 +127,7 @@ class WorkoutModel(
                 imageUrl = "https://cf-images.us-east-1.prod.boltdns.net/v1/jit/6204326362001/9ad5d77c-99f7-4c65-8a2d-40ac2546fd01/main/1280x720/55s189ms/match/image.jpg",
                 title = "TRX Strength & Conditioning",
                 startsAt = 1615917600000,
-                state = BookingState.VIEW,
+                state = BookingViewState.VIEW,
                 trainer = TrainerModel.test(),
                 video = VideoModel.test()
             )

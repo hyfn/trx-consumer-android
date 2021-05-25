@@ -11,10 +11,11 @@ import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.extensions.load
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.common.BookingState
+import com.trx.consumer.models.states.BookingViewState
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.screens.player.PlayerActivity
 
 class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
@@ -25,11 +26,17 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
         val model = NavigationManager.shared.params(this)
         viewModel.model = if (model is VideoModel) {
             WorkoutModel().apply {
-                mode = WorkoutViewState.video
-                state = BookingState.DISABLED
+                mode = WorkoutViewState.VIDEO_
+                state = BookingViewState.DISABLED
                 video = model
             }
         } else model as WorkoutModel
+
+        viewBinding.apply {
+            btnBack.action { viewModel.doTapBack() }
+            btnTrainerProfile.action { viewModel.doTapProfile() }
+            btnPrimary.action { viewModel.doTapPrimary() }
+        }
 
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
@@ -37,15 +44,9 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             eventTapBookLive.observe(viewLifecycleOwner, handleTapBookLive)
             eventTapStartWorkout.observe(viewLifecycleOwner, handleTapStartWorkout)
 
-            eventLoadVideoView.observe(viewLifecycleOwner, handleLoadVideoView)
+            eventLoadWorkoutView.observe(viewLifecycleOwner, handleLoadVideoView)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             doLoadView()
-        }
-
-        viewBinding.apply {
-            btnBack.action { viewModel.doTapBack() }
-            btnTrainerProfile.action { viewModel.doTapProfile() }
-            btnPrimary.action { viewModel.doTapPrimary() }
         }
     }
 
@@ -55,25 +56,29 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
     private val handleLoadVideoView = Observer<WorkoutModel> { model ->
         LogManager.log("handleLoadVideoView")
+        loadView(model)
         viewBinding.apply {
-            imgHeader.load(model.video.poster)
-
-            lblTitle.text(model.video.name)
-            lblSummary.text(model.video.description)
-            lblSubtitle.text(model.video.videoDuration)
-
-            viewTrainer.isHidden = false
-            imgTrainerPhoto.load(model.video.trainer.profilePhoto)
-            lblTrainerName.text(model.video.trainer.fullName)
-
-            btnPrimary.apply { text = context.getString(model.bookViewStatus.buttonTitle) }
-            btnPrimary.textColor(model.bookViewStatus.buttonTitleColor)
-            btnPrimary.bgColor(model.bookViewStatus.buttonBackgroundColor)
+            btnPrimary.apply {
+                text = context.getString(model.bookViewStatus.buttonTitle)
+                textColor(model.bookViewStatus.buttonTitleColor)
+                bgColor(model.bookViewStatus.buttonBackgroundColor)
+            }
         }
     }
 
     private val handleLoadView = Observer<WorkoutModel> { model ->
+        LogManager.log("handleLoadView")
+        loadView(model)
+        viewBinding.apply {
+            btnPrimary.apply {
+                text = context.getString(model.state.buttonTitle)
+                bgColor(model.state.buttonBackgroundColor)
+                textColor(model.state.buttonTitleColor)
+            }
+        }
+    }
 
+    private fun loadView(model: WorkoutModel) {
         viewBinding.apply {
             imgHeader.load(model.video.poster)
             lblTitle.text = model.video.name
@@ -83,20 +88,23 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             viewTrainer.isHidden = false
             imgTrainerPhoto.load(model.video.trainer.profilePhoto)
             lblTrainerName.text = model.video.trainer.fullName
-            btnPrimary.bgColor(model.state.buttonBackgroundColor)
-            btnPrimary.textColor(model.state.buttonTitleColor)
-            btnPrimary.apply { text = context.getString(model.state.buttonTitle) }
         }
     }
+
 
     private val handleTapStartWorkout = Observer<WorkoutModel> { model ->
         LogManager.log("handleTapStartWorkout")
         if (model.workoutState == WorkoutViewState.VIDEO) {
-            // NavigationManager.shared.present(this, R.id.player_view) TODO: needs to play video
+            val video = VideoModel.test().apply { id = "6232799349001" }
+            NavigationManager.shared.presentActivity(
+                requireActivity(),
+                PlayerActivity::class.java,
+                video
+            )
         }
 
         if (model.workoutState == WorkoutViewState.LIVE) {
-            NavigationManager.shared.present(this, R.id.live_fragment)
+            // TODO: Should go to LivePlayer NavigationManager.shared.present(this, R.id.live_fragment)
         }
     }
 

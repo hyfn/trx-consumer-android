@@ -1,10 +1,10 @@
-package com.trx.consumer.models.common
+package com.trx.consumer.models.states
 
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.trx.consumer.R
 
-enum class BookingState {
+enum class BookingViewState {
     BOOK,
     BOOKED,
     CANCEL,
