@@ -96,7 +96,7 @@ android {
             buildConfigField "String", "kBrightcovePolicyKey", '"BCpkADawqM0NIVZ3stgK7lsrNpSnMb54yV2-XP_RMBl9gBL5hOvH_cjmnfU_kxS1QjYqucj3ZQTBRiGZhrd09drVaY-IAEgg9IYebBSliKZI8iSzYpvmdUQgwST2dVv4toFYU1clp89h7_qj"'
             buildConfigField "Boolean", "kIsVerificationEnabled", "false"
             buildConfigField "String", "kTRXSupportEmail", '"digital@trxtraining.com"'
-            buildConfigField "Boolean", "isVersion2Enabled", "true"
+            buildConfigField "Boolean", "isVersion2Enabled", "false"
             buildConfigField "Integer", "kMinutesAfterCanJoin", "10"
             buildConfigField "Integer", "kMinutesBeforeCanJoin", "15"
         }
