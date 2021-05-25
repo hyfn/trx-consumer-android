@@ -16,8 +16,13 @@ data class FilterParamsModel(
             val params = hashMapOf<String, Any>().apply {
                 lstFilters.forEach { filter ->
                     val selectedFilter = filter.values.filter { it.isSelected }
-                    if (selectedFilter.isNotEmpty())
-                        put(filter.title, selectedFilter.map { it.identifier })
+                    if (selectedFilter.isNotEmpty()) {
+                        /* initially user can select one option in each filter. logic below works
+                          key and value as string when list has one element and list when element
+                          more that one. Can change in future */
+                        val optList = selectedFilter.map { it.identifier }
+                        put(filter.title, if(optList.size == 1) optList.first() else optList)
+                    }
                 }
             }
             return if (params.isNotEmpty()) params else null
