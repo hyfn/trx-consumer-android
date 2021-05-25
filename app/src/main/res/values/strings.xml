@@ -17,9 +17,15 @@
     <string name="alert_logout_message">You will be logged out</string>
     <string name="alert_logout_confirm_label">Yes, log me out</string>
 
-    <string name="booking_alert_join_title">Join Session</string>
-    <string name="booking_alert_cancel_title">Cancel Session</string>
     <string name="booking_alert_book_title">Book Session</string>
+    <string name="booking_alert_book_price_button_label">Book (%s)</string>
+    <string name="booking_alert_cancel_title">Cancel Session</string>
+    <string name="booking_alert_cancel_no_button_label">No, don\'t cancel</string>
+    <string name="booking_alert_cancel_policy_button_label">Please note our Cancellation Policy</string>
+    <string name="booking_alert_cancel_yes_button_label">Yes, Cancel</string>
+    <string name="booking_alert_dismiss_button_label">Dismiss</string>
+    <string name="booking_alert_join_title">Join Session</string>
+    <string name="booking_alert_payment_button_label">Add Payment</string>
 
     <string name="booking_view_state_book_label">BOOK</string>
     <string name="booking_view_state_booked_label">BOOKED</string>
