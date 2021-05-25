@@ -29,8 +29,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
     override fun bind() {
         NavigationManager.shared.params(this)?.let { params ->
-            if (params is FilterParamsModel)
-                viewModel.filters = params.lstFilters
+            if (params is FilterParamsModel) viewModel.filters = params.lstFilters
         }
 
         viewModel.apply {

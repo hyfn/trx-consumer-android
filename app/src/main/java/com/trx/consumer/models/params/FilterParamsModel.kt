@@ -10,6 +10,7 @@ data class FilterParamsModel(
     var selectedModel: FilterModel = FilterModel(),
     var lstFilters: List<FilterModel> = listOf()
 ) : Parcelable {
+
     val selectedFilterParams: HashMap<String, Any>?
         get() {
             val params = hashMapOf<String, Any>().apply {
