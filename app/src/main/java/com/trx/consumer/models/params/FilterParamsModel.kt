@@ -21,7 +21,7 @@ data class FilterParamsModel(
                           key and value as string when list has one element and list when element
                           more that one. Can change in future */
                         val optList = selectedFilter.map { it.identifier }
-                        put(filter.title, if(optList.size == 1) optList.first() else optList)
+                        put(filter.title, if (optList.size == 1) optList.first() else optList)
                     }
                 }
             }
