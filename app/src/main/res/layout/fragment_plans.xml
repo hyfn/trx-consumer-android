@@ -174,7 +174,7 @@
                     android:layout_height="80dp"
                     android:fontFamily="@font/atcarquette_bold"
                     android:gravity="center"
-                    android:text="@string/subscriptions_cancel_subscription_label"
+                    android:text="@string/plans_cancel_button_label"
                     android:textAllCaps="true"
                     android:textColor="@color/red"
                     android:textSize="13sp"

@@ -66,7 +66,7 @@ class PlansViewModel @ViewModelInject constructor(
         }
     }
 
-    fun doCallSubscribe(id: String) {
+    fun doCallAddPlan(id: String) {
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = backendManager.planAdd(id)
@@ -83,7 +83,7 @@ class PlansViewModel @ViewModelInject constructor(
         eventTapBack.call()
     }
 
-    fun doTapUnsubscribe() {
+    fun doTapDeletePlan() {
         viewModelScope.launch {
             eventShowHud.postValue(true)
             cacheManager.user()?.plan?.let {

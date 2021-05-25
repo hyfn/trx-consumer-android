@@ -77,7 +77,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
         val model = AlertModel.create(title = "", message = message)
         model.setPrimaryButton(title = R.string.alert_primary_keep_plan)
         model.setSecondaryButton(title = R.string.alert_secondary_cancel) {
-            viewModel.doTapUnsubscribe()
+            viewModel.doTapDeletePlan()
         }
 
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
@@ -93,7 +93,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
 
         val model = AlertModel.create(title = "", message = message)
         model.setPrimaryButton(title = R.string.alert_primary_submit_payment) {
-            viewModel.doCallSubscribe(value.key)
+            viewModel.doCallAddPlan(value.key)
         }
         model.setSecondaryButton(title = R.string.alert_secondary_cancel)
 
