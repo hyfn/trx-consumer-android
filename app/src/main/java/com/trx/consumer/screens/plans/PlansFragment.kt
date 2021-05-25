@@ -66,17 +66,13 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
         }
     }
 
-    private val handleLoadCancelPlan = Observer<String?> { value ->
+    private val handleLoadCancelPlan = Observer<String?> {
         LogManager.log("handleLoadCancelPlan")
-        val message = getString(R.string.plans_cancel_message, value)
-
-        //  Not handled like iOS. setSecondaryButton accepts String ints
-        //  so doing below and applying that to setSecondaryButton won't work.
-        //  val cancelTitle = value?.let { "Cancel $value" } ?: "Cancel"
+        val message = getString(R.string.plans_cancel_message)
 
         val model = AlertModel.create(title = "", message = message)
         model.setPrimaryButton(title = R.string.alert_primary_keep_plan)
-        model.setSecondaryButton(title = R.string.alert_secondary_cancel) {
+        model.setSecondaryButton(title = R.string.alert_secondary_cancel_plan) {
             viewModel.doTapDeletePlan()
         }
 
@@ -85,11 +81,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
 
     private val handleLoadConfirmPlan = Observer<PlanModel> { value ->
         LogManager.log("handleLoadConfirmPlan")
-        val message = if (value.cost.isNotEmpty()) {
-            "Are you sure you want to add plan for ${value.cost}?"
-        } else {
-            "Are you sure you want to add plan?"
-        }
+        val message = getString(R.string.plans_confirm_message)
 
         val model = AlertModel.create(title = "", message = message)
         model.setPrimaryButton(title = R.string.alert_primary_submit_payment) {
