@@ -8,36 +8,37 @@
 
     <com.trx.consumer.common.CommonView
         android:id="@+id/viewNavBar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/top_bar_height"
-        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.trx.consumer.common.CommonImageButton
+        <com.trx.consumer.common.CommonImageView
             android:id="@+id/btnClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="5dp"
+            android:background="@color/transparent"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_btn_back"
-            android:layout_marginStart="15dp"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.trx.consumer.common.CommonLabel
             android:id="@+id/btnReset"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:layout_height="35dp"
+            android:layout_marginEnd="5dp"
             android:fontFamily="@font/atcarquette_bold"
-            android:textSize="13sp"
-            android:textColor="@color/black"
-            android:layout_marginEnd="15dp"
+            android:gravity="center_vertical|end"
             android:text="@string/filter_btn_clear_filters_label"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/black"
+            android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </com.trx.consumer.common.CommonView>
 
@@ -47,30 +48,30 @@
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/viewNavBar"
-        app:layout_constraintBottom_toTopOf="@id/btnApply"/>
+        app:layout_constraintBottom_toTopOf="@id/btnApply"
+        app:layout_constraintTop_toBottomOf="@id/viewNavBar" />
 
     <com.trx.consumer.common.CommonButton
         android:id="@+id/btnApply"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="center"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:text="@string/filter_btn_apply_label"
-        android:fontFamily="@font/atcarquette_bold"
-        app:backgroundColor="@color/black"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="@dimen/bottom_bar_height"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center"
+        android:text="@string/filter_btn_apply_label"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:backgroundColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.trx.consumer.common.CommonLabel
         android:id="@+id/lblEmptyList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:text="@string/filter_empty_list_label" />
+        android:text="@string/filter_empty_list_label"
+        android:visibility="gone" />
 
 </com.trx.consumer.common.CommonView>
