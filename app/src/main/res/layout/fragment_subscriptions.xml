@@ -32,9 +32,9 @@
         android:id="@+id/viewScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewNavBar">
 
         <com.trx.consumer.common.CommonView
@@ -44,31 +44,31 @@
 
             <com.trx.consumer.common.CommonLabel
                 android:id="@+id/lblTitle"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="15dp"
                 android:fontFamily="@font/atcarquette_bold"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:text="@string/plans_title"
+                android:gravity="center_vertical|start"
+                android:text="@string/subscriptions_title"
                 android:textColor="@color/black"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewNavBar"
-                app:textAllCaps="true" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:textAllCaps="true"
+                tools:ignore="SmallSp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/viewPlans"
+            <com.trx.consumer.common.CommonRecyclerView
+                android:id="@+id/rvSubscriptions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblTitle"
-                tools:itemCount="3"
-                tools:listitem="@layout/row_plans" />
+                app:layout_constraintTop_toBottomOf="@+id/lblTitle"
+                tools:itemCount="2"
+                tools:listitem="@layout/row_subscriptions" />
 
             <com.trx.consumer.common.CommonView
                 android:id="@+id/viewBottom"
@@ -78,7 +78,7 @@
                 app:backgroundColor="@color/transparent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewPlans"
+                app:layout_constraintTop_toBottomOf="@+id/rvSubscriptions"
                 tools:visibility="visible">
 
                 <com.trx.consumer.common.CommonView
@@ -174,7 +174,7 @@
                     android:layout_height="80dp"
                     android:fontFamily="@font/atcarquette_bold"
                     android:gravity="center"
-                    android:text="@string/plans_cancel_button_label"
+                    android:text="@string/subscriptions_cancel_subscription_label"
                     android:textAllCaps="true"
                     android:textColor="@color/red"
                     android:textSize="13sp"
@@ -189,15 +189,5 @@
         </com.trx.consumer.common.CommonView>
 
     </androidx.core.widget.NestedScrollView>
-
-    <com.trx.consumer.common.CommonHudView
-        android:id="@+id/hudView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </com.trx.consumer.common.CommonView>

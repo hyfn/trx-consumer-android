@@ -35,9 +35,14 @@ class UtilityManager {
     }
 
     fun showSupportEmail(fragment: Fragment) {
+        val subject = fragment::class.java.toString()
+            .substringAfterLast(".")
+            .replace("Fragment", " Screen")
         val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:")
-            putExtra(Intent.EXTRA_EMAIL, arrayListOf(kTRXSupportEmail))
+            data = Uri.parse(
+                "mailto:$kTRXSupportEmail" +
+                    "?subject=" + Uri.encode("Issue with $subject")
+            )
         }
         if (intent.resolveActivity(fragment.requireActivity().packageManager) != null) {
             fragment.startActivity(intent)

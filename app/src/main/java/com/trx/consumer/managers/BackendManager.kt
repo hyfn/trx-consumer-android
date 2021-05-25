@@ -55,6 +55,12 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         }
     }
 
+    suspend fun forgot(email: String): ResponseModel {
+        val params = hashMapOf<String, Any>("email" to email)
+        val path = EndpointModel.FORGOT.path
+        return call(RequestModel(endpoint = EndpointModel.FORGOT, path = path, params = params))
+    }
+
     suspend fun banner(): ResponseModel {
         val path = EndpointModel.BANNER.path
         return call(RequestModel(endpoint = EndpointModel.BANNER, path = path, params = null))
@@ -114,26 +120,26 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return user()
     }
 
-    suspend fun subscriptionAdd(id: String, country: String = "US"): ResponseModel {
-        val path = EndpointModel.SUBSCRIPTION_ADD.path
+    suspend fun planAdd(id: String, country: String = "US"): ResponseModel {
+        val path = EndpointModel.PLAN_ADD.path
         val params = hashMapOf<String, Any>(
             "subscriptionType" to id,
             "country" to country
         )
         return call(
             RequestModel(
-                endpoint = EndpointModel.SUBSCRIPTION_ADD,
+                endpoint = EndpointModel.PLAN_ADD,
                 path = path,
                 params = params
             )
         )
     }
 
-    suspend fun subscriptionDelete(id: String): ResponseModel {
-        val path = EndpointModel.SUBSCRIPTION_DELETE.path + "/$id"
+    suspend fun planDelete(id: String): ResponseModel {
+        val path = EndpointModel.PLAN_DELETE.path + "/$id"
         return call(
             RequestModel(
-                endpoint = EndpointModel.SUBSCRIPTION_DELETE,
+                endpoint = EndpointModel.PLAN_DELETE,
                 path = path,
                 params = null
             )
@@ -166,9 +172,9 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return call(RequestModel(endpoint = EndpointModel.UPDATE, path = path, params = params))
     }
 
-    suspend fun videos(): ResponseModel {
+    suspend fun videos(params: HashMap<String, Any>? = null): ResponseModel {
         val path = EndpointModel.VIDEOS.path
-        return call(RequestModel(endpoint = EndpointModel.VIDEOS, path = path, params = null))
+        return call(RequestModel(endpoint = EndpointModel.VIDEOS, path = path, params = params))
     }
 
     suspend fun bookings(): ResponseModel {
