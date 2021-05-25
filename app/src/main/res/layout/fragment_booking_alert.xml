@@ -1,0 +1,145 @@
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:backgroundColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible">
+
+        <com.trx.consumer.common.CommonLabel
+            android:id="@+id/lblMainTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/atcarquette_bold"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.trx.consumer.common.CommonView
+            android:id="@+id/viewBooking"
+            android:layout_width="match_parent"
+            android:layout_height="105dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblMainTitle"
+            app:backgroundColor="@color/white"
+            app:cornerRadius="4dp"
+            app:outline="@color/greyLight">
+
+            <com.trx.consumer.common.CommonImageView
+                android:id="@+id/imgClass"
+                android:layout_width="75dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblTitle"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/atcarquette_semibold"
+                android:gravity="center_vertical"
+                android:textColor="@color/blueDark"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/imgClass"
+                app:layout_constraintStart_toEndOf="@+id/imgClass"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/atcarquette_regular"
+                android:gravity="center_vertical"
+                android:textColor="@color/blue"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgClass"
+                app:layout_constraintTop_toBottomOf="@+id/lblTitle" />
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblClassInfo"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:gravity="center_vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgClass"
+                app:layout_constraintTop_toBottomOf="@+id/lblSubtitle" />
+
+        </com.trx.consumer.common.CommonView>
+
+        <com.trx.consumer.common.CommonView
+            android:id="@+id/viewBottom"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="@dimen/bottom_bar_height"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewBooking">
+
+            <com.trx.consumer.common.CommonButton
+                android:id="@+id/btnPrimary"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:fontFamily="@font/atcarquette_medium"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:cornerRadius="25dp" />
+
+            <com.trx.consumer.common.CommonButton
+                android:id="@+id/btnSecondary"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:fontFamily="@font/atcarquette_regular"
+                android:gravity="center"
+                android:textColor="@color/blueLight"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnPrimary" />
+
+        </com.trx.consumer.common.CommonView>
+
+    </com.trx.consumer.common.CommonView>
+
+    <com.trx.consumer.common.CommonHudView
+        android:id="@+id/hudView"
+        style="@style/MatchParentDimensionsViewStyle" />
+
+</com.trx.consumer.common.CommonView>
