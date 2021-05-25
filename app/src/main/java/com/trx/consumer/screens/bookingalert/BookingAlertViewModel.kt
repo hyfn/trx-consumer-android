@@ -32,6 +32,7 @@ class BookingAlertViewModel @ViewModelInject constructor(
     val eventShowHud = CommonLiveEvent<Boolean>()
 
     fun doLoadView() {
+        eventLoadView.postValue(model)
         // model = bookingAlertParamsModel.classModel
         // isCallingBook = bookingAlertParamsModel.isCallingBook
         // model?.let { classModel ->

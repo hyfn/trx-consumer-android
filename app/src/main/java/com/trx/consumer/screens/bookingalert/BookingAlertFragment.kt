@@ -9,9 +9,12 @@ import com.trx.consumer.base.BaseDialogFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentBookingAlertBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.BookingAlertModel
+import com.trx.consumer.models.common.BookingState.BOOKED
+import com.trx.consumer.models.common.CardModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -49,7 +52,10 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
         viewModel.doLoadView()
     }
 
-    private val handleLoadView = Observer<BookingAlertModel> {
+    private val handleLoadView = Observer<BookingAlertModel> { model ->
+        LogManager.log("handleLoadView: $model")
+        loadView(model)
+        viewBinding.viewContent.startInAnimation(bottomInAnimation(requireContext()))
         // viewBinding.apply {
         //     viewContent.isHidden = false
         //     if (it.state == ClassViewState.BOOK) {
@@ -83,8 +89,6 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
         //     btnSecondary.text = btnSecondary.context.getString(it.state.secondaryModalButtonTitle)
         //
         //     // dialog animation
-        //     viewContent.startInAnimation(bottomInAnimation(requireContext()))
-        // }
     }
 
     private val handleLoadAddCard = Observer<Void> {
@@ -136,4 +140,34 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
             super.dismiss()
         }
     }
+
+    //region Helper Functions
+
+    //  TODO: Complete logic
+    private fun loadView(model: BookingAlertModel) {
+        viewBinding.apply {
+            lblMainTitle.text(model.title)
+
+            when (model.workout.state) {
+                BOOKED -> TODO()
+                else -> loadViewCard(model.card)
+            }
+        }
+    }
+
+    //  TODO: Complete logic
+    private fun loadViewCard(card: CardModel?) {
+        viewBinding.apply {
+            card?.let {
+                imgCard.setImageResource(it.imageName)
+                lblType.text(card.typeText)
+                lblNumber.text(it.number)
+                viewCard.isHidden = false
+            } ?: run {
+                viewCard.isHidden = false
+            }
+        }
+    }
+
+    //endregion
 }
