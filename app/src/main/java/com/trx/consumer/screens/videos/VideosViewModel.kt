@@ -2,7 +2,7 @@ package com.trx.consumer.screens.videos
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.models.states.BookingViewState
+import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
@@ -35,7 +35,7 @@ class VideosViewModel : BaseViewModel(), DiscoverListener {
         model.videos.firstOrNull()?.let { video ->
             val workout = WorkoutModel().apply {
                 this.video = video
-                this.state = BookingViewState.DISABLED
+                this.state = BookingState.DISABLED
             }
             eventTapStartWorkout.postValue(workout)
         }

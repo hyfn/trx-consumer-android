@@ -7,7 +7,7 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.states.BookingViewState
+import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.BookingsResponseModel
@@ -45,13 +45,13 @@ class WorkoutViewModel @ViewModelInject constructor(
     }
 
     private fun doLoadWorkout() {
-        if (model.state != BookingViewState.BOOKED) {
+        if (model.state != BookingState.BOOKED) {
             viewModelScope.launch {
                 val response = backendManager.bookings()
                 if (response.isSuccess) {
                     val bookingModel = BookingsResponseModel.parse(response.responseString)
                     bookingModel.lstWorkoutsSorted.firstOrNull { it == model }?.let { booking ->
-                        model.state = BookingViewState.BOOKED
+                        model.state = BookingState.BOOKED
                         model.cancelId = booking.cancelId
                     }
                     eventLoadWorkoutView.postValue(model)
@@ -73,7 +73,7 @@ class WorkoutViewModel @ViewModelInject constructor(
         when (model.workoutState) {
             WorkoutViewState.VIDEO -> eventTapStartWorkout.postValue(model)
             WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> {
-                if (model.bookViewStatus == BookingViewState.JOIN) {
+                if (model.bookViewStatus == BookingState.JOIN) {
                     eventTapStartWorkout.postValue(model)
                 } else {
                     viewModelScope.launch {

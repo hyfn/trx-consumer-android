@@ -11,7 +11,7 @@ import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.extensions.load
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.states.BookingViewState
+import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
@@ -27,7 +27,7 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
         viewModel.model = if (model is VideoModel) {
             WorkoutModel().apply {
                 mode = WorkoutViewState.VIDEO_
-                state = BookingViewState.DISABLED
+                state = BookingState.VIDEO
                 video = model
             }
         } else model as WorkoutModel
@@ -44,7 +44,7 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             eventTapBookLive.observe(viewLifecycleOwner, handleTapBookLive)
             eventTapStartWorkout.observe(viewLifecycleOwner, handleTapStartWorkout)
 
-            eventLoadWorkoutView.observe(viewLifecycleOwner, handleLoadVideoView)
+            eventLoadWorkoutView.observe(viewLifecycleOwner, handleLoadWorkoutView)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             doLoadView()
         }
@@ -54,7 +54,7 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
         NavigationManager.shared.dismiss(this)
     }
 
-    private val handleLoadVideoView = Observer<WorkoutModel> { model ->
+    private val handleLoadWorkoutView = Observer<WorkoutModel> { model ->
         LogManager.log("handleLoadVideoView")
         loadView(model)
         viewBinding.apply {
@@ -95,11 +95,10 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
     private val handleTapStartWorkout = Observer<WorkoutModel> { model ->
         LogManager.log("handleTapStartWorkout")
         if (model.workoutState == WorkoutViewState.VIDEO) {
-            val video = VideoModel.test().apply { id = "6232799349001" }
             NavigationManager.shared.presentActivity(
                 requireActivity(),
                 PlayerActivity::class.java,
-                video
+                model.video
             )
         }
 

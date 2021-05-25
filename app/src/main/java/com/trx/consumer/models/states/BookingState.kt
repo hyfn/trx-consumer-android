@@ -4,7 +4,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.trx.consumer.R
 
-enum class BookingViewState {
+enum class BookingState {
     BOOK,
     BOOKED,
     CANCEL,
