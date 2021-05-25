@@ -42,7 +42,7 @@ object MainModule {
     @Provides
     @Singleton
     fun provideHttpLoggingInterceptor() = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BASIC
+        level = HttpLoggingInterceptor.Level.NONE
     }
 
     @Provides
