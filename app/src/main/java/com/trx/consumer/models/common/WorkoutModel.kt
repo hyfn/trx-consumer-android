@@ -30,8 +30,11 @@ class WorkoutModel(
     var video: VideoModel = VideoModel()
 ) : Parcelable {
 
+    val amount: String
+        get() = "$${priceInCents / 100.0}"
+
     val date: Date
-        get() = Date.from(Instant.ofEpochMilli(startsAt.toLong()))
+        get() = Date.from(Instant.ofEpochMilli(startsAt))
 
     val dateDisplay: String
         get() {
