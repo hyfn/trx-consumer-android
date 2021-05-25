@@ -61,7 +61,6 @@
     <string name="home_banner_title_label">More Ways to Train</string>
     <string name="home_banner_section_title_label">TRY TRX TRAINING CLUB</string>
 
-
     <string name="inputview_placeholder_birthday">Birthday</string>
     <string name="inputview_placeholder_card_number">Credit Card Number</string>
     <string name="inputview_placeholder_code">Enter Code</string>
@@ -184,14 +183,21 @@
     <string name="register_create_account_button_label">Create Account</string>
     <string name="register_terms_conditions_error">Please select Terms &amp; Conditions.</string>
 
-    <string name="email_forgot_title">Forgot\nPassword</string>
-    <string name="email_verify_title">Have a TRX Code?</string>
-    <string name="email_lookup_second">Send Verification Email</string>
-    <string name="email_verify_submit">Submit</string>
-    <string name="email_forgot_second">Reset Password</string>
-    <string name="email_done_button_label">DONE</string>
-    <string name="email_verification_email_sent_label">VERIFICATION EMAIL SENT</string>
+    <string name="email_forgot_header_title">Forgot Password?</string>
+    <string name="email_forgot_title">EMAIL</string>
+    <string name="email_forgot_placeholder">Your email</string>
+    <string name="email_forgot_description">If you forgot your password, you can reset it here.</string>
+    <string name="email_forgot_button_label">Reset</string>
+    <string name="email_forgot_success">Verification email sent</string>
+    <string name="email_forgot_error">Invalid email. Please try again.</string>
+
+    <string name="email_code_header_title">Have a TRX Code?</string>
+    <string name="email_code_title">KEY-TO-FREE</string>
+    <string name="email_code_placeholder">Enter key</string>
     <string name="email_code_description">If you purchased a TRX Product, this will be on the KEY TO FREE card in the box.</string>
+    <string name="email_code_button_label">Submit</string>
+    <string name="email_code_success">Code submitted</string>
+    <string name="email_code_error">Invalid code. Please try again.</string>
 
     <string name="update_save_label">Save</string>
     <string name="update_save_changes_label">Save Changes</string>

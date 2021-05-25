@@ -9,7 +9,6 @@ import com.trx.consumer.databinding.FragmentLoginBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.params.EmailParamsModel
 import com.trx.consumer.screens.email.EmailViewState
 import com.trx.consumer.screens.erroralert.ErrorAlertModel
 
@@ -20,8 +19,8 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     override fun bind() {
         viewBinding.apply {
-            ivEmail.setInputViewListener(viewModel)
-            ivPassword.setInputViewListener(viewModel)
+            txtEmail.setInputViewListener(viewModel)
+            txtPassword.setInputViewListener(viewModel)
 
             btnBack.action { viewModel.doTapBack() }
             lblSignUp.action { viewModel.doTapSignUp() }
@@ -77,7 +76,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         NavigationManager.shared.present(
             this,
             R.id.email_fragment,
-            EmailParamsModel(EmailViewState.FORGOT)
+            EmailViewState.FORGOT
         )
     }
 
@@ -91,8 +90,8 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     private fun dismissKeyboard() {
         viewBinding.apply {
-            ivEmail.dismiss()
-            ivPassword.dismiss()
+            txtEmail.dismiss()
+            txtPassword.dismiss()
         }
     }
 
