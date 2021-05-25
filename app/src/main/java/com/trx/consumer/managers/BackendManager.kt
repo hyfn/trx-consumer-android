@@ -55,6 +55,12 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         }
     }
 
+    suspend fun forgot(email: String): ResponseModel {
+        val params = hashMapOf<String, Any>("email" to email)
+        val path = EndpointModel.FORGOT.path
+        return call(RequestModel(endpoint = EndpointModel.FORGOT, path = path, params = params))
+    }
+
     suspend fun banner(): ResponseModel {
         val path = EndpointModel.BANNER.path
         return call(RequestModel(endpoint = EndpointModel.BANNER, path = path, params = null))

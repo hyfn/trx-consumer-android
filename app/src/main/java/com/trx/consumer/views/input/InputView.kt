@@ -39,6 +39,7 @@ class InputView @JvmOverloads constructor(
         }
 
     init {
+        layoutInput.id = id
         editText.id = id
         context.obtainStyledAttributes(attrs, R.styleable.InputView).use {
             mState = it.getInputType(R.styleable.InputView_inputViewState, InputViewState.EMAIL)
