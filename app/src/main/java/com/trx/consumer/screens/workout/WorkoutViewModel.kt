@@ -7,10 +7,10 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.BookingsResponseModel
+import com.trx.consumer.models.states.BookingState
 import kotlinx.coroutines.launch
 
 class WorkoutViewModel @ViewModelInject constructor(

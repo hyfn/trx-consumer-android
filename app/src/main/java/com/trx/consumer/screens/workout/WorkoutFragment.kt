@@ -11,10 +11,10 @@ import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.extensions.load
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.screens.player.PlayerActivity
 
 class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
@@ -90,7 +90,6 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             lblTrainerName.text = model.video.trainer.fullName
         }
     }
-
 
     private val handleTapStartWorkout = Observer<WorkoutModel> { model ->
         LogManager.log("handleTapStartWorkout")
