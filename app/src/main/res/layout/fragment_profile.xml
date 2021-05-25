@@ -10,9 +10,6 @@
         android:id="@+id/viewNavBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_bar_height"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,6 +18,7 @@
             android:id="@+id/btnBack"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_marginStart="5dp"
             android:background="@color/transparent"
             android:scaleType="centerInside"
             android:src="@drawable/ic_btn_back"
@@ -32,9 +30,10 @@
             android:id="@+id/btnSettings"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_marginEnd="5dp"
             android:background="@color/transparent"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_btn_settings"
+            android:src="@drawable/ic_img_tab_settings_on"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -85,35 +84,18 @@
         tools:text="0 Virtual" />
 
     <com.trx.consumer.common.CommonRecyclerView
-        android:id="@+id/rvLiveWorkouts"
+        android:id="@+id/rvWorkouts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="15dp"
         android:orientation="vertical"
-        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLive"
         tools:itemCount="2"
-        tools:listitem="@layout/row_live_workout_table"
-        tools:visibility="visible" />
-
-    <com.trx.consumer.common.CommonRecyclerView
-        android:id="@+id/rvVirtualWorkouts"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="15dp"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLive"
-        tools:itemCount="2"
-        tools:listitem="@layout/row_virtual_workout_table" />
+        tools:listitem="@layout/row_live_workout_table" />
 
     <com.trx.consumer.common.CommonLabel
         android:id="@+id/lblEmpty"
@@ -122,14 +104,14 @@
         android:fontFamily="@font/atcarquette_medium"
         android:textColor="@color/grey"
         android:textSize="11sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSessions"
         app:textAllCaps="true"
         tools:ignore="SmallSp"
-        tools:text="No Live Workouts found"
-        tools:visibility="gone" />
+        tools:text="No Live Workouts found" />
 
     <com.trx.consumer.common.CommonHudView
         android:id="@+id/hudView"

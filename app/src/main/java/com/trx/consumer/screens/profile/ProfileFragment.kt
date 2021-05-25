@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.profile
 
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -12,25 +11,19 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.screens.liveworkouttable.LiveWorkoutTableAdapter
-import com.trx.consumer.screens.virtualworkouttable.VirtualWorkoutTableAdapter
 
 class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     private val viewModel: ProfileViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentProfileBinding::bind)
 
-    private lateinit var liveAdapter: LiveWorkoutTableAdapter
-    private lateinit var virtualAdapter: VirtualWorkoutTableAdapter
+    private lateinit var profileAdapter: ProfileAdapter
 
     override fun bind() {
-
-        liveAdapter = LiveWorkoutTableAdapter(viewModel) { lifecycleScope }
-        virtualAdapter = VirtualWorkoutTableAdapter(viewModel) { lifecycleScope }
+        profileAdapter = ProfileAdapter(viewModel, viewModel) { lifecycleScope }
 
         viewBinding.apply {
-            rvLiveWorkouts.adapter = liveAdapter
-            rvVirtualWorkouts.adapter = virtualAdapter
+            rvWorkouts.adapter = profileAdapter
 
             btnBack.action { viewModel.doTapBack() }
             btnSettings.action { viewModel.doTapSettings() }
@@ -54,30 +47,25 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     }
     private val handleLoadView = Observer<Void> {
         viewBinding.apply {
+            lblTitle.text = "Kristoph Banders"
             btnLive.text = "5 Live"
             btnVirtual.text = "7 Virtual"
             btnLive.textColor(R.color.greyDark)
             btnVirtual.textColor(R.color.greyLight)
 
             btnLive.action {
-                rvVirtualWorkouts.isVisible = false
-                rvLiveWorkouts.isVisible = true
                 btnVirtual.textColor(R.color.greyLight)
                 btnLive.textColor(R.color.greyDark)
-                liveAdapter.update(WorkoutModel.testList(5))
+                profileAdapter.update(WorkoutModel.testList(5))
             }
 
             btnVirtual.action {
-                rvLiveWorkouts.isVisible = false
-                rvVirtualWorkouts.isVisible = true
                 btnLive.textColor(R.color.greyLight)
                 btnVirtual.textColor(R.color.greyDark)
-                virtualAdapter.update(VirtualWorkoutModel.testListToday(7))
+                profileAdapter.update(VirtualWorkoutModel.testListToday(7))
             }
 
-            rvVirtualWorkouts.isVisible = false
-            rvLiveWorkouts.isVisible = true
-            liveAdapter.update(WorkoutModel.testList(5))
+            profileAdapter.update(WorkoutModel.testList(5))
         }
     }
 

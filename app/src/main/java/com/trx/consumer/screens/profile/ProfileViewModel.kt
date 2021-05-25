@@ -4,10 +4,10 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.screens.liveworkouttable.LiveWorkoutTableListener
-import com.trx.consumer.screens.virtualworkouttable.VirtualWorkoutTableListener
+import com.trx.consumer.screens.liveworkout.LiveWorkoutListener
+import com.trx.consumer.screens.virtualworkout.VirtualWorkoutListener
 
-class ProfileViewModel : BaseViewModel(), LiveWorkoutTableListener, VirtualWorkoutTableListener {
+class ProfileViewModel : BaseViewModel(), LiveWorkoutListener, VirtualWorkoutListener {
 
     val eventLoadView = CommonLiveEvent<Void>()
     val eventTapBack = CommonLiveEvent<Void>()
