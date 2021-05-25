@@ -9,12 +9,12 @@ import org.json.JSONObject
 class TrainerModel(
     var bio: String = "",
     var isFeatured: Boolean = false,
-    val isLive: Boolean = false,
+    var isLive: Boolean = false,
     var key: String = "",
     var mantra: String = "",
     var profilePhoto: String = "",
-    val trainerCertifications: List<String> = emptyList(),
-    val trainerCoachingStyle: String = "",
+    var trainerCertifications: List<String> = emptyList(),
+    var trainerCoachingStyle: String = "",
     var virtualTrainerProfileId: String = "",
     var firstName: String = "",
     var lastName: String = ""

@@ -24,12 +24,12 @@ class WorkoutModel(
     val remaining: String = "",
     val trainer: TrainerModel = TrainerModel(),
     var state: BookingState = BookingState.BOOK,
-    val mode: String = "",
+    var mode: String = "",
     var identifier: String = "",
     var sessionId: String = "",
     var cancelId: String? = null,
     val bookingTimestamp: Double = 0.0,
-    val video: VideoModel = VideoModel()
+    var video: VideoModel = VideoModel()
 ) : Parcelable {
 
     val date: Date

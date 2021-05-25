@@ -27,6 +27,6 @@ class TrainerViewModel : BaseViewModel(), LiveWorkoutListener, VideoWorkoutListe
     override fun doTapSelectLiveWorkout(model: WorkoutModel) {
     }
 
-    override fun doTapSelect(model: VideoModel) {
+    override fun doTapVideo(model: VideoModel) {
     }
 }

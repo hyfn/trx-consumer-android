@@ -92,7 +92,7 @@ class HomeViewModel @ViewModelInject constructor(
     override fun doTapPromo(model: PromoModel) {
         eventShowPromo.postValue(model)
     }
-    override fun doTapSelect(model: VideoModel) {}
+    override fun doTapVideo(model: VideoModel) {}
 
     //endregion
 }

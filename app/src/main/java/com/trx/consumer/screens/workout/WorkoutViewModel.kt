@@ -2,13 +2,13 @@ package com.trx.consumer.screens.workout
 
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.models.common.BookingState
+import com.trx.consumer.models.common.WorkoutModel
 
 class WorkoutViewModel : BaseViewModel() {
 
-    var state: BookingState = BookingState.CANCEL
+    var model: WorkoutModel = WorkoutModel()
 
-    val eventLoadView = CommonLiveEvent<BookingState>()
+    val eventLoadView = CommonLiveEvent<WorkoutModel>()
     val eventTapBack = CommonLiveEvent<Void>()
 
     fun doTapBack() {
@@ -16,6 +16,6 @@ class WorkoutViewModel : BaseViewModel() {
     }
 
     fun doLoadView() {
-        eventLoadView.postValue(state)
+        eventLoadView.postValue(model)
     }
 }

@@ -10,6 +10,7 @@ import org.json.JSONObject
 class VideoModel(
     var name: String = "",
     var duration: Int = 0,
+    var description: String = "",
     var id: String = "0",
     var poster: String = "",
     var trainer: TrainerModel = TrainerModel(),
@@ -25,13 +26,16 @@ class VideoModel(
     companion object {
 
         fun parse(jsonObject: JSONObject): VideoModel {
-            val trainerObject = jsonObject.optJSONObject("trainer")
             return VideoModel().apply {
-                name = jsonObject.optString("name")
-                duration = jsonObject.optInt("duration")
-                id = jsonObject.optString("id")
-                name = jsonObject.optString("poster")
-                trainer = trainerObject?.let { TrainerModel.parse(it) } ?: TrainerModel()
+                jsonObject.optJSONObject("video")?.let { videoJson ->
+                    name = videoJson.optString("name")
+                    duration = videoJson.optInt("duration")
+                    id = videoJson.optString("id")
+                    poster = videoJson.optString("poster")
+                    description = videoJson.optString("description")
+                }
+                trainer = jsonObject.optJSONObject("trainer")?.let { TrainerModel.parse(it) }
+                    ?: TrainerModel()
                 equipment = getStringList(jsonObject.optJSONArray("equipment"))
                 level = jsonObject.optString("level")
                 focus = jsonObject.optString("focus")

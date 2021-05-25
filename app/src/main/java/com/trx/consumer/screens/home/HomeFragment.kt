@@ -18,7 +18,7 @@ import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.screens.promotion.PromoAdapter
-import com.trx.consumer.screens.videoworkout.VideoAdapter
+import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
@@ -26,14 +26,14 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentHomeBinding::bind)
 
-    private lateinit var videosAdapter: VideoAdapter
+    private lateinit var videosAdapter: VideoWorkoutAdapter
     private lateinit var promoAdapter: PromoAdapter
 
     //endregion
 
     //region Setup
     override fun bind() {
-        videosAdapter = VideoAdapter(viewModel) { lifecycleScope }
+        videosAdapter = VideoWorkoutAdapter(viewModel) { lifecycleScope }
         promoAdapter = PromoAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
