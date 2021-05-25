@@ -26,7 +26,7 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
         val model = NavigationManager.shared.params(this)
         viewModel.model = if (model is VideoModel) {
             WorkoutModel().apply {
-                mode = WorkoutViewState.VIDEO_
+                mode = WorkoutViewState.Companion.Constant.VIDEO
                 state = BookingState.VIDEO
                 video = model
             }
