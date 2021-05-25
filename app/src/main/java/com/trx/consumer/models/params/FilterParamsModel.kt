@@ -38,6 +38,6 @@ data class FilterParamsModel(
                 )
             }
         }
-        return this.copy(selectedModel = FilterModel(), lstFilters = list)
+        return FilterParamsModel(selectedModel = FilterModel(), lstFilters = list)
     }
 }
