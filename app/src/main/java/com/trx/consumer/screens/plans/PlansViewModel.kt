@@ -48,14 +48,14 @@ class PlansViewModel @ViewModelInject constructor(
             backendManager.user()
             cacheManager.user()?.let { user ->
                 userModel = user
-                eventLoadCanCancel.postValue(user.subscription != null)
-                eventLoadNextBillDate.postValue(user.subscriptionRenewsDateDisplay)
+                eventLoadCanCancel.postValue(user.plan != null)
+                eventLoadNextBillDate.postValue(user.planRenewsDateDisplay)
             }
             val response = backendManager.plans()
             if (response.isSuccess) {
                 try {
                     val model = PlansResponseModel.parse(response.responseString)
-                    userModel?.subscriptionText.let {
+                    userModel?.planText.let {
                         eventLoadPlans.postValue(model.plans(it))
                     }
                 } catch (e: Exception) {
@@ -86,7 +86,7 @@ class PlansViewModel @ViewModelInject constructor(
     fun doTapUnsubscribe() {
         viewModelScope.launch {
             eventShowHud.postValue(true)
-            cacheManager.user()?.subscription?.let {
+            cacheManager.user()?.plan?.let {
                 backendManager.planDelete(it).let { response ->
                     if (response.isSuccess) {
                         doLoadPlans()
@@ -102,8 +102,8 @@ class PlansViewModel @ViewModelInject constructor(
     override fun doTapChoosePlan(model: PlanModel) {
         viewModelScope.launch {
             cacheManager.user()?.let { safeUser ->
-                if (safeUser.subscriptionText != UserModel.kSubscriptionNamePay) {
-                    eventLoadCancelPlan.postValue(safeUser.subscription)
+                if (safeUser.planText != UserModel.kPlanNamePay) {
+                    eventLoadCancelPlan.postValue(safeUser.plan)
                     return@launch
                 }
             }
