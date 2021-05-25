@@ -6,12 +6,14 @@ import com.trx.consumer.BuildConfig.kMinutesBeforeCanJoin
 import com.trx.consumer.extensions.elapsedMin
 import com.trx.consumer.extensions.format
 import com.trx.consumer.models.states.BookingState
+import com.trx.consumer.models.states.BookingViewState
 import com.trx.consumer.screens.workout.WorkoutViewState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.time.Instant
 import java.util.Date
 import java.util.TimeZone
+import kotlin.math.abs
 
 @Parcelize
 class WorkoutModel(
@@ -85,14 +87,15 @@ class WorkoutModel(
             sessionId = identifier.also { identifier = sessionId }
         }
 
-    val bookViewStatus: BookingState
+    val bookViewStatus: BookingViewState
         get() = when (state) {
             BookingState.BOOKED -> {
-                if (date.elapsedMin() < kMinutesBeforeCanJoin) BookingState.JOIN
-                else BookingState.CANCEL
+                val minLeft = date.elapsedMin()
+                if (minLeft < 0 && abs(minLeft) < kMinutesBeforeCanJoin) BookingViewState.JOIN
+                else BookingViewState.CANCEL
             }
-            BookingState.DISABLED -> BookingState.VIDEO
-            else -> BookingState.BOOK
+            BookingState.DISABLED -> BookingViewState.VIDEO
+            else -> BookingViewState.BOOK
         }
 
     companion object {

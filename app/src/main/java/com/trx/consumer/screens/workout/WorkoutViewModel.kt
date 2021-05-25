@@ -11,6 +11,7 @@ import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.BookingsResponseModel
 import com.trx.consumer.models.states.BookingState
+import com.trx.consumer.models.states.BookingViewState
 import kotlinx.coroutines.launch
 
 class WorkoutViewModel @ViewModelInject constructor(
@@ -73,7 +74,7 @@ class WorkoutViewModel @ViewModelInject constructor(
         when (model.workoutState) {
             WorkoutViewState.VIDEO -> eventTapStartWorkout.postValue(model)
             WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> {
-                if (model.bookViewStatus == BookingState.JOIN) {
+                if (model.bookViewStatus == BookingViewState.JOIN) {
                     eventTapStartWorkout.postValue(model)
                 } else {
                     viewModelScope.launch {
