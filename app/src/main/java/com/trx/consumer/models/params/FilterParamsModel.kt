@@ -17,7 +17,7 @@ data class FilterParamsModel(
                 lstFilters.forEach { filter ->
                     val selectedFilter = filter.values.filter { it.isSelected }
                     if (selectedFilter.isNotEmpty())
-                        put(filter.title, selectedFilter.map { it.value })
+                        put(filter.title, selectedFilter.map { it.identifier })
                 }
             }
             return if (params.isNotEmpty()) params else null
@@ -26,12 +26,9 @@ data class FilterParamsModel(
     fun copyModel(): FilterParamsModel {
         val list = mutableListOf<FilterModel>().apply {
             lstFilters.forEach {
-                add(
-                    FilterModel(
-                        title = it.title,
-                        values = mutableListOf<FilterOptionsModel>().apply {
-                            it.values.forEach { option ->
-                                add(FilterOptionsModel(option.value, option.isSelected))
+                add(FilterModel(it.title, mutableListOf<FilterOptionsModel>().apply {
+                            it.values.forEach { opt ->
+                                add(FilterOptionsModel(opt.identifier, opt.value, opt.isSelected))
                             }
                         }
                     )
