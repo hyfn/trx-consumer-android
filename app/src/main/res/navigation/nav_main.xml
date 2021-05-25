@@ -127,6 +127,12 @@
         tools:layout="@layout/fragment_settings" />
 
     <fragment
+        android:id="@+id/subscriptions_fragment"
+        android:name="com.trx.consumer.screens.subscriptions.SubscriptionsFragment"
+        android:label="SubscriptionsFragment"
+        tools:layout="@layout/fragment_subscriptions" />
+
+    <fragment
         android:id="@+id/workout_fragment"
         android:name="com.trx.consumer.screens.workout.WorkoutFragment"
         android:label="WorkoutFragment"

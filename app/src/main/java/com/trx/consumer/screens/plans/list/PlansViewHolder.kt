@@ -13,7 +13,7 @@ class PlansViewHolder(view: View) : CommonViewHolder(view) {
     private val lblTitle: CommonLabel = view.findViewById(R.id.lblTitle)
     private val lblDescription: CommonLabel = view.findViewById(R.id.lblDescription)
     private val lblCost: CommonLabel = view.findViewById(R.id.lblCost)
-    private val btnPlan: CommonButton = view.findViewById(R.id.btnPlan)
+    private val btnPlan: CommonButton = view.findViewById(R.id.btnPrimary)
 
     fun setup(item: PlanModel, listener: PlansListener) {
         lblTitle.text = item.title

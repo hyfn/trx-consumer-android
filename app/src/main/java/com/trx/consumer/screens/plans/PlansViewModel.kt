@@ -22,8 +22,8 @@ class PlansViewModel @ViewModelInject constructor(
     //region Events
 
     val eventLoadCanCancel = CommonLiveEvent<Boolean>()
-    val eventLoadCancelSubscription = CommonLiveEvent<String?>()
-    val eventLoadConfirmSubscription = CommonLiveEvent<PlanModel>()
+    val eventLoadCancelPlan = CommonLiveEvent<String?>()
+    val eventLoadConfirmPlan = CommonLiveEvent<PlanModel>()
     val eventLoadError = CommonLiveEvent<String>()
     val eventLoadNextBillDate = CommonLiveEvent<String?>()
     val eventLoadView = CommonLiveEvent<Void>()
@@ -69,7 +69,7 @@ class PlansViewModel @ViewModelInject constructor(
     fun doCallSubscribe(id: String) {
         viewModelScope.launch {
             eventShowHud.postValue(true)
-            val response = backendManager.subscriptionAdd(id)
+            val response = backendManager.planAdd(id)
             if (response.isSuccess) {
                 doLoadPlans()
             } else {
@@ -87,7 +87,7 @@ class PlansViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             eventShowHud.postValue(true)
             cacheManager.user()?.subscription?.let {
-                backendManager.subscriptionDelete(it).let { response ->
+                backendManager.planDelete(it).let { response ->
                     if (response.isSuccess) {
                         doLoadPlans()
                     } else {
@@ -103,11 +103,11 @@ class PlansViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             cacheManager.user()?.let { safeUser ->
                 if (safeUser.subscriptionText != UserModel.kSubscriptionNamePay) {
-                    eventLoadCancelSubscription.postValue(safeUser.subscription)
+                    eventLoadCancelPlan.postValue(safeUser.subscription)
                     return@launch
                 }
             }
-            eventLoadConfirmSubscription.postValue(model)
+            eventLoadConfirmPlan.postValue(model)
         }
     }
 
