@@ -39,7 +39,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     fun doLoadView() {
         viewModelScope.launch {
             eventShowHud.postValue(true)
-            val response = backendManager.videos(params  = params.selectedFilterParams)
+            val response = backendManager.videos(params = params.selectedFilterParams)
             if (response.isSuccess) {
                 val model = VideoResponseModel.parse(response.responseString)
                 workouts = model.workouts

@@ -9,15 +9,14 @@ import kotlinx.parcelize.Parcelize
 data class FilterParamsModel(
     var selectedModel: FilterModel = FilterModel(),
     var lstFilters: List<FilterModel> = listOf()
-) : Parcelable, Cloneable {
+) : Parcelable {
     val selectedFilterParams: HashMap<String, Any>?
         get() {
             val params = hashMapOf<String, Any>().apply {
                 lstFilters.forEach { filter ->
                     val selectedFilter = filter.values.filter { it.isSelected }
-                    if (selectedFilter.isNotEmpty()) put(
-                        filter.title,
-                        selectedFilter.map { it.value })
+                    if (selectedFilter.isNotEmpty())
+                        put(filter.title, selectedFilter.map { it.value })
                 }
             }
             return if (params.isNotEmpty()) params else null
@@ -33,7 +32,8 @@ data class FilterParamsModel(
                             it.values.forEach { option ->
                                 add(FilterOptionsModel(option.value, option.isSelected))
                             }
-                        })
+                        }
+                    )
                 )
             }
         }

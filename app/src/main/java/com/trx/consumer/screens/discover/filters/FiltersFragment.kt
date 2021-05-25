@@ -64,7 +64,7 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
 
     private val handleTapApply = Observer<FilterParamsModel> { model ->
         LogManager.log("handlerTapApply")
-        NavigationManager.shared.dismiss(this,R.id.discover_fragment, model )
+        NavigationManager.shared.dismiss(this, R.id.discover_fragment, model)
     }
 
     private val handleTapClose = Observer<Void> {
