@@ -7,11 +7,10 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.common.WorkoutViewState
 import org.json.JSONObject
 import java.util.Date
-import java.util.concurrent.TimeUnit
 
 class BookingsResponseModel(private val workouts: List<WorkoutModel>) {
 
-    val listWorkoutsSorted: List<WorkoutModel>
+    private val listWorkoutsSorted: List<WorkoutModel>
         get() {
             return workouts.filter { !it.isCanceled }.sortedBy { it.startsAt }.map { it.booking }
         }
@@ -19,8 +18,9 @@ class BookingsResponseModel(private val workouts: List<WorkoutModel>) {
     val listLiveUpcoming: List<WorkoutModel>
         get() {
             return listWorkoutsSorted.filter {
+                //TODO: Investigate if elapsedMin logic holds up
                 it.workoutState == WorkoutViewState.LIVE &&
-                        it.date.elapsedMin() <= kMinutesAfterCanJoin
+                    it.date.elapsedMin() <= kMinutesAfterCanJoin
             }
         }
 

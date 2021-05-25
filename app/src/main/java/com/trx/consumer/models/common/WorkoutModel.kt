@@ -72,23 +72,21 @@ class WorkoutModel(
                 WorkoutViewState.VIRTUAL -> sessionId
                 else -> cancelId
             }
-            val tempIdentifier = sessionId
-            sessionId = identifier
-            identifier = tempIdentifier
 
+            sessionId = identifier.also { identifier = sessionId }
             return this
         }
 
     val cellViewStatus: WorkoutCellViewState
         get() {
             if (workoutState == WorkoutViewState.VIRTUAL) {
+                //TODO: Investigate if this logic holds up
                 if (date.elapsedMin() < BuildConfig.kMinutesAfterCanJoin) {
                     return WorkoutCellViewState.SOON
                 }
             }
             return WorkoutCellViewState.VIEW
         }
-
 
     companion object {
 

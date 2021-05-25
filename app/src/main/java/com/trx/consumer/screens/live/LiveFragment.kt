@@ -67,7 +67,6 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
             eventTapScheduleToday.observe(viewLifecycleOwner, handleTapScheduleToday)
             eventTapScheduleTomorrow.observe(viewLifecycleOwner, handleTapScheduleTomorrow)
 
-
             doLoadView()
         }
     }
