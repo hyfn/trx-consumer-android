@@ -129,6 +129,13 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/row_discover_filter" />
 
+        <com.trx.consumer.common.CommonImageView
+            android:id="@+id/imgLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/greyLight"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
     </com.trx.consumer.common.CommonView>
 
     <com.trx.consumer.common.CommonRecyclerView
