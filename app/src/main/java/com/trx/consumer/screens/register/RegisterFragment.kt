@@ -19,8 +19,14 @@ import com.trx.consumer.screens.update.UpdateViewState
 
 class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
+    //region Objects
+
     private val viewModel: RegisterViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentRegisterBinding::bind)
+
+    //endregion
+
+    //region Initializers
 
     override fun bind() {
         viewBinding.apply {
@@ -54,6 +60,10 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         }
     }
 
+    //endregion
+
+    //region Handlers
+
     private val handleLoadView = Observer<Void> {
         viewBinding.apply {
             val termsClickableSpan = object : ClickableSpan() {
@@ -83,6 +93,26 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         viewBinding.btnCreateAccount.setPrimaryEnabled(enabled)
     }
 
+    private val handleLoadProfile = Observer<Void> {
+        NavigationManager.shared.dismiss(this, R.id.update_fragment, UpdateViewState.CREATE)
+    }
+
+    private val handleTapBack = Observer<Void> {
+        NavigationManager.shared.dismiss(this)
+    }
+
+    override fun onBackPressed() {
+        viewModel.doTapBack()
+    }
+
+    private val handleTapLogin = Observer<Void> {
+        NavigationManager.shared.dismiss(this, R.id.login_fragment)
+    }
+
+    private val handleTapTermsConditions = Observer<Void> {
+        // TODO: Handle displaying Content with terms and conditions
+    }
+
     private val handleShowError = Observer<String> { error ->
         LogManager.log("handleShowError")
         val model = ErrorAlertModel.error(message = error)
@@ -95,29 +125,17 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         NavigationManager.shared.present(this, R.id.error_fragment, model)
     }
 
-    private val handleLoadProfile = Observer<Void> {
-        NavigationManager.shared.dismiss(this, R.id.update_fragment, UpdateViewState.CREATE)
+    private val handleDismissKeyboard = Observer<Void> {
+        dismissKeyboard()
     }
 
     private val handleShowHud = Observer<Boolean> { show ->
         viewBinding.hudView.isVisible = show
     }
 
-    private val handleTapTermsConditions = Observer<Void> {
-        // TODO: Handle displaying Content with terms and conditions
-    }
+    //endregion
 
-    private val handleTapLogin = Observer<Void> {
-        NavigationManager.shared.dismiss(this, R.id.login_fragment)
-    }
-
-    private val handleTapBack = Observer<Void> {
-        NavigationManager.shared.dismiss(this)
-    }
-
-    private val handleDismissKeyboard = Observer<Void> {
-        dismissKeyboard()
-    }
+    //region Helper Functions
 
     private fun dismissKeyboard() {
         viewBinding.apply {
@@ -127,7 +145,5 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         }
     }
 
-    override fun onBackPressed() {
-        viewModel.doTapBack()
-    }
+    //endregion
 }

@@ -15,35 +15,51 @@ class RegisterViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
 ) : BaseViewModel(), InputViewListener {
 
-    //region Events
-
-    val eventLoadView = CommonLiveEvent<Void>()
-    val eventTapLogin = CommonLiveEvent<Void>()
-    val eventTapTermsConditions = CommonLiveEvent<Void>()
-    val eventShowError = CommonLiveEvent<String>()
-    val eventLoadButton = CommonLiveEvent<Boolean>()
-    val eventLoadProfile = CommonLiveEvent<Void>()
-    val eventDismissKeyboard = CommonLiveEvent<Void>()
-    val eventValidateError = CommonLiveEvent<Int>()
-    val eventShowHud = CommonLiveEvent<Boolean>()
-    val eventTapBack = CommonLiveEvent<Void>()
+    //region Variables
 
     var email: String = ""
     var password: String = ""
-    var confirmPassword: String = ""
-    var checked = false
+    private var confirmPassword: String = ""
+    private var checked = false
 
     //endregion
 
-    //region Functions
+    //region Params
+
+    private val params: HashMap<String, Any>
+        get() {
+            return hashMapOf(
+                "email" to email,
+                "password" to password,
+                "firstName" to "new",
+                "lastName" to "user"
+            )
+        }
+
+    //endregion
+
+    //region Events
+
+    val eventLoadView = CommonLiveEvent<Void>()
+    val eventLoadButton = CommonLiveEvent<Boolean>()
+    val eventLoadProfile = CommonLiveEvent<Void>()
+
+    val eventTapBack = CommonLiveEvent<Void>()
+    val eventTapLogin = CommonLiveEvent<Void>()
+    val eventTapTermsConditions = CommonLiveEvent<Void>()
+
+    val eventShowError = CommonLiveEvent<String>()
+    val eventValidateError = CommonLiveEvent<Int>()
+
+    val eventDismissKeyboard = CommonLiveEvent<Void>()
+    val eventShowHud = CommonLiveEvent<Boolean>()
+
+    //endregion
+
+    //region Events
 
     fun doLoadView() {
         eventLoadView.call()
-    }
-
-    fun doTapLogin() {
-        LogManager.log("doTapLogin")
-        eventTapLogin.call()
     }
 
     fun doTapBack() {
@@ -53,6 +69,11 @@ class RegisterViewModel @ViewModelInject constructor(
     fun doTapCheckbox(isChecked: Boolean) {
         checked = isChecked
         validateButton()
+    }
+
+    fun doTapLogin() {
+        LogManager.log("doTapLogin")
+        eventTapLogin.call()
     }
 
     fun doTapTermsConditions() {
@@ -125,14 +146,4 @@ class RegisterViewModel @ViewModelInject constructor(
     }
 
     //endregion
-
-    private val params: HashMap<String, Any>
-        get() {
-            return hashMapOf(
-                "email" to email,
-                "password" to password,
-                "firstName" to "new",
-                "lastName" to "user"
-            )
-        }
 }
