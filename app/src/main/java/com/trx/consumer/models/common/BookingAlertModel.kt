@@ -54,11 +54,16 @@ class BookingAlertModel(
                 workout.cancelId = "test"
             }
 
-        fun testNoCardLiveBook() {
+        fun testCardLiveBook(): BookingAlertModel =
             testLiveBook().apply {
+                workout.state = BookingState.BOOK
+            }
+
+        fun testNoCardLiveBook(): BookingAlertModel =
+            testLiveBook().apply {
+                workout.state = BookingState.BOOK
                 card = null
             }
-        }
 
         fun testVirtualBook(): BookingAlertModel =
             test().apply {
@@ -67,8 +72,14 @@ class BookingAlertModel(
                 workout.cancelId = "test"
             }
 
-        fun testNoCardVirutalBook(): BookingAlertModel =
+        fun testCardVirtualBook(): BookingAlertModel =
             testVirtualBook().apply {
+                workout.state = BookingState.BOOK
+            }
+
+        fun testNoCardVirtualBook(): BookingAlertModel =
+            testVirtualBook().apply {
+                workout.state = BookingState.BOOK
                 card = null
             }
 
