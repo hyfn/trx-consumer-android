@@ -15,6 +15,7 @@ import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.states.BookingState
+import com.trx.consumer.models.states.WorkoutViewState
 import com.trx.consumer.screens.player.PlayerActivity
 
 class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
@@ -26,7 +27,7 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
         val model = NavigationManager.shared.params(this)
         viewModel.model = if (model is VideoModel) {
             WorkoutModel().apply {
-                mode = WorkoutViewState.Companion.Constant.VIDEO
+                mode = WorkoutViewState.VIDEO_MODE
                 state = BookingState.VIDEO
                 video = model
             }
@@ -107,12 +108,13 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
         }
 
         if (model.workoutState == WorkoutViewState.LIVE) {
+            LogManager.log("handleTapStartWorkout | model.workoutState == WorkoutViewState.LIVE")
             // TODO: Should go to LivePlayer NavigationManager.shared.present(this, R.id.live_fragment)
         }
     }
 
     private val handleTapBookLive = Observer<WorkoutModel> { model ->
-        LogManager.log("handleTapBookLive")
+        LogManager.log("handleTapBookLive ${model.identifier}")
         // TODO: Needs to implement booking alert model
     }
 
