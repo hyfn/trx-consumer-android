@@ -46,12 +46,17 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
             eventLoadWorkoutView.observe(viewLifecycleOwner, handleLoadWorkoutView)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
+            eventShowHud.observe(viewLifecycleOwner, handleShowHud)
             doLoadView()
         }
     }
 
     private val handleTapBack = Observer<Void> {
         NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleShowHud = Observer<Boolean> { show ->
+        viewBinding.hudView.isVisible = show
     }
 
     private val handleLoadWorkoutView = Observer<WorkoutModel> { model ->

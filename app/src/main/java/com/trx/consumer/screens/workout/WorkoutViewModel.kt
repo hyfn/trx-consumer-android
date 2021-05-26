@@ -23,6 +23,7 @@ class WorkoutViewModel @ViewModelInject constructor(
 
     val eventLoadView = CommonLiveEvent<WorkoutModel>()
     var eventLoadWorkoutView = CommonLiveEvent<WorkoutModel>()
+    val eventShowHud = CommonLiveEvent<Boolean>()
 
     val eventTapBack = CommonLiveEvent<Void>()
     var eventTapBookLive = CommonLiveEvent<WorkoutModel>()
@@ -48,7 +49,9 @@ class WorkoutViewModel @ViewModelInject constructor(
     private fun doLoadWorkout() {
         if (model.state != BookingState.BOOKED) {
             viewModelScope.launch {
+                eventShowHud.postValue(true)
                 val response = backendManager.bookings()
+                eventShowHud.postValue(false)
                 if (response.isSuccess) {
                     val bookingModel = BookingsResponseModel.parse(response.responseString)
                     bookingModel.lstWorkoutsSorted.firstOrNull { it == model }?.let { booking ->
