@@ -25,15 +25,15 @@ class ProfileViewModel : BaseViewModel(), LiveWorkoutListener, VirtualWorkoutLis
         eventTapSettings.call()
     }
 
-    override fun doTapBook(model: WorkoutModel) {
-    }
-
-    override fun doTapSelect(model: WorkoutModel) {
-    }
-
     override fun doTapPrimary(model: VirtualWorkoutModel) {
     }
 
     override fun doTapSelect(model: VirtualWorkoutModel) {
+    }
+
+    override fun doTapBookLiveWorkout(model: WorkoutModel) {
+    }
+
+    override fun doTapSelectLiveWorkout(model: WorkoutModel) {
     }
 }
