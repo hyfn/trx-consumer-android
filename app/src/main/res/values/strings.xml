@@ -22,9 +22,9 @@
     <string name="booking_alert_book_title">Book Session</string>
     <string name="booking_alert_book_price_button_label">Book (%s)</string>
     <string name="booking_alert_cancel_title">Cancel Session</string>
-    <string name="booking_alert_cancel_no_button_label">No, Don\'t Cancel the Session</string>
+    <string name="booking_alert_cancel_no_button_label">No, Don\'t Cancel</string>
     <string name="booking_alert_cancel_policy_button_label">Please note our <u>Cancellation Policy</u></string>
-    <string name="booking_alert_cancel_yes_button_label">Yes, Cancel Session</string>
+    <string name="booking_alert_cancel_yes_button_label">Yes, Cancel</string>
     <string name="booking_alert_dismiss_button_label">Dismiss</string>
     <string name="booking_alert_join_title">Join Session</string>
     <string name="booking_alert_payment_button_label">Add Payment</string>
