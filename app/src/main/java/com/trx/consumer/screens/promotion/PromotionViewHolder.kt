@@ -16,7 +16,7 @@ class PromotionViewHolder(view: View) : CommonViewHolder(view) {
     private val lblTitle: CommonLabel = view.findViewById(R.id.lblTitle)
     private val btnSelect: CommonButton = view.findViewById(R.id.btnSelect)
 
-    fun setup(model: PromoModel, listener: PromotionListener) {
+    fun setup(model: PromoModel, listener: PromoViewListener) {
         imgBg.load(model.imageUrl)
         lblTitle.text(model.title.upperCased())
         btnSelect.action { listener.doTapPromo(model) }

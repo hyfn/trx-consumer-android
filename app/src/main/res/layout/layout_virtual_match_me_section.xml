@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewMain"
+    android:layout_width="match_parent"
+    android:layout_height="450dp">
+
+    <com.trx.consumer.common.CommonImageView
+        android:id="@+id/imgTRXTrainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_media_match_me"
+        android:tint="@color/blackAlpha20" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/atcarquette_semibold"
+        android:text="Find Your TRX Trainer"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/lblDescTRXTrainer" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblDescTRXTrainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="15dp"
+        android:text="There are thousands of fitness professionals in our diverse network, but who's right for you?"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@id/btnMatchMe" />
+
+    <com.trx.consumer.common.CommonButton
+        android:id="@+id/btnMatchMe"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center"
+        android:text="MATCH ME NOW"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:backgroundColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</com.trx.consumer.common.CommonView>

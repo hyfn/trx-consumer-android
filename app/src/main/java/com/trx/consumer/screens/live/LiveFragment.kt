@@ -114,7 +114,7 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
         viewBinding.apply {
             imgLinePromotions.isHidden = hide
             with(viewPromotions) {
-                lblTitle.text = requireContext().getString(R.string.promotions_top_title_label)
+                lblTitle.text = requireContext().getString(R.string.promos_top_title_label)
                 viewMain.isHidden = hide
             }
         }

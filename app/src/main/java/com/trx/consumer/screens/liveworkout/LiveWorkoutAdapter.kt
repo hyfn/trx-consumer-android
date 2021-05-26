@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import java.lang.Exception
 
 class LiveWorkoutAdapter(
-    private val listener: LiveWorkoutListener,
+    private val listener: LiveWorkoutViewListener,
     scopeProvider: () -> CoroutineScope
 ) : CommonRecyclerViewAdapter(scopeProvider) {
 

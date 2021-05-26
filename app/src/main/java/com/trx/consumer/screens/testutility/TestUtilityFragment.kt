@@ -14,7 +14,6 @@ import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.VideoModel
-import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.ContentParamsModel
 import com.trx.consumer.models.params.FilterParamsModel
@@ -174,7 +173,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         liveWorkoutAdapter.update(liveWorkouts)
     }
 
-    private val handleLoadVirtualWorkouts = Observer<List<VirtualWorkoutModel>> { virtualWorkouts ->
+    private val handleLoadVirtualWorkouts = Observer<List<WorkoutModel>> { virtualWorkouts ->
         virtualWorkoutAdapter.update(virtualWorkouts)
     }
 

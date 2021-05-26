@@ -12,14 +12,14 @@ import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.responses.BannerResponseModel
 import com.trx.consumer.models.responses.PromosResponseModel
-import com.trx.consumer.screens.promotion.PromotionListener
+import com.trx.consumer.screens.promotion.PromoViewListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 import kotlinx.coroutines.launch
 
 class HomeViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager
-) : BaseViewModel(), PromotionListener, VideoWorkoutListener {
+) : BaseViewModel(), PromoViewListener, VideoWorkoutListener {
 
     //region variables
 

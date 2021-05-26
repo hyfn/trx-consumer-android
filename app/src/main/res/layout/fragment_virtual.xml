@@ -1,14 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:backgroundColor="@color/white">
 
-    <com.trx.consumer.common.CommonLabel
-        style="@style/MatchParentEdgesViewStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome to VirtualFragment" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.trx.consumer.common.CommonView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/viewMatchMe"
+                layout="@layout/layout_virtual_match_me_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewMatched"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/viewMatchMe">
+
+                <include
+                    android:id="@+id/viewUpcoming"
+                    layout="@layout/layout_common_collection" />
+
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblBookWith"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="start"
+                    android:textColor="@color/grey"
+                    android:textSize="11sp"
+                    app:layout_constraintTop_toBottomOf="@id/viewUpcoming"
+                    tools:ignore="SmallSp"
+                    tools:text="BOOK WITH JAIME" />
+
+                <com.trx.consumer.views.VirtualWorkoutView
+                    android:id="@+id/viewBookWithTrainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintTop_toBottomOf="@id/lblBookWith" />
+
+                <com.trx.consumer.views.VirtualWorkoutView
+                    android:id="@+id/viewBookMatchMe"
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintTop_toBottomOf="@id/viewBookWithTrainer" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/greyLight"
+                    app:layout_constraintTop_toBottomOf="@id/viewBookMatchMe" />
+
+            </com.trx.consumer.common.CommonView>
+
+            <include
+                android:id="@+id/viewTrainers"
+                layout="@layout/layout_common_collection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/viewMatched" />
+
+            <View
+                android:id="@+id/imgLineCalendar"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/greyLight"
+                app:layout_constraintTop_toBottomOf="@id/viewTrainers" />
+
+            <include
+                android:id="@+id/viewSchedule"
+                layout="@layout/layout_virtual_calendar_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/imgLineCalendar" />
+
+            <View
+                android:id="@+id/imgLinePromos"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greyLight"
+                app:layout_constraintTop_toBottomOf="@id/viewSchedule" />
+
+            <include
+                android:id="@+id/viewPromos"
+                layout="@layout/layout_common_collection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/imgLinePromos" />
+
+        </com.trx.consumer.common.CommonView>
+
+    </androidx.core.widget.NestedScrollView>
 
 </com.trx.consumer.common.CommonView>

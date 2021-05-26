@@ -13,17 +13,17 @@ import com.trx.consumer.models.responses.BookingsResponseModel
 import com.trx.consumer.models.responses.PromosResponseModel
 import com.trx.consumer.models.responses.SessionsResponseModel
 import com.trx.consumer.models.responses.TrainersResponseModel
-import com.trx.consumer.screens.liveworkout.LiveWorkoutListener
-import com.trx.consumer.screens.promotion.PromotionListener
+import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
+import com.trx.consumer.screens.promotion.PromoViewListener
 import com.trx.consumer.screens.trainerprofile.TrainerProfileListener
 import kotlinx.coroutines.launch
 
 class LiveViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
 ) : BaseViewModel(),
-    LiveWorkoutListener,
+    LiveWorkoutViewListener,
     TrainerProfileListener,
-    PromotionListener {
+    PromoViewListener {
 
     //region Events
 

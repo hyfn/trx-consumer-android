@@ -18,7 +18,7 @@ class LiveWorkoutViewHolder(view: View) : CommonViewHolder(view) {
     private val btnBook: CommonButton = view.findViewById(R.id.btnBook)
     private val btnSelect: CommonButton = view.findViewById(R.id.btnSelect)
 
-    fun setup(model: WorkoutModel, listener: LiveWorkoutListener) {
+    fun setup(model: WorkoutModel, listener: LiveWorkoutViewListener) {
         imgProfile.load(model.trainer.profilePhoto)
         lblTitle.text(model.title)
         lblSubtitle.text(model.duration)
