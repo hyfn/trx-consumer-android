@@ -113,7 +113,6 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
 
     //region Helper Functions
 
-    //  TODO: Complete logic
     private fun loadView(model: BookingAlertModel) {
         viewBinding.apply {
             lblMainTitle.text = getString(model.title)
@@ -144,16 +143,29 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
         }
     }
 
-    //  TODO: Complete logic
     private fun loadViewCard(card: CardModel?) {
         viewBinding.apply {
+            btnPolicy.action { viewModel.doTapPolicy() }
+
             card?.let {
+                viewCardBg.isHidden = false
+
+                //  Populate view specifically related to card data
                 imgCard.setImageResource(it.imageName)
-                lblType.text(card.typeText)
+                lblType.text = getString(card.typeText)
                 lblNumber.text(it.number)
                 viewCard.isHidden = false
+
+                btnAddPayment.isHidden = true
+                btnPrimary.isHidden = false
+                btnPrimary.action { viewModel.doTapBook() }
             } ?: run {
-                viewCard.isHidden = false
+                viewCardBg.isHidden = true
+                btnAddPayment.isHidden = false
+                btnAddPayment.action { viewModel.doTapAddPayment() }
+                btnPrimary.isEnabled = false
+                btnPrimary.isHidden = false
+                btnPrimary.bgColor(R.color.grey)
             }
         }
     }

@@ -9,7 +9,7 @@ import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.responses.BookIntentResponseModel
-import com.trx.consumer.screens.workout.WorkoutViewState
+import com.trx.consumer.models.states.WorkoutViewState
 import kotlinx.coroutines.launch
 
 class BookingAlertViewModel @ViewModelInject constructor(
