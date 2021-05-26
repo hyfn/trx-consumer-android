@@ -13,22 +13,43 @@ class LoginViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
 ) : BaseViewModel(), InputViewListener {
 
-    val eventLoadView = CommonLiveEvent<Void>()
-    val eventLoadButton = CommonLiveEvent<Boolean>()
-    val eventShowError = CommonLiveEvent<String>()
-    val eventTapLogin = CommonLiveEvent<Void>()
-    val eventDismissKeyboard = CommonLiveEvent<Void>()
-    val eventValidateError = CommonLiveEvent<Int>()
-    val eventShowHud = CommonLiveEvent<Boolean>()
-    val eventTapBack = CommonLiveEvent<Void>()
-    val eventTapSignUp = CommonLiveEvent<Void>()
-    val eventTapForgotPassword = CommonLiveEvent<Void>()
+    //region Variables
 
     var email: String = ""
     var password: String = ""
 
+    //endregion
+
+    //region Events
+
+    val eventLoadView = CommonLiveEvent<Void>()
+    val eventLoadButton = CommonLiveEvent<Boolean>()
+
+    val eventTapBack = CommonLiveEvent<Void>()
+    val eventTapForgotPassword = CommonLiveEvent<Void>()
+    val eventTapLogin = CommonLiveEvent<Void>()
+    val eventTapSignUp = CommonLiveEvent<Void>()
+
+    val eventShowError = CommonLiveEvent<String>()
+    val eventValidateError = CommonLiveEvent<Int>()
+
+    val eventDismissKeyboard = CommonLiveEvent<Void>()
+    val eventShowHud = CommonLiveEvent<Boolean>()
+
+    //endregion
+
+    //region Actions
+
     fun doLoadView() {
         eventLoadView.call()
+    }
+
+    fun doTapBack() {
+        eventTapBack.call()
+    }
+
+    fun doTapForgotPassword() {
+        eventTapForgotPassword.call()
     }
 
     fun doTapLogin() {
@@ -44,16 +65,8 @@ class LoginViewModel @ViewModelInject constructor(
         }
     }
 
-    fun doTapBack() {
-        eventTapBack.call()
-    }
-
     fun doTapSignUp() {
         eventTapSignUp.call()
-    }
-
-    fun doTapForgotPassword() {
-        eventTapForgotPassword.call()
     }
 
     override fun doUpdateText(
@@ -78,4 +91,6 @@ class LoginViewModel @ViewModelInject constructor(
     fun doDismissKeyboard() {
         eventDismissKeyboard.call()
     }
+
+    //endregion
 }
