@@ -4,6 +4,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.trx.consumer.BuildConfig.kTermsSubscriptions
 import com.trx.consumer.R
 import com.trx.consumer.base.BaseDialogFragment
 import com.trx.consumer.base.viewBinding
@@ -12,9 +13,12 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.managers.UtilityManager
+import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.common.BookingState.BOOKED
 import com.trx.consumer.models.common.CardModel
+import com.trx.consumer.screens.alert.AlertViewState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,11 +33,8 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
         viewModel.model = model
 
         viewBinding.apply {
-            btnPrimary.action {
-                viewContent.isInvisible = true
-                viewModel.doTapPrimary()
-            }
-            btnSecondary.action { viewModel.doTapSecondary() }
+            viewContent.isInvisible = true
+            btnClose.action { viewModel.doTapClose() }
         }
 
         viewModel.apply {
@@ -54,72 +55,41 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
 
     private val handleLoadView = Observer<BookingAlertModel> { model ->
         LogManager.log("handleLoadView: $model")
+        viewBinding.viewContent.isHidden = false
         loadView(model)
         viewBinding.viewContent.startInAnimation(bottomInAnimation(requireContext()))
-        // viewBinding.apply {
-        //     viewContent.isHidden = false
-        //     if (it.state == ClassViewState.BOOK) {
-        //         lblMainTitle.text = SpannableStringBuilder(
-        //             lblMainTitle.context.getString(R.string.booking_alert_main_title_book)
-        //         ).color(
-        //             ContextCompat.getColor(lblMainTitle.context, R.color.blue)
-        //         ) { append(it.pointDisplay) }
-        //
-        //         btnPrimary.apply {
-        //             bgColor(R.color.blueDark)
-        //             textColor(R.color.white)
-        //         }
-        //     } else {
-        //         lblMainTitle.text = lblMainTitle.context.getString(
-        //             R.string.booking_alert_main_title_else
-        //         )
-        //
-        //         btnPrimary.apply {
-        //             bgColor(R.color.white)
-        //             textColor(R.color.red)
-        //             border(R.color.red, 1.px)
-        //         }
-        //     }
-        //
-        //     imgClass.load(it.bannerImageName)
-        //     lblTitle.text = it.title
-        //     lblSubtitle.text = it.subtitle
-        //     lblClassInfo.text = it.classInfo
-        //     btnPrimary.text = btnPrimary.context.getString(it.state.primaryModalButtonTitle)
-        //     btnSecondary.text = btnSecondary.context.getString(it.state.secondaryModalButtonTitle)
-        //
-        //     // dialog animation
     }
 
     private val handleLoadAddCard = Observer<Void> {
-        LogManager.log("handleLoad_")
+        LogManager.log("handleLoadAddCard")
+        NavigationManager.shared.present(this, R.id.add_card_fragment)
     }
 
-    private val handleShowPolicy = Observer<Void> { }
+    private val handleShowPolicy = Observer<Void> {
+        LogManager.log("handleShowPolicy")
+        UtilityManager.shared.openUrl(requireContext(), kTermsSubscriptions)
+    }
 
-    private val handleShowSuccess = Observer<String> {
+    private val handleShowSuccess = Observer<String> { value ->
         LogManager.log("handleShowSuccess")
-        // val model = AlertModel.success(it)
-        // model.setPrimaryButton(R.string.alert_primary_continue) {
-        //     NavigationManager.shared.dismiss(this, R.id.home_fragment)
-        // }
-        // model.setSecondaryButton(0)
-        // model.setBackAction(AlertBackAction.SECONDARY)
-        // NavigationManager.shared.present(this, R.id.alert_fragment, model)
+        val model = AlertModel.create("BOOK SESSION", value)
+        model.setPrimaryButton(R.string.alert_primary_done, AlertViewState.NEUTRAL) {
+            dismiss()
+        }
+        model.setSecondaryButton(0)
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
-    private val handleShowError = Observer<String> {
+    private val handleShowError = Observer<String> { value ->
         LogManager.log("handleShowError")
-        // val model = AlertModel.error(it)
-        // model.setPrimaryButton(R.string.alert_primary_back) {
-        //     dismiss()
-        // }
-        // model.setSecondaryButton(R.string.alert_secondary_report) {
-        //     dismiss()
-        //     UtilityManager.shared.showSupportEmail(this)
-        // }
-        // model.setBackAction(AlertBackAction.PRIMARY)
-        // NavigationManager.shared.present(this, R.id.alert_fragment, model)
+        val model = AlertModel.create("ERROR", value)
+        model.setPrimaryButton(R.string.alert_primary_back, AlertViewState.NEUTRAL) {
+            dismiss()
+        }
+        model.setSecondaryButton(R.string.alert_secondary_report, AlertViewState.NEGATIVE) {
+            UtilityManager.shared.showSupportEmail(this)
+        }
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
     private val handleTapClose = Observer<Void> {
@@ -146,12 +116,31 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
     //  TODO: Complete logic
     private fun loadView(model: BookingAlertModel) {
         viewBinding.apply {
-            lblMainTitle.text(model.title)
+            lblMainTitle.text = getString(model.title)
+            btnPrimary.text = model.buttonTitle
 
             when (model.workout.state) {
-                BOOKED -> TODO()
+                BOOKED -> {
+                    viewCard.isHidden = true
+                    btnPolicy.isHidden = true
+                    loadCancelButtons()
+                }
                 else -> loadViewCard(model.card)
             }
+        }
+    }
+
+    private fun loadCancelButtons() {
+        viewBinding.apply {
+            btnPrimary.apply {
+                text = getString(R.string.booking_alert_cancel_no_button_label)
+                bgColor(R.color.greyLight)
+                textColor(R.color.black)
+                isVisible = true
+            }
+            btnPrimary.action { viewModel.doTapClose() }
+            btnSecondary.isVisible = true
+            btnSecondary.action { viewModel.doTapCancelYes() }
         }
     }
 

@@ -151,15 +151,17 @@
                 android:fontFamily="@font/atcarquette_bold"
                 android:gravity="center"
                 android:minHeight="50dp"
-                android:text="@string/booking_alert_cancel_no_button_label"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="13sp"
-                app:backgroundColor="@color/greyLight"
+                android:visibility="invisible"
+                app:backgroundColor="@color/black"
                 app:layout_constraintBottom_toTopOf="@id/btnSecondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_goneMarginBottom="@dimen/bottom_bar_height" />
+                app:layout_goneMarginBottom="@dimen/bottom_bar_height"
+                tools:text="@string/booking_alert_cancel_no_button_label"
+                tools:visibility="visible" />
 
             <com.trx.consumer.common.CommonButton
                 android:id="@+id/btnSecondary"
@@ -175,11 +177,11 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="13sp"
+                android:visibility="gone"
                 app:backgroundColor="@color/red"
                 app:layout_constraintBottom_toTopOf="@id/btnPolicy"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:visibility="visible" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <com.trx.consumer.common.CommonButton
                 android:id="@+id/btnPolicy"
@@ -194,7 +196,7 @@
                 android:text="@string/booking_alert_cancel_policy_button_label"
                 android:textColor="@color/grey"
                 android:textSize="14sp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
