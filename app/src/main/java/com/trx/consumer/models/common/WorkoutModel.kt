@@ -7,7 +7,7 @@ import com.trx.consumer.extensions.format
 import com.trx.consumer.extensions.isToday
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.BookingViewState
-import com.trx.consumer.screens.workout.WorkoutViewState
+import com.trx.consumer.models.states.WorkoutViewState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.time.Instant
@@ -37,7 +37,7 @@ class WorkoutModel(
 ) : Parcelable {
 
     val amount: String
-        get() = "$${priceInCents / 100.0}"
+        get() = "$${priceInCents / 100.00}"
 
     override fun equals(other: Any?): Boolean {
         return other === this || (other is WorkoutModel && other.identifier == identifier)
@@ -174,7 +174,8 @@ class WorkoutModel(
                 startsAt = 1615917600000,
                 state = BookingState.VIEW,
                 trainer = TrainerModel.test(),
-                video = VideoModel.test()
+                video = VideoModel.test(),
+                priceInCents = 1999,
             )
         }
 
