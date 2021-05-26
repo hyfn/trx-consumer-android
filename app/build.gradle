@@ -116,7 +116,7 @@ android {
             buildConfigField "String", "kBaseUrl", '"https://digital.trxtraining.com/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "true"
             buildConfigField "Integer", "kFirebaseFetchInterval", "30"
-            buildConfigField "String", "kAmplitudeApiKey", "e6731270c5f1859e2bc25cf5e8c3d2f9"
+            buildConfigField "String", "kAmplitudeApiKey", '"e6731270c5f1859e2bc25cf5e8c3d2f9"'
             buildConfigField "String", "kStripeApiKey", '"pk_live_Nrhi2HdHwsfQ5OSiPhhtwuah00yvGgjwWe"'
             signingConfig signingConfigs.prodRelease
         }
