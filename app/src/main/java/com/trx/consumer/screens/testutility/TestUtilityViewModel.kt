@@ -141,7 +141,7 @@ class TestUtilityViewModel @ViewModelInject constructor(
         eventTapBookingAlert.call()
     }
 
-    override fun doTapBook(model: WorkoutModel) {}
+    fun doTapBook(model: WorkoutModel) {}
 
     override fun doTapBookLiveWorkout(model: WorkoutModel) {}
 
