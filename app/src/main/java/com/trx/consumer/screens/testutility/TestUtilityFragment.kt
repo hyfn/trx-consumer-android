@@ -11,6 +11,8 @@ import com.trx.consumer.databinding.FragmentTestUtilityBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.AlertModel
+import com.trx.consumer.models.common.BookingAlertModel
+import com.trx.consumer.models.common.BookingState
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.VideoModel
@@ -63,6 +65,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnSettings.action { viewModel.doTapSettings() }
             btnWorkout.action { viewModel.doTapWorkout() }
             btnTrainer.action { viewModel.doTapTrainer() }
+            btnBookingAlert.action { viewModel.doTapBookingAlert() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoAdapter
@@ -85,6 +88,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapSettings.observe(viewLifecycleOwner, handleTapSettings)
             eventTapWorkout.observe(viewLifecycleOwner, handleTapWorkout)
             eventTapTrainer.observe(viewLifecycleOwner, handleTapTrainer)
+            eventTapBookingAlert.observe(viewLifecycleOwner, handleTapBookingAlert)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
             eventLoadPromotions.observe(viewLifecycleOwner, handleLoadPromotions)
@@ -168,6 +172,14 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleTapTrainer = Observer<Void> {
         NavigationManager.shared.present(this, R.id.trainer_fragment)
+    }
+
+    //  TODO: Add other options to display different type of BookingAlert
+    private val handleTapBookingAlert = Observer<Void> {
+        val model = BookingAlertModel.test().apply {
+            workout.state = BookingState.BOOKED
+        }
+        NavigationManager.shared.present(this, R.id.booking_alert_fragment, params = model)
     }
 
     private val handleLoadLiveWorkouts = Observer<List<WorkoutModel>> { liveWorkouts ->
