@@ -97,6 +97,8 @@ android {
             buildConfigField "Boolean", "kIsVerificationEnabled", "false"
             buildConfigField "String", "kTRXSupportEmail", '"digital@trxtraining.com"'
             buildConfigField "Boolean", "isVersion2Enabled", "false"
+            buildConfigField "Integer", "kMinutesBeforeCanJoin", "10"
+            buildConfigField "Integer", "kMinutesAfterCanJoin", "15"
         }
         dev {
             applicationId "com.trx.consumer.dev"
