@@ -29,7 +29,7 @@ class TrainerProfileAdapter(
                 TYPE_ROW -> TrainerProfileViewHolder(
                     LayoutInflater
                         .from(parent.context)
-                        .inflate(R.layout.row_trainer_profile_collection, parent, false)
+                        .inflate(R.layout.row_trainer_profile, parent, false)
                 )
                 else -> EmptyViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.row_empty, parent, false)

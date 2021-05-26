@@ -23,12 +23,11 @@ class LiveWorkoutViewHolder(view: View) : CommonViewHolder(view) {
         lblTitle.text(model.title)
         lblSubtitle.text(model.duration)
         lblSubtitle2.text(model.dateTime)
-        btnBook.text(model.state.buttonTitle)
 
         btnBook.apply {
-            text(context.getString(model.state.buttonTitle))
-            action { listener.doTapBook(model) }
+            text(context.getString(model.cellViewStatus.buttonTitle))
+            action { listener.doTapBookLiveWorkout(model) }
         }
-        btnSelect.action { listener.doTapSelect(model) }
+        btnSelect.action { listener.doTapSelectLiveWorkout(model) }
     }
 }

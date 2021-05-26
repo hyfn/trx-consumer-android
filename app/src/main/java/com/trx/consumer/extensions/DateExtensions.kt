@@ -1,5 +1,6 @@
 package com.trx.consumer.extensions
 
+import android.text.format.DateUtils
 import com.trx.consumer.BuildConfig
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -41,6 +42,12 @@ fun Date.elapsedMin(): Long {
     return TimeUnit.MILLISECONDS.toMinutes(currentTime - dateTime)
 }
 
+fun Date.minBeforeDate(): Long {
+    val dateTime = this.time
+    val currentTime = Calendar.getInstance().time.time
+    return TimeUnit.MILLISECONDS.toMinutes(currentTime - dateTime)
+}
+
 fun Date.format(
     format: String? = BuildConfig.kClassDateTimeFormat,
     locale: Locale = Locale.US,
@@ -55,6 +62,18 @@ fun String.date(
     zone: TimeZone = TimeZone.getTimeZone("UTC")
 ): Date? {
     return SimpleDateFormat(format, locale).apply { this.timeZone = zone }.parse(this)
+}
+
+fun Date.isToday(): Boolean {
+    return DateUtils.isToday(this.time)
+}
+
+fun Date.isTomorrow(): Boolean {
+    val calendar = Calendar.getInstance()
+    val todayDayInt = calendar.get(Calendar.DAY_OF_YEAR)
+    calendar.time = this
+    val startDayInt = calendar.get(Calendar.DAY_OF_YEAR)
+    return todayDayInt == startDayInt - 1
 }
 
 fun Date.weekdayInitialString(

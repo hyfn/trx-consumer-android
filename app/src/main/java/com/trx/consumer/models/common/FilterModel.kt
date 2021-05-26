@@ -7,7 +7,6 @@ import java.util.Locale
 
 @Parcelize
 class FilterModel(
-    var identifier: String = "",
     var title: String = "",
     var values: List<FilterOptionsModel> = mutableListOf()
 ) : Parcelable {
@@ -41,7 +40,6 @@ class FilterModel(
 
         fun test(): FilterModel {
             return FilterModel(
-                "_identifier",
                 "Filter",
                 mutableListOf<FilterOptionsModel>().apply {
                     repeat(5) { index ->

@@ -5,7 +5,11 @@ import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 
 @Parcelize
-class FilterOptionsModel(var value: String = "", var isSelected: Boolean = false) : Parcelable {
+class FilterOptionsModel(
+    var identifier: String = "",
+    var value: String = "",
+    var isSelected: Boolean = false
+) : Parcelable {
 
     companion object {
         fun parse(jsonObject: JSONObject?): List<FilterOptionsModel> {
@@ -16,6 +20,7 @@ class FilterOptionsModel(var value: String = "", var isSelected: Boolean = false
                         add(
                             FilterOptionsModel().apply {
                                 val key = keys.next() as String
+                                identifier = key
                                 value = safeJson.optString(key)
                             }
                         )
