@@ -2,31 +2,26 @@ package com.trx.consumer.managers
 
 import android.content.Context
 import com.amplitude.api.AmplitudeClient
+import com.trx.consumer.models.common.AmplitudePropertyModel
 import com.trx.consumer.models.common.AnalyticsEventModel
-import io.branch.referral.Branch
-import io.branch.referral.util.BranchEvent
-
+import org.json.JSONObject
 
 class AnalyticsManager(private val context: Context, private val configManager: ConfigManager) {
 
     private val amplitudeClient: AmplitudeClient
         get() = configManager.amplitudeClient
 
-    fun setUserId(id: String) {
-        amplitudeClient.userId = id
-        Branch.getInstance().setIdentity(id)
-    }
-
-    fun track(model: AnalyticsEventModel) {
-        trackAmplitude(model)
-        trackBranch(model)
-    }
-
-    private fun trackAmplitude(model: AnalyticsEventModel) {
-        amplitudeClient.logEvent(model.amplitudeEventName)
-    }
-
-    private fun trackBranch(model: AnalyticsEventModel) {
-        BranchEvent(model.branchEvent.getName()).logEvent(context)
+    fun trackAmplitude(model: AnalyticsEventModel, value: Any?) {
+        when (model.amplitudePropertyType) {
+            AmplitudePropertyModel.EVENT -> {
+                val properties = hashMapOf<String, Any>().apply {
+                    if (value is String) {
+                        put(model.amplitudePropertyName, value)
+                    }
+                }
+                amplitudeClient.logEvent(model.amplitudeEventName, JSONObject(properties.toMap()))
+            }
+            else -> {}
+        }
     }
 }
