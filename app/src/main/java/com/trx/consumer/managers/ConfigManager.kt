@@ -5,7 +5,7 @@ import com.amplitude.api.Amplitude
 import com.amplitude.api.AmplitudeClient
 import com.trx.consumer.BuildConfig
 
-class ConfigManager () {
+class ConfigManager() {
 
     lateinit var amplitudeClient: AmplitudeClient
         private set

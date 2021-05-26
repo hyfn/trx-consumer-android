@@ -1,6 +1,5 @@
 package com.trx.consumer.managers
 
-import android.content.Context
 import com.amplitude.api.AmplitudeClient
 import com.trx.consumer.models.common.AmplitudePropertyModel
 import com.trx.consumer.models.common.AnalyticsEventModel
