@@ -24,11 +24,16 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert) {
 
+    //region Objects
+
     private val viewModel: BookingAlertViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentBookingAlertBinding::bind)
 
-    override fun bind() {
+    //endregion
 
+    //region Initializers
+
+    override fun bind() {
         val model = NavigationManager.shared.params(this) as BookingAlertModel
         viewModel.model = model
 
@@ -52,6 +57,10 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
 
         viewModel.doLoadView()
     }
+
+    //endregion
+
+    //region Handlers
 
     private val handleLoadView = Observer<BookingAlertModel> { model ->
         LogManager.log("handleLoadView: $model")
@@ -110,6 +119,8 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
             super.dismiss()
         }
     }
+
+    //endregion
 
     //region Helper Functions
 
