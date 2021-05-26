@@ -35,10 +35,9 @@ class WorkoutModel(
     val bookingTimestamp: Double = 0.0,
     var video: VideoModel = VideoModel()
 ) : Parcelable {
-  
+
     val amount: String
         get() = "$${priceInCents / 100.0}"
-    }
 
     override fun equals(other: Any?): Boolean {
         return other === this || (other is WorkoutModel && other.identifier == identifier)

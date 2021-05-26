@@ -3,6 +3,7 @@ package com.trx.consumer.models.common
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import com.trx.consumer.R
+import com.trx.consumer.models.states.BookingState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 

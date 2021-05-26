@@ -16,8 +16,8 @@ import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.managers.UtilityManager
 import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.BookingAlertModel
-import com.trx.consumer.models.common.BookingState.BOOKED
 import com.trx.consumer.models.common.CardModel
+import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.screens.alert.AlertViewState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -120,7 +120,7 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
             btnPrimary.text = model.buttonTitle
 
             when (model.workout.state) {
-                BOOKED -> {
+                BookingState.BOOKED -> {
                     viewCard.isHidden = true
                     btnPolicy.isHidden = true
                     loadCancelButtons()
