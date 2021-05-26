@@ -192,7 +192,6 @@ dependencies {
     //Amplitude
     implementation "com.amplitude:android-sdk:$rootProject.amplitudeVersion"
 
-
     // Testing dependencies
     androidTestImplementation "androidx.test.ext:junit:$rootProject.junitVersion"
     androidTestImplementation "org.mockito:mockito-android:$rootProject.mockitoVersion"
