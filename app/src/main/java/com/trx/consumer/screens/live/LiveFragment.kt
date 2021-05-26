@@ -114,7 +114,7 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
         viewBinding.apply {
             imgLinePromotions.isHidden = hide
             with(viewPromotions) {
-                lblTitle.text = getString(R.string.promotions_top_title_label)
+                lblTitle.text = requireContext().getString(R.string.promotions_top_title_label)
                 viewMain.isHidden = hide
             }
         }
@@ -127,7 +127,7 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
             imgLineTrainers.isHidden = hide
             with(viewTrainers) {
                 viewMain.isHidden = hide
-                lblTitle.text = getString(R.string.live_trainers_title_label)
+                lblTitle.text = requireContext().getString(R.string.live_trainers_title_label)
                 btnView.isHidden = true
             }
         }
@@ -136,18 +136,20 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
     private fun loadWorkoutsToday(workouts: List<WorkoutModel>) {
         todayAdapter.update(workouts)
         viewBinding.viewToday.apply {
+            val context = requireContext()
             viewMain.isHidden = workouts.isEmpty()
-            lblTitle.text = getString(R.string.live_today_title_label)
-            btnView.text = getString(R.string.live_button_schedule_label)
+            lblTitle.text = context.getString(R.string.live_today_title_label)
+            btnView.text = context.getString(R.string.live_button_schedule_label)
         }
     }
 
     private fun loadWorkoutsTomorrow(workouts: List<WorkoutModel>) {
         tomorrowAdapter.update(workouts)
         viewBinding.viewTomorrow.apply {
+            val context = requireContext()
             viewMain.isHidden = workouts.isEmpty()
-            lblTitle.text = getString(R.string.live_tomorrow_title_label)
-            btnView.text = getString(R.string.live_button_schedule_label)
+            lblTitle.text = context.getString(R.string.live_tomorrow_title_label)
+            btnView.text = context.getString(R.string.live_button_schedule_label)
         }
     }
 
@@ -155,7 +157,7 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
         recommendedAdapter.update(workouts)
         viewBinding.viewRecommended.apply {
             viewMain.isHidden = workouts.isEmpty()
-            lblTitle.text = getString(R.string.live_recommended_title_label)
+            lblTitle.text = requireContext().getString(R.string.live_recommended_title_label)
             btnView.isHidden = true
         }
     }
@@ -163,9 +165,10 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
     private fun loadWorkoutsUpcoming(workouts: List<WorkoutModel>) {
         upcomingAdapter.update(workouts)
         viewBinding.viewUpcoming.apply {
+            val context = requireContext()
             viewMain.isHidden = workouts.isEmpty()
-            lblTitle.text = getString(R.string.live_upcoming_title_label)
-            btnView.text = getString(R.string.live_button_schedule_label)
+            lblTitle.text = context.getString(R.string.live_upcoming_title_label)
+            btnView.text = context.getString(R.string.live_button_schedule_label)
         }
     }
 

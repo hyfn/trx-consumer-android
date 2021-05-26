@@ -8,7 +8,7 @@ import com.trx.consumer.screens.workout.WorkoutViewState
 import org.json.JSONObject
 import java.util.Date
 
-class BookingsResponseModel(val workouts: List<WorkoutModel> = mutableListOf()) {
+class BookingsResponseModel(val workouts: List<WorkoutModel>) {
 
     /* val calendarModelLive: CalendarModel
     TODO: need to implement proper logic
@@ -30,9 +30,8 @@ class BookingsResponseModel(val workouts: List<WorkoutModel> = mutableListOf()) 
     val lstLiveUpcoming: List<WorkoutModel>
         get() {
             return lstWorkoutsSorted.filter {
-                //TODO: Investigate if elapsedMin logic holds up
                 it.workoutState == WorkoutViewState.LIVE &&
-                        it.date.elapsedMin() <= kMinutesAfterCanJoin
+                    it.date.elapsedMin() < kMinutesAfterCanJoin
             }
         }
 

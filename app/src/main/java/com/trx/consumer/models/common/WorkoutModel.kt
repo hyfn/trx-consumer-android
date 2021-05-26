@@ -1,7 +1,6 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
-import com.trx.consumer.BuildConfig
 import com.trx.consumer.BuildConfig.kMinutesBeforeCanJoin
 import com.trx.consumer.extensions.elapsedMin
 import com.trx.consumer.extensions.format
@@ -70,17 +69,6 @@ class WorkoutModel(
     val time: String
         get() = date.format("h:mm a", zone = TimeZone.getDefault())
 
-    val cellViewStatus: WorkoutCellViewState
-        get() {
-            if (workoutState == WorkoutViewState.VIRTUAL) {
-                //TODO: Investigate if this logic holds up
-                if (date.elapsedMin() < BuildConfig.kMinutesAfterCanJoin) {
-                    return WorkoutCellViewState.SOON
-                }
-            }
-            return WorkoutCellViewState.VIEW
-        }
-
     val workoutState: WorkoutViewState
         get() = WorkoutViewState.from(mode)
 
@@ -97,6 +85,15 @@ class WorkoutModel(
                 }
             }
             sessionId = identifier.also { identifier = sessionId }
+        }
+
+    val cellViewStatus: WorkoutCellViewState
+        get() {
+            if (workoutState == WorkoutViewState.VIRTUAL) {
+                val minLeft = date.elapsedMin()
+                if (minLeft < 0 && abs(minLeft) < kMinutesBeforeCanJoin) WorkoutCellViewState.SOON
+            }
+            return WorkoutCellViewState.VIEW
         }
 
     val bookViewStatus: BookingViewState
