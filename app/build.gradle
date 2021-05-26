@@ -38,7 +38,6 @@ android {
         applicationId "com.trx.consumer"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 1
         versionName "0.0.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -102,6 +101,7 @@ android {
         }
         dev {
             applicationId "com.trx.consumer.dev"
+            versionCode 2
             buildConfigField "boolean", "DEVELOPMENT", "true"
             buildConfigField "String", "kBaseUrl", '"https://trx-dashboard-dev.vercel.app/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "false"
@@ -111,6 +111,7 @@ android {
         }
         prod {
             applicationId "com.trx.consumer"
+            versionCode 1
             buildConfigField "boolean", "DEVELOPMENT", "false"
             buildConfigField "String", "kBaseUrl", '"https://digital.trxtraining.com/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "true"
