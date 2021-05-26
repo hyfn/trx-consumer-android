@@ -72,6 +72,8 @@ class WorkoutModel(
     val time: String
         get() = date.format("h:mm a", zone = TimeZone.getDefault())
 
+    private var currency: String = "usd"
+
     val workoutState: WorkoutViewState
         get() = WorkoutViewState.from(mode)
 
@@ -109,6 +111,34 @@ class WorkoutModel(
             BookingState.DISABLED -> BookingViewState.VIDEO
             else -> BookingViewState.BOOK
         }
+
+    fun paramsSessionConfirm(invoiceId: String): HashMap<String, Any> =
+        hashMapOf(
+            "eventKey" to identifier,
+            "invoiceId" to invoiceId
+        )
+
+    val paramsSessionIntent: HashMap<String, Any>
+        get() =
+            hashMapOf(
+                "currency" to currency,
+                "eventKey" to identifier
+            )
+
+    val paramsProgramIntent: HashMap<String, Any>
+        get() =
+            hashMapOf(
+                "currency" to currency,
+                "eventKey" to identifier,
+                "bookings" to listOf(bookingTimestamp)
+            )
+
+    fun paramsProgramConfirm(invoiceId: String): HashMap<String, Any> =
+        hashMapOf(
+            "eventKey" to identifier,
+            "invoiceId" to invoiceId,
+            "bookings" to listOf(bookingTimestamp)
+        )
 
     companion object {
 
