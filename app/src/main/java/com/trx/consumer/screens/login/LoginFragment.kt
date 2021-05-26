@@ -33,6 +33,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
+            eventLoadButton.observe(viewLifecycleOwner, handleLoadButton)
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventTapSignUp.observe(viewLifecycleOwner, handleTapSignUp)
             eventTapForgotPassword.observe(viewLifecycleOwner, handleTapForgotPassword)
@@ -46,6 +47,10 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     private val handleLoadView = Observer<Void> {
         LogManager.log("handleLoadView")
+    }
+
+    private val handleLoadButton = Observer<Boolean> { enabled ->
+        viewBinding.btnLogin.setPrimaryEnabled(enabled)
     }
 
     private val handleShowError = Observer<String> { error ->

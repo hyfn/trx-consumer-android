@@ -14,6 +14,7 @@ class LoginViewModel @ViewModelInject constructor(
 ) : BaseViewModel(), InputViewListener {
 
     val eventLoadView = CommonLiveEvent<Void>()
+    val eventLoadButton = CommonLiveEvent<Boolean>()
     val eventShowError = CommonLiveEvent<String>()
     val eventTapLogin = CommonLiveEvent<Void>()
     val eventDismissKeyboard = CommonLiveEvent<Void>()
@@ -31,7 +32,6 @@ class LoginViewModel @ViewModelInject constructor(
     }
 
     fun doTapLogin() {
-        if (!validate()) return
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = backendManager.login(email, password)
@@ -64,26 +64,18 @@ class LoginViewModel @ViewModelInject constructor(
         when (identifier) {
             InputViewState.EMAIL -> email = if (isValidInput) userInput else ""
             InputViewState.PASSWORD -> password = if (isValidInput) userInput else ""
-            else -> {
-            }
+            else -> { }
         }
+        validate()
+    }
+
+    private fun validate() {
+        val enabled: Boolean = InputViewState.EMAIL.validate(email) &&
+            InputViewState.PASSWORD.validate(password)
+        eventLoadButton.postValue(enabled)
     }
 
     fun doDismissKeyboard() {
         eventDismissKeyboard.call()
-    }
-
-    private fun validate(): Boolean {
-        if (!InputViewState.EMAIL.validate(email)) {
-            val message = InputViewState.EMAIL.errorMessage
-            eventValidateError.postValue(message)
-            return false
-        }
-        if (!InputViewState.PASSWORD.validate(password)) {
-            val message = InputViewState.PASSWORD.errorMessage
-            eventValidateError.postValue(message)
-            return false
-        }
-        return true
     }
 }
