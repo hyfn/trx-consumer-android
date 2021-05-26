@@ -52,6 +52,7 @@ class RegisterViewModel @ViewModelInject constructor(
 
     fun doTapCheckbox(isChecked: Boolean) {
         checked = isChecked
+        validateButton()
     }
 
     fun doTapTermsConditions() {
@@ -83,9 +84,16 @@ class RegisterViewModel @ViewModelInject constructor(
             InputViewState.CONFIRM_PASSWORD -> {
                 confirmPassword = if (userInput == password) userInput else ""
             }
-            else -> {
-            }
+            else -> { }
         }
+        validateButton()
+    }
+
+    private fun validateButton() {
+        val enabled: Boolean = InputViewState.EMAIL.validate(email) &&
+            InputViewState.PASSWORD.validate(password) &&
+            checked
+        eventLoadButton.postValue(enabled)
     }
 
     fun doDismissKeyboard() {

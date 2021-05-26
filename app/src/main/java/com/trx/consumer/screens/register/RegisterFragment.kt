@@ -41,6 +41,7 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventLoadProfile.observe(viewLifecycleOwner, handleLoadProfile)
+            eventLoadButton.observe(viewLifecycleOwner, handleLoadButton)
             eventShowError.observe(viewLifecycleOwner, handleShowError)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
             eventTapLogin.observe(viewLifecycleOwner, handleTapLogin)
@@ -76,6 +77,10 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
             lblTerm.movementMethod = LinkMovementMethod()
             lblTerm.text = builder
         }
+    }
+
+    private val handleLoadButton = Observer<Boolean> { enabled ->
+        viewBinding.btnCreateAccount.setPrimaryEnabled(enabled)
     }
 
     private val handleShowError = Observer<String> { error ->
