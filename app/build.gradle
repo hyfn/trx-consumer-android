@@ -187,6 +187,13 @@ dependencies {
     // IAP
     implementation "com.revenuecat.purchases:purchases:$rootProject.revenuecatVersion"
 
+    // Branch
+    implementation "io.branch.sdk.android:library:$rootProject.branchVersion"
+
+    //Amplitude
+    implementation "com.amplitude:android-sdk:$rootProject.amplitudeVersion"
+
+
     // Testing dependencies
     androidTestImplementation "androidx.test.ext:junit:$rootProject.junitVersion"
     androidTestImplementation "org.mockito:mockito-android:$rootProject.mockitoVersion"

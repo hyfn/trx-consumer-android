@@ -43,6 +43,9 @@ buildscript {
 
         brightcoveVersion = '6.16.2'
         revenuecatVersion = "4.2.0"
+        amplitudeVersion = '2.30.0'
+
+        branchVersion = '5.0.1'
 
         stripeVersion = '16.8.0'
 
