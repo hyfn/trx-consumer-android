@@ -19,7 +19,6 @@ import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.ContentParamsModel
 import com.trx.consumer.models.params.FilterParamsModel
-import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
@@ -174,11 +173,13 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         NavigationManager.shared.present(this, R.id.trainer_fragment)
     }
 
-    //  TODO: Add other options to display different type of BookingAlert
     private val handleTapBookingAlert = Observer<Void> {
-        val model = BookingAlertModel.test().apply {
-            workout.state = BookingState.BOOKED
-        }
+        //  Uncomment other options for testing
+        val model = BookingAlertModel.testLiveBook()
+        // val model = BookingAlertModel.testNoCardLiveBook()
+        // val model = BookingAlertModel.testVirtualBook()
+        // val model = BookingAlertModel.testNoCardVirutalBook()
+
         NavigationManager.shared.present(this, R.id.booking_alert_fragment, params = model)
     }
 
