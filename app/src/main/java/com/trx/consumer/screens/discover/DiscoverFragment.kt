@@ -28,6 +28,9 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     private var currentState = DiscoverViewState.WORKOUT
 
     override fun bind() {
+        NavigationManager.shared.params(this)?.let { params ->
+            if (params is FilterParamsModel) viewModel.params = params
+        }
 
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
@@ -94,11 +97,11 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     }
 
     private val handlerTapDiscoverFilter = Observer<FilterParamsModel> { params ->
-        NavigationManager.shared.present(this, R.id.filter_fragment, params)
+        NavigationManager.shared.present(this, R.id.filter_fragment, params.copyModel())
     }
 
     private val handleTapFilter = Observer<FilterParamsModel> { params ->
-        NavigationManager.shared.present(this, R.id.filter_fragment, params)
+        NavigationManager.shared.present(this, R.id.filter_fragment, params.copyModel())
     }
 
     private fun changeState(newState: DiscoverViewState) {
