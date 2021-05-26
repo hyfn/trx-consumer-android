@@ -31,11 +31,16 @@ data class FilterParamsModel(
     fun copyModel(): FilterParamsModel {
         val list = mutableListOf<FilterModel>().apply {
             lstFilters.forEach {
-                add(FilterModel(it.title, mutableListOf<FilterOptionsModel>().apply {
-                    it.values.forEach { opt ->
-                        add(FilterOptionsModel(opt.identifier, opt.value, opt.isSelected))
-                    }
-                }))
+                add(
+                    FilterModel(
+                        it.title,
+                        mutableListOf<FilterOptionsModel>().apply {
+                            it.values.forEach { opt ->
+                                add(FilterOptionsModel(opt.identifier, opt.value, opt.isSelected))
+                            }
+                        }
+                    )
+                )
             }
         }
         return FilterParamsModel(selectedModel = FilterModel(), lstFilters = list)

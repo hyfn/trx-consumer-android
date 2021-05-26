@@ -1,10 +1,10 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
-import android.text.format.DateUtils
 import com.trx.consumer.BuildConfig.kMinutesBeforeCanJoin
 import com.trx.consumer.extensions.elapsedMin
 import com.trx.consumer.extensions.format
+import com.trx.consumer.extensions.isToday
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.BookingViewState
 import com.trx.consumer.screens.workout.WorkoutViewState
@@ -53,7 +53,7 @@ class WorkoutModel(
     val dateDisplay: String
         get() {
             val date = date
-            return if (DateUtils.isToday(date.time)) {
+            return if (date.isToday()) {
                 "Today"
             } else {
                 date.format(format = "MMM d", zone = TimeZone.getDefault())
@@ -88,6 +88,15 @@ class WorkoutModel(
                 }
             }
             sessionId = identifier.also { identifier = sessionId }
+        }
+
+    val cellViewStatus: WorkoutCellViewState
+        get() {
+            if (workoutState == WorkoutViewState.VIRTUAL) {
+                val minLeft = date.elapsedMin()
+                if (minLeft < 0 && abs(minLeft) < kMinutesBeforeCanJoin) WorkoutCellViewState.SOON
+            }
+            return WorkoutCellViewState.VIEW
         }
 
     val bookViewStatus: BookingViewState

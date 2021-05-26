@@ -32,19 +32,19 @@ class TrainerModel(
     companion object {
 
         fun parse(jsonObject: JSONObject): TrainerModel {
-            return TrainerModel().apply {
-                bio = jsonObject.optString("bio")
-                isFeatured = jsonObject.optBoolean("featuredTrainer")
-                isLive = jsonObject.optBoolean("liveTrainer")
-                key = jsonObject.optString("key")
-                mantra = jsonObject.optString("mantra")
-                profilePhoto = jsonObject.optString("profilePhoto")
-                trainerCertifications = jsonObject.optJSONArray("trainerCertifications").map()
-                trainerCoachingStyle = jsonObject.optString("trainerCoachingStyle")
-                virtualTrainerProfileId = jsonObject.optString("virtualTrainerProfileId")
-                firstName = jsonObject.optString("firstName")
+            return TrainerModel(
+                bio = jsonObject.optString("bio"),
+                isFeatured = jsonObject.optBoolean("featuredTrainer"),
+                isLive = jsonObject.optBoolean("liveTrainer"),
+                key = jsonObject.optString("key"),
+                mantra = jsonObject.optString("mantra"),
+                profilePhoto = jsonObject.optString("profilePhoto"),
+                trainerCertifications = jsonObject.optJSONArray("trainerCertifications").map(),
+                trainerCoachingStyle = jsonObject.optString("trainerCoachingStyle"),
+                virtualTrainerProfileId = jsonObject.optString("virtualTrainerProfileId"),
+                firstName = jsonObject.optString("firstName"),
                 lastName = jsonObject.optString("lastName")
-            }
+            )
         }
 
         fun test(): TrainerModel {

@@ -21,10 +21,10 @@ class TrainerViewModel : BaseViewModel(), LiveWorkoutListener, VideoWorkoutListe
         eventLoadView.postValue(trainerModel)
     }
 
-    override fun doTapBook(model: WorkoutModel) {
+    override fun doTapBookLiveWorkout(model: WorkoutModel) {
     }
 
-    override fun doTapSelect(model: WorkoutModel) {
+    override fun doTapSelectLiveWorkout(model: WorkoutModel) {
     }
 
     override fun doTapVideo(model: VideoModel) {
