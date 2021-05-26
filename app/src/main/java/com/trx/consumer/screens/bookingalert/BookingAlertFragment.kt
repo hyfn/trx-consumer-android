@@ -37,10 +37,7 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
         val model = NavigationManager.shared.params(this) as BookingAlertModel
         viewModel.model = model
 
-        viewBinding.apply {
-            viewContent.isInvisible = true
-            btnClose.action { viewModel.doTapClose() }
-        }
+        viewBinding.viewContent.isInvisible = true
 
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
@@ -137,6 +134,8 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
                 }
                 else -> loadViewCard(model.card)
             }
+
+            btnClose.action { viewModel.doTapClose() }
         }
     }
 
