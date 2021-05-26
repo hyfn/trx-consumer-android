@@ -4,29 +4,41 @@ import com.trx.consumer.BuildConfig.kMinutesAfterCanJoin
 import com.trx.consumer.extensions.elapsedMin
 import com.trx.consumer.extensions.map
 import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.models.common.WorkoutViewState
+import com.trx.consumer.screens.workout.WorkoutViewState
 import org.json.JSONObject
 import java.util.Date
 
-class BookingsResponseModel(private val workouts: List<WorkoutModel>) {
+class BookingsResponseModel(val workouts: List<WorkoutModel> = mutableListOf()) {
 
-    private val listWorkoutsSorted: List<WorkoutModel>
-        get() {
-            return workouts.filter { !it.isCanceled }.sortedBy { it.startsAt }.map { it.booking }
-        }
+    /* val calendarModelLive: CalendarModel
+    TODO: need to implement proper logic
+         get() = CalendarModel(CalendarViewState.PICKER).apply {
+             listDays = CalendarModel.createListOfDays()
+             listEvents = lstLiveUpcoming.map { it.date }
+         }
 
-    val listLiveUpcoming: List<WorkoutModel>
+     val calendarModelVirtual: CalendarModel
+     TODO: need to implement proper logic
+         get() = CalendarModel(CalendarViewState.DISPLAY).apply {
+             listDays = CalendarModel.createListOfDays()
+             listEvents = lstVirtualUpcoming.map { date }
+         }*/
+
+    val lstWorkoutsSorted: List<WorkoutModel>
+        get() = workouts.filter { !it.isCancelled }.sortedBy { it.startsAt }.map { it.booking }
+
+    val lstLiveUpcoming: List<WorkoutModel>
         get() {
-            return listWorkoutsSorted.filter {
+            return lstWorkoutsSorted.filter {
                 //TODO: Investigate if elapsedMin logic holds up
                 it.workoutState == WorkoutViewState.LIVE &&
-                    it.date.elapsedMin() <= kMinutesAfterCanJoin
+                        it.date.elapsedMin() <= kMinutesAfterCanJoin
             }
         }
 
-    val listVirtualUpcoming: List<WorkoutModel>
+    val lstVirtualUpcoming: List<WorkoutModel>
         get() {
-            return listWorkoutsSorted.filter {
+            return lstWorkoutsSorted.filter {
                 it.workoutState == WorkoutViewState.VIRTUAL && it.date.after(Date())
             }
         }

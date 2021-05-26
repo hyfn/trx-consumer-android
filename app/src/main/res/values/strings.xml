@@ -11,18 +11,19 @@
     <string name="alert_primary_submit_payment">Submit Payment</string>
     <string name="alert_secondary_cancel">Cancel</string>
     <string name="alert_primary_cool">Cool</string>
+    <string name="alert_secondary_cancel_plan">Yes, cancel my plan</string>
     <string name="alert_secondary_report">Report an issue</string>
     <string name="alert_confirm_message">Are you sure?</string>
     <string name="alert_nevermind_label">Nevermind</string>
     <string name="alert_logout_message">You will be logged out</string>
     <string name="alert_logout_confirm_label">Yes, log me out</string>
 
-    <string name="booking_view_state_book_label">BOOK</string>
+    <string name="booking_view_state_book_label">BOOK SESSION</string>
     <string name="booking_view_state_booked_label">BOOKED</string>
     <string name="booking_view_state_view_label">VIEW</string>
-    <string name="booking_view_state_video_label">START</string>
-    <string name="booking_view_state_join_label">JOIN</string>
-    <string name="booking_view_state_cancel_label" tools:ignore="ButtonCase">CANCEL</string>
+    <string name="booking_view_state_video_label">START WORKOUT</string>
+    <string name="booking_view_state_join_label">JOIN SESSION</string>
+    <string name="booking_view_state_cancel_label" tools:ignore="ButtonCase">CANCEL SESSION</string>
     <string name="booking_view_state_default_label">N/A</string>
 
     <string name="cards_payment_method_label">Payment Method</string>
@@ -100,8 +101,9 @@
     <string name="plans_choose_plan_label">Choose Plan</string>
     <string name="plans_current_plan_label">Current Plan</string>
     <string name="plans_title">Plans</string>
-    <string name="plans_cancel_message"> Are you sure you want to cancel your %s plan?</string>
+    <string name="plans_cancel_message"> Are you sure you want to cancel your plan?</string>
     <string name="plans_cancel_button_label">Cancel Plan</string>
+    <string name="plans_confirm_message">Are you sure you want to buy this plan?</string>
     <string name="plans_last_bill_date_label">Last Bill Date:</string>
     <string name="plans_next_bill_date_label">Next Bill Date:</string>
 

@@ -42,6 +42,12 @@ fun Date.elapsedMin(): Long {
     return TimeUnit.MILLISECONDS.toMinutes(currentTime - dateTime)
 }
 
+fun Date.minBeforeDate(): Long {
+    val dateTime = this.time
+    val currentTime = Calendar.getInstance().time.time
+    return TimeUnit.MILLISECONDS.toMinutes(currentTime - dateTime)
+}
+
 fun Date.format(
     format: String? = BuildConfig.kClassDateTimeFormat,
     locale: Locale = Locale.US,

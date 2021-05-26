@@ -103,7 +103,7 @@ class LiveViewModel @ViewModelInject constructor(
             val response = backendManager.bookings()
             if (response.isSuccess) {
                 val model = BookingsResponseModel.parse(response.responseString)
-                eventLoadWorkoutsUpcoming.postValue(model.listLiveUpcoming)
+                eventLoadWorkoutsUpcoming.postValue(model.lstLiveUpcoming)
             }
             eventShowHud.postValue(false)
         }

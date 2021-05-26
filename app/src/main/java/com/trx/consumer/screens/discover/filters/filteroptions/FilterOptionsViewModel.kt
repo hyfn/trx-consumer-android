@@ -32,12 +32,17 @@ class FilterOptionsViewModel : BaseViewModel(), FilterOptionsListener {
     }
 
     fun doTapReset() {
-        filter.values.forEach { model -> model.isSelected = false }
+        reset()
         eventTapReset.postValue(filter)
     }
 
     override fun doTapFilterOption(model: FilterOptionsModel) {
-        filter.values.find { model == it }?.isSelected = model.isSelected
+        reset()
+        filter.values.find { model == it }?.isSelected = true
         eventTapFilterOption.postValue(this.filter)
+    }
+
+    private fun reset() {
+        filter.values.forEach { model -> model.isSelected = false }
     }
 }

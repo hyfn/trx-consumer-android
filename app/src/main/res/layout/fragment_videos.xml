@@ -129,6 +129,7 @@
                     android:fontFamily="@font/atcarquette_medium"
                     android:gravity="center"
                     android:text="@string/videos_profile_label"
+                    android:visibility="gone"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
                     android:textSize="12sp"
