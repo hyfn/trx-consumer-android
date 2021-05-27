@@ -8,6 +8,7 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentAddCardBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
+import com.trx.consumer.extensions.setPrimaryEnabled
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.managers.UtilityManager
@@ -67,10 +68,7 @@ class AddCardFragment : BaseFragment(R.layout.fragment_add_card) {
     }
 
     private val handleLoadButton = Observer<Boolean> { enabled ->
-        viewBinding.btnSave.apply {
-            isEnabled = enabled
-            bgColor(if (enabled) R.color.black else R.color.greyDark)
-        }
+        viewBinding.btnSave.setPrimaryEnabled(enabled)
     }
 
     private val handleTapBack = Observer<Void> {
