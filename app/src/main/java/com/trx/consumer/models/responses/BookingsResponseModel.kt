@@ -4,7 +4,7 @@ import com.trx.consumer.BuildConfig.kMinutesAfterCanJoin
 import com.trx.consumer.extensions.elapsedMin
 import com.trx.consumer.extensions.map
 import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.screens.workout.WorkoutViewState
+import com.trx.consumer.models.states.WorkoutViewState
 import org.json.JSONObject
 import java.util.Date
 

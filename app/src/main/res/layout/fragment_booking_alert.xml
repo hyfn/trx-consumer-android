@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_goneMarginBottom="@dimen/bottom_bar_height">
+
+        <com.trx.consumer.common.CommonView
+            android:id="@+id/viewTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblMainTitle"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginVertical="15dp"
+                android:textAllCaps="true"
+                android:fontFamily="@font/atcarquette_bold"
+                android:gravity="center_vertical"
+                android:textColor="@color/grey"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toStartOf="@id/btnClose"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="SmallSp"
+                tools:text="Title" />
+
+            <com.trx.consumer.common.CommonImageView
+                android:id="@+id/btnClose"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_btn_close_white"
+                android:tint="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </com.trx.consumer.common.CommonView>
+
+        <com.trx.consumer.common.CommonView
+            android:id="@+id/viewCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:backgroundColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/viewTitle">
+
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewCardBg"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                android:visibility="gone"
+                app:backgroundColor="@color/greyLightExtra"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone">
+
+                <com.trx.consumer.common.CommonImageView
+                    android:id="@+id/imgCard"
+                    android:layout_width="35dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="15dp"
+                    android:contentDescription="@string/content_row_image"
+                    android:scaleType="centerInside"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@drawable/ic_img_card_amex" />
+
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblType"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/atcarquette_medium"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/lblNumber"
+                    app:layout_constraintStart_toEndOf="@id/imgCard"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Test" />
+
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/atcarquette_regular"
+                    android:gravity="center_vertical"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/greyDark"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Test" />
+
+            </com.trx.consumer.common.CommonView>
+
+            <com.trx.consumer.common.CommonButton
+                android:id="@+id/btnAddPayment"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:gravity="center"
+                android:text="@string/booking_alert_payment_button_label"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:visibility="gone"
+                app:backgroundColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@id/viewCard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/viewCard"
+                tools:visibility="visible" />
+
+        </com.trx.consumer.common.CommonView>
+
+        <com.trx.consumer.common.CommonView
+            android:id="@+id/viewBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:backgroundColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewCard">
+
+            <com.trx.consumer.common.CommonButton
+                android:id="@+id/btnPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:gravity="center"
+                android:minHeight="50dp"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                app:backgroundColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/btnSecondary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_goneMarginBottom="@dimen/bottom_bar_height"
+                tools:text="@string/booking_alert_cancel_no_button_label"
+                tools:visibility="visible" />
+
+            <com.trx.consumer.common.CommonButton
+                android:id="@+id/btnSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:gravity="center"
+                android:minHeight="50dp"
+                android:text="@string/booking_alert_cancel_yes_button_label"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:visibility="gone"
+                app:backgroundColor="@color/red"
+                app:layout_constraintBottom_toTopOf="@id/btnPolicy"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.trx.consumer.common.CommonButton
+                android:id="@+id/btnPolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="@dimen/bottom_bar_height"
+                android:fontFamily="@font/atcarquette_medium"
+                android:gravity="center"
+                android:minHeight="45dp"
+                android:text="@string/booking_alert_cancel_policy_button_label"
+                android:textColor="@color/grey"
+                android:textSize="14sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible" />
+
+        </com.trx.consumer.common.CommonView>
+
+    </com.trx.consumer.common.CommonView>
+
+    <com.trx.consumer.common.CommonHudView
+        android:id="@+id/hudView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/viewContent"/>
+
+</com.trx.consumer.common.CommonView>
