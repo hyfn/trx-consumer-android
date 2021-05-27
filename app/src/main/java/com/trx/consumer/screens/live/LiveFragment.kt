@@ -1,5 +1,7 @@
 package com.trx.consumer.screens.live
 
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -7,10 +9,14 @@ import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentLiveBinding
+import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
+import com.trx.consumer.extensions.load
+import com.trx.consumer.extensions.margin
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.managers.UtilityManager
+import com.trx.consumer.models.common.BannerModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutModel
@@ -50,6 +56,7 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
 
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
+            eventLoadBanner.observe(viewLifecycleOwner, handleLoadBanner)
             eventLoadPromos.observe(viewLifecycleOwner, handleLoadPromotions)
             eventLoadTrainers.observe(viewLifecycleOwner, handleLoadTrainers)
             eventLoadWorkoutsToday.observe(viewLifecycleOwner, handleLoadWorkoutsToday)
@@ -64,6 +71,8 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
             eventShowTrainer.observe(viewLifecycleOwner, handleShowTrainer)
             eventShowWorkout.observe(viewLifecycleOwner, handleShowWorkout)
 
+            eventTapBack.observe(viewLifecycleOwner, handleTapBack)
+            eventTapBanner.observe(viewLifecycleOwner, handleTapBanner)
             eventTapScheduleToday.observe(viewLifecycleOwner, handleTapScheduleToday)
             eventTapScheduleTomorrow.observe(viewLifecycleOwner, handleTapScheduleTomorrow)
 
@@ -75,6 +84,11 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
 
     //region Handlers
     private val handleLoadView = Observer<Void> {
+    }
+
+    private val handleLoadBanner = Observer<BannerModel> { banner ->
+        LogManager.log("handleLoadBanner: isActive - ${banner.isActive}")
+        loadBanner(banner)
     }
 
     private val handleLoadPromotions = Observer<List<PromoModel>> { promotions ->
@@ -107,6 +121,32 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
     //endregion
 
     //region Functions
+
+    private fun loadBanner(banner: BannerModel) {
+        viewBinding.apply {
+            viewLiveBanner.lblBanner.isHidden = true
+            viewLiveBanner.viewMain.updateLayoutParams { height = ConstraintLayout.LayoutParams.MATCH_PARENT }
+
+            viewLiveBanner.imgBanner.apply {
+                updateLayoutParams { height = ConstraintLayout.LayoutParams.MATCH_PARENT }
+                margin(top = 0F)
+                load(banner.modalImageUrl)
+            }
+
+            viewLiveBanner.lblTitle.text = banner.modalTitle
+            viewLiveBanner.lblSubtitle.text = banner.modalDescription
+
+            viewLiveBanner.btnPrimary.apply {
+                text = banner.modalButtonText
+                action { viewModel.doTapBanner() }
+            }
+
+            viewLiveBanner.viewMain.apply {
+                isHidden = false
+                requestLayout()
+            }
+        }
+    }
 
     private fun loadPromotions(promos: List<PromoModel>) {
         val hide = promos.isEmpty()
@@ -196,6 +236,19 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
     private val handleLoadViewAllUpcoming = Observer<Void> {
         LogManager.log("handleShowPromo")
         // TODO: Display user Schedule once implemented
+    }
+
+    private val handleTapBack = Observer<Void> {
+        NavigationManager.shared.dismiss(this)
+    }
+
+    override fun onBackPressed() {
+        viewModel.doTapBack()
+    }
+
+    private val handleTapBanner = Observer<String> { url ->
+        LogManager.log("handleTapBanner: $url")
+        if (url.isNotEmpty()) UtilityManager.shared.openUrl(requireContext(), url)
     }
 
     private val handleTapScheduleToday = Observer<Void> {
