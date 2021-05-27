@@ -2,9 +2,9 @@ package com.trx.consumer.managers
 
 import android.app.Application
 import android.content.Context
-import com.revenuecat.purchases.Purchases
 import com.amplitude.api.Amplitude
 import com.amplitude.api.AmplitudeClient
+import com.revenuecat.purchases.Purchases
 import com.trx.consumer.BuildConfig
 
 class ConfigManager {

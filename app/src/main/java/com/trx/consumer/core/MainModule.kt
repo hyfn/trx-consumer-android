@@ -11,7 +11,6 @@ import com.trx.consumer.base.BaseApi
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
-
 import com.trx.consumer.managers.ConfigManager
 import com.trx.consumer.stripe.StripeBackendManager
 import dagger.Module
@@ -124,10 +123,6 @@ object MainModule {
 
     @Provides
     @Singleton
-    fun provideConfigManager(): ConfigManager = ConfigManager()
-
-    @Provides
-    @Singleton
     fun provideStripe(@ApplicationContext context: Context): Stripe =
         Stripe(context, kStripeApiKey)
 
@@ -135,6 +130,10 @@ object MainModule {
     @Singleton
     fun provideStripeBackendManager(stripe: Stripe): StripeBackendManager =
         StripeBackendManager(stripe)
+
+    @Provides
+    @Singleton
+    fun provideConfigManager(): ConfigManager = ConfigManager()
 
     @Provides
     @Singleton

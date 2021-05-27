@@ -3,11 +3,14 @@ package com.trx.consumer.models.core.iap
 import com.revenuecat.purchases.Offerings
 import com.revenuecat.purchases.PurchasesError
 
-class IAPOfferingsModel(val offerings: Offerings? = null, var error: PurchasesError? = null) {
+class IAPOfferingsModel(
+    private val offerings: Offerings? = null,
+    var error: PurchasesError? = null
+) {
 
-    val lstPackages: List<IAPPackageModel>
+    val lstPackages: List<SubscriptionModel>
         get() {
             val packages = offerings?.current?.availablePackages ?: emptyList()
-            return packages.map { IAPPackageModel(it) }
+            return packages.map { SubscriptionModel(it) }
         }
 }

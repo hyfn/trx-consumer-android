@@ -11,7 +11,7 @@ import com.revenuecat.purchases.interfaces.ReceiveOfferingsListener
 import com.revenuecat.purchases.interfaces.ReceivePurchaserInfoListener
 import com.trx.consumer.models.core.iap.IAPModel
 import com.trx.consumer.models.core.iap.IAPOfferingsModel
-import com.trx.consumer.models.core.iap.IAPPackageModel
+import com.trx.consumer.models.core.iap.SubscriptionModel
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -47,11 +47,11 @@ class IAPManager {
         }
     }
 
-    suspend fun packages(): List<IAPPackageModel> {
+    suspend fun packages(): List<SubscriptionModel> {
         return offerings().lstPackages
     }
 
-    suspend fun purchase(activity: Activity, model: IAPPackageModel): IAPModel {
+    suspend fun purchase(activity: Activity, model: SubscriptionModel): IAPModel {
         return suspendCoroutine { cont ->
             val callback = object : MakePurchaseListener {
                 override fun onCompleted(purchase: Purchase, purchaserInfo: PurchaserInfo) {
