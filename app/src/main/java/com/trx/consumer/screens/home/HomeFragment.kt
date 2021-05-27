@@ -38,7 +38,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
         viewBinding.apply {
             btnTest.action { viewModel.doTapTest() }
-            lblUserName.action { viewModel.doTapUser() }
             viewBanner.btnPrimary.action { viewModel.doTapBanner() }
             viewVideos.rvVideoWorkouts.adapter = videosAdapter
             viewPromos.rvPromos.adapter = promoAdapter
@@ -76,9 +75,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private val handleLoadView = Observer<Void> {
         LogManager.log("handleLoadView")
-        viewBinding.apply {
-            lblPlan.text = lblPlan.context.getText(R.string.home_dummy_plan_label)
-        }
     }
 
     private val handleLoadVideos = Observer<List<VideoModel>> { workouts ->
