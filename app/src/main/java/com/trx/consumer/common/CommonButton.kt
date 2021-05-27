@@ -6,7 +6,6 @@ import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
-import com.trx.consumer.R
 import com.trx.consumer.common.shapeable.CommonShapeable
 import com.trx.consumer.common.shapeable.CommonShapeableHandler
 
@@ -44,12 +43,5 @@ class CommonButton @JvmOverloads constructor(
 
     fun textColor(color: Int) {
         this.setTextColor(ContextCompat.getColor(this.context, color))
-    }
-
-    fun setPrimaryEnabled(isEnabled: Boolean) {
-        if (isEnabled != isEnabled()) {
-            bgColor(if (isEnabled) R.color.black else R.color.greyDark)
-            setEnabled(isEnabled)
-        }
     }
 }
