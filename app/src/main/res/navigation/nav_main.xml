@@ -144,6 +144,12 @@
         android:label="TrainerFragment"
         tools:layout="@layout/fragment_trainer" />
 
+    <fragment
+        android:id="@+id/schedule_fragment"
+        android:name="com.trx.consumer.screens.schedule.ScheduleFragment"
+        android:label="ScheduleFragment"
+        tools:layout="@layout/fragment_schedule" />
+
     <dialog
         android:id="@+id/date_picker_fragment"
         android:name="com.trx.consumer.screens.datepicker.DatePickerFragment"
