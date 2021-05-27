@@ -9,7 +9,7 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonButton
 import com.trx.consumer.common.CommonLabel
 import com.trx.consumer.common.CommonViewHolder
-import com.trx.consumer.screens.settings.SettingsModel
+import com.trx.consumer.models.common.SettingsModel
 
 class SettingsOptionViewHolder(view: View) : CommonViewHolder(view) {
 
