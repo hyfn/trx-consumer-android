@@ -44,7 +44,7 @@ class BookingAlertModel(
         fun test(): BookingAlertModel =
             BookingAlertModel(
                 card = CardModel.test(),
-                workout = WorkoutModel.test()
+                workout = WorkoutModel.testLive()
             )
 
         fun testLiveBook(): BookingAlertModel =

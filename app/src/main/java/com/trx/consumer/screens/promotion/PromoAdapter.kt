@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import java.lang.Exception
 
 class PromoAdapter(
-    private val listener: PromotionListener,
+    private val listener: PromoViewListener,
     scopeProvider: () -> CoroutineScope
 ) : CommonRecyclerViewAdapter(scopeProvider) {
 

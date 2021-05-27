@@ -15,7 +15,7 @@
         android:layout_marginStart="15dp"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center_vertical"
-        android:text="@string/promotions_top_title_label"
+        android:text="@string/promos_top_title_label"
         android:textColor="@color/grey"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="parent"

@@ -119,7 +119,7 @@
     <string name="plans_last_bill_date_label">Last Bill Date:</string>
     <string name="plans_next_bill_date_label">Next Bill Date:</string>
 
-    <string name="promotions_top_title_label">FOR YOU</string>
+    <string name="promos_top_title_label">FOR YOU</string>
 
     <string name="player_participants_label">%1$d Participants</string>
     <string name="player_end_workout_button_label">END WORKOUT</string>
@@ -188,9 +188,24 @@
 
     <string name="videos_profile_label">Profile</string>
 
+    <string name="virtual_book_with_label_title">BOOK WITH %s</string>
     <string name="virtual_booking_button_title_book">BOOK</string>
     <string name="virtual_booking_button_title_soon">JOIN NOW</string>
     <string name="virtual_booking_button_title_future">JOIN</string>
+
+    <string name="virtual_workout_view_trainer_title">Virtual Training Session with %s</string>
+    <string name="virtual_workout_view_trainer_subtitle">See %s\'s availability</string>
+    <string name="virtual_workout_view_match_me_title">Match Me</string>
+    <string name="virtual_workout_view_match_me_subtitle">FIND A NEW TRAINER</string>
+
+    <string name="virtual_upcoming_button_label">VIEW ALL →</string>
+    <string name="virtual_upcoming_title_label">UPCOMING</string>
+    <string name="virtual_trainers_title_label">FEATURED TRAINERS</string>
+    <string name="virtual_calendar_title_label">BOOKED THIS WEEK</string>
+    <string name="virtual_calendar_button_label">SCHEDULE →</string>
+    <string name="virtual_match_me_title_label">Find Your TRX Trainer</string>
+    <string name="virtual_match_me_subtitle_label">There are thousands of fitness professionals in our diverse network, but who\'s right for you?</string>
+    <string name="virtual_match_me_button_title">MATCH ME NOW</string>
 
     <string name="register_title">Register</string>
     <string name="register_sign_in_label">Already have an account? <b><u>Log in</u></b></string>

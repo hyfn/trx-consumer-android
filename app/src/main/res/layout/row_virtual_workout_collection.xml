@@ -4,6 +4,9 @@
     android:layout_height="135dp"
     android:layout_marginStart="15dp">
 
-    <include layout="@layout/row_virtual_workout" />
+    <com.trx.consumer.views.VirtualWorkoutView
+        android:id="@+id/virtualWorkoutView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </com.trx.consumer.common.CommonView>

@@ -93,6 +93,7 @@ android {
             buildConfigField "String", "kTermsConditionsUrl", '"https://www.trxtraining.com/terms-of-use"'
             buildConfigField "String", "kTermsSubscriptions", '"https://club.trxtraining.com/additional-terms-subscription"'
             buildConfigField "String", "kGettingStartedVideosUrl", '"https://www.trxtraining.com/getting-started"'
+            buildConfigField "String", "kMatchMeUrl", '"https://club.trxtraining.com/match"'
             buildConfigField "String", "kBrightcoveAccountId", '"6204326362001"'
             buildConfigField "String", "kBrightcovePolicyKey", '"BCpkADawqM0NIVZ3stgK7lsrNpSnMb54yV2-XP_RMBl9gBL5hOvH_cjmnfU_kxS1QjYqucj3ZQTBRiGZhrd09drVaY-IAEgg9IYebBSliKZI8iSzYpvmdUQgwST2dVv4toFYU1clp89h7_qj"'
             buildConfigField "Boolean", "kIsVerificationEnabled", "false"
