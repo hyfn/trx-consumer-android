@@ -66,13 +66,12 @@ class BookingAlertViewModel @ViewModelInject constructor(
 
     private fun doCallBook() {
         viewModelScope.launch {
+            eventShowHud.postValue(true)
             when (model.workout.workoutState) {
                 WorkoutViewState.LIVE -> {
-                    eventShowHud.postValue(true)
                     val intentResponse = backendManager.bookSessionIntent(
                         model.workout.paramsSessionIntent
                     )
-                    eventShowHud.postValue(false)
 
                     if (intentResponse.isSuccess) {
                         try {
@@ -99,11 +98,9 @@ class BookingAlertViewModel @ViewModelInject constructor(
                     }
                 }
                 WorkoutViewState.VIRTUAL -> {
-                    eventShowHud.postValue(true)
                     val intentResponse = backendManager.bookProgramIntent(
                         model.workout.paramsProgramIntent
                     )
-                    eventShowHud.postValue(false)
 
                     if (intentResponse.isSuccess) {
                         try {
@@ -131,6 +128,7 @@ class BookingAlertViewModel @ViewModelInject constructor(
                 }
                 else -> LogManager.log("doCallBook")
             }
+            eventShowHud.postValue(false)
         }
     }
 
