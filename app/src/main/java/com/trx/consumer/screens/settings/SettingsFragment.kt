@@ -20,10 +20,16 @@ import com.trx.consumer.screens.settings.option.SettingsOptionAdapter
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
+    //region Objects
+
     private val viewModel: SettingsViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentSettingsBinding::bind)
 
     private lateinit var adapter: SettingsOptionAdapter
+
+    //endregion
+
+    //region Initializers
 
     override fun bind() {
         adapter = SettingsOptionAdapter(viewModel) { lifecycleScope }
@@ -32,13 +38,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-            eventTapSubscriptions.observe(viewLifecycleOwner, handleTapSubscriptions)
-            eventTapContactSupport.observe(viewLifecycleOwner, handleTapContactSupport)
-            eventTapGettingStarted.observe(viewLifecycleOwner, handleTapGetStarted)
-            eventTapTermsAndConditions.observe(viewLifecycleOwner, handleTapTermsAndConditions)
             eventTapShop.observe(viewLifecycleOwner, handleTapShop)
+            eventTapGettingStarted.observe(viewLifecycleOwner, handleTapGetStarted)
+            eventTapContactSupport.observe(viewLifecycleOwner, handleTapContactSupport)
+            eventTapTermsAndConditions.observe(viewLifecycleOwner, handleTapTermsAndConditions)
             eventTapLogout.observe(viewLifecycleOwner, handleTapLogout)
-            eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLogOut.observe(viewLifecycleOwner, handleLogOut)
 
@@ -46,10 +50,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         }
     }
 
-    private val handleTapBack = Observer<Void> {
-        LogManager.log("handleTapBack")
-        NavigationManager.shared.dismiss(this)
-    }
+    //endregion
+
+    //region Handlers
 
     private val handleLoadView = Observer<List<Any>> { list ->
         LogManager.log("handleLoadView")
@@ -57,19 +60,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         adapter.update(list)
     }
 
-    private val handleTapSubscriptions = Observer<Void> {
-        LogManager.log("handleTapSubscriptions")
-        NavigationManager.shared.present(this, R.id.subscriptions_fragment)
-    }
-
-    private val handleTapPlans = Observer<Void> {
-        LogManager.log("handleTapPlans")
-        NavigationManager.shared.present(this, R.id.plans_fragment)
-    }
-
-    private val handleTapContactSupport = Observer<Void> {
-        LogManager.log("handleTapContactSupport")
-        UtilityManager.shared.openUrl(requireContext(), kContactSupportUrl)
+    private val handleTapShop = Observer<Void> {
+        LogManager.log("handleTapShop")
+        UtilityManager.shared.openUrl(requireContext(), kProductsUrl)
     }
 
     private val handleTapGetStarted = Observer<Void> {
@@ -77,14 +70,14 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         UtilityManager.shared.openUrl(requireContext(), kGettingStartedVideosUrl)
     }
 
+    private val handleTapContactSupport = Observer<Void> {
+        LogManager.log("handleTapContactSupport")
+        UtilityManager.shared.openUrl(requireContext(), kContactSupportUrl)
+    }
+
     private val handleTapTermsAndConditions = Observer<Void> {
         LogManager.log("handleTapTermsAndConditions")
         UtilityManager.shared.openUrl(requireContext(), kTermsConditionsUrl)
-    }
-
-    private val handleTapShop = Observer<Void> {
-        LogManager.log("handleTapShop")
-        UtilityManager.shared.openUrl(requireContext(), kProductsUrl)
     }
 
     private val handleTapLogout = Observer<Void> {
@@ -101,12 +94,19 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
-    private val handleLogOut = Observer<Void> {
-        LogManager.log("handleLogOut")
-        NavigationManager.shared.notLoggedInLaunchSequence(this)
+    private val handleTapBack = Observer<Void> {
+        LogManager.log("handleTapBack")
+        NavigationManager.shared.dismiss(this)
     }
 
     override fun onBackPressed() {
         viewModel.doTapBack()
     }
+
+    private val handleLogOut = Observer<Void> {
+        LogManager.log("handleLogOut")
+        NavigationManager.shared.notLoggedInLaunchSequence(this)
+    }
+
+    //endregion
 }

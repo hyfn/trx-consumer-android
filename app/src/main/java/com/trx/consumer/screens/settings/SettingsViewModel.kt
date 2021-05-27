@@ -18,20 +18,21 @@ class SettingsViewModel @ViewModelInject constructor(
     private val cacheManager: CacheManager
 ) : BaseViewModel(), SettingsOptionListener {
 
-    val eventTapSubscriptions = CommonLiveEvent<Void>()
-    val eventTapTermsAndConditions = CommonLiveEvent<Void>()
-    val eventTapContactSupport = CommonLiveEvent<Void>()
-    val eventTapGettingStarted = CommonLiveEvent<Void>()
+    //region Events
+
+    val eventLoadView = CommonLiveEvent<List<Any>>()
     val eventTapShop = CommonLiveEvent<Void>()
+    val eventTapGettingStarted = CommonLiveEvent<Void>()
+    val eventTapContactSupport = CommonLiveEvent<Void>()
+    val eventTapTermsAndConditions = CommonLiveEvent<Void>()
     val eventTapLogout = CommonLiveEvent<Void>()
     val eventTapBack = CommonLiveEvent<Void>()
-    val eventLoadView = CommonLiveEvent<List<Any>>()
 
     val eventLogOut = CommonLiveEvent<Void>()
 
-    fun doTapBack() {
-        eventTapBack.call()
-    }
+    //endregion
+
+    //region Actions
 
     fun doLoadView() {
         viewModelScope.launch {
@@ -39,13 +40,6 @@ class SettingsViewModel @ViewModelInject constructor(
                 eventLoadView.postValue(SettingsModel.list(user))
             }
         }
-    }
-
-    fun updateBeforeLogout() {
-        CoroutineScope(Dispatchers.IO).launch {
-            backendManager.logout()
-        }
-        eventLogOut.call()
     }
 
     override fun doTapSettings(model: SettingsModel) {
@@ -58,4 +52,17 @@ class SettingsViewModel @ViewModelInject constructor(
             else -> { }
         }
     }
+
+    fun doTapBack() {
+        eventTapBack.call()
+    }
+
+    fun updateBeforeLogout() {
+        CoroutineScope(Dispatchers.IO).launch {
+            backendManager.logout()
+        }
+        eventLogOut.call()
+    }
+
+    //endregion
 }
