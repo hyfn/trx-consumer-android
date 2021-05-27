@@ -3,7 +3,6 @@ package com.trx.consumer.screens.virtual
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import com.trx.consumer.BuildConfig
 import com.trx.consumer.BuildConfig.kMatchMeUrl
 import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
@@ -68,6 +67,7 @@ class VirtualFragment : BaseFragment(R.layout.fragment_virtual) {
                 eventShowTrainer.observe(viewLifecycleOwner, handleShowTrainer)
                 eventShowTrainerSchedule.observe(viewLifecycleOwner, handleShowTrainerSchedule)
                 eventShowWorkout.observe(viewLifecycleOwner, handleShowWorkout)
+                eventShowHud.observe(viewLifecycleOwner, handleShowHud)
 
                 viewModel.doLoadView()
             }
@@ -80,6 +80,7 @@ class VirtualFragment : BaseFragment(R.layout.fragment_virtual) {
 
     private val handleLoadView = Observer<Void> {
         LogManager.log("handleLoadView")
+        viewBinding.viewSchedule.viewCalendar.showLabels(false)
     }
 
     private val handleLoadPromos = Observer<List<PromoModel>> { promos ->
@@ -114,7 +115,7 @@ class VirtualFragment : BaseFragment(R.layout.fragment_virtual) {
     }
 
     private val handleShowUserSchedule = Observer<Void> {
-        //TODO: Display ScheduleFragment when implemented
+        // TODO: Display ScheduleFragment when implemented
     }
 
     private val handleShowTrainer = Observer<TrainerModel> { trainer ->
@@ -122,7 +123,7 @@ class VirtualFragment : BaseFragment(R.layout.fragment_virtual) {
     }
 
     private val handleShowTrainerSchedule = Observer<TrainerModel> { trainer ->
-        //TODO: Display ScheduleFragment when implemented
+        // TODO: Display ScheduleFragment when implemented
     }
 
     private val handleShowWorkout = Observer<WorkoutModel> { workout ->
@@ -130,22 +131,32 @@ class VirtualFragment : BaseFragment(R.layout.fragment_virtual) {
     }
 
     private val handleLoadWorkouts = Observer<List<WorkoutModel>> { workouts ->
-        val hide = workouts.isEmpty()
-        val context = requireContext()
-        viewBinding.apply {
-            viewUpcoming.viewMain.isHidden = hide
-            if (!hide) {
-                viewUpcoming.btnView.text = context
-                    .getString(R.string.virtual_upcoming_button_label)
-                viewUpcoming.lblTitle.text = context
-                    .getString(R.string.virtual_upcoming_title_label)
-                virtualWorkoutAdapter.update(workouts)
-            }
-        }
+        loadWorkouts(workouts)
+    }
+
+    private val handleShowHud = Observer<Boolean> { show ->
+        viewBinding.hudView.isVisible = show
     }
     //endregion
 
     //region Functions
+
+    private fun loadWorkouts(workouts: List<WorkoutModel>) {
+        val hide = workouts.isEmpty()
+        val context = requireContext()
+        viewBinding.apply {
+            with(viewUpcoming) {
+                viewMain.isHidden = hide
+                if (!hide) {
+                    btnView.text = context.getString(R.string.virtual_upcoming_button_label)
+                    lblTitle.text = context.getString(R.string.virtual_upcoming_title_label)
+                    virtualWorkoutAdapter.update(workouts)
+                    viewBinding.viewMatched
+                }
+            }
+            viewMatched.isHidden = hide
+        }
+    }
 
     private fun loadPromos(promos: List<PromoModel>) {
         val hide = promos.isEmpty()
@@ -166,42 +177,41 @@ class VirtualFragment : BaseFragment(R.layout.fragment_virtual) {
             trainer?.let {
                 lblBookWith.text = requireContext().getString(
                     R.string.virtual_book_with_label_title,
-                    trainer
+                    trainer.firstName
                 ).toUpperCase(Locale.getDefault())
                 viewBookWithTrainer.loadView(TrainerModel.test())
                 viewBookMatchMe.loadViewMatchMe()
             }
             viewBookWithTrainer.isHidden = hide
+            imgLineBookWith.isHidden = hide
             viewBookMatchMe.isHidden = hide
         }
     }
 
     private fun loadTrainers(trainers: List<TrainerModel>) {
         val hide = trainers.isEmpty()
-        viewBinding.apply {
-            viewTrainers.viewMain.isHidden = hide
+        viewBinding.viewTrainers.apply {
+            viewMain.isHidden = hide
             if (!hide) {
                 trainerAdapter.update(trainers)
-                viewTrainers.btnView.isHidden = true
-                viewTrainers.lblTitle.text = requireContext()
-                    .getString(R.string.virtual_trainers_title_label)
+                btnView.isHidden = true
+                lblTitle.text = requireContext().getString(R.string.virtual_trainers_title_label)
             }
         }
     }
 
     private fun loadCalendar(model: CalendarModel?) {
         val context = requireContext()
-        viewBinding.apply {
+        viewBinding.viewSchedule.apply {
             model?.let { safeModel ->
-                viewBinding.viewSchedule.viewCalendar.loadCalendarModel(safeModel)
-                viewSchedule.lblTitle.text = context
-                    .getString(R.string.virtual_calendar_title_label)
-                viewSchedule.btnSchedule.text = context
-                    .getString(R.string.virtual_calendar_button_label)
+                viewCalendar.loadCalendarModel(safeModel)
+                lblTitle.text = context.getString(R.string.virtual_calendar_title_label)
+                btnSchedule.text = context.getString(R.string.virtual_calendar_button_label)
             } ?: run {
-                viewSchedule.viewMain.isHidden = true
+                viewMain.isHidden = true
+                viewBinding.imgLineCalendar.isHidden = true
             }
         }
     }
-    //region
+    //endregion
 }

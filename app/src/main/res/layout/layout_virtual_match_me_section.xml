@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/viewMain"
     android:layout_width="match_parent"
-    android:layout_height="450dp">
+    android:layout_height="450dp"
+    android:visibility="gone"
+    tools:visibility="visible">
 
     <com.trx.consumer.common.CommonImageView
         android:id="@+id/imgTRXTrainer"
@@ -20,7 +23,7 @@
         android:layout_marginHorizontal="30dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/atcarquette_semibold"
-        android:text="Find Your TRX Trainer"
+        android:text="@string/virtual_match_me_title_label"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@id/lblDescTRXTrainer" />
@@ -31,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:layout_marginBottom="15dp"
-        android:text="There are thousands of fitness professionals in our diverse network, but who's right for you?"
+        android:text="@string/virtual_match_me_subtitle_label"
         android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@id/btnMatchMe" />
@@ -44,7 +47,7 @@
         android:layout_marginBottom="15dp"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center"
-        android:text="MATCH ME NOW"
+        android:text="@string/virtual_match_me_button_title"
         android:textColor="@color/white"
         android:textSize="15sp"
         app:backgroundColor="@color/black"

@@ -62,13 +62,13 @@ class TestUtilityViewModel @ViewModelInject constructor(
                 val responseModel = SessionsResponseModel.parse(response.responseString)
                 eventLoadLiveWorkouts.postValue(responseModel.sessions.take(5))
             } else {
-                eventLoadLiveWorkouts.postValue(WorkoutModel.testList(5))
+                eventLoadLiveWorkouts.postValue(WorkoutModel.testListLive(5))
             }
         }
     }
 
     private fun doLoadVirtualWorkouts() {
-        eventLoadVirtualWorkouts.postValue(WorkoutModel.testList(5))
+        eventLoadVirtualWorkouts.postValue(WorkoutModel.testListLive(5))
     }
 
     private fun doLoadVideoWorkouts() {

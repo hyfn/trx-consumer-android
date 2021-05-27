@@ -13,6 +13,8 @@
         android:layout_height="55dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearance="@style/CircularAppearance" />
@@ -42,6 +44,7 @@
         android:ellipsize="end"
         android:fontFamily="@font/atcarquette_semibold"
         android:maxLines="1"
+        android:textAllCaps="true"
         android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnPrimary"
@@ -62,9 +65,9 @@
         android:layout_height="35dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="16dp"
-        android:textSize="12sp"
         android:fontFamily="@font/atcarquette_semibold"
         android:gravity="center"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="BOOK" />

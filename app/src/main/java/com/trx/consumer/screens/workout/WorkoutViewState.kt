@@ -6,6 +6,7 @@ enum class WorkoutViewState {
     VIDEO, LIVE, VIRTUAL, UNKNOWN;
 
     companion object {
+
         object Constant {
             const val LARGE_GROUP = "large-group"
             const val ONE_ON_ONE = "1-on-1"

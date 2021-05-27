@@ -9,6 +9,7 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentProfileBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.WorkoutCellViewState
 import com.trx.consumer.models.common.WorkoutModel
 
 class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
@@ -55,16 +56,16 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             btnLive.action {
                 btnVirtual.textColor(R.color.greyLight)
                 btnLive.textColor(R.color.greyDark)
-                profileAdapter.update(WorkoutModel.testList(5))
+                profileAdapter.update(WorkoutModel.testListLive(5))
             }
 
             btnVirtual.action {
                 btnLive.textColor(R.color.greyLight)
                 btnVirtual.textColor(R.color.greyDark)
-                profileAdapter.update(WorkoutModel.testList(5))
+                profileAdapter.update(WorkoutModel.testListVirtual(5, WorkoutCellViewState.SOON))
             }
 
-            profileAdapter.update(WorkoutModel.testList(5))
+            profileAdapter.update(WorkoutModel.testListLive(5))
         }
     }
 

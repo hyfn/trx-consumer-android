@@ -11,6 +11,7 @@ import com.trx.consumer.screens.liveworkout.LiveWorkoutViewHolder
 import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewHolder
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewListener
+import com.trx.consumer.screens.workout.WorkoutViewState
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
@@ -31,7 +32,6 @@ class ProfileAdapter(
     override fun createCommonViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         return try {
             when (viewType) {
-
                 TYPE_LIVE_ROW -> LiveWorkoutViewHolder(
                     LayoutInflater.from(parent.context)
                         .inflate(R.layout.row_live_workout_table, parent, false)
@@ -71,8 +71,14 @@ class ProfileAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (items[position]) {
-            is WorkoutModel -> TYPE_LIVE_ROW
+        return when (val item = items[position]) {
+            is WorkoutModel -> {
+                when (item.workoutState) {
+                    WorkoutViewState.LIVE -> TYPE_LIVE_ROW
+                    WorkoutViewState.VIRTUAL -> TYPE_VIRTUAL_ROW
+                    else -> TYPE_EMPTY_ROW
+                }
+            }
             else -> TYPE_EMPTY_ROW
         }
     }

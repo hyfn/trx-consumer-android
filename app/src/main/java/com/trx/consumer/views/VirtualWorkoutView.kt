@@ -9,7 +9,6 @@ import com.trx.consumer.databinding.RowVirtualWorkoutBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.dpToPx
 import com.trx.consumer.extensions.load
-import com.trx.consumer.extensions.px
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutCellViewState
 import com.trx.consumer.models.common.WorkoutModel
@@ -53,8 +52,8 @@ class VirtualWorkoutView @JvmOverloads constructor(
     fun loadViewMatchMe() {
         loadViewState(WorkoutCellViewState.MATCH)
         binding.apply {
-            imgProfile.setImageResource(R.drawable.ic_img_placeholder)
-            lblTitle.text = context.getString(R.string.workout_cell_button_match_title)
+            imgProfile.setImageResource(R.drawable.ic_img_tab_profile)
+            lblTitle.text = context.getString(R.string.virtual_workout_view_match_me_title)
             lblSubtitle.text = context.getString(R.string.virtual_workout_view_match_me_subtitle)
         }
     }

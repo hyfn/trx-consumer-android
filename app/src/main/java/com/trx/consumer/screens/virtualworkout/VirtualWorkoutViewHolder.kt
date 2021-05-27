@@ -13,5 +13,4 @@ class VirtualWorkoutViewHolder(view: View) : CommonViewHolder(view) {
     fun setup(model: WorkoutModel, listener: VirtualWorkoutViewListener) {
         virtualWorkoutView.loadView(model, listener)
     }
-
 }

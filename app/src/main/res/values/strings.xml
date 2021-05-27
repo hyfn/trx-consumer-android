@@ -182,13 +182,17 @@
 
     <string name="virtual_workout_view_trainer_title">Virtual Training Session with %s</string>
     <string name="virtual_workout_view_trainer_subtitle">See %s\'s availability</string>
-    <string name="virtual_workout_view_match_me_subtitle">Find a new trainer</string>
+    <string name="virtual_workout_view_match_me_title">Match Me</string>
+    <string name="virtual_workout_view_match_me_subtitle">FIND A NEW TRAINER</string>
 
     <string name="virtual_upcoming_button_label">VIEW ALL →</string>
     <string name="virtual_upcoming_title_label">UPCOMING</string>
     <string name="virtual_trainers_title_label">FEATURED TRAINERS</string>
     <string name="virtual_calendar_title_label">BOOKED THIS WEEK</string>
     <string name="virtual_calendar_button_label">SCHEDULE →</string>
+    <string name="virtual_match_me_title_label">Find Your TRX Trainer</string>
+    <string name="virtual_match_me_subtitle_label">There are thousands of fitness professionals in our diverse network, but who\'s right for you?</string>
+    <string name="virtual_match_me_button_title">MATCH ME NOW</string>
 
     <string name="register_title">Register</string>
     <string name="register_sign_in_label">Already have an account? <b><u>Log in</u></b></string>

@@ -91,7 +91,9 @@ class WorkoutModel(
         get() {
             if (workoutState == WorkoutViewState.VIRTUAL) {
                 val minLeft = date.elapsedMin()
-                if (minLeft < 0 && abs(minLeft) < kMinutesBeforeCanJoin) WorkoutCellViewState.SOON
+                if (minLeft < 0 && abs(minLeft) < kMinutesBeforeCanJoin) {
+                    return WorkoutCellViewState.SOON
+                }
             }
             return WorkoutCellViewState.VIEW
         }
@@ -132,7 +134,26 @@ class WorkoutModel(
             ).apply { trainer.key = trainerKey }
         }
 
-        fun test(): WorkoutModel {
+        fun testVirtual(status: WorkoutCellViewState = WorkoutCellViewState.VIEW): WorkoutModel {
+            val date = if (status == WorkoutCellViewState.SOON) {
+                Date(System.currentTimeMillis() + 300000)
+            } else {
+                Date(1716619600000)
+            }
+            return WorkoutModel(
+                identifier = "123",
+                durationInMinutes = 60,
+                imageUrl = "https://cf-images.us-east-1.prod.boltdns.net/v1/jit/6204326362001/9ad5d77c-99f7-4c65-8a2d-40ac2546fd01/main/1280x720/55s189ms/match/image.jpg",
+                title = "Virtual Training Session with Jamie",
+                startsAt = date.time,
+                state = BookingState.VIEW,
+                trainer = TrainerModel.test(),
+                video = VideoModel.test(),
+                mode = WorkoutViewState.Companion.Constant.ONE_ON_ONE
+            )
+        }
+
+        fun testLive(): WorkoutModel {
             return WorkoutModel(
                 identifier = "123",
                 durationInMinutes = 60,
@@ -141,12 +162,17 @@ class WorkoutModel(
                 startsAt = 1615917600000,
                 state = BookingState.VIEW,
                 trainer = TrainerModel.test(),
-                video = VideoModel.test()
+                video = VideoModel.test(),
+                mode = WorkoutViewState.Companion.Constant.LARGE_GROUP
             )
         }
 
-        fun testList(count: Int): List<WorkoutModel> {
-            return (0 until count).map { test() }
+        fun testListLive(count: Int): List<WorkoutModel> {
+            return (0 until count).map { testLive() }
+        }
+
+        fun testListVirtual(count: Int, status: WorkoutCellViewState): List<WorkoutModel> {
+            return (0 until count).map { testVirtual(status) }
         }
     }
 }

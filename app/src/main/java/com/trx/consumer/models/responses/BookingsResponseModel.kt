@@ -34,7 +34,7 @@ class BookingsResponseModel(val workouts: List<WorkoutModel>) {
         get() {
             return lstWorkoutsSorted.filter {
                 it.workoutState == WorkoutViewState.LIVE &&
-                        it.date.elapsedMin() < kMinutesAfterCanJoin
+                    it.date.elapsedMin() < kMinutesAfterCanJoin
             }
         }
 

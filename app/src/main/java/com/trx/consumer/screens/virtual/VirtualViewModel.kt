@@ -44,6 +44,11 @@ class VirtualViewModel @ViewModelInject constructor(
     val eventShowTrainerSchedule = CommonLiveEvent<TrainerModel>()
     val eventShowUserSchedule = CommonLiveEvent<Void>()
     val eventShowWorkout = CommonLiveEvent<WorkoutModel>()
+    val eventShowHud = CommonLiveEvent<Boolean>()
+
+    //endregion
+
+    //region Functions
 
     fun doLoadView() {
         eventLoadView.call()
@@ -54,12 +59,14 @@ class VirtualViewModel @ViewModelInject constructor(
 
     private fun doLoadBookings() {
         viewModelScope.launch {
+            eventShowHud.postValue(true)
             val response = backendManager.bookings()
+            eventShowHud.postValue(false)
             eventLoadBookWith.postValue(trainer)
             if (response.isSuccess) {
                 val model = BookingsResponseModel.parse(response.responseString)
                 val virtualWorkouts = model.lstVirtualUpcoming
-                val loadMatchMe = virtualWorkouts.isEmpty()
+                val loadMatchMe = virtualWorkouts.isNotEmpty()
 
                 eventLoadMatchMe.postValue(loadMatchMe)
                 eventLoadWorkouts.postValue(virtualWorkouts)
@@ -68,9 +75,9 @@ class VirtualViewModel @ViewModelInject constructor(
                 eventLoadBookWith.postValue(trainer)
 
                 if (loadMatchMe) {
-                    eventLoadCalendar.postValue(null)
-                } else {
                     eventLoadCalendar.postValue(model.calendarModelVirtual)
+                } else {
+                    eventLoadCalendar.postValue(null)
                 }
             }
         }
@@ -78,7 +85,9 @@ class VirtualViewModel @ViewModelInject constructor(
 
     private fun doLoadPromos() {
         viewModelScope.launch {
+            eventShowHud.postValue(true)
             val response = backendManager.promos()
+            eventShowHud.postValue(false)
             if (response.isSuccess) {
                 val model = PromosResponseModel.parse(response.responseString)
                 eventLoadPromos.postValue(model.promos)
@@ -88,7 +97,9 @@ class VirtualViewModel @ViewModelInject constructor(
 
     private fun doLoadTrainers() {
         viewModelScope.launch {
+            eventShowHud.postValue(true)
             val response = backendManager.trainers()
+            eventShowHud.postValue(false)
             if (response.isSuccess) {
                 val model = TrainersResponseModel.parse(response.responseString)
                 eventLoadTrainers.postValue(model.listFeaturedTrainers)
@@ -105,9 +116,7 @@ class VirtualViewModel @ViewModelInject constructor(
     }
 
     fun doTapViewTrainerProfile() {
-        trainer?.let { safeTrainer ->
-            eventShowTrainer.postValue(safeTrainer)
-        }
+        trainer?.let { safeTrainer -> eventShowTrainer.postValue(safeTrainer) }
     }
 
     fun doTapViewAllBookings() {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.core.content.res.use
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.trx.consumer.R
@@ -57,18 +58,8 @@ class CalendarView @JvmOverloads constructor(
     }
 
     private fun update() {
-        daysAdapter = when (calendarModel.state) {
-            CalendarViewState.DISPLAY -> {
-                lblLeft.text = context.getString(R.string.calendarview_this_week)
-                DaysAdapter { lifecycleScope }
-            }
-            CalendarViewState.PICKER -> {
-                DaysAdapter(this) { lifecycleScope }.also {
-                    doUpdateDate(calendarModel.selectedDate)
-                }
-            }
-        }
-
+        daysAdapter = DaysAdapter(this) { lifecycleScope }
+        doUpdateDate(calendarModel.selectedDate)
         rvDays.adapter = daysAdapter
         setDays()
     }
@@ -107,12 +98,17 @@ class CalendarView @JvmOverloads constructor(
     }
 
     override fun doUpdateDate(date: Date) {
-        lblLeft.text = date.monthString()
-        lblRight.text = date.yearString()
+        lblLeft.apply { if (isVisible) text = date.monthString() }
+        lblRight.apply { if (isVisible) text = date.yearString() }
         if (calendarModel.selectedDate.yearMonthDayString() != date.yearMonthDayString()) {
             daysAdapter.updateSelected(date)
             calendarModel.selectedDate = date
         }
+    }
+
+    fun showLabels(show: Boolean) {
+        lblLeft.isVisible = show
+        lblRight.isVisible = show
     }
 
     private val lblLeft
