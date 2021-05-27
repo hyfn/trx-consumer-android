@@ -1,9 +1,8 @@
-package com.trx.consumer.screens.settings
+package com.trx.consumer.models.common
 
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.trx.consumer.R
-import com.trx.consumer.models.common.UserModel
 
 class SettingsModel {
 
@@ -43,8 +42,6 @@ class SettingsModel {
 
         fun list(user: UserModel?): List<Any> {
             return listOf(
-                create(user, SettingsType.SUBSCRIPTIONS),
-                0,
                 create(null, SettingsType.SHOP),
                 create(null, SettingsType.GETTING_STARTED),
                 create(null, SettingsType.CONTACT_SUPPORT),
