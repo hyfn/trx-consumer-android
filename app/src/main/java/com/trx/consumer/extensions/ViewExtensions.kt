@@ -34,6 +34,13 @@ fun View.margin(
     }
 }
 
+fun View.dimensions(width: Float? = null, height: Float? = null) {
+    layoutParams<ViewGroup.LayoutParams> {
+        width?.let { this.width = dpToPx(width) }
+        height?.let { this.height = dpToPx(height) }
+    }
+}
+
 fun View.containsOnScreen(x: Float, y: Float): Boolean {
     return Rect().also { this.getGlobalVisibleRect(it) }.contains(x.toInt(), y.toInt())
 }

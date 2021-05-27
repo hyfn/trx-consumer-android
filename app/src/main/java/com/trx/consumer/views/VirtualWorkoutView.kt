@@ -7,7 +7,7 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonView
 import com.trx.consumer.databinding.RowVirtualWorkoutBinding
 import com.trx.consumer.extensions.action
-import com.trx.consumer.extensions.dpToPx
+import com.trx.consumer.extensions.dimensions
 import com.trx.consumer.extensions.load
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutCellViewState
@@ -68,9 +68,7 @@ class VirtualWorkoutView @JvmOverloads constructor(
                     text = context.getString(buttonTitle)
                     textColor(buttonTitleColor)
                     bgColor(buttonBackgroundColor)
-                    val layoutParams = layoutParams
-                    layoutParams.width = dpToPx(buttonWidth)
-                    setLayoutParams(layoutParams)
+                    dimensions(width = buttonWidth)
                 }
             }
         }

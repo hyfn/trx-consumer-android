@@ -84,26 +84,32 @@ class VirtualFragment : BaseFragment(R.layout.fragment_virtual) {
     }
 
     private val handleLoadPromos = Observer<List<PromoModel>> { promos ->
+        LogManager.log("handleLoadPromos")
         loadPromos(promos)
     }
 
     private val handleLoadCalendar = Observer<CalendarModel?> { model ->
+        LogManager.log("handleLoadCalendar")
         loadCalendar(model)
     }
 
     private val handleLoadTrainers = Observer<List<TrainerModel>> { trainers ->
+        LogManager.log("handleLoadTrainers")
         loadTrainers(trainers)
     }
 
     private val handleLoadBookWith = Observer<TrainerModel?> { trainer ->
+        LogManager.log("handleLoadBookWith")
         loadBookWith(trainer)
     }
 
     private val handleLoadMatchMe = Observer<Boolean> { hide ->
+        LogManager.log("handleLoadMatchMe")
         viewBinding.viewMatchMe.viewMain.isHidden = hide
     }
 
     private val handleTapMatchMe = Observer<Void> {
+        LogManager.log("handleTapMatchMe")
         UtilityManager.shared.openUrl(requireContext(), kMatchMeUrl)
     }
 
@@ -115,26 +121,32 @@ class VirtualFragment : BaseFragment(R.layout.fragment_virtual) {
     }
 
     private val handleShowUserSchedule = Observer<Void> {
+        LogManager.log("handleShowUserSchedule")
         // TODO: Display ScheduleFragment when implemented
     }
 
     private val handleShowTrainer = Observer<TrainerModel> { trainer ->
+        LogManager.log("handleShowTrainer")
         NavigationManager.shared.present(this, R.id.trainer_fragment, trainer)
     }
 
     private val handleShowTrainerSchedule = Observer<TrainerModel> { trainer ->
+        LogManager.log("handleShowTrainerSchedule")
         // TODO: Display ScheduleFragment when implemented
     }
 
     private val handleShowWorkout = Observer<WorkoutModel> { workout ->
+        LogManager.log("handleShowWorkout")
         NavigationManager.shared.present(this, R.id.workout_fragment, workout)
     }
 
     private val handleLoadWorkouts = Observer<List<WorkoutModel>> { workouts ->
+        LogManager.log("handleLoadWorkouts")
         loadWorkouts(workouts)
     }
 
     private val handleShowHud = Observer<Boolean> { show ->
+        LogManager.log("handleShowHud")
         viewBinding.hudView.isVisible = show
     }
     //endregion
@@ -202,15 +214,17 @@ class VirtualFragment : BaseFragment(R.layout.fragment_virtual) {
 
     private fun loadCalendar(model: CalendarModel?) {
         val context = requireContext()
-        viewBinding.viewSchedule.apply {
-            model?.let { safeModel ->
-                viewCalendar.loadCalendarModel(safeModel)
-                lblTitle.text = context.getString(R.string.virtual_calendar_title_label)
-                btnSchedule.text = context.getString(R.string.virtual_calendar_button_label)
-            } ?: run {
-                viewMain.isHidden = true
-                viewBinding.imgLineCalendar.isHidden = true
+        val hide = model == null
+        viewBinding.apply {
+            with(viewSchedule) {
+                model?.let { safeModel ->
+                    viewCalendar.loadCalendarModel(safeModel)
+                    lblTitle.text = context.getString(R.string.virtual_calendar_title_label)
+                    btnSchedule.text = context.getString(R.string.virtual_calendar_button_label)
+                    viewMain.isHidden = hide
+                }
             }
+            imgLineCalendar.isHidden = hide
         }
     }
     //endregion
