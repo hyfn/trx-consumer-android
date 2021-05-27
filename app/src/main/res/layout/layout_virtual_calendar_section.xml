@@ -17,7 +17,6 @@
         android:layout_marginTop="15dp"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center"
-        android:text="BOOKED THIS WEEK"
         android:textColor="@color/grey"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="parent"
