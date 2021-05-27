@@ -39,6 +39,7 @@ class HomeViewModel @ViewModelInject constructor(
 
     val eventTapTest = CommonLiveEvent<Void>()
     val eventTapBanner = CommonLiveEvent<String>()
+    val eventTapUser = CommonLiveEvent<Void>()
 
     val eventShowPromo = CommonLiveEvent<PromoModel>()
     val eventShowHud = CommonLiveEvent<Boolean>()
@@ -92,9 +93,14 @@ class HomeViewModel @ViewModelInject constructor(
         eventTapBanner.postValue(bannerUrlString)
     }
 
+    fun doTapUser() {
+        eventTapUser.call()
+    }
+
     override fun doTapPromo(model: PromoModel) {
         eventShowPromo.postValue(model)
     }
+
     override fun doTapVideo(model: VideoModel) {
         analyticsManager.trackAmplitude(AnalyticsEventModel.VIEW_VIDEO_DETAIL_ID, model.id)
     }
