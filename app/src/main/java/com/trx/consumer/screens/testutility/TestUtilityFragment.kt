@@ -175,11 +175,17 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleTapBookingAlert = Observer<Void> {
         //  Uncomment other options for testing
+        //  Live Booking - No/Yes Cancel Buttons
         val model = BookingAlertModel.testLiveBook()
+        //  Live Booking - Card Info / Enabled Book Now w/ Price
         // val model = BookingAlertModel.testCardLiveBook()
+        //  Live Booking - Add Card / Disabled Book Now w/ Price
         // val model = BookingAlertModel.testNoCardLiveBook()
+        //  Virtual Booking - No/Yes Cancel Buttons
         // val model = BookingAlertModel.testVirtualBook()
+        //  Virtual Booking - Card Info / Enabled Book Now w/ Price
         // val model = BookingAlertModel.testCardVirtualBook()
+        //  Virtual Booking - Add Card / Disabled Book Now w/ Price
         // val model = BookingAlertModel.testNoCardVirtualBook()
 
         NavigationManager.shared.present(this, R.id.booking_alert_fragment, params = model)
