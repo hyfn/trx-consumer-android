@@ -4,8 +4,10 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
+import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.BannerModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.UserModel
@@ -18,7 +20,8 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
-    private val cacheManager: CacheManager
+    private val cacheManager: CacheManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), PromotionListener, VideoWorkoutListener {
 
     //region variables
@@ -36,6 +39,7 @@ class HomeViewModel @ViewModelInject constructor(
 
     val eventTapTest = CommonLiveEvent<Void>()
     val eventTapBanner = CommonLiveEvent<String>()
+    val eventTapUser = CommonLiveEvent<Void>()
 
     val eventShowPromo = CommonLiveEvent<PromoModel>()
     val eventShowHud = CommonLiveEvent<Boolean>()
@@ -89,10 +93,17 @@ class HomeViewModel @ViewModelInject constructor(
         eventTapBanner.postValue(bannerUrlString)
     }
 
+    fun doTapUser() {
+        eventTapUser.call()
+    }
+
     override fun doTapPromo(model: PromoModel) {
         eventShowPromo.postValue(model)
     }
-    override fun doTapVideo(model: VideoModel) {}
+
+    override fun doTapVideo(model: VideoModel) {
+        analyticsManager.trackAmplitude(AnalyticsEventModel.VIEW_VIDEO_DETAIL_ID, model.id)
+    }
 
     //endregion
 }

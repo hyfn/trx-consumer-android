@@ -106,6 +106,7 @@ android {
             buildConfigField "String", "kBaseUrl", '"https://trx-dashboard-dev.vercel.app/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "false"
             buildConfigField "Integer", "kFirebaseFetchInterval", "3"
+            buildConfigField "String", "kAmplitudeApiKey", '"1f07dafbf3e49896270d407e91cf5b11"'
             buildConfigField "String", "kStripeApiKey", '"pk_test_VG0f1gcydmawXMMYQSydPkw500ipbL8dW8"'
             signingConfig signingConfigs.devRelease
         }
@@ -115,6 +116,7 @@ android {
             buildConfigField "String", "kBaseUrl", '"https://digital.trxtraining.com/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "true"
             buildConfigField "Integer", "kFirebaseFetchInterval", "30"
+            buildConfigField "String", "kAmplitudeApiKey", '"e6731270c5f1859e2bc25cf5e8c3d2f9"'
             buildConfigField "String", "kStripeApiKey", '"pk_live_Nrhi2HdHwsfQ5OSiPhhtwuah00yvGgjwWe"'
             signingConfig signingConfigs.prodRelease
         }
@@ -186,6 +188,9 @@ dependencies {
 
     // IAP
     implementation "com.revenuecat.purchases:purchases:$rootProject.revenuecatVersion"
+
+    //Amplitude
+    implementation "com.amplitude:android-sdk:$rootProject.amplitudeVersion"
 
     // Testing dependencies
     androidTestImplementation "androidx.test.ext:junit:$rootProject.junitVersion"
