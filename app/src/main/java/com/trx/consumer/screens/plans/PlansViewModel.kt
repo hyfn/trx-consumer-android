@@ -22,8 +22,8 @@ class PlansViewModel @ViewModelInject constructor(
     //region Events
 
     val eventLoadCanCancel = CommonLiveEvent<Boolean>()
-    val eventLoadCancelSubscription = CommonLiveEvent<String?>()
-    val eventLoadConfirmSubscription = CommonLiveEvent<PlanModel>()
+    val eventLoadCancelPlan = CommonLiveEvent<String?>()
+    val eventLoadConfirmPlan = CommonLiveEvent<PlanModel>()
     val eventLoadError = CommonLiveEvent<String>()
     val eventLoadNextBillDate = CommonLiveEvent<String?>()
     val eventLoadView = CommonLiveEvent<Void>()
@@ -48,14 +48,14 @@ class PlansViewModel @ViewModelInject constructor(
             backendManager.user()
             cacheManager.user()?.let { user ->
                 userModel = user
-                eventLoadCanCancel.postValue(user.subscription != null)
-                eventLoadNextBillDate.postValue(user.subscriptionRenewsDateDisplay)
+                eventLoadCanCancel.postValue(user.plan != null)
+                eventLoadNextBillDate.postValue(user.planRenewsDateDisplay)
             }
             val response = backendManager.plans()
             if (response.isSuccess) {
                 try {
                     val model = PlansResponseModel.parse(response.responseString)
-                    userModel?.subscriptionText.let {
+                    userModel?.planText.let {
                         eventLoadPlans.postValue(model.plans(it))
                     }
                 } catch (e: Exception) {
@@ -66,10 +66,10 @@ class PlansViewModel @ViewModelInject constructor(
         }
     }
 
-    fun doCallSubscribe(id: String) {
+    fun doCallAddPlan(id: String) {
         viewModelScope.launch {
             eventShowHud.postValue(true)
-            val response = backendManager.subscriptionAdd(id)
+            val response = backendManager.planAdd(id)
             if (response.isSuccess) {
                 doLoadPlans()
             } else {
@@ -83,11 +83,11 @@ class PlansViewModel @ViewModelInject constructor(
         eventTapBack.call()
     }
 
-    fun doTapUnsubscribe() {
+    fun doTapDeletePlan() {
         viewModelScope.launch {
             eventShowHud.postValue(true)
-            cacheManager.user()?.subscription?.let {
-                backendManager.subscriptionDelete(it).let { response ->
+            cacheManager.user()?.plan?.let {
+                backendManager.planDelete(it).let { response ->
                     if (response.isSuccess) {
                         doLoadPlans()
                     } else {
@@ -102,12 +102,12 @@ class PlansViewModel @ViewModelInject constructor(
     override fun doTapChoosePlan(model: PlanModel) {
         viewModelScope.launch {
             cacheManager.user()?.let { safeUser ->
-                if (safeUser.subscriptionText != UserModel.kSubscriptionNamePay) {
-                    eventLoadCancelSubscription.postValue(safeUser.subscription)
+                if (safeUser.planText != UserModel.kPlanNamePay) {
+                    eventLoadCancelPlan.postValue(safeUser.plan)
                     return@launch
                 }
             }
-            eventLoadConfirmSubscription.postValue(model)
+            eventLoadConfirmPlan.postValue(model)
         }
     }
 

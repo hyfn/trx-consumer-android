@@ -1,51 +1,78 @@
 package com.trx.consumer.screens.email
 
-import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.trx.consumer.R
 import com.trx.consumer.views.input.InputViewState
 
 enum class EmailViewState {
-    FORGOT, VERIFY;
+    FORGOT, CODE;
 
     @get:StringRes
-    val title: Int
+    val headerTitle: Int
         get() = when (this) {
-            FORGOT -> R.string.email_forgot_title
-            VERIFY -> R.string.email_verify_title
+            FORGOT -> R.string.email_forgot_header_title
+            CODE -> R.string.email_code_header_title
+        }
+
+    @get:DrawableRes
+    val headerImage: Int
+        get() = when (this) {
+            FORGOT -> R.drawable.img_media_email_forgot
+            CODE -> R.drawable.img_media_email_code
         }
 
     val contentType: InputViewState
         get() = when (this) {
             FORGOT -> InputViewState.EMAIL
-            VERIFY -> InputViewState.CODE
+            CODE -> InputViewState.CODE
+        }
+
+    @get:StringRes
+    val title: Int
+        get() = when (this) {
+            FORGOT -> R.string.email_forgot_title
+            CODE -> R.string.email_code_title
+        }
+
+    @get:StringRes
+    val placeholder: Int
+        get() = when (this) {
+            FORGOT -> R.string.email_forgot_placeholder
+            CODE -> R.string.email_code_placeholder
+        }
+
+    @get:StringRes
+    val description: Int
+        get() = when (this) {
+            FORGOT -> R.string.email_forgot_description
+            CODE -> R.string.email_code_description
         }
 
     @get:StringRes
     val buttonTitle: Int
         get() = when (this) {
-            FORGOT -> R.string.email_lookup_second
-            VERIFY -> R.string.email_done_button_label
-            else -> R.string.content_blank
+            FORGOT -> R.string.email_forgot_button_label
+            CODE -> R.string.email_code_button_label
         }
 
     @get:StringRes
-    val successButtonTitle: Int
-        get() = R.string.email_done_button_label
+    val success: Int
+        get() = when (this) {
+            FORGOT -> R.string.email_forgot_success
+            CODE -> R.string.email_code_success
+        }
 
-    @get:ColorRes
-    val successButtonBgColor: Int
-        get() = R.color.greyLightExtra
+    @get:StringRes
+    val error: Int
+        get() = when (this) {
+            FORGOT -> R.string.email_forgot_error
+            CODE -> R.string.email_code_error
+        }
 
-    @get:ColorRes
-    val successButtonTextColor: Int
-        get() = R.color.black
-
-    @get:ColorRes
-    val normalButtonTextColor: Int
-        get() = R.color.white
-
-    @get:ColorRes
-    val normalButtonBgColor: Int
-        get() = R.color.black
+    val inputViewState: InputViewState
+        get() = when (this) {
+            FORGOT -> InputViewState.EMAIL
+            CODE -> InputViewState.CODE
+        }
 }

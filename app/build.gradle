@@ -91,6 +91,7 @@ android {
             buildConfigField "String", "kProductsUrl", '"https://store.trxtraining.com"'
             buildConfigField "String", "kContactSupportUrl", '"https://www.trxtraining.com/contact-us"'
             buildConfigField "String", "kTermsConditionsUrl", '"https://www.trxtraining.com/terms-of-use"'
+            buildConfigField "String", "kTermsSubscriptions", '"https://club.trxtraining.com/additional-terms-subscription"'
             buildConfigField "String", "kGettingStartedVideosUrl", '"https://www.trxtraining.com/getting-started"'
             buildConfigField "String", "kBrightcoveAccountId", '"6204326362001"'
             buildConfigField "String", "kBrightcovePolicyKey", '"BCpkADawqM0NIVZ3stgK7lsrNpSnMb54yV2-XP_RMBl9gBL5hOvH_cjmnfU_kxS1QjYqucj3ZQTBRiGZhrd09drVaY-IAEgg9IYebBSliKZI8iSzYpvmdUQgwST2dVv4toFYU1clp89h7_qj"'
@@ -98,6 +99,8 @@ android {
             buildConfigField "String", "kRevenueCatEntitlementOnDemand", '"ondemand"'
             buildConfigField "String", "kTRXSupportEmail", '"digital@trxtraining.com"'
             buildConfigField "Boolean", "isVersion2Enabled", "false"
+            buildConfigField "Integer", "kMinutesBeforeCanJoin", "10"
+            buildConfigField "Integer", "kMinutesAfterCanJoin", "15"
         }
         dev {
             applicationId "com.trx.consumer.dev"
@@ -106,6 +109,7 @@ android {
             buildConfigField "Boolean", "isReportingDisabled", "false"
             buildConfigField "Integer", "kFirebaseFetchInterval", "3"
             buildConfigField "String", "kRevenueCatSdkKey", '"TFfhYYKJobQCRvboEbJYkDQnnidHgxFv"'
+            buildConfigField "String", "kAmplitudeApiKey", '"1f07dafbf3e49896270d407e91cf5b11"'
             buildConfigField "String", "kStripeApiKey", '"pk_test_VG0f1gcydmawXMMYQSydPkw500ipbL8dW8"'
             signingConfig signingConfigs.devRelease
         }
@@ -116,6 +120,7 @@ android {
             buildConfigField "Boolean", "isReportingDisabled", "true"
             buildConfigField "Integer", "kFirebaseFetchInterval", "30"
             buildConfigField "String", "kRevenueCatSdkKey", '"elFuvmHaXyXUfXeSzSKVyBzfagfFlgCI"'
+            buildConfigField "String", "kAmplitudeApiKey", '"e6731270c5f1859e2bc25cf5e8c3d2f9"'
             buildConfigField "String", "kStripeApiKey", '"pk_live_Nrhi2HdHwsfQ5OSiPhhtwuah00yvGgjwWe"'
             signingConfig signingConfigs.prodRelease
         }
@@ -187,6 +192,9 @@ dependencies {
 
     // IAP
     implementation "com.revenuecat.purchases:purchases:$rootProject.revenuecatVersion"
+
+    //Amplitude
+    implementation "com.amplitude:android-sdk:$rootProject.amplitudeVersion"
 
     // Testing dependencies
     androidTestImplementation "androidx.test.ext:junit:$rootProject.junitVersion"

@@ -1,6 +1,7 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
+import androidx.annotation.DrawableRes
 import com.trx.consumer.R
 import com.trx.consumer.extensions.lowerCased
 import kotlinx.parcelize.Parcelize
@@ -35,6 +36,7 @@ class CardModel(
             }
         }
 
+    @get:DrawableRes
     val imageName: Int
         get() {
             return when (creditCardType.lowerCased()) {

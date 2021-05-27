@@ -13,25 +13,46 @@ class LoginViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
 ) : BaseViewModel(), InputViewListener {
 
-    val eventLoadView = CommonLiveEvent<Void>()
-    val eventShowError = CommonLiveEvent<String>()
-    val eventTapLogin = CommonLiveEvent<Void>()
-    val eventDismissKeyboard = CommonLiveEvent<Void>()
-    val eventValidateError = CommonLiveEvent<Int>()
-    val eventShowHud = CommonLiveEvent<Boolean>()
-    val eventTapBack = CommonLiveEvent<Void>()
-    val eventTapSignUp = CommonLiveEvent<Void>()
-    val eventTapForgotPassword = CommonLiveEvent<Void>()
+    //region Variables
 
     var email: String = ""
     var password: String = ""
+
+    //endregion
+
+    //region Events
+
+    val eventLoadView = CommonLiveEvent<Void>()
+    val eventLoadButton = CommonLiveEvent<Boolean>()
+
+    val eventTapBack = CommonLiveEvent<Void>()
+    val eventTapForgotPassword = CommonLiveEvent<Void>()
+    val eventTapLogin = CommonLiveEvent<Void>()
+    val eventTapSignUp = CommonLiveEvent<Void>()
+
+    val eventShowError = CommonLiveEvent<String>()
+    val eventValidateError = CommonLiveEvent<Int>()
+
+    val eventDismissKeyboard = CommonLiveEvent<Void>()
+    val eventShowHud = CommonLiveEvent<Boolean>()
+
+    //endregion
+
+    //region Actions
 
     fun doLoadView() {
         eventLoadView.call()
     }
 
+    fun doTapBack() {
+        eventTapBack.call()
+    }
+
+    fun doTapForgotPassword() {
+        eventTapForgotPassword.call()
+    }
+
     fun doTapLogin() {
-        if (!validate()) return
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = backendManager.login(email, password)
@@ -44,16 +65,8 @@ class LoginViewModel @ViewModelInject constructor(
         }
     }
 
-    fun doTapBack() {
-        eventTapBack.call()
-    }
-
     fun doTapSignUp() {
         eventTapSignUp.call()
-    }
-
-    fun doTapForgotPassword() {
-        eventTapForgotPassword.call()
     }
 
     override fun doUpdateText(
@@ -64,26 +77,20 @@ class LoginViewModel @ViewModelInject constructor(
         when (identifier) {
             InputViewState.EMAIL -> email = if (isValidInput) userInput else ""
             InputViewState.PASSWORD -> password = if (isValidInput) userInput else ""
-            else -> {
-            }
+            else -> { }
         }
+        validate()
+    }
+
+    private fun validate() {
+        val enabled: Boolean = InputViewState.EMAIL.validate(email) &&
+            InputViewState.PASSWORD.validate(password)
+        eventLoadButton.postValue(enabled)
     }
 
     fun doDismissKeyboard() {
         eventDismissKeyboard.call()
     }
 
-    private fun validate(): Boolean {
-        if (!InputViewState.EMAIL.validate(email)) {
-            val message = InputViewState.EMAIL.errorMessage
-            eventValidateError.postValue(message)
-            return false
-        }
-        if (!InputViewState.PASSWORD.validate(password)) {
-            val message = InputViewState.PASSWORD.errorMessage
-            eventValidateError.postValue(message)
-            return false
-        }
-        return true
-    }
+    //endregion
 }

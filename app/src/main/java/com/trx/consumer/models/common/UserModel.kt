@@ -13,7 +13,7 @@ class UserModel(
     val cardPaymentMethodId: String? = null,
     var email: String = "",
     var password: String = "",
-    var subscriptions: HashMap<String, UserSubscriptionModel> = hashMapOf(),
+    var plans: HashMap<String, UserPlanModel> = hashMapOf(),
     var zipCode: String = "",
     var firstName: String = "",
     var lastName: String = "",
@@ -23,40 +23,40 @@ class UserModel(
         get() = "$firstName $lastName"
 
     //  TODO: Add correct logic
-    val subscription: String?
-        get() = if (!subscriptionIsCancelled) {
-            subscriptions.keys.firstOrNull()
+    val plan: String?
+        get() = if (!planIsCancelled) {
+            plans.keys.firstOrNull()
         } else null
 
-    private val subscriptionIsCancelled: Boolean
+    private val planIsCancelled: Boolean
         get() {
-            return subscriptions.keys.firstOrNull()?.let { key ->
-                subscriptions[key]?.cancelAtPeriodEnd ?: false
+            return plans.keys.firstOrNull()?.let { key ->
+                plans[key]?.cancelAtPeriodEnd ?: false
             } ?: false
         }
 
-    private val subRenewsDate: Date?
-        get() = subscriptions.values.firstOrNull()?.let {
+    private val planRenewsDate: Date?
+        get() = plans.values.firstOrNull()?.let {
             Date(it.currentPeriodEnd.roundToLong())
         }
 
-    val subscriptionRenewsDateDisplay: String?
+    val planRenewsDateDisplay: String?
         get() =
-            subscriptions.values.firstOrNull()?.let {
+            plans.values.firstOrNull()?.let {
                 if (!it.cancelAtPeriodEnd) {
-                    subRenewsDate?.format(format = "MM/dd/YYY")
+                    planRenewsDate?.format(format = "MM/dd/YYY")
                 } else null
             }
 
-    val subscriptionText: String
-        get() = if (!subscriptionIsCancelled && subscriptions.keys.contains("UNLIMITED")) {
-            kSubscriptionNameUnlimited
-        } else kSubscriptionNamePay
+    val planText: String
+        get() = if (!planIsCancelled && plans.keys.contains("UNLIMITED")) {
+            kPlanNameUnlimited
+        } else kPlanNamePay
 
     companion object {
 
-        const val kSubscriptionNamePay = "Pay As You Go"
-        const val kSubscriptionNameUnlimited = "Unlimited LIVE Classes"
+        const val kPlanNamePay = "Pay As You Go"
+        const val kPlanNameUnlimited = "Unlimited LIVE Classes"
 
         fun parse(jsonObject: JSONObject): UserModel {
 
@@ -69,11 +69,11 @@ class UserModel(
                 lastName = jsonObject.optString("lastName")
             ).apply {
                 try {
-                    jsonObject.getJSONObject("subscriptions").let { subsJSONObject ->
-                        subsJSONObject.keys().forEach { key ->
-                            val userSubsJSONObject = subsJSONObject.get(key) as JSONObject
-                            val userSubs = UserSubscriptionModel.parse(userSubsJSONObject)
-                            subscriptions[key] = userSubs
+                    jsonObject.getJSONObject("subscriptions").let { plansJSONObject ->
+                        plansJSONObject.keys().forEach { key ->
+                            val userPlansJSONObject = plansJSONObject.get(key) as JSONObject
+                            val userPlans = UserPlanModel.parse(userPlansJSONObject)
+                            plans[key] = userPlans
                         }
                     }
                 } catch (e: Exception) {

@@ -38,6 +38,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
         viewBinding.apply {
             btnTest.action { viewModel.doTapTest() }
+            lblUserName.action { viewModel.doTapUser() }
             viewBanner.btnPrimary.action { viewModel.doTapBanner() }
             viewVideos.rvVideoWorkouts.adapter = videosAdapter
             viewPromos.rvPromos.adapter = promoAdapter
@@ -53,6 +54,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             eventLoadBanner.observe(viewLifecycleOwner, handleLoadBanner)
 
             eventTapBanner.observe(viewLifecycleOwner, handleTapBanner)
+            eventTapUser.observe(viewLifecycleOwner, handleTapUser)
 
             eventShowPromo.observe(viewLifecycleOwner, handleShowPromo)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
@@ -101,6 +103,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         if (url.isNotEmpty()) UtilityManager.shared.openUrl(requireContext(), url)
     }
 
+    private val handleTapUser = Observer<Void> {
+        LogManager.log("handleTapUser")
+        NavigationManager.shared.present(this, R.id.profile_fragment)
+    }
+
     private val handleShowPromo = Observer<PromoModel> { promo ->
         LogManager.log("handleShowPromo: ${promo.ctaHref}")
         promo.ctaHref.let { url ->
@@ -141,7 +148,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private fun loadPromos(promos: List<PromoModel>) {
         promoAdapter.update(promos)
         viewBinding.apply {
-            viewPromos.lblTitle.text = getString(R.string.home_promotions_top_title_label)
+            viewPromos.lblTitle.text = getString(R.string.promotions_top_title_label)
             viewPromos.viewMain.isHidden = promos.isEmpty()
         }
     }

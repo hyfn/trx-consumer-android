@@ -22,4 +22,5 @@ class MainApplication : Application() {
 
         configManager.configure(this)
     }
+
 }

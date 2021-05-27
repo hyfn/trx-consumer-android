@@ -127,6 +127,12 @@
         tools:layout="@layout/fragment_settings" />
 
     <fragment
+        android:id="@+id/subscriptions_fragment"
+        android:name="com.trx.consumer.screens.subscriptions.SubscriptionsFragment"
+        android:label="SubscriptionsFragment"
+        tools:layout="@layout/fragment_subscriptions" />
+
+    <fragment
         android:id="@+id/workout_fragment"
         android:name="com.trx.consumer.screens.workout.WorkoutFragment"
         android:label="WorkoutFragment"
@@ -137,6 +143,12 @@
         android:name="com.trx.consumer.screens.trainer.TrainerFragment"
         android:label="TrainerFragment"
         tools:layout="@layout/fragment_trainer" />
+
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="com.trx.consumer.screens.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
 
     <dialog
         android:id="@+id/date_picker_fragment"
@@ -155,5 +167,11 @@
         android:name="com.trx.consumer.screens.alert.AlertFragment"
         android:label="AlertFragment"
         tools:layout="@layout/fragment_alert" />
+
+    <dialog
+        android:id="@+id/booking_alert_fragment"
+        android:name="com.trx.consumer.screens.bookingalert.BookingAlertFragment"
+        android:label="BookingAlertFragment"
+        tools:layout="@layout/fragment_booking_alert" />
 
 </navigation>

@@ -8,6 +8,7 @@ import com.stripe.android.Stripe
 import com.trx.consumer.BuildConfig.kBaseUrl
 import com.trx.consumer.BuildConfig.kStripeApiKey
 import com.trx.consumer.base.BaseApi
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 
@@ -134,4 +135,10 @@ object MainModule {
     @Singleton
     fun provideStripeBackendManager(stripe: Stripe): StripeBackendManager =
         StripeBackendManager(stripe)
+
+    @Provides
+    @Singleton
+    fun provideAnalyticsManager(configManager: ConfigManager): AnalyticsManager {
+        return AnalyticsManager(configManager)
+    }
 }
