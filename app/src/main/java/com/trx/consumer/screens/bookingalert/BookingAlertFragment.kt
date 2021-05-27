@@ -123,59 +123,70 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
 
     private fun loadView(model: BookingAlertModel) {
         viewBinding.apply {
+            // Views that are always present.
             lblMainTitle.text = getString(model.title)
-            btnPrimary.text = model.buttonTitle
+            btnPolicy.action { viewModel.doTapPolicy() }
+            btnClose.action { viewModel.doTapClose() }
 
+            // Conditional view loading
             when (model.workout.state) {
-                BookingState.BOOKED -> {
-                    viewCard.isHidden = true
-                    btnPolicy.isHidden = true
-                    loadCancelButtons()
+                BookingState.BOOKED -> loadBookedState()
+                else -> {
+                    btnPrimary.text = model.buttonTitle
+                    loadDefaultState(model.card)
                 }
-                else -> loadViewCard(model.card)
             }
 
-            btnClose.action { viewModel.doTapClose() }
+            // Remeasure layout so all the margins are the same.
+            viewContent.requestLayout()
         }
     }
 
-    private fun loadCancelButtons() {
+    private fun loadBookedState() {
         viewBinding.apply {
+            viewCard.isHidden = true
+
+            //  Styles since Button previously black bg / white text, adds action
             btnPrimary.apply {
                 text = getString(R.string.booking_alert_cancel_no_button_label)
                 bgColor(R.color.greyLight)
                 textColor(R.color.black)
-                isVisible = true
+                action { viewModel.doTapClose() }
             }
-            btnPrimary.action { viewModel.doTapClose() }
-            btnSecondary.isVisible = true
-            btnSecondary.action { viewModel.doTapCancelYes() }
+
+            //  Button just changes visibility and adds action
+            btnSecondary.apply {
+                isVisible = true
+                action { viewModel.doTapCancelYes() }
+            }
         }
     }
 
-    private fun loadViewCard(card: CardModel?) {
+    //  btnAddPayment already styled in xml
+    //  btnPrimary restyled and given action based on enabled state. 
+    private fun loadDefaultState(card: CardModel?) {
         viewBinding.apply {
-            btnPolicy.action { viewModel.doTapPolicy() }
-
             card?.let {
+                //  Populates child views of viewCardBg with card data
                 viewCardBg.isHidden = false
-
-                //  Populate view specifically related to card data
                 imgCard.setImageResource(it.imageName)
                 lblType.text = getString(card.typeText)
                 lblNumber.text(it.number)
-                viewCard.isHidden = false
 
                 btnAddPayment.isHidden = true
-                btnPrimary.isHidden = false
                 btnPrimary.action { viewModel.doTapBook() }
             } ?: run {
                 viewCardBg.isHidden = true
-                btnAddPayment.isHidden = false
-                btnAddPayment.action { viewModel.doTapAddPayment() }
-                btnPrimary.isEnabled = false
-                btnPrimary.isHidden = false
-                btnPrimary.bgColor(R.color.grey)
+
+                btnAddPayment.apply {
+                    isHidden = false
+                    action { viewModel.doTapAddPayment() }
+                }
+
+                btnPrimary.apply {
+                    isEnabled = false
+                    btnPrimary.bgColor(R.color.grey)
+                }
             }
         }
     }
