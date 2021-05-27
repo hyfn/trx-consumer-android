@@ -12,7 +12,6 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentRegisterBinding
 import com.trx.consumer.extensions.action
-import com.trx.consumer.extensions.setPrimaryEnabled
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.screens.erroralert.ErrorAlertModel
@@ -20,14 +19,8 @@ import com.trx.consumer.screens.update.UpdateViewState
 
 class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
-    //region Objects
-
     private val viewModel: RegisterViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentRegisterBinding::bind)
-
-    //endregion
-
-    //region Initializers
 
     override fun bind() {
         viewBinding.apply {
@@ -48,7 +41,6 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventLoadProfile.observe(viewLifecycleOwner, handleLoadProfile)
-            eventLoadButton.observe(viewLifecycleOwner, handleLoadButton)
             eventShowError.observe(viewLifecycleOwner, handleShowError)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
             eventTapLogin.observe(viewLifecycleOwner, handleTapLogin)
@@ -60,10 +52,6 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
             doLoadView()
         }
     }
-
-    //endregion
-
-    //region Handlers
 
     private val handleLoadView = Observer<Void> {
         viewBinding.apply {
@@ -90,30 +78,6 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         }
     }
 
-    private val handleLoadButton = Observer<Boolean> { enabled ->
-        viewBinding.btnCreateAccount.setPrimaryEnabled(enabled)
-    }
-
-    private val handleLoadProfile = Observer<Void> {
-        NavigationManager.shared.dismiss(this, R.id.update_fragment, UpdateViewState.CREATE)
-    }
-
-    private val handleTapBack = Observer<Void> {
-        NavigationManager.shared.dismiss(this)
-    }
-
-    override fun onBackPressed() {
-        viewModel.doTapBack()
-    }
-
-    private val handleTapLogin = Observer<Void> {
-        NavigationManager.shared.dismiss(this, R.id.login_fragment)
-    }
-
-    private val handleTapTermsConditions = Observer<Void> {
-        // TODO: Handle displaying Content with terms and conditions
-    }
-
     private val handleShowError = Observer<String> { error ->
         LogManager.log("handleShowError")
         val model = ErrorAlertModel.error(message = error)
@@ -126,17 +90,29 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         NavigationManager.shared.present(this, R.id.error_fragment, model)
     }
 
-    private val handleDismissKeyboard = Observer<Void> {
-        dismissKeyboard()
+    private val handleLoadProfile = Observer<Void> {
+        NavigationManager.shared.dismiss(this, R.id.update_fragment, UpdateViewState.CREATE)
     }
 
     private val handleShowHud = Observer<Boolean> { show ->
         viewBinding.hudView.isVisible = show
     }
 
-    //endregion
+    private val handleTapTermsConditions = Observer<Void> {
+        // TODO: Handle displaying Content with terms and conditions
+    }
 
-    //region Helper Functions
+    private val handleTapLogin = Observer<Void> {
+        NavigationManager.shared.dismiss(this, R.id.login_fragment)
+    }
+
+    private val handleTapBack = Observer<Void> {
+        NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleDismissKeyboard = Observer<Void> {
+        dismissKeyboard()
+    }
 
     private fun dismissKeyboard() {
         viewBinding.apply {
@@ -146,5 +122,7 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         }
     }
 
-    //endregion
+    override fun onBackPressed() {
+        viewModel.doTapBack()
+    }
 }
