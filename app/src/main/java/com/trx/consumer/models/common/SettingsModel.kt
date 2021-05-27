@@ -2,6 +2,7 @@ package com.trx.consumer.models.common
 
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
+import com.trx.consumer.BuildConfig.isVersion2Enabled
 import com.trx.consumer.R
 
 class SettingsModel {
@@ -41,14 +42,27 @@ class SettingsModel {
             }
 
         fun list(user: UserModel?): List<Any> {
-            return listOf(
-                create(null, SettingsType.SHOP),
-                create(null, SettingsType.GETTING_STARTED),
-                create(null, SettingsType.CONTACT_SUPPORT),
-                create(null, SettingsType.TERMS_AND_CONDITIONS),
-                0,
-                create(null, SettingsType.LOGOUT)
-            )
+            return if (isVersion2Enabled) {
+                listOf(
+                    create(user, SettingsType.SUBSCRIPTIONS),
+                    0,
+                    create(null, SettingsType.SHOP),
+                    create(null, SettingsType.GETTING_STARTED),
+                    create(null, SettingsType.CONTACT_SUPPORT),
+                    create(null, SettingsType.TERMS_AND_CONDITIONS),
+                    0,
+                    create(null, SettingsType.LOGOUT)
+                )
+            } else {
+                listOf(
+                    create(null, SettingsType.SHOP),
+                    create(null, SettingsType.GETTING_STARTED),
+                    create(null, SettingsType.CONTACT_SUPPORT),
+                    create(null, SettingsType.TERMS_AND_CONDITIONS),
+                    0,
+                    create(null, SettingsType.LOGOUT)
+                )
+            }
         }
     }
 }

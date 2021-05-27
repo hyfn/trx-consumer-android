@@ -38,6 +38,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
+            eventTapSubscriptions.observe(viewLifecycleOwner, handleTapSubscriptions)
             eventTapShop.observe(viewLifecycleOwner, handleTapShop)
             eventTapGettingStarted.observe(viewLifecycleOwner, handleTapGetStarted)
             eventTapContactSupport.observe(viewLifecycleOwner, handleTapContactSupport)
@@ -58,6 +59,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         LogManager.log("handleLoadView")
         viewBinding.lblVersion.text = UtilityManager.shared.versionDisplay()
         adapter.update(list)
+    }
+
+    private val handleTapSubscriptions = Observer<Void> {
+        LogManager.log("handleTapSubscriptions")
+        NavigationManager.shared.present(this, R.id.subscriptions_fragment)
     }
 
     private val handleTapShop = Observer<Void> {
