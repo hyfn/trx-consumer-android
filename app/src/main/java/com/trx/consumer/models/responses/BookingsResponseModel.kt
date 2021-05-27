@@ -7,7 +7,7 @@ import com.trx.consumer.models.common.CalendarModel
 import com.trx.consumer.models.common.DaysModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.states.CalendarViewState
-import com.trx.consumer.screens.workout.WorkoutViewState
+import com.trx.consumer.models.states.WorkoutViewState
 import org.json.JSONObject
 import java.util.Date
 

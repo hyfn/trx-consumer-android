@@ -7,7 +7,7 @@ import com.trx.consumer.extensions.format
 import com.trx.consumer.extensions.isToday
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.BookingViewState
-import com.trx.consumer.screens.workout.WorkoutViewState
+import com.trx.consumer.models.states.WorkoutViewState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.time.Instant
@@ -35,6 +35,9 @@ class WorkoutModel(
     val bookingTimestamp: Double = 0.0,
     var video: VideoModel = VideoModel()
 ) : Parcelable {
+
+    val amount: String
+        get() = "$${priceInCents / 100.00}"
 
     override fun equals(other: Any?): Boolean {
         return other === this || (other is WorkoutModel && other.identifier == identifier)
@@ -68,6 +71,8 @@ class WorkoutModel(
 
     val time: String
         get() = date.format("h:mm a", zone = TimeZone.getDefault())
+
+    private var currency: String = "usd"
 
     val workoutState: WorkoutViewState
         get() = WorkoutViewState.from(mode)
@@ -109,6 +114,34 @@ class WorkoutModel(
             else -> BookingViewState.BOOK
         }
 
+    fun paramsSessionConfirm(invoiceId: String): HashMap<String, Any> =
+        hashMapOf(
+            "eventKey" to identifier,
+            "invoiceId" to invoiceId
+        )
+
+    val paramsSessionIntent: HashMap<String, Any>
+        get() =
+            hashMapOf(
+                "currency" to currency,
+                "eventKey" to identifier
+            )
+
+    val paramsProgramIntent: HashMap<String, Any>
+        get() =
+            hashMapOf(
+                "currency" to currency,
+                "eventKey" to identifier,
+                "bookings" to listOf(bookingTimestamp)
+            )
+
+    fun paramsProgramConfirm(invoiceId: String): HashMap<String, Any> =
+        hashMapOf(
+            "eventKey" to identifier,
+            "invoiceId" to invoiceId,
+            "bookings" to listOf(bookingTimestamp)
+        )
+
     companion object {
 
         fun parse(jsonObject: JSONObject): WorkoutModel {
@@ -149,7 +182,7 @@ class WorkoutModel(
                 state = BookingState.VIEW,
                 trainer = TrainerModel.test(),
                 video = VideoModel.test(),
-                mode = WorkoutViewState.Companion.Constant.ONE_ON_ONE
+                mode = WorkoutViewState.ONE_ON_ONE_MODE
             )
         }
 
@@ -163,7 +196,8 @@ class WorkoutModel(
                 state = BookingState.VIEW,
                 trainer = TrainerModel.test(),
                 video = VideoModel.test(),
-                mode = WorkoutViewState.Companion.Constant.LARGE_GROUP
+                mode = WorkoutViewState.LARGE_GROUP_MODE,
+                priceInCents = 1999,
             )
         }
 

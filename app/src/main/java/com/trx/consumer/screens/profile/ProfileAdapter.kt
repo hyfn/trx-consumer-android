@@ -7,11 +7,11 @@ import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.states.WorkoutViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutViewHolder
 import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewHolder
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewListener
-import com.trx.consumer.screens.workout.WorkoutViewState
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
