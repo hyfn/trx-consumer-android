@@ -38,6 +38,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
         viewBinding.apply {
             btnTest.action { viewModel.doTapTest() }
+            lblUserName.action { viewModel.doTapUser() }
             viewBanner.btnPrimary.action { viewModel.doTapBanner() }
             viewVideos.rvVideoWorkouts.adapter = videosAdapter
             viewPromos.rvPromos.adapter = promoAdapter
@@ -53,6 +54,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             eventLoadBanner.observe(viewLifecycleOwner, handleLoadBanner)
 
             eventTapBanner.observe(viewLifecycleOwner, handleTapBanner)
+            eventTapUser.observe(viewLifecycleOwner, handleTapUser)
 
             eventShowPromo.observe(viewLifecycleOwner, handleShowPromo)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
@@ -99,6 +101,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val handleTapBanner = Observer<String> { url ->
         LogManager.log("handleTapBanner: $url")
         if (url.isNotEmpty()) UtilityManager.shared.openUrl(requireContext(), url)
+    }
+
+    private val handleTapUser = Observer<Void> {
+        LogManager.log("handleTapUser")
+        NavigationManager.shared.present(this, R.id.profile_fragment)
     }
 
     private val handleShowPromo = Observer<PromoModel> { promo ->
