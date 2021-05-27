@@ -85,6 +85,14 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <include
+        android:id="@+id/viewLiveBanner"
+        layout="@layout/layout_banner_section"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <com.trx.consumer.common.CommonHudView
         android:id="@+id/hudView"
         android:layout_width="match_parent"
