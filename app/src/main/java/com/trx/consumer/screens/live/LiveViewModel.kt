@@ -2,13 +2,16 @@ package com.trx.consumer.screens.live
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
+import com.trx.consumer.BuildConfig.isVersion2Enabled
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.models.common.BannerModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutCellViewState
 import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.responses.BannerResponseModel
 import com.trx.consumer.models.responses.BookingsResponseModel
 import com.trx.consumer.models.responses.PromosResponseModel
 import com.trx.consumer.models.responses.SessionsResponseModel
@@ -25,10 +28,17 @@ class LiveViewModel @ViewModelInject constructor(
     TrainerProfileListener,
     PromotionListener {
 
+    //region variables
+
+    private var bannerUrlString: String = ""
+
+    //endregion
+
     //region Events
 
     val eventLoadView = CommonLiveEvent<Void>()
 
+    val eventLoadBanner = CommonLiveEvent<BannerModel>()
     val eventLoadPromos = CommonLiveEvent<List<PromoModel>>()
     val eventLoadTrainers = CommonLiveEvent<List<TrainerModel>>()
     val eventLoadWorkoutsToday = CommonLiveEvent<List<WorkoutModel>>()
@@ -43,6 +53,8 @@ class LiveViewModel @ViewModelInject constructor(
     val eventShowVirtualWorkout = CommonLiveEvent<WorkoutModel>()
     val eventLoadViewAllUpcoming = CommonLiveEvent<Void>()
 
+    val eventTapBack = CommonLiveEvent<Void>()
+    val eventTapBanner = CommonLiveEvent<String>()
     val eventTapScheduleToday = CommonLiveEvent<Void>()
     val eventTapScheduleTomorrow = CommonLiveEvent<Void>()
 
@@ -53,10 +65,29 @@ class LiveViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         eventLoadView.call()
-        doLoadPromotions()
-        doLoadSessions()
-        doLoadTrainers()
-        doLoadWorkoutsUpcoming()
+        if (isVersion2Enabled) {
+            doLoadPromotions()
+            doLoadSessions()
+            doLoadTrainers()
+            doLoadWorkoutsUpcoming()
+        } else {
+            doLoadBanner()
+        }
+    }
+
+    private fun doLoadBanner() {
+        viewModelScope.launch {
+            eventShowHud.postValue(true)
+            val response = backendManager.banner()
+            if (response.isSuccess) {
+                val model = BannerResponseModel.parse(response.responseString)
+                model.banner.let { banner ->
+                    eventLoadBanner.postValue(banner)
+                    bannerUrlString = banner.offerButtonLink
+                }
+            }
+            eventShowHud.postValue(false)
+        }
     }
 
     private fun doLoadPromotions() {
@@ -109,6 +140,10 @@ class LiveViewModel @ViewModelInject constructor(
         }
     }
 
+    fun doTapBanner() {
+        eventTapBanner.postValue(bannerUrlString)
+    }
+
     override fun doTapBookLiveWorkout(model: WorkoutModel) {
         if (model.cellViewStatus == WorkoutCellViewState.BOOKED) {
             eventShowBooking.postValue(model)
@@ -140,5 +175,10 @@ class LiveViewModel @ViewModelInject constructor(
     fun doLoadViewAllUpcoming() {
         eventLoadViewAllUpcoming.call()
     }
+
+    fun doTapBack() {
+        eventTapBack.call()
+    }
+
     //endregion
 }

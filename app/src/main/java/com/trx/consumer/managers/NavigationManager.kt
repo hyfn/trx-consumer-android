@@ -36,6 +36,7 @@ class NavigationManager {
         } else {
             listOf(
                 R.id.home_fragment,
+                R.id.live_fragment,
                 R.id.discover_fragment,
                 R.id.settings_fragment
             )
