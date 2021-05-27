@@ -7,6 +7,7 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentLoginBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.extensions.setPrimaryEnabled
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.screens.email.EmailViewState
