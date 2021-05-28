@@ -23,7 +23,7 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
 
     //endregion
 
-    //region Setuo
+    //region Setup
     override fun bind() {
 
         val model = NavigationManager.shared.params(this) as FilterParamsModel

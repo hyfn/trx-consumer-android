@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/EmptyListLabelStyle"
+        android:text="@string/discover_workouts_empty_label" />
+
+</com.trx.consumer.common.CommonView>
