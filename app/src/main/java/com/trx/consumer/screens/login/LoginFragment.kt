@@ -50,6 +50,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             eventShowError.observe(viewLifecycleOwner, handleShowError)
             eventValidateError.observe(viewLifecycleOwner, handleValidateError)
 
+            eventShowOnboarding.observe(viewLifecycleOwner, handleShowOnboarding)
             eventDismissKeyboard.observe(viewLifecycleOwner, handleDismissKeyboard)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
         }
@@ -105,6 +106,11 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     override fun onBackPressed() {
         NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleShowOnboarding = Observer<Void> {
+        LogManager.log("handleShowOnboarding")
+        NavigationManager.shared.present(this, R.id.onboarding_fragment)
     }
 
     private val handleDismissKeyboard = Observer<Void> {

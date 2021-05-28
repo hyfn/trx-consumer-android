@@ -7,6 +7,7 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.format
 import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.responses.UserResponseModel
 import com.trx.consumer.views.input.InputViewListener
@@ -16,7 +17,8 @@ import java.util.Date
 import java.util.TimeZone
 
 class UpdateViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager
+    private val backendManager: BackendManager,
+    private val cacheManager: CacheManager
 ) : BaseViewModel(), InputViewListener {
 
     //region Objects
@@ -58,6 +60,7 @@ class UpdateViewModel @ViewModelInject constructor(
 
     val eventUpdateDate = CommonLiveEvent<String>()
 
+    val eventShowLoggedIn = CommonLiveEvent<Void>()
     val eventShowOnboarding = CommonLiveEvent<Void>()
     val eventShowVerification = CommonLiveEvent<Void>()
     val eventShowHud = CommonLiveEvent<Boolean>()
@@ -112,7 +115,11 @@ class UpdateViewModel @ViewModelInject constructor(
                         if (kIsVerificationEnabled) {
                             eventShowVerification.call()
                         } else {
-                            eventShowOnboarding.call()
+                            if (cacheManager.didShowOnboarding()) {
+                                eventShowLoggedIn.call()
+                            } else {
+                                eventShowOnboarding.call()
+                            }
                         }
                     }
                     UpdateViewState.EDIT -> eventLoadSuccess.call()

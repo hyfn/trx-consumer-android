@@ -52,6 +52,7 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
 
             eventUpdateDate.observe(viewLifecycleOwner, handleUpdateDate)
 
+            eventShowLoggedIn.observe(viewLifecycleOwner, handleShowLoggedIn)
             eventShowOnboarding.observe(viewLifecycleOwner, handleShowOnboarding)
             eventShowVerification.observe(viewLifecycleOwner, handleShowVerification)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
@@ -108,6 +109,11 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
 
     private val handleUpdateDate = Observer<String> {
         viewBinding.ivBirthDate.text = it
+    }
+
+    private val handleShowLoggedIn = Observer<Void> {
+        LogManager.log("handleShowOnboarding")
+        NavigationManager.shared.loggedInLaunchSequence(this)
     }
 
     private val handleShowOnboarding = Observer<Void> {

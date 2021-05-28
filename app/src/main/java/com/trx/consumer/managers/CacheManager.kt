@@ -21,6 +21,8 @@ class CacheManager(context: Context) {
         val kDidLaunchFromNotification = preferencesKey<String>("DidLaunchFromNotification")
         val kLastFetchFirebaseDate = preferencesKey<String>("LastFetchFirebaseDate")
         val kCurrentUser = preferencesKey<String>("CurrentUser")
+        val kDidShowOnboarding = preferencesKey<Boolean>("DidShowOnboarding")
+        val kDidShowRestore = preferencesKey<Boolean>("DidShowRestore")
     }
 
     suspend fun isLoggedIn(): Boolean {
@@ -80,5 +82,37 @@ class CacheManager(context: Context) {
 
     fun isUserLoggedIn(): Boolean {
         return false
+    }
+
+    suspend fun didShowOnboarding(): Boolean {
+        return withContext(Dispatchers.IO) {
+            dataStore.data.map {
+                it[kDidShowOnboarding]
+            }.firstOrNull() ?: false
+        }
+    }
+
+    suspend fun didShowOnboarding(value: Boolean) {
+        withContext(Dispatchers.IO) {
+            dataStore.edit {
+                it[kDidShowOnboarding] = value
+            }
+        }
+    }
+
+    suspend fun didShowRestore(): Boolean {
+        return withContext(Dispatchers.IO) {
+            dataStore.data.map {
+                it[kDidShowRestore]
+            }.firstOrNull() ?: false
+        }
+    }
+
+    suspend fun didShowRestore(value: Boolean) {
+        withContext(Dispatchers.IO) {
+            dataStore.edit {
+                it[kDidShowRestore] = value
+            }
+        }
     }
 }
