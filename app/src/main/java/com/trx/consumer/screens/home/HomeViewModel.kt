@@ -40,6 +40,7 @@ class HomeViewModel @ViewModelInject constructor(
     val eventTapTest = CommonLiveEvent<Void>()
     val eventTapBanner = CommonLiveEvent<String>()
     val eventTapUser = CommonLiveEvent<Void>()
+    val eventShowVideo = CommonLiveEvent<VideoModel>()
 
     val eventShowPromo = CommonLiveEvent<PromoModel>()
     val eventShowHud = CommonLiveEvent<Boolean>()
@@ -106,6 +107,7 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
     override fun doTapVideo(model: VideoModel) {
+        eventShowVideo.postValue(model)
         analyticsManager.trackAmplitude(AnalyticsEventModel.VIEW_VIDEO_DETAIL_ID, model.id)
     }
 

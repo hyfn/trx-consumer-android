@@ -54,6 +54,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
             eventTapBanner.observe(viewLifecycleOwner, handleTapBanner)
             eventTapUser.observe(viewLifecycleOwner, handleTapUser)
+            eventShowVideo.observe(viewLifecycleOwner, handleShowVideo)
 
             eventShowPromo.observe(viewLifecycleOwner, handleShowPromo)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
@@ -102,6 +103,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val handleTapUser = Observer<Void> {
         LogManager.log("handleTapUser")
         NavigationManager.shared.present(this, R.id.profile_fragment)
+    }
+
+    private val handleShowVideo = Observer<VideoModel> { model ->
+        LogManager.log("handleShowVideo")
+        NavigationManager.shared.present(this, R.id.workout_fragment, model)
     }
 
     private val handleShowPromo = Observer<PromoModel> { promo ->
