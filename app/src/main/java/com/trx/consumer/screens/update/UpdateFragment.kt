@@ -8,6 +8,7 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentUpdateBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
+import com.trx.consumer.extensions.setPrimaryEnabled
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.AlertModel
@@ -87,12 +88,7 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
     }
 
     private val handleLoadButton = Observer<Boolean> { enabled ->
-        viewBinding.apply {
-            btnContinue.apply {
-                isEnabled = enabled
-                bgColor(if (enabled) R.color.black else R.color.greyDark)
-            }
-        }
+        viewBinding.btnContinue.setPrimaryEnabled(enabled)
     }
 
     private val handleLoadSuccess = Observer<Void> {

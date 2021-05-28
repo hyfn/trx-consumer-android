@@ -6,27 +6,21 @@ import org.json.JSONObject
 
 @Parcelize
 class FilterOptionsModel(
-    var identifier: String = "",
-    var value: String = "",
+    val identifier: String = "",
+    val value: String = "",
     var isSelected: Boolean = false
 ) : Parcelable {
 
     companion object {
-        fun parse(jsonObject: JSONObject?): List<FilterOptionsModel> {
-            return mutableListOf<FilterOptionsModel>().apply {
-                jsonObject?.let { safeJson ->
-                    val keys: Iterator<Any> = safeJson.keys()
-                    while (keys.hasNext()) {
-                        add(
-                            FilterOptionsModel().apply {
-                                val key = keys.next() as String
-                                identifier = key
-                                value = safeJson.optString(key)
-                            }
-                        )
-                    }
-                }
+
+        fun parse(jsonObject: JSONObject): List<FilterOptionsModel> {
+            val options = mutableListOf<FilterOptionsModel>()
+            val keys = jsonObject.keys()
+            keys.forEach { key ->
+                val model = FilterOptionsModel(identifier = key, value = jsonObject.optString(key))
+                options.add(model)
             }
+            return options
         }
     }
 

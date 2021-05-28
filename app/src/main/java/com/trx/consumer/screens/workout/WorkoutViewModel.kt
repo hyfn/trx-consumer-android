@@ -12,6 +12,7 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.BookingsResponseModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.BookingViewState
+import com.trx.consumer.models.states.WorkoutViewState
 import kotlinx.coroutines.launch
 
 class WorkoutViewModel @ViewModelInject constructor(

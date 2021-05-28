@@ -16,17 +16,10 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        instance = this
-
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
 
         configManager.configure(this)
-    }
-
-    companion object {
-        lateinit var instance: MainApplication
-            private set
     }
 }

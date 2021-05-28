@@ -61,6 +61,7 @@
                 android:gravity="center"
                 android:textColor="@color/greyDark"
                 android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvSettings"
                 tools:text="App Version" />
         </com.trx.consumer.common.CommonView>

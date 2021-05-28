@@ -9,7 +9,7 @@ import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.models.params.FilterParamsModel
-import com.trx.consumer.models.responses.VideoResponseModel
+import com.trx.consumer.models.responses.VideosResponseModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 import kotlinx.coroutines.launch
@@ -40,13 +40,18 @@ class DiscoverViewModel @ViewModelInject constructor(
         filters = params.lstFilters
         viewModelScope.launch {
             eventShowHud.postValue(true)
-            val response = backendManager.videos(params = params.selectedFilterParams)
+            val paramsToSend = params.params
+            val response = backendManager.videos(paramsToSend)
             if (response.isSuccess) {
-                val model = VideoResponseModel.parse(response.responseString)
-                workouts = model.workouts
+                val model = VideosResponseModel.parse(response.responseString)
+                workouts = if (paramsToSend.keys.any()) model.results else model.workouts
                 collections = model.collections
                 programs = model.programs
-                if (filters.isEmpty()) filters = model.filters
+                if (filters.isEmpty()) {
+                    filters = model.filters.filter {
+                        it.identifier.isNotEmpty() && it.values.isNotEmpty()
+                    }
+                }
             }
             eventShowHud.postValue(false)
             params.lstFilters = filters

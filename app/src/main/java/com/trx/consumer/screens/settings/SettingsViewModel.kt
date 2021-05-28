@@ -6,6 +6,9 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
+import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.SettingsModel
+import com.trx.consumer.models.common.SettingsType
 import com.trx.consumer.screens.settings.option.SettingsOptionListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,20 +19,22 @@ class SettingsViewModel @ViewModelInject constructor(
     private val cacheManager: CacheManager
 ) : BaseViewModel(), SettingsOptionListener {
 
+    //region Events
+
+    val eventLoadView = CommonLiveEvent<List<Any>>()
     val eventTapSubscriptions = CommonLiveEvent<Void>()
-    val eventTapTermsAndConditions = CommonLiveEvent<Void>()
-    val eventTapContactSupport = CommonLiveEvent<Void>()
-    val eventTapGettingStarted = CommonLiveEvent<Void>()
     val eventTapShop = CommonLiveEvent<Void>()
+    val eventTapGettingStarted = CommonLiveEvent<Void>()
+    val eventTapContactSupport = CommonLiveEvent<Void>()
+    val eventTapTermsAndConditions = CommonLiveEvent<Void>()
     val eventTapLogout = CommonLiveEvent<Void>()
     val eventTapBack = CommonLiveEvent<Void>()
-    val eventLoadView = CommonLiveEvent<List<Any>>()
 
     val eventLogOut = CommonLiveEvent<Void>()
 
-    fun doTapBack() {
-        eventTapBack.call()
-    }
+    //endregion
+
+    //region Actions
 
     fun doLoadView() {
         viewModelScope.launch {
@@ -39,13 +44,6 @@ class SettingsViewModel @ViewModelInject constructor(
         }
     }
 
-    fun updateBeforeLogout() {
-        CoroutineScope(Dispatchers.IO).launch {
-            backendManager.logout()
-        }
-        eventLogOut.call()
-    }
-
     override fun doTapSettings(model: SettingsModel) {
         when (model.type) {
             SettingsType.SUBSCRIPTIONS -> eventTapSubscriptions.call()
@@ -53,9 +51,21 @@ class SettingsViewModel @ViewModelInject constructor(
             SettingsType.GETTING_STARTED -> eventTapGettingStarted.call()
             SettingsType.CONTACT_SUPPORT -> eventTapContactSupport.call()
             SettingsType.TERMS_AND_CONDITIONS -> eventTapTermsAndConditions.call()
-            SettingsType.RESTORE -> {
-            }
+            SettingsType.RESTORE -> LogManager.log("doTapSetting - RESTORE")
             SettingsType.LOGOUT -> eventTapLogout.call()
         }
     }
+
+    fun doTapBack() {
+        eventTapBack.call()
+    }
+
+    fun updateBeforeLogout() {
+        CoroutineScope(Dispatchers.IO).launch {
+            backendManager.logout()
+        }
+        eventLogOut.call()
+    }
+
+    //endregion
 }

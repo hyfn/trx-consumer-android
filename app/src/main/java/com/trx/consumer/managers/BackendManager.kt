@@ -66,6 +66,60 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return call(RequestModel(endpoint = EndpointModel.BANNER, path = path, params = null))
     }
 
+    suspend fun bookCancel(bookingKey: String): ResponseModel {
+        val path = EndpointModel.BOOK_CANCEL.path + "/$bookingKey"
+        return call(RequestModel(endpoint = EndpointModel.BOOK_CANCEL, path = path, params = null))
+    }
+
+    suspend fun bookings(): ResponseModel {
+        val path = EndpointModel.BOOKINGS.path
+        return call(RequestModel(endpoint = EndpointModel.BOOKINGS, path = path, params = null))
+    }
+
+    suspend fun bookProgramConfirm(params: HashMap<String, Any>): ResponseModel {
+        val path = EndpointModel.BOOK_PROGRAM_CONFIRM.path
+        return call(
+            RequestModel(
+                endpoint = EndpointModel.BOOK_PROGRAM_CONFIRM,
+                path = path,
+                params = params
+            )
+        )
+    }
+
+    suspend fun bookProgramIntent(params: HashMap<String, Any>): ResponseModel {
+        val path = EndpointModel.BOOK_PROGRAM_INTENT.path
+        return call(
+            RequestModel(
+                endpoint = EndpointModel.BOOK_PROGRAM_INTENT,
+                path = path,
+                params = params
+            )
+        )
+    }
+
+    suspend fun bookSessionConfirm(params: HashMap<String, Any>): ResponseModel {
+        val path = EndpointModel.BOOK_SESSION_CONFIRM.path
+        return call(
+            RequestModel(
+                endpoint = EndpointModel.BOOK_SESSION_CONFIRM,
+                path = path,
+                params = params
+            )
+        )
+    }
+
+    suspend fun bookSessionIntent(params: HashMap<String, Any>): ResponseModel {
+        val path = EndpointModel.BOOK_SESSION_INTENT.path
+        return call(
+            RequestModel(
+                endpoint = EndpointModel.BOOK_SESSION_INTENT,
+                path = path,
+                params = params
+            )
+        )
+    }
+
     suspend fun login(email: String, password: String): ResponseModel {
         val params = hashMapOf<String, Any>(
             "email" to email,
@@ -152,6 +206,7 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         if (response.isSuccess) {
             val model = UserResponseModel.parse(response.responseString)
             cacheManager.user(model.user)
+            IAPManager.shared.identify(model.user.uid)
         }
         return response
     }
@@ -175,11 +230,6 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
     suspend fun videos(params: HashMap<String, Any>? = null): ResponseModel {
         val path = EndpointModel.VIDEOS.path
         return call(RequestModel(endpoint = EndpointModel.VIDEOS, path = path, params = params))
-    }
-
-    suspend fun bookings(): ResponseModel {
-        val path = EndpointModel.BOOKINGS.path
-        return call(RequestModel(endpoint = EndpointModel.BOOKINGS, path = path, params = null))
     }
 
     suspend fun trainers(): ResponseModel {

@@ -7,7 +7,7 @@ import com.trx.consumer.extensions.format
 import com.trx.consumer.extensions.isToday
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.BookingViewState
-import com.trx.consumer.screens.workout.WorkoutViewState
+import com.trx.consumer.models.states.WorkoutViewState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.time.Instant
@@ -35,6 +35,9 @@ class WorkoutModel(
     val bookingTimestamp: Double = 0.0,
     var video: VideoModel = VideoModel()
 ) : Parcelable {
+
+    val amount: String
+        get() = "$${priceInCents / 100.00}"
 
     override fun equals(other: Any?): Boolean {
         return other === this || (other is WorkoutModel && other.identifier == identifier)
@@ -69,6 +72,8 @@ class WorkoutModel(
     val time: String
         get() = date.format("h:mm a", zone = TimeZone.getDefault())
 
+    private var currency: String = "usd"
+
     val workoutState: WorkoutViewState
         get() = WorkoutViewState.from(mode)
 
@@ -91,7 +96,9 @@ class WorkoutModel(
         get() {
             if (workoutState == WorkoutViewState.VIRTUAL) {
                 val minLeft = date.elapsedMin()
-                if (minLeft < 0 && abs(minLeft) < kMinutesBeforeCanJoin) WorkoutCellViewState.SOON
+                if (minLeft < 0 && abs(minLeft) < kMinutesBeforeCanJoin) {
+                    return WorkoutCellViewState.SOON
+                }
             }
             return WorkoutCellViewState.VIEW
         }
@@ -106,6 +113,34 @@ class WorkoutModel(
             BookingState.DISABLED -> BookingViewState.VIDEO
             else -> BookingViewState.BOOK
         }
+
+    fun paramsSessionConfirm(invoiceId: String): HashMap<String, Any> =
+        hashMapOf(
+            "eventKey" to identifier,
+            "invoiceId" to invoiceId
+        )
+
+    val paramsSessionIntent: HashMap<String, Any>
+        get() =
+            hashMapOf(
+                "currency" to currency,
+                "eventKey" to identifier
+            )
+
+    val paramsProgramIntent: HashMap<String, Any>
+        get() =
+            hashMapOf(
+                "currency" to currency,
+                "eventKey" to identifier,
+                "bookings" to listOf(bookingTimestamp)
+            )
+
+    fun paramsProgramConfirm(invoiceId: String): HashMap<String, Any> =
+        hashMapOf(
+            "eventKey" to identifier,
+            "invoiceId" to invoiceId,
+            "bookings" to listOf(bookingTimestamp)
+        )
 
     companion object {
 
@@ -132,7 +167,26 @@ class WorkoutModel(
             ).apply { trainer.key = trainerKey }
         }
 
-        fun test(): WorkoutModel {
+        fun testVirtual(status: WorkoutCellViewState = WorkoutCellViewState.VIEW): WorkoutModel {
+            val date = if (status == WorkoutCellViewState.SOON) {
+                Date(System.currentTimeMillis() + 300000)
+            } else {
+                Date(1716619600000)
+            }
+            return WorkoutModel(
+                identifier = "123",
+                durationInMinutes = 60,
+                imageUrl = "https://cf-images.us-east-1.prod.boltdns.net/v1/jit/6204326362001/9ad5d77c-99f7-4c65-8a2d-40ac2546fd01/main/1280x720/55s189ms/match/image.jpg",
+                title = "Virtual Training Session with Jamie",
+                startsAt = date.time,
+                state = BookingState.VIEW,
+                trainer = TrainerModel.test(),
+                video = VideoModel.test(),
+                mode = WorkoutViewState.ONE_ON_ONE_MODE
+            )
+        }
+
+        fun testLive(): WorkoutModel {
             return WorkoutModel(
                 identifier = "123",
                 durationInMinutes = 60,
@@ -141,12 +195,18 @@ class WorkoutModel(
                 startsAt = 1615917600000,
                 state = BookingState.VIEW,
                 trainer = TrainerModel.test(),
-                video = VideoModel.test()
+                video = VideoModel.test(),
+                mode = WorkoutViewState.LARGE_GROUP_MODE,
+                priceInCents = 1999,
             )
         }
 
-        fun testList(count: Int): List<WorkoutModel> {
-            return (0 until count).map { test() }
+        fun testListLive(count: Int): List<WorkoutModel> {
+            return (0 until count).map { testLive() }
+        }
+
+        fun testListVirtual(count: Int, status: WorkoutCellViewState): List<WorkoutModel> {
+            return (0 until count).map { testVirtual(status) }
         }
     }
 }

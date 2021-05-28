@@ -7,6 +7,7 @@ import java.util.Date
 import kotlin.math.roundToLong
 
 class UserModel(
+    val uid: String = "",
     var birthday: String = "",
     val card: CardModel? = null,
     val cardPaymentMethodId: String? = null,
@@ -60,6 +61,7 @@ class UserModel(
         fun parse(jsonObject: JSONObject): UserModel {
 
             return UserModel(
+                uid = jsonObject.optString("uid"),
                 birthday = jsonObject.optString("birthday"),
                 email = jsonObject.optString("email"),
                 zipCode = jsonObject.optString("postalCode"),

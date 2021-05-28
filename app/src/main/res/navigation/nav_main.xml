@@ -174,4 +174,10 @@
         android:label="AlertFragment"
         tools:layout="@layout/fragment_alert" />
 
+    <dialog
+        android:id="@+id/booking_alert_fragment"
+        android:name="com.trx.consumer.screens.bookingalert.BookingAlertFragment"
+        android:label="BookingAlertFragment"
+        tools:layout="@layout/fragment_booking_alert" />
+
 </navigation>

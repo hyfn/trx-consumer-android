@@ -4,7 +4,7 @@ import com.trx.consumer.extensions.isToday
 import com.trx.consumer.extensions.isTomorrow
 import com.trx.consumer.extensions.map
 import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.screens.workout.WorkoutViewState
+import com.trx.consumer.models.states.WorkoutViewState
 import org.json.JSONObject
 import java.time.DayOfWeek
 import java.time.LocalDate

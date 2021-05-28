@@ -7,6 +7,7 @@
 
     <string name="alert_button_title_dismiss">Dismiss</string>
     <string name="alert_primary_back">Take me back</string>
+    <string name="alert_primary_done">DONE</string>
     <string name="alert_primary_keep_plan">No, keep my plan</string>
     <string name="alert_primary_submit_payment">Submit Payment</string>
     <string name="alert_secondary_cancel">Cancel</string>
@@ -18,7 +19,18 @@
     <string name="alert_logout_message">You will be logged out</string>
     <string name="alert_logout_confirm_label">Yes, log me out</string>
 
+    <string name="booking_alert_book_title">Book Session</string>
+    <string name="booking_alert_book_price_button_label">Book (%s)</string>
+    <string name="booking_alert_cancel_title">Cancel Session</string>
+    <string name="booking_alert_cancel_no_button_label">No, Don\'t Cancel</string>
+    <string name="booking_alert_cancel_policy_button_label">Please note our <u>Cancellation Policy</u></string>
+    <string name="booking_alert_cancel_yes_button_label">Yes, Cancel</string>
+    <string name="booking_alert_dismiss_button_label">Dismiss</string>
+    <string name="booking_alert_join_title">Join Session</string>
+    <string name="booking_alert_payment_button_label">Add Payment</string>
+    <string name="booking_view_state_book_label_alt">BOOK</string>
     <string name="booking_view_state_book_label">BOOK SESSION</string>
+
     <string name="booking_view_state_booked_label">BOOKED</string>
     <string name="booking_view_state_view_label">VIEW</string>
     <string name="booking_view_state_video_label">START WORKOUT</string>
@@ -43,6 +55,13 @@
     <string name="calendarview_this_week">This Week</string>
 
     <string name="date_picker_done_button_label">Done</string>
+
+    <string name="discover_tab_workouts_label">WORKOUTS</string>
+    <string name="discover_tab_collections_label">COLLECTIONS</string>
+    <string name="discover_tab_programs_label">PROGRAMS</string>
+    <string name="discover_workouts_empty_label">There are no workouts</string>
+    <string name="discover_collections_empty_label">There are no collections</string>
+    <string name="discover_programs_empty_label">There are no programs</string>
 
     <string name="home_button_test_utility_label">TEST</string>
     <string name="home_user_name_label">Welcome, %1$s</string>
@@ -107,7 +126,7 @@
     <string name="plans_last_bill_date_label">Last Bill Date:</string>
     <string name="plans_next_bill_date_label">Next Bill Date:</string>
 
-    <string name="promotions_top_title_label">FOR YOU</string>
+    <string name="promos_top_title_label">FOR YOU</string>
 
     <string name="player_participants_label">%1$d Participants</string>
     <string name="player_end_workout_button_label">END WORKOUT</string>
@@ -159,6 +178,7 @@
     <string name="test_utility_settings_label">Settings</string>
     <string name="test_utility_workout_label">Workout</string>
     <string name="test_utility_trainer_label">Trainer</string>
+    <string name="test_utility_booking_alert_label">Booking Alert</string>
     <string name="test_utility_schedule_label">Schedule</string>
 
     <string name="trainer_about_me_label">About Me</string>
@@ -169,16 +189,28 @@
     <string name="trainer_button_see_all">SEE ALL   →</string>
     <string name="trainer_for_you_label">For You</string>
 
-    <string name="video_tab_workouts_label">WORKOUTS</string>
-    <string name="video_tab_collections_label">COLLECTIONS</string>
-    <string name="video_tab_programs_label">PROGRAMS</string>
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 
     <string name="videos_profile_label">Profile</string>
 
+    <string name="virtual_book_with_label_title">BOOK WITH %s</string>
     <string name="virtual_booking_button_title_book">BOOK</string>
     <string name="virtual_booking_button_title_soon">JOIN NOW</string>
     <string name="virtual_booking_button_title_future">JOIN</string>
+
+    <string name="virtual_workout_view_trainer_title">Virtual Training Session with %s</string>
+    <string name="virtual_workout_view_trainer_subtitle">See %s\'s availability</string>
+    <string name="virtual_workout_view_match_me_title">Match Me</string>
+    <string name="virtual_workout_view_match_me_subtitle">FIND A NEW TRAINER</string>
+
+    <string name="virtual_upcoming_button_label">VIEW ALL →</string>
+    <string name="virtual_upcoming_title_label">UPCOMING</string>
+    <string name="virtual_trainers_title_label">FEATURED TRAINERS</string>
+    <string name="virtual_calendar_title_label">BOOKED THIS WEEK</string>
+    <string name="virtual_calendar_button_label">SCHEDULE →</string>
+    <string name="virtual_match_me_title_label">Find Your TRX Trainer</string>
+    <string name="virtual_match_me_subtitle_label">There are thousands of fitness professionals in our diverse network, but who\'s right for you?</string>
+    <string name="virtual_match_me_button_title">MATCH ME NOW</string>
 
     <string name="register_title">Register</string>
     <string name="register_sign_in_label">Already have an account? <b><u>Log in</u></b></string>

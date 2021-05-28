@@ -39,7 +39,7 @@ class TrainerFragment : BaseFragment(R.layout.fragment_trainer) {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
 
             doLoadView(TrainerModel.test())
-            loadUpComingClasses(WorkoutModel.testList(5))
+            loadUpComingClasses(WorkoutModel.testListLive(5))
             loadOnDemandClasses(VideoModel.testList(5))
         }
     }

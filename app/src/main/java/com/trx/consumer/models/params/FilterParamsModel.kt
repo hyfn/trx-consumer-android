@@ -6,42 +6,30 @@ import com.trx.consumer.models.common.FilterOptionsModel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class FilterParamsModel(
+class FilterParamsModel(
     var selectedModel: FilterModel = FilterModel(),
     var lstFilters: List<FilterModel> = listOf()
 ) : Parcelable {
 
-    val selectedFilterParams: HashMap<String, Any>?
+    val params: HashMap<String, Any>
         get() {
-            val params = hashMapOf<String, Any>().apply {
-                lstFilters.forEach { filter ->
-                    val selectedFilter = filter.values.filter { it.isSelected }
-                    if (selectedFilter.isNotEmpty()) {
-                        /* initially user can select one option in each filter. logic below works
-                          key and value as string when list has one element and list when element
-                          more that one. Can change in future */
-                        val optList = selectedFilter.map { it.identifier }
-                        put(filter.title, if (optList.size == 1) optList.first() else optList)
-                    }
+            val params = hashMapOf<String, Any>()
+            lstFilters.forEach { filter ->
+                filter.values.find { it.isSelected }?.let { value ->
+                    params[filter.identifier] = value.identifier
                 }
             }
-            return if (params.isNotEmpty()) params else null
+            return params
         }
 
     fun copyModel(): FilterParamsModel {
-        val list = mutableListOf<FilterModel>().apply {
-            lstFilters.forEach {
-                add(
-                    FilterModel(
-                        it.title,
-                        mutableListOf<FilterOptionsModel>().apply {
-                            it.values.forEach { opt ->
-                                add(FilterOptionsModel(opt.identifier, opt.value, opt.isSelected))
-                            }
-                        }
-                    )
-                )
+        val list = mutableListOf<FilterModel>()
+        lstFilters.forEach { filter ->
+            val options = mutableListOf<FilterOptionsModel>()
+            filter.values.forEach { opt ->
+                options.add(FilterOptionsModel(opt.identifier, opt.value, opt.isSelected))
             }
+            list.add(FilterModel(filter.identifier, filter.title, options))
         }
         return FilterParamsModel(selectedModel = FilterModel(), lstFilters = list)
     }

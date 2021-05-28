@@ -7,22 +7,21 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.VideoModel
-import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.SessionsResponseModel
-import com.trx.consumer.screens.liveworkout.LiveWorkoutListener
-import com.trx.consumer.screens.promotion.PromotionListener
+import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
+import com.trx.consumer.screens.promotion.PromoViewListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
-import com.trx.consumer.screens.virtualworkout.VirtualWorkoutListener
+import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewListener
 import kotlinx.coroutines.launch
 
 class TestUtilityViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
 ) : BaseViewModel(),
-    LiveWorkoutListener,
-    VirtualWorkoutListener,
+    LiveWorkoutViewListener,
+    VirtualWorkoutViewListener,
     VideoWorkoutListener,
-    PromotionListener {
+    PromoViewListener {
 
     //region Events
 
@@ -40,9 +39,10 @@ class TestUtilityViewModel @ViewModelInject constructor(
     val eventTapSettings = CommonLiveEvent<Void>()
     val eventTapWorkout = CommonLiveEvent<Void>()
     val eventTapTrainer = CommonLiveEvent<Void>()
+    val eventTapBookingAlert = CommonLiveEvent<Void>()
     val eventTapSchedule = CommonLiveEvent<Void>()
     val eventLoadLiveWorkouts = CommonLiveEvent<List<WorkoutModel>>()
-    val eventLoadVirtualWorkouts = CommonLiveEvent<List<VirtualWorkoutModel>>()
+    val eventLoadVirtualWorkouts = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadVideoWorkouts = CommonLiveEvent<List<VideoModel>>()
     val eventLoadPromotions = CommonLiveEvent<List<PromoModel>>()
 
@@ -64,13 +64,13 @@ class TestUtilityViewModel @ViewModelInject constructor(
                 val responseModel = SessionsResponseModel.parse(response.responseString)
                 eventLoadLiveWorkouts.postValue(responseModel.sessions.take(5))
             } else {
-                eventLoadLiveWorkouts.postValue(WorkoutModel.testList(5))
+                eventLoadLiveWorkouts.postValue(WorkoutModel.testListLive(5))
             }
         }
     }
 
     private fun doLoadVirtualWorkouts() {
-        eventLoadVirtualWorkouts.postValue(VirtualWorkoutModel.testListVariety())
+        eventLoadVirtualWorkouts.postValue(WorkoutModel.testListLive(5))
     }
 
     private fun doLoadVideoWorkouts() {
@@ -137,6 +137,12 @@ class TestUtilityViewModel @ViewModelInject constructor(
         eventTapTrainer.call()
     }
 
+    fun doTapBookingAlert() {
+        eventTapBookingAlert.call()
+    }
+
+    fun doTapBook(model: WorkoutModel) {}
+
     fun doTapSchedule() {
         eventTapSchedule.call()
     }
@@ -145,9 +151,9 @@ class TestUtilityViewModel @ViewModelInject constructor(
 
     override fun doTapSelectLiveWorkout(model: WorkoutModel) {}
 
-    override fun doTapPrimary(model: VirtualWorkoutModel) {}
+    override fun doTapPrimaryVirtualWorkout(model: WorkoutModel) {}
 
-    override fun doTapSelect(model: VirtualWorkoutModel) {}
+    override fun doTapSelectVirtualWorkout(model: WorkoutModel) {}
 
     override fun doTapVideo(model: VideoModel) {}
 

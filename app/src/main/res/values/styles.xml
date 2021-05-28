@@ -135,4 +135,12 @@
         <item name="brightcove_rewind">false</item>
     </style>
 
+    <style name="EmptyListLabelStyle" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/atcarquette_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
 </resources>
