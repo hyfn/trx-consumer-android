@@ -31,7 +31,6 @@ class UpdateViewModel @ViewModelInject constructor(
     private var lastName: String = ""
     private var birthday: String = ""
     private var zipCode: String = ""
-    private var password: String = ""
 
     //endregion
 
@@ -39,7 +38,6 @@ class UpdateViewModel @ViewModelInject constructor(
 
     private val params: HashMap<String, Any>
         get() = hashMapOf(
-            "password" to password,
             "firstName" to firstName,
             "lastName" to lastName,
             "birthday" to birthday,
@@ -135,7 +133,6 @@ class UpdateViewModel @ViewModelInject constructor(
             InputViewState.LAST -> lastName = if (isValidInput) userInput else ""
             InputViewState.BIRTHDAY -> birthday = if (isValidInput) userInput else ""
             InputViewState.ZIPCODE -> zipCode = if (isValidInput) userInput else ""
-            InputViewState.PASSWORD -> password = if (isValidInput) userInput else ""
             else -> { }
         }
         validate()

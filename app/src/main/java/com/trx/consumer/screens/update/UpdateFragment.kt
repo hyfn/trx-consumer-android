@@ -112,9 +112,7 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
 
     private val handleShowOnboarding = Observer<Void> {
         LogManager.log("handleShowOnboarding")
-        // TODO: OnboardingFragment presentation
-        //  Temporarily just heading to home
-        NavigationManager.shared.loggedInLaunchSequence(this)
+        NavigationManager.shared.present(this, R.id.onboarding_fragment)
     }
 
     private val handleShowVerification = Observer<Void> {
