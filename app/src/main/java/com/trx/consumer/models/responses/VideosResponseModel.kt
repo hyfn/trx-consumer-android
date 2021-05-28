@@ -6,7 +6,7 @@ import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
 import org.json.JSONObject
 
-data class VideosResponseModel(
+class VideosResponseModel(
     val workouts: List<VideoModel> = listOf(),
     val collections: List<VideosModel> = listOf(),
     val programs: List<VideosModel> = listOf(),
