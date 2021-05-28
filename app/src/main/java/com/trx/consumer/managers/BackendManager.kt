@@ -224,7 +224,15 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
 
     suspend fun update(params: HashMap<String, Any>): ResponseModel {
         val path = EndpointModel.UPDATE.path
-        return call(RequestModel(endpoint = EndpointModel.UPDATE, path = path, params = params))
+        val response = call(
+            RequestModel(
+                endpoint = EndpointModel.UPDATE,
+                path = path,
+                params = params
+            )
+        )
+        if (response.isSuccess) user()
+        return response
     }
 
     suspend fun videos(params: HashMap<String, Any>? = null): ResponseModel {
