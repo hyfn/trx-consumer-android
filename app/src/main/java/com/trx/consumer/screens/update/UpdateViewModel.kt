@@ -32,7 +32,6 @@ class UpdateViewModel @ViewModelInject constructor(
     private var birthday: String = ""
     private var zipCode: String = ""
     private var password: String = ""
-    private var checked = false
 
     //endregion
 
@@ -58,8 +57,6 @@ class UpdateViewModel @ViewModelInject constructor(
     val eventLoadError = CommonLiveEvent<String>()
 
     val eventTapBack = CommonLiveEvent<Void>()
-    val eventTapTermsAndConditions = CommonLiveEvent<Void>()
-    val eventTapWaivers = CommonLiveEvent<Void>()
 
     val eventUpdateDate = CommonLiveEvent<String>()
 
@@ -98,19 +95,6 @@ class UpdateViewModel @ViewModelInject constructor(
 
     fun doTapContinue() {
         doCallUpdate()
-    }
-
-    fun doTapCheckbox(isChecked: Boolean) {
-        checked = isChecked
-        validate()
-    }
-
-    fun doTapTermsAndConditions() {
-        eventTapTermsAndConditions.call()
-    }
-
-    fun doTapWaivers() {
-        eventTapWaivers.call()
     }
 
     override fun doUpdateDate(date: Date, identifier: InputViewState) {
@@ -152,8 +136,7 @@ class UpdateViewModel @ViewModelInject constructor(
             InputViewState.BIRTHDAY -> birthday = if (isValidInput) userInput else ""
             InputViewState.ZIPCODE -> zipCode = if (isValidInput) userInput else ""
             InputViewState.PASSWORD -> password = if (isValidInput) userInput else ""
-            else -> {
-            }
+            else -> { }
         }
         validate()
     }
@@ -162,8 +145,7 @@ class UpdateViewModel @ViewModelInject constructor(
         val enabled = InputViewState.FIRST.validate(firstName) &&
             InputViewState.LAST.validate(lastName) &&
             InputViewState.BIRTHDAY.validate(birthday) &&
-            InputViewState.ZIPCODE.validate(zipCode) &&
-            (if (state == UpdateViewState.CREATE) checked else true)
+            InputViewState.ZIPCODE.validate(zipCode)
         eventLoadButton.postValue(enabled)
     }
 
