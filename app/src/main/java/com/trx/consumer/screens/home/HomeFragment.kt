@@ -142,17 +142,19 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private fun loadPromos(promos: List<PromoModel>) {
+        val hide = promos.isEmpty()
         promoAdapter.update(promos)
         viewBinding.apply {
             viewPromos.lblTitle.text = getString(R.string.promos_top_title_label)
             viewPromos.viewMain.isHidden = promos.isEmpty()
+            imgLineForYou.isHidden = hide
+            viewPromos.viewMain.isHidden = hide
         }
     }
 
     private fun loadUser(model: UserModel) {
         viewBinding.apply {
             with(requireContext()) {
-                // Temporary, logic will likely change
                 lblUserName.text = getString(R.string.home_user_name_label, model.firstName)
             }
         }

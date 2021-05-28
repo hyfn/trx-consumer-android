@@ -50,7 +50,11 @@ class HomeViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         eventLoadView.call()
-        eventLoadUser.postValue(UserModel.test())
+        viewModelScope.launch {
+            cacheManager.user()?.let { user ->
+                eventLoadUser.postValue(user)
+            }
+        }
     }
 
     fun doTapTest() {
