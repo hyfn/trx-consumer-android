@@ -13,8 +13,8 @@ import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
-import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.screens.discover.list.DiscoverAdapter
+import com.trx.consumer.screens.player.PlayerActivity
 
 class VideosFragment : BaseFragment(R.layout.fragment_videos) {
 
@@ -41,7 +41,7 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
         viewBinding.apply {
             adapter = DiscoverAdapter(viewModel) { lifecycleScope }
             rvRelatedVideos.adapter = adapter
-
+            btnPrimary.action { viewModel.doTapPrimary() }
             btnBack.action { viewModel.doTapBack() }
         }
     }
@@ -60,7 +60,7 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
             lblTitle.text = model.title
             lblSubtitle.text = model.numberOfVideosDisplay
             lblTrainerName.text = model.trainer.fullName
-            lblSummary.text = model.description
+            lblSummary.text = model.videos.firstOrNull()?.description
             imgTrainerProfile.load(model.trainer.profilePhoto)
             adapter.updateVideos(model.videos)
         }
@@ -70,8 +70,12 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
         NavigationManager.shared.present(this, R.id.workout_fragment, model)
     }
 
-    private val handleTapStartWorkout = Observer<WorkoutModel> {
-        // NavigationManager.shared.present(this, R.id.player_view, it) TODO: Player start from here
+    private val handleTapStartWorkout = Observer<VideoModel> { video ->
+        NavigationManager.shared.presentActivity(
+            requireActivity(),
+            PlayerActivity::class.java,
+            video
+        )
     }
 
     private val handleTapProfile = Observer<TrainerModel> { model ->

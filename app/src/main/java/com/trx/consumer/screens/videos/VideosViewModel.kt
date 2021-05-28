@@ -17,7 +17,7 @@ class VideosViewModel : BaseViewModel(), DiscoverListener {
     val eventLoadView = CommonLiveEvent<VideosModel>()
     val eventTapVideo = CommonLiveEvent<VideoModel>()
     val eventTapProfile = CommonLiveEvent<TrainerModel>()
-    val eventTapStartWorkout = CommonLiveEvent<WorkoutModel>()
+    val eventTapStartWorkout = CommonLiveEvent<VideoModel>()
 
     fun doLoadView() {
         eventLoadView.postValue(model)
@@ -33,11 +33,7 @@ class VideosViewModel : BaseViewModel(), DiscoverListener {
 
     fun doTapPrimary() {
         model.videos.firstOrNull()?.let { video ->
-            val workout = WorkoutModel().apply {
-                this.video = video
-                this.state = BookingState.DISABLED
-            }
-            eventTapStartWorkout.postValue(workout)
+            eventTapStartWorkout.postValue(video)
         }
     }
 

@@ -132,5 +132,6 @@ fun Context.spannableString(
     return spannableString
 }
 
-fun String.upperCased(): String = capitalize(Locale.US)
+fun String.capitalized(): String = capitalize(Locale.US)
+fun String.upperCased(): String = toUpperCase(Locale.US)
 fun String.lowerCased(): String = toLowerCase(Locale.US)

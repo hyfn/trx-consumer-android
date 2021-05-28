@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.discover
 
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -11,6 +10,7 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentDiscoverBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.DiscoverModel
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
@@ -25,7 +25,6 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
     private lateinit var adapter: VideoWorkoutAdapter
     private lateinit var discoverAdapter: DiscoverFilterAdapter
-    private var currentState = DiscoverViewState.WORKOUT
 
     override fun bind() {
         NavigationManager.shared.params(this)?.let { params ->
@@ -51,9 +50,9 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             rvVideo.adapter = adapter
             rvFilters.adapter = discoverAdapter
 
-            btnWorkouts.action { changeState(DiscoverViewState.WORKOUT) }
-            btnCollections.action { changeState(DiscoverViewState.COLLECTIONS) }
-            btnPrograms.action { changeState(DiscoverViewState.PROGRAMS) }
+            btnWorkouts.action { viewModel.doLoadWorkouts() }
+            btnCollections.action { viewModel.doLoadCollections() }
+            btnPrograms.action { viewModel.doLoadPrograms() }
             btnFilter.action { viewModel.doTapFilter() }
         }
 
@@ -80,16 +79,16 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         NavigationManager.shared.present(this, R.id.videos_fragment, it)
     }
 
-    private val handleLoadWorkouts = Observer<List<VideoModel>> {
-        adapter.update(it)
+    private val handleLoadWorkouts = Observer<List<VideoModel>> { workouts ->
+        loadWorkouts(workouts)
     }
 
-    private val handleLoadCollections = Observer<List<VideosModel>> {
-        adapter.update(it)
+    private val handleLoadCollections = Observer<List<VideosModel>> { collections ->
+        loadCollections(collections)
     }
 
-    private val handleLoadPrograms = Observer<List<VideosModel>> {
-        adapter.update(it)
+    private val handleLoadPrograms = Observer<List<VideosModel>> { programs ->
+        loadPrograms(programs)
     }
 
     private val handleLoadFilters = Observer<List<FilterModel>> { list ->
@@ -104,47 +103,45 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         NavigationManager.shared.present(this, R.id.filter_fragment, params.copyModel())
     }
 
-    private fun changeState(newState: DiscoverViewState) {
-        currentState = newState
+    private fun loadWorkouts(workouts: List<VideoModel>) {
+        val state = DiscoverViewState.WORKOUTS
+        loadTabs(state)
+        adapter.update(DiscoverModel(state = state, workouts = workouts))
+    }
 
+    private fun loadCollections(videos: List<VideosModel>) {
+        val state = DiscoverViewState.COLLECTIONS
+        loadTabs(state)
+        adapter.update(DiscoverModel(state = state, videos = videos))
+    }
+
+    private fun loadPrograms(videos: List<VideosModel>) {
+        val state = DiscoverViewState.PROGRAMS
+        loadTabs(state)
+        adapter.update(DiscoverModel(state = state, videos = videos))
+    }
+
+    private fun loadTabs(newState: DiscoverViewState) {
         viewBinding.apply {
-            btnWorkouts.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyLight))
-            btnCollections.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyLight))
-            btnPrograms.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyLight))
+            btnWorkouts.textColor(R.color.grey)
+            btnCollections.textColor(R.color.grey)
+            btnPrograms.textColor(R.color.grey)
             indicatorWorkouts.isVisible = false
             indicatorCollections.isVisible = false
             indicatorPrograms.isVisible = false
 
             when (newState) {
-                DiscoverViewState.WORKOUT -> {
-                    btnWorkouts.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.black
-                        )
-                    )
+                DiscoverViewState.WORKOUTS -> {
+                    btnWorkouts.textColor(R.color.black)
                     indicatorWorkouts.isVisible = true
-                    viewModel.doLoadWorkouts()
                 }
                 DiscoverViewState.COLLECTIONS -> {
-                    btnCollections.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.black
-                        )
-                    )
+                    btnCollections.textColor(R.color.black)
                     indicatorCollections.isVisible = true
-                    viewModel.doLoadCollections()
                 }
-                else -> {
-                    btnPrograms.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.black
-                        )
-                    )
+                DiscoverViewState.PROGRAMS -> {
+                    btnPrograms.textColor(R.color.black)
                     indicatorPrograms.isVisible = true
-                    viewModel.doLoadPrograms()
                 }
             }
         }

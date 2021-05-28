@@ -1,14 +1,15 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
+import com.trx.consumer.extensions.capitalized
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
-import java.util.Locale
 
 @Parcelize
 class FilterModel(
-    var title: String = "",
-    var values: List<FilterOptionsModel> = mutableListOf()
+    val identifier: String = "",
+    val title: String = "",
+    val values: List<FilterOptionsModel> = listOf()
 ) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
@@ -20,30 +21,28 @@ class FilterModel(
     }
 
     companion object {
-        fun filters(jsonObject: JSONObject?): ArrayList<FilterModel> {
-            return ArrayList<FilterModel>().apply {
-                jsonObject?.let { safeJson ->
-                    val keys: Iterator<Any> = safeJson.keys()
-                    while (keys.hasNext()) {
-                        add(
-                            FilterModel().apply {
-                                val key = keys.next() as String
-                                title = key.capitalize(Locale.ROOT)
-                                val value = safeJson.optJSONObject(key)
-                                values = FilterOptionsModel.parse(value)
-                            }
-                        )
-                    }
-                }
+
+        fun filters(jsonObject: JSONObject): List<FilterModel> {
+            val filters = mutableListOf<FilterModel>()
+            val keys = jsonObject.keys()
+            keys.forEach { key ->
+                val value = jsonObject.optJSONObject(key)
+                val model = FilterModel(
+                    identifier = key,
+                    title = key.capitalized(),
+                    values = value?.let { FilterOptionsModel.parse(it) } ?: emptyList()
+                )
+                filters.add(model)
             }
+            return filters
         }
 
-        fun test(): FilterModel {
+        fun test(title: String): FilterModel {
             return FilterModel(
-                "Filter",
-                mutableListOf<FilterOptionsModel>().apply {
+                title = "Filter",
+                values = mutableListOf<FilterOptionsModel>().apply {
                     repeat(5) { index ->
-                        add(FilterOptionsModel("option $index"))
+                        add(FilterOptionsModel(value = "option $index"))
                     }
                 }
             )
@@ -52,7 +51,7 @@ class FilterModel(
         fun testList(count: Int): List<FilterModel> {
             return mutableListOf<FilterModel>().apply {
                 repeat(count) { index ->
-                    val model = test().apply { title = "Filter $index" }
+                    val model = test(title = "Filter $index")
                     add(model)
                 }
             }
