@@ -159,6 +159,16 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return call(RequestModel(endpoint = EndpointModel.PROMOS, path = path, params = null))
     }
 
+    suspend fun purchase(params: HashMap<String, Any>): ResponseModel {
+        val path = EndpointModel.PURCHASE.path
+        return call(RequestModel(endpoint = EndpointModel.PURCHASE, path = path, params = params))
+    }
+
+    suspend fun purchases(): ResponseModel {
+        val path = EndpointModel.PURCHASES.path
+        return call(RequestModel(endpoint = EndpointModel.PURCHASES, path = path, params = null))
+    }
+
     suspend fun register(params: HashMap<String, Any>): ResponseModel {
         val path = EndpointModel.REGISTER.path
         val response = call(
@@ -204,9 +214,12 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         val path = EndpointModel.USER.path
         val response = call(RequestModel(endpoint = EndpointModel.USER, path = path, params = null))
         if (response.isSuccess) {
-            val model = UserResponseModel.parse(response.responseString)
-            cacheManager.user(model.user)
-            IAPManager.shared.identify(model.user.uid)
+            val user = UserResponseModel.parse(response.responseString).user
+            cacheManager.user()?.let { cachedUser ->
+                user.iap = cachedUser.iap
+            }
+            cacheManager.user(user)
+            IAPManager.shared.identify(user.uid)
         }
         return response
     }

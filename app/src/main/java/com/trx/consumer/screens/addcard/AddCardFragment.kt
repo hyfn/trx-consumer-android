@@ -13,7 +13,7 @@ import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.managers.UtilityManager
 import com.trx.consumer.models.common.AlertModel
-import com.trx.consumer.models.common.PurchaseModel
+import com.trx.consumer.models.common.iap.PurchaseModel
 import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.erroralert.ErrorAlertModel
 

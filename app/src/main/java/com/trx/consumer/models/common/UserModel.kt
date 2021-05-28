@@ -17,6 +17,7 @@ class UserModel(
     var zipCode: String = "",
     var firstName: String = "",
     var lastName: String = "",
+    var iap: String = "",
 ) {
 
     val fullName: String
