@@ -51,9 +51,16 @@ class HomeViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         eventLoadView.call()
+        doLoadUser()
+    }
+
+    fun doLoadUser() {
         viewModelScope.launch {
-            cacheManager.user()?.let { user ->
-                eventLoadUser.postValue(user)
+            val response = backendManager.user()
+            if(response.isSuccess) {
+                cacheManager.user()?.let { user ->
+                    eventLoadUser.postValue(user)
+                }
             }
         }
     }

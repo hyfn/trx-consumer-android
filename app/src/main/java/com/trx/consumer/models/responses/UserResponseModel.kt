@@ -9,7 +9,7 @@ class UserResponseModel(val user: UserModel, val jwt: String = "") {
 
         fun parse(json: String): UserResponseModel {
             val jsonObject = JSONObject(json)
-            val userObject = jsonObject.optJSONObject("user")
+            val userObject = jsonObject.optJSONObject("data")
             val user = userObject?.let { UserModel.parse(it) } ?: UserModel()
             val jwt = jsonObject.optString("jwt")
             return UserResponseModel(user, jwt)
