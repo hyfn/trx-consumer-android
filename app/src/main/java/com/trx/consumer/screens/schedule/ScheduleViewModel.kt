@@ -3,17 +3,16 @@ package com.trx.consumer.screens.schedule
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.models.common.TrainerScheduleModel
-import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.states.ScheduleViewState
-import com.trx.consumer.screens.liveworkout.LiveWorkoutListener
+import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
 import com.trx.consumer.screens.trainerschedule.TrainerScheduleListener
-import com.trx.consumer.screens.virtualworkout.VirtualWorkoutListener
+import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewListener
 
 class ScheduleViewModel :
     BaseViewModel(),
-    LiveWorkoutListener,
-    VirtualWorkoutListener,
+    LiveWorkoutViewListener,
+    VirtualWorkoutViewListener,
     TrainerScheduleListener {
 
     val eventLoadView = CommonLiveEvent<ScheduleViewState>()
@@ -35,12 +34,12 @@ class ScheduleViewModel :
     override fun doTapSelectLiveWorkout(model: WorkoutModel) {
     }
 
-    override fun doTapPrimary(model: VirtualWorkoutModel) {
-    }
-
-    override fun doTapSelect(model: VirtualWorkoutModel) {
-    }
-
     override fun doTapTrainerSchedule(trainerScheduleModel: TrainerScheduleModel) {
+    }
+
+    override fun doTapPrimaryVirtualWorkout(model: WorkoutModel) {
+    }
+
+    override fun doTapSelectVirtualWorkout(model: WorkoutModel) {
     }
 }

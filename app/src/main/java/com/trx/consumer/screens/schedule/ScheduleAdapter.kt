@@ -7,20 +7,20 @@ import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.TrainerScheduleModel
-import com.trx.consumer.models.common.VirtualWorkoutModel
 import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.screens.liveworkout.LiveWorkoutListener
+import com.trx.consumer.models.states.WorkoutViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutViewHolder
+import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
 import com.trx.consumer.screens.trainerschedule.TrainerScheduleListener
 import com.trx.consumer.screens.trainerschedule.TrainerScheduleViewHolder
-import com.trx.consumer.screens.virtualworkout.VirtualWorkoutListener
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewHolder
+import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewListener
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
 class ScheduleAdapter(
-    private val liveWorkoutListener: LiveWorkoutListener,
-    private val virtualWorkoutListener: VirtualWorkoutListener,
+    private val liveWorkoutListener: LiveWorkoutViewListener,
+    private val virtualWorkoutListener: VirtualWorkoutViewListener,
     private val trainerScheduleListener: TrainerScheduleListener,
     scopeProvider: () -> CoroutineScope
 ) : CommonRecyclerViewAdapter(scopeProvider) {
@@ -72,7 +72,7 @@ class ScheduleAdapter(
                 holder.setup(item as WorkoutModel, liveWorkoutListener)
             }
             is VirtualWorkoutViewHolder -> {
-                holder.setup(item as VirtualWorkoutModel, virtualWorkoutListener)
+                holder.setup(item as WorkoutModel, virtualWorkoutListener)
             }
             is TrainerScheduleViewHolder -> {
                 holder.setup(item as TrainerScheduleModel, trainerScheduleListener)
@@ -84,9 +84,14 @@ class ScheduleAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (items[position]) {
-            is WorkoutModel -> TYPE_LIVE_ROW
-            is VirtualWorkoutModel -> TYPE_VIRTUAL_ROW
+        return when (val item = items[position]) {
+            is WorkoutModel -> {
+                when (item.workoutState) {
+                    WorkoutViewState.LIVE -> TYPE_LIVE_ROW
+                    WorkoutViewState.VIRTUAL -> TYPE_VIRTUAL_ROW
+                    else -> TYPE_EMPTY_ROW
+                }
+            }
             is TrainerScheduleModel -> TYPE_TRAINER_ROW
             else -> TYPE_EMPTY_ROW
         }

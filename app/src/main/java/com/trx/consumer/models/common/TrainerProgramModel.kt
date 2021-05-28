@@ -1,7 +1,7 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
-import com.trx.consumer.screens.workout.WorkoutViewState
+import com.trx.consumer.models.states.WorkoutViewState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 
@@ -35,7 +35,7 @@ class TrainerProgramModel(
                 durationInMinutes = 30
                 isPublic = true
                 key = "-MXj8znm1e8OWB4y4NLY"
-                mode = WorkoutViewState.VIRTUAL.name
+                mode = WorkoutViewState.LARGE_GROUP_MODE
                 name = "1:1 Virtual Personal Training"
                 priceInCents = 1000
                 trainer = TrainerModel.test()

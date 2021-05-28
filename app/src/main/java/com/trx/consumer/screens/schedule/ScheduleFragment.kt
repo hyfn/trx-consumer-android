@@ -42,7 +42,7 @@ class ScheduleFragment : BaseFragment(R.layout.fragment_schedule) {
     private val handleLoadView = Observer<ScheduleViewState> {
         viewBinding.apply {
             lblTitle.text = "May"
-            scheduleAdapter.update(WorkoutModel.testList(5))
+            scheduleAdapter.update(WorkoutModel.testListLive(5))
         }
     }
 
