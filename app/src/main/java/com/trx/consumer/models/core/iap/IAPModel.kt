@@ -12,7 +12,7 @@ class IAPModel(
     val userCancelled: Boolean = false
 ) {
 
-    private fun hasEntitlement(value: String = entitlement): Boolean {
+    private fun hasEntitlement(value: String = ENTITLEMENT): Boolean {
         return purchaserInfo?.let { info -> info.entitlements[value]?.isActive } ?: false
     }
 
@@ -20,6 +20,6 @@ class IAPModel(
         get() = hasEntitlement()
 
     companion object {
-        const val entitlement: String = BuildConfig.kRevenueCatEntitlementOnDemand
+        const val ENTITLEMENT: String = BuildConfig.kRevenueCatEntitlementOnDemand
     }
 }
