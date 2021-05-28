@@ -32,7 +32,10 @@ class RegisterViewModel @ViewModelInject constructor(
                 "email" to email,
                 "password" to password,
                 "firstName" to "new",
-                "lastName" to "user"
+                "lastName" to "user",
+                "updateTrxUserObject" to hashMapOf(
+                    "signUpUserType" to "mobile"
+                )
             )
         }
 
