@@ -3,6 +3,7 @@ package com.trx.consumer.screens.home
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.trx.consumer.BuildConfig
 import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
@@ -37,14 +38,13 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         promoAdapter = PromoAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
-            btnTest.action { viewModel.doTapTest() }
+            viewUserInfo.action { viewModel.doShowEditProfile() }
             viewBanner.btnPrimary.action { viewModel.doTapBanner() }
             viewVideos.rvVideoWorkouts.adapter = videosAdapter
             viewPromos.rvPromos.adapter = promoAdapter
         }
 
         viewModel.apply {
-            eventTapTest.observe(viewLifecycleOwner, handleTapTest)
 
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventLoadVideos.observe(viewLifecycleOwner, handleLoadVideos)
@@ -52,12 +52,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             eventLoadUser.observe(viewLifecycleOwner, handleLoadUser)
             eventLoadBanner.observe(viewLifecycleOwner, handleLoadBanner)
 
-            eventTapBanner.observe(viewLifecycleOwner, handleTapBanner)
-            eventTapUser.observe(viewLifecycleOwner, handleTapUser)
             eventShowVideo.observe(viewLifecycleOwner, handleShowVideo)
-
             eventShowPromo.observe(viewLifecycleOwner, handleShowPromo)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
+            eventShowEditProfile.observe(viewLifecycleOwner, handleShowEditProfile)
+
+            eventTapBanner.observe(viewLifecycleOwner, handleTapBanner)
 
             doLoadView()
             doLoadBanner()
@@ -68,11 +68,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     //endregion
 
     //region Handlers
-
-    private val handleTapTest = Observer<Void> {
-        LogManager.log("handleTapTest")
-        NavigationManager.shared.present(this, R.id.test_utility_fragment)
-    }
 
     private val handleLoadView = Observer<Void> {
         LogManager.log("handleLoadView")
@@ -95,16 +90,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         loadBanner(banner)
     }
 
-    private val handleTapBanner = Observer<String> { url ->
-        LogManager.log("handleTapBanner: $url")
-        if (url.isNotEmpty()) UtilityManager.shared.openUrl(requireContext(), url)
-    }
-
-    private val handleTapUser = Observer<Void> {
-        LogManager.log("handleTapUser")
-        NavigationManager.shared.present(this, R.id.profile_fragment)
-    }
-
     private val handleShowVideo = Observer<VideoModel> { model ->
         LogManager.log("handleShowVideo")
         NavigationManager.shared.present(this, R.id.workout_fragment, model)
@@ -117,10 +102,20 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
     }
 
+    private val handleTapBanner = Observer<String> { url ->
+        LogManager.log("handleTapBanner: $url")
+        if (url.isNotEmpty()) UtilityManager.shared.openUrl(requireContext(), url)
+    }
+
     private val handleShowHud = Observer<Boolean> { show ->
         viewBinding.hudView.isVisible = show
     }
 
+    private val handleShowEditProfile = Observer<Void> {
+        if (BuildConfig.isVersion2Enabled) {
+            NavigationManager.shared.present(this, R.id.profile_fragment)
+        }
+    }
     //endregion
 
     //region Functions
@@ -153,7 +148,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         viewBinding.apply {
             viewPromos.lblTitle.text = getString(R.string.promos_top_title_label)
             viewPromos.viewMain.isHidden = promos.isEmpty()
-            imgLineForYou.isHidden = hide
             viewPromos.viewMain.isHidden = hide
         }
     }

@@ -16,14 +16,14 @@ import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterAdapter
-import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
+import com.trx.consumer.screens.discover.list.DiscoverAdapter
 
 class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
     private val viewModel: DiscoverViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentDiscoverBinding::bind)
 
-    private lateinit var adapter: VideoWorkoutAdapter
+    private lateinit var adapter: DiscoverAdapter
     private lateinit var discoverAdapter: DiscoverFilterAdapter
 
     override fun bind() {
@@ -45,7 +45,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         }
 
         viewBinding.apply {
-            adapter = VideoWorkoutAdapter(viewModel) { lifecycleScope }
+            adapter = DiscoverAdapter(viewModel) { lifecycleScope }
             discoverAdapter = DiscoverFilterAdapter(viewModel) { lifecycleScope }
             rvVideo.adapter = adapter
             rvFilters.adapter = discoverAdapter

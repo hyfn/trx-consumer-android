@@ -29,6 +29,7 @@ class SettingsViewModel @ViewModelInject constructor(
     val eventTapTermsAndConditions = CommonLiveEvent<Void>()
     val eventTapLogout = CommonLiveEvent<Void>()
     val eventTapBack = CommonLiveEvent<Void>()
+    val eventTapTest = CommonLiveEvent<Void>()
 
     val eventLogOut = CommonLiveEvent<Void>()
 
@@ -53,6 +54,7 @@ class SettingsViewModel @ViewModelInject constructor(
             SettingsType.TERMS_AND_CONDITIONS -> eventTapTermsAndConditions.call()
             SettingsType.RESTORE -> LogManager.log("doTapSetting - RESTORE")
             SettingsType.LOGOUT -> eventTapLogout.call()
+            SettingsType.TEST_SCREENS -> eventTapTest.call()
         }
     }
 
