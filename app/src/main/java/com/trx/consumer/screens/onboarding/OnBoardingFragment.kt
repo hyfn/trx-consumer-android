@@ -36,7 +36,7 @@ class OnBoardingFragment : BaseFragment(R.layout.fragment_onboarding) {
     private val handleLoadView = Observer<OnBoardingViewState> { state ->
         viewBinding.apply {
             lblTitle.text = getString(state.title)
-            ivHeader.setImageResource(state.image)
+            imgHeader.setImageResource(state.image)
             lblDescription.text = getString(state.description)
             lblItemOne.text = getString(state.listItemOne)
             lblItemTwo.text = getString(state.listItemTwo)
