@@ -104,7 +104,7 @@ class HomeViewModel @ViewModelInject constructor(
         }
     }
 
-    fun doTapEditProfile() {
+    fun doShowEditProfile() {
         eventShowEditProfile.call()
     }
 

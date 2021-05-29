@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.home
 
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -39,7 +38,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         promoAdapter = PromoAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
-            viewUserInfo.action { viewModel.doTapEditProfile() }
+            viewUserInfo.action { viewModel.doShowEditProfile() }
             viewBanner.btnPrimary.action { viewModel.doTapBanner() }
             viewVideos.rvVideoWorkouts.adapter = videosAdapter
             viewPromos.rvPromos.adapter = promoAdapter
@@ -158,8 +157,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         viewBinding.apply {
             with(requireContext()) {
                 lblUserName.text = getString(R.string.home_user_name_label, model.firstName)
-                if (BuildConfig.isVersion2Enabled) lblPlan.text =
-                    model.planText else lblPlan.isVisible = false
             }
         }
     }
