@@ -5,8 +5,6 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
-import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.screens.discover.list.DiscoverListener
 
 class VideosViewModel : BaseViewModel(), DiscoverListener {
