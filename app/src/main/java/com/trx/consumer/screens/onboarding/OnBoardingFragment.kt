@@ -19,13 +19,11 @@ class OnBoardingFragment : BaseFragment(R.layout.fragment_onboarding) {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventTapClose.observe(viewLifecycleOwner, handleTapClose)
             eventTapNext.observe(viewLifecycleOwner, handleTapNext)
-            eventTapBack.observe(viewLifecycleOwner, handleTapBack)
         }
 
         viewBinding.apply {
             btnContinue.action { viewModel.doTapNext() }
             btnClose.action { viewModel.doTapClose() }
-            btnBack.action { viewModel.doTapPrevious() }
         }
 
         viewModel.doLoadView()
@@ -48,10 +46,6 @@ class OnBoardingFragment : BaseFragment(R.layout.fragment_onboarding) {
 
     private val handleTapClose = Observer<Void> {
         NavigationManager.shared.loggedInLaunchSequence(this)
-    }
-
-    private val handleTapBack = Observer<Void> {
-        NavigationManager.shared.dismiss(this)
     }
 
     private val handleTapNext = Observer<Void> {
