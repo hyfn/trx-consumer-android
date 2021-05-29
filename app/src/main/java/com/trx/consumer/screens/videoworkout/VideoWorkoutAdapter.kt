@@ -29,7 +29,7 @@ class VideoWorkoutAdapter(
                 TYPE_ROW -> VideoWorkoutViewHolder(
                     LayoutInflater
                         .from(parent.context)
-                        .inflate(R.layout.row_video_workout_table, parent, false)
+                        .inflate(R.layout.row_video_workout_collection, parent, false)
                 )
                 else -> EmptyViewHolder(
                     LayoutInflater

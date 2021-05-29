@@ -22,27 +22,13 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.trx.consumer.common.CommonButton
-                    android:id="@+id/btnTest"
-                    android:layout_width="100dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:fontFamily="@font/atcarquette_bold"
-                    android:gravity="center"
-                    android:text="@string/home_button_test_utility_label"
-                    android:textColor="@color/black"
-                    app:backgroundColor="@color/yellow"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <com.trx.consumer.common.CommonLabel
                     android:id="@+id/lblUserName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/atcarquette_semibold"
                     android:maxLines="1"
@@ -83,14 +69,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/imgLineOnDemand" />
-
-            <com.trx.consumer.common.CommonImageView
-                android:id="@+id/imgLineForYou"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/greyLight"
-                app:layout_constraintTop_toBottomOf="@id/view_promos" />
 
         </com.trx.consumer.common.CommonView>
 
