@@ -1,5 +1,6 @@
 package com.trx.consumer.screens.home
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -55,7 +56,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             eventShowVideo.observe(viewLifecycleOwner, handleShowVideo)
             eventShowPromo.observe(viewLifecycleOwner, handleShowPromo)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
-            eventShowEditProfile.observe(viewLifecycleOwner, handleTapEditProfile)
+            eventShowEditProfile.observe(viewLifecycleOwner, handleShowEditProfile)
 
             eventTapBanner.observe(viewLifecycleOwner, handleTapBanner)
 
@@ -111,7 +112,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         viewBinding.hudView.isVisible = show
     }
 
-    private val handleTapEditProfile = Observer<Void> {
+    private val handleShowEditProfile = Observer<Void> {
         if (BuildConfig.isVersion2Enabled) {
             NavigationManager.shared.present(this, R.id.profile_fragment)
         }
@@ -157,7 +158,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         viewBinding.apply {
             with(requireContext()) {
                 lblUserName.text = getString(R.string.home_user_name_label, model.firstName)
-                lblPlan.text = model.planText
+                if (BuildConfig.isVersion2Enabled) lblPlan.text =
+                    model.planText else lblPlan.isVisible = false
             }
         }
     }
