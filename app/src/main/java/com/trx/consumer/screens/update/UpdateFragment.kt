@@ -27,9 +27,6 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
     //region Initializers
 
     override fun bind() {
-        val updateState = NavigationManager.shared.params(this) as UpdateViewState
-        viewModel.state = updateState
-
         viewBinding.apply {
             ivFirstName.setInputViewListener(viewModel)
             ivLastName.setInputViewListener(viewModel)
@@ -42,7 +39,7 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
         }
 
         viewModel.apply {
-            eventLoadState.observe(viewLifecycleOwner, handleLoadState)
+            eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventLoadUser.observe(viewLifecycleOwner, handleLoadUser)
             eventLoadButton.observe(viewLifecycleOwner, handleLoadButton)
             eventLoadSuccess.observe(viewLifecycleOwner, handleLoadSuccess)
@@ -52,8 +49,6 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
 
             eventUpdateDate.observe(viewLifecycleOwner, handleUpdateDate)
 
-            eventShowLoggedIn.observe(viewLifecycleOwner, handleShowLoggedIn)
-            eventShowOnboarding.observe(viewLifecycleOwner, handleShowOnboarding)
             eventShowVerification.observe(viewLifecycleOwner, handleShowVerification)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
 
@@ -65,8 +60,9 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
 
     //region Handlers
 
-    private val handleLoadState = Observer<UpdateViewState> { state ->
-        viewBinding.btnContinue.text = getString(state.buttonTitle)
+    private val handleLoadView = Observer<Void> {
+        viewBinding.btnContinue.text = requireContext()
+            .getString(R.string.update_save_changes_label)
     }
 
     private val handleLoadUser = Observer<UserModel> { user ->
@@ -109,16 +105,6 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
 
     private val handleUpdateDate = Observer<String> {
         viewBinding.ivBirthDate.text = it
-    }
-
-    private val handleShowLoggedIn = Observer<Void> {
-        LogManager.log("handleShowOnboarding")
-        NavigationManager.shared.loggedInLaunchSequence(this)
-    }
-
-    private val handleShowOnboarding = Observer<Void> {
-        LogManager.log("handleShowOnboarding")
-        NavigationManager.shared.present(this, R.id.onboarding_fragment)
     }
 
     private val handleShowVerification = Observer<Void> {

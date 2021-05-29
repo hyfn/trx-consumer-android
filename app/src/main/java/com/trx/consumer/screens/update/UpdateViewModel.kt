@@ -2,13 +2,12 @@ package com.trx.consumer.screens.update
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
-import com.trx.consumer.BuildConfig.kIsVerificationEnabled
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.format
 import com.trx.consumer.managers.BackendManager
-import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.models.common.UserModel
+import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.UserResponseModel
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
@@ -17,15 +16,8 @@ import java.util.Date
 import java.util.TimeZone
 
 class UpdateViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager,
-    private val cacheManager: CacheManager
+    private val backendManager: BackendManager
 ) : BaseViewModel(), InputViewListener {
-
-    //region Objects
-
-    var state = UpdateViewState.CREATE
-
-    //endregion
 
     //region Variables
 
@@ -50,7 +42,7 @@ class UpdateViewModel @ViewModelInject constructor(
 
     //region Events
 
-    val eventLoadState = CommonLiveEvent<UpdateViewState>()
+    val eventLoadView = CommonLiveEvent<Void>()
     val eventLoadUser = CommonLiveEvent<UserModel>()
     val eventLoadButton = CommonLiveEvent<Boolean>()
     val eventLoadSuccess = CommonLiveEvent<Void>()
@@ -60,8 +52,6 @@ class UpdateViewModel @ViewModelInject constructor(
 
     val eventUpdateDate = CommonLiveEvent<String>()
 
-    val eventShowLoggedIn = CommonLiveEvent<Void>()
-    val eventShowOnboarding = CommonLiveEvent<Void>()
     val eventShowVerification = CommonLiveEvent<Void>()
     val eventShowHud = CommonLiveEvent<Boolean>()
 
@@ -71,22 +61,20 @@ class UpdateViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            eventLoadState.postValue(state)
-            if (state == UpdateViewState.EDIT) {
-                eventShowHud.postValue(true)
-                val response = backendManager.user()
-                eventShowHud.postValue(false)
-                if (response.isSuccess) {
-                    val model = UserResponseModel.parse(response.responseString)
-                    model.user.let {
-                        firstName = it.firstName
-                        lastName = it.lastName
-                        birthday = it.birthday
-                        zipCode = it.zipCode
-                        eventLoadUser.postValue(it)
-                    }
-                } else eventLoadError.postValue("There was an error")
-            }
+            eventLoadView.call()
+            eventShowHud.postValue(true)
+            val response = backendManager.user()
+            eventShowHud.postValue(false)
+            if (response.isSuccess) {
+                val model = UserResponseModel.parse(response.responseString)
+                model.user.let {
+                    firstName = it.firstName
+                    lastName = it.lastName
+                    birthday = it.birthday
+                    zipCode = it.zipCode
+                    eventLoadUser.postValue(it)
+                }
+            } else eventLoadError.postValue(ResponseModel.genericErrorMessage)
         }
     }
 
@@ -110,20 +98,7 @@ class UpdateViewModel @ViewModelInject constructor(
             val response = backendManager.update(params)
             eventShowHud.postValue(false)
             if (response.isSuccess) {
-                when (state) {
-                    UpdateViewState.CREATE -> {
-                        if (kIsVerificationEnabled) {
-                            eventShowVerification.call()
-                        } else {
-                            if (cacheManager.didShowOnboarding()) {
-                                eventShowLoggedIn.call()
-                            } else {
-                                eventShowOnboarding.call()
-                            }
-                        }
-                    }
-                    UpdateViewState.EDIT -> eventLoadSuccess.call()
-                }
+                eventLoadSuccess.call()
             } else {
                 eventLoadError.postValue(response.errorMessage)
             }
@@ -140,7 +115,8 @@ class UpdateViewModel @ViewModelInject constructor(
             InputViewState.LAST -> lastName = if (isValidInput) userInput else ""
             InputViewState.BIRTHDAY -> birthday = if (isValidInput) userInput else ""
             InputViewState.ZIPCODE -> zipCode = if (isValidInput) userInput else ""
-            else -> { }
+            else -> {
+            }
         }
         validate()
     }
