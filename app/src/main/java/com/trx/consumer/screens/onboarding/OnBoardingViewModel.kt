@@ -1,9 +1,15 @@
 package com.trx.consumer.screens.onboarding
 
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.CacheManager
+import kotlinx.coroutines.launch
 
-class OnBoardingViewModel : BaseViewModel() {
+class OnBoardingViewModel @ViewModelInject constructor(
+    private val cacheManager: CacheManager
+) : BaseViewModel() {
 
     var state: OnBoardingViewState = OnBoardingViewState.VIRTUAL
 
@@ -12,7 +18,10 @@ class OnBoardingViewModel : BaseViewModel() {
     val eventTapNext = CommonLiveEvent<Void>()
 
     fun doLoadView() {
-        eventLoadView.postValue(state)
+        viewModelScope.launch {
+            cacheManager.didShowOnboarding(true)
+            eventLoadView.postValue(state)
+        }
     }
 
     fun doTapClose() {

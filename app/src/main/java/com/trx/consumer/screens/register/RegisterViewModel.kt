@@ -84,7 +84,6 @@ class RegisterViewModel @ViewModelInject constructor(
     }
 
     fun doCreateAccount() {
-        if (!validate()) return
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = backendManager.register(params)

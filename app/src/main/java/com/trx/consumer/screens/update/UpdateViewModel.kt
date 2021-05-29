@@ -7,6 +7,7 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.format
 import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.responses.UserResponseModel
 import com.trx.consumer.views.input.InputViewListener
@@ -16,7 +17,8 @@ import java.util.Date
 import java.util.TimeZone
 
 class UpdateViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager
+    private val backendManager: BackendManager,
+    private val cacheManager: CacheManager
 ) : BaseViewModel(), InputViewListener {
 
     //region Objects
@@ -31,8 +33,6 @@ class UpdateViewModel @ViewModelInject constructor(
     private var lastName: String = ""
     private var birthday: String = ""
     private var zipCode: String = ""
-    private var password: String = ""
-    private var checked = false
 
     //endregion
 
@@ -40,7 +40,6 @@ class UpdateViewModel @ViewModelInject constructor(
 
     private val params: HashMap<String, Any>
         get() = hashMapOf(
-            "password" to password,
             "firstName" to firstName,
             "lastName" to lastName,
             "birthday" to birthday,
@@ -58,11 +57,10 @@ class UpdateViewModel @ViewModelInject constructor(
     val eventLoadError = CommonLiveEvent<String>()
 
     val eventTapBack = CommonLiveEvent<Void>()
-    val eventTapTermsAndConditions = CommonLiveEvent<Void>()
-    val eventTapWaivers = CommonLiveEvent<Void>()
 
     val eventUpdateDate = CommonLiveEvent<String>()
 
+    val eventShowLoggedIn = CommonLiveEvent<Void>()
     val eventShowOnboarding = CommonLiveEvent<Void>()
     val eventShowVerification = CommonLiveEvent<Void>()
     val eventShowHud = CommonLiveEvent<Boolean>()
@@ -100,19 +98,6 @@ class UpdateViewModel @ViewModelInject constructor(
         doCallUpdate()
     }
 
-    fun doTapCheckbox(isChecked: Boolean) {
-        checked = isChecked
-        validate()
-    }
-
-    fun doTapTermsAndConditions() {
-        eventTapTermsAndConditions.call()
-    }
-
-    fun doTapWaivers() {
-        eventTapWaivers.call()
-    }
-
     override fun doUpdateDate(date: Date, identifier: InputViewState) {
         val birthday = date.format(format = identifier.dateFormat, zone = TimeZone.getDefault())
         eventUpdateDate.postValue(birthday)
@@ -130,7 +115,11 @@ class UpdateViewModel @ViewModelInject constructor(
                         if (kIsVerificationEnabled) {
                             eventShowVerification.call()
                         } else {
-                            eventShowOnboarding.call()
+                            if (cacheManager.didShowOnboarding()) {
+                                eventShowLoggedIn.call()
+                            } else {
+                                eventShowOnboarding.call()
+                            }
                         }
                     }
                     UpdateViewState.EDIT -> eventLoadSuccess.call()
@@ -151,9 +140,7 @@ class UpdateViewModel @ViewModelInject constructor(
             InputViewState.LAST -> lastName = if (isValidInput) userInput else ""
             InputViewState.BIRTHDAY -> birthday = if (isValidInput) userInput else ""
             InputViewState.ZIPCODE -> zipCode = if (isValidInput) userInput else ""
-            InputViewState.PASSWORD -> password = if (isValidInput) userInput else ""
-            else -> {
-            }
+            else -> { }
         }
         validate()
     }
@@ -162,8 +149,7 @@ class UpdateViewModel @ViewModelInject constructor(
         val enabled = InputViewState.FIRST.validate(firstName) &&
             InputViewState.LAST.validate(lastName) &&
             InputViewState.BIRTHDAY.validate(birthday) &&
-            InputViewState.ZIPCODE.validate(zipCode) &&
-            (if (state == UpdateViewState.CREATE) checked else true)
+            InputViewState.ZIPCODE.validate(zipCode)
         eventLoadButton.postValue(enabled)
     }
 
