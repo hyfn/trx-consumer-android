@@ -9,7 +9,6 @@ class OnBoardingViewModel : BaseViewModel() {
 
     val eventLoadView = CommonLiveEvent<OnBoardingViewState>()
     val eventTapClose = CommonLiveEvent<Void>()
-    val eventTapBack = CommonLiveEvent<Void>()
     val eventTapNext = CommonLiveEvent<Void>()
 
     fun doLoadView() {
@@ -18,10 +17,6 @@ class OnBoardingViewModel : BaseViewModel() {
 
     fun doTapClose() {
         eventTapClose.call()
-    }
-
-    fun doTapBack() {
-        eventTapBack.call()
     }
 
     fun onBackPressed() {
@@ -41,8 +36,6 @@ class OnBoardingViewModel : BaseViewModel() {
         if (state.currentPage != 0) {
             state = OnBoardingViewState.getStateFromPage(state.currentPage - 1)
             eventLoadView.postValue(state)
-        } else {
-            doTapBack()
         }
     }
 }
