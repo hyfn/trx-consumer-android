@@ -115,7 +115,14 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
 
     private val handleLoadPlans = Observer<List<PlanModel>> {
         LogManager.log("handleLoadPlans")
-        adapter.updatePlans(it)
+        //  TODO: Testing to remove
+        val test = mutableListOf<PlanModel>().apply {
+            addAll(it)
+            addAll(PlanModel.testList(5))
+        }
+        adapter.updatePlans(test)
+
+        // adapter.updatePlans(it)
     }
 
     private val handleTapBack = Observer<Void> {

@@ -8,7 +8,7 @@
 
     <com.trx.consumer.common.CommonView
         android:id="@+id/viewNavBar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/top_bar_height"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,8 +18,7 @@
             android:id="@+id/btnBack"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginStart="5dp"
-            android:background="@color/transparent"
+            android:layout_marginStart="15dp"
             android:scaleType="centerInside"
             android:src="@drawable/ic_btn_back"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -28,6 +27,22 @@
 
     </com.trx.consumer.common.CommonView>
 
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblTitle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="15dp"
+        android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="@string/plans_title"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewNavBar"
+        app:textAllCaps="true" />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/viewScroll"
         android:layout_width="match_parent"
@@ -35,28 +50,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewNavBar">
+        app:layout_constraintTop_toBottomOf="@id/lblTitle">
 
         <com.trx.consumer.common.CommonView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/bottom_bar_height">
-
-            <com.trx.consumer.common.CommonLabel
-                android:id="@+id/lblTitle"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginStart="15dp"
-                android:fontFamily="@font/atcarquette_bold"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:text="@string/plans_title"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewNavBar"
-                app:textAllCaps="true" />
+            android:layout_height="0dp"
+            android:paddingBottom="@dimen/bottom_bar_height"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/viewPlans"
@@ -66,7 +66,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblTitle"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:itemCount="3"
                 tools:listitem="@layout/row_plans" />
 
@@ -74,7 +74,6 @@
                 android:id="@+id/viewBottom"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 app:backgroundColor="@color/transparent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,6 +84,7 @@
                     android:id="@+id/viewLastBill"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
+                    android:visibility="gone"
                     app:backgroundColor="@color/white"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -126,12 +126,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/greyLight"
+                    android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@id/viewLastBill" />
 
                 <com.trx.consumer.common.CommonView
                     android:id="@+id/viewNextBill"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
+                    android:visibility="gone"
                     app:backgroundColor="@color/white"
                     app:layout_constraintTop_toBottomOf="@+id/imgLine">
 
@@ -170,8 +172,10 @@
 
                 <com.trx.consumer.common.CommonButton
                     android:id="@+id/btnCancel"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="140dp"
                     android:fontFamily="@font/atcarquette_bold"
                     android:gravity="center"
                     android:text="@string/plans_cancel_button_label"
@@ -179,6 +183,7 @@
                     android:textColor="@color/red"
                     android:textSize="13sp"
                     android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/viewNextBill"
