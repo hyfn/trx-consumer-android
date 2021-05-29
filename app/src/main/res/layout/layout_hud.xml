@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/viewMain"
     style="@style/MatchParentDimensionsViewStyle"
     android:clickable="true"
@@ -13,12 +14,19 @@
 
     <com.trx.consumer.common.CommonView
         style="@style/MatchParentEdgesViewStyle"
-        android:layout_width="45dp"
-        android:layout_height="45dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <ProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            style="@style/MatchParentEdgesViewStyle"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation"
+            app:lottie_repeatMode="reverse"
+            app:lottie_speed="1.0" />
 
     </com.trx.consumer.common.CommonView>
 
