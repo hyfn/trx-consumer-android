@@ -130,10 +130,20 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <!-- Brightcove Player -->
+
+    <style name="BrightcoveSeekBarStyle" parent="BrightcoveSeekBarDefault">
+        <item name="android:thumbTint">@color/transparent</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+    </style>
+
     <style name="BrightcoveControlBar.Custom">
         <item name="brightcove_full_screen">false</item>
         <item name="brightcove_rewind">false</item>
     </style>
+
+    <!-- -->
 
     <style name="EmptyListLabelStyle" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/atcarquette_medium</item>
