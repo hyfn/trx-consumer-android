@@ -231,8 +231,7 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
                 params = params
             )
         )
-        if (response.isSuccess) user()
-        return response
+        return if (!response.isSuccess) response else user()
     }
 
     suspend fun videos(params: HashMap<String, Any>? = null): ResponseModel {
