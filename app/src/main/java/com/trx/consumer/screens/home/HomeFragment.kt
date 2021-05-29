@@ -148,7 +148,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         viewBinding.apply {
             viewPromos.lblTitle.text = getString(R.string.promos_top_title_label)
             viewPromos.viewMain.isHidden = promos.isEmpty()
-            imgLineForYou.isHidden = hide
             viewPromos.viewMain.isHidden = hide
         }
     }

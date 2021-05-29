@@ -27,7 +27,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="15dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/atcarquette_semibold"
@@ -69,14 +69,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/imgLineOnDemand" />
-
-            <com.trx.consumer.common.CommonImageView
-                android:id="@+id/imgLineForYou"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/greyLight"
-                app:layout_constraintTop_toBottomOf="@id/view_promos" />
 
         </com.trx.consumer.common.CommonView>
 
