@@ -6,7 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
-import com.trx.consumer.databinding.FragmentTrainerBinding
+import com.trx.consumer.databinding.FragmentTrainerDetailBinding
 import com.trx.consumer.extensions.load
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.TrainerModel
@@ -15,10 +15,10 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 
-class TrainerFragment : BaseFragment(R.layout.fragment_trainer) {
+class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
 
-    private val viewModel: TrainerViewModel by viewModels()
-    private val viewBinding by viewBinding(FragmentTrainerBinding::bind)
+    private val viewModel: TrainerDetailViewModel by viewModels()
+    private val viewBinding by viewBinding(FragmentTrainerDetailBinding::bind)
 
     private lateinit var upComingClassesAdapter: LiveWorkoutAdapter
     private lateinit var onDemandClassesAdapter: VideoWorkoutAdapter
@@ -54,9 +54,9 @@ class TrainerFragment : BaseFragment(R.layout.fragment_trainer) {
 
     private val handleLoadView = Observer<TrainerModel> {
         viewBinding.apply {
-            imgPhoto.load(it.profilePhoto)
-            lblName.text = it.firstNameAndLastInitial
-            lblSummary.text = it.bio
+            imgHeaderTrainer.load(it.profilePhoto)
+            lblTrainerName.text = it.firstNameAndLastInitial
+            lblAboutmeDetails.text = it.bio
         }
     }
 

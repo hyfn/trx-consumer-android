@@ -184,6 +184,7 @@
     <string name="trainer_upcoming_classes_label">Upcoming Classes</string>
     <string name="trainer_button_view_schedule">VIEW SCHEDULE   →</string>
     <string name="trainer_services_label">Services</string>
+    <string name="trainer_photo_label">Photo</string>
     <string name="trainer_on_demand_classes_label">On-Demand Classes</string>
     <string name="trainer_button_see_all">SEE ALL   →</string>
     <string name="trainer_for_you_label">For You</string>

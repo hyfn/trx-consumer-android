@@ -140,9 +140,9 @@
 
     <fragment
         android:id="@+id/trainer_fragment"
-        android:name="com.trx.consumer.screens.trainer.TrainerFragment"
+        android:name="com.trx.consumer.screens.trainer.TrainerDetailFragment"
         android:label="TrainerFragment"
-        tools:layout="@layout/fragment_trainer" />
+        tools:layout="@layout/fragment_trainer_detail" />
 
     <fragment
         android:id="@+id/profile_fragment"

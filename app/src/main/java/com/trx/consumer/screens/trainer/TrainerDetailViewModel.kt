@@ -8,7 +8,7 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 
-class TrainerViewModel : BaseViewModel(), LiveWorkoutViewListener, VideoWorkoutListener {
+class TrainerDetailViewModel : BaseViewModel(), LiveWorkoutViewListener, VideoWorkoutListener {
 
     val eventTapBack = CommonLiveEvent<Void>()
     val eventLoadView = CommonLiveEvent<TrainerModel>()
