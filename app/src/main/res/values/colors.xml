@@ -3,7 +3,6 @@
 
     <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
-    <color name="blackOther">#111113</color>
     <color name="blackAlpha20">#33000000</color>
     <color name="white" tools:override="true">#FFFFFF</color>
 
