@@ -33,7 +33,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_animation"
-            app:lottie_repeatMode="reverse"
+            app:lottie_repeatMode="restart"
             app:lottie_speed="1.0" />
 
     </com.trx.consumer.common.CommonView>
