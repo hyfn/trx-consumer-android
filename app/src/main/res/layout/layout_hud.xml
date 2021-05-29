@@ -17,6 +17,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+        <com.trx.consumer.common.CommonImageView
+            style="@style/MatchParentEdgesViewStyle"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:alpha="0.5"
+            android:background="@color/white"
+            app:cornerRadius="15dp" />
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationView"
             style="@style/MatchParentEdgesViewStyle"
