@@ -130,6 +130,7 @@
 
     <string name="player_participants_label">%1$d Participants</string>
     <string name="player_end_workout_button_label">END WORKOUT</string>
+    <string name="player_screen_cast_coming_soon_message">Coming Soon!</string>
 
     <string name="settings_title">SETTINGS</string>
     <string name="settings_plans">Plans</string>
