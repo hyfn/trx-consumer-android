@@ -67,27 +67,26 @@ class SettingsModel {
     }
 }
 
-    enum class SettingsType {
-        SUBSCRIPTIONS,
-        SHOP,
-        GETTING_STARTED,
-        CONTACT_SUPPORT,
-        TERMS_AND_CONDITIONS,
-        RESTORE,
-        LOGOUT,
-        TEST_SCREENS;
+enum class SettingsType {
+    SUBSCRIPTIONS,
+    SHOP,
+    GETTING_STARTED,
+    CONTACT_SUPPORT,
+    TERMS_AND_CONDITIONS,
+    RESTORE,
+    LOGOUT,
+    TEST_SCREENS;
 
-        @get:StringRes
-        val title: Int
-            get() = when (this) {
-                SUBSCRIPTIONS -> R.string.settings_subscriptions
-                SHOP -> R.string.settings_shop
-                GETTING_STARTED -> R.string.settings_getting_started
-                TERMS_AND_CONDITIONS -> R.string.settings_terms_and_conditions
-                CONTACT_SUPPORT -> R.string.settings_contact_support
-                RESTORE -> R.string.settings_restore_purchases
-                LOGOUT -> R.string.settings_logout
-                TEST_SCREENS -> R.string.settings_test_screen
-            }
-    }
-
+    @get:StringRes
+    val title: Int
+        get() = when (this) {
+            SUBSCRIPTIONS -> R.string.settings_subscriptions
+            SHOP -> R.string.settings_shop
+            GETTING_STARTED -> R.string.settings_getting_started
+            TERMS_AND_CONDITIONS -> R.string.settings_terms_and_conditions
+            CONTACT_SUPPORT -> R.string.settings_contact_support
+            RESTORE -> R.string.settings_restore_purchases
+            LOGOUT -> R.string.settings_logout
+            TEST_SCREENS -> R.string.settings_test_screen
+        }
+}

@@ -112,7 +112,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private val handleTapEditProfile = Observer<Void> {
-        if(BuildConfig.isVersion2Enabled) {
+        if (BuildConfig.isVersion2Enabled) {
             NavigationManager.shared.present(this, R.id.profile_fragment)
         }
     }
