@@ -2,6 +2,7 @@ package com.trx.consumer.models.common
 
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
+import com.trx.consumer.BuildConfig
 import com.trx.consumer.BuildConfig.isVersion2Enabled
 import com.trx.consumer.R
 
@@ -42,26 +43,25 @@ class SettingsModel {
             }
 
         fun list(user: UserModel?): List<Any> {
-            return if (isVersion2Enabled) {
-                listOf(
-                    create(user, SettingsType.SUBSCRIPTIONS),
-                    0,
-                    create(null, SettingsType.SHOP),
-                    create(null, SettingsType.GETTING_STARTED),
-                    create(null, SettingsType.CONTACT_SUPPORT),
-                    create(null, SettingsType.TERMS_AND_CONDITIONS),
-                    0,
-                    create(null, SettingsType.LOGOUT)
-                )
-            } else {
-                listOf(
-                    create(null, SettingsType.SHOP),
-                    create(null, SettingsType.GETTING_STARTED),
-                    create(null, SettingsType.CONTACT_SUPPORT),
-                    create(null, SettingsType.TERMS_AND_CONDITIONS),
-                    0,
-                    create(null, SettingsType.LOGOUT)
-                )
+            return mutableListOf<Any>().apply {
+                if (isVersion2Enabled) {
+                    add(create(user, SettingsType.SUBSCRIPTIONS))
+                    add(0)
+                    add(create(null, SettingsType.SHOP))
+                    add(create(null, SettingsType.GETTING_STARTED))
+                    add(create(null, SettingsType.CONTACT_SUPPORT))
+                    add(create(null, SettingsType.TERMS_AND_CONDITIONS))
+                    add(0)
+                    add(create(null, SettingsType.LOGOUT))
+                } else {
+                    add(create(null, SettingsType.SHOP))
+                    add(create(null, SettingsType.GETTING_STARTED))
+                    add(create(null, SettingsType.CONTACT_SUPPORT))
+                    add(create(null, SettingsType.TERMS_AND_CONDITIONS))
+                    add(0)
+                    add(create(null, SettingsType.LOGOUT))
+                }
+                if (BuildConfig.DEBUG) add(create(null, SettingsType.TEST_SCREENS))
             }
         }
     }
@@ -74,7 +74,8 @@ enum class SettingsType {
     CONTACT_SUPPORT,
     TERMS_AND_CONDITIONS,
     RESTORE,
-    LOGOUT;
+    LOGOUT,
+    TEST_SCREENS;
 
     @get:StringRes
     val title: Int
@@ -86,5 +87,6 @@ enum class SettingsType {
             CONTACT_SUPPORT -> R.string.settings_contact_support
             RESTORE -> R.string.settings_restore_purchases
             LOGOUT -> R.string.settings_logout
+            TEST_SCREENS -> R.string.settings_test_screen
         }
 }

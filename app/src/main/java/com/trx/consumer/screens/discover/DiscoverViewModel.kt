@@ -11,12 +11,12 @@ import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.models.responses.VideosResponseModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterListener
-import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
+import com.trx.consumer.screens.discover.list.DiscoverListener
 import kotlinx.coroutines.launch
 
 class DiscoverViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
-) : BaseViewModel(), VideoWorkoutListener, DiscoverFilterListener {
+) : BaseViewModel(), DiscoverListener, DiscoverFilterListener {
 
     var workouts: List<VideoModel> = listOf()
     var collections: List<VideosModel> = listOf()
