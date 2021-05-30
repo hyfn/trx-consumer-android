@@ -223,8 +223,6 @@
 
         </com.trx.consumer.common.CommonView>
 
-
-
     </ScrollView>
 
     <com.trx.consumer.common.CommonHudView
