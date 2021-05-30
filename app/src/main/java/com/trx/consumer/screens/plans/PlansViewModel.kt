@@ -83,7 +83,7 @@ class PlansViewModel @ViewModelInject constructor(
         eventTapBack.call()
     }
 
-    fun doTapDeletePlan() {
+    fun doTapUnsubscribe() {
         viewModelScope.launch {
             eventShowHud.postValue(true)
             cacheManager.user()?.plan?.let {

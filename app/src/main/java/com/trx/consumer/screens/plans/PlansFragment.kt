@@ -62,6 +62,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
         LogManager.log("handleLoadCanCancel")
         viewBinding.apply {
             btnCancel.isHidden = !value
+            btnCancel.action { viewModel.doTapUnsubscribe() }
             viewNextBill.isHidden = !value
         }
     }
@@ -73,7 +74,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
         val model = AlertModel.create(title = "", message = message)
         model.setPrimaryButton(title = R.string.alert_primary_keep_plan)
         model.setSecondaryButton(title = R.string.alert_secondary_cancel_plan) {
-            viewModel.doTapDeletePlan()
+            viewModel.doTapUnsubscribe()
         }
 
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
@@ -115,14 +116,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
 
     private val handleLoadPlans = Observer<List<PlanModel>> {
         LogManager.log("handleLoadPlans")
-        //  TODO: Testing to remove
-        val test = mutableListOf<PlanModel>().apply {
-            addAll(it)
-            addAll(PlanModel.testList(5))
-        }
-        adapter.updatePlans(test)
-
-        // adapter.updatePlans(it)
+        adapter.updatePlans(it)
     }
 
     private val handleTapBack = Observer<Void> {
