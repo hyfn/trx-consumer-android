@@ -9,7 +9,6 @@ import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.IAPManager
 import com.trx.consumer.models.common.SubscriptionModel
-import com.trx.consumer.models.common.SubscriptionsModel
 import com.trx.consumer.models.common.iap.IAPModel.Companion.ENTITLEMENT
 import com.trx.consumer.models.common.iap.PurchaseEntitlementModel
 import com.trx.consumer.models.core.ResponseModel
@@ -22,8 +21,6 @@ class SubscriptionsViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager,
 ) : BaseViewModel(), SubscriptionsListener {
-
-    var model: SubscriptionsModel = SubscriptionsModel()
 
     val eventLoadCanCancel = CommonLiveEvent<Boolean>()
     val eventLoadCancel = CommonLiveEvent<Void>()
@@ -42,9 +39,10 @@ class SubscriptionsViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         eventLoadView.call()
+        doLoadSubscriptions()
     }
 
-    fun doLoadSubscriptions() {
+    private fun doLoadSubscriptions() {
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = backendManager.purchases()

@@ -75,6 +75,7 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
 
     private val handleLoadSubscriptions = Observer<List<SubscriptionModel>> { subscriptions ->
         LogManager.log("handleLoadSubscriptions")
+        adapter.update(subscriptions)
     }
 
     private val handleTapSettings = Observer<Void> {
