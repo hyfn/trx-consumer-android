@@ -97,6 +97,7 @@ class HomeViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = backendManager.videos()
+            eventShowHud.postValue(false)
             if (response.isSuccess) {
                 val model = VideosResponseModel.parse(response.responseString)
                 eventLoadVideos.postValue(model.workouts)
