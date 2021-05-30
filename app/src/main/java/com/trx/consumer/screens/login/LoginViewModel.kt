@@ -5,12 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
 import kotlinx.coroutines.launch
 
 class LoginViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager
+    private val backendManager: BackendManager,
+    private val cacheManager: CacheManager
 ) : BaseViewModel(), InputViewListener {
 
     //region Variables
@@ -33,6 +35,7 @@ class LoginViewModel @ViewModelInject constructor(
     val eventShowError = CommonLiveEvent<String>()
     val eventValidateError = CommonLiveEvent<Int>()
 
+    val eventShowOnboarding = CommonLiveEvent<Void>()
     val eventDismissKeyboard = CommonLiveEvent<Void>()
     val eventShowHud = CommonLiveEvent<Boolean>()
 
@@ -58,7 +61,11 @@ class LoginViewModel @ViewModelInject constructor(
             val response = backendManager.login(email, password)
             eventShowHud.postValue(false)
             if (response.isSuccess) {
-                eventTapLogin.call()
+                if (cacheManager.didShowOnboarding()) {
+                    eventTapLogin.call()
+                } else {
+                    eventShowOnboarding.call()
+                }
             } else {
                 eventShowError.postValue(response.errorMessage)
             }

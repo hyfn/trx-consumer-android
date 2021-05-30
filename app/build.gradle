@@ -39,7 +39,7 @@ android {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
-        versionName "0.0.0"
+        versionName "0.0.1"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -99,6 +99,7 @@ android {
             buildConfigField "Boolean", "kIsVerificationEnabled", "false"
             buildConfigField "String", "kRevenueCatEntitlementOnDemand", '"ondemand"'
             buildConfigField "String", "kTRXSupportEmail", '"digital@trxtraining.com"'
+            buildConfigField "Boolean", "isVersion1Enabled", "false"
             buildConfigField "Boolean", "isVersion2Enabled", "false"
             buildConfigField "Integer", "kMinutesBeforeCanJoin", "10"
             buildConfigField "Integer", "kMinutesAfterCanJoin", "15"

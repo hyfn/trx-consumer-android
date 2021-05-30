@@ -7,6 +7,7 @@ import android.text.style.ClickableSpan
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.trx.consumer.BuildConfig.kTermsConditionsUrl
 import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
@@ -15,8 +16,8 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.setPrimaryEnabled
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.managers.UtilityManager
 import com.trx.consumer.screens.erroralert.ErrorAlertModel
-import com.trx.consumer.screens.update.UpdateViewState
 
 class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
@@ -31,9 +32,11 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
     override fun bind() {
         viewBinding.apply {
-            ivEmail.setInputViewListener(viewModel)
-            ivPassword.setInputViewListener(viewModel)
-            ivConfirmPassword.setInputViewListener(viewModel)
+            txtFirstName.setInputViewListener(viewModel)
+            txtLastName.setInputViewListener(viewModel)
+            txtEmail.setInputViewListener(viewModel)
+            txtPassword.setInputViewListener(viewModel)
+            txtConfirmPassword.setInputViewListener(viewModel)
             btnLogin.action { viewModel.doTapLogin() }
             btnCreateAccount.action {
                 viewModel.doDismissKeyboard()
@@ -47,8 +50,8 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-            eventLoadProfile.observe(viewLifecycleOwner, handleLoadProfile)
             eventLoadButton.observe(viewLifecycleOwner, handleLoadButton)
+            eventShowOnboarding.observe(viewLifecycleOwner, handleShowOnboarding)
             eventShowError.observe(viewLifecycleOwner, handleShowError)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
             eventTapLogin.observe(viewLifecycleOwner, handleTapLogin)
@@ -94,8 +97,8 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         viewBinding.btnCreateAccount.setPrimaryEnabled(enabled)
     }
 
-    private val handleLoadProfile = Observer<Void> {
-        NavigationManager.shared.dismiss(this, R.id.update_fragment, UpdateViewState.CREATE)
+    private val handleShowOnboarding = Observer<Void> {
+        NavigationManager.shared.dismiss(this, R.id.onboarding_fragment)
     }
 
     private val handleTapBack = Observer<Void> {
@@ -111,7 +114,8 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
     }
 
     private val handleTapTermsConditions = Observer<Void> {
-        // TODO: Handle displaying Content with terms and conditions
+        LogManager.log("handleTapTermsAndConditions")
+        UtilityManager.shared.openUrl(requireContext(), kTermsConditionsUrl)
     }
 
     private val handleShowError = Observer<String> { error ->
@@ -140,9 +144,11 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
     private fun dismissKeyboard() {
         viewBinding.apply {
-            ivEmail.dismiss()
-            ivPassword.dismiss()
-            ivConfirmPassword.dismiss()
+            txtFirstName.dismiss()
+            txtLastName.dismiss()
+            txtEmail.dismiss()
+            txtPassword.dismiss()
+            txtConfirmPassword.dismiss()
         }
     }
 

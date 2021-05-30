@@ -7,12 +7,12 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentUpdateBinding
 import com.trx.consumer.extensions.action
-import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.extensions.setPrimaryEnabled
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.UserModel
+import com.trx.consumer.screens.email.EmailViewState
 import com.trx.consumer.screens.erroralert.ErrorAlertModel
 
 class UpdateFragment : BaseFragment(R.layout.fragment_update) {
@@ -27,8 +27,6 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
     //region Initializers
 
     override fun bind() {
-        val updateState = NavigationManager.shared.params(this) as UpdateViewState
-
         viewBinding.apply {
             ivFirstName.setInputViewListener(viewModel)
             ivLastName.setInputViewListener(viewModel)
@@ -36,29 +34,21 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
             ivBirthDate.setInputViewListener(viewModel)
             ivZipCode.setInputViewListener(viewModel)
             ivPassword.setInputViewListener(viewModel)
-            cbAgreement.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.doTapCheckbox(isChecked)
-            }
             btnBack.action { viewModel.doTapBack() }
             btnContinue.action { viewModel.doTapContinue() }
         }
 
         viewModel.apply {
-            state = updateState
-
-            eventLoadState.observe(viewLifecycleOwner, handleLoadState)
+            eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventLoadUser.observe(viewLifecycleOwner, handleLoadUser)
             eventLoadButton.observe(viewLifecycleOwner, handleLoadButton)
             eventLoadSuccess.observe(viewLifecycleOwner, handleLoadSuccess)
             eventLoadError.observe(viewLifecycleOwner, handleLoadError)
 
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
-            eventTapTermsAndConditions.observe(viewLifecycleOwner, handleTapTermsAndConditions)
-            eventTapWaivers.observe(viewLifecycleOwner, handleTapWaiver)
 
             eventUpdateDate.observe(viewLifecycleOwner, handleUpdateDate)
 
-            eventShowOnboarding.observe(viewLifecycleOwner, handleShowOnboarding)
             eventShowVerification.observe(viewLifecycleOwner, handleShowVerification)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
 
@@ -70,11 +60,9 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
 
     //region Handlers
 
-    private val handleLoadState = Observer<UpdateViewState> {
-        viewBinding.apply {
-            btnContinue.text = getString(it.buttonTitle)
-            viewAgreement.isHidden = (it == UpdateViewState.EDIT)
-        }
+    private val handleLoadView = Observer<Void> {
+        viewBinding.btnContinue.text = requireContext()
+            .getString(R.string.update_save_changes_label)
     }
 
     private val handleLoadUser = Observer<UserModel> { user ->
@@ -115,30 +103,17 @@ class UpdateFragment : BaseFragment(R.layout.fragment_update) {
         viewModel.doTapBack()
     }
 
-    private val handleTapTermsAndConditions = Observer<Void> {
-        LogManager.log("handleTapTermsAndConditions")
-        //  TODO: Add call to showTermWaivers()
-    }
-
-    private val handleTapWaiver = Observer<Void> {
-        LogManager.log("handleTapWaiver")
-        //  TODO: Add call to showTermWaivers()
-    }
-
     private val handleUpdateDate = Observer<String> {
         viewBinding.ivBirthDate.text = it
     }
 
-    private val handleShowOnboarding = Observer<Void> {
-        LogManager.log("handleShowOnboarding")
-        // TODO: OnboardingFragment presentation
-        //  Temporarily just heading to home
-        NavigationManager.shared.loggedInLaunchSequence(this)
-    }
-
     private val handleShowVerification = Observer<Void> {
         LogManager.log("handleShowVerification")
-        // TODO: EmailFragment CODE state presentation
+        NavigationManager.shared.present(
+            this,
+            R.id.email_fragment,
+            EmailViewState.CODE
+        )
     }
 
     private val handleShowHud = Observer<Boolean> { show ->

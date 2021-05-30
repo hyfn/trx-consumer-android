@@ -36,7 +36,7 @@ class EmailViewModel @ViewModelInject constructor(
     val eventTapBack = CommonLiveEvent<Void>()
 
     val eventSendEmailSuccess = CommonLiveEvent<Int>()
-    val eventSendEmailError = CommonLiveEvent<Int>()
+    val eventSendEmailError = CommonLiveEvent<String>()
 
     val eventDismissKeyboard = CommonLiveEvent<Void>()
     val eventShowHud = CommonLiveEvent<Boolean>()
@@ -59,7 +59,7 @@ class EmailViewModel @ViewModelInject constructor(
             if (response.isSuccess) {
                 eventSendEmailSuccess.postValue(state.success)
             } else {
-                eventSendEmailError.postValue(state.error)
+                eventSendEmailError.postValue(response.errorMessage)
             }
         }
     }
