@@ -21,7 +21,7 @@ enum class AmplitudePropertyModel {
     VIDEO_ID,
     VIDEO_NAME;
 
-    val amplitudePropertyName: Any
+    val amplitudePropertyName: String
         get() {
             return when (this) {
                 ATTENDED_LIVE_CLASS -> "Attended Live Class"

@@ -34,8 +34,8 @@ enum class AnalyticsEventModel {
     VIEW_VIDEO_DETAIL;
 
     val amplitudeEventName: String
-        get() =
-            when (this) {
+        get() {
+            return when (this) {
                 CANCEL_SUBSCRIPTION -> "Cancel Subscription"
                 FILTER_ON_DEMAND -> "Filter On Demand"
                 PAGE_VIEW -> "Page View"
@@ -47,6 +47,7 @@ enum class AnalyticsEventModel {
                 VIEW_VIDEO -> "View Video"
                 VIEW_VIDEO_DETAIL -> "View Video Detail"
             }
+        }
 
     val amplitudeEventCategory: String
         get() {
