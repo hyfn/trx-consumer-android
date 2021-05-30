@@ -118,7 +118,7 @@ class HomeViewModel @ViewModelInject constructor(
 
     override fun doTapVideo(model: VideoModel) {
         eventShowVideo.postValue(model)
-        analyticsManager.trackAmplitude(AnalyticsEventModel.VIEW_VIDEO_DETAIL_ID, model.id)
+        analyticsManager.trackAmplitude(AnalyticsEventModel.VIEW_VIDEO_DETAIL, model.id)
     }
 
     //endregion
