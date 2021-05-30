@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/viewMain"
     style="@style/MatchParentDimensionsViewStyle"
     android:clickable="true"
-    android:visibility="gone"
-    android:focusable="true">
+    android:focusable="true"
+    android:visibility="gone">
 
     <com.trx.consumer.common.CommonImageView
         style="@style/MatchParentDimensionsViewStyle"
@@ -13,12 +14,27 @@
 
     <com.trx.consumer.common.CommonView
         style="@style/MatchParentEdgesViewStyle"
-        android:layout_width="45dp"
-        android:layout_height="45dp">
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        app:cornerRadius="15dp">
 
-        <ProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <com.trx.consumer.common.CommonImageView
+            style="@style/MatchParentEdgesViewStyle"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:alpha="0.5"
+            android:background="@color/white" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            style="@style/MatchParentEdgesViewStyle"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation"
+            app:lottie_repeatMode="restart"
+            app:lottie_speed="1.0" />
 
     </com.trx.consumer.common.CommonView>
 

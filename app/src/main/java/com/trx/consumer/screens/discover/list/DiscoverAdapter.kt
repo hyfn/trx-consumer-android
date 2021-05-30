@@ -6,8 +6,10 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.DiscoverModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
+import com.trx.consumer.screens.discover.DiscoverViewState
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
@@ -30,8 +32,9 @@ class DiscoverAdapter(
                     LayoutInflater.from(parent.context)
                         .inflate(R.layout.row_video_detail, parent, false)
                 )
-                else -> EmptyViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.row_empty, parent, false)
+                else -> DiscoverEmptyListViewHolder(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.row_discover_empty_list, parent, false)
                 )
             }
         } catch (e: Exception) {
@@ -47,11 +50,12 @@ class DiscoverAdapter(
         when (holder) {
             is DiscoverViewHolder -> {
                 when (item) {
-                    is VideoModel ->
-                        holder.setup(item, listener)
-                    is VideosModel ->
-                        holder.setup(item, listener)
+                    is VideoModel -> holder.setup(item, listener)
+                    is VideosModel -> holder.setup(item, listener)
                 }
+            }
+            is DiscoverEmptyListViewHolder -> {
+                holder.setup(item as DiscoverEmptyListViewState)
             }
         }
     }
@@ -65,6 +69,24 @@ class DiscoverAdapter(
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun update(model: DiscoverModel) {
+        val items: List<Any> = when (model.state) {
+            DiscoverViewState.WORKOUTS -> {
+                val workouts = model.workouts
+                if (workouts.isEmpty()) listOf(DiscoverEmptyListViewState.WORKOUTS) else workouts
+            }
+            DiscoverViewState.COLLECTIONS -> {
+                val videos = model.videos
+                if (videos.isEmpty()) listOf(DiscoverEmptyListViewState.COLLECTIONS) else videos
+            }
+            DiscoverViewState.PROGRAMS -> {
+                val videos = model.videos
+                if (videos.isEmpty()) listOf(DiscoverEmptyListViewState.PROGRAMS) else videos
+            }
+        }
+        updateVideos(items)
+    }
 
     fun updateVideos(videos: List<Any>) {
         this.items.clear()

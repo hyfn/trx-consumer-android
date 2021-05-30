@@ -14,6 +14,7 @@ import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.responses.BannerResponseModel
 import com.trx.consumer.models.responses.PromosResponseModel
+import com.trx.consumer.models.responses.VideosResponseModel
 import com.trx.consumer.screens.promotion.PromoViewListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 import kotlinx.coroutines.launch
@@ -37,12 +38,12 @@ class HomeViewModel @ViewModelInject constructor(
     val eventLoadPromos = CommonLiveEvent<List<PromoModel>>()
     val eventLoadVideos = CommonLiveEvent<List<VideoModel>>()
 
-    val eventTapTest = CommonLiveEvent<Void>()
-    val eventTapBanner = CommonLiveEvent<String>()
-    val eventTapUser = CommonLiveEvent<Void>()
-
+    val eventShowEditProfile = CommonLiveEvent<Void>()
+    val eventShowVideo = CommonLiveEvent<VideoModel>()
     val eventShowPromo = CommonLiveEvent<PromoModel>()
     val eventShowHud = CommonLiveEvent<Boolean>()
+
+    val eventTapBanner = CommonLiveEvent<String>()
 
     //endregion
 
@@ -50,11 +51,18 @@ class HomeViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         eventLoadView.call()
-        eventLoadUser.postValue(UserModel.test())
+        doLoadUser()
     }
 
-    fun doTapTest() {
-        eventTapTest.call()
+    private fun doLoadUser() {
+        viewModelScope.launch {
+            eventShowHud.postValue(true)
+            backendManager.user()
+            eventShowHud.postValue(false)
+            cacheManager.user()?.let { user ->
+                eventLoadUser.postValue(user)
+            }
+        }
     }
 
     fun doLoadBanner() {
@@ -86,15 +94,22 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
     fun doLoadVideos() {
-        eventLoadVideos.postValue(VideoModel.testList(5))
+        viewModelScope.launch {
+            eventShowHud.postValue(true)
+            val response = backendManager.videos()
+            if (response.isSuccess) {
+                val model = VideosResponseModel.parse(response.responseString)
+                eventLoadVideos.postValue(model.workouts)
+            }
+        }
+    }
+
+    fun doShowEditProfile() {
+        eventShowEditProfile.call()
     }
 
     fun doTapBanner() {
         eventTapBanner.postValue(bannerUrlString)
-    }
-
-    fun doTapUser() {
-        eventTapUser.call()
     }
 
     override fun doTapPromo(model: PromoModel) {
@@ -102,6 +117,7 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
     override fun doTapVideo(model: VideoModel) {
+        eventShowVideo.postValue(model)
         analyticsManager.trackAmplitude(AnalyticsEventModel.VIEW_VIDEO_DETAIL_ID, model.id)
     }
 

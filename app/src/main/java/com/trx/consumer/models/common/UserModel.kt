@@ -69,7 +69,7 @@ class UserModel(
                 lastName = jsonObject.optString("lastName")
             ).apply {
                 try {
-                    jsonObject.getJSONObject("subscriptions").let { plansJSONObject ->
+                    jsonObject.optJSONObject("subscriptions")?.let { plansJSONObject ->
                         plansJSONObject.keys().forEach { key ->
                             val userPlansJSONObject = plansJSONObject.get(key) as JSONObject
                             val userPlans = UserPlanModel.parse(userPlansJSONObject)
