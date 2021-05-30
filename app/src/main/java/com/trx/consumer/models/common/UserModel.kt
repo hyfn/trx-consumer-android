@@ -4,6 +4,7 @@ import com.trx.consumer.extensions.format
 import com.trx.consumer.managers.LogManager
 import org.json.JSONObject
 import java.util.Date
+import java.util.TimeZone
 import kotlin.math.roundToLong
 
 class UserModel(
@@ -44,7 +45,7 @@ class UserModel(
         get() =
             plans.values.firstOrNull()?.let {
                 if (!it.cancelAtPeriodEnd) {
-                    planRenewsDate?.format(format = "MM/dd/YYY")
+                    planRenewsDate?.format(format = "MM/dd/YYYY", zone = TimeZone.getDefault())
                 } else null
             }
 
@@ -72,8 +73,12 @@ class UserModel(
                     jsonObject.optJSONObject("subscriptions")?.let { plansJSONObject ->
                         plansJSONObject.keys().forEach { key ->
                             val userPlansJSONObject = plansJSONObject.get(key) as JSONObject
-                            val userPlans = UserPlanModel.parse(userPlansJSONObject)
-                            plans[key] = userPlans
+                            userPlansJSONObject
+                                .optJSONObject("subscription")?.let { subJSONObject ->
+                                    UserPlanModel.parse(subJSONObject)
+                                }?.let { userPlans ->
+                                    plans[key] = userPlans
+                                }
                         }
                     }
                 } catch (e: Exception) {

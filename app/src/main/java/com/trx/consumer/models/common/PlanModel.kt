@@ -38,7 +38,7 @@ class PlanModel(
                 key = "",
                 title = "Unlimited live classes",
                 valueProps = listOf(
-                    "unlimited lIVE classes",
+                    "Unlimited LIVE classes",
                     "Hundreds of on-demand videos ",
                     "free virtual training intro sessions. ",
                     "discounts on TRX products"
