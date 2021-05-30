@@ -17,10 +17,10 @@
         <com.trx.consumer.common.CommonLabel
             android:id="@+id/lblTitle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="60dp"
             android:layout_marginStart="15dp"
             android:fontFamily="@font/atcarquette_bold"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|start"
             android:text="@string/settings_title"
             android:textColor="@color/black"
             android:textSize="11sp"
