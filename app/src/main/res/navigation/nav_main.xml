@@ -174,4 +174,10 @@
         android:label="BookingAlertFragment"
         tools:layout="@layout/fragment_booking_alert" />
 
+    <fragment
+        android:id="@+id/loading_screen"
+        android:name="com.trx.consumer.screens.loading.LoadingFragment"
+        android:label="LoadingFragment"
+        tools:layout="@layout/fragment_loading" />
+
 </navigation>
