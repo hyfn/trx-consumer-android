@@ -17,7 +17,7 @@ class PlanModel(
 ) : Parcelable {
 
     val cost: String
-        get() = if (price != 0.0) "${price.toPrice()} per Month" else ""
+        get() = if (price != 0.0) "${(price / 100.0).toPrice()} per Month" else ""
 
     val description: String
         get() = valueProps.joinToString(separator = "\n")
