@@ -43,7 +43,6 @@ class ScheduleFragment : BaseFragment(R.layout.fragment_schedule) {
         viewBinding.apply {
             lblTitle.text = "May"
             scheduleAdapter.update(WorkoutModel.testListLive(5))
-            calendar.showLabels(false)
         }
     }
 
