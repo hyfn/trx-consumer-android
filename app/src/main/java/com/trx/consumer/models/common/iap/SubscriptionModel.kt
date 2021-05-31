@@ -1,4 +1,4 @@
-package com.trx.consumer.models.common
+package com.trx.consumer.models.common.iap
 
 import android.os.Parcelable
 import com.revenuecat.purchases.Package

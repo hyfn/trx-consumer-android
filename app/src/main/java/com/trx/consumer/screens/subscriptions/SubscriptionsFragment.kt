@@ -14,7 +14,7 @@ import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.managers.UtilityManager
 import com.trx.consumer.models.common.AlertModel
-import com.trx.consumer.models.common.SubscriptionModel
+import com.trx.consumer.models.common.iap.SubscriptionModel
 import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.erroralert.ErrorAlertModel
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsAdapter
@@ -89,10 +89,7 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
                 title = R.string.subscriptions_cancel_alert_primary_label,
                 state = AlertViewState.POSITIVE
             )
-            setSecondaryButton(
-                R.string.subscriptions_cancel_alert_secondary_label,
-                state = AlertViewState.NEGATIVE
-            ) {
+            setSecondaryButton(R.string.subscriptions_cancel_alert_secondary_label) {
                 viewModel.doTapUnsubscribe()
             }
         }

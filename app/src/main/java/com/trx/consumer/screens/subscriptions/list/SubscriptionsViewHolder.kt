@@ -5,7 +5,7 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonButton
 import com.trx.consumer.common.CommonLabel
 import com.trx.consumer.common.CommonViewHolder
-import com.trx.consumer.models.common.SubscriptionModel
+import com.trx.consumer.models.common.iap.SubscriptionModel
 
 class SubscriptionsViewHolder(view: View) : CommonViewHolder(view) {
 

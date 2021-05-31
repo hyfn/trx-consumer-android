@@ -8,7 +8,7 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.IAPManager
-import com.trx.consumer.models.common.SubscriptionModel
+import com.trx.consumer.models.common.iap.SubscriptionModel
 import com.trx.consumer.models.common.iap.IAPModel.Companion.ENTITLEMENT
 import com.trx.consumer.models.common.iap.PurchaseEntitlementModel
 import com.trx.consumer.models.core.ResponseModel
@@ -91,7 +91,7 @@ class SubscriptionsViewModel @ViewModelInject constructor(
 
             val params = model.paramsPurchase(value)
             if (params.isEmpty()) {
-                eventLoadError.postValue("There was a receipt or purchase information error")
+                eventLoadError.postValue("There was a purchase information error")
             }
 
             val response = backendManager.purchase(params)
@@ -159,7 +159,7 @@ class SubscriptionsViewModel @ViewModelInject constructor(
             if (model.hasOnDemandSubscription) {
                 val params = model.paramsRestore()
                 if (params.isEmpty()) {
-                    eventLoadError.postValue("There was a receipt or purchase information error")
+                    eventLoadError.postValue("There was a purchase information error")
                     return@launch
                 }
                 val response = backendManager.purchase(params = params)

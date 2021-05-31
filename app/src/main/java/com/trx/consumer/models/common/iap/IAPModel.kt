@@ -4,7 +4,6 @@ import com.android.billingclient.api.Purchase
 import com.revenuecat.purchases.PurchaserInfo
 import com.revenuecat.purchases.PurchasesError
 import com.trx.consumer.BuildConfig
-import com.trx.consumer.models.common.SubscriptionModel
 
 class IAPModel(
     val purchaserInfo: PurchaserInfo? = null,

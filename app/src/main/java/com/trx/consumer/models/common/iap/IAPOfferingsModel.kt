@@ -2,7 +2,6 @@ package com.trx.consumer.models.common.iap
 
 import com.revenuecat.purchases.Offerings
 import com.revenuecat.purchases.PurchasesError
-import com.trx.consumer.models.common.SubscriptionModel
 
 class IAPOfferingsModel(
     private val offerings: Offerings? = null,
