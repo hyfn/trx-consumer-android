@@ -291,5 +291,5 @@
     <string name="videos_related_label">Related Workouts</string>
     <string name="videos_btn_primary_label">Start Workout</string>
 
-    <string name="title_loading_fragment">Checking availability …</string>
+    <string name="title_loading_fragment">Loading…</string>
 </resources>
