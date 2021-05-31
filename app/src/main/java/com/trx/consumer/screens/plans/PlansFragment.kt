@@ -63,7 +63,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
         LogManager.log("handleLoadCanCancel")
         viewBinding.apply {
             btnCancel.isHidden = !value
-            btnCancel.action { viewModel.doTapUnsubscribe() }
+            btnCancel.action { viewModel.doTapCancelPlan() }
             viewNextBill.isHidden = !value
         }
     }

@@ -113,5 +113,15 @@ class PlansViewModel @ViewModelInject constructor(
         }
     }
 
+    fun doTapCancelPlan() {
+        viewModelScope.launch {
+            cacheManager.user()?.let { safeUser ->
+                if (safeUser.planText != UserModel.kPlanNamePay) {
+                    eventLoadCancelPlan.postValue(safeUser.plan)
+                }
+            }
+        }
+    }
+
     //endregion
 }
