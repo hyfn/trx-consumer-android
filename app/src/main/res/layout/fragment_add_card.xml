@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:backgroundColor="@color/white">
@@ -17,9 +18,10 @@
             android:id="@+id/btnBack"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="5dp"
+            android:background="@color/transparent"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_btn_back"
+            android:src="@drawable/ic_btn_back_black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +30,8 @@
             android:id="@+id/btnClose"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/transparent"
             android:scaleType="centerInside"
             android:src="@drawable/ic_btn_close_white"
             android:tint="@color/black"
@@ -44,15 +47,15 @@
         android:layout_height="60dp"
         android:layout_marginStart="15dp"
         android:fontFamily="@font/atcarquette_bold"
-        android:gravity="center_vertical"
-        android:padding="10dp"
+        android:gravity="center_vertical|start"
         android:text="@string/add_card_title"
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/viewNavBar"
-        app:textAllCaps="true" />
+        app:textAllCaps="true"
+        tools:ignore="SmallSp" />
 
     <com.trx.consumer.views.input.InputView
         android:id="@+id/txtNumber"

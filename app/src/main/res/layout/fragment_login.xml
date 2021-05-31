@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@+id/viewBottom"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.trx.consumer.common.CommonView
@@ -42,7 +42,6 @@
                 android:id="@+id/viewNavBar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/top_bar_height"
-                android:layout_marginHorizontal="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -51,6 +50,8 @@
                     android:id="@+id/btnBack"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@color/transparent"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_btn_back_white"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -112,44 +113,43 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vLineTwo" />
 
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <com.trx.consumer.common.CommonButton
+                    android:id="@+id/btnLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="32dp"
+                    android:enabled="false"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="center"
+                    android:text="@string/login_log_in"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:backgroundColor="@color/greyDark"
+                    app:layout_constraintBottom_toTopOf="@id/lblSignUp" />
+
+                <com.trx.consumer.common.CommonButton
+                    android:id="@+id/lblSignUp"
+                    style="@style/CommonLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="center"
+                    android:text="@string/splash_sign_in_label"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </com.trx.consumer.common.CommonView>
 
         </com.trx.consumer.common.CommonView>
 
     </ScrollView>
-
-    <com.trx.consumer.common.CommonView
-        android:id="@+id/viewBottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <com.trx.consumer.common.CommonButton
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="32dp"
-            android:enabled="false"
-            android:fontFamily="@font/atcarquette_bold"
-            android:gravity="center"
-            android:text="@string/login_log_in"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            app:backgroundColor="@color/greyDark"
-            app:layout_constraintBottom_toTopOf="@id/lblSignUp" />
-
-        <com.trx.consumer.common.CommonButton
-            android:id="@+id/lblSignUp"
-            style="@style/CommonLabelStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:gravity="center"
-            android:text="@string/splash_sign_in_label"
-            app:layout_constraintBottom_toBottomOf="parent" />
-    </com.trx.consumer.common.CommonView>
 
     <com.trx.consumer.common.CommonHudView
         android:id="@+id/hudView"

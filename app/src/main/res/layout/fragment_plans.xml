@@ -8,7 +8,7 @@
 
     <com.trx.consumer.common.CommonView
         android:id="@+id/viewNavBar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/top_bar_height"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,6 +19,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginStart="5dp"
+            android:background="@color/transparent"
             android:scaleType="centerInside"
             android:src="@drawable/ic_btn_back"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -27,21 +28,6 @@
 
     </com.trx.consumer.common.CommonView>
 
-    <com.trx.consumer.common.CommonLabel
-        android:id="@+id/lblTitle"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="15dp"
-        android:fontFamily="@font/atcarquette_bold"
-        android:gravity="center_vertical"
-        android:text="@string/plans_title"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewNavBar"
-        app:textAllCaps="true" />
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/viewScroll"
         android:layout_width="match_parent"
@@ -49,13 +35,28 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lblTitle">
+        app:layout_constraintTop_toBottomOf="@+id/viewNavBar">
 
         <com.trx.consumer.common.CommonView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingBottom="@dimen/bottom_bar_height"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/bottom_bar_height">
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblTitle"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="15dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="@string/plans_title"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewNavBar"
+                app:textAllCaps="true" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/viewPlans"
@@ -65,15 +66,15 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblTitle"
                 tools:itemCount="3"
-                tools:listitem="@layout/row_plans"
-                tools:visibility="gone" />
+                tools:listitem="@layout/row_plans" />
 
             <com.trx.consumer.common.CommonView
                 android:id="@+id/viewBottom"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:backgroundColor="@color/transparent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,69 +82,16 @@
                 tools:visibility="visible">
 
                 <com.trx.consumer.common.CommonView
-                    android:id="@+id/viewNextBill"
-                    android:layout_width="match_parent"
-                    android:layout_height="90dp"
-                    android:visibility="gone"
-                    tools:visibility="visible"
-                    app:backgroundColor="@color/white"
-                    app:layout_constraintTop_toBottomOf="@id/viewPlans">
-
-                    <com.trx.consumer.common.CommonLabel
-                        android:id="@+id/lblNextBillTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:fontFamily="@font/atcarquette_bold"
-                        android:text="@string/plans_next_bill_date_label"
-                        android:textColor="@color/grey"
-                        android:textSize="10sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:textAllCaps="true"
-                        tools:ignore="SmallSp" />
-
-                    <com.trx.consumer.common.CommonLabel
-                        android:id="@+id/lblNextBillDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginBottom="15dp"
-                        android:fontFamily="@font/atcarquette_medium"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/lblNextBillTitle"
-                        tools:text="10/10/2020" />
-
-                    <com.trx.consumer.common.CommonImageView
-                        android:id="@+id/imgLineNext"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/greyLight"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-
-                </com.trx.consumer.common.CommonView>
-
-                <com.trx.consumer.common.CommonView
                     android:id="@+id/viewLastBill"
                     android:layout_width="match_parent"
-                    android:layout_height="90dp"
-                    android:visibility="gone"
-                    tools:visibility="visible"
+                    android:layout_height="80dp"
                     app:backgroundColor="@color/white"
-                    app:layout_constraintTop_toBottomOf="@id/viewNextBill">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.trx.consumer.common.CommonLabel
                         android:id="@+id/lblLastBillTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="15dp"
-                        android:layout_marginEnd="15dp"
+                        android:layout_width="0dp"
+                        android:layout_height="10dp"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="15dp"
                         android:fontFamily="@font/atcarquette_bold"
@@ -157,10 +105,10 @@
 
                     <com.trx.consumer.common.CommonLabel
                         android:id="@+id/lblLastBillDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_marginEnd="15dp"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
                         android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
                         android:layout_marginBottom="15dp"
                         android:fontFamily="@font/atcarquette_medium"
                         android:gravity="center_vertical"
@@ -171,21 +119,59 @@
                         app:layout_constraintTop_toBottomOf="@+id/lblLastBillTitle"
                         tools:text="11/10/2020" />
 
-                    <com.trx.consumer.common.CommonImageView
-                        android:id="@+id/imgLineLast"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/greyLight"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                </com.trx.consumer.common.CommonView>
+
+                <com.trx.consumer.common.CommonImageView
+                    android:id="@+id/imgLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/greyLight"
+                    app:layout_constraintTop_toBottomOf="@id/viewLastBill" />
+
+                <com.trx.consumer.common.CommonView
+                    android:id="@+id/viewNextBill"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    app:backgroundColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/imgLine">
+
+                    <com.trx.consumer.common.CommonLabel
+                        android:id="@+id/lblNextBillTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/atcarquette_bold"
+                        android:text="@string/plans_next_bill_date_label"
+                        android:textColor="@color/grey"
+                        android:textSize="10sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textAllCaps="true"
+                        tools:ignore="SmallSp" />
+
+                    <com.trx.consumer.common.CommonLabel
+                        android:id="@+id/lblNextBillDate"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:fontFamily="@font/atcarquette_medium"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/lblNextBillTitle"
+                        tools:text="10/10/2020" />
 
                 </com.trx.consumer.common.CommonView>
 
                 <com.trx.consumer.common.CommonButton
                     android:id="@+id/btnCancel"
-                    android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="140dp"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
                     android:fontFamily="@font/atcarquette_bold"
                     android:gravity="center"
                     android:text="@string/plans_cancel_button_label"
@@ -193,10 +179,9 @@
                     android:textColor="@color/red"
                     android:textSize="13sp"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewLastBill"
+                    app:layout_constraintTop_toBottomOf="@+id/viewNextBill"
                     tools:visibility="visible" />
 
             </com.trx.consumer.common.CommonView>
