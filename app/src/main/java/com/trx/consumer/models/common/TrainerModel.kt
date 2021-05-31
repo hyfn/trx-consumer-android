@@ -61,8 +61,9 @@ class TrainerModel(
 
         fun test(): TrainerModel {
             return TrainerModel(
-                firstName = "Jaime",
-                lastName = "Meneses",
+                firstName = "Stephanie",
+                lastName = "Warwick",
+                key = "0872893d8f6d4074a9f31ecd9478fb9a",
                 bio = "This session will teach you how to push your limits and weight lift using the TRX Bands. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 profilePhoto = "https://virtual-training-assets-production.s3.us-west-2.amazonaws.com/uploads/trainer_profiles/0872893d8f6d4074a9f31ecd9478fb9a/STEPHANIE_HS2.png"
             )

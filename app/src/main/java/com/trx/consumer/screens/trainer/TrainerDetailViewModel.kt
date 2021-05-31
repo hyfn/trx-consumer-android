@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.managers.CacheManager
+import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.common.ContentModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.TrainerProgramModel
@@ -21,11 +23,12 @@ import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 import kotlinx.coroutines.launch
 
 class TrainerDetailViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager
+    private val backendManager: BackendManager,
+    private val cacheManager: CacheManager
 ) : BaseViewModel(), LiveWorkoutViewListener, VideoWorkoutListener {
 
 
-    var trainer: TrainerModel = TrainerModel()
+    var trainer: TrainerModel = TrainerModel.test()
     var photos: List<String> = listOf()
 
     // MARK>
@@ -37,7 +40,7 @@ class TrainerDetailViewModel @ViewModelInject constructor(
     val eventLoadOndemand = CommonLiveEvent<List<VideoModel>>()
     val eventLoadTrainer = CommonLiveEvent<TrainerModel>()
     val eventShowBanner = CommonLiveEvent<String>()
-    val eventShowBooking = CommonLiveEvent<WorkoutModel>()
+    val eventShowBooking = CommonLiveEvent<BookingAlertModel>()
     val eventShowOndemand = CommonLiveEvent<VideoModel>()
     val eventShowOndemandSeeAll = CommonLiveEvent<Void>()
     val eventShowPhoto = CommonLiveEvent<String>()
@@ -146,7 +149,11 @@ class TrainerDetailViewModel @ViewModelInject constructor(
     // Live listener
     override fun doTapBookLiveWorkout(model: WorkoutModel) {
         if (model.cellViewStatus == WorkoutCellViewState.BOOKED)
-            eventShowBooking.postValue(model)
+            viewModelScope.launch {
+                cacheManager.user()?.card?.let { card ->
+                    eventShowBooking.postValue(BookingAlertModel(card, model))
+                }
+            }
         else doTapSelectLiveWorkout(model)
     }
 
