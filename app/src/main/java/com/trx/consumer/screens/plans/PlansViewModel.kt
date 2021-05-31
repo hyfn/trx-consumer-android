@@ -89,7 +89,7 @@ class PlansViewModel @ViewModelInject constructor(
         }
     }
 
-    fun doCallAddPlan(id: String) {
+    fun doCallPlanAdd(id: String) {
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = backendManager.planAdd(id)

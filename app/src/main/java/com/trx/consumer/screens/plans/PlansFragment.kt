@@ -44,7 +44,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
             eventLoadLastBillDate.observe(viewLifecycleOwner, handleLoadLastBillDate)
 
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
-            
+
             eventShowCancel.observe(viewLifecycleOwner, handleShowCancel)
             eventShowConfirm.observe(viewLifecycleOwner, handleShowConfirm)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
@@ -127,7 +127,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
         val model = AlertModel.create(title = "", message = message)
 
         model.setPrimaryButton(title = R.string.alert_primary_submit_payment) {
-            viewModel.doCallAddPlan(value.key)
+            viewModel.doCallPlanAdd(value.key)
         }
         model.setSecondaryButton(title = R.string.alert_secondary_cancel)
 
