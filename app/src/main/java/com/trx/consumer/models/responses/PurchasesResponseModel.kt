@@ -1,9 +1,9 @@
 package com.trx.consumer.models.responses
 
 import com.trx.consumer.extensions.map
-import com.trx.consumer.models.common.iap.IAPModel
-import com.trx.consumer.models.common.iap.PurchaseEntitlementModel
-import com.trx.consumer.models.common.iap.PurchaseModel
+import com.trx.consumer.models.common.IAPModel
+import com.trx.consumer.models.common.PurchaseEntitlementModel
+import com.trx.consumer.models.common.PurchaseModel
 import org.json.JSONObject
 
 class PurchasesResponseModel(val purchase: PurchaseModel, val purchases: List<PurchaseModel>) {

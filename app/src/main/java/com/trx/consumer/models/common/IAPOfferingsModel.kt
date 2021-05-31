@@ -1,4 +1,4 @@
-package com.trx.consumer.models.common.iap
+package com.trx.consumer.models.common
 
 import com.revenuecat.purchases.Offerings
 import com.revenuecat.purchases.PurchasesError

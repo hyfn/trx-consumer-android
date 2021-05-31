@@ -9,9 +9,9 @@ import com.revenuecat.purchases.PurchasesError
 import com.revenuecat.purchases.interfaces.MakePurchaseListener
 import com.revenuecat.purchases.interfaces.ReceiveOfferingsListener
 import com.revenuecat.purchases.interfaces.ReceivePurchaserInfoListener
-import com.trx.consumer.models.common.iap.IAPModel
-import com.trx.consumer.models.common.iap.IAPOfferingsModel
-import com.trx.consumer.models.common.iap.SubscriptionModel
+import com.trx.consumer.models.common.IAPModel
+import com.trx.consumer.models.common.IAPOfferingsModel
+import com.trx.consumer.models.common.SubscriptionModel
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 

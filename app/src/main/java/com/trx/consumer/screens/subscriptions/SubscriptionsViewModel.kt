@@ -8,9 +8,9 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.IAPManager
-import com.trx.consumer.models.common.iap.IAPModel.Companion.ENTITLEMENT
-import com.trx.consumer.models.common.iap.PurchaseEntitlementModel
-import com.trx.consumer.models.common.iap.SubscriptionModel
+import com.trx.consumer.models.common.IAPModel.Companion.ENTITLEMENT
+import com.trx.consumer.models.common.PurchaseEntitlementModel
+import com.trx.consumer.models.common.SubscriptionModel
 import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.PurchasesResponseModel
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsListener

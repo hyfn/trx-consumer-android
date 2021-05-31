@@ -1,4 +1,4 @@
-package com.trx.consumer.models.common.iap
+package com.trx.consumer.models.common
 
 import com.android.billingclient.api.Purchase
 import com.revenuecat.purchases.PurchaserInfo

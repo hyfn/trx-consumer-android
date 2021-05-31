@@ -8,7 +8,7 @@ import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.CardModel
-import com.trx.consumer.models.common.iap.PurchaseModel
+import com.trx.consumer.models.common.PurchaseModel
 import com.trx.consumer.stripe.StripeBackendManager
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState

@@ -1,4 +1,4 @@
-package com.trx.consumer.models.common.iap
+package com.trx.consumer.models.common
 
 import com.trx.consumer.BuildConfig
 import com.trx.consumer.extensions.date
