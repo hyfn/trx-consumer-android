@@ -18,7 +18,7 @@ class SubscriptionsViewHolder(view: View) : CommonViewHolder(view) {
         lblTitle.text = item.title
         lblPrice.text = item.cost
         lblDescription.text = item.description
-        val state= item.primaryState
+        val state = item.primaryState
         btnPrimary.apply {
             text = itemView.context.getString(state.buttonText)
             textColor(state.buttonTextColor)

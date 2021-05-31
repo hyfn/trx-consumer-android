@@ -3,6 +3,7 @@ package com.trx.consumer.screens.subscriptions
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.trx.consumer.BuildConfig
 import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
@@ -11,6 +12,7 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.managers.UtilityManager
 import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.SubscriptionModel
 import com.trx.consumer.screens.alert.AlertViewState
@@ -28,15 +30,15 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventLoadCanCancel.observe(viewLifecycleOwner, handleLoadCanCancel)
-            eventLoadCancelPlan.observe(viewLifecycleOwner, handleLoadCancelPlan)
-            eventLoadConfirmPlan.observe(viewLifecycleOwner, handleLoadConfirm)
             eventLoadError.observe(viewLifecycleOwner, handleLoadError)
             eventLoadNextBillDate.observe(viewLifecycleOwner, handleLoadNextBillDate)
             eventLoadLastBillDate.observe(viewLifecycleOwner, handleLoadLastBillDate)
             eventLoadSubscriptions.observe(viewLifecycleOwner, handleLoadSubscriptions)
 
-            eventTapBack.observe(viewLifecycleOwner, handleTapBack)
+            eventTapCancel.observe(viewLifecycleOwner, handleTapCancel)
+            eventTapChooseSubscription.observe(viewLifecycleOwner, handleTapChooseSubscription)
             eventTapSettings.observe(viewLifecycleOwner, handleTapSettings)
+            eventTapBack.observe(viewLifecycleOwner, handleTapBack)
 
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
         }
@@ -65,8 +67,8 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
         }
     }
 
-    private val handleLoadCancelPlan = Observer<Void> {
-        LogManager.log("handleLoadCancel")
+    private val handleTapCancel = Observer<Void> {
+        LogManager.log("handleTapCancel")
         val model = AlertModel.create(
             title = "",
             message = requireContext().getString(R.string.subscriptions_cancel_alert_message)
@@ -85,8 +87,8 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
-    private val handleLoadConfirm = Observer<SubscriptionModel> { value ->
-        LogManager.log("handleLoadConfirm")
+    private val handleTapChooseSubscription = Observer<SubscriptionModel> { value ->
+        LogManager.log("handleTapChooseSubscription")
         val model = AlertModel.create(
             title = "",
             message = requireContext().getString(R.string.subscriptions_confirm_alert_message)
@@ -131,13 +133,16 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
 
     private val handleTapSettings = Observer<Void> {
         LogManager.log("handleTapSettings")
+        UtilityManager.shared.openUrl(requireContext(), BuildConfig.kGooglePlaySubscriptionsUrl)
     }
 
     private val handleShowHud = Observer<Boolean> { show ->
+        LogManager.log("handleShowHud")
         viewBinding.hudView.isVisible = show
     }
 
     private val handleTapBack = Observer<Void> {
+        LogManager.log("handleTapBack")
         NavigationManager.shared.dismiss(this)
     }
 

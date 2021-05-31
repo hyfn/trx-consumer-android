@@ -13,7 +13,6 @@ import com.trx.consumer.models.common.iap.IAPModel.Companion.ENTITLEMENT
 import com.trx.consumer.models.common.iap.PurchaseEntitlementModel
 import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.PurchasesResponseModel
-import com.trx.consumer.screens.plans.list.PlansViewState
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsListener
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsViewState
 import kotlinx.coroutines.launch
@@ -24,8 +23,6 @@ class SubscriptionsViewModel @ViewModelInject constructor(
 ) : BaseViewModel(), SubscriptionsListener {
 
     val eventLoadCanCancel = CommonLiveEvent<Boolean>()
-    val eventLoadCancelPlan = CommonLiveEvent<Void>()
-    val eventLoadConfirmPlan = CommonLiveEvent<SubscriptionModel>()
     val eventLoadError = CommonLiveEvent<String>()
     val eventLoadView = CommonLiveEvent<Void>()
     val eventLoadSubscriptions = CommonLiveEvent<List<SubscriptionModel>>()
@@ -33,8 +30,10 @@ class SubscriptionsViewModel @ViewModelInject constructor(
     val eventLoadLastBillDate = CommonLiveEvent<String>()
     val eventLoadNextBillDate = CommonLiveEvent<String>()
 
-    val eventTapBack = CommonLiveEvent<Void>()
+    val eventTapChooseSubscription = CommonLiveEvent<SubscriptionModel>()
+    val eventTapCancel = CommonLiveEvent<Void>()
     val eventTapSettings = CommonLiveEvent<Void>()
+    val eventTapBack = CommonLiveEvent<Void>()
 
     val eventShowHud = CommonLiveEvent<Boolean>()
 
@@ -139,12 +138,12 @@ class SubscriptionsViewModel @ViewModelInject constructor(
     }
 
     fun doTapCancel() {
-        eventLoadCancelPlan.call()
+        eventTapCancel.call()
     }
 
     override fun doTapSubscription(model: SubscriptionModel) {
         if (model.primaryState != SubscriptionsViewState.CURRENT) {
-            eventLoadConfirmPlan.postValue(model)
+            eventTapChooseSubscription.postValue(model)
         }
     }
 
