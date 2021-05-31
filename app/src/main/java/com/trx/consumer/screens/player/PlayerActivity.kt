@@ -23,7 +23,10 @@ import com.trx.consumer.common.CommonLabel
 import com.trx.consumer.common.CommonView
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.margin
+import com.trx.consumer.managers.AnalyticsManager
+import com.trx.consumer.managers.ConfigManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.VideoModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,9 +36,14 @@ import kotlinx.coroutines.withContext
 
 class PlayerActivity : BrightcovePlayer() {
 
+    private lateinit var video: VideoModel
+
     private var videoSizeKnown = false
     private var videoWidth = 0
     private var videoHeight = 0
+
+    private val analyticsManager: AnalyticsManager by lazy { AnalyticsManager(ConfigManager()) }
+    private var hasCompleted25 = false
 
     private var viewBinding: ViewBinding? = null
 
@@ -49,7 +57,12 @@ class PlayerActivity : BrightcovePlayer() {
     }
 
     private fun bind() {
-        val video = NavigationManager.shared.params(intent) as VideoModel
+        video = NavigationManager.shared.params(intent) as VideoModel
+
+        analyticsManager.trackAmplitude(
+            AnalyticsEventModel.PAGE_VIEW,
+            this.javaClass.simpleName.replace("Activity", "")
+        )
 
         viewBinding = ViewBinding(
             lblTitle = findViewById(R.id.lblTitle),
@@ -140,6 +153,27 @@ class PlayerActivity : BrightcovePlayer() {
 
         eventEmitter.on(ShowHideController.DID_HIDE_MEDIA_CONTROLS) {
             handleOverlay(false)
+        }
+
+        eventEmitter.on(EventType.PROGRESS) { event ->
+            val percent =
+                event.getIntegerProperty(Event.PLAYHEAD_POSITION) /
+                    event.getIntegerProperty(Event.VIDEO_DURATION).toDouble()
+
+            if ((.25 < percent) && !hasCompleted25) {
+                analyticsManager.trackAmplitude(
+                    AnalyticsEventModel.VIDEO_COMPLETE_25,
+                    video
+                )
+                hasCompleted25 = false
+            }
+        }
+
+        eventEmitter.on(EventType.COMPLETED) {
+            analyticsManager.trackAmplitude(
+                AnalyticsEventModel.VIDEO_COMPLETE_100,
+                video
+            )
         }
     }
 
