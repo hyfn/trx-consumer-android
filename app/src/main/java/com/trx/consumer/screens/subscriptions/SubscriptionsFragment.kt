@@ -10,7 +10,9 @@ import com.trx.consumer.databinding.FragmentSubscriptionsBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.SubscriptionModel
+import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsAdapter
 
 class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
@@ -57,8 +59,14 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
         LogManager.log("handleLoadCancel")
     }
 
-    private val handleLoadConfirm = Observer<SubscriptionModel> { model ->
+    private val handleLoadConfirm = Observer<SubscriptionModel> { value ->
         LogManager.log("handleLoadConfirm")
+        val model = AlertModel.create(title = "", message = "Are yo sure you want to buy this subscription?")
+        model.setPrimaryButton(R.string.subscriptions_confirm_alert_primary_label, state = AlertViewState.POSITIVE) {
+            viewModel.doCallSubscribe(requireActivity(), value)
+        }
+        model.setSecondaryButton(R.string.alert_button_title_dismiss)
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
     private val handleLoadError = Observer<String> { value ->

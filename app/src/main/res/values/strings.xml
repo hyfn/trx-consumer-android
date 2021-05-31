@@ -147,6 +147,8 @@
     <string name="subscriptions_choose_subscription_label">Choose Subscription</string>
     <string name="subscriptions_current_subscription_label">Current Subscription</string>
     <string name="subscriptions_cancel_subscription_label">Cancel Subscription</string>
+    <string name="subscriptions_confirm_alert_message">Are yo sure you want to buy this subscription?</string>
+    <string name="subscriptions_confirm_alert_primary_label">SUBMIT PAYMENT</string>
 
     <string name="splash_title">Welcome to the TRX Training Club</string>
     <string name="splash_continue_label">CONTINUE WITH</string>

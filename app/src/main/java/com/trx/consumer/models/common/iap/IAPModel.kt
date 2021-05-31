@@ -32,16 +32,17 @@ class IAPModel(
         val purchaseToken = purchase?.purchaseToken
         if (purchaserInfo == null || purchaseToken == null) return hashMapOf()
 
+        val userId = purchaserInfo.originalAppUserId.replace("\$RCAnonymousID:", "")
         val params = hashMapOf<String, Any>(
-            "app_user_id" to purchaserInfo.originalAppUserId,
-            "is_restore" to if (isRestore) "true" else "false",
+            "app_user_id" to userId,
+            "is_restore" to isRestore,
             "fetch_token" to purchaseToken
         )
 
         model?.let {
             val product = model.iapPackage.product
             params["product_id"] = product.sku
-            params["price"] = product.price
+            params["price"] = product.price.filter { it.isDigit() || it == '.' }.toDouble()
             val currency = product.priceCurrencyCode
             if (currency.isNotEmpty()) params["currency"] = currency
         }

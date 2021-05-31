@@ -15,21 +15,32 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         cacheManager.user(null)
     }
 
+    private suspend fun getHeaders(isAuthenticated: Boolean): HashMap<String, String> {
+        return withContext(Dispatchers.IO) {
+            val headers = hashMapOf<String, String>()
+            val accessToken = cacheManager.accessToken()
+
+            headers["X-Platform"] = "android"
+            if (isAuthenticated && !accessToken.isNullOrEmpty()) {
+                headers["Authorization"] = "Bearer $accessToken"
+            }
+            headers
+        }
+    }
+
     suspend fun call(request: RequestModel): ResponseModel {
         return withContext(Dispatchers.IO) {
             val endpoint = request.endpoint
             val url = request.path
             val params = request.params ?: hashMapOf()
             val accessToken = cacheManager.accessToken()
-            val token = if (endpoint.isAuthenticated && !accessToken.isNullOrEmpty()) {
-                "Bearer $accessToken"
-            } else {
-                null
-            }
+            val isAuthenticated = endpoint.isAuthenticated
+
+            val headers = getHeaders(isAuthenticated)
             var queryPath = request.path
-            if (params.keys.isNotEmpty() || endpoint.isAuthenticated) queryPath += "?"
+            if (params.keys.isNotEmpty() || isAuthenticated) queryPath += "?"
             accessToken?.let { aToken ->
-                if (endpoint.isAuthenticated) {
+                if (isAuthenticated) {
                     queryPath += "access_token=$aToken"
                 }
             }
@@ -41,11 +52,11 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
             LogManager.log("Request: [${endpoint.type.name}] $queryPath")
             val responseModel = ResponseModel.parse(
                 when (endpoint.type) {
-                    EndpointModel.Type.POST -> api.post(url, token, params)
-                    EndpointModel.Type.GET -> api.get(url, token, params)
-                    EndpointModel.Type.PUT -> api.put(url, token, params)
-                    EndpointModel.Type.DELETE -> api.delete(url, token, params)
-                    EndpointModel.Type.PATCH -> api.patch(url, token, params)
+                    EndpointModel.Type.POST -> api.post(url, headers, params)
+                    EndpointModel.Type.GET -> api.get(url, headers, params)
+                    EndpointModel.Type.PUT -> api.put(url, headers, params)
+                    EndpointModel.Type.DELETE -> api.delete(url, headers, params)
+                    EndpointModel.Type.PATCH -> api.patch(url, headers, params)
                 }
             )
             LogManager.log(
