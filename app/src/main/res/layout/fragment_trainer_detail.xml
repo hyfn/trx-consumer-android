@@ -12,6 +12,7 @@
         android:id="@+id/viewNavBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_bar_height"
+        app:backgroundColor="@color/greyLightExtra"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.trx.consumer.common.CommonImageView
@@ -30,7 +31,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
         android:fillViewport="true"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,6 +45,7 @@
                 android:id="@+id/viewHeader"
                 android:layout_width="match_parent"
                 android:layout_height="210dp"
+                android:layout_marginTop="20dp"
                 app:backgroundColor="@color/greyLightExtra">
 
                 <com.trx.consumer.common.CommonImageView

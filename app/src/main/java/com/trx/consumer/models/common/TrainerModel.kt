@@ -20,6 +20,12 @@ class TrainerModel(
     var lastName: String = ""
 ) : Parcelable {
 
+    val contentModel: ContentModel
+        get() = ContentModel().apply {
+            title = "About $firstName"
+            body = bio
+        }
+
     val firstNameAndLastInitial: String
         get() = "$firstName ${lastName.first()}."
 
@@ -28,6 +34,12 @@ class TrainerModel(
 
     val displayName: String
         get() = "with $firstName ${lastName.first()}."
+
+    val lstBadgeUrls: List<String>
+        get() = mutableListOf<String>().apply {
+            addAll(trainerCertifications)
+            add(trainerCoachingStyle)
+        }
 
     companion object {
 

@@ -243,4 +243,23 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         val path = EndpointModel.TRAINERS.path
         return call(RequestModel(endpoint = EndpointModel.TRAINERS, path = path, params = null))
     }
+
+    suspend fun trainer(key: String): ResponseModel {
+        val path = "${EndpointModel.TRAINER.path}/$key"
+        return call(RequestModel(endpoint = EndpointModel.TRAINER, path = path, params = null))
+    }
+
+    suspend fun trainerSessions(trainerKey: String): ResponseModel {
+        val path = "${EndpointModel.TRAINER_SESSIONS.path}/$trainerKey/sessions"
+        return call(
+            RequestModel(endpoint = EndpointModel.TRAINER_SESSIONS, path = path, params = null)
+        )
+    }
+
+    suspend fun trainerPrograms(trainerKey: String): ResponseModel {
+        val path = "${EndpointModel.TRAINER_PROGRAMS.path}/$trainerKey/programs"
+        return call(
+            RequestModel(endpoint = EndpointModel.TRAINER_PROGRAMS, path = path, params = null)
+        )
+    }
 }
