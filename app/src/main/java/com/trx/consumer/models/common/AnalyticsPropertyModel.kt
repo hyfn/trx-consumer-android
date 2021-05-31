@@ -1,6 +1,6 @@
 package com.trx.consumer.models.common
 
-enum class AmplitudePropertyModel {
+enum class AnalyticsPropertyModel {
     ATTENDED_LIVE_CLASS,
     COLLECTION_ID,
     DAYS_ELAPSED_IN_TRIAL,
@@ -21,7 +21,7 @@ enum class AmplitudePropertyModel {
     VIDEO_ID,
     VIDEO_NAME;
 
-    val amplitudePropertyName: String
+    val propertyName: String
         get() {
             return when (this) {
                 ATTENDED_LIVE_CLASS -> "Attended Live Class"
@@ -46,7 +46,7 @@ enum class AmplitudePropertyModel {
             }
         }
 
-    val amplitudePropertyType: String
+    val propertyType: String
         get() {
             return when (this) {
                 ATTENDED_LIVE_CLASS -> "User"
