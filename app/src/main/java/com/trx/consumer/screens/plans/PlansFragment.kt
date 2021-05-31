@@ -37,61 +37,42 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
         }
 
         viewModel.apply {
-            eventLoadCanCancel.observe(viewLifecycleOwner, handleLoadCanCancel)
-            eventLoadCancelPlan.observe(viewLifecycleOwner, handleLoadCancelPlan)
-            eventLoadConfirmPlan.observe(viewLifecycleOwner, handleLoadConfirmPlan)
+            eventLoadPlans.observe(viewLifecycleOwner, handleLoadPlans)
+            eventLoadBottom.observe(viewLifecycleOwner, handleLoadBottom)
             eventLoadError.observe(viewLifecycleOwner, handleLoadError)
             eventLoadNextBillDate.observe(viewLifecycleOwner, handleLoadNextBillDate)
             eventLoadLastBillDate.observe(viewLifecycleOwner, handleLoadLastBillDate)
-            eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-            eventLoadPlans.observe(viewLifecycleOwner, handleLoadPlans)
 
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
-
+            
+            eventShowCancel.observe(viewLifecycleOwner, handleShowCancel)
+            eventShowConfirm.observe(viewLifecycleOwner, handleShowConfirm)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
         }
 
-        viewModel.doLoadView()
         viewModel.doLoadPlans()
+    }
+
+    override fun onBackPressed() {
+        viewModel.doTapBack()
     }
 
     //endregion
 
     //region Handlers
 
-    private val handleLoadCanCancel = Observer<Boolean> { value ->
-        LogManager.log("handleLoadCanCancel")
+    private val handleLoadPlans = Observer<List<PlanModel>> {
+        LogManager.log("handleLoadPlans")
+        adapter.updatePlans(it)
+    }
+
+    private val handleLoadBottom = Observer<Boolean> { value ->
+        LogManager.log("handleLoadBottom")
         viewBinding.apply {
             btnCancel.isHidden = !value
-            btnCancel.action { viewModel.doTapCancelPlan() }
+            btnCancel.action { viewModel.doTapCancel() }
             viewNextBill.isHidden = !value
         }
-    }
-
-    private val handleLoadCancelPlan = Observer<String?> {
-        LogManager.log("handleLoadCancelPlan")
-        val message = getString(R.string.plans_cancel_message)
-
-        val model = AlertModel.create(title = "", message = message)
-        model.setPrimaryButton(title = R.string.alert_primary_keep_plan)
-        model.setSecondaryButton(title = R.string.alert_secondary_cancel_plan) {
-            viewModel.doTapUnsubscribe()
-        }
-
-        NavigationManager.shared.present(this, R.id.alert_fragment, model)
-    }
-
-    private val handleLoadConfirmPlan = Observer<PlanModel> { value ->
-        LogManager.log("handleLoadConfirmPlan")
-        val message = getString(R.string.plans_confirm_message)
-
-        val model = AlertModel.create(title = "", message = message)
-        model.setPrimaryButton(title = R.string.alert_primary_submit_payment) {
-            viewModel.doCallAddPlan(value.key)
-        }
-        model.setSecondaryButton(title = R.string.alert_secondary_cancel)
-
-        NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
     private val handleLoadError = Observer<String> { error ->
@@ -120,28 +101,43 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
         }
     }
 
-    private val handleLoadView = Observer<Void> {
-        LogManager.log("handleLoadView")
-        //  Empty in iOS
-    }
-
-    private val handleLoadPlans = Observer<List<PlanModel>> {
-        LogManager.log("handleLoadPlans")
-        adapter.updatePlans(it)
-    }
-
     private val handleTapBack = Observer<Void> {
         LogManager.log("handleTapBack")
         NavigationManager.shared.dismiss(this)
     }
 
-    override fun onBackPressed() {
-        viewModel.doTapBack()
+    private val handleShowCancel = Observer<String?> {
+        LogManager.log("handleShowCancel")
+
+        val message = getString(R.string.plans_cancel_message)
+        val model = AlertModel.create(title = "", message = message)
+
+        model.setPrimaryButton(title = R.string.alert_primary_keep_plan)
+        model.setSecondaryButton(title = R.string.alert_secondary_cancel_plan) {
+            viewModel.doCallPlanDelete()
+        }
+
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
+    }
+
+    private val handleShowConfirm = Observer<PlanModel> { value ->
+        LogManager.log("handleShowConfirm")
+
+        val message = getString(R.string.plans_confirm_message)
+        val model = AlertModel.create(title = "", message = message)
+
+        model.setPrimaryButton(title = R.string.alert_primary_submit_payment) {
+            viewModel.doCallAddPlan(value.key)
+        }
+        model.setSecondaryButton(title = R.string.alert_secondary_cancel)
+
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
     private val handleShowHud = Observer<Boolean> { show ->
         LogManager.log("handleShowHud")
         viewBinding.hudView.isVisible = show
     }
+
     //endregion
 }

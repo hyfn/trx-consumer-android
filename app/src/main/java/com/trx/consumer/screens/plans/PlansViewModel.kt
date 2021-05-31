@@ -21,26 +21,21 @@ class PlansViewModel @ViewModelInject constructor(
 
     //region Events
 
-    val eventLoadCanCancel = CommonLiveEvent<Boolean>()
-    val eventLoadCancelPlan = CommonLiveEvent<String?>()
-    val eventLoadConfirmPlan = CommonLiveEvent<PlanModel>()
+    val eventLoadPlans = CommonLiveEvent<List<PlanModel>>()
+    val eventLoadBottom = CommonLiveEvent<Boolean>()
     val eventLoadError = CommonLiveEvent<String>()
     val eventLoadNextBillDate = CommonLiveEvent<String?>()
     val eventLoadLastBillDate = CommonLiveEvent<String?>()
-    val eventLoadView = CommonLiveEvent<Void>()
-    val eventLoadPlans = CommonLiveEvent<List<PlanModel>>()
 
     val eventTapBack = CommonLiveEvent<Void>()
 
+    val eventShowCancel = CommonLiveEvent<String?>()
+    val eventShowConfirm = CommonLiveEvent<PlanModel>()
     val eventShowHud = CommonLiveEvent<Boolean>()
 
     //endregion
 
     //region Actions
-
-    fun doLoadView() {
-        eventLoadView.call()
-    }
 
     fun doLoadPlans() {
         viewModelScope.launch {
@@ -49,7 +44,7 @@ class PlansViewModel @ViewModelInject constructor(
             backendManager.user()
             cacheManager.user()?.let { user ->
                 userModel = user
-                eventLoadCanCancel.postValue(user.plan != null)
+                eventLoadBottom.postValue(user.plan != null)
                 eventLoadNextBillDate.postValue(user.planRenewsDateDisplay)
                 eventLoadLastBillDate.postValue(user.planStartDateDisplay)
             }
@@ -68,6 +63,32 @@ class PlansViewModel @ViewModelInject constructor(
         }
     }
 
+    fun doTapBack() {
+        eventTapBack.call()
+    }
+
+    override fun doTapChoosePlan(model: PlanModel) {
+        viewModelScope.launch {
+            cacheManager.user()?.let { safeUser ->
+                if (safeUser.planText != UserModel.kPlanNamePay) {
+                    eventShowCancel.postValue(safeUser.plan)
+                    return@launch
+                }
+            }
+            eventShowConfirm.postValue(model)
+        }
+    }
+
+    fun doTapCancel() {
+        viewModelScope.launch {
+            cacheManager.user()?.let { safeUser ->
+                if (safeUser.planText != UserModel.kPlanNamePay) {
+                    eventShowCancel.postValue(safeUser.plan)
+                }
+            }
+        }
+    }
+
     fun doCallAddPlan(id: String) {
         viewModelScope.launch {
             eventShowHud.postValue(true)
@@ -81,11 +102,7 @@ class PlansViewModel @ViewModelInject constructor(
         }
     }
 
-    fun doTapBack() {
-        eventTapBack.call()
-    }
-
-    fun doTapUnsubscribe() {
+    fun doCallPlanDelete() {
         viewModelScope.launch {
             eventShowHud.postValue(true)
             cacheManager.user()?.plan?.let {
@@ -98,28 +115,6 @@ class PlansViewModel @ViewModelInject constructor(
                 }
             }
             eventShowHud.postValue(false)
-        }
-    }
-
-    override fun doTapChoosePlan(model: PlanModel) {
-        viewModelScope.launch {
-            cacheManager.user()?.let { safeUser ->
-                if (safeUser.planText != UserModel.kPlanNamePay) {
-                    eventLoadCancelPlan.postValue(safeUser.plan)
-                    return@launch
-                }
-            }
-            eventLoadConfirmPlan.postValue(model)
-        }
-    }
-
-    fun doTapCancelPlan() {
-        viewModelScope.launch {
-            cacheManager.user()?.let { safeUser ->
-                if (safeUser.planText != UserModel.kPlanNamePay) {
-                    eventLoadCancelPlan.postValue(safeUser.plan)
-                }
-            }
         }
     }
 
