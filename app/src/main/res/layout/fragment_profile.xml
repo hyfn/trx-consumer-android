@@ -21,7 +21,7 @@
             android:layout_marginStart="5dp"
             android:background="@color/transparent"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_btn_back"
+            android:src="@drawable/ic_btn_back_black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
             android:layout_marginEnd="5dp"
             android:background="@color/transparent"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_img_tab_settings_on"
+            android:src="@drawable/ic_btn_settings"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
