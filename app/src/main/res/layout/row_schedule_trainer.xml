@@ -6,6 +6,10 @@
     android:layout_height="75dp"
     app:backgroundColor="@color/white">
 
+    <com.trx.consumer.common.CommonButton
+        android:id="@+id/btnSelect"
+        style="@style/MatchParentDimensionsViewStyle" />
+
     <com.trx.consumer.common.CommonLabel
         android:id="@+id/lblTitle"
         android:layout_width="0dp"
@@ -20,16 +24,12 @@
         tools:text="9:00 AM" />
 
     <com.trx.consumer.common.CommonButton
-        android:id="@+id/btnPrimary"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnBook"
+        android:layout_width="67dp"
         android:layout_height="35dp"
         android:backgroundTint="@color/yellow"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center"
-        android:paddingStart="15dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="15dp"
-        android:paddingBottom="10dp"
         android:textAllCaps="true"
         android:textColor="@color/black"
         android:textSize="12sp"

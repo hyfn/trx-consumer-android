@@ -21,7 +21,7 @@
             android:layout_marginStart="5dp"
             android:background="@color/transparent"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_btn_back"
+            android:src="@drawable/ic_btn_back_black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -68,21 +68,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vLine"
         tools:listitem="@layout/row_live_workout_table" />
-
-    <com.trx.consumer.common.CommonLabel
-        android:id="@+id/lblEmpty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/atcarquette_medium"
-        android:textColor="@color/grey"
-        android:textSize="11sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vLine"
-        app:textAllCaps="true"
-        tools:ignore="SmallSp" />
 
     <com.trx.consumer.common.CommonHudView
         android:id="@+id/hudView"

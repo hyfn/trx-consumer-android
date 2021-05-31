@@ -26,7 +26,9 @@ class TrainerProgramModel(
                 mode = jsonObject.optString("mode")
                 name = jsonObject.optString("name")
                 priceInCents = jsonObject.optInt("priceInCents")
-                trainer = jsonObject.opt("trainer") as TrainerModel
+                trainer = jsonObject.optJSONObject("trainer")?.let {
+                    TrainerModel.parse(it)
+                } ?: TrainerModel()
             }
         }
 

@@ -34,12 +34,12 @@ class ScheduleViewModel :
     override fun doTapSelectLiveWorkout(model: WorkoutModel) {
     }
 
-    override fun doTapTrainerSchedule(trainerScheduleModel: TrainerScheduleModel) {
-    }
-
     override fun doTapPrimaryVirtualWorkout(model: WorkoutModel) {
     }
 
     override fun doTapSelectVirtualWorkout(model: WorkoutModel) {
+    }
+
+    override fun doTapClass(trainerScheduleModel: TrainerScheduleModel) {
     }
 }
