@@ -4,9 +4,11 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.PlanModel
 import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.core.ResponseModel
@@ -16,7 +18,8 @@ import kotlinx.coroutines.launch
 
 class PlansViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
-    private val cacheManager: CacheManager
+    private val cacheManager: CacheManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), PlansListener {
 
     //region Events
@@ -43,6 +46,10 @@ class PlansViewModel @ViewModelInject constructor(
 
     fun doLoadPlans() {
         viewModelScope.launch {
+            analyticsManager.trackAmplitude(
+                AnalyticsEventModel.PAGE_VIEW,
+                this.javaClass.simpleName.replace("ViewModel", "")
+            )
             var userModel: UserModel? = null
             eventShowHud.postValue(true)
             backendManager.user()

@@ -9,9 +9,9 @@ import com.trx.consumer.databinding.FragmentOnboardingBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 
-class OnBoardingFragment : BaseFragment(R.layout.fragment_onboarding) {
+class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
 
-    private val viewModel: OnBoardingViewModel by viewModels()
+    private val viewModel: OnboardingViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentOnboardingBinding::bind)
 
     override fun bind() {
@@ -33,7 +33,7 @@ class OnBoardingFragment : BaseFragment(R.layout.fragment_onboarding) {
         viewModel.onBackPressed()
     }
 
-    private val handleLoadView = Observer<OnBoardingViewState> { state ->
+    private val handleLoadView = Observer<OnboardingViewState> { state ->
         viewBinding.apply {
             lblTitle.text = getString(state.title)
             imgHeader.setImageResource(state.image)

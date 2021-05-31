@@ -4,21 +4,28 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.CacheManager
+import com.trx.consumer.models.common.AnalyticsEventModel
 import kotlinx.coroutines.launch
 
-class OnBoardingViewModel @ViewModelInject constructor(
-    private val cacheManager: CacheManager
+class OnboardingViewModel @ViewModelInject constructor(
+    private val cacheManager: CacheManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel() {
 
-    var state: OnBoardingViewState = OnBoardingViewState.VIRTUAL
+    var state: OnboardingViewState = OnboardingViewState.VIRTUAL
 
-    val eventLoadView = CommonLiveEvent<OnBoardingViewState>()
+    val eventLoadView = CommonLiveEvent<OnboardingViewState>()
     val eventTapClose = CommonLiveEvent<Void>()
     val eventTapNext = CommonLiveEvent<Void>()
 
     fun doLoadView() {
         viewModelScope.launch {
+            analyticsManager.trackAmplitude(
+                AnalyticsEventModel.PAGE_VIEW,
+                this.javaClass.simpleName.replace("ViewModel", "")
+            )
             cacheManager.didShowOnboarding(true)
             eventLoadView.postValue(state)
         }
@@ -34,7 +41,7 @@ class OnBoardingViewModel @ViewModelInject constructor(
 
     fun doTapNext() {
         if (state.currentPage < 2) {
-            state = OnBoardingViewState.getStateFromPage(state.currentPage + 1)
+            state = OnboardingViewState.getStateFromPage(state.currentPage + 1)
             eventLoadView.postValue(state)
         } else {
             eventTapNext.call()
@@ -43,7 +50,7 @@ class OnBoardingViewModel @ViewModelInject constructor(
 
     fun doTapPrevious() {
         if (state.currentPage != 0) {
-            state = OnBoardingViewState.getStateFromPage(state.currentPage - 1)
+            state = OnboardingViewState.getStateFromPage(state.currentPage - 1)
             eventLoadView.postValue(state)
         }
     }

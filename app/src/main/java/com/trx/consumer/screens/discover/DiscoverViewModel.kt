@@ -4,7 +4,9 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
@@ -15,11 +17,12 @@ import com.trx.consumer.screens.discover.list.DiscoverListener
 import kotlinx.coroutines.launch
 
 class DiscoverViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager
+    private val backendManager: BackendManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), DiscoverListener, DiscoverFilterListener {
 
     var workouts: List<VideoModel> = listOf()
-    var collections: List<VideosModel> = listOf()
+    private var collections: List<VideosModel> = listOf()
     var programs: List<VideosModel> = listOf()
     var params: FilterParamsModel = FilterParamsModel()
     var filters: List<FilterModel> = listOf()
@@ -39,6 +42,10 @@ class DiscoverViewModel @ViewModelInject constructor(
     fun doLoadView() {
         filters = params.lstFilters
         viewModelScope.launch {
+            analyticsManager.trackAmplitude(
+                AnalyticsEventModel.PAGE_VIEW,
+                this.javaClass.simpleName.replace("ViewModel", "")
+            )
             eventShowHud.postValue(true)
             val paramsToSend = params.params
             val response = backendManager.videos(paramsToSend)

@@ -50,6 +50,10 @@ class HomeViewModel @ViewModelInject constructor(
     //region Functions
 
     fun doLoadView() {
+        analyticsManager.trackAmplitude(
+            AnalyticsEventModel.PAGE_VIEW,
+            this.javaClass.simpleName.replace("ViewModel", "")
+        )
         eventLoadView.call()
         doLoadUser()
     }
@@ -118,7 +122,10 @@ class HomeViewModel @ViewModelInject constructor(
 
     override fun doTapVideo(model: VideoModel) {
         eventShowVideo.postValue(model)
-        analyticsManager.trackAmplitude(AnalyticsEventModel.VIEW_VIDEO_DETAIL, model.id)
+        analyticsManager.trackAmplitude(
+            AnalyticsEventModel.VIEW_VIDEO_DETAIL,
+            model
+        )
     }
 
     //endregion

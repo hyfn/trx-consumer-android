@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.trx.consumer.R
 
-enum class OnBoardingViewState {
+enum class OnboardingViewState {
 
     VIRTUAL, LIVE, DEMAND;
 
@@ -64,7 +64,7 @@ enum class OnBoardingViewState {
         }
 
     companion object {
-        fun getStateFromPage(page: Int): OnBoardingViewState {
+        fun getStateFromPage(page: Int): OnboardingViewState {
             return values().firstOrNull { it.currentPage == page } ?: VIRTUAL
         }
     }

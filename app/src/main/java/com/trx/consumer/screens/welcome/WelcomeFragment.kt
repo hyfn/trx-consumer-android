@@ -18,16 +18,16 @@ class WelcomeFragment : BaseFragment(R.layout.fragment_welcome) {
         val state = NavigationManager.shared.params(this) as WelcomeState
         viewModel.state = state
 
+        viewBinding.apply {
+            btnBack.setOnClickListener { viewModel.doTapBack() }
+            btnClose.setOnClickListener { viewModel.doTapClose() }
+        }
+
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventTapClose.observe(viewLifecycleOwner, handleTapClose)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             doLoadView()
-        }
-
-        viewBinding.apply {
-            btnBack.setOnClickListener { viewModel.doTapBack() }
-            btnClose.setOnClickListener { viewModel.doTapClose() }
         }
     }
 

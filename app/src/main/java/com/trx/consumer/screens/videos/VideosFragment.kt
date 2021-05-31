@@ -26,6 +26,13 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
     override fun bind() {
         val model = NavigationManager.shared.params(this) as VideosModel
 
+        viewBinding.apply {
+            adapter = DiscoverAdapter(viewModel) { lifecycleScope }
+            rvRelatedVideos.adapter = adapter
+            btnPrimary.action { viewModel.doTapPrimary() }
+            btnBack.action { viewModel.doTapBack() }
+        }
+
         viewModel.apply {
             this.model = model
 
@@ -36,13 +43,6 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
             eventTapProfile.observe(viewLifecycleOwner, handleTapProfile)
 
             doLoadView()
-        }
-
-        viewBinding.apply {
-            adapter = DiscoverAdapter(viewModel) { lifecycleScope }
-            rvRelatedVideos.adapter = adapter
-            btnPrimary.action { viewModel.doTapPrimary() }
-            btnBack.action { viewModel.doTapBack() }
         }
     }
 

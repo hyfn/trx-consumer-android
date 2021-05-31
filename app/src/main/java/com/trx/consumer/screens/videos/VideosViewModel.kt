@@ -1,13 +1,18 @@
 package com.trx.consumer.screens.videos
 
+import androidx.hilt.lifecycle.ViewModelInject
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
+import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.screens.discover.list.DiscoverListener
 
-class VideosViewModel : BaseViewModel(), DiscoverListener {
+class VideosViewModel @ViewModelInject constructor(
+    private val analyticsManager: AnalyticsManager
+) : BaseViewModel(), DiscoverListener {
 
     var model: VideosModel = VideosModel()
 
@@ -18,6 +23,10 @@ class VideosViewModel : BaseViewModel(), DiscoverListener {
     val eventTapStartWorkout = CommonLiveEvent<VideoModel>()
 
     fun doLoadView() {
+        analyticsManager.trackAmplitude(
+            AnalyticsEventModel.PAGE_VIEW,
+            this.javaClass.simpleName.replace("ViewModel", "")
+        )
         eventLoadView.postValue(model)
     }
 

@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.BuildConfig.isVersion2Enabled
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.BannerModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.TrainerModel
@@ -22,7 +24,8 @@ import com.trx.consumer.screens.trainerprofile.TrainerProfileListener
 import kotlinx.coroutines.launch
 
 class LiveViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager
+    private val backendManager: BackendManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(),
     LiveWorkoutViewListener,
     TrainerProfileListener,
@@ -64,6 +67,10 @@ class LiveViewModel @ViewModelInject constructor(
     //region Functions
 
     fun doLoadView() {
+        analyticsManager.trackAmplitude(
+            AnalyticsEventModel.PAGE_VIEW,
+            this.javaClass.simpleName.replace("ViewModel", "")
+        )
         eventLoadView.call()
         if (isVersion2Enabled) {
             doLoadPromotions()
