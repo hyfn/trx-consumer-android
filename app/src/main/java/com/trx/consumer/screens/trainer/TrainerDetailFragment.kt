@@ -38,7 +38,7 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
 
-            doLoadView(TrainerModel.test())
+            doLoadView()
             loadUpComingClasses(WorkoutModel.testListLive(5))
             loadOnDemandClasses(VideoModel.testList(5))
         }
@@ -52,12 +52,12 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
         NavigationManager.shared.dismiss(this)
     }
 
-    private val handleLoadView = Observer<TrainerModel> {
-        viewBinding.apply {
-            imgHeaderTrainer.load(it.profilePhoto)
-            lblTrainerName.text = it.firstNameAndLastInitial
-            lblAboutmeDetails.text = it.bio
-        }
+    private val handleLoadView = Observer<Void> {
+//        viewBinding.apply {
+//            imgHeaderTrainer.load(it.profilePhoto)
+//            lblTrainerName.text = it.firstNameAndLastInitial
+//            lblAboutmeDetails.text = it.bio
+//        }
     }
 
     private fun loadUpComingClasses(workouts: List<WorkoutModel>) {
