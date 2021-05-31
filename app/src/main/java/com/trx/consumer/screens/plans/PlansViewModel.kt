@@ -39,21 +39,21 @@ class PlansViewModel @ViewModelInject constructor(
 
     fun doLoadPlans() {
         viewModelScope.launch {
-            var userModel: UserModel? = null
+            var user: UserModel? = null
             eventShowHud.postValue(true)
             backendManager.user()
-            cacheManager.user()?.let { user ->
-                userModel = user
-                eventLoadBottom.postValue(user.plan != null)
-                eventLoadNextBillDate.postValue(user.planRenewsDateDisplay)
-                eventLoadLastBillDate.postValue(user.planStartDateDisplay)
+            cacheManager.user()?.let { safeUser ->
+                user = safeUser
+                eventLoadBottom.postValue(safeUser.plan != null)
+                eventLoadNextBillDate.postValue(safeUser.planRenewsDateDisplay)
+                eventLoadLastBillDate.postValue(safeUser.planStartDateDisplay)
             }
             val response = backendManager.plans()
             if (response.isSuccess) {
                 try {
                     val model = PlansResponseModel.parse(response.responseString)
-                    userModel?.planText?.let {
-                        eventLoadPlans.postValue(model.plans(it))
+                    user?.planText?.let { text ->
+                        eventLoadPlans.postValue(model.plans(text))
                     }
                 } catch (e: Exception) {
                     LogManager.log(e)
@@ -93,28 +93,27 @@ class PlansViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = backendManager.planAdd(id)
+            eventShowHud.postValue(false)
             if (response.isSuccess) {
                 doLoadPlans()
             } else {
                 eventLoadError.postValue(ResponseModel.genericErrorMessage)
             }
-            eventShowHud.postValue(false)
         }
     }
 
     fun doCallPlanDelete() {
         viewModelScope.launch {
             eventShowHud.postValue(true)
-            cacheManager.user()?.plan?.let {
-                backendManager.planDelete(it).let { response ->
-                    if (response.isSuccess) {
-                        doLoadPlans()
-                    } else {
-                        eventLoadError.postValue(ResponseModel.genericErrorMessage)
-                    }
+            cacheManager.user()?.plan?.let { safePlan ->
+                val response = backendManager.planDelete(safePlan)
+                eventShowHud.postValue(false)
+                if (response.isSuccess) {
+                    doLoadPlans()
+                } else {
+                    eventLoadError.postValue(ResponseModel.genericErrorMessage)
                 }
             }
-            eventShowHud.postValue(false)
         }
     }
 
