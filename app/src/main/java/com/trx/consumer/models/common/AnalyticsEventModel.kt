@@ -217,7 +217,7 @@ enum class AnalyticsEventModel {
             VIEW_VIDEO_DETAIL -> {
                 (value as VideoModel).let { video ->
                     hashMapOf<String, Any>().apply {
-                        PAGE to ""
+                        PAGE to 1
                         VIDEO_ID to video.id
                     }
                 }
