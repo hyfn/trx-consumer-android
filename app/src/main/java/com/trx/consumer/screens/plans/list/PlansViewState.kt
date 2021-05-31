@@ -11,7 +11,7 @@ enum class PlansViewState {
     @get:ColorRes
     val buttonBgColor: Int
         get() = when (this) {
-            CURRENT -> R.color.grey
+            CURRENT -> R.color.greyLight
             OTHER -> R.color.black
         }
 
