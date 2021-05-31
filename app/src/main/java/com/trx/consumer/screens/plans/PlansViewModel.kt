@@ -24,25 +24,21 @@ class PlansViewModel @ViewModelInject constructor(
 
     //region Events
 
-    val eventLoadCanCancel = CommonLiveEvent<Boolean>()
-    val eventLoadCancelPlan = CommonLiveEvent<String?>()
-    val eventLoadConfirmPlan = CommonLiveEvent<PlanModel>()
+    val eventLoadPlans = CommonLiveEvent<List<PlanModel>>()
+    val eventLoadBottom = CommonLiveEvent<Boolean>()
     val eventLoadError = CommonLiveEvent<String>()
     val eventLoadNextBillDate = CommonLiveEvent<String?>()
-    val eventLoadView = CommonLiveEvent<Void>()
-    val eventLoadPlans = CommonLiveEvent<List<PlanModel>>()
+    val eventLoadLastBillDate = CommonLiveEvent<String?>()
 
     val eventTapBack = CommonLiveEvent<Void>()
 
+    val eventShowCancel = CommonLiveEvent<String?>()
+    val eventShowConfirm = CommonLiveEvent<PlanModel>()
     val eventShowHud = CommonLiveEvent<Boolean>()
 
     //endregion
 
     //region Actions
-
-    fun doLoadView() {
-        eventLoadView.call()
-    }
 
     fun doLoadPlans() {
         viewModelScope.launch {
@@ -50,20 +46,21 @@ class PlansViewModel @ViewModelInject constructor(
                 AnalyticsEventModel.PAGE_VIEW,
                 this.javaClass.simpleName.replace("ViewModel", "")
             )
-            var userModel: UserModel? = null
+            var user: UserModel? = null
             eventShowHud.postValue(true)
             backendManager.user()
-            cacheManager.user()?.let { user ->
-                userModel = user
-                eventLoadCanCancel.postValue(user.plan != null)
-                eventLoadNextBillDate.postValue(user.planRenewsDateDisplay)
+            cacheManager.user()?.let { safeUser ->
+                user = safeUser
+                eventLoadBottom.postValue(safeUser.plan != null)
+                eventLoadNextBillDate.postValue(safeUser.planRenewsDateDisplay)
+                eventLoadLastBillDate.postValue(safeUser.planStartDateDisplay)
             }
             val response = backendManager.plans()
             if (response.isSuccess) {
                 try {
                     val model = PlansResponseModel.parse(response.responseString)
-                    userModel?.planText.let {
-                        eventLoadPlans.postValue(model.plans(it))
+                    user?.planText?.let { text ->
+                        eventLoadPlans.postValue(model.plans(text))
                     }
                 } catch (e: Exception) {
                     LogManager.log(e)
@@ -73,48 +70,57 @@ class PlansViewModel @ViewModelInject constructor(
         }
     }
 
-    fun doCallAddPlan(id: String) {
-        viewModelScope.launch {
-            eventShowHud.postValue(true)
-            val response = backendManager.planAdd(id)
-            if (response.isSuccess) {
-                doLoadPlans()
-            } else {
-                eventLoadError.postValue(ResponseModel.genericErrorMessage)
-            }
-            eventShowHud.postValue(false)
-        }
-    }
-
     fun doTapBack() {
         eventTapBack.call()
-    }
-
-    fun doTapDeletePlan() {
-        viewModelScope.launch {
-            eventShowHud.postValue(true)
-            cacheManager.user()?.plan?.let {
-                backendManager.planDelete(it).let { response ->
-                    if (response.isSuccess) {
-                        doLoadPlans()
-                    } else {
-                        eventLoadError.postValue(ResponseModel.genericErrorMessage)
-                    }
-                }
-            }
-            eventShowHud.postValue(false)
-        }
     }
 
     override fun doTapChoosePlan(model: PlanModel) {
         viewModelScope.launch {
             cacheManager.user()?.let { safeUser ->
                 if (safeUser.planText != UserModel.kPlanNamePay) {
-                    eventLoadCancelPlan.postValue(safeUser.plan)
+                    eventShowCancel.postValue(safeUser.plan)
                     return@launch
                 }
             }
-            eventLoadConfirmPlan.postValue(model)
+            eventShowConfirm.postValue(model)
+        }
+    }
+
+    fun doTapCancel() {
+        viewModelScope.launch {
+            cacheManager.user()?.let { safeUser ->
+                if (safeUser.planText != UserModel.kPlanNamePay) {
+                    eventShowCancel.postValue(safeUser.plan)
+                }
+            }
+        }
+    }
+
+    fun doCallPlanAdd(id: String) {
+        viewModelScope.launch {
+            eventShowHud.postValue(true)
+            val response = backendManager.planAdd(id)
+            eventShowHud.postValue(false)
+            if (response.isSuccess) {
+                doLoadPlans()
+            } else {
+                eventLoadError.postValue(ResponseModel.genericErrorMessage)
+            }
+        }
+    }
+
+    fun doCallPlanDelete() {
+        viewModelScope.launch {
+            eventShowHud.postValue(true)
+            cacheManager.user()?.plan?.let { safePlan ->
+                val response = backendManager.planDelete(safePlan)
+                eventShowHud.postValue(false)
+                if (response.isSuccess) {
+                    doLoadPlans()
+                } else {
+                    eventLoadError.postValue(ResponseModel.genericErrorMessage)
+                }
+            }
         }
     }
 

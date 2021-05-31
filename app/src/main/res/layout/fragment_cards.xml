@@ -19,9 +19,10 @@
             android:id="@+id/btnBack"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="5dp"
+            android:background="@color/transparent"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_btn_back"
+            android:src="@drawable/ic_btn_back_black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,15 +35,15 @@
         android:layout_height="60dp"
         android:layout_marginStart="15dp"
         android:fontFamily="@font/atcarquette_bold"
-        android:gravity="center_vertical"
-        android:padding="10dp"
+        android:gravity="center_vertical|start"
         android:text="@string/cards_payment_method_label"
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/viewNavBar"
-        app:textAllCaps="true" />
+        app:textAllCaps="true"
+        tools:ignore="SmallSp" />
 
     <com.trx.consumer.common.CommonLabel
         android:id="@+id/lblEmptyTitle"
