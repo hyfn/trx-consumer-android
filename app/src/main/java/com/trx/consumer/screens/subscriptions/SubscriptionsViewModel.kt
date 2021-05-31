@@ -8,9 +8,9 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.IAPManager
-import com.trx.consumer.models.common.iap.SubscriptionModel
 import com.trx.consumer.models.common.iap.IAPModel.Companion.ENTITLEMENT
 import com.trx.consumer.models.common.iap.PurchaseEntitlementModel
+import com.trx.consumer.models.common.iap.SubscriptionModel
 import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.PurchasesResponseModel
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsListener
@@ -22,7 +22,7 @@ class SubscriptionsViewModel @ViewModelInject constructor(
     private val cacheManager: CacheManager,
 ) : BaseViewModel(), SubscriptionsListener {
 
-    //TODO: Need to handle the following scenarios:
+    // TODO: Need to handle the following scenarios:
     //   - Play Store purchase was successful but the purchase was never successfully sent to backend
     //   - Check if a purchase was cancelled before displaying as current subscription
     //   - Test functionality once backend returns purchases

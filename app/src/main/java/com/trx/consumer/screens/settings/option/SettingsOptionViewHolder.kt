@@ -2,8 +2,6 @@ package com.trx.consumer.screens.settings.option
 
 import android.util.TypedValue
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import com.trx.consumer.R
 import com.trx.consumer.common.CommonButton
@@ -18,27 +16,26 @@ class SettingsOptionViewHolder(view: View) : CommonViewHolder(view) {
     private val btnSelect: CommonButton = view.findViewById(R.id.btnSelect)
 
     fun setup(model: SettingsModel, listener: SettingsOptionListener) {
-
-        lblTitle.apply {
-            text = itemView.context.getString(model.title)
-            setTextColor(ContextCompat.getColor(itemView.context, model.titleTextColor))
-        }
-        lblSubtitle.text = model.subtitle
-
         if (model.subtitle.isEmpty()) {
             lblTitle.apply {
-                typeface = ResourcesCompat.getFont(itemView.context, R.font.atcarquette_regular)
-                lblSubtitle.isVisible = false
+                font(R.font.atcarquette_regular)
+                textColor(model.titleTextColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+                isAllCaps = false
             }
+            lblSubtitle.isVisible = false
         } else {
             lblTitle.apply {
-                typeface = ResourcesCompat.getFont(itemView.context, R.font.atcarquette_bold)
-                isAllCaps = true
+                font(R.font.atcarquette_bold)
+                textColor(R.color.greyDark)
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, model.titleTextSize.toFloat())
+                isAllCaps = true
             }
             lblSubtitle.isVisible = true
         }
+
+        lblTitle.text = itemView.context.getString(model.title)
+        lblSubtitle.text = model.subtitle
 
         btnSelect.action { listener.doTapSettings(model) }
     }
