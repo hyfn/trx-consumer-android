@@ -181,6 +181,7 @@
     <string name="test_utility_workout_label">Workout</string>
     <string name="test_utility_trainer_label">Trainer</string>
     <string name="test_utility_booking_alert_label">Booking Alert</string>
+    <string name="test_utility_Loading_screen_label">Loading Screen</string>
 
     <string name="trainer_about_me_label">About Me</string>
     <string name="trainer_upcoming_classes_label">Upcoming Classes</string>
@@ -289,4 +290,6 @@
 
     <string name="videos_related_label">Related Workouts</string>
     <string name="videos_btn_primary_label">Start Workout</string>
+
+    <string name="title_loading_fragment">Loading…</string>
 </resources>
