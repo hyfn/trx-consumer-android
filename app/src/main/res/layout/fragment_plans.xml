@@ -21,7 +21,7 @@
             android:layout_marginStart="5dp"
             android:background="@color/transparent"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_btn_back_black"
+            android:src="@drawable/ic_btn_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -48,15 +48,15 @@
                 android:layout_height="60dp"
                 android:layout_marginStart="15dp"
                 android:fontFamily="@font/atcarquette_bold"
-                android:gravity="center_vertical|start"
+                android:gravity="center_vertical"
+                android:padding="10dp"
                 android:text="@string/plans_title"
                 android:textColor="@color/black"
-                android:textSize="11sp"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/viewNavBar"
-                app:textAllCaps="true"
-                tools:ignore="SmallSp" />
+                app:textAllCaps="true" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/viewPlans"

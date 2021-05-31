@@ -4,15 +4,17 @@ import org.json.JSONObject
 
 class UserPlanModel(
     var cancelAtPeriodEnd: Boolean = false,
-    var currentPeriodEnd: Double = 0.0
+    var currentPeriodEnd: Double = 0.0,
+    var currentPeriodStart: Double = 0.0
 ) {
 
     companion object {
 
         fun parse(jsonObject: JSONObject): UserPlanModel =
             UserPlanModel(
-                cancelAtPeriodEnd = jsonObject.optBoolean("subscription.cancel_at_period_end"),
-                currentPeriodEnd = jsonObject.optDouble("subscription.current_period_end")
+                cancelAtPeriodEnd = jsonObject.optBoolean("cancel_at_period_end"),
+                currentPeriodEnd = jsonObject.optDouble("current_period_end", 0.0),
+                currentPeriodStart = jsonObject.optDouble("current_period_start", 0.0)
             )
     }
 }
