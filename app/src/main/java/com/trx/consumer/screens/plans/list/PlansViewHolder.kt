@@ -7,6 +7,7 @@ import com.trx.consumer.common.CommonLabel
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.models.common.PlanModel
+import com.trx.consumer.models.common.UserModel
 
 class PlansViewHolder(view: View) : CommonViewHolder(view) {
 
@@ -37,6 +38,7 @@ class PlansViewHolder(view: View) : CommonViewHolder(view) {
             textColor(item.primaryState.buttonTextColor)
             bgColor(item.primaryState.buttonBgColor)
             action { listener.doTapChoosePlan(item) }
+            isEnabled = item.title != UserModel.kPlanNamePay
         }
     }
 }

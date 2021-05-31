@@ -1,27 +1,31 @@
 package com.trx.consumer.screens.onboarding
 
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.CacheManager
+import kotlinx.coroutines.launch
 
-class OnBoardingViewModel : BaseViewModel() {
+class OnBoardingViewModel @ViewModelInject constructor(
+    private val cacheManager: CacheManager
+) : BaseViewModel() {
 
     var state: OnBoardingViewState = OnBoardingViewState.VIRTUAL
 
     val eventLoadView = CommonLiveEvent<OnBoardingViewState>()
     val eventTapClose = CommonLiveEvent<Void>()
-    val eventTapBack = CommonLiveEvent<Void>()
     val eventTapNext = CommonLiveEvent<Void>()
 
     fun doLoadView() {
-        eventLoadView.postValue(state)
+        viewModelScope.launch {
+            cacheManager.didShowOnboarding(true)
+            eventLoadView.postValue(state)
+        }
     }
 
     fun doTapClose() {
         eventTapClose.call()
-    }
-
-    fun doTapBack() {
-        eventTapBack.call()
     }
 
     fun onBackPressed() {
@@ -41,8 +45,6 @@ class OnBoardingViewModel : BaseViewModel() {
         if (state.currentPage != 0) {
             state = OnBoardingViewState.getStateFromPage(state.currentPage - 1)
             eventLoadView.postValue(state)
-        } else {
-            doTapBack()
         }
     }
 }

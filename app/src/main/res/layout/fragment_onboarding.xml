@@ -1,165 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:backgroundColor="@color/white">
 
-    <com.trx.consumer.common.CommonView
+    <com.trx.consumer.common.CommonImageView
+        android:id="@+id/imgHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="32dp"
-        app:backgroundColor="@color/white">
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/img_media_onboarding_003" />
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_bar_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.trx.consumer.common.CommonImageView
-            android:id="@+id/ivHeader"
-            android:layout_width="0dp"
-            android:layout_height="450dp"
-            android:scaleType="fitXY"
+            android:id="@+id/btnClose"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_btn_close_white"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/img_media_onboarding_001" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.trx.consumer.common.CommonLabel
-            android:id="@+id/lblTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
-            android:textAllCaps="true"
-            android:textColor="@color/yellow"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/lblDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="@string/onboarding_virtual_title" />
+    </com.trx.consumer.common.CommonView>
 
-        <com.trx.consumer.common.CommonLabel
-            android:id="@+id/lblDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
-            android:textColor="@color/white"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/ivHeader"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="@string/onboarding_virtual_description" />
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:textAllCaps="true"
+        android:textColor="@color/yellow"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/lblDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/onboarding_virtual_title" />
 
-        <com.trx.consumer.common.CommonView
-            android:id="@+id/viewNavBar"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/top_bar_height"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/viewBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/onboarding_virtual_description" />
 
-            <com.trx.consumer.common.CommonImageView
-                android:id="@+id/btnBack"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_btn_back_white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.trx.consumer.common.CommonImageView
-                android:id="@+id/btnClose"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginEnd="10dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_btn_close_white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </com.trx.consumer.common.CommonView>
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewBottom"
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:layout_marginBottom="@dimen/bottom_bar_height"
+        app:backgroundColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.trx.consumer.common.CommonLabel
             android:id="@+id/lblItemOne"
-            style="@style/CommonLabelStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginHorizontal="20dp"
             android:drawableStart="@drawable/ic_marker"
             android:drawablePadding="10dp"
+            android:fontFamily="@font/atcarquette_medium"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivHeader"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/onboarding_virtual_list_text_one" />
 
         <View
             android:id="@+id/vLineOne"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="16dp"
             android:background="@color/grey"
+            app:layout_constraintBottom_toBottomOf="@id/lblItemOne"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblItemOne" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.trx.consumer.common.CommonLabel
             android:id="@+id/lblItemTwo"
-            style="@style/CommonLabelStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginHorizontal="20dp"
             android:drawableStart="@drawable/ic_marker"
             android:drawablePadding="10dp"
+            android:fontFamily="@font/atcarquette_medium"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vLineOne"
+            app:layout_constraintTop_toBottomOf="@id/lblItemOne"
             tools:text="@string/onboarding_virtual_list_text_two" />
 
         <View
             android:id="@+id/vLineTwo"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="16dp"
             android:background="@color/grey"
+            app:layout_constraintBottom_toBottomOf="@id/lblItemTwo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblItemTwo" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.trx.consumer.common.CommonLabel
             android:id="@+id/lblItemThree"
-            style="@style/CommonLabelStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginHorizontal="20dp"
             android:drawableStart="@drawable/ic_marker"
             android:drawablePadding="10dp"
+            android:fontFamily="@font/atcarquette_medium"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vLineTwo"
+            app:layout_constraintTop_toBottomOf="@id/lblItemTwo"
             tools:text="@string/onboarding_virtual_list_text_one" />
 
         <View
             android:id="@+id/vLineThree"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="16dp"
             android:background="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -167,23 +157,21 @@
 
         <com.trx.consumer.common.CommonButton
             android:id="@+id/btnContinue"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginBottom="15dp"
             android:fontFamily="@font/atcarquette_bold"
             android:gravity="center"
             android:text="@string/onboarding_continue_button_label"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="13sp"
             app:backgroundColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vLineThree" />
-
+            app:layout_constraintStart_toStartOf="parent" />
 
     </com.trx.consumer.common.CommonView>
 
-</ScrollView>
+</com.trx.consumer.common.CommonView>

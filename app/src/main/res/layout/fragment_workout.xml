@@ -29,6 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:scaleType="centerCrop"
+                    android:tint="@color/blackAlpha20"
                     app:layout_constraintBottom_toBottomOf="@+id/viewHeader"
                     app:layout_constraintTop_toTopOf="@+id/viewHeader" />
 
@@ -36,17 +37,17 @@
                     android:id="@+id/viewNavBar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/top_bar_height"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="15dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <com.trx.consumer.common.CommonImageButton
+                    <com.trx.consumer.common.CommonImageView
                         android:id="@+id/btnBack"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginStart="5dp"
+                        android:background="@color/transparent"
+                        android:scaleType="centerInside"
                         android:src="@drawable/ic_btn_back_white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -78,8 +79,8 @@
                     app:layout_constraintBottom_toTopOf="@+id/lblTitle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:textAllCaps="true"
-                    tools:text="60 Min   $19.99"
-                    tools:ignore="SmallSp" />
+                    tools:ignore="SmallSp"
+                    tools:text="60 Min   $19.99" />
 
             </com.trx.consumer.common.CommonView>
 
@@ -127,9 +128,9 @@
                     android:gravity="center"
                     android:text="@string/workout_profile_label"
                     android:textAllCaps="true"
-                    android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="12sp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

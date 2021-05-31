@@ -46,7 +46,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             eventTapLogout.observe(viewLifecycleOwner, handleTapLogout)
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLogOut.observe(viewLifecycleOwner, handleLogOut)
-
+            eventTapTest.observe(viewLifecycleOwner, handleTapTest)
             doLoadView()
         }
     }
@@ -103,6 +103,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     private val handleTapBack = Observer<Void> {
         LogManager.log("handleTapBack")
         NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleTapTest = Observer<Void> {
+        LogManager.log("handleTapBack")
+        NavigationManager.shared.present(this, R.id.test_utility_fragment)
     }
 
     override fun onBackPressed() {

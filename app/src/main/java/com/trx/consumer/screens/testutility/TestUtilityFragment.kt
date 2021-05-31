@@ -23,7 +23,6 @@ import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.player.PlayerActivity
 import com.trx.consumer.screens.promotion.PromoAdapter
-import com.trx.consumer.screens.update.UpdateViewState
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutAdapter
 import com.trx.consumer.screens.welcome.WelcomeState
@@ -113,7 +112,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapUpdate = Observer<Void> {
-        NavigationManager.shared.present(this, R.id.update_fragment, UpdateViewState.EDIT)
+        NavigationManager.shared.present(this, R.id.update_fragment)
     }
 
     private val handleTapContent = Observer<Void> {

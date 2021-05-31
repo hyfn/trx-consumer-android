@@ -7,6 +7,7 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentEmailBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.extensions.setPrimaryEnabled
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.managers.UtilityManager
@@ -67,10 +68,7 @@ class EmailFragment : BaseFragment(R.layout.fragment_email) {
     }
 
     private val handleLoadButton = Observer<Boolean> { enabled ->
-        viewBinding.btnSendEmail.apply {
-            isEnabled = enabled
-            bgColor(if (enabled) R.color.black else R.color.greyDark)
-        }
+        viewBinding.btnSendEmail.setPrimaryEnabled(enabled)
     }
 
     private val handleTapBack = Observer<Void> {
@@ -83,15 +81,14 @@ class EmailFragment : BaseFragment(R.layout.fragment_email) {
         val model = AlertModel.create("SUCCESS", message)
 
         model.setPrimaryButton(R.string.alert_primary_cool) {
-            NavigationManager.shared.dismiss(this, null)
+            viewBinding.txtSendEmail.text = ""
         }
         model.setSecondaryButton(0)
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
-    private val handleSendEmailError = Observer<Int> { stringInt ->
-        LogManager.log("handleSendEmailError")
-        val message = getString(stringInt)
+    private val handleSendEmailError = Observer<String> { message ->
+        LogManager.log("handleSendEmailError: $message")
         val model = AlertModel.create("ERROR", message)
         model.setPrimaryButton(
             title = R.string.alert_primary_back,

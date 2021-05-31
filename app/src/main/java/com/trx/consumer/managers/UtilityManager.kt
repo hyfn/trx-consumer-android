@@ -31,7 +31,7 @@ class UtilityManager {
     }
 
     fun versionDisplay(): String {
-        return "App Version ${buildVersion()}.${appVersion()}"
+        return "App Version ${appVersion()}.${buildVersion()}"
     }
 
     fun showSupportEmail(fragment: Fragment) {
