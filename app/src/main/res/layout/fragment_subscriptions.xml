@@ -21,7 +21,7 @@
             android:layout_marginStart="5dp"
             android:background="@color/transparent"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_btn_back"
+            android:src="@drawable/ic_btn_back_black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,9 +32,9 @@
         android:id="@+id/viewScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewNavBar">
 
         <com.trx.consumer.common.CommonView
