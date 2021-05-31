@@ -42,6 +42,7 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
             eventLoadConfirmPlan.observe(viewLifecycleOwner, handleLoadConfirmPlan)
             eventLoadError.observe(viewLifecycleOwner, handleLoadError)
             eventLoadNextBillDate.observe(viewLifecycleOwner, handleLoadNextBillDate)
+            eventLoadLastBillDate.observe(viewLifecycleOwner, handleLoadLastBillDate)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventLoadPlans.observe(viewLifecycleOwner, handleLoadPlans)
 
@@ -105,6 +106,16 @@ class PlansFragment : BaseFragment(R.layout.fragment_plans) {
             viewBinding.apply {
                 viewNextBill.isHidden = false
                 lblNextBillDate.text = value
+            }
+        }
+    }
+
+    private val handleLoadLastBillDate = Observer<String?> { value ->
+        LogManager.log("handleLoadLastBillDate")
+        value?.let {
+            viewBinding.apply {
+                viewLastBill.isHidden = false
+                lblLastBillDate.text = value
             }
         }
     }

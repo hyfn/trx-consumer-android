@@ -26,6 +26,7 @@ class PlansViewModel @ViewModelInject constructor(
     val eventLoadConfirmPlan = CommonLiveEvent<PlanModel>()
     val eventLoadError = CommonLiveEvent<String>()
     val eventLoadNextBillDate = CommonLiveEvent<String?>()
+    val eventLoadLastBillDate = CommonLiveEvent<String?>()
     val eventLoadView = CommonLiveEvent<Void>()
     val eventLoadPlans = CommonLiveEvent<List<PlanModel>>()
 
@@ -50,6 +51,7 @@ class PlansViewModel @ViewModelInject constructor(
                 userModel = user
                 eventLoadCanCancel.postValue(user.plan != null)
                 eventLoadNextBillDate.postValue(user.planRenewsDateDisplay)
+                eventLoadLastBillDate.postValue(user.planStartDateDisplay)
             }
             val response = backendManager.plans()
             if (response.isSuccess) {
