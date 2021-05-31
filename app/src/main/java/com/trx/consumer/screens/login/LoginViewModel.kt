@@ -68,6 +68,9 @@ class LoginViewModel @ViewModelInject constructor(
             val response = backendManager.login(email, password)
             eventShowHud.postValue(false)
             if (response.isSuccess) {
+                analyticsManager.trackAmplitude(
+                    AnalyticsEventModel.SIGN_IN
+                )
                 if (cacheManager.didShowOnboarding()) {
                     eventTapLogin.call()
                 } else {

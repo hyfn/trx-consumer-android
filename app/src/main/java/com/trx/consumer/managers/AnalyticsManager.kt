@@ -10,7 +10,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
 
     fun trackAmplitude(
         event: AnalyticsEventModel,
-        value: Any?
+        value: Any? = null
     ) {
         amplitudeClient.logEvent(
             event.eventName,
