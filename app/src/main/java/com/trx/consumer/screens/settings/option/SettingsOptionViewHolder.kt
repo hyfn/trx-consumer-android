@@ -21,22 +21,21 @@ class SettingsOptionViewHolder(view: View) : CommonViewHolder(view) {
 
         lblTitle.apply {
             text = itemView.context.getString(model.title)
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, model.titleTextSize.toFloat())
             setTextColor(ContextCompat.getColor(itemView.context, model.titleTextColor))
         }
-
         lblSubtitle.text = model.subtitle
 
         if (model.subtitle.isEmpty()) {
             lblTitle.apply {
                 typeface = ResourcesCompat.getFont(itemView.context, R.font.atcarquette_regular)
                 lblSubtitle.isVisible = false
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
             }
         } else {
             lblTitle.apply {
                 typeface = ResourcesCompat.getFont(itemView.context, R.font.atcarquette_bold)
-                setTextColor(ContextCompat.getColor(itemView.context, R.color.greyDark))
                 isAllCaps = true
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, model.titleTextSize.toFloat())
             }
             lblSubtitle.isVisible = true
         }

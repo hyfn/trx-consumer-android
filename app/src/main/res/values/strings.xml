@@ -148,7 +148,7 @@
     <string name="subscriptions_current_subscription_label">Current Subscription</string>
     <string name="subscriptions_cancel_subscription_label">Cancel Subscription</string>
     <string name="subscriptions_restore_purchases_label">Restore Purchases</string>
-    <string name="subscriptions_confirm_alert_message">Are yo sure you want to buy this subscription?</string>
+    <string name="subscriptions_confirm_alert_message">Are you sure you want to buy this subscription?</string>
     <string name="subscriptions_confirm_alert_primary_label">SUBMIT PAYMENT</string>
     <string name="subscriptions_cancel_alert_message">Are you sure you want to cancel your subscription? (canceling may take up to 24 hours)</string>
     <string name="subscriptions_cancel_alert_primary_label">NO, KEEP MY SUBSCRIPTION</string>

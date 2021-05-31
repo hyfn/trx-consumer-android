@@ -22,6 +22,11 @@ class SubscriptionsViewModel @ViewModelInject constructor(
     private val cacheManager: CacheManager,
 ) : BaseViewModel(), SubscriptionsListener {
 
+    //TODO: Need to handle the following scenarios:
+    //   - Play Store purchase was successful but the purchase was never successfully sent to backend
+    //   - Check if a purchase was cancelled before displaying as current subscription
+    //   - Test functionality once backend returns purchases
+
     val eventLoadCanCancel = CommonLiveEvent<Boolean>()
     val eventLoadError = CommonLiveEvent<String>()
     val eventLoadView = CommonLiveEvent<Void>()

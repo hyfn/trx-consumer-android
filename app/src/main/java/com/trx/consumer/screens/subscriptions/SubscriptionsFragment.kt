@@ -57,6 +57,18 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
 
     private val handleLoadView = Observer<Void> {
         LogManager.log("handleLoadView")
+        viewBinding.apply {
+            viewLastBill.isHidden = true
+            viewNextBill.isHidden = true
+            btnCancel.isHidden = true
+            btnRestore.isHidden = true
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (!viewBinding.hudView.isVisible) viewModel.doLoadView()
     }
 
     private val handleLoadCanCancel = Observer<Boolean> { value ->

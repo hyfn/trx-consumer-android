@@ -1,9 +1,11 @@
 package com.trx.consumer.models.common.iap
 
+import com.trx.consumer.BuildConfig
 import com.trx.consumer.extensions.date
 import com.trx.consumer.extensions.format
 import org.json.JSONObject
 import java.util.Date
+import java.util.TimeZone
 
 class PurchaseEntitlementModel(
     val expiresDateString: String = "",
@@ -31,7 +33,11 @@ class PurchaseEntitlementModel(
         }
 
     private fun display(date: Date?): String {
-        return date?.format("yyyy/MM/dd") ?: ""
+        return if (BuildConfig.DEBUG) {
+            date?.format("yyyy/MM/dd h:mm a", zone = TimeZone.getDefault()) ?: ""
+        } else {
+            date?.format("yyyy/MM/dd", zone = TimeZone.getDefault()) ?: ""
+        }
     }
 
     companion object {
