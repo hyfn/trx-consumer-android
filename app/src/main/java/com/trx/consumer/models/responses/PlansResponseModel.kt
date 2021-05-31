@@ -11,15 +11,19 @@ class PlansResponseModel(private var plan: PlansModel = PlansModel()) {
         planText?.let { text ->
             val list = plan.plans.toMutableList()
             list.indexOfFirst { it.title == text }.let { index ->
-                if (index != -1) {
+                if (index == -1) {
+                    val current = plan.free.apply { primaryState = PlansViewState.CURRENT }
+                    list.add(0, current)
+                } else {
                     list.removeAt(index).let { planModel ->
+                        list.clear()
                         planModel.primaryState = PlansViewState.CURRENT
                         list.add(0, planModel)
                     }
                 }
             }
             list
-        } ?: plan.plans
+        } ?: listOf()
 
     companion object {
 
