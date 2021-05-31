@@ -57,7 +57,7 @@ class PlansViewModel @ViewModelInject constructor(
             if (response.isSuccess) {
                 try {
                     val model = PlansResponseModel.parse(response.responseString)
-                    userModel?.planText.let {
+                    userModel?.planText?.let {
                         eventLoadPlans.postValue(model.plans(it))
                     }
                 } catch (e: Exception) {
