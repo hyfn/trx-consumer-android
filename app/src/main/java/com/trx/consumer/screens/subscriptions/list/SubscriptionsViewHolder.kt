@@ -14,18 +14,15 @@ class SubscriptionsViewHolder(view: View) : CommonViewHolder(view) {
     private val lblDescription: CommonLabel = view.findViewById(R.id.lblDescription)
     private val btnPrimary: CommonButton = view.findViewById(R.id.btnPrimary)
 
-    fun setup(
-        item: SubscriptionModel,
-        subscriptionsViewState: SubscriptionsViewState,
-        listenerIAP: SubscriptionsListener
-    ) {
+    fun setup(item: SubscriptionModel, listenerIAP: SubscriptionsListener) {
         lblTitle.text = item.title
         lblPrice.text = item.cost
         lblDescription.text = item.description
+        val state= item.primaryState
         btnPrimary.apply {
-            text = itemView.context.getString(subscriptionsViewState.buttonText)
-            textColor(subscriptionsViewState.buttonTextColor)
-            bgColor(subscriptionsViewState.buttonBgColor)
+            text = itemView.context.getString(state.buttonText)
+            textColor(state.buttonTextColor)
+            bgColor(state.buttonBgColor)
             action { listenerIAP.doTapSubscription(item) }
         }
     }

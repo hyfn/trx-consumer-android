@@ -20,7 +20,6 @@ class SubscriptionsAdapter(
         private const val TYPE_SUBSCRIPTION_LIST = 1
     }
 
-    private var state: SubscriptionsViewState = SubscriptionsViewState.OTHER
     private var items: MutableList<Any> = mutableListOf()
 
     override fun createCommonViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
@@ -46,7 +45,7 @@ class SubscriptionsAdapter(
         val item = items[position]
         when (holder) {
             is SubscriptionsViewHolder -> {
-                holder.setup(item as SubscriptionModel, state, listener)
+                holder.setup(item as SubscriptionModel, listener)
             }
         }
     }

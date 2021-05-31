@@ -8,11 +8,13 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentSubscriptionsBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.SubscriptionModel
 import com.trx.consumer.screens.alert.AlertViewState
+import com.trx.consumer.screens.erroralert.ErrorAlertModel
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsAdapter
 
 class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
@@ -26,8 +28,8 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventLoadCanCancel.observe(viewLifecycleOwner, handleLoadCanCancel)
-            eventLoadCancel.observe(viewLifecycleOwner, handleLoadCancel)
-            eventLoadConfirm.observe(viewLifecycleOwner, handleLoadConfirm)
+            eventLoadCancelPlan.observe(viewLifecycleOwner, handleLoadCancelPlan)
+            eventLoadConfirmPlan.observe(viewLifecycleOwner, handleLoadConfirm)
             eventLoadError.observe(viewLifecycleOwner, handleLoadError)
             eventLoadNextBillDate.observe(viewLifecycleOwner, handleLoadNextBillDate)
             eventLoadLastBillDate.observe(viewLifecycleOwner, handleLoadLastBillDate)
@@ -35,6 +37,8 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
 
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventTapSettings.observe(viewLifecycleOwner, handleTapSettings)
+
+            eventShowHud.observe(viewLifecycleOwner, handleShowHud)
         }
 
         viewBinding.apply {
@@ -42,6 +46,8 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
             rvSubscriptions.adapter = adapter
 
             btnBack.action { viewModel.doTapBack() }
+            btnCancel.action { viewModel.doTapCancel() }
+            btnRestore.action { viewModel.doTapRestore() }
         }
 
         viewModel.doLoadView()
@@ -51,34 +57,71 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
         LogManager.log("handleLoadView")
     }
 
-    private val handleLoadCanCancel = Observer<Boolean> {
+    private val handleLoadCanCancel = Observer<Boolean> { value ->
         LogManager.log("handleLoadCanCancel")
+        viewBinding.apply {
+            btnCancel.isHidden = !value
+            btnRestore.isHidden = value
+        }
     }
 
-    private val handleLoadCancel = Observer<Void> {
+    private val handleLoadCancelPlan = Observer<Void> {
         LogManager.log("handleLoadCancel")
+        val model = AlertModel.create(
+            title = "",
+            message = requireContext().getString(R.string.subscriptions_cancel_alert_message)
+        ).apply {
+            setPrimaryButton(
+                title = R.string.subscriptions_cancel_alert_primary_label,
+                state = AlertViewState.POSITIVE
+            )
+            setSecondaryButton(
+                R.string.subscriptions_cancel_alert_secondary_label,
+                state = AlertViewState.NEGATIVE
+            ) {
+                viewModel.doTapUnsubscribe()
+            }
+        }
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
     private val handleLoadConfirm = Observer<SubscriptionModel> { value ->
         LogManager.log("handleLoadConfirm")
-        val model = AlertModel.create(title = "", message = "Are yo sure you want to buy this subscription?")
-        model.setPrimaryButton(R.string.subscriptions_confirm_alert_primary_label, state = AlertViewState.POSITIVE) {
-            viewModel.doCallSubscribe(requireActivity(), value)
+        val model = AlertModel.create(
+            title = "",
+            message = requireContext().getString(R.string.subscriptions_confirm_alert_message)
+        ).apply {
+            setPrimaryButton(
+                R.string.subscriptions_confirm_alert_primary_label,
+                state = AlertViewState.POSITIVE
+            ) {
+                viewModel.doCallSubscribe(requireActivity(), value)
+            }
+            setSecondaryButton(R.string.alert_button_title_dismiss)
         }
-        model.setSecondaryButton(R.string.alert_button_title_dismiss)
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
     private val handleLoadError = Observer<String> { value ->
         LogManager.log("handleLoadError")
+        val model = ErrorAlertModel.error(value)
+        NavigationManager.shared.present(this, R.id.error_fragment, model)
     }
 
-    private val handleLoadLastBillDate = Observer<String> {
+    private val handleLoadLastBillDate = Observer<String> { value ->
         LogManager.log("handleLoadLastBillDate")
+        viewBinding.apply {
+            viewLastBill.isHidden = false
+            lblLastBillDate.text = value
+        }
     }
 
     private val handleLoadNextBillDate = Observer<String> { value ->
         LogManager.log("handleLoadNextBilDate")
+        viewBinding.apply {
+            viewNextBill.isHidden = false
+            lblNextBillDate.text = value
+        }
     }
 
     private val handleLoadSubscriptions = Observer<List<SubscriptionModel>> { subscriptions ->
@@ -88,6 +131,10 @@ class SubscriptionsFragment : BaseFragment(R.layout.fragment_subscriptions) {
 
     private val handleTapSettings = Observer<Void> {
         LogManager.log("handleTapSettings")
+    }
+
+    private val handleShowHud = Observer<Boolean> { show ->
+        viewBinding.hudView.isVisible = show
     }
 
     private val handleTapBack = Observer<Void> {

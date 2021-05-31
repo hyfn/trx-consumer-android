@@ -3,12 +3,13 @@ package com.trx.consumer.models.common
 import android.os.Parcelable
 import com.revenuecat.purchases.Package
 import com.trx.consumer.screens.plans.list.PlansViewState
+import com.trx.consumer.screens.subscriptions.list.SubscriptionsViewState
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class SubscriptionModel(
     val iapPackage: Package,
-    var primaryState: PlansViewState = PlansViewState.OTHER
+    var primaryState: SubscriptionsViewState = SubscriptionsViewState.OTHER
 ) : Parcelable {
 
     val cost: String

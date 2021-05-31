@@ -40,7 +40,7 @@ class PurchaseEntitlementModel(
             return PurchaseEntitlementModel(
                 expiresDateString = jsonObject.optString("expires_date"),
                 productIdentifier = jsonObject.optString("product_identifier"),
-                purchaseDateString = jsonObject.optString("purchaseDateString")
+                purchaseDateString = jsonObject.optString("purchase_date")
             )
         }
     }

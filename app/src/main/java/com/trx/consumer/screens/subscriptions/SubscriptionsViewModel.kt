@@ -15,6 +15,7 @@ import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.PurchasesResponseModel
 import com.trx.consumer.screens.plans.list.PlansViewState
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsListener
+import com.trx.consumer.screens.subscriptions.list.SubscriptionsViewState
 import kotlinx.coroutines.launch
 
 class SubscriptionsViewModel @ViewModelInject constructor(
@@ -23,8 +24,8 @@ class SubscriptionsViewModel @ViewModelInject constructor(
 ) : BaseViewModel(), SubscriptionsListener {
 
     val eventLoadCanCancel = CommonLiveEvent<Boolean>()
-    val eventLoadCancel = CommonLiveEvent<Void>()
-    val eventLoadConfirm = CommonLiveEvent<SubscriptionModel>()
+    val eventLoadCancelPlan = CommonLiveEvent<Void>()
+    val eventLoadConfirmPlan = CommonLiveEvent<SubscriptionModel>()
     val eventLoadError = CommonLiveEvent<String>()
     val eventLoadView = CommonLiveEvent<Void>()
     val eventLoadSubscriptions = CommonLiveEvent<List<SubscriptionModel>>()
@@ -71,11 +72,12 @@ class SubscriptionsViewModel @ViewModelInject constructor(
                     cacheManager.user(user)
                 }
             }
-        }
+        }.invokeOnCompletion { eventShowHud.postValue(false) }
     }
 
     fun doCallSubscribe(activity: Activity, value: SubscriptionModel) {
         viewModelScope.launch {
+            eventShowHud.postValue(true)
             val model = IAPManager.shared.purchase(activity, value)
             if (model.error != null) {
                 model.purchaserInfo
@@ -90,11 +92,12 @@ class SubscriptionsViewModel @ViewModelInject constructor(
 
             val response = backendManager.purchase(params)
             doReloadView(response)
-        }
+        }.invokeOnCompletion { eventShowHud.postValue(false) }
     }
 
-    fun doReloadView(response: ResponseModel) {
+    private fun doReloadView(response: ResponseModel) {
         viewModelScope.launch {
+            eventShowHud.postValue(true)
             if (response.isSuccess) {
                 val model = PurchasesResponseModel.parse(response.responseString)
                 val productId = model.purchase.entitlements[ENTITLEMENT]?.productIdentifier
@@ -113,11 +116,11 @@ class SubscriptionsViewModel @ViewModelInject constructor(
             } else {
                 eventLoadError.postValue("There was an error with purchasing")
             }
-        }
+        }.invokeOnCompletion { eventShowHud.postValue(false) }
     }
 
-    fun doReloadView(subscription: SubscriptionModel, entitlement: PurchaseEntitlementModel) {
-        subscription.primaryState = PlansViewState.CURRENT
+    private fun doReloadView(subscription: SubscriptionModel, entitlement: PurchaseEntitlementModel) {
+        subscription.primaryState = SubscriptionsViewState.CURRENT
         eventLoadSubscriptions.postValue(listOf(subscription))
         eventLoadLastBillDate.postValue(entitlement.purchaseDisplay)
         eventLoadNextBillDate.postValue(entitlement.expiresDisplay)
@@ -136,15 +139,18 @@ class SubscriptionsViewModel @ViewModelInject constructor(
     }
 
     fun doTapCancel() {
-        eventLoadCancel.call()
+        eventLoadCancelPlan.call()
     }
 
     override fun doTapSubscription(model: SubscriptionModel) {
-        eventLoadConfirm.postValue(model)
+        if (model.primaryState != SubscriptionsViewState.CURRENT) {
+            eventLoadConfirmPlan.postValue(model)
+        }
     }
 
     fun doTapRestore() {
         viewModelScope.launch {
+            eventShowHud.postValue(true)
             val model = IAPManager.shared.restore()
             if (model.hasOnDemandSubscription) {
                 val params = model.paramsRestore()
@@ -157,7 +163,7 @@ class SubscriptionsViewModel @ViewModelInject constructor(
             } else {
                 eventLoadError.postValue("Restore failed (did not match entitlement)")
             }
-        }
+        }.invokeOnCompletion { eventShowHud.postValue(false) }
     }
 
     fun doTapUnsubscribe() {
