@@ -70,7 +70,6 @@ class DiscoverViewModel @ViewModelInject constructor(
     }
 
     fun doLoadWorkouts() {
-        filters.forEach { it.isEnabled = true }
         eventLoadFilters.postValue(filters)
         eventLoadWorkouts.postValue(workouts)
     }
@@ -86,10 +85,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     }
 
     private fun resetFilters() {
-        filters.forEach {
-            it.isEnabled = false
-            it.values.forEach { model -> model.isSelected = false }
-        }
+        filters.forEach { it.values.forEach { model -> model.isSelected = false } }
         eventLoadFilters.postValue(filters)
     }
 
