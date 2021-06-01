@@ -21,6 +21,7 @@ import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
+import com.trx.consumer.screens.loading.LoadingViewState
 import com.trx.consumer.screens.player.PlayerActivity
 import com.trx.consumer.screens.promotion.PromoAdapter
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
@@ -62,6 +63,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnSettings.action { viewModel.doTapSettings() }
             btnWorkout.action { viewModel.doTapWorkout() }
             btnTrainer.action { viewModel.doTapTrainer() }
+            btnLoadingScreen.action { viewModel.doTapLoadingScreen() }
             btnBookingAlert.action { viewModel.doTapBookingAlert() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
@@ -89,7 +91,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
             eventLoadPromotions.observe(viewLifecycleOwner, handleLoadPromotions)
-
+            eventLoadingScreen.observe(viewLifecycleOwner, handleTapLoadingScreen)
             doLoadView()
         }
     }
@@ -203,6 +205,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleLoadPromotions = Observer<List<PromoModel>> { promotions ->
         promoAdapter.update(promotions)
+    }
+
+    private val handleTapLoadingScreen = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.loading_screen, LoadingViewState.LAUNCH)
     }
 
     //endregion

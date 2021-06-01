@@ -4,8 +4,11 @@ import android.content.Context
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.util.AttributeSet
+import androidx.annotation.ColorRes
+import androidx.annotation.FontRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 
 class CommonLabel @JvmOverloads constructor(
     context: Context,
@@ -22,7 +25,11 @@ class CommonLabel @JvmOverloads constructor(
         }
     }
 
-    fun textColor(color: Int) {
+    fun textColor(@ColorRes color: Int) {
         this.setTextColor(ContextCompat.getColor(this.context, color))
+    }
+
+    fun font(@FontRes font: Int) {
+        typeface = ResourcesCompat.getFont(context, font)
     }
 }
