@@ -80,14 +80,17 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     }
 
     private val handleLoadWorkouts = Observer<List<VideoModel>> { workouts ->
+        viewBinding.viewFilter.alpha = 1f
         loadWorkouts(workouts)
     }
 
     private val handleLoadCollections = Observer<List<VideosModel>> { collections ->
+        viewBinding.viewFilter.alpha = 0.3f
         loadCollections(collections)
     }
 
     private val handleLoadPrograms = Observer<List<VideosModel>> { programs ->
+        viewBinding.viewFilter.alpha = 0.3f
         loadPrograms(programs)
     }
 

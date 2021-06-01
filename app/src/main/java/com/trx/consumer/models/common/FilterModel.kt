@@ -9,7 +9,8 @@ import org.json.JSONObject
 class FilterModel(
     val identifier: String = "",
     val title: String = "",
-    val values: List<FilterOptionsModel> = listOf()
+    val values: List<FilterOptionsModel> = listOf(),
+    var isEnabled: Boolean = true
 ) : Parcelable {
 
     override fun equals(other: Any?): Boolean {

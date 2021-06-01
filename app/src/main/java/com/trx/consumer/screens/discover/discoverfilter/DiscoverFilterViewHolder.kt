@@ -18,7 +18,7 @@ class DiscoverFilterViewHolder(view: View) : CommonViewHolder(view) {
         val isSelected = item.values.any { it.isSelected }
         lblFilter.textColor(if (isSelected) R.color.white else R.color.black)
         viewMain.bgColor(if (isSelected) R.color.black else R.color.white)
-        if (isSelected) viewMain.border(R.color.grey, 1.px)
+        viewMain.border(if (isSelected) R.color.grey else R.color.greyLight, 1.px)
         viewMain.action { listener.doTapDiscoverFilter(item) }
     }
 }

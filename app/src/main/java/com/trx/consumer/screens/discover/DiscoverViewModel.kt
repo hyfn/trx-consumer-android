@@ -44,7 +44,8 @@ class DiscoverViewModel @ViewModelInject constructor(
             val response = backendManager.videos()
             if (response.isSuccess) {
                 val model = VideosResponseModel.parse(response.responseString)
-                workouts = if (paramsToSend.keys.any()) doLoadFilteredWorkout(paramsToSend) else model.workouts
+                workouts =
+                    if (paramsToSend.keys.any()) doLoadFilteredWorkout(paramsToSend) else model.workouts
                 collections = model.collections
                 programs = model.programs
                 if (filters.isEmpty()) {
@@ -69,15 +70,27 @@ class DiscoverViewModel @ViewModelInject constructor(
     }
 
     fun doLoadWorkouts() {
+        filters.forEach { it.isEnabled = true }
+        eventLoadFilters.postValue(filters)
         eventLoadWorkouts.postValue(workouts)
     }
 
     fun doLoadCollections() {
+        resetFilters()
         eventLoadCollections.postValue(collections)
     }
 
     fun doLoadPrograms() {
+        resetFilters()
         eventLoadPrograms.postValue(programs)
+    }
+
+    private fun resetFilters() {
+        filters.forEach {
+            it.isEnabled = false
+            it.values.forEach { model -> model.isSelected = false }
+        }
+        eventLoadFilters.postValue(filters)
     }
 
     fun doTapBack() {
