@@ -4,7 +4,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
-import com.trx.consumer.screens.loading.LoadingViewState
 
 class LoadingViewModel @ViewModelInject constructor(private val backendManager: BackendManager) :
     BaseViewModel() {
