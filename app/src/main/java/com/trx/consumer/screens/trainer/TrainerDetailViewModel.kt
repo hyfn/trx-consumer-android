@@ -18,6 +18,7 @@ import com.trx.consumer.models.responses.ProgramsResponseModel
 import com.trx.consumer.models.responses.SessionsResponseModel
 import com.trx.consumer.models.responses.TrainerResponseModel
 import com.trx.consumer.models.responses.VideosResponseModel
+import com.trx.consumer.screens.banner.BannerViewListener
 import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 import kotlinx.coroutines.launch
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 class TrainerDetailViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager
-) : BaseViewModel(), LiveWorkoutViewListener, VideoWorkoutListener {
+) : BaseViewModel(), LiveWorkoutViewListener, VideoWorkoutListener, BannerViewListener {
 
 
     var trainer: TrainerModel = TrainerModel.test()
@@ -94,7 +95,7 @@ class TrainerDetailViewModel @ViewModelInject constructor(
     }
 
     // BannerViewListener
-    fun doTapBannerPrimaryPhotos(model: String) {
+    override fun doTapBannerPrimaryPhotos(model: String) {
         eventShowBanner.postValue(model)
     }
 

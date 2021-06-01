@@ -12,6 +12,7 @@
         android:id="@+id/viewNavBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_bar_height"
+        app:backgroundColor="@color/greyLightExtra"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.trx.consumer.common.CommonImageView

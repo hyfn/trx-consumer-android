@@ -9,6 +9,7 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.databinding.FragmentTrainerDetailBinding
+import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.extensions.load
 import com.trx.consumer.extensions.underConstruction
 import com.trx.consumer.managers.NavigationManager
@@ -19,6 +20,8 @@ import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.TrainerProgramModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.screens.banner.BannerAdapter
+import com.trx.consumer.screens.discover.list.DiscoverAdapter
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.player.PlayerActivity
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
@@ -28,6 +31,7 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
     private val viewModel: TrainerDetailViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentTrainerDetailBinding::bind)
 
+    private lateinit var bannerAdapter: BannerAdapter
     private lateinit var upComingClassesAdapter: LiveWorkoutAdapter
     private lateinit var onDemandClassesAdapter: VideoWorkoutAdapter
 
@@ -36,6 +40,9 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
         onDemandClassesAdapter = VideoWorkoutAdapter(viewModel) { lifecycleScope }
 
         viewBinding.apply {
+            bannerAdapter = BannerAdapter(viewModel) { lifecycleScope }
+            rvBanner.adapter = bannerAdapter
+
             rvUpcomingClasses.adapter = upComingClassesAdapter
             rvOnDemandClasses.adapter = onDemandClassesAdapter
 
@@ -153,8 +160,10 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
         onDemandClassesAdapter.update(videos)
     }
 
-    private fun loadBanner(banners: List<String>?) {
-
+    private fun loadBanner(banners: List<String>) {
+        val hide = banners.isEmpty()
+        viewBinding.rvBanner.isHidden = hide
+        bannerAdapter.update(banners)
     }
 
     private fun loadOndemand(workouts: List<VideoModel>?) {
@@ -165,8 +174,13 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
 
     }
 
-    private fun loadTrainer(model: TrainerModel?) {
+    private fun loadTrainer(model: TrainerModel) {
+        viewBinding.apply {
+            imgHeaderTrainer.load(model.profilePhoto)
+            lblTrainerName.text = model.fullName
+            lblTrainerTagLine.text = model.mantra
 
+        }
     }
 
     private fun loadServices(services: List<TrainerProgramModel>?) {
