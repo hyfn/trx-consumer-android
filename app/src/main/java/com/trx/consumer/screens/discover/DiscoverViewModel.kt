@@ -38,13 +38,13 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         filters = params.lstFilters
+        val paramsToSend = params.params
         viewModelScope.launch {
             eventShowHud.postValue(true)
-            val paramsToSend = params.params
-            val response = backendManager.videos(paramsToSend)
+            val response = backendManager.videos()
             if (response.isSuccess) {
                 val model = VideosResponseModel.parse(response.responseString)
-                workouts = if (paramsToSend.keys.any()) model.results else model.workouts
+                workouts = if (paramsToSend.keys.any()) doLoadFilteredWorkout(paramsToSend) else model.workouts
                 collections = model.collections
                 programs = model.programs
                 if (filters.isEmpty()) {
@@ -58,6 +58,14 @@ class DiscoverViewModel @ViewModelInject constructor(
             eventLoadFilters.postValue(filters)
             doLoadWorkouts()
         }
+    }
+
+    private suspend fun doLoadFilteredWorkout(paramsToSend: HashMap<String, Any>): List<VideoModel> {
+        val response = backendManager.videos(paramsToSend)
+        return if (response.isSuccess) {
+            val model = VideosResponseModel.parse(response.responseString)
+            model.results
+        } else listOf()
     }
 
     fun doLoadWorkouts() {
