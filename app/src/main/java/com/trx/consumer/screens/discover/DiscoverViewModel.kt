@@ -36,7 +36,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     val eventTapFilter = CommonLiveEvent<FilterParamsModel>()
     val eventTapDiscoverFilter = CommonLiveEvent<FilterParamsModel>()
 
-    fun doLoadView() {
+    fun doLoadVideos() {
         filters = params.lstFilters
         val paramsToSend = params.params
         viewModelScope.launch {

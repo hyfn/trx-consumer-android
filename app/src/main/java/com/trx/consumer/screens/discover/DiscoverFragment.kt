@@ -56,7 +56,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             btnFilter.action { viewModel.doTapFilter() }
         }
 
-        viewModel.doLoadView()
+        viewModel.doLoadVideos()
     }
 
     override fun onBackPressed() {
