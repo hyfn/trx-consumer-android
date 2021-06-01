@@ -1,23 +1,23 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
-import com.trx.consumer.extensions.iterator
+import com.trx.consumer.extensions.map
 import kotlinx.parcelize.Parcelize
-import org.json.JSONArray
 import org.json.JSONObject
 
 @Parcelize
 class VideoModel(
-    var name: String = "",
-    var duration: Int = 0,
-    var description: String = "",
-    var id: String = "0",
-    var poster: String = "",
-    var trainer: TrainerModel = TrainerModel(),
-    var equipment: List<String> = listOf(),
-    var level: String = "",
-    var focus: String = "",
-    var body: List<String> = listOf()
+    val name: String = "",
+    val duration: Int = 0,
+    val description: String = "",
+    val id: String = "0",
+    val poster: String = "",
+    val trainer: TrainerModel = TrainerModel(),
+    val equipment: List<String> = listOf(),
+    val level: String = "",
+    val focus: String = "",
+    val body: List<String> = listOf(),
+    val isSkeleton: Boolean = false
 ) : Parcelable {
 
     val videoDuration: String
@@ -26,21 +26,21 @@ class VideoModel(
     companion object {
 
         fun parse(jsonObject: JSONObject): VideoModel {
-            return VideoModel().apply {
-                jsonObject.optJSONObject("video")?.let { videoJson ->
-                    name = videoJson.optString("name")
-                    duration = videoJson.optInt("duration")
-                    id = videoJson.optString("id")
-                    poster = videoJson.optString("poster")
-                    description = videoJson.optString("description")
-                }
-                trainer = jsonObject.optJSONObject("trainer")?.let { TrainerModel.parse(it) }
-                    ?: TrainerModel()
-                equipment = getStringList(jsonObject.optJSONArray("equipment"))
-                level = jsonObject.optString("level")
-                focus = jsonObject.optString("focus")
-                body = getStringList(jsonObject.optJSONArray("body"))
-            }
+            val videoJson = jsonObject.optJSONObject("video")
+            return VideoModel(
+                name = videoJson?.optString("name") ?: "",
+                duration = videoJson?.optInt("duration") ?: 0,
+                id = videoJson?.optString("id") ?: "",
+                poster = videoJson?.optString("poster") ?: "",
+                description = videoJson?.optString("description") ?: "",
+                trainer = jsonObject.optJSONObject("trainer")?.let {
+                    TrainerModel.parse(it)
+                } ?: TrainerModel(),
+                equipment = jsonObject.optJSONArray("equipment").map(),
+                level = jsonObject.optString("level"),
+                focus = jsonObject.optString("focus"),
+                body = jsonObject.optJSONArray("body").map()
+            )
         }
 
         fun test(): VideoModel {
@@ -53,18 +53,12 @@ class VideoModel(
             )
         }
 
+        fun skeletonList(size: Int): List<VideoModel> {
+            return (0 until size).map { VideoModel(isSkeleton = true) }
+        }
+        
         fun testList(count: Int): List<VideoModel> {
             return (0 until count).map { test() }
-        }
-
-        private fun getStringList(jsonArray: JSONArray?): List<String> {
-            return mutableListOf<String>().apply {
-                jsonArray?.let { safeJson ->
-                    for (index in 0 until safeJson.length()) {
-                        add(jsonArray[index] as String)
-                    }
-                }
-            }
         }
     }
 }

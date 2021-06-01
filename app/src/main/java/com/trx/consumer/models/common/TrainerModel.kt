@@ -27,7 +27,7 @@ class TrainerModel(
         get() = "$firstName $lastName"
 
     val displayName: String
-        get() = "with $firstName ${lastName.first()}."
+        get() = "with $firstName ${lastName.firstOrNull() ?: ""}."
 
     companion object {
 

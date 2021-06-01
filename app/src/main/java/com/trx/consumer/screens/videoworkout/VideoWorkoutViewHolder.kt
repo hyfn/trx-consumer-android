@@ -6,7 +6,9 @@ import com.trx.consumer.common.CommonButton
 import com.trx.consumer.common.CommonImageView
 import com.trx.consumer.common.CommonLabel
 import com.trx.consumer.common.CommonViewHolder
+import com.trx.consumer.extensions.applySkeleton
 import com.trx.consumer.extensions.load
+import com.trx.consumer.extensions.px
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
 
@@ -19,18 +21,30 @@ class VideoWorkoutViewHolder(view: View) : CommonViewHolder(view) {
     private val btnSelect: CommonButton = view.findViewById(R.id.btnSelect)
 
     fun setup(item: VideoModel, listener: VideoWorkoutListener) {
-        lblWorkout.text = item.videoDuration
-        lblTitle.text = item.name
-        lblSubtitle.text = item.trainer.displayName
-        imgBg.load(item.poster)
-        btnSelect.action { listener.doTapVideo(item) }
+        loadSkeletons()
+        with(item) {
+            lblWorkout.applySkeleton(isSkeleton, videoDuration)
+            lblTitle.applySkeleton(isSkeleton, name)
+            lblSubtitle.applySkeleton(isSkeleton, "with ${trainer.displayName}")
+            imgBg.applySkeleton(isSkeleton, color = R.color.black, urlString = poster)
+            btnSelect.action { listener.doTapVideo(item) }
+        }
     }
 
     fun setup(item: VideosModel, listener: VideoWorkoutListener) {
-        lblWorkout.text = item.numberOfVideosDisplay
-        lblTitle.text = item.title
-        lblSubtitle.text = item.trainer.displayName
-        imgBg.load(item.poster)
-        btnSelect.action { listener.doTapVideos(item) }
+        loadSkeletons()
+        with(item) {
+            lblWorkout.applySkeleton(isSkeleton, numberOfVideosDisplay)
+            lblTitle.applySkeleton(isSkeleton, title)
+            lblSubtitle.applySkeleton(isSkeleton, "with ${trainer.displayName}")
+            imgBg.applySkeleton(isSkeleton, color = R.color.black, urlString = poster)
+            btnSelect.action { listener.doTapVideos(item) }
+        }
+    }
+
+    private fun loadSkeletons() {
+        lblWorkout.makeSkeleton(width = 50.px, height = 10.px, color = R.color.yellow)
+        lblTitle.makeSkeleton(width = 100.px, height = 15.px)
+        lblSubtitle.makeSkeleton(width = 140.px, height = 10.px)
     }
 }

@@ -125,7 +125,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapPlayer = Observer<Void> {
-        val video = VideoModel.test().apply { id = "6232799349001" }
+        val video = VideoModel.test()
         NavigationManager.shared.presentActivity(
             requireActivity(),
             PlayerActivity::class.java,

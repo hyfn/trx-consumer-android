@@ -57,10 +57,3 @@ inline fun View.action(timeIntervalMillis: Long = 500, crossinline action: (view
 inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(block: T.() -> Unit) {
     updateLayoutParams(block)
 }
-
-fun CommonButton.setPrimaryEnabled(isEnabled: Boolean) {
-    if (isEnabled != this.isEnabled) {
-        bgColor(if (isEnabled) R.color.black else R.color.greyDark)
-        setEnabled(isEnabled)
-    }
-}

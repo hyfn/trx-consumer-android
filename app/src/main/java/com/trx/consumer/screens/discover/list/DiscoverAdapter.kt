@@ -10,11 +10,13 @@ import com.trx.consumer.models.common.DiscoverModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.screens.discover.DiscoverViewState
+import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
+import com.trx.consumer.screens.videoworkout.VideoWorkoutViewHolder
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
 class DiscoverAdapter(
-    private val listener: DiscoverListener,
+    private val listener: VideoWorkoutListener,
     scopeProvider: () -> CoroutineScope
 ) : CommonRecyclerViewAdapter(scopeProvider) {
 
@@ -28,9 +30,9 @@ class DiscoverAdapter(
     override fun createCommonViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         return try {
             when (viewType) {
-                TYPE_VIDEO_LIST -> DiscoverViewHolder(
+                TYPE_VIDEO_LIST -> VideoWorkoutViewHolder(
                     LayoutInflater.from(parent.context)
-                        .inflate(R.layout.row_video_detail, parent, false)
+                        .inflate(R.layout.row_video_workout_table, parent, false)
                 )
                 else -> DiscoverEmptyListViewHolder(
                     LayoutInflater.from(parent.context)
@@ -48,7 +50,7 @@ class DiscoverAdapter(
     override fun onBindViewHolder(holder: CommonViewHolder, position: Int) {
         val item = items[position]
         when (holder) {
-            is DiscoverViewHolder -> {
+            is VideoWorkoutViewHolder -> {
                 when (item) {
                     is VideoModel -> holder.setup(item, listener)
                     is VideosModel -> holder.setup(item, listener)

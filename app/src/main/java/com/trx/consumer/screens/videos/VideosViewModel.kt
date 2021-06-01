@@ -5,9 +5,9 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
-import com.trx.consumer.screens.discover.list.DiscoverListener
+import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 
-class VideosViewModel : BaseViewModel(), DiscoverListener {
+class VideosViewModel : BaseViewModel(), VideoWorkoutListener {
 
     var model: VideosModel = VideosModel()
 

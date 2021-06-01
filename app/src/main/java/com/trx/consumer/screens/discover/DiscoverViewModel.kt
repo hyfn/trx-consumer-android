@@ -11,12 +11,15 @@ import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.models.responses.VideosResponseModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterListener
-import com.trx.consumer.screens.discover.list.DiscoverListener
+import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DiscoverViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
-) : BaseViewModel(), DiscoverListener, DiscoverFilterListener {
+) : BaseViewModel(), VideoWorkoutListener, DiscoverFilterListener {
 
     var workouts: List<VideoModel> = listOf()
     var collections: List<VideosModel> = listOf()
@@ -28,7 +31,6 @@ class DiscoverViewModel @ViewModelInject constructor(
     val eventLoadCollections = CommonLiveEvent<List<VideosModel>>()
     val eventLoadPrograms = CommonLiveEvent<List<VideosModel>>()
     val eventLoadFilters = CommonLiveEvent<List<FilterModel>>()
-    val eventShowHud = CommonLiveEvent<Boolean>()
 
     val eventTapBack = CommonLiveEvent<Void>()
     val eventTapVideo = CommonLiveEvent<VideoModel>()
@@ -39,7 +41,8 @@ class DiscoverViewModel @ViewModelInject constructor(
     fun doLoadView() {
         filters = params.lstFilters
         viewModelScope.launch {
-            eventShowHud.postValue(true)
+            doLoadSkeletons()
+            withContext(Dispatchers.IO) { delay(10000)}
             val paramsToSend = params.params
             val response = backendManager.videos(paramsToSend)
             if (response.isSuccess) {
@@ -53,7 +56,6 @@ class DiscoverViewModel @ViewModelInject constructor(
                     }
                 }
             }
-            eventShowHud.postValue(false)
             params.lstFilters = filters
             eventLoadFilters.postValue(filters)
             doLoadWorkouts()
@@ -70,6 +72,14 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     fun doLoadPrograms() {
         eventLoadPrograms.postValue(programs)
+    }
+
+    private fun doLoadSkeletons() {
+        val i = 0
+        workouts = VideoModel.skeletonList(5)
+        collections = VideosModel.skeletonList(5)
+        programs = VideosModel.skeletonList(5)
+        doLoadWorkouts()
     }
 
     fun doTapBack() {
