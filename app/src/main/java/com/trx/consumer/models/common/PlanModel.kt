@@ -11,9 +11,16 @@ import org.json.JSONObject
 class PlanModel(
     var key: String = "",
     var title: String = "",
-    var valueProps: List<String> = listOf(),
+    var trialDays: Int = 0,
+    var permissions: PlanPermissionModel = PlanPermissionModel(),
     var price: Double = 0.0,
-    var primaryState: PlansViewState = PlansViewState.OTHER
+    var creditsPerMonth: Int = 0,
+    var conflicts: List<PlanType> = listOf(),
+    var subsToHideWhenSubscribed: List<PlanType> = listOf(),
+    val userType: String = "",
+    var valueProps: List<String> = listOf(),
+    var primaryState: PlansViewState = PlansViewState.OTHER,
+    var hideWhenNotSubscribed: Boolean = false
 ) : Parcelable {
 
     val cost: String
@@ -30,6 +37,51 @@ class PlanModel(
                 price = jsonObject.optDouble("price", 0.0),
                 title = jsonObject.optString("title", ""),
                 valueProps = jsonObject.optJSONArray("valueProps").map()
+            )
+        }
+
+        fun parseDevBase(jsonObject: JSONObject): PlanModel {
+            return PlanModel(
+                key = jsonObject.optString("key"),
+                userType = jsonObject.optString("userType"),
+                title = jsonObject.optString("name"),
+                trialDays = jsonObject.optInt("trialDays"),
+                price = jsonObject.optInt("priceInCents").toDouble(),
+                permissions = jsonObject.getJSONObject("permissions")
+                    .let { PlanPermissionModel.parse(it) },
+                conflicts = jsonObject.optJSONArray("subsThisOneConflictsWith")?.let {
+                    it.map<String>().map { typeString ->
+                        PlanType.from(typeString)
+                    }
+                } ?: listOf(),
+                valueProps = jsonObject.optJSONArray("valueProps").map(),
+            )
+        }
+
+        fun parseDevCustom(jsonObject: JSONObject): PlanModel {
+            return PlanModel(
+                key = jsonObject.optString("key", jsonObject.optString("name")),
+                title = jsonObject.optString("name"),
+                price = jsonObject.optInt("priceInCents").toDouble(),
+                creditsPerMonth = jsonObject.optInt("smallGroupLiveClassCreditsPerMonth"),
+                conflicts = jsonObject.optJSONArray("subsThisOneConflictsWith")?.let {
+                    it.map<String>().map { typeString ->
+                        PlanType.from(typeString)
+                    }
+                } ?: listOf(),
+                subsToHideWhenSubscribed = jsonObject
+                    .optJSONArray("subsToHideWhenSubscribed")?.let {
+                        it.map<String>().map { typeString ->
+                            PlanType.from(typeString)
+                        }
+                    } ?: listOf(),
+                userType = jsonObject.optString("userType"),
+                permissions = jsonObject
+                    .optJSONObject("permissions")
+                    .let { PlanPermissionModel.parse(it) },
+                valueProps = jsonObject.optJSONArray("valueProps").map(),
+                hideWhenNotSubscribed = jsonObject.optBoolean("hideWhenNotSubscribed"),
+                trialDays = jsonObject.optInt("trialDays")
             )
         }
 
@@ -53,6 +105,20 @@ class PlanModel(
                     val test = test()
                     add(test)
                 }
+            }
+        }
+    }
+
+    enum class PlanType {
+        DICKS,
+        CORE,
+        UNLIMITED,
+        UNKNOWN;
+
+        companion object {
+            fun from(plan: String): PlanType {
+                return values().firstOrNull { it.name.equals(plan, ignoreCase = true) }
+                    ?: UNKNOWN
             }
         }
     }
