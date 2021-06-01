@@ -18,6 +18,7 @@ class UserModel(
     var zipCode: String = "",
     var firstName: String = "",
     var lastName: String = "",
+    var iap: String = "",
 ) {
 
     val fullName: String
@@ -90,7 +91,8 @@ class UserModel(
                 email = jsonObject.optString("email"),
                 zipCode = jsonObject.optString("postalCode"),
                 firstName = jsonObject.optString("firstName"),
-                lastName = jsonObject.optString("lastName")
+                lastName = jsonObject.optString("lastName"),
+                iap = jsonObject.optString("iap")
             ).apply {
                 try {
                     jsonObject.optJSONObject("subscriptions")?.let { plansJSONObject ->

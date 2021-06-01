@@ -15,21 +15,32 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         cacheManager.user(null)
     }
 
+    private suspend fun getHeaders(isAuthenticated: Boolean): HashMap<String, String> {
+        return withContext(Dispatchers.IO) {
+            val headers = hashMapOf<String, String>()
+            val accessToken = cacheManager.accessToken()
+
+            headers["X-Platform"] = "android"
+            if (isAuthenticated && !accessToken.isNullOrEmpty()) {
+                headers["Authorization"] = "Bearer $accessToken"
+            }
+            headers
+        }
+    }
+
     suspend fun call(request: RequestModel): ResponseModel {
         return withContext(Dispatchers.IO) {
             val endpoint = request.endpoint
             val url = request.path
             val params = request.params ?: hashMapOf()
             val accessToken = cacheManager.accessToken()
-            val token = if (endpoint.isAuthenticated && !accessToken.isNullOrEmpty()) {
-                "Bearer $accessToken"
-            } else {
-                null
-            }
+            val isAuthenticated = endpoint.isAuthenticated
+
+            val headers = getHeaders(isAuthenticated)
             var queryPath = request.path
-            if (params.keys.isNotEmpty() || endpoint.isAuthenticated) queryPath += "?"
+            if (params.keys.isNotEmpty() || isAuthenticated) queryPath += "?"
             accessToken?.let { aToken ->
-                if (endpoint.isAuthenticated) {
+                if (isAuthenticated) {
                     queryPath += "access_token=$aToken"
                 }
             }
@@ -41,11 +52,11 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
             LogManager.log("Request: [${endpoint.type.name}] $queryPath")
             val responseModel = ResponseModel.parse(
                 when (endpoint.type) {
-                    EndpointModel.Type.POST -> api.post(url, token, params)
-                    EndpointModel.Type.GET -> api.get(url, token, params)
-                    EndpointModel.Type.PUT -> api.put(url, token, params)
-                    EndpointModel.Type.DELETE -> api.delete(url, token, params)
-                    EndpointModel.Type.PATCH -> api.patch(url, token, params)
+                    EndpointModel.Type.POST -> api.post(url, headers, params)
+                    EndpointModel.Type.GET -> api.get(url, headers, params)
+                    EndpointModel.Type.PUT -> api.put(url, headers, params)
+                    EndpointModel.Type.DELETE -> api.delete(url, headers, params)
+                    EndpointModel.Type.PATCH -> api.patch(url, headers, params)
                 }
             )
             LogManager.log(
@@ -159,6 +170,16 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return call(RequestModel(endpoint = EndpointModel.PROMOS, path = path, params = null))
     }
 
+    suspend fun purchase(params: HashMap<String, Any>): ResponseModel {
+        val path = EndpointModel.PURCHASE.path
+        return call(RequestModel(endpoint = EndpointModel.PURCHASE, path = path, params = params))
+    }
+
+    suspend fun purchases(): ResponseModel {
+        val path = EndpointModel.PURCHASES.path
+        return call(RequestModel(endpoint = EndpointModel.PURCHASES, path = path, params = null))
+    }
+
     suspend fun register(params: HashMap<String, Any>): ResponseModel {
         val path = EndpointModel.REGISTER.path
         val response = call(
@@ -204,9 +225,12 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         val path = EndpointModel.USER.path
         val response = call(RequestModel(endpoint = EndpointModel.USER, path = path, params = null))
         if (response.isSuccess) {
-            val model = UserResponseModel.parse(response.responseString)
-            cacheManager.user(model.user)
-            IAPManager.shared.identify(model.user.uid)
+            val user = UserResponseModel.parse(response.responseString).user
+            cacheManager.user()?.let { cachedUser ->
+                user.iap = cachedUser.iap
+            }
+            cacheManager.user(user)
+            IAPManager.shared.identify(user.uid)
         }
         return response
     }

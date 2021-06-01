@@ -45,6 +45,7 @@ class TestUtilityViewModel @ViewModelInject constructor(
     val eventLoadVirtualWorkouts = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadVideoWorkouts = CommonLiveEvent<List<VideoModel>>()
     val eventLoadPromotions = CommonLiveEvent<List<PromoModel>>()
+    val eventLoadingScreen = CommonLiveEvent<Void>()
 
     //endregion
 
@@ -139,6 +140,10 @@ class TestUtilityViewModel @ViewModelInject constructor(
 
     fun doTapBookingAlert() {
         eventTapBookingAlert.call()
+    }
+
+    fun doTapLoadingScreen() {
+        eventLoadingScreen.call()
     }
 
     fun doTapBook(model: WorkoutModel) {}
