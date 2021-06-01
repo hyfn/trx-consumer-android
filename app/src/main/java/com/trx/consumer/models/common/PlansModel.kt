@@ -26,5 +26,31 @@ class PlansModel(
                     listOf()
                 }
             )
+
+        fun parseDev(jsonObject: JSONObject): PlansModel {
+            val free = jsonObject.getJSONArray("baseValues").map { base ->
+                PlanModel.parseDevBase(base)
+            }.find { it.title.equals(UserModel.kPlanNamePay, true) } ?: PlanModel()
+
+            val plans = jsonObject.getJSONObject("customValues").let { customValues ->
+                customValues.keys().asSequence().toList().map {
+                    PlanModel.parseDevCustom(
+                        customValues.getJSONObject(it)
+                    )
+                }
+            }
+            return PlansModel(free, plans)
+        }
+    }
+}
+
+inline fun <T> MutableList<T>.mapInPlace(mutator: (T) -> T) {
+    val iterate = this.listIterator()
+    while (iterate.hasNext()) {
+        val oldValue = iterate.next()
+        val newValue = mutator(oldValue)
+        if (newValue !== oldValue) {
+            iterate.set(newValue)
+        }
     }
 }

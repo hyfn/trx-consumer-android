@@ -8,6 +8,7 @@ import org.json.JSONObject
 data class PlanPermissionModel(
     val onDemand: Boolean = false,
     val bookLiveClassWithSub: Boolean = false,
+    val bookLiveClassWithCredit: Boolean = false,
     val bookGroupClassWithCredit: Boolean = false,
     val bookVptWithCredit: Boolean = false,
     val createTrainerServices: Boolean = false,
@@ -20,7 +21,18 @@ data class PlanPermissionModel(
     companion object {
 
         fun parse(jsonObject: JSONObject): PlanPermissionModel {
-            return PlanPermissionModel()
+            return PlanPermissionModel(
+                bookGroupClassWithCredit = jsonObject.optBoolean("bookGroupClassWithCredit"),
+                bookLiveClassWithCredit = jsonObject.optBoolean("bookLiveClassWithSub"),
+                bookLiveClassWithSub = jsonObject.optBoolean("bookLiveClassWithSub"),
+                bookVptWithCredit = jsonObject.optBoolean("bookVptWithCredit"),
+                createTrainerServices = jsonObject.optBoolean("createTrainerServices"),
+                entitleCoreInspire360 = jsonObject.optBoolean("entitleCoreInspire360"),
+                onDemand = jsonObject.optBoolean("onDemand"),
+                showPublicTrainerServices = jsonObject.optBoolean("showPublicTrainerServices"),
+                storeCustomerSubscriberDiscounts = jsonObject.optBoolean("storeCustomerSubscriberDiscounts"),
+                storeTrainerSubscriberDiscounts = jsonObject.optBoolean("storeTrainerSubscriberDiscounts")
+            )
         }
     }
 }
