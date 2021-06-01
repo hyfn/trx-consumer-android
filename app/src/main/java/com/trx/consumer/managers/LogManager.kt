@@ -17,5 +17,4 @@ object LogManager {
         if (BuildConfig.DEBUG) Timber.d(exception)
         else crashlyticsInstance.recordException(exception)
     }
-
 }
