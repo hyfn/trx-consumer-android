@@ -50,7 +50,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             rvVideo.adapter = adapter
             rvFilters.adapter = discoverAdapter
 
-            btnWorkouts.action { viewModel.doLoadWorkouts() }
+            btnWorkouts.action { viewModel.doLoadVideos() }
             btnCollections.action { viewModel.doLoadCollections() }
             btnPrograms.action { viewModel.doLoadPrograms() }
             btnFilter.action { viewModel.doTapFilter() }
@@ -80,17 +80,17 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     }
 
     private val handleLoadWorkouts = Observer<List<VideoModel>> { workouts ->
-        viewBinding.viewFilter.alpha = 1f
+        handleFilterClick(true)
         loadWorkouts(workouts)
     }
 
     private val handleLoadCollections = Observer<List<VideosModel>> { collections ->
-        viewBinding.viewFilter.alpha = 0.3f
+        handleFilterClick(false)
         loadCollections(collections)
     }
 
     private val handleLoadPrograms = Observer<List<VideosModel>> { programs ->
-        viewBinding.viewFilter.alpha = 0.3f
+        handleFilterClick(false)
         loadPrograms(programs)
     }
 
@@ -149,4 +149,10 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             }
         }
     }
+
+    private fun handleFilterClick(isClickable: Boolean) {
+        viewBinding.viewFilter.alpha = if(!isClickable) 0.3f else 1f
+        viewModel.setFilterClick(isClickable)
+    }
+
 }

@@ -118,7 +118,7 @@
             android:id="@+id/rvFilters"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -126,7 +126,6 @@
             app:layout_constraintStart_toEndOf="@id/btnFilter"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/row_discover_filter" />
-
         <com.trx.consumer.common.CommonImageView
             android:id="@+id/imgLine"
             android:layout_width="match_parent"

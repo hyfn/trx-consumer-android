@@ -23,6 +23,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     var programs: List<VideosModel> = listOf()
     var params: FilterParamsModel = FilterParamsModel()
     var filters: List<FilterModel> = listOf()
+    var isFilterEnable: Boolean = true
 
     val eventLoadWorkouts = CommonLiveEvent<List<VideoModel>>()
     val eventLoadCollections = CommonLiveEvent<List<VideosModel>>()
@@ -94,7 +95,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     }
 
     fun doTapFilter() {
-        eventTapFilter.postValue(params)
+        if (isFilterEnable) eventTapFilter.postValue(params)
     }
 
     override fun doTapVideo(model: VideoModel) {
@@ -107,6 +108,10 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     override fun doTapDiscoverFilter(filter: FilterModel) {
         params.selectedModel = filter
-        eventTapDiscoverFilter.postValue(params)
+        if (isFilterEnable) eventTapDiscoverFilter.postValue(params)
+    }
+
+    fun setFilterClick(isClickable: Boolean) {
+        isFilterEnable = isClickable
     }
 }
