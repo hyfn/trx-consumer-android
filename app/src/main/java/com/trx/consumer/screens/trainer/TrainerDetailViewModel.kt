@@ -9,6 +9,7 @@ import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.common.ContentModel
+import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.TrainerProgramModel
 import com.trx.consumer.models.common.VideoModel
@@ -20,13 +21,18 @@ import com.trx.consumer.models.responses.TrainerResponseModel
 import com.trx.consumer.models.responses.VideosResponseModel
 import com.trx.consumer.screens.banner.BannerViewListener
 import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
+import com.trx.consumer.screens.photos.PhotoAdapter
+import com.trx.consumer.screens.photos.PhotosViewListener
+import com.trx.consumer.screens.promotion.PromoViewListener
+import com.trx.consumer.screens.trainerprogram.TrainerProgramViewListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 import kotlinx.coroutines.launch
 
 class TrainerDetailViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager
-) : BaseViewModel(), LiveWorkoutViewListener, VideoWorkoutListener, BannerViewListener {
+) : BaseViewModel(), LiveWorkoutViewListener, VideoWorkoutListener, BannerViewListener,
+    TrainerProgramViewListener, PhotosViewListener {
 
 
     var trainer: TrainerModel = TrainerModel.test()
@@ -62,6 +68,8 @@ class TrainerDetailViewModel @ViewModelInject constructor(
         doLoadOndemand()
         doLoadWorkoutsUpcoming()
         doLoadTrainerServices()
+        doLoadPhotos()
+        doTapRecommendationsForyou()
     }
 
     fun doLoadData() {
@@ -128,7 +136,7 @@ class TrainerDetailViewModel @ViewModelInject constructor(
         eventLoadPhotos.postValue(photos)
     }
 
-    fun doTapSelectPhotos(model: String) {
+    override fun doTapSelectPhotos(model: String) {
         eventShowPhoto.postValue(model)
     }
 
@@ -143,7 +151,7 @@ class TrainerDetailViewModel @ViewModelInject constructor(
         }
     }
 
-    fun doTapProgram(model: TrainerProgramModel) {
+    override fun doTapProgram(model: TrainerProgramModel) {
         eventShowService.postValue(model)
     }
 
@@ -161,4 +169,5 @@ class TrainerDetailViewModel @ViewModelInject constructor(
     override fun doTapSelectLiveWorkout(model: WorkoutModel) {
         eventShowWorkout.postValue(model)
     }
+
 }

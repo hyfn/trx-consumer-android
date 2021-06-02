@@ -197,6 +197,8 @@
     <string name="trainer_on_demand_classes_label">On-Demand Classes</string>
     <string name="trainer_button_see_all">SEE ALL   →</string>
     <string name="trainer_for_you_label">For You</string>
+    <string name="trainer_bio_label">%s…</string>
+    <string name="trainer_read_more_label">&#032;Read more</string>
 
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 
