@@ -42,6 +42,9 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
     private lateinit var photoAdapter: PhotoAdapter
 
     override fun bind() {
+        val model = NavigationManager.shared.params(this) as TrainerModel
+        viewModel.trainer = model
+
         upComingClassesAdapter = LiveWorkoutAdapter(viewModel) { lifecycleScope }
         onDemandClassesAdapter = VideoWorkoutAdapter(viewModel) { lifecycleScope }
         bannerAdapter = BannerAdapter(viewModel) { lifecycleScope }

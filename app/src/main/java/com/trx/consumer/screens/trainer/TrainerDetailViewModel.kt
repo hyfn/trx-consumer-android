@@ -34,7 +34,7 @@ class TrainerDetailViewModel @ViewModelInject constructor(
     TrainerProgramViewListener,
     PhotosViewListener {
 
-    var trainer: TrainerModel = TrainerModel.test()
+    var trainer: TrainerModel = TrainerModel()
     var photos: List<String> = listOf()
 
     // MARK>
