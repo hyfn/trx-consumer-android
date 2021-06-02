@@ -5,6 +5,7 @@ import com.trx.consumer.extensions.map
 import com.trx.consumer.extensions.toPrice
 import com.trx.consumer.screens.plans.list.PlansViewState
 import kotlinx.parcelize.Parcelize
+import org.json.JSONArray
 import org.json.JSONObject
 
 @Parcelize
@@ -49,11 +50,9 @@ class PlanModel(
                 price = jsonObject.optInt("priceInCents").toDouble(),
                 permissions = jsonObject.getJSONObject("permissions")
                     .let { PlanPermissionModel.parse(it) },
-                conflicts = jsonObject.optJSONArray("subsThisOneConflictsWith")?.let {
-                    it.map<String>().map { typeString ->
-                        PlanType.from(typeString)
-                    }
-                } ?: listOf(),
+                conflicts = PlanType.typeListFromJSONArray(
+                    jsonObject.optJSONArray("subsThisOneConflictsWith")
+                ),
                 valueProps = jsonObject.optJSONArray("valueProps").map(),
             )
         }
@@ -64,17 +63,12 @@ class PlanModel(
                 title = jsonObject.optString("name"),
                 price = jsonObject.optInt("priceInCents").toDouble(),
                 creditsPerMonth = jsonObject.optInt("smallGroupLiveClassCreditsPerMonth"),
-                conflicts = jsonObject.optJSONArray("subsThisOneConflictsWith")?.let {
-                    it.map<String>().map { typeString ->
-                        PlanType.from(typeString)
-                    }
-                } ?: listOf(),
-                subsToHideWhenSubscribed = jsonObject
-                    .optJSONArray("subsToHideWhenSubscribed")?.let {
-                        it.map<String>().map { typeString ->
-                            PlanType.from(typeString)
-                        }
-                    } ?: listOf(),
+                conflicts = PlanType.typeListFromJSONArray(
+                    jsonObject.optJSONArray("subsThisOneConflictsWith")
+                ),
+                subsToHideWhenSubscribed = PlanType.typeListFromJSONArray(
+                    jsonObject.optJSONArray("subsToHideWhenSubscribed")
+                ),
                 userType = jsonObject.optString("userType"),
                 permissions = jsonObject
                     .optJSONObject("permissions")
@@ -120,6 +114,13 @@ class PlanModel(
                 return values().firstOrNull { it.name.equals(plan, ignoreCase = true) }
                     ?: UNKNOWN
             }
+
+            fun typeListFromJSONArray(jsonArray: JSONArray?): List<PlanType> =
+                jsonArray?.let { keyArray ->
+                    keyArray.map<String>().map { typeString ->
+                        from(typeString)
+                    }
+                } ?: listOf()
         }
     }
 }
