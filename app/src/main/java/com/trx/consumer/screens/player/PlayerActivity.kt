@@ -24,10 +24,10 @@ import com.trx.consumer.common.CommonView
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.margin
 import com.trx.consumer.managers.AnalyticsManager
-import com.trx.consumer.managers.ConfigManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.VideoModel
+import com.trx.consumer.models.params.PlayerParamsModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -42,7 +42,7 @@ class PlayerActivity : BrightcovePlayer() {
     private var videoWidth = 0
     private var videoHeight = 0
 
-    private val analyticsManager: AnalyticsManager by lazy { AnalyticsManager(ConfigManager()) }
+    private lateinit var analyticsManager: AnalyticsManager
     private var hasCompleted25 = false
 
     private var viewBinding: ViewBinding? = null
@@ -57,7 +57,11 @@ class PlayerActivity : BrightcovePlayer() {
     }
 
     private fun bind() {
-        video = NavigationManager.shared.params(intent) as VideoModel
+        val playerParams = NavigationManager.shared.params(intent) as PlayerParamsModel
+        playerParams.let {
+            video = it.video
+            analyticsManager = it.analyticsManager
+        }
 
         analyticsManager.trackAmplitude(
             AnalyticsEventModel.PAGE_VIEW,

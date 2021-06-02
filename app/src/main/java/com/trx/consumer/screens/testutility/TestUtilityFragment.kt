@@ -9,6 +9,7 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentTestUtilityBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.BookingAlertModel
@@ -18,6 +19,7 @@ import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.ContentParamsModel
 import com.trx.consumer.models.params.FilterParamsModel
+import com.trx.consumer.models.params.PlayerParamsModel
 import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
@@ -126,12 +128,12 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         NavigationManager.shared.present(this, R.id.plans_fragment)
     }
 
-    private val handleTapPlayer = Observer<Void> {
-        val video = VideoModel.test().apply { id = "6232799349001" }
+    private val handleTapPlayer = Observer<AnalyticsManager> {
+        val playerParams = PlayerParamsModel(analyticsManager = it)
         NavigationManager.shared.presentActivity(
             requireActivity(),
             PlayerActivity::class.java,
-            video
+            playerParams
         )
     }
 
