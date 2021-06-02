@@ -61,8 +61,7 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
     private val handleLoadAuthFailure = Observer<String> { message ->
         LogManager.log("handleLoadAuthFailure")
-        val model = AlertModel.create(title = "", message = message)
-        model.apply {
+        val model = AlertModel.create(title = "", message = message).apply {
             setPrimaryButton(R.string.alert_primary_back) {
                 NavigationManager.shared.notLoggedInLaunchSequence(this@LoadingFragment)
             }

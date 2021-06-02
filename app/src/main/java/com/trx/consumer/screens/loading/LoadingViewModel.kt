@@ -40,13 +40,13 @@ class LoadingViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             eventShowHud.postValue(true)
             val response = backendManager.auth()
-            eventShowHud.postValue(false)
             if (response.isSuccess) {
                 eventLoadAuthSuccess.call()
             } else {
                 backendManager.updateBeforeLogout()
                 eventLoadAuthFailure.postValue(response.errorMessage)
             }
+            eventShowHud.postValue(false)
         }
     }
 

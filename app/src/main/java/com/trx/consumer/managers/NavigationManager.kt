@@ -68,8 +68,7 @@ class NavigationManager {
     }
 
     private fun setUpGraph(navController: NavController, isLoggedIn: Boolean) {
-        val graphInflater = navController.navInflater
-        val graph = graphInflater.inflate(R.navigation.nav_main)
+        val graph = navController.navInflater.inflate(R.navigation.nav_main)
         graph.startDestination = if (isLoggedIn) R.id.loading_screen else R.id.splash_fragment
         val args = if (isLoggedIn) bundleOf(extraAny to LoadingViewState.LAUNCH) else null
         navController.setGraph(graph, args)
