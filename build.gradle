@@ -47,6 +47,11 @@ buildscript {
 
         stripeVersion = '16.8.0'
 
+        googleServicesPluginVersion = '4.2.0'
+        firebaseCrashlyticsPluginVersion = '2.4.1'
+        firebaseAnalyticsVersion = '18.0.0'
+        firebaseCrashlyticsVersion = '17.3.0'
+
         // AndroidX
         activityKtxVersion = '1.1.0'
         constraintLayoutVersion = '2.0.4'
@@ -67,6 +72,8 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navGraphVersion"
+        classpath "com.google.gms:google-services:$googleServicesPluginVersion"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:$firebaseCrashlyticsPluginVersion"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

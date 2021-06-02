@@ -29,7 +29,8 @@
             android:id="@+id/btnClose"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/transparent"
             android:scaleType="centerInside"
             android:src="@drawable/ic_btn_close_white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -169,7 +170,7 @@
             app:backgroundColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
     </com.trx.consumer.common.CommonView>
 

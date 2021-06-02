@@ -17,8 +17,7 @@ class SettingsModel {
     val subtitle: String
         get() =
             when (type) {
-                // TODO: Display text based on user's subscription
-                SettingsType.SUBSCRIPTIONS -> "ACTIVE | Renews Oct. 29, 2020"
+                SettingsType.SUBSCRIPTIONS -> user?.iap ?: ""
                 else -> ""
             }
 
