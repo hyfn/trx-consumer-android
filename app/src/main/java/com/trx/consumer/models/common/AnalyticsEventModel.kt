@@ -63,7 +63,7 @@ enum class AnalyticsEventModel {
             FILTER_ON_DEMAND -> trackFilterOnDemand(value as FilterOptionsModel)
             PAGE_VIEW -> trackPageView(value as String)
             PURCHASE_SUBSCRIPTION -> trackPurchaseSubscription(value as SubscriptionModel)
-            SIGN_IN -> value?.let { trackSignin(it as String) } ?: trackSignin()
+            SIGN_IN -> value?.let { trackSignIn(it as String) } ?: trackSignIn()
             SIGN_UP -> trackSignUp(value as UserModel)
             VIDEO_COMPLETE_100 -> trackVideoComplete100(value as VideoModel)
             VIDEO_COMPLETE_25 -> trackVideoComplete25(value as VideoModel)
@@ -72,87 +72,87 @@ enum class AnalyticsEventModel {
         }
 
     private fun trackCancelSubscription(user: UserModel): Map<String, Any> =
-        hashMapOf<String, Any>().apply {
+        mapOf<String, Any>(
             SUBSCRIPTION_ID.propertyName to user.uid
             //  TODO: No class data in UserModel for these keys.
             // ATTENDED_LIVE_CLASS.propertyName to false
             // DAYS_ELAPSED_IN_TRIAL.propertyName to 3
             // DAYS_ELAPSED_SINCE_SUBSCRIPTION_DATE.propertyName to 3
-        }.toMap()
+        )
 
     private fun trackFilterOnDemand(filterOptions: FilterOptionsModel): Map<String, Any> =
-        hashMapOf<String, Any>().apply {
+        mapOf<String, Any>(
             ON_DEMAND_FILTER.propertyName to filterOptions.identifier
-        }.toMap()
+        )
 
     private fun trackPageView(pageTitle: String): Map<String, Any> =
-        hashMapOf<String, Any>().apply {
+        mapOf<String, Any>(
             //  TODO: No data for this key.
             PAGE_TITLE.propertyName to pageTitle
-        }.toMap()
+        )
 
     private fun trackPurchaseSubscription(subscription: SubscriptionModel): Map<String, Any> =
-        hashMapOf<String, Any>().apply {
-            SUBSCRIPTION_ID to subscription.iapPackage.identifier
-            SUBSCRIPTION_PRICE to subscription.cost
-        }.toMap()
+        mapOf<String, Any>(
+            SUBSCRIPTION_ID.propertyName to subscription.iapPackage.identifier,
+            SUBSCRIPTION_PRICE.propertyName to subscription.cost
+        )
 
-    private fun trackSignin(socialNetwork: String = ""): Map<String, Any> =
-        hashMapOf<String, Any>().apply {
+    private fun trackSignIn(socialNetwork: String = ""): Map<String, Any> =
+        mapOf<String, Any>(
             //  TODO: Incomplete, does not account for SOCIAL_NETWORK
-            SOCIAL_NETWORK to socialNetwork
-            PLATFORM to "Android"
-        }.toMap()
+            SOCIAL_NETWORK.propertyName to socialNetwork,
+            PLATFORM.propertyName to "Android"
+        )
 
     private fun trackSignUp(user: UserModel): Map<String, Any> =
-        hashMapOf<String, Any>().apply {
+        mapOf(
             //  TODO: No data for these keys.
             // REGISTRATION_TYPE.propertyName to ""
             // OFFER.propertyName to ""
-        }.toMap()
+        )
 
     private fun trackVideoComplete100(video: VideoModel): Map<String, Any> =
-        hashMapOf<String, Any>().apply {
+        mapOf<String, Any>(
             //  TODO: No data for this key.
             // COLLECTION_ID to video.id
-            DURATION to video.duration
+            DURATION.propertyName to video.duration,
             //  TODO: No data for this key.
             // PROGRAM_ID to video.id
-            TRAINER_ID to video.trainer.key
-            TRAINER_NAME to video.trainer.fullName
-            VIDEO_ID to video.id
-            VIDEO_NAME to video.name
-        }.toMap()
+            TRAINER_ID.propertyName to video.trainer.key,
+            TRAINER_NAME.propertyName to video.trainer.fullName,
+            VIDEO_ID.propertyName to video.id,
+            VIDEO_NAME.propertyName to video.name
+        )
 
     private fun trackVideoComplete25(video: VideoModel): Map<String, Any> =
-        hashMapOf<String, Any>().apply {
+        mapOf<String, Any>(
             //  TODO: No data for this key.
             // COLLECTION_ID to video.id
-            DURATION to video.duration
+            DURATION.propertyName to video.duration,
             //  TODO: No data for this key.
             // PROGRAM_ID to video.id
-            TRAINER_ID to video.trainer.key
-            TRAINER_NAME to video.trainer.fullName
-            VIDEO_ID to video.id
-            VIDEO_NAME to video.name
-        }.toMap()
+            TRAINER_ID.propertyName to video.trainer.key,
+            TRAINER_NAME.propertyName to video.trainer.fullName,
+            VIDEO_ID.propertyName to video.id,
+            VIDEO_NAME.propertyName to video.name
+        )
 
     private fun trackViewVideo(video: VideoModel): Map<String, Any> =
-        hashMapOf<String, Any>().apply {
+        mapOf<String, Any>(
             //  TODO: No data for this key.
             // COLLECTION_ID to video.id
             //  TODO: No data for this key.
             // PROGRAM_ID to video.id
-            TRAINER_ID to video.trainer.key
-            TRAINER_NAME to video.trainer.fullName
-            VIDEO_ID to video.id
-            VIDEO_NAME to video.name
-        }.toMap()
+            TRAINER_ID.propertyName to video.trainer.key,
+            TRAINER_NAME.propertyName to video.trainer.fullName,
+            VIDEO_ID.propertyName to video.id,
+            VIDEO_NAME.propertyName to video.name
+        )
 
     private fun trackViewVideoDetail(video: VideoModel): Map<String, Any> =
-        hashMapOf<String, Any>().apply {
+        mapOf<String, Any>(
             //  TODO: No data for this key.
-            // PAGE to 1
-            VIDEO_ID to video.id
-        }.toMap()
+            // PAGE.propertyName to 1
+            VIDEO_ID.propertyName to video.id
+        )
 }
