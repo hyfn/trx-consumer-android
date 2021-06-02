@@ -65,6 +65,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnTrainer.action { viewModel.doTapTrainer() }
             btnLoadingScreen.action { viewModel.doTapLoadingScreen() }
             btnBookingAlert.action { viewModel.doTapBookingAlert() }
+            btnSchedule.action { viewModel.doTapSchedule() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoAdapter
@@ -88,6 +89,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapWorkout.observe(viewLifecycleOwner, handleTapWorkout)
             eventTapTrainer.observe(viewLifecycleOwner, handleTapTrainer)
             eventTapBookingAlert.observe(viewLifecycleOwner, handleTapBookingAlert)
+            eventTapSchedule.observe(viewLifecycleOwner, handleTapSchedule)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
             eventLoadPromotions.observe(viewLifecycleOwner, handleLoadPromotions)
@@ -189,6 +191,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         // val model = BookingAlertModel.testNoCardVirtualBook()
 
         NavigationManager.shared.present(this, R.id.booking_alert_fragment, params = model)
+    }
+
+    private val handleTapSchedule = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.schedule_fragment)
     }
 
     private val handleLoadLiveWorkouts = Observer<List<WorkoutModel>> { liveWorkouts ->
