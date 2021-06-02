@@ -70,8 +70,7 @@ class PlanModel(
                     jsonObject.optJSONArray("subsToHideWhenSubscribed")
                 ),
                 userType = jsonObject.optString("userType"),
-                permissions = jsonObject
-                    .optJSONObject("permissions")
+                permissions = jsonObject.getJSONObject("permissions")
                     .let { PlanPermissionModel.parse(it) },
                 valueProps = jsonObject.optJSONArray("valueProps").map(),
                 hideWhenNotSubscribed = jsonObject.optBoolean("hideWhenNotSubscribed"),
