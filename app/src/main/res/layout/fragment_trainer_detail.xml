@@ -166,7 +166,6 @@
                 android:id="@+id/rvUpcomingClasses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/lblUpcoming"
@@ -312,7 +311,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <include
-                    android:id="@+id/viewTrainer"
+                    android:id="@+id/viewRecommendationsForyou"
                     layout="@layout/layout_trainer_for_you_section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -328,7 +327,7 @@
                     android:layout_marginBottom="15dp"
                     android:background="@color/greyLight"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewTrainer" />
+                    app:layout_constraintTop_toBottomOf="@+id/viewRecommendationsForyou" />
 
             </com.trx.consumer.common.CommonView>
 

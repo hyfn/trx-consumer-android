@@ -9,6 +9,7 @@ import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentTrainerDetailBinding
+import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.extensions.load
 import com.trx.consumer.extensions.spannableString
@@ -26,7 +27,6 @@ import com.trx.consumer.screens.banner.BannerAdapter
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.photos.PhotoAdapter
 import com.trx.consumer.screens.player.PlayerActivity
-import com.trx.consumer.screens.promotion.PromoAdapter
 import com.trx.consumer.screens.trainerprogram.TrainerProgramAdapter
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 
@@ -55,7 +55,11 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
             rvOnDemandClasses.adapter = onDemandClassesAdapter
             rvPhotos.adapter = photoAdapter
 
-            btnBack.setOnClickListener { viewModel.doTapBack() }
+            lblAboutmeDetails.action { viewModel.doTapAboutMe() }
+            btnOndemandSeeAll.action { viewModel.doTapOndemandSeeAll() }
+            viewRecommendationsForyou.viewMain.action { viewModel.doTapRecommendationsForyou() }
+            btnViewSchedule.action { viewModel.doTapUpcomingSchedule() }
+            btnBack.action { viewModel.doTapBack() }
         }
 
         viewModel.apply {
@@ -93,7 +97,11 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
     }
 
     private val handleLoadView = Observer<Void> {
-
+        viewModel.doLoadData()
+        viewModel.doLoadOndemand()
+        viewModel.doLoadWorkoutsUpcoming()
+        viewModel.doLoadTrainerServices()
+        viewModel.doLoadPhotos()
     }
 
     private val handleLoadBanner = Observer<List<String>> { banners ->
@@ -165,7 +173,14 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
     }
 
     private fun loadOndemand(workouts: List<VideoModel>) {
+        val hide = workouts.isEmpty()
         onDemandClassesAdapter.update(workouts)
+        viewBinding.apply {
+            lblOndemand.isHidden = hide
+            btnOndemandSeeAll.isHidden = hide
+            rvOnDemandClasses.isHidden = hide
+            viewLineBottomOndemand.isHidden = hide
+        }
     }
 
     private fun loadPhotos(photos: List<String>) {
@@ -183,21 +198,32 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
             imgHeaderTrainer.load(model.profilePhoto)
             lblTrainerName.text = model.fullName
             lblTrainerTagLine.text = model.mantra
-            viewTrainer.lblRecommendationsForyou.text = "${model.firstName}'s \nProduct\nRecommendations".upperCased()
+            viewRecommendationsForyou.lblRecommendationsForyou.apply {
+                text = context.getString(R.string.trainer_recommendation_label, model.fullName)
+                    .upperCased()
+            }
         }
         loadAboutme(model.bio)
     }
 
     private fun loadAboutme(aboutMe: String) {
-        viewBinding.lblAboutmeDetails.apply {
-            text =
-                SpannableStringBuilder(
-                    context.getString(R.string.trainer_bio_label, aboutMe.substring(0, 180))
-                ).append(
+        val hide = aboutMe.isEmpty()
+        viewBinding.apply {
+            lblAboutmeDetails.apply {
+                val trimmedText = if (aboutMe.length > 180)
+                    requireContext().getString(
+                        R.string.trainer_bio_label, aboutMe.substring(0, 180)
+                    ) else aboutMe
+                text = SpannableStringBuilder(trimmedText).append(
                     context.spannableString(
-                        context.getString(R.string.trainer_read_more_label), fullUnderline = true
+                        context.getString(R.string.trainer_read_more_label),
+                        fullUnderline = true
                     )
                 )
+            }
+            lblAboutMe.isHidden = hide
+            lblAboutmeDetails.isHidden = hide
+            viewLineBottomAboutme.isHidden = hide
         }
     }
 
@@ -212,6 +238,13 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
     }
 
     private fun loadWorkoutsUpcoming(workouts: List<WorkoutModel>) {
+        val hide = workouts.isEmpty()
+        viewBinding.apply {
+            rvUpcomingClasses.isHidden = hide
+            viewLineBottomUpcoming.isHidden = hide
+            btnViewSchedule.isHidden = hide
+            lblUpcoming.isHidden = hide
+        }
         upComingClassesAdapter.update(workouts)
     }
 }

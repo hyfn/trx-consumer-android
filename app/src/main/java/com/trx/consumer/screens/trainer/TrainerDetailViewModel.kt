@@ -1,7 +1,6 @@
 package com.trx.consumer.screens.trainer
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -9,7 +8,6 @@ import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.common.ContentModel
-import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.TrainerProgramModel
 import com.trx.consumer.models.common.VideoModel
@@ -21,9 +19,7 @@ import com.trx.consumer.models.responses.TrainerResponseModel
 import com.trx.consumer.models.responses.VideosResponseModel
 import com.trx.consumer.screens.banner.BannerViewListener
 import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
-import com.trx.consumer.screens.photos.PhotoAdapter
 import com.trx.consumer.screens.photos.PhotosViewListener
-import com.trx.consumer.screens.promotion.PromoViewListener
 import com.trx.consumer.screens.trainerprogram.TrainerProgramViewListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 import kotlinx.coroutines.launch
@@ -31,9 +27,12 @@ import kotlinx.coroutines.launch
 class TrainerDetailViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager
-) : BaseViewModel(), LiveWorkoutViewListener, VideoWorkoutListener, BannerViewListener,
-    TrainerProgramViewListener, PhotosViewListener {
-
+) : BaseViewModel(),
+    LiveWorkoutViewListener,
+    VideoWorkoutListener,
+    BannerViewListener,
+    TrainerProgramViewListener,
+    PhotosViewListener {
 
     var trainer: TrainerModel = TrainerModel.test()
     var photos: List<String> = listOf()
@@ -58,18 +57,8 @@ class TrainerDetailViewModel @ViewModelInject constructor(
     val eventTapAboutMe = CommonLiveEvent<ContentModel>()
     val eventTapBack = CommonLiveEvent<Void>()
 
-    fun doTapBack() {
-        eventTapBack.call()
-    }
-
     fun doLoadView() {
         eventLoadView.call()
-        doLoadData()
-        doLoadOndemand()
-        doLoadWorkoutsUpcoming()
-        doLoadTrainerServices()
-        doLoadPhotos()
-        doTapRecommendationsForyou()
     }
 
     fun doLoadData() {
@@ -87,11 +76,6 @@ class TrainerDetailViewModel @ViewModelInject constructor(
         eventShowRecommendationsForyou.call()
     }
 
-    // MARK: - VirtualWorkoutViewListener
-    fun doTapUpcomingSchedule() {
-        eventShowUpcomingSchedule.postValue(trainer.key)
-    }
-
     fun doLoadWorkoutsUpcoming() {
         viewModelScope.launch {
             val response = backendManager.trainerSessions(trainer.key)
@@ -102,11 +86,6 @@ class TrainerDetailViewModel @ViewModelInject constructor(
         }
     }
 
-    // BannerViewListener
-    override fun doTapBannerPrimaryPhotos(model: String) {
-        eventShowBanner.postValue(model)
-    }
-
     // VideoWorkoutViewListener
     fun doLoadOndemand() {
         viewModelScope.launch {
@@ -114,9 +93,26 @@ class TrainerDetailViewModel @ViewModelInject constructor(
             if (response.isSuccess) {
                 val model = VideosResponseModel.parse(response.responseString)
                 eventLoadOndemand.postValue(model.lstWorkoutsForTrainerProfileId(trainer.virtualTrainerProfileId))
-
             }
         }
+    }
+
+    fun doLoadTrainerServices() {
+        viewModelScope.launch {
+            val response = backendManager.trainerPrograms(trainer.key)
+            if (response.isSuccess) {
+                val model = ProgramsResponseModel.parse(response.responseString)
+                eventLoadServices.postValue(model.lstPrograms)
+            }
+        }
+    }
+
+    fun doLoadPhotos() {
+        eventLoadPhotos.postValue(photos)
+    }
+
+    fun doTapBack() {
+        eventTapBack.call()
     }
 
     fun doTapOndemandSeeAll() {
@@ -131,26 +127,22 @@ class TrainerDetailViewModel @ViewModelInject constructor(
         eventShowOndemand.postValue(model)
     }
 
-    // PhotosViewListener
-    fun doLoadPhotos() {
-        eventLoadPhotos.postValue(photos)
+    // VirtualWorkoutViewListener
+    fun doTapUpcomingSchedule() {
+        eventShowUpcomingSchedule.postValue(trainer.key)
     }
 
+    // BannerViewListener
+    override fun doTapBannerPrimaryPhotos(model: String) {
+        eventShowBanner.postValue(model)
+    }
+
+    // PhotosViewListener
     override fun doTapSelectPhotos(model: String) {
         eventShowPhoto.postValue(model)
     }
 
     // TrainerProgramViewListener
-    fun doLoadTrainerServices() {
-        viewModelScope.launch {
-            val response = backendManager.trainerPrograms(trainer.key)
-            if (response.isSuccess) {
-                val model = ProgramsResponseModel.parse(response.responseString)
-                eventLoadServices.postValue(model.lstPrograms)
-            }
-        }
-    }
-
     override fun doTapProgram(model: TrainerProgramModel) {
         eventShowService.postValue(model)
     }
@@ -169,5 +161,4 @@ class TrainerDetailViewModel @ViewModelInject constructor(
     override fun doTapSelectLiveWorkout(model: WorkoutModel) {
         eventShowWorkout.postValue(model)
     }
-
 }

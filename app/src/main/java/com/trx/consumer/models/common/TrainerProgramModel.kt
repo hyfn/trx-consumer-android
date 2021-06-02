@@ -13,7 +13,6 @@ class TrainerProgramModel {
     var priceInCents: Int = 0
     var trainer: TrainerModel = TrainerModel()
 
-
     // MARK: - Test
     companion object {
         fun parse(jsonObject: JSONObject) = TrainerProgramModel().apply {
@@ -39,7 +38,6 @@ class TrainerProgramModel {
             }
     }
 
-
     val image: String
         get() = when (mode) {
             WorkoutViewState.SMALL_GROUP_MODE -> "img_virtual_small_group"
@@ -47,20 +45,15 @@ class TrainerProgramModel {
             else -> ""
         }
 
-
     val subtitle: String
         get() = "$durationDisplay   $priceDisplay"
-
 
     val durationDisplay: String
         get() = "$durationInMinutes min".upperCased()
 
-
     val priceCurrency: String
         get() = "$"
 
-
     val priceDisplay: String
         get() = "$priceCurrency ${priceInCents / 100}"
-
 }
