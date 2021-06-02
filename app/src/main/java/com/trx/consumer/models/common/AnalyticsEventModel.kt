@@ -1,17 +1,9 @@
 package com.trx.consumer.models.common
 
-import com.trx.consumer.models.common.AnalyticsPropertyModel.ATTENDED_LIVE_CLASS
-import com.trx.consumer.models.common.AnalyticsPropertyModel.COLLECTION_ID
-import com.trx.consumer.models.common.AnalyticsPropertyModel.DAYS_ELAPSED_IN_TRIAL
-import com.trx.consumer.models.common.AnalyticsPropertyModel.DAYS_ELAPSED_SINCE_SUBSCRIPTION_DATE
 import com.trx.consumer.models.common.AnalyticsPropertyModel.DURATION
-import com.trx.consumer.models.common.AnalyticsPropertyModel.OFFER
 import com.trx.consumer.models.common.AnalyticsPropertyModel.ON_DEMAND_FILTER
-import com.trx.consumer.models.common.AnalyticsPropertyModel.PAGE
 import com.trx.consumer.models.common.AnalyticsPropertyModel.PAGE_TITLE
 import com.trx.consumer.models.common.AnalyticsPropertyModel.PLATFORM
-import com.trx.consumer.models.common.AnalyticsPropertyModel.PROGRAM_ID
-import com.trx.consumer.models.common.AnalyticsPropertyModel.REGISTRATION_TYPE
 import com.trx.consumer.models.common.AnalyticsPropertyModel.SOCIAL_NETWORK
 import com.trx.consumer.models.common.AnalyticsPropertyModel.SUBSCRIPTION_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.SUBSCRIPTION_PRICE
@@ -19,7 +11,6 @@ import com.trx.consumer.models.common.AnalyticsPropertyModel.TRAINER_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.TRAINER_NAME
 import com.trx.consumer.models.common.AnalyticsPropertyModel.VIDEO_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.VIDEO_NAME
-import org.json.JSONObject
 
 enum class AnalyticsEventModel {
 
@@ -66,164 +57,102 @@ enum class AnalyticsEventModel {
             }
         }
 
-    val amplitudeProperties: List<AnalyticsPropertyModel>
-        get() {
-            return when (this) {
-                CANCEL_SUBSCRIPTION -> listOf(
-                    ATTENDED_LIVE_CLASS,
-                    DAYS_ELAPSED_IN_TRIAL,
-                    DAYS_ELAPSED_SINCE_SUBSCRIPTION_DATE,
-                    SUBSCRIPTION_ID
-                )
-                FILTER_ON_DEMAND -> listOf(ON_DEMAND_FILTER)
-                PAGE_VIEW -> listOf(PAGE_TITLE)
-                PURCHASE_SUBSCRIPTION -> listOf(
-                    SUBSCRIPTION_ID,
-                    SUBSCRIPTION_PRICE
-                )
-                SIGN_IN -> listOf(
-                    SOCIAL_NETWORK,
-                    PLATFORM
-                )
-                SIGN_UP -> listOf(
-                    REGISTRATION_TYPE,
-                    OFFER
-                )
-                VIDEO_COMPLETE_100 -> listOf(
-                    COLLECTION_ID,
-                    DURATION,
-                    PROGRAM_ID,
-                    TRAINER_ID,
-                    TRAINER_NAME,
-                    VIDEO_ID,
-                    VIDEO_NAME
-                )
-                VIDEO_COMPLETE_25 -> listOf(
-                    COLLECTION_ID,
-                    DURATION,
-                    PROGRAM_ID,
-                    TRAINER_ID,
-                    TRAINER_NAME,
-                    VIDEO_ID,
-                    VIDEO_NAME
-                )
-                VIEW_VIDEO -> listOf(
-                    COLLECTION_ID,
-                    PROGRAM_ID,
-                    TRAINER_ID,
-                    TRAINER_NAME,
-                    VIDEO_ID,
-                    VIDEO_NAME
-                )
-                VIEW_VIDEO_DETAIL -> listOf(
-                    PAGE,
-                    VIDEO_ID
-                )
-            }
+    fun trackAnalyticEvent(value: Any?): Map<String, Any> =
+        when (this) {
+            CANCEL_SUBSCRIPTION -> trackCancelSubscription(value as UserModel)
+            FILTER_ON_DEMAND -> trackFilterOnDemand(value as FilterOptionsModel)
+            PAGE_VIEW -> trackPageView(value as String)
+            PURCHASE_SUBSCRIPTION -> trackPurchaseSubscription(value as SubscriptionModel)
+            SIGN_IN -> value?.let { trackSignin(it as String) } ?: trackSignin()
+            SIGN_UP -> trackSignUp(value as UserModel)
+            VIDEO_COMPLETE_100 -> trackVideoComplete100(value as VideoModel)
+            VIDEO_COMPLETE_25 -> trackVideoComplete25(value as VideoModel)
+            VIEW_VIDEO -> trackViewVideo(value as VideoModel)
+            VIEW_VIDEO_DETAIL -> trackViewVideoDetail(value as VideoModel)
         }
 
-    fun getAmplitudePropertiesJSON(value: Any?): JSONObject {
-        val properties = when (this) {
-            CANCEL_SUBSCRIPTION -> {
-                (value as UserModel).let {
-                    hashMapOf<String, Any>().apply {
-                        ATTENDED_LIVE_CLASS.propertyName to ""
-                        DAYS_ELAPSED_IN_TRIAL.propertyName to ""
-                        DAYS_ELAPSED_SINCE_SUBSCRIPTION_DATE.propertyName to ""
-                        SUBSCRIPTION_ID.propertyName to ""
-                    }
-                }
-            }
-            FILTER_ON_DEMAND -> {
-                (value as FilterOptionsModel).let { filterOptions ->
-                    hashMapOf<String, Any>().apply {
-                        ON_DEMAND_FILTER.propertyName to filterOptions.identifier
-                    }
-                }
-            }
-            PAGE_VIEW -> {
-                (value as String).let { pageTitle ->
-                    hashMapOf<String, Any>().apply {
-                        PAGE_TITLE.propertyName to pageTitle
-                    }
-                }
-            }
-            PURCHASE_SUBSCRIPTION -> {
-                (value as SubscriptionModel).let { subscription ->
-                    hashMapOf<String, Any>().apply {
-                        SUBSCRIPTION_ID to subscription.iapPackage.identifier
-                        SUBSCRIPTION_PRICE to subscription.cost
-                    }
-                }
-            }
-            SIGN_IN -> {
-                //  TODO: Incomplete, does not account for SOCIAL_NETWORK
-                hashMapOf<String, Any>().apply {
-                    PLATFORM to "Android"
-                }
-            }
-            SIGN_UP -> {
-                (value as UserModel).let { user ->
-                    hashMapOf<String, Any>().apply {
-                        REGISTRATION_TYPE.propertyName to ""
-                        OFFER.propertyName to ""
-                    }
-                }
-            }
-            VIDEO_COMPLETE_100 -> {
-                (value as VideoModel).let { video ->
-                    hashMapOf<String, Any>().apply {
-                        //  TODO: Get correct value.
-                        COLLECTION_ID to video.id
-                        DURATION to video.duration
-                        //  TODO: Get correct value.
-                        PROGRAM_ID to video.id
-                        TRAINER_ID to video.trainer.key
-                        TRAINER_NAME to video.trainer.fullName
-                        VIDEO_ID to video.id
-                        VIDEO_NAME to video.name
-                    }
-                }
-            }
-            VIDEO_COMPLETE_25 -> {
-                (value as VideoModel).let { video ->
-                    hashMapOf<String, Any>().apply {
-                        //  TODO: Get correct value.
-                        COLLECTION_ID to video.id
-                        DURATION to video.duration
-                        //  TODO: Get correct value.
-                        PROGRAM_ID to video.id
-                        TRAINER_ID to video.trainer.key
-                        TRAINER_NAME to video.trainer.fullName
-                        VIDEO_ID to video.id
-                        VIDEO_NAME to video.name
-                    }
-                }
-            }
-            VIEW_VIDEO -> {
-                (value as VideoModel).let { video ->
-                    hashMapOf<String, Any>().apply {
-                        //  TODO: Get correct value.
-                        COLLECTION_ID to video.id
-                        //  TODO: Get correct value.
-                        PROGRAM_ID to video.id
-                        TRAINER_ID to video.trainer.key
-                        TRAINER_NAME to video.trainer.fullName
-                        VIDEO_ID to video.id
-                        VIDEO_NAME to video.name
-                    }
-                }
-            }
-            VIEW_VIDEO_DETAIL -> {
-                (value as VideoModel).let { video ->
-                    hashMapOf<String, Any>().apply {
-                        PAGE to 1
-                        VIDEO_ID to video.id
-                    }
-                }
-            }
-        }
+    private fun trackCancelSubscription(user: UserModel): Map<String, Any> =
+        hashMapOf<String, Any>().apply {
+            SUBSCRIPTION_ID.propertyName to user.uid
+            //  TODO: No class data in UserModel for these keys.
+            // ATTENDED_LIVE_CLASS.propertyName to false
+            // DAYS_ELAPSED_IN_TRIAL.propertyName to 3
+            // DAYS_ELAPSED_SINCE_SUBSCRIPTION_DATE.propertyName to 3
+        }.toMap()
 
-        return JSONObject(properties.toMap())
-    }
+    private fun trackFilterOnDemand(filterOptions: FilterOptionsModel): Map<String, Any> =
+        hashMapOf<String, Any>().apply {
+            ON_DEMAND_FILTER.propertyName to filterOptions.identifier
+        }.toMap()
+
+    private fun trackPageView(pageTitle: String): Map<String, Any> =
+        hashMapOf<String, Any>().apply {
+            //  TODO: No data for this key.
+            PAGE_TITLE.propertyName to pageTitle
+        }.toMap()
+
+    private fun trackPurchaseSubscription(subscription: SubscriptionModel): Map<String, Any> =
+        hashMapOf<String, Any>().apply {
+            SUBSCRIPTION_ID to subscription.iapPackage.identifier
+            SUBSCRIPTION_PRICE to subscription.cost
+        }.toMap()
+
+    private fun trackSignin(socialNetwork: String = ""): Map<String, Any> =
+        hashMapOf<String, Any>().apply {
+            //  TODO: Incomplete, does not account for SOCIAL_NETWORK
+            SOCIAL_NETWORK to socialNetwork
+            PLATFORM to "Android"
+        }.toMap()
+
+    private fun trackSignUp(user: UserModel): Map<String, Any> =
+        hashMapOf<String, Any>().apply {
+            //  TODO: No data for these keys.
+            // REGISTRATION_TYPE.propertyName to ""
+            // OFFER.propertyName to ""
+        }.toMap()
+
+    private fun trackVideoComplete100(video: VideoModel): Map<String, Any> =
+        hashMapOf<String, Any>().apply {
+            //  TODO: No data for this key.
+            // COLLECTION_ID to video.id
+            DURATION to video.duration
+            //  TODO: No data for this key.
+            // PROGRAM_ID to video.id
+            TRAINER_ID to video.trainer.key
+            TRAINER_NAME to video.trainer.fullName
+            VIDEO_ID to video.id
+            VIDEO_NAME to video.name
+        }.toMap()
+
+    private fun trackVideoComplete25(video: VideoModel): Map<String, Any> =
+        hashMapOf<String, Any>().apply {
+            //  TODO: No data for this key.
+            // COLLECTION_ID to video.id
+            DURATION to video.duration
+            //  TODO: No data for this key.
+            // PROGRAM_ID to video.id
+            TRAINER_ID to video.trainer.key
+            TRAINER_NAME to video.trainer.fullName
+            VIDEO_ID to video.id
+            VIDEO_NAME to video.name
+        }.toMap()
+
+    private fun trackViewVideo(video: VideoModel): Map<String, Any> =
+        hashMapOf<String, Any>().apply {
+            //  TODO: No data for this key.
+            // COLLECTION_ID to video.id
+            //  TODO: No data for this key.
+            // PROGRAM_ID to video.id
+            TRAINER_ID to video.trainer.key
+            TRAINER_NAME to video.trainer.fullName
+            VIDEO_ID to video.id
+            VIDEO_NAME to video.name
+        }.toMap()
+
+    private fun trackViewVideoDetail(video: VideoModel): Map<String, Any> =
+        hashMapOf<String, Any>().apply {
+            //  TODO: No data for this key.
+            // PAGE to 1
+            VIDEO_ID to video.id
+        }.toMap()
 }
