@@ -76,7 +76,7 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
             eventLoadTrainer.observe(viewLifecycleOwner, handleLoadTrainer)
             eventShowBooking.observe(viewLifecycleOwner, handleShowBooking)
             eventShowOndemand.observe(viewLifecycleOwner, handleShowOndemand)
-            eventShowOndemandSeeAll.observe(viewLifecycleOwner, handleTapBack)
+            eventShowOndemandSeeAll.observe(viewLifecycleOwner, handleShowOndemandSeeAll)
             eventShowPhoto.observe(viewLifecycleOwner, handleShowPhoto)
             eventShowRecommendationsForyou.observe(
                 viewLifecycleOwner,
@@ -154,11 +154,11 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
     }
 
     private val handleShowService = Observer<TrainerProgramModel> { model ->
-        // TODO: NavigationManager.shared.present(this, R.id.schedule_fragment, model)
+        NavigationManager.shared.present(this, R.id.schedule_fragment, model)
     }
 
     private val handleShowUpcomingSchedule = Observer<String> { value ->
-        // TODO: NavigationManager.shared.present(this, R.id.schedule_fragment, model)
+        NavigationManager.shared.present(this, R.id.schedule_fragment, value)
     }
 
     private val handleShowWorkout = Observer<WorkoutModel> { model ->
