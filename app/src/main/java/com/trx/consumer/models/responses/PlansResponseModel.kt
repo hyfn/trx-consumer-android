@@ -1,6 +1,5 @@
 package com.trx.consumer.models.responses
 
-import com.trx.consumer.BuildConfig.DEVELOPMENT
 import com.trx.consumer.models.common.PlanModel
 import com.trx.consumer.models.common.PlansModel
 import com.trx.consumer.screens.plans.list.PlansViewState
@@ -27,21 +26,12 @@ class PlansResponseModel(private var plan: PlansModel = PlansModel()) {
 
     companion object {
 
-        fun parse(json: String): PlansResponseModel {
-            return if (DEVELOPMENT) {
-                PlansResponseModel(
-                    plan = JSONObject(json)
-                        .getJSONObject("data").let {
-                            PlansModel.parseDev(it)
-                        }
-                )
-            } else PlansResponseModel(
+        fun parse(json: String): PlansResponseModel =
+            PlansResponseModel(
                 plan = JSONObject(json)
-                    .getJSONObject("data")
-                    .getJSONObject("customer").let {
+                    .getJSONObject("data").let {
                         PlansModel.parse(it)
                     }
             )
-        }
     }
 }

@@ -1,9 +1,7 @@
 package com.trx.consumer.models.common
 
 import com.trx.consumer.extensions.map
-import com.trx.consumer.managers.LogManager
 import org.json.JSONObject
-import java.lang.Exception
 
 class PlansModel(
     var free: PlanModel = PlanModel(),
@@ -12,29 +10,14 @@ class PlansModel(
 
     companion object {
 
-        fun parse(jsonObject: JSONObject): PlansModel =
-            PlansModel(
-                free = jsonObject.optJSONObject("free")?.let {
-                    PlanModel.parse(it)
-                } ?: PlanModel(),
-                plans = try {
-                    jsonObject.getJSONArray("plans").let { jsonArray ->
-                        jsonArray.map { PlanModel.parse(it) }
-                    }
-                } catch (e: Exception) {
-                    LogManager.log(e)
-                    listOf()
-                }
-            )
-
-        fun parseDev(jsonObject: JSONObject): PlansModel {
+        fun parse(jsonObject: JSONObject): PlansModel {
             val free = jsonObject.getJSONArray("baseValues").map { base ->
-                PlanModel.parseDevBase(base)
+                PlanModel.parseBaseValues(base)
             }.find { it.title.equals(UserModel.kPlanNamePay, true) } ?: PlanModel()
 
             val plans = jsonObject.getJSONObject("customValues").let { customValues ->
                 customValues.keys().asSequence().toList().map {
-                    PlanModel.parseDevCustom(
+                    PlanModel.parseCustomValues(
                         customValues.getJSONObject(it)
                     )
                 }

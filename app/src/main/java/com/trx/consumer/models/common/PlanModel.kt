@@ -32,16 +32,7 @@ class PlanModel(
 
     companion object {
 
-        fun parse(jsonObject: JSONObject): PlanModel {
-            return PlanModel(
-                key = jsonObject.optString("key", ""),
-                price = jsonObject.optDouble("price", 0.0),
-                title = jsonObject.optString("title", ""),
-                valueProps = jsonObject.optJSONArray("valueProps").map()
-            )
-        }
-
-        fun parseDevBase(jsonObject: JSONObject): PlanModel {
+        fun parseBaseValues(jsonObject: JSONObject): PlanModel {
             return PlanModel(
                 key = jsonObject.optString("key"),
                 userType = jsonObject.optString("userType"),
@@ -57,7 +48,7 @@ class PlanModel(
             )
         }
 
-        fun parseDevCustom(jsonObject: JSONObject): PlanModel {
+        fun parseCustomValues(jsonObject: JSONObject): PlanModel {
             return PlanModel(
                 key = jsonObject.optString("key", jsonObject.optString("name")),
                 title = jsonObject.optString("name"),
