@@ -7,7 +7,6 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.CacheManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import kotlinx.coroutines.launch
 
 class OnboardingViewModel @ViewModelInject constructor(
@@ -23,7 +22,7 @@ class OnboardingViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+            analyticsManager.trackPageView(pageTitle)
             cacheManager.didShowOnboarding(true)
             eventLoadView.postValue(state)
         }

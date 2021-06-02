@@ -8,7 +8,6 @@ import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
 import kotlinx.coroutines.launch
@@ -50,7 +49,7 @@ class EmailViewModel @ViewModelInject constructor(
     //region Actions
 
     fun doLoadView() {
-        analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+        analyticsManager.trackPageView(pageTitle)
         eventLoadView.call()
         eventLoadState.postValue(state)
         eventLoadButton.postValue(false)

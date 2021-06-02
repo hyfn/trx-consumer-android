@@ -9,7 +9,6 @@ import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.CardModel
 import com.trx.consumer.models.common.PurchaseModel
 import com.trx.consumer.stripe.StripeBackendManager
@@ -77,7 +76,7 @@ class AddCardViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+            analyticsManager.trackPageView(pageTitle)
             eventLoadNavBar.postValue(purchase != null)
             eventLoadButton.postValue(false)
             eventShowHud.postValue(true)

@@ -5,7 +5,6 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
@@ -24,7 +23,7 @@ class TrainerViewModel @ViewModelInject constructor(
     }
 
     fun doLoadView(trainerModel: TrainerModel) {
-        analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+        analyticsManager.trackPageView(pageTitle)
         eventLoadView.postValue(trainerModel)
     }
 

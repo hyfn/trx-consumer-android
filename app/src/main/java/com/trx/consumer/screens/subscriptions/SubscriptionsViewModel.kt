@@ -10,7 +10,6 @@ import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.IAPManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.IAPModel.Companion.ENTITLEMENT
 import com.trx.consumer.models.common.PurchaseEntitlementModel
 import com.trx.consumer.models.common.SubscriptionModel
@@ -47,7 +46,7 @@ class SubscriptionsViewModel @ViewModelInject constructor(
     val eventShowHud = CommonLiveEvent<Boolean>()
 
     fun doLoadView() {
-        analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+        analyticsManager.trackPageView(pageTitle)
         eventLoadView.call()
         doLoadSubscriptions()
     }

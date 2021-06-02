@@ -9,7 +9,6 @@ import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.SettingsModel
 import com.trx.consumer.models.common.SettingsType
 import com.trx.consumer.screens.settings.option.SettingsOptionListener
@@ -43,7 +42,7 @@ class SettingsViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+            analyticsManager.trackPageView(pageTitle)
             cacheManager.user()?.let { user ->
                 eventLoadView.postValue(SettingsModel.list(user))
             }

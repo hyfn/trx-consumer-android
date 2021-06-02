@@ -8,7 +8,6 @@ import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
 import kotlinx.coroutines.launch
@@ -48,7 +47,7 @@ class LoginViewModel @ViewModelInject constructor(
     //region Actions
 
     fun doLoadView() {
-        analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+        analyticsManager.trackPageView(pageTitle)
         eventLoadView.call()
     }
 
@@ -66,7 +65,7 @@ class LoginViewModel @ViewModelInject constructor(
             val response = backendManager.login(email, password)
             eventShowHud.postValue(false)
             if (response.isSuccess) {
-                analyticsManager.trackAmplitude(AnalyticsEventModel.SIGN_IN)
+                analyticsManager.trackSignIn()
                 if (cacheManager.didShowOnboarding()) {
                     eventTapLogin.call()
                 } else {

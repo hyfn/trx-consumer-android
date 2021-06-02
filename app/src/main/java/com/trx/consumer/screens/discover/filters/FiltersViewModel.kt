@@ -5,7 +5,6 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.params.FilterParamsModel
 
@@ -23,7 +22,7 @@ class FiltersViewModel @ViewModelInject constructor(
     val eventTapFilter = CommonLiveEvent<FilterParamsModel>()
 
     fun doLoadView() {
-        analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+        analyticsManager.trackPageView(pageTitle)
         params?.let { safeParams ->
             eventLoadView.postValue(safeParams)
         }

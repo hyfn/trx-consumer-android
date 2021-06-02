@@ -8,7 +8,6 @@ import com.trx.consumer.extensions.format
 import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.UserResponseModel
@@ -65,7 +64,7 @@ class UpdateViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+            analyticsManager.trackPageView(pageTitle)
             eventLoadView.call()
             eventShowHud.postValue(true)
             val response = backendManager.user()

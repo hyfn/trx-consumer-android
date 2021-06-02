@@ -9,7 +9,6 @@ import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.BookingsResponseModel
@@ -40,7 +39,7 @@ class WorkoutViewModel @ViewModelInject constructor(
     }
 
     fun doLoadView() {
-        analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+        analyticsManager.trackPageView(pageTitle)
         if (model.workoutState == WorkoutViewState.VIDEO) {
             doLoadVideo()
         } else {

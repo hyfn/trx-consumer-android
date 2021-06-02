@@ -5,7 +5,6 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
@@ -24,7 +23,7 @@ class VideosViewModel @ViewModelInject constructor(
     val eventTapStartWorkout = CommonLiveEvent<VideoModel>()
 
     fun doLoadView() {
-        analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+        analyticsManager.trackPageView(pageTitle)
         eventLoadView.postValue(model)
     }
 

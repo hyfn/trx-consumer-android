@@ -8,7 +8,6 @@ import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
 import kotlinx.coroutines.launch
@@ -67,7 +66,7 @@ class RegisterViewModel @ViewModelInject constructor(
     //region Events
 
     fun doLoadView() {
-        analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+        analyticsManager.trackPageView(pageTitle)
         eventLoadView.call()
     }
 

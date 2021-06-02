@@ -7,7 +7,6 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
@@ -43,7 +42,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     fun doLoadView() {
         filters = params.lstFilters
         viewModelScope.launch {
-            analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+            analyticsManager.trackPageView(pageTitle)
             eventShowHud.postValue(true)
             val paramsToSend = params.params
             val response = backendManager.videos(paramsToSend)
@@ -90,10 +89,6 @@ class DiscoverViewModel @ViewModelInject constructor(
     }
 
     override fun doTapVideos(model: VideosModel) {
-        analyticsManager.trackAmplitude(
-            AnalyticsEventModel.VIEW_VIDEO_DETAIL,
-            model
-        )
         eventTapVideos.postValue(model)
     }
 

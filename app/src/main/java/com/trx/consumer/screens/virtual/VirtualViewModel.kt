@@ -7,7 +7,6 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.CalendarModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.TrainerModel
@@ -55,7 +54,7 @@ class VirtualViewModel @ViewModelInject constructor(
     //region Functions
 
     fun doLoadView() {
-        analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+        analyticsManager.trackPageView(pageTitle)
         eventLoadView.call()
         doLoadBookings()
         doLoadTrainers()

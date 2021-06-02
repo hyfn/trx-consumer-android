@@ -9,7 +9,6 @@ import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.PlanModel
 import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.core.ResponseModel
@@ -43,7 +42,7 @@ class PlansViewModel @ViewModelInject constructor(
 
     fun doLoadPlans() {
         viewModelScope.launch {
-            analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
+            analyticsManager.trackPageView(pageTitle)
             var user: UserModel? = null
             eventShowHud.postValue(true)
             backendManager.user()

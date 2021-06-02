@@ -25,7 +25,6 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.margin
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.params.PlayerParamsModel
 import kotlinx.coroutines.CoroutineScope
@@ -63,8 +62,7 @@ class PlayerActivity : BrightcovePlayer() {
             analyticsManager = it.analyticsManager
         }
 
-        analyticsManager.trackAmplitude(
-            AnalyticsEventModel.PAGE_VIEW,
+        analyticsManager.trackPageView(
             this.javaClass.simpleName.replace("Activity", "")
         )
 
@@ -165,16 +163,13 @@ class PlayerActivity : BrightcovePlayer() {
                     event.getIntegerProperty(Event.VIDEO_DURATION).toDouble()
 
             if ((.25 < percent) && !hasCompleted25) {
-                analyticsManager.trackAmplitude(
-                    AnalyticsEventModel.VIDEO_COMPLETE_25,
-                    video
-                )
+                analyticsManager.trackVideoComplete25(video)
                 hasCompleted25 = true
             }
         }
 
         eventEmitter.on(EventType.COMPLETED) {
-            analyticsManager.trackAmplitude(AnalyticsEventModel.VIDEO_COMPLETE_100, video)
+            analyticsManager.trackVideoComplete100(video)
         }
     }
 
