@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "449054847102",
+    "project_id": "trx-mobile-f5614",
+    "storage_bucket": "trx-mobile-f5614.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449054847102:android:4f6b566333cbada66da82f",
+        "android_client_info": {
+          "package_name": "com.trx.consumer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "449054847102-ifjgnb96ti8efndgmouvrckvij7ft3ja.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMI2RDf5ej9ig_hFAlCay0lr9Id5tsPxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "449054847102-ifjgnb96ti8efndgmouvrckvij7ft3ja.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "449054847102-i5v2pem01vr7oudo0ml76gh7ouvj6h67.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.trx.consumer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449054847102:android:00b88e40abfee6406da82f",
+        "android_client_info": {
+          "package_name": "com.trx.consumer.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "449054847102-ifjgnb96ti8efndgmouvrckvij7ft3ja.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMI2RDf5ej9ig_hFAlCay0lr9Id5tsPxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "449054847102-ifjgnb96ti8efndgmouvrckvij7ft3ja.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "449054847102-i5v2pem01vr7oudo0ml76gh7ouvj6h67.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.trx.consumer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

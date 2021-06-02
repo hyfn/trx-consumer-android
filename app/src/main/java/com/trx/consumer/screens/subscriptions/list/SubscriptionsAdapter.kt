@@ -7,7 +7,6 @@ import com.trx.consumer.common.CommonRecyclerViewAdapter
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.SubscriptionModel
-import com.trx.consumer.models.common.SubscriptionsModel
 import com.trx.consumer.views.EmptyViewHolder
 import kotlinx.coroutines.CoroutineScope
 
@@ -21,7 +20,6 @@ class SubscriptionsAdapter(
         private const val TYPE_SUBSCRIPTION_LIST = 1
     }
 
-    private var state: SubscriptionsViewState = SubscriptionsViewState.OTHER
     private var items: MutableList<Any> = mutableListOf()
 
     override fun createCommonViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
@@ -47,7 +45,7 @@ class SubscriptionsAdapter(
         val item = items[position]
         when (holder) {
             is SubscriptionsViewHolder -> {
-                holder.setup(item as SubscriptionModel, state, listener)
+                holder.setup(item as SubscriptionModel, listener)
             }
         }
     }
@@ -61,11 +59,9 @@ class SubscriptionsAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    fun update(model: SubscriptionsModel) {
-        val list = if (model.state == SubscriptionsViewState.CURRENT) { model.current } else { model.subscriptions }
-        this.state = model.state
+    fun update(items: List<SubscriptionModel>) {
         this.items.clear()
-        this.items.addAll(list)
+        this.items.addAll(items)
         this.notifyDataSetChanged()
     }
 }

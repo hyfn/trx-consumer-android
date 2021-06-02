@@ -44,6 +44,7 @@ class CalendarView @JvmOverloads constructor(
                 R.styleable.CalendarView_calendarViewState,
                 CalendarViewState.DISPLAY
             )
+            showLabels(it.getBoolean(R.styleable.CalendarView_showTopLabels, true))
         }
 
         rvDays.layoutManager = object : LinearLayoutManager(context, HORIZONTAL, false) {

@@ -21,6 +21,7 @@ import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
+import com.trx.consumer.screens.loading.LoadingViewState
 import com.trx.consumer.screens.player.PlayerActivity
 import com.trx.consumer.screens.promotion.PromoAdapter
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
@@ -62,7 +63,9 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnSettings.action { viewModel.doTapSettings() }
             btnWorkout.action { viewModel.doTapWorkout() }
             btnTrainer.action { viewModel.doTapTrainer() }
+            btnLoadingScreen.action { viewModel.doTapLoadingScreen() }
             btnBookingAlert.action { viewModel.doTapBookingAlert() }
+            btnSchedule.action { viewModel.doTapSchedule() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoAdapter
@@ -86,10 +89,11 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapWorkout.observe(viewLifecycleOwner, handleTapWorkout)
             eventTapTrainer.observe(viewLifecycleOwner, handleTapTrainer)
             eventTapBookingAlert.observe(viewLifecycleOwner, handleTapBookingAlert)
+            eventTapSchedule.observe(viewLifecycleOwner, handleTapSchedule)
             eventLoadVirtualWorkouts.observe(viewLifecycleOwner, handleLoadVirtualWorkouts)
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
             eventLoadPromotions.observe(viewLifecycleOwner, handleLoadPromotions)
-
+            eventLoadingScreen.observe(viewLifecycleOwner, handleTapLoadingScreen)
             doLoadView()
         }
     }
@@ -189,6 +193,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         NavigationManager.shared.present(this, R.id.booking_alert_fragment, params = model)
     }
 
+    private val handleTapSchedule = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.schedule_fragment)
+    }
+
     private val handleLoadLiveWorkouts = Observer<List<WorkoutModel>> { liveWorkouts ->
         liveWorkoutAdapter.update(liveWorkouts)
     }
@@ -203,6 +211,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleLoadPromotions = Observer<List<PromoModel>> { promotions ->
         promoAdapter.update(promotions)
+    }
+
+    private val handleTapLoadingScreen = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.loading_screen, LoadingViewState.LAUNCH)
     }
 
     //endregion
