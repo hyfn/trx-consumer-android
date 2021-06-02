@@ -151,7 +151,7 @@ enum class AnalyticsEventModel {
             PURCHASE_SUBSCRIPTION -> {
                 (value as SubscriptionModel).let { subscription ->
                     hashMapOf<String, Any>().apply {
-                        SUBSCRIPTION_ID to subscription.key
+                        SUBSCRIPTION_ID to subscription.iapPackage.identifier
                         SUBSCRIPTION_PRICE to subscription.cost
                     }
                 }

@@ -143,7 +143,6 @@ class SubscriptionsViewModel @ViewModelInject constructor(
                 cacheManager.user(user)
             }
         }
-        >>>>>>> develop
     }
 
     fun doTapBack() {
