@@ -3,6 +3,7 @@ package com.trx.consumer.screens.content
 import androidx.hilt.lifecycle.ViewModelInject
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.ClassModel
@@ -22,10 +23,7 @@ class ContentViewModel @ViewModelInject constructor(
     var eventTapBtnPrimary = CommonLiveEvent<ClassModel>()
 
     fun doLoadView(contentParamsModel: ContentParamsModel) {
-        analyticsManager.trackAmplitude(
-            AnalyticsEventModel.PAGE_VIEW,
-            this.javaClass.simpleName.replace("ViewModel", "")
-        )
+        analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
         model = contentParamsModel.model
         state = contentParamsModel.state
         classModel = contentParamsModel.classModel

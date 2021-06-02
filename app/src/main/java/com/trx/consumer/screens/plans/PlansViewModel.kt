@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
@@ -42,10 +43,7 @@ class PlansViewModel @ViewModelInject constructor(
 
     fun doLoadPlans() {
         viewModelScope.launch {
-            analyticsManager.trackAmplitude(
-                AnalyticsEventModel.PAGE_VIEW,
-                this.javaClass.simpleName.replace("ViewModel", "")
-            )
+            analyticsManager.trackAmplitude(AnalyticsEventModel.PAGE_VIEW, pageTitle)
             var user: UserModel? = null
             eventShowHud.postValue(true)
             backendManager.user()
