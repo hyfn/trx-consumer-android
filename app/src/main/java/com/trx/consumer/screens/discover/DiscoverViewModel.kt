@@ -19,6 +19,7 @@ class DiscoverViewModel @ViewModelInject constructor(
 ) : BaseViewModel(), DiscoverListener, DiscoverFilterListener {
 
     var workouts: List<VideoModel> = listOf()
+    var filteredWorkouts: List<VideoModel> = listOf()
     var collections: List<VideosModel> = listOf()
     var programs: List<VideosModel> = listOf()
     var params: FilterParamsModel = FilterParamsModel()
@@ -45,10 +46,10 @@ class DiscoverViewModel @ViewModelInject constructor(
             val response = backendManager.videos()
             if (response.isSuccess) {
                 val model = VideosResponseModel.parse(response.responseString)
-                workouts =
-                    if (paramsToSend.keys.any()) doLoadFilteredWorkouts(paramsToSend) else model.workouts
+                workouts = model.workouts
                 collections = model.collections
                 programs = model.programs
+                if (paramsToSend.keys.any()) filteredWorkouts = doLoadFilteredWorkouts(paramsToSend)
                 if (filters.isEmpty()) {
                     filters = model.filters.filter {
                         it.identifier.isNotEmpty() && it.values.isNotEmpty()
@@ -72,7 +73,7 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     fun doLoadWorkouts() {
         eventLoadFilters.postValue(filters)
-        eventLoadWorkouts.postValue(workouts)
+        eventLoadWorkouts.postValue(if (filteredWorkouts.isNotEmpty()) filteredWorkouts else workouts)
     }
 
     fun doLoadCollections() {
@@ -87,6 +88,7 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     private fun resetFilters() {
         filters.forEach { it.values.forEach { model -> model.isSelected = false } }
+        filteredWorkouts = listOf()
         eventLoadFilters.postValue(filters)
     }
 

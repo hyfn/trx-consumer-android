@@ -50,7 +50,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             rvVideo.adapter = adapter
             rvFilters.adapter = discoverAdapter
 
-            btnWorkouts.action { viewModel.doLoadVideos() }
+            btnWorkouts.action { viewModel.doLoadWorkouts() }
             btnCollections.action { viewModel.doLoadCollections() }
             btnPrograms.action { viewModel.doLoadPrograms() }
             btnFilter.action { viewModel.doTapFilter() }
