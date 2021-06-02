@@ -165,15 +165,12 @@ class PlayerActivity : BrightcovePlayer() {
                     AnalyticsEventModel.VIDEO_COMPLETE_25,
                     video
                 )
-                hasCompleted25 = false
+                hasCompleted25 = true
             }
         }
 
         eventEmitter.on(EventType.COMPLETED) {
-            analyticsManager.trackAmplitude(
-                AnalyticsEventModel.VIDEO_COMPLETE_100,
-                video
-            )
+            analyticsManager.trackAmplitude(AnalyticsEventModel.VIDEO_COMPLETE_100, video)
         }
     }
 
