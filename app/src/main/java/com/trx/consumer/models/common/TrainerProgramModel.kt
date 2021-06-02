@@ -26,8 +26,7 @@ class TrainerProgramModel {
                 ?: TrainerModel()
         }
 
-        val test: TrainerProgramModel
-            get() = TrainerProgramModel().apply {
+        fun test(): TrainerProgramModel = TrainerProgramModel().apply {
                 durationInMinutes = 30
                 isPublic = true
                 key = "-MXj8znm1e8OWB4y4NLY"
@@ -40,7 +39,7 @@ class TrainerProgramModel {
         fun testList(count: Int): List<TrainerProgramModel> {
             return mutableListOf<TrainerProgramModel>().apply {
                 for (i in 0 until count) {
-                    val test = test
+                    val test = test()
                     add(test)
                 }
             }

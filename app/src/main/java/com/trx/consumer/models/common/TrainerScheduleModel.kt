@@ -8,7 +8,7 @@ class TrainerScheduleModel(
 
         fun test(): TrainerScheduleModel {
             return TrainerScheduleModel(
-                program = TrainerProgramModel.test,
+                program = TrainerProgramModel.test(),
                 timestamp = 3600000
             )
         }
