@@ -6,6 +6,7 @@ import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentWelcomeBinding
+import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 
 class WelcomeFragment : BaseFragment(R.layout.fragment_welcome) {
@@ -19,8 +20,8 @@ class WelcomeFragment : BaseFragment(R.layout.fragment_welcome) {
         viewModel.state = state
 
         viewBinding.apply {
-            btnBack.setOnClickListener { viewModel.doTapBack() }
-            btnClose.setOnClickListener { viewModel.doTapClose() }
+            btnBack.action { viewModel.doTapBack() }
+            btnClose.action { viewModel.doTapClose() }
         }
 
         viewModel.apply {
