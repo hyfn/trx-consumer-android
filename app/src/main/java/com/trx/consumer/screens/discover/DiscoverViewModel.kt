@@ -23,7 +23,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     var programs: List<VideosModel> = listOf()
     var params: FilterParamsModel = FilterParamsModel()
     var filters: List<FilterModel> = listOf()
-    var isFilterEnable: Boolean = true
+    private var isFilterEnabled: Boolean = true
 
     val eventLoadWorkouts = CommonLiveEvent<List<VideoModel>>()
     val eventLoadCollections = CommonLiveEvent<List<VideosModel>>()
@@ -46,7 +46,7 @@ class DiscoverViewModel @ViewModelInject constructor(
             if (response.isSuccess) {
                 val model = VideosResponseModel.parse(response.responseString)
                 workouts =
-                    if (paramsToSend.keys.any()) doLoadFilteredWorkout(paramsToSend) else model.workouts
+                    if (paramsToSend.keys.any()) doLoadFilteredWorkouts(paramsToSend) else model.workouts
                 collections = model.collections
                 programs = model.programs
                 if (filters.isEmpty()) {
@@ -62,7 +62,7 @@ class DiscoverViewModel @ViewModelInject constructor(
         }
     }
 
-    private suspend fun doLoadFilteredWorkout(paramsToSend: HashMap<String, Any>): List<VideoModel> {
+    private suspend fun doLoadFilteredWorkouts(paramsToSend: HashMap<String, Any>): List<VideoModel> {
         val response = backendManager.videos(paramsToSend)
         return if (response.isSuccess) {
             val model = VideosResponseModel.parse(response.responseString)
@@ -95,7 +95,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     }
 
     fun doTapFilter() {
-        if (isFilterEnable) eventTapFilter.postValue(params)
+        if (isFilterEnabled) eventTapFilter.postValue(params)
     }
 
     override fun doTapVideo(model: VideoModel) {
@@ -108,10 +108,10 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     override fun doTapDiscoverFilter(filter: FilterModel) {
         params.selectedModel = filter
-        if (isFilterEnable) eventTapDiscoverFilter.postValue(params)
+        if (isFilterEnabled) eventTapDiscoverFilter.postValue(params)
     }
 
-    fun setFilterClick(isClickable: Boolean) {
-        isFilterEnable = isClickable
+    fun setFilterEnabled(isEnabled: Boolean) {
+        isFilterEnabled = isEnabled
     }
 }

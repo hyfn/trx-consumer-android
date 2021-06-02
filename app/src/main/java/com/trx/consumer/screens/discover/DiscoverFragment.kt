@@ -152,6 +152,6 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
     private fun handleFilterClick(isClickable: Boolean) {
         viewBinding.viewFilter.alpha = if (!isClickable) 0.3f else 1f
-        viewModel.setFilterClick(isClickable)
+        viewModel.setFilterEnabled(isClickable)
     }
 }
