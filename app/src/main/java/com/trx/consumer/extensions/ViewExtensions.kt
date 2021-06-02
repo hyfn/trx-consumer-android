@@ -7,9 +7,7 @@ import androidx.annotation.ColorRes
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.trx.consumer.R
 import com.trx.consumer.common.CommonActionListener
-import com.trx.consumer.common.CommonButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 

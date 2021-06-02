@@ -56,7 +56,7 @@ class VideoModel(
         fun skeletonList(size: Int): List<VideoModel> {
             return (0 until size).map { VideoModel(isSkeleton = true) }
         }
-        
+
         fun testList(count: Int): List<VideoModel> {
             return (0 until count).map { test() }
         }

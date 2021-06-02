@@ -12,10 +12,7 @@ import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.models.responses.VideosResponseModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class DiscoverViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
@@ -40,11 +37,12 @@ class DiscoverViewModel @ViewModelInject constructor(
     val eventTapDiscoverFilter = CommonLiveEvent<FilterParamsModel>()
 
     fun doLoadVideos() {
+        clearJobs()
+        doLoadSkeletons()
+
         filters = params.lstFilters
         val paramsToSend = params.params
         viewModelScope.launch {
-            doLoadSkeletons()
-            withContext(Dispatchers.IO) { delay(10000) }
             val response = backendManager.videos()
             if (response.isSuccess) {
                 val model = VideosResponseModel.parse(response.responseString)
@@ -91,7 +89,7 @@ class DiscoverViewModel @ViewModelInject constructor(
         workouts = VideoModel.skeletonList(5)
         collections = VideosModel.skeletonList(5)
         programs = VideosModel.skeletonList(5)
-        doLoadWorkouts()
+        eventLoadWorkouts.postValue(workouts)
     }
 
     private fun resetFilters() {

@@ -7,7 +7,6 @@ import com.trx.consumer.common.CommonImageView
 import com.trx.consumer.common.CommonLabel
 import com.trx.consumer.common.CommonViewHolder
 import com.trx.consumer.extensions.applySkeleton
-import com.trx.consumer.extensions.load
 import com.trx.consumer.extensions.px
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel

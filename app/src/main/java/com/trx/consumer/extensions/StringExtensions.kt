@@ -9,9 +9,7 @@ import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.LineHeightSpan
 import android.text.style.UnderlineSpan
-import android.view.View
 import androidx.annotation.PluralsRes
-import com.trx.consumer.R
 import com.trx.consumer.common.CommonTypefaceSpan
 import java.util.Locale
 import kotlin.math.min

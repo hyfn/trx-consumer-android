@@ -1,9 +1,6 @@
 package com.trx.consumer.models.common
 
-import android.content.Context
 import android.os.Parcelable
-import com.trx.consumer.R
-import com.trx.consumer.extensions.getPluralString
 import com.trx.consumer.extensions.map
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
