@@ -41,22 +41,6 @@ enum class AnalyticsEventModel {
             }
         }
 
-    val amplitudeEventCategory: String
-        get() {
-            return when (this) {
-                CANCEL_SUBSCRIPTION -> "Billing"
-                FILTER_ON_DEMAND -> "On Demand"
-                PAGE_VIEW -> "All"
-                PURCHASE_SUBSCRIPTION -> "Billing"
-                SIGN_IN -> "Sign In"
-                SIGN_UP -> "Registration"
-                VIDEO_COMPLETE_100 -> "On Demand"
-                VIDEO_COMPLETE_25 -> "On Demand"
-                VIEW_VIDEO -> "On Demand"
-                VIEW_VIDEO_DETAIL -> "On Demand"
-            }
-        }
-
     fun trackAnalyticEvent(value: Any?): Map<String, Any> =
         when (this) {
             CANCEL_SUBSCRIPTION -> trackCancelSubscription(value as UserModel)
