@@ -36,7 +36,18 @@ class TrainerProgramModel {
                 priceInCents = 1000
                 trainer = TrainerModel.test()
             }
+
+        fun testList(count: Int): List<TrainerProgramModel> {
+            return mutableListOf<TrainerProgramModel>().apply {
+                for (i in 0 until count) {
+                    val test = test
+                    add(test)
+                }
+            }
+        }
     }
+
+
 
     val image: String
         get() = when (mode) {

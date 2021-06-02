@@ -40,6 +40,8 @@
 
         <attr name="totalDays" format="integer" />
 
+        <attr name="showTopLabels" format="boolean"/>
+
     </declare-styleable>
 
 </resources>
