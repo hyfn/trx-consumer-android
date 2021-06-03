@@ -14,7 +14,8 @@ class CommonRecyclerView @JvmOverloads constructor(
     init {
         addOnItemTouchListener(object : SimpleOnItemTouchListener() {
             override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                return !isUserInteractionEnabled
+                return if (!isUserInteractionEnabled) true
+                else if (isScrollable) false else rv.scrollState == SCROLL_STATE_DRAGGING
             }
         })
     }

@@ -65,7 +65,6 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     }
     //endregion
 
-
     //region Handlers
 
     override fun onBackPressed() {
