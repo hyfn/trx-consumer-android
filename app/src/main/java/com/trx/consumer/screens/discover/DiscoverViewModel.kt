@@ -19,7 +19,6 @@ class DiscoverViewModel @ViewModelInject constructor(
 ) : BaseViewModel(), DiscoverListener, DiscoverFilterListener {
 
     var workouts: List<VideoModel> = listOf()
-    var filteredWorkouts: List<VideoModel> = listOf()
     var collections: List<VideosModel> = listOf()
     var programs: List<VideosModel> = listOf()
     var params: FilterParamsModel = FilterParamsModel()
@@ -48,7 +47,6 @@ class DiscoverViewModel @ViewModelInject constructor(
                 workouts = model.workouts
                 collections = model.collections
                 programs = model.programs
-                if (paramsToSend.keys.any()) filteredWorkouts = doLoadFilteredWorkouts(paramsToSend)
                 if (filters.isEmpty()) {
                     filters = model.filters.filter {
                         it.identifier.isNotEmpty() && it.values.isNotEmpty()
@@ -58,21 +56,21 @@ class DiscoverViewModel @ViewModelInject constructor(
             eventShowHud.postValue(false)
             params.lstFilters = filters
             eventLoadFilters.postValue(filters)
-            doLoadWorkouts()
+            if (paramsToSend.keys.any()) doLoadFilteredWorkouts(paramsToSend) else doLoadWorkouts()
         }
     }
 
-    private suspend fun doLoadFilteredWorkouts(paramsToSend: HashMap<String, Any>): List<VideoModel> {
+    private suspend fun doLoadFilteredWorkouts(paramsToSend: HashMap<String, Any>) {
         val response = backendManager.videos(paramsToSend)
-        return if (response.isSuccess) {
+        if (response.isSuccess) {
             val model = VideosResponseModel.parse(response.responseString)
-            model.results
-        } else listOf()
+            eventLoadWorkouts.postValue(model.results)
+        } else doLoadWorkouts()
     }
 
     fun doLoadWorkouts() {
         eventLoadFilters.postValue(filters)
-        eventLoadWorkouts.postValue(if (filteredWorkouts.isNotEmpty()) filteredWorkouts else workouts)
+        eventLoadWorkouts.postValue(workouts)
     }
 
     fun doLoadCollections() {
@@ -87,7 +85,6 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     private fun resetFilters() {
         filters.forEach { it.values.forEach { model -> model.isSelected = false } }
-        filteredWorkouts = listOf()
         eventLoadFilters.postValue(filters)
     }
 
