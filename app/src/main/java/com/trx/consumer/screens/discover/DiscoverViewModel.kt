@@ -18,13 +18,15 @@ class DiscoverViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
 ) : BaseViewModel(), VideoWorkoutListener, DiscoverFilterListener {
 
+    //region Objects
     var workouts: List<VideoModel> = listOf()
     var collections: List<VideosModel> = listOf()
     var programs: List<VideosModel> = listOf()
     var params: FilterParamsModel = FilterParamsModel()
     var filters: List<FilterModel> = listOf()
-    var isFilterEnable: Boolean = true
+    // endregion
 
+    //region Variables
     val eventLoadWorkouts = CommonLiveEvent<List<VideoModel>>()
     val eventLoadCollections = CommonLiveEvent<List<VideosModel>>()
     val eventLoadPrograms = CommonLiveEvent<List<VideosModel>>()
@@ -36,18 +38,21 @@ class DiscoverViewModel @ViewModelInject constructor(
     val eventTapFilter = CommonLiveEvent<FilterParamsModel>()
     val eventTapDiscoverFilter = CommonLiveEvent<FilterParamsModel>()
 
-    fun doLoadVideos() {
-        clearJobs()
-        doLoadSkeletons()
+    //endregion
 
+    //region Actions
+    fun doLoadView() {
+        doLoadVideos()
+    }
+
+    private fun doLoadVideos() {
         filters = params.lstFilters
         val paramsToSend = params.params
         viewModelScope.launch {
             val response = backendManager.videos()
             if (response.isSuccess) {
                 val model = VideosResponseModel.parse(response.responseString)
-                workouts =
-                    if (paramsToSend.keys.any()) doLoadFilteredWorkout(paramsToSend) else model.workouts
+                workouts = model.workouts
                 collections = model.collections
                 programs = model.programs
                 if (filters.isEmpty()) {
@@ -58,16 +63,16 @@ class DiscoverViewModel @ViewModelInject constructor(
             }
             params.lstFilters = filters
             eventLoadFilters.postValue(filters)
-            doLoadWorkouts()
+            if (paramsToSend.keys.any()) doLoadFilteredWorkouts(paramsToSend) else doLoadWorkouts()
         }
     }
 
-    private suspend fun doLoadFilteredWorkout(paramsToSend: HashMap<String, Any>): List<VideoModel> {
+    private suspend fun doLoadFilteredWorkouts(paramsToSend: HashMap<String, Any>) {
         val response = backendManager.videos(paramsToSend)
-        return if (response.isSuccess) {
+        if (response.isSuccess) {
             val model = VideosResponseModel.parse(response.responseString)
-            model.results
-        } else listOf()
+            eventLoadWorkouts.postValue(model.results)
+        } else doLoadWorkouts()
     }
 
     fun doLoadWorkouts() {
@@ -102,7 +107,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     }
 
     fun doTapFilter() {
-        if (isFilterEnable) eventTapFilter.postValue(params)
+        eventTapFilter.postValue(params)
     }
 
     override fun doTapVideo(model: VideoModel) {
@@ -115,10 +120,7 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     override fun doTapDiscoverFilter(filter: FilterModel) {
         params.selectedModel = filter
-        if (isFilterEnable) eventTapDiscoverFilter.postValue(params)
+        eventTapDiscoverFilter.postValue(params)
     }
-
-    fun setFilterClick(isClickable: Boolean) {
-        isFilterEnable = isClickable
-    }
+    //endregion
 }
