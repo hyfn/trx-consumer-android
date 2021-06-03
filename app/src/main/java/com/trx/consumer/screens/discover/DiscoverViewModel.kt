@@ -42,7 +42,11 @@ class DiscoverViewModel @ViewModelInject constructor(
     //endregion
 
     //region Actions
-    fun doLoadVideos() {
+    fun doLoadView() {
+        doLoadVideos()
+    }
+
+    private fun doLoadVideos() {
         filters = params.lstFilters
         val paramsToSend = params.params
         viewModelScope.launch {

@@ -61,7 +61,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             btnFilter.action { viewModel.doTapFilter() }
         }
 
-        viewModel.doLoadVideos()
+        viewModel.doLoadView()
     }
     //endregion
 
