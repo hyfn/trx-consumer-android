@@ -4,8 +4,7 @@ import com.trx.consumer.extensions.map
 import com.trx.consumer.models.common.TrainerProgramModel
 import org.json.JSONObject
 
-class ProgramsResponseModel {
-    private var programs: List<TrainerProgramModel> = listOf()
+class ProgramsResponseModel(private var programs: List<TrainerProgramModel> = listOf()) {
 
     companion object {
         fun parse(json: String) = ProgramsResponseModel().apply {

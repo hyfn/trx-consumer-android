@@ -3,8 +3,7 @@ package com.trx.consumer.models.responses
 import com.trx.consumer.models.common.TrainerModel
 import org.json.JSONObject
 
-class TrainerResponseModel {
-    var trainer: TrainerModel = TrainerModel()
+class TrainerResponseModel(var trainer: TrainerModel = TrainerModel()) {
 
     companion object {
         fun parse(json: String) = TrainerResponseModel().apply {

@@ -4,16 +4,16 @@ import com.trx.consumer.extensions.upperCased
 import com.trx.consumer.models.states.WorkoutViewState
 import org.json.JSONObject
 
-class TrainerProgramModel {
-    var durationInMinutes: Int = 0
-    var isPublic: Boolean = false
-    var key: String = ""
-    var mode: String = ""
-    var name: String = ""
-    var priceInCents: Int = 0
+class TrainerProgramModel(
+    var durationInMinutes: Int = 0,
+    var isPublic: Boolean = false,
+    var key: String = "",
+    var mode: String = "",
+    var name: String = "",
+    var priceInCents: Int = 0,
     var trainer: TrainerModel = TrainerModel()
+) {
 
-    // MARK: - Test
     companion object {
         fun parse(jsonObject: JSONObject) = TrainerProgramModel().apply {
             durationInMinutes = jsonObject.optInt("durationInMinutes")
@@ -27,14 +27,14 @@ class TrainerProgramModel {
         }
 
         fun test(): TrainerProgramModel = TrainerProgramModel().apply {
-                durationInMinutes = 30
-                isPublic = true
-                key = "-MXj8znm1e8OWB4y4NLY"
-                mode = WorkoutViewState.SMALL_GROUP_MODE
-                name = "1:1 Virtual Personal Training"
-                priceInCents = 1000
-                trainer = TrainerModel.test()
-            }
+            durationInMinutes = 30
+            isPublic = true
+            key = "-MXj8znm1e8OWB4y4NLY"
+            mode = WorkoutViewState.SMALL_GROUP_MODE
+            name = "1:1 Virtual Personal Training"
+            priceInCents = 1000
+            trainer = TrainerModel.test()
+        }
 
         fun testList(count: Int): List<TrainerProgramModel> {
             return mutableListOf<TrainerProgramModel>().apply {
@@ -45,8 +45,6 @@ class TrainerProgramModel {
             }
         }
     }
-
-
 
     val image: String
         get() = when (mode) {

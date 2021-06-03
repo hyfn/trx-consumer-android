@@ -56,6 +56,7 @@ class TrainerDetailViewModel @ViewModelInject constructor(
     val eventShowWorkout = CommonLiveEvent<WorkoutModel>()
     val eventTapAboutMe = CommonLiveEvent<ContentModel>()
     val eventTapBack = CommonLiveEvent<Void>()
+    val eventShowHud = CommonLiveEvent<Boolean>()
 
     fun doLoadView() {
         eventLoadView.call()
@@ -63,7 +64,9 @@ class TrainerDetailViewModel @ViewModelInject constructor(
 
     fun doLoadData() {
         viewModelScope.launch {
+            eventShowHud.postValue(true)
             val response = backendManager.trainer(trainer.key)
+            eventShowHud.postValue(false)
             if (response.isSuccess) {
                 val model = TrainerResponseModel.parse(response.responseString)
                 eventLoadTrainer.postValue(model.trainer)
@@ -78,7 +81,9 @@ class TrainerDetailViewModel @ViewModelInject constructor(
 
     fun doLoadWorkoutsUpcoming() {
         viewModelScope.launch {
+            eventShowHud.postValue(true)
             val response = backendManager.trainerSessions(trainer.key)
+            eventShowHud.postValue(false)
             if (response.isSuccess) {
                 val model = SessionsResponseModel.parse(response.responseString)
                 eventLoadWorkoutUpcoming.postValue(model.listUpcoming)
@@ -89,17 +94,23 @@ class TrainerDetailViewModel @ViewModelInject constructor(
     // VideoWorkoutViewListener
     fun doLoadOndemand() {
         viewModelScope.launch {
+            eventShowHud.postValue(true)
             val response = backendManager.videos()
+            eventShowHud.postValue(false)
             if (response.isSuccess) {
                 val model = VideosResponseModel.parse(response.responseString)
-                eventLoadOndemand.postValue(model.lstWorkoutsForTrainerProfileId(trainer.virtualTrainerProfileId))
+                eventLoadOndemand.postValue(
+                    model.lstWorkoutsForTrainerProfileId(trainer.virtualTrainerProfileId)
+                )
             }
         }
     }
 
     fun doLoadTrainerServices() {
         viewModelScope.launch {
+            eventShowHud.postValue(true)
             val response = backendManager.trainerPrograms(trainer.key)
+            eventShowHud.postValue(false)
             if (response.isSuccess) {
                 val model = ProgramsResponseModel.parse(response.responseString)
                 eventLoadServices.postValue(model.lstPrograms)

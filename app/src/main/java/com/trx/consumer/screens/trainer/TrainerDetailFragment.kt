@@ -15,6 +15,7 @@ import com.trx.consumer.extensions.load
 import com.trx.consumer.extensions.spannableString
 import com.trx.consumer.extensions.underConstruction
 import com.trx.consumer.extensions.upperCased
+import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.managers.UtilityManager
 import com.trx.consumer.models.common.BookingAlertModel
@@ -23,6 +24,7 @@ import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.TrainerProgramModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.params.ContentParamsModel
 import com.trx.consumer.screens.banner.BannerAdapter
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.photos.PhotoAdapter
@@ -86,6 +88,7 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
             eventShowUpcomingSchedule.observe(viewLifecycleOwner, handleShowUpcomingSchedule)
             eventShowWorkout.observe(viewLifecycleOwner, handleShowWorkout)
             eventTapAboutMe.observe(viewLifecycleOwner, handleTapAboutMe)
+            eventShowHud.observe(viewLifecycleOwner, handleShowHud)
 
             doLoadView()
         }
@@ -107,66 +110,86 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
         viewModel.doLoadPhotos()
     }
 
+    private val handleShowHud = Observer<Boolean> { show ->
+        viewBinding.hudView.isVisible = show
+    }
+
     private val handleLoadBanner = Observer<List<String>> { banners ->
+        LogManager.log("handleLoadBanner")
         loadBanner(banners)
     }
 
     private val handleLoadOndemand = Observer<List<VideoModel>> { workouts ->
+        LogManager.log("handleLoadOndemand")
         loadOndemand(workouts)
     }
 
     private val handleLoadPhotos = Observer<List<String>> { photos ->
+        LogManager.log("handleLoadPhotos")
         loadPhotos(photos)
     }
 
     private val handleLoadTrainer = Observer<TrainerModel> { model ->
+        LogManager.log("handleLoadTrainer")
         loadTrainer(model)
     }
 
     private val handleLoadServices = Observer<List<TrainerProgramModel>> { services ->
+        LogManager.log("handleLoadServices")
         loadServices(services)
     }
 
     private val handleLoadWorkoutsUpcoming = Observer<List<WorkoutModel>> { workouts ->
+        LogManager.log("handleLoadWorkoutsUpcoming")
         loadWorkoutsUpcoming(workouts)
     }
 
     private val handleShowBooking = Observer<BookingAlertModel> { model ->
+        LogManager.log("handleShowBooking")
         NavigationManager.shared.present(this, R.id.booking_alert_fragment, model)
     }
 
     private val handleShowOndemand = Observer<VideoModel> { model ->
+        LogManager.log("handleShowOndemand")
         NavigationManager.shared.presentActivity(
             requireActivity(), PlayerActivity::class.java, model
         )
     }
 
     private val handleShowOndemandSeeAll = Observer<Void> {
+        LogManager.log("handleShowOndemandSeeAll")
         requireContext().underConstruction()
     }
 
     private val handleShowPhoto = Observer<String> { photoUrl ->
+        LogManager.log("handleShowPhoto")
         requireContext().underConstruction()
     }
 
     private val handleShowRecommendationsForyou = Observer<Void> {
+        LogManager.log("handleShowRecommendationsForyou")
         UtilityManager.shared.openUrl(requireContext(), BuildConfig.kProductsUrl)
     }
 
     private val handleShowService = Observer<TrainerProgramModel> { model ->
+        LogManager.log("handleShowService")
         NavigationManager.shared.present(this, R.id.schedule_fragment, model)
     }
 
     private val handleShowUpcomingSchedule = Observer<String> { value ->
+        LogManager.log("handleShowUpcomingSchedule")
         NavigationManager.shared.present(this, R.id.schedule_fragment, value)
     }
 
     private val handleShowWorkout = Observer<WorkoutModel> { model ->
+        LogManager.log("handleShowWorkout")
         NavigationManager.shared.present(this, R.id.workout_fragment, model)
     }
 
     private val handleTapAboutMe = Observer<ContentModel> { model ->
-        NavigationManager.shared.present(this, R.id.content_fragment, model)
+        LogManager.log("handleTapAboutMe")
+        val paramsModel = ContentParamsModel(model = model)
+        NavigationManager.shared.present(this, R.id.content_fragment, paramsModel)
     }
 
     private fun loadBanner(banners: List<String>) {
@@ -213,16 +236,16 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
         val hide = aboutMe.isEmpty()
         viewBinding.apply {
             lblAboutmeDetails.apply {
-                val trimmedText = if (aboutMe.length > 180)
-                    requireContext().getString(
-                        R.string.trainer_bio_label, aboutMe.substring(0, 180)
-                    ) else aboutMe
-                text = SpannableStringBuilder(trimmedText).append(
-                    context.spannableString(
-                        context.getString(R.string.trainer_read_more_label),
-                        fullUnderline = true
+                text = if (aboutMe.length > 180) {
+                    SpannableStringBuilder(
+                        context.getString(R.string.trainer_bio_label, aboutMe.substring(0, 180))
+                    ).append(
+                        context.spannableString(
+                            context.getString(R.string.trainer_read_more_label),
+                            fullUnderline = true
+                        )
                     )
-                )
+                } else aboutMe
             }
             lblAboutMe.isHidden = hide
             lblAboutmeDetails.isHidden = hide
