@@ -262,6 +262,8 @@
     <string name="workout_book_session_label">Book Session</string>
     <string name="workout_join_session_label">Join Session</string>
     <string name="workout_cancel_session_label">Cancel Session</string>
+    <string name="workout_subscription_alert_primary_label">SUBSCRIBE NOW</string>
+    <string name="workout_subscription_alert_message">You don\'t have a subscription to view this content</string>
 
     <string name="workout_cell_button_view_title">VIEW</string>
     <string name="workout_cell_button_soon_title">JOIN NOW</string>

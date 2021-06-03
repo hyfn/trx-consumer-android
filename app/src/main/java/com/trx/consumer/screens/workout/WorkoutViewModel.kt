@@ -6,10 +6,12 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
+import com.trx.consumer.managers.IAPManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.BookingsResponseModel
+import com.trx.consumer.models.responses.PurchasesResponseModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.BookingViewState
 import com.trx.consumer.models.states.WorkoutViewState
@@ -23,6 +25,8 @@ class WorkoutViewModel @ViewModelInject constructor(
     var model: WorkoutModel = WorkoutModel()
 
     val eventLoadView = CommonLiveEvent<WorkoutModel>()
+    val eventLoadError = CommonLiveEvent<String>()
+    val eventLoadSubscribePrompt = CommonLiveEvent<Void>()
     var eventLoadWorkoutView = CommonLiveEvent<WorkoutModel>()
     val eventShowHud = CommonLiveEvent<Boolean>()
 
@@ -76,23 +80,44 @@ class WorkoutViewModel @ViewModelInject constructor(
 
     fun doTapPrimary() {
         when (model.workoutState) {
-            WorkoutViewState.VIDEO -> eventTapStartWorkout.postValue(model)
-            WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> {
-                if (model.bookViewStatus == BookingViewState.JOIN) {
-                    eventTapStartWorkout.postValue(model)
-                } else {
-                    viewModelScope.launch {
-                        cacheManager.user()?.card?.let {
-                            eventTapBookLive.postValue(model)
-                        } ?: run {
-                            backendManager.user().let {
-                                eventTapBookLive.postValue(model)
-                            }
-                        }
-                    }
+            WorkoutViewState.VIDEO -> doTapVideo()
+            WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> doTapLiveOrVirtual()
+            else -> LogManager.log("WorkoutViewModel.doTapPrimary")
+        }
+    }
+
+    private fun doTapVideo() {
+        viewModelScope.launch {
+            eventShowHud.postValue(true)
+            val response = backendManager.purchases()
+            if (response.isSuccess) {
+                val responseModel = PurchasesResponseModel.parse(response.responseString)
+                val packages = IAPManager.shared.packages()
+                responseModel.onDemandSubscription()?.let { entitlement ->
+                    packages.find {
+                        it.iapPackage.product.sku == entitlement.productIdentifier
+                    }?.let { match ->
+                        LogManager.log("Matched purchased package ${match.iapPackage.product.sku}")
+                        eventTapStartWorkout.postValue(model)
+                    } ?: eventLoadError.postValue("No matching package")
+                } ?: eventLoadSubscribePrompt.call()
+            } else {
+                eventLoadError.postValue("Could not load purchases")
+            }
+        }.invokeOnCompletion { eventShowHud.postValue(false) }
+    }
+
+    private fun doTapLiveOrVirtual() {
+        viewModelScope.launch {
+            if (model.bookViewStatus == BookingViewState.JOIN) {
+                eventTapStartWorkout.postValue(model)
+            } else {
+                cacheManager.user()?.card?.let {
+                    eventTapBookLive.postValue(model)
+                } ?: backendManager.user().let {
+                    eventTapBookLive.postValue(model)
                 }
             }
-            else -> LogManager.log("WorkoutViewModel.doTapPrimary")
         }
     }
 }

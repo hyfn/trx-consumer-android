@@ -11,11 +11,14 @@ import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.extensions.load
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.WorkoutViewState
+import com.trx.consumer.screens.alert.AlertViewState
+import com.trx.consumer.screens.erroralert.ErrorAlertModel
 import com.trx.consumer.screens.player.PlayerActivity
 
 class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
@@ -47,6 +50,8 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
             eventLoadWorkoutView.observe(viewLifecycleOwner, handleLoadWorkoutView)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
+            eventLoadError.observe(viewLifecycleOwner, handleLoadError)
+            eventLoadSubscribePrompt.observe(viewLifecycleOwner, handleLoadSubscriptionPrompt)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
             doLoadView()
         }
@@ -84,17 +89,21 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
         }
     }
 
-    private fun loadView(model: WorkoutModel) {
-        viewBinding.apply {
-            imgHeader.load(model.video.poster)
-            lblTitle.text = model.video.name
-            lblSummary.text = model.video.description
-            lblSubtitle.text = model.video.videoDuration
+    private val handleLoadError = Observer<String> { error ->
+        LogManager.log("handleLoadError")
+        val model = ErrorAlertModel.error(error)
+        NavigationManager.shared.present(this, R.id.error_fragment, model)
+    }
 
-            viewTrainer.isHidden = false
-            imgTrainerPhoto.load(model.video.trainer.profilePhoto)
-            lblTrainerName.text = model.video.trainer.fullName
-        }
+    private val handleLoadSubscriptionPrompt = Observer<Void> {
+        LogManager.log("handleLoadSubscriptionPrompt")
+        val model = AlertModel
+            .create("", requireContext().getString(R.string.workout_subscription_alert_message))
+        model.setPrimaryButton(
+            R.string.workout_subscription_alert_primary_label,
+            AlertViewState.POSITIVE
+        ) { NavigationManager.shared.present(this, R.id.subscriptions_fragment) }
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
     private val handleTapStartWorkout = Observer<WorkoutModel> { model ->
@@ -109,7 +118,7 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
         if (model.workoutState == WorkoutViewState.LIVE) {
             LogManager.log("handleTapStartWorkout | model.workoutState == WorkoutViewState.LIVE")
-            // TODO: Should go to LivePlayer NavigationManager.shared.present(this, R.id.live_fragment)
+            // TODO: Should go to LivePlayer once implemented
         }
     }
 
@@ -121,6 +130,19 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
     private val handleTapProfile = Observer<TrainerModel> { model ->
         LogManager.log("handleTapProfile")
         NavigationManager.shared.present(this, R.id.trainer_fragment, model)
+    }
+
+    private fun loadView(model: WorkoutModel) {
+        viewBinding.apply {
+            imgHeader.load(model.video.poster)
+            lblTitle.text = model.video.name
+            lblSummary.text = model.video.description
+            lblSubtitle.text = model.video.videoDuration
+
+            viewTrainer.isHidden = false
+            imgTrainerPhoto.load(model.video.trainer.profilePhoto)
+            lblTrainerName.text = model.video.trainer.fullName
+        }
     }
 
     override fun onBackPressed() {
