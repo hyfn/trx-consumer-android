@@ -10,6 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import com.trx.consumer.R
 import com.trx.consumer.common.CommonActionListener
 import com.trx.consumer.common.CommonButton
+import com.trx.consumer.common.CommonRecyclerView
+import com.trx.consumer.common.CommonView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
@@ -40,6 +42,19 @@ fun View.dimensions(width: Float? = null, height: Float? = null) {
     layoutParams<ViewGroup.LayoutParams> {
         width?.let { this.width = dpToPx(width) }
         height?.let { this.height = dpToPx(height) }
+    }
+}
+
+fun View.isEnabled(enabled: Boolean) {
+    alpha = if (!enabled) 0.3f else 1f
+    isEnabled = enabled
+    isClickable = enabled
+    if (this is CommonView) {
+        repeat(childCount) { index ->
+            val child = getChildAt(index)
+            if (child is CommonRecyclerView) child.isUserInteractionEnabled = enabled
+            else child.isEnabled = enabled
+        }
     }
 }
 

@@ -9,6 +9,7 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentDiscoverBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.extensions.isEnabled
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.DiscoverModel
 import com.trx.consumer.models.common.FilterModel
@@ -152,9 +153,6 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     }
 
     private fun setFilterEnabled(enabled: Boolean) {
-        viewBinding.viewFilter.alpha = if (!enabled) 0.3f else 1f
-        viewBinding.btnFilter.isEnabled = enabled
-        viewBinding.rvFilters.isScrollable = enabled
-        viewModel.setFilterEnabled(enabled)
+        viewBinding.viewFilter.isEnabled(enabled)
     }
 }
