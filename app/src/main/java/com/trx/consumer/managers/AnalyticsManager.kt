@@ -44,7 +44,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
 
         amplitudeClient.logEvent(
             CANCEL_SUBSCRIPTION.eventName,
-            JSONObject((value))
+            JSONObject(value)
         )
     }
 
@@ -55,7 +55,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
 
         amplitudeClient.logEvent(
             FILTER_ON_DEMAND.eventName,
-            JSONObject((value))
+            JSONObject(value)
         )
     }
 
@@ -67,7 +67,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
 
         amplitudeClient.logEvent(
             PAGE_VIEW.eventName,
-            JSONObject((value))
+            JSONObject(value)
         )
     }
 
@@ -79,7 +79,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
 
         amplitudeClient.logEvent(
             PURCHASE_SUBSCRIPTION.eventName,
-            JSONObject((value))
+            JSONObject(value)
         )
     }
 
@@ -92,7 +92,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
 
         amplitudeClient.logEvent(
             SIGN_IN.eventName,
-            JSONObject((value))
+            JSONObject(value)
         )
     }
 
@@ -105,7 +105,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
 
         amplitudeClient.logEvent(
             SIGN_UP.eventName,
-            JSONObject((value))
+            JSONObject(value)
         )
     }
 
@@ -124,7 +124,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
 
         amplitudeClient.logEvent(
             VIDEO_COMPLETE_100.eventName,
-            JSONObject((value))
+            JSONObject(value)
         )
     }
 
@@ -143,7 +143,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
 
         amplitudeClient.logEvent(
             VIDEO_COMPLETE_25.eventName,
-            JSONObject((value))
+            JSONObject(value)
         )
     }
 
@@ -161,7 +161,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
 
         amplitudeClient.logEvent(
             VIEW_VIDEO.eventName,
-            JSONObject((value))
+            JSONObject(value)
         )
     }
 
@@ -174,7 +174,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
 
         amplitudeClient.logEvent(
             VIEW_VIDEO_DETAIL.eventName,
-            JSONObject((value))
+            JSONObject(value)
         )
     }
 }

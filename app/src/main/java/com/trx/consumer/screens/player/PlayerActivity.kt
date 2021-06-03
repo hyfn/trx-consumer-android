@@ -158,9 +158,8 @@ class PlayerActivity : BrightcovePlayer() {
         }
 
         eventEmitter.on(EventType.PROGRESS) { event ->
-            val percent =
-                event.getIntegerProperty(Event.PLAYHEAD_POSITION) /
-                    event.getIntegerProperty(Event.VIDEO_DURATION).toDouble()
+            val percent = event.getIntegerProperty(Event.PLAYHEAD_POSITION) /
+                event.getIntegerProperty(Event.VIDEO_DURATION).toDouble()
 
             if ((.25 < percent) && !hasCompleted25) {
                 analyticsManager.trackVideoComplete25(video)

@@ -129,7 +129,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapPlayer = Observer<AnalyticsManager> {
-        val playerParams = PlayerParamsModel(analyticsManager = it)
+        val playerParams = PlayerParamsModel(
+            video = VideoModel.test().apply { id = "6232799349001" },
+            analyticsManager = it
+        )
         NavigationManager.shared.presentActivity(
             requireActivity(),
             PlayerActivity::class.java,
