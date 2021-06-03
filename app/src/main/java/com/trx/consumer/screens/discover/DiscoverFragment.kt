@@ -80,17 +80,14 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     }
 
     private val handleLoadWorkouts = Observer<List<VideoModel>> { workouts ->
-        handleFilterClick(true)
         loadWorkouts(workouts)
     }
 
     private val handleLoadCollections = Observer<List<VideosModel>> { collections ->
-        handleFilterClick(false)
         loadCollections(collections)
     }
 
     private val handleLoadPrograms = Observer<List<VideosModel>> { programs ->
-        handleFilterClick(false)
         loadPrograms(programs)
     }
 
@@ -121,6 +118,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     private fun loadPrograms(videos: List<VideosModel>) {
         val state = DiscoverViewState.PROGRAMS
         loadTabs(state)
+        setFilterEnabled(false)
         adapter.update(DiscoverModel(state = state, videos = videos))
     }
 
@@ -135,14 +133,17 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
             when (newState) {
                 DiscoverViewState.WORKOUTS -> {
+                    setFilterEnabled(true)
                     btnWorkouts.textColor(R.color.black)
                     indicatorWorkouts.isVisible = true
                 }
                 DiscoverViewState.COLLECTIONS -> {
+                    setFilterEnabled(false)
                     btnCollections.textColor(R.color.black)
                     indicatorCollections.isVisible = true
                 }
                 DiscoverViewState.PROGRAMS -> {
+                    setFilterEnabled(false)
                     btnPrograms.textColor(R.color.black)
                     indicatorPrograms.isVisible = true
                 }
@@ -150,8 +151,10 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         }
     }
 
-    private fun handleFilterClick(isClickable: Boolean) {
-        viewBinding.viewFilter.alpha = if (!isClickable) 0.3f else 1f
-        viewModel.setFilterEnabled(isClickable)
+    private fun setFilterEnabled(enabled: Boolean) {
+        viewBinding.viewFilter.alpha = if (!enabled) 0.3f else 1f
+        viewBinding.btnFilter.isEnabled = enabled
+        viewBinding.rvFilters.isScrollable = enabled
+        viewModel.setFilterEnabled(enabled)
     }
 }

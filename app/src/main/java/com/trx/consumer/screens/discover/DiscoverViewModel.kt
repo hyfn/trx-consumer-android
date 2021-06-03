@@ -97,7 +97,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     }
 
     fun doTapFilter() {
-        if (isFilterEnabled) eventTapFilter.postValue(params)
+        eventTapFilter.postValue(params)
     }
 
     override fun doTapVideo(model: VideoModel) {

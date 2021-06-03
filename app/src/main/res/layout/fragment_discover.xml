@@ -126,6 +126,7 @@
             app:layout_constraintStart_toEndOf="@id/btnFilter"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/row_discover_filter" />
+
         <com.trx.consumer.common.CommonImageView
             android:id="@+id/imgLine"
             android:layout_width="match_parent"
