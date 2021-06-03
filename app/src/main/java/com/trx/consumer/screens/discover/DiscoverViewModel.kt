@@ -42,6 +42,7 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     //region Actions
     fun doLoadView() {
+        doLoadSkeletons()
         doLoadVideos()
     }
 
