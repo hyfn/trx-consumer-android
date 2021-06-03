@@ -128,7 +128,6 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     private fun loadPrograms(videos: List<VideosModel>) {
         val state = DiscoverViewState.PROGRAMS
         loadTabs(state)
-        setFilterEnabled(false)
         adapter.update(DiscoverModel(state = state, videos = videos))
     }
 
