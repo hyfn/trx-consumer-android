@@ -1,19 +1,19 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
-import com.trx.consumer.extensions.map
+import com.trx.consumer.extensions.forEach
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.Locale
 
 @Parcelize
 class VideosModel(
-    val title: String = "",
-    val description: String = "",
-    val thumbnail: String = "",
-    val poster: String = "",
-    val trainer: TrainerModel = TrainerModel(),
-    val videos: List<VideoModel> = emptyList(),
+    var title: String = "",
+    var description: String = "",
+    var thumbnail: String = "",
+    var poster: String = "",
+    var trainer: TrainerModel = TrainerModel(),
+    val videos: MutableList<VideoModel> = mutableListOf(),
     val isSkeleton: Boolean = false
 ) : Parcelable {
 
@@ -24,17 +24,19 @@ class VideosModel(
         }
 
     companion object {
+
         fun parse(jsonObject: JSONObject): VideosModel {
-            return VideosModel(
-                title = jsonObject.optString("title"),
-                description = jsonObject.optString("description"),
-                thumbnail = jsonObject.optString("thumbnail"),
-                poster = jsonObject.optString("poster"),
-                trainer = jsonObject.optJSONObject("firstTrainer")?.let {
-                    TrainerModel.parse(it)
-                } ?: TrainerModel(),
-                videos = jsonObject.optJSONArray("videos").map { VideoModel.parse(it) }
-            )
+            return VideosModel().apply {
+                title = jsonObject.optString("title")
+                description = jsonObject.optString("description")
+                thumbnail = jsonObject.optString("thumbnail")
+                poster = jsonObject.optString("poster")
+                trainer = jsonObject.optJSONObject("firstTrainer")?.let { TrainerModel.parse(it) }
+                    ?: TrainerModel()
+                jsonObject.optJSONArray("videos")?.forEach {
+                    videos.add(VideoModel.parse(it))
+                }
+            }
         }
 
         fun skeletonList(size: Int): List<VideosModel> {

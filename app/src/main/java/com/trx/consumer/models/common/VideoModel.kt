@@ -7,16 +7,16 @@ import org.json.JSONObject
 
 @Parcelize
 class VideoModel(
-    val name: String = "",
-    val duration: Int = 0,
-    val description: String = "",
-    val id: String = "0",
-    val poster: String = "",
-    val trainer: TrainerModel = TrainerModel(),
-    val equipment: List<String> = listOf(),
-    val level: String = "",
-    val focus: String = "",
-    val body: List<String> = listOf(),
+    var name: String = "",
+    var duration: Int = 0,
+    var description: String = "",
+    var id: String = "0",
+    var poster: String = "",
+    var trainer: TrainerModel = TrainerModel(),
+    var equipment: List<String> = listOf(),
+    var level: String = "",
+    var focus: String = "",
+    var body: List<String> = listOf(),
     val isSkeleton: Boolean = false
 ) : Parcelable {
 
@@ -26,21 +26,21 @@ class VideoModel(
     companion object {
 
         fun parse(jsonObject: JSONObject): VideoModel {
-            val videoJson = jsonObject.optJSONObject("video")
-            return VideoModel(
-                name = videoJson?.optString("name") ?: "",
-                duration = videoJson?.optInt("duration") ?: 0,
-                id = videoJson?.optString("id") ?: "",
-                poster = videoJson?.optString("poster") ?: "",
-                description = videoJson?.optString("description") ?: "",
-                trainer = jsonObject.optJSONObject("trainer")?.let {
-                    TrainerModel.parse(it)
-                } ?: TrainerModel(),
-                equipment = jsonObject.optJSONArray("equipment").map(),
-                level = jsonObject.optString("level"),
-                focus = jsonObject.optString("focus"),
+            return VideoModel().apply {
+                jsonObject.optJSONObject("video")?.let { videoJson ->
+                    name = videoJson.optString("name")
+                    duration = videoJson.optInt("duration")
+                    id = videoJson.optString("id")
+                    poster = videoJson.optString("poster")
+                    description = videoJson.optString("description")
+                }
+                trainer = jsonObject.optJSONObject("trainer")?.let { TrainerModel.parse(it) }
+                    ?: TrainerModel()
+                equipment = jsonObject.optJSONArray("equipment").map()
+                level = jsonObject.optString("level")
+                focus = jsonObject.optString("focus")
                 body = jsonObject.optJSONArray("body").map()
-            )
+            }
         }
 
         fun test(): VideoModel {
