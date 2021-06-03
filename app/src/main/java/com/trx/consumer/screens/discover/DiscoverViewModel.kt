@@ -18,12 +18,15 @@ class DiscoverViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager
 ) : BaseViewModel(), DiscoverListener, DiscoverFilterListener {
 
+    //region Objects
     var workouts: List<VideoModel> = listOf()
     var collections: List<VideosModel> = listOf()
     var programs: List<VideosModel> = listOf()
     var params: FilterParamsModel = FilterParamsModel()
     var filters: List<FilterModel> = listOf()
+    // endregion
 
+    //region Variables
     val eventLoadWorkouts = CommonLiveEvent<List<VideoModel>>()
     val eventLoadCollections = CommonLiveEvent<List<VideosModel>>()
     val eventLoadPrograms = CommonLiveEvent<List<VideosModel>>()
@@ -36,6 +39,9 @@ class DiscoverViewModel @ViewModelInject constructor(
     val eventTapFilter = CommonLiveEvent<FilterParamsModel>()
     val eventTapDiscoverFilter = CommonLiveEvent<FilterParamsModel>()
 
+    //endregion
+
+    //region Actions
     fun doLoadVideos() {
         filters = params.lstFilters
         val paramsToSend = params.params
@@ -108,5 +114,5 @@ class DiscoverViewModel @ViewModelInject constructor(
         params.selectedModel = filter
         eventTapDiscoverFilter.postValue(params)
     }
-
+    //endregion
 }
