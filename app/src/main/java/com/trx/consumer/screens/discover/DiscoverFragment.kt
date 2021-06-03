@@ -20,12 +20,16 @@ import com.trx.consumer.screens.discover.list.DiscoverAdapter
 
 class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
+    //region Objects
     private val viewModel: DiscoverViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentDiscoverBinding::bind)
 
     private lateinit var adapter: DiscoverAdapter
     private lateinit var discoverAdapter: DiscoverFilterAdapter
 
+    //endregion
+
+    //region Initializers
     override fun bind() {
         NavigationManager.shared.params(this)?.let { params ->
             if (params is FilterParamsModel) viewModel.params = params
@@ -58,6 +62,9 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
         viewModel.doLoadView()
     }
+    //endregion
+
+    //region Handlers
 
     override fun onBackPressed() {
         viewModel.doTapBack()
@@ -103,6 +110,9 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         NavigationManager.shared.present(this, R.id.filter_fragment, params.copyModel())
     }
 
+    //endregion
+
+    //region Helper Functions
     private fun loadWorkouts(workouts: List<VideoModel>) {
         val state = DiscoverViewState.WORKOUTS
         loadTabs(state)
@@ -132,18 +142,29 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
             when (newState) {
                 DiscoverViewState.WORKOUTS -> {
+                    setFilterEnabled(true)
                     btnWorkouts.textColor(R.color.black)
                     indicatorWorkouts.isVisible = true
                 }
                 DiscoverViewState.COLLECTIONS -> {
+                    setFilterEnabled(false)
                     btnCollections.textColor(R.color.black)
                     indicatorCollections.isVisible = true
                 }
                 DiscoverViewState.PROGRAMS -> {
+                    setFilterEnabled(false)
                     btnPrograms.textColor(R.color.black)
                     indicatorPrograms.isVisible = true
                 }
             }
         }
     }
+
+    private fun setFilterEnabled(enabled: Boolean) {
+        viewBinding.viewFilter.alpha = if (enabled) 1f else 0.3f
+        viewBinding.btnFilter.isEnabled = enabled
+        viewBinding.rvFilters.isUserInteractionEnabled = enabled
+    }
+
+    //endregion
 }
