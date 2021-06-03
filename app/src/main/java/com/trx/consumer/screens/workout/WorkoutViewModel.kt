@@ -2,6 +2,7 @@ package com.trx.consumer.screens.workout
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
+import com.trx.consumer.BuildConfig.isVersion1Enabled
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
@@ -80,7 +81,13 @@ class WorkoutViewModel @ViewModelInject constructor(
 
     fun doTapPrimary() {
         when (model.workoutState) {
-            WorkoutViewState.VIDEO -> doTapVideo()
+            WorkoutViewState.VIDEO -> {
+                if (!isVersion1Enabled) {
+                    eventTapStartWorkout.postValue(model)
+                    return
+                }
+                doTapVideo()
+            }
             WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> doTapLiveOrVirtual()
             else -> LogManager.log("WorkoutViewModel.doTapPrimary")
         }
