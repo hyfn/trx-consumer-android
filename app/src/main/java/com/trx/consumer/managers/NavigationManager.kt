@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.trx.consumer.BuildConfig
 import com.trx.consumer.R
+import com.trx.consumer.screens.loading.LoadingViewState
 
 class NavigationManager {
 
@@ -25,24 +26,28 @@ class NavigationManager {
     private val extraParcelable = "EXTRA_PARCELABLE"
     private val extraAny = "EXTRA_ANY"
 
-    private val listTab =
-        if (BuildConfig.isVersion2Enabled) {
-            listOf(
-                R.id.home_fragment,
-                R.id.virtual_fragment,
-                R.id.live_fragment,
-                R.id.discover_fragment
-            )
-        } else {
-            listOf(
-                R.id.home_fragment,
-                R.id.live_fragment,
-                R.id.discover_fragment,
-                R.id.settings_fragment
-            )
-        }
+    private val listTab = if (BuildConfig.isVersion2Enabled) {
+        listOf(
+            R.id.home_fragment,
+            R.id.virtual_fragment,
+            R.id.live_fragment,
+            R.id.discover_fragment
+        )
+    } else {
+        listOf(
+            R.id.home_fragment,
+            R.id.live_fragment,
+            R.id.discover_fragment,
+            R.id.settings_fragment
+        )
+    }
 
-    private val listIgnoreTab = listOf<Int>()
+    private val listIgnoreTab = listOf(
+        R.id.alert_fragment,
+        R.id.booking_alert_fragment,
+        R.id.error_fragment,
+        R.id.date_picker_fragment
+    )
 
     private fun handleItemListener(activity: FragmentActivity, navController: NavController) =
         BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
@@ -57,26 +62,38 @@ class NavigationManager {
         }
 
     fun launch(activity: FragmentActivity, isLoggedIn: Boolean) {
-        val navHostFragment = activity
-            .supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        val graphInflater = navController.navInflater
-        val graph = graphInflater.inflate(R.navigation.nav_main)
-        graph.startDestination = if (isLoggedIn) R.id.home_fragment else R.id.splash_fragment
-        navController.graph = graph
-        getTabBar(activity).apply {
-            menu.clear()
-            if (BuildConfig.isVersion2Enabled)
-                inflateMenu(R.menu.menu_bottom_nav_v2)
-            else
-                inflateMenu(R.menu.menu_bottom_nav)
+        val navController = getNavController(activity)
+        setUpGraph(navController, isLoggedIn)
+        setUpTabs(navController, activity)
+    }
 
+    private fun setUpGraph(navController: NavController, isLoggedIn: Boolean) {
+        val graph = navController.navInflater.inflate(R.navigation.nav_main)
+        graph.startDestination = if (isLoggedIn) R.id.loading_screen else R.id.splash_fragment
+        val args = if (isLoggedIn) bundleOf(extraAny to LoadingViewState.LAUNCH) else null
+        navController.setGraph(graph, args)
+    }
+
+    private fun setUpTabs(navController: NavController, activity: FragmentActivity) {
+        getTabBar(activity).apply {
+            setTabMenu(this)
             setupWithNavController(navController)
             setOnNavigationItemSelectedListener(handleItemListener(activity, navController))
             setOnNavigationItemReselectedListener { }
         }
         navController.addOnDestinationChangedListener(handleDestinationChangeListener(activity))
+    }
+
+    //TODO: Temporary until v2
+    private fun setTabMenu(tabBar: BottomNavigationView) {
+        tabBar.apply {
+            menu.clear()
+            if (BuildConfig.isVersion2Enabled) {
+                inflateMenu(R.menu.menu_bottom_nav_v2)
+            } else {
+                inflateMenu(R.menu.menu_bottom_nav)
+            }
+        }
     }
 
     fun notLoggedInLaunchSequence(fragment: Fragment) {
@@ -101,13 +118,7 @@ class NavigationManager {
         guest: Boolean = false
     ) {
         isGuestMode = guest
-        getTabBar(activity).apply {
-            menu.clear()
-            if (BuildConfig.isVersion2Enabled)
-                inflateMenu(R.menu.menu_bottom_nav_v2)
-            else
-                inflateMenu(R.menu.menu_bottom_nav)
-        }
+        setTabMenu(getTabBar(activity))
         val navController = getNavController(activity)
         val start = if (login) R.id.home_fragment else R.id.splash_fragment
         val graph = navController.graph

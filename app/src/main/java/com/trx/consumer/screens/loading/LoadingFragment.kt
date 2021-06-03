@@ -8,6 +8,8 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentLoadingBinding
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.AlertModel
+import com.trx.consumer.screens.alert.AlertBackAction
 
 class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
@@ -23,6 +25,9 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
 
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
+            eventLoadAuth.observe(viewLifecycleOwner, handleLoadAuth)
+            eventLoadAuthSuccess.observe(viewLifecycleOwner, handleLoadAuthSuccess)
+            eventLoadAuthFailure.observe(viewLifecycleOwner, handleLoadAuthFailure)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
         }
 
@@ -42,6 +47,28 @@ class LoadingFragment : BaseFragment(R.layout.fragment_loading) {
         viewBinding.lblTitle.apply {
             text = context.getString(state.message)
         }
+    }
+
+    private val handleLoadAuth = Observer<Void> {
+        LogManager.log("handleLoadAuth")
+        viewModel.doLoadAuth()
+    }
+
+    private val handleLoadAuthSuccess = Observer<Void> {
+        LogManager.log("handleLoadAuthSuccess")
+        NavigationManager.shared.loggedInLaunchSequence(this)
+    }
+
+    private val handleLoadAuthFailure = Observer<String> { message ->
+        LogManager.log("handleLoadAuthFailure")
+        val model = AlertModel.create(title = "", message = message).apply {
+            setPrimaryButton(R.string.alert_primary_back) {
+                NavigationManager.shared.notLoggedInLaunchSequence(this@LoadingFragment)
+            }
+            setSecondaryButton(0)
+            setBackAction(AlertBackAction.PRIMARY)
+        }
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
     //endregion
