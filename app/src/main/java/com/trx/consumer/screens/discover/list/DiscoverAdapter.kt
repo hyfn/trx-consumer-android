@@ -79,11 +79,11 @@ class DiscoverAdapter(
                 if (workouts.isEmpty()) listOf(DiscoverEmptyListViewState.WORKOUTS) else workouts
             }
             DiscoverViewState.COLLECTIONS -> {
-                val videos = model.videos
+                val videos = model.collections
                 if (videos.isEmpty()) listOf(DiscoverEmptyListViewState.COLLECTIONS) else videos
             }
             DiscoverViewState.PROGRAMS -> {
-                val videos = model.videos
+                val videos = model.programs
                 if (videos.isEmpty()) listOf(DiscoverEmptyListViewState.PROGRAMS) else videos
             }
         }

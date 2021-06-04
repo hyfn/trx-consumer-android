@@ -21,7 +21,7 @@ class TrainerModel(
 ) : Parcelable {
 
     val firstNameAndLastInitial: String
-        get() = "$firstName ${lastName.first()}."
+        get() = "$firstName ${lastName.firstOrNull() ?: ""}."
 
     val fullName: String
         get() = "$firstName $lastName"
