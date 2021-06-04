@@ -18,6 +18,20 @@ android {
         viewBinding true
     }
 
+    configurations {
+        all*.exclude group: 'org.bouncycastle', module:'jetified-bcprov-jdk15to18-1.68'
+    }
+
+//    configurations.each {
+//        c -> c.resolutionStrategy.dependencySubstitution {
+//            all { DependencySubstitution dependency ->
+//                if (dependency.requested.group == 'org.bouncycastle') {
+//                    dependency.useTarget 'org.bouncycastle:bprov-jdk15to18:1.68'
+//                }
+//            }
+//        }
+//    }
+
     signingConfigs {
         signingConfigs {
             devRelease {
@@ -50,6 +64,19 @@ android {
             coreLibraryDesugaringEnabled true
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
+        }
+
+        packagingOptions {
+            exclude 'lib/linux_armv7/*'
+            exclude 'lib/linux_armv8/*'
+            exclude 'lib/linux_arm64/*'
+            exclude 'lib/linux_x64/*'
+            exclude 'lib/linux_x86/*'
+            exclude '**/libaudioprocessingfm.so'
+            exclude '**/libopenh264fm.so'
+            exclude '**/libopusfm.so'
+            exclude '**/libvpxfm.so'
+            exclude '**/libyuvfm.so'
         }
 
         kotlinOptions {
@@ -136,12 +163,29 @@ android {
                 srcDirs 'src/devDebug/assets'
             }
         }
+        main {
+            jniLibs {
+                srcDirs = [
+                        'src/main/jniLibs'
+                ]
+            }
+        }
     }
 }
 
 dependencies {
 
-    implementation fileTree(include: ['*.jar', '*.so'], dir: '../lib')
+    implementation files('../app/lib/fm.liveswitch.android.jar')
+    implementation files('../app/lib/fm.liveswitch.audioprocessing.jar')
+    implementation files('../app/lib/fm.liveswitch.openh264.jar')
+    implementation files('../app/lib/fm.liveswitch.opus.jar')
+    implementation files('../app/lib/fm.liveswitch.vpx.jar')
+    implementation files('../app/lib/fm.liveswitch.yuv.jar')
+    implementation files('../app/lib/fm.liveswitch.jar') {
+        exclude group: 'org.bouncycastle'
+    }
+
+//    implementation fileTree(include: ['*.jar'], dir: '../app/lib')
 
     // AndroidX
     implementation "androidx.activity:activity-ktx:$rootProject.activityKtxVersion"
@@ -182,7 +226,7 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
 
     // Stripe Android SDK
-    implementation "com.stripe:stripe-android:$rootProject.stripeVersion"
+    implementation ("com.stripe:stripe-android:$rootProject.stripeVersion")
 
     // Navigation graph
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navGraphVersion"
