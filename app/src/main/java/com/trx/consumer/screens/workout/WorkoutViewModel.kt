@@ -11,6 +11,7 @@ import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.params.PlayerParamsModel
 import com.trx.consumer.models.responses.BookingsResponseModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.BookingViewState
@@ -32,7 +33,7 @@ class WorkoutViewModel @ViewModelInject constructor(
     val eventTapBack = CommonLiveEvent<Void>()
     var eventTapBookLive = CommonLiveEvent<WorkoutModel>()
     var eventTapProfile = CommonLiveEvent<TrainerModel>()
-    var eventTapStartWorkout = CommonLiveEvent<WorkoutModel>()
+    var eventTapStartWorkout = CommonLiveEvent<PlayerParamsModel>()
 
     fun doTapBack() {
         eventTapBack.call()
@@ -79,11 +80,16 @@ class WorkoutViewModel @ViewModelInject constructor(
     }
 
     fun doTapPrimary() {
+        val playerParams = PlayerParamsModel(
+            video = model.video,
+            analyticsManager = analyticsManager,
+            workout = model
+        )
         when (model.workoutState) {
-            WorkoutViewState.VIDEO -> eventTapStartWorkout.postValue(model)
+            WorkoutViewState.VIDEO -> eventTapStartWorkout.postValue(playerParams)
             WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> {
                 if (model.bookViewStatus == BookingViewState.JOIN) {
-                    eventTapStartWorkout.postValue(model)
+                    eventTapStartWorkout.postValue(playerParams)
                 } else {
                     viewModelScope.launch {
                         cacheManager.user()?.card?.let {

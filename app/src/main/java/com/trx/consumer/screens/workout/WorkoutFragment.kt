@@ -14,6 +14,7 @@ import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.params.PlayerParamsModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.WorkoutViewState
 import com.trx.consumer.screens.player.PlayerActivity
@@ -97,17 +98,17 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
         }
     }
 
-    private val handleTapStartWorkout = Observer<WorkoutModel> { model ->
+    private val handleTapStartWorkout = Observer<PlayerParamsModel> { model ->
         LogManager.log("handleTapStartWorkout")
-        if (model.workoutState == WorkoutViewState.VIDEO) {
+        if (model.workout.workoutState == WorkoutViewState.VIDEO) {
             NavigationManager.shared.presentActivity(
                 requireActivity(),
                 PlayerActivity::class.java,
-                model.video
+                model
             )
         }
 
-        if (model.workoutState == WorkoutViewState.LIVE) {
+        if (model.workout.workoutState == WorkoutViewState.LIVE) {
             LogManager.log("handleTapStartWorkout | model.workoutState == WorkoutViewState.LIVE")
             // TODO: Should go to LivePlayer NavigationManager.shared.present(this, R.id.live_fragment)
         }
