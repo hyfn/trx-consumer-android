@@ -16,7 +16,6 @@ class PlanModel(
     var permissions: PlanPermissionModel = PlanPermissionModel(),
     var price: Double = 0.0,
     var creditsPerMonth: Int = 0,
-    var conflicts: List<PlanType> = listOf(),
     var subsToHideWhenSubscribed: List<PlanType> = listOf(),
     val userType: String = "",
     var valueProps: List<String> = listOf(),
@@ -32,31 +31,12 @@ class PlanModel(
 
     companion object {
 
-        fun parseBaseValues(jsonObject: JSONObject): PlanModel {
-            return PlanModel(
-                key = jsonObject.optString("key"),
-                userType = jsonObject.optString("userType"),
-                title = jsonObject.optString("name"),
-                trialDays = jsonObject.optInt("trialDays"),
-                price = jsonObject.optInt("priceInCents").toDouble(),
-                permissions = jsonObject.getJSONObject("permissions")
-                    .let { PlanPermissionModel.parse(it) },
-                conflicts = PlanType.typeListFromJSONArray(
-                    jsonObject.optJSONArray("subsThisOneConflictsWith")
-                ),
-                valueProps = jsonObject.optJSONArray("valueProps").map(),
-            )
-        }
-
-        fun parseCustomValues(jsonObject: JSONObject): PlanModel {
+        fun parse(jsonObject: JSONObject): PlanModel {
             return PlanModel(
                 key = jsonObject.optString("key", jsonObject.optString("name")),
                 title = jsonObject.optString("name"),
                 price = jsonObject.optInt("priceInCents").toDouble(),
                 creditsPerMonth = jsonObject.optInt("smallGroupLiveClassCreditsPerMonth"),
-                conflicts = PlanType.typeListFromJSONArray(
-                    jsonObject.optJSONArray("subsThisOneConflictsWith")
-                ),
                 subsToHideWhenSubscribed = PlanType.typeListFromJSONArray(
                     jsonObject.optJSONArray("subsToHideWhenSubscribed")
                 ),

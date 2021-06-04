@@ -12,12 +12,12 @@ class PlansModel(
 
         fun parse(jsonObject: JSONObject): PlansModel {
             val free = jsonObject.getJSONArray("baseValues").map { base ->
-                PlanModel.parseBaseValues(base)
+                PlanModel.parse(base)
             }.find { it.title.equals(UserModel.kPlanNamePay, true) } ?: PlanModel()
 
             val plans = jsonObject.getJSONObject("customValues").let { customValues ->
                 customValues.keys().asSequence().toList().map {
-                    PlanModel.parseCustomValues(
+                    PlanModel.parse(
                         customValues.getJSONObject(it)
                     )
                 }
