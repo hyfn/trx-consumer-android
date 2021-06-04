@@ -97,7 +97,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblTrainerTagLine"
-                tools:itemCount="3" />
+                tools:itemCount="3"
+                tools:listitem="@layout/row_banner_table"/>
 
             <com.trx.consumer.common.CommonLabel
                 android:id="@+id/lblAboutMe"
