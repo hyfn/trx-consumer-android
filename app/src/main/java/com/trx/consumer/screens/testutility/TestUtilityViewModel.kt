@@ -4,7 +4,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.VideoModel
@@ -17,8 +16,7 @@ import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewListener
 import kotlinx.coroutines.launch
 
 class TestUtilityViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager,
-    private val analyticsManager: AnalyticsManager
+    private val backendManager: BackendManager
 ) : BaseViewModel(),
     LiveWorkoutViewListener,
     VirtualWorkoutViewListener,
@@ -34,7 +32,7 @@ class TestUtilityViewModel @ViewModelInject constructor(
     val eventTapContent = CommonLiveEvent<Void>()
     val eventTapPlans = CommonLiveEvent<Void>()
     val eventTapFilter = CommonLiveEvent<Void>()
-    val eventTapPlayer = CommonLiveEvent<AnalyticsManager>()
+    val eventTapPlayer = CommonLiveEvent<Void>()
     val eventTapDiscover = CommonLiveEvent<Void>()
     val eventTapAlert = CommonLiveEvent<Void>()
     val eventTapWelcome = CommonLiveEvent<Void>()
@@ -109,7 +107,7 @@ class TestUtilityViewModel @ViewModelInject constructor(
     }
 
     fun doTapPlayer() {
-        eventTapPlayer.postValue(analyticsManager)
+        eventTapPlayer.call()
     }
 
     fun doTapDiscover() {
