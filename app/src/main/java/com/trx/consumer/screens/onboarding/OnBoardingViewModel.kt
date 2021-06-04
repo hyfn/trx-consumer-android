@@ -11,7 +11,7 @@ class OnBoardingViewModel @ViewModelInject constructor(
     private val cacheManager: CacheManager
 ) : BaseViewModel() {
 
-    var state: OnBoardingViewState = OnBoardingViewState.VIRTUAL
+    var state: OnBoardingViewState = OnBoardingViewState.DEMAND
 
     val eventLoadView = CommonLiveEvent<OnBoardingViewState>()
     val eventTapClose = CommonLiveEvent<Void>()
