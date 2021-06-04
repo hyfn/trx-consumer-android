@@ -20,6 +20,12 @@ class TrainerModel(
     var lastName: String = ""
 ) : Parcelable {
 
+    val contentModel: ContentModel
+        get() = ContentModel().apply {
+            title = "About $firstName"
+            body = bio
+        }
+
     val firstNameAndLastInitial: String
         get() = "$firstName ${lastName.first()}."
 
@@ -28,6 +34,12 @@ class TrainerModel(
 
     val displayName: String
         get() = "with $firstName ${lastName.first()}."
+
+    val lstBadgeUrls: List<String>
+        get() = mutableListOf<String>().apply {
+            addAll(trainerCertifications)
+            add(trainerCoachingStyle)
+        }
 
     companion object {
 
@@ -49,8 +61,9 @@ class TrainerModel(
 
         fun test(): TrainerModel {
             return TrainerModel(
-                firstName = "Jaime",
-                lastName = "Meneses",
+                firstName = "Stephanie",
+                lastName = "Warwick",
+                key = "26d11c170e194efc9e31da65f006e7bc",
                 bio = "This session will teach you how to push your limits and weight lift using the TRX Bands. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 profilePhoto = "https://virtual-training-assets-production.s3.us-west-2.amazonaws.com/uploads/trainer_profiles/0872893d8f6d4074a9f31ecd9478fb9a/STEPHANIE_HS2.png"
             )

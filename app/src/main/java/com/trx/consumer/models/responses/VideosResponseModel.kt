@@ -11,7 +11,7 @@ class VideosResponseModel(
     val collections: List<VideosModel> = listOf(),
     val programs: List<VideosModel> = listOf(),
     val filters: List<FilterModel> = listOf(),
-    val results: List<VideoModel> = listOf() // Used when filtering
+    val results: List<VideoModel> = listOf()
 ) {
 
     companion object {
@@ -43,5 +43,9 @@ class VideosResponseModel(
 
             return VideosResponseModel(workouts, collections, programs, filters, results)
         }
+    }
+
+    fun lstWorkoutsForTrainerProfileId(id: String): List<VideoModel> {
+        return workouts.filter { it.trainer.virtualTrainerProfileId == id }
     }
 }
