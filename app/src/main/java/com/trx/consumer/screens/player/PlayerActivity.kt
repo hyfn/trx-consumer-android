@@ -63,7 +63,7 @@ class PlayerActivity : BrightcovePlayer() {
         }
 
         analyticsManager.trackPageView(
-            this.javaClass.simpleName.replace("Activity", "")
+            javaClass.simpleName.replace("Activity", "")
         )
 
         viewBinding = ViewBinding(
