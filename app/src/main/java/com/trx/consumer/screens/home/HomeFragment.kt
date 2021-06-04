@@ -144,10 +144,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private fun loadPromos(promos: List<PromoModel>) {
-        if (promos.isNotEmpty()) promoAdapter.update(promos)
-        viewBinding.apply {
-            viewPromos.viewMain.isInvisible = promos.isEmpty()
-            viewPromos.lblTitle.text = getString(R.string.promos_top_title_label)
+        promos.isEmpty().let { isEmpty ->
+            if (!isEmpty) promoAdapter.update(promos)
+            viewBinding.apply {
+                viewPromos.viewMain.isInvisible = isEmpty
+                viewPromos.lblTitle.text = getString(R.string.promos_top_title_label)
+            }
         }
     }
 
