@@ -77,7 +77,7 @@
     <string name="home_banner_description_label">Try TRX Training Club and experience LIVE Classes and get matched with a Virtual Personal Trainer for free.</string>
     <string name="home_banner_btn_label">LEARN MORE</string>
     <string name="home_banner_title_label">More Ways to Train</string>
-    <string name="home_banner_section_title_label">TRY TRX TRAINING CLUB</string>
+    <string name="home_banner_section_title_label">TRX TRAINING CLUB</string>
 
     <string name="inputview_placeholder_birthday">Birthday</string>
     <string name="inputview_placeholder_card_number">Credit Card Number</string>
@@ -272,7 +272,7 @@
     <string name="workout_cell_button_booked_title">BOOKED</string>
     <string name="workout_cell_button_match_title">MATCH ME</string>
 
-    <string name="onboarding_virtual_title">TRX virtual Training, coming soon</string>
+    <string name="onboarding_virtual_title">TRX virtual Training</string>
     <string name="onboarding_virtual_description">World-class Trainers. Anytime. Anywhere</string>
     <string name="onboarding_virtual_list_text_one">Expert help and personalized support from hundreds of top-rated trainers</string>
     <string name="onboarding_virtual_list_text_two">Stay accountable with a fully customized plan built for you</string>
