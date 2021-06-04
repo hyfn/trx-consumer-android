@@ -4,6 +4,7 @@ import com.trx.consumer.BuildConfig.kBaseUrl
 
 enum class EndpointModel {
 
+    AUTH,
     BANNER,
     BOOK_CANCEL,
     BOOKINGS,
@@ -73,6 +74,7 @@ enum class EndpointModel {
     val isAuthenticated: Boolean
         get() {
             return when (this) {
+                AUTH,
                 BOOK_CANCEL,
                 BOOKINGS,
                 BOOK_PROGRAM_CONFIRM,
@@ -104,7 +106,7 @@ enum class EndpointModel {
                 BOOK_SESSION_CONFIRM -> prefix + "bookings/session/confirm"
                 BOOK_SESSION_INTENT -> prefix + "bookings/session"
                 FORGOT -> prefix + "auth/forgot-password"
-                LOGIN, LOGOUT, REGISTER -> prefix + "auth"
+                AUTH, LOGIN, LOGOUT, REGISTER -> prefix + "auth"
                 PAYMENT_ADD, PAYMENT_DELETE -> prefix + "stripe/payment-method"
                 PLAN_ADD, PLAN_DELETE, PLANS -> prefix + "subscriptions"
                 PROGRAM_AVAILABILITY -> prefix + "programs"

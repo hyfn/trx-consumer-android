@@ -140,14 +140,47 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         val response = call(
             RequestModel(endpoint = EndpointModel.LOGIN, path = path, params = params)
         )
+        return handleAuthResponse(response)
+    }
+
+    suspend fun register(params: HashMap<String, Any>): ResponseModel {
+        val path = EndpointModel.REGISTER.path
+        val response = call(
+            RequestModel(endpoint = EndpointModel.REGISTER, path = path, params = params)
+        )
+        return handleAuthResponse(response)
+    }
+
+    suspend fun auth(): ResponseModel {
+        val path = EndpointModel.AUTH.path
+        val response = call(RequestModel(endpoint = EndpointModel.AUTH, path = path, params = null))
+        return handleAuthResponse(response)
+    }
+
+    private suspend fun handleAuthResponse(response: ResponseModel): ResponseModel {
         if (!response.isSuccess) return response
-        try {
+        return try {
             val model = UserResponseModel.parse(response.responseString)
             cacheManager.accessToken(model.jwt)
+            user()
         } catch (e: Exception) {
             LogManager.log(e)
+            return ResponseModel(isSuccess = false, errorMessage = ResponseModel.parseErrorMessage)
         }
-        return user()
+    }
+
+    suspend fun user(): ResponseModel {
+        val path = EndpointModel.USER.path
+        val response = call(RequestModel(endpoint = EndpointModel.USER, path = path, params = null))
+        if (response.isSuccess) {
+            val user = UserResponseModel.parse(response.responseString).user
+            cacheManager.user()?.let { cachedUser ->
+                user.iap = cachedUser.iap
+            }
+            cacheManager.user(user)
+            IAPManager.shared.identify(user.uid)
+        }
+        return response
     }
 
     suspend fun plans(): ResponseModel {
@@ -180,21 +213,6 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return call(RequestModel(endpoint = EndpointModel.PURCHASES, path = path, params = null))
     }
 
-    suspend fun register(params: HashMap<String, Any>): ResponseModel {
-        val path = EndpointModel.REGISTER.path
-        val response = call(
-            RequestModel(endpoint = EndpointModel.REGISTER, path = path, params = params)
-        )
-        if (!response.isSuccess) return response
-        try {
-            val model = UserResponseModel.parse(response.responseString)
-            cacheManager.accessToken(model.jwt)
-        } catch (e: Exception) {
-            LogManager.log(e)
-        }
-        return user()
-    }
-
     suspend fun planAdd(id: String, country: String = "US"): ResponseModel {
         val path = EndpointModel.PLAN_ADD.path
         val params = hashMapOf<String, Any>(
@@ -219,20 +237,6 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
                 params = null
             )
         )
-    }
-
-    suspend fun user(): ResponseModel {
-        val path = EndpointModel.USER.path
-        val response = call(RequestModel(endpoint = EndpointModel.USER, path = path, params = null))
-        if (response.isSuccess) {
-            val user = UserResponseModel.parse(response.responseString).user
-            cacheManager.user()?.let { cachedUser ->
-                user.iap = cachedUser.iap
-            }
-            cacheManager.user(user)
-            IAPManager.shared.identify(user.uid)
-        }
-        return response
     }
 
     suspend fun logout(): ResponseModel {
