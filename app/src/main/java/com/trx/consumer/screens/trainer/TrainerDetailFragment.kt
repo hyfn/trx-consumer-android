@@ -201,22 +201,13 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
     private fun loadOndemand(workouts: List<VideoModel>) {
         val hide = workouts.isEmpty()
         onDemandClassesAdapter.update(workouts)
-        viewBinding.apply {
-            lblOndemand.isHidden = hide
-            btnOndemandSeeAll.isHidden = hide
-            rvOnDemandClasses.isHidden = hide
-            viewLineBottomOndemand.isHidden = hide
-        }
+        viewBinding.viewOndemand.isHidden = hide
     }
 
     private fun loadPhotos(photos: List<String>) {
         val hide = photos.isEmpty()
         photoAdapter.update(photos)
-        viewBinding.apply {
-            rvPhotos.isHidden = hide
-            lblPhotos.isHidden = hide
-            viewLineBottomPhotos.isHidden = hide
-        }
+        viewBinding.viewPhotos.isHidden = hide
     }
 
     private fun loadTrainer(model: TrainerModel) {
@@ -229,6 +220,7 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
                     .upperCased()
             }
         }
+
         loadAboutme(model.bio)
     }
 
@@ -247,30 +239,19 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
                     )
                 } else aboutMe
             }
-            lblAboutMe.isHidden = hide
-            lblAboutmeDetails.isHidden = hide
-            viewLineBottomAboutme.isHidden = hide
+            viewAboutMe.isHidden = hide
         }
     }
 
     private fun loadServices(services: List<TrainerProgramModel>) {
         val hide = services.isEmpty()
-        viewBinding.apply {
-            lblServices.isHidden = hide
-            rvServices.isHidden = hide
-            viewLineBottomServices.isHidden = hide
-        }
+        viewBinding.viewService.isHidden = hide
         serviceAdapter.update(services)
     }
 
     private fun loadWorkoutsUpcoming(workouts: List<WorkoutModel>) {
         val hide = workouts.isEmpty()
-        viewBinding.apply {
-            rvUpcomingClasses.isHidden = hide
-            viewLineBottomUpcoming.isHidden = hide
-            btnViewSchedule.isHidden = hide
-            lblUpcoming.isHidden = hide
-        }
+        viewBinding.viewUpcoming.isHidden = hide
         upComingClassesAdapter.update(workouts)
     }
 }

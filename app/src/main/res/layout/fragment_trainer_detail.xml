@@ -98,230 +98,281 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblTrainerTagLine"
                 tools:itemCount="3"
-                tools:listitem="@layout/row_banner_table"/>
+                tools:listitem="@layout/row_banner_table" />
 
-            <com.trx.consumer.common.CommonLabel
-                android:id="@+id/lblAboutMe"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/atcarquette_bold"
-                android:gravity="center_vertical"
-                android:text="@string/trainer_about_me_label"
-                android:textAllCaps="true"
-                android:textColor="@color/grey"
-                android:textSize="11sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rvBanner" />
-
-            <com.trx.consumer.common.CommonLabel
-                android:id="@+id/lblAboutmeDetails"
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewAboutMe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="15dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/atcarquette_regular"
-                android:lineSpacingExtra="5dp"
-                android:maxHeight="105dp"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@+id/lblAboutMe"
-                tools:layout_editor_absoluteX="14dp" />
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/rvBanner"
+                tools:visibility="visible">
 
-            <View
-                android:id="@+id/viewLineBottomAboutme"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/greyLight"
-                app:layout_constraintTop_toBottomOf="@+id/lblAboutmeDetails" />
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblAboutMe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/trainer_about_me_label"
+                    android:textAllCaps="true"
+                    android:textColor="@color/grey"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <com.trx.consumer.common.CommonLabel
-                android:id="@+id/lblUpcoming"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/atcarquette_bold"
-                android:gravity="center_vertical"
-                android:text="@string/trainer_upcoming_classes_label"
-                android:textAllCaps="true"
-                android:textColor="@color/grey"
-                android:textSize="11sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewLineBottomAboutme" />
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblAboutmeDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/atcarquette_regular"
+                    android:lineSpacingExtra="5dp"
+                    android:maxHeight="105dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/lblAboutMe"
+                    tools:layout_editor_absoluteX="14dp" />
 
-            <com.trx.consumer.common.CommonButton
-                android:id="@+id/btnViewSchedule"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:fontFamily="@font/atcarquette_bold"
-                android:gravity="center_vertical"
-                android:text="@string/trainer_button_view_schedule"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewLineBottomAboutme" />
+                <View
+                    android:id="@+id/viewLineBottomAboutme"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/greyLight"
+                    app:layout_constraintTop_toBottomOf="@+id/lblAboutmeDetails" />
 
-            <com.trx.consumer.common.CommonRecyclerView
-                android:id="@+id/rvUpcomingClasses"
+            </com.trx.consumer.common.CommonView>
+
+
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewUpcoming"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/lblUpcoming"
-                tools:listitem="@layout/row_live_workout_collection" />
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/viewAboutMe"
+                tools:visibility="visible">
 
-            <View
-                android:id="@+id/viewLineBottomUpcoming"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/greyLight"
-                app:layout_constraintTop_toBottomOf="@+id/rvUpcomingClasses" />
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblUpcoming"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/trainer_upcoming_classes_label"
+                    android:textAllCaps="true"
+                    android:textColor="@color/grey"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <com.trx.consumer.common.CommonLabel
-                android:id="@+id/lblServices"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/atcarquette_bold"
-                android:gravity="center_vertical"
-                android:text="@string/trainer_services_label"
-                android:textAllCaps="true"
-                android:textColor="@color/grey"
-                android:textSize="11sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewLineBottomUpcoming" />
+                <com.trx.consumer.common.CommonButton
+                    android:id="@+id/btnViewSchedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/trainer_button_view_schedule"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/viewLineBottomAboutme" />
 
-            <com.trx.consumer.common.CommonRecyclerView
-                android:id="@+id/rvServices"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/lblServices"
-                tools:itemCount="2"
-                tools:listitem="@layout/row_trainer_service" />
+                <com.trx.consumer.common.CommonRecyclerView
+                    android:id="@+id/rvUpcomingClasses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/lblUpcoming"
+                    tools:listitem="@layout/row_live_workout_collection" />
 
-            <View
-                android:id="@+id/viewLineBottomServices"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/greyLight"
-                app:layout_constraintTop_toBottomOf="@+id/rvServices" />
+                <View
+                    android:id="@+id/viewLineBottomUpcoming"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/greyLight"
+                    app:layout_constraintTop_toBottomOf="@+id/rvUpcomingClasses" />
 
-            <com.trx.consumer.common.CommonLabel
-                android:id="@+id/lblPhotos"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/atcarquette_bold"
-                android:gravity="center_vertical"
-                android:text="@string/trainer_photo_label"
-                android:textAllCaps="true"
-                android:textColor="@color/grey"
-                android:textSize="11sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewLineBottomServices" />
+            </com.trx.consumer.common.CommonView>
 
-            <com.trx.consumer.common.CommonRecyclerView
-                android:id="@+id/rvPhotos"
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewService"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/lblPhotos"
-                tools:itemCount="2"
-                tools:listitem="@layout/row_trainer_on_demand_class" />
+                app:layout_constraintTop_toBottomOf="@+id/viewUpcoming"
+                android:visibility="gone"
+                tools:visibility="visible">
 
-            <View
-                android:id="@+id/viewLineBottomPhotos"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/greyLight"
-                app:layout_constraintTop_toBottomOf="@+id/rvPhotos" />
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblServices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/trainer_services_label"
+                    android:textAllCaps="true"
+                    android:textColor="@color/grey"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <com.trx.consumer.common.CommonLabel
-                android:id="@+id/lblOndemand"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="15dp"
-                android:gravity="center_vertical"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/atcarquette_bold"
-                android:text="@string/trainer_on_demand_classes_label"
-                android:textAllCaps="true"
-                android:textColor="@color/grey"
-                android:textSize="11sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewLineBottomPhotos" />
+                <com.trx.consumer.common.CommonRecyclerView
+                    android:id="@+id/rvServices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/lblServices"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/row_trainer_service" />
 
-            <com.trx.consumer.common.CommonButton
-                android:id="@+id/btnOndemandSeeAll"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginEnd="15dp"
-                android:gravity="center_vertical"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/atcarquette_bold"
-                android:text="@string/trainer_button_see_all"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewLineBottomPhotos" />
+                <View
+                    android:id="@+id/viewLineBottomServices"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/greyLight"
+                    app:layout_constraintTop_toBottomOf="@+id/rvServices" />
 
-            <com.trx.consumer.common.CommonRecyclerView
-                android:id="@+id/rvOnDemandClasses"
+            </com.trx.consumer.common.CommonView>
+
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewPhotos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/lblOndemand"
-                tools:itemCount="2"
-                tools:listitem="@layout/row_trainer_on_demand_class" />
+                app:layout_constraintTop_toBottomOf="@+id/viewService"
+                android:visibility="gone"
+                tools:visibility="visible">
 
-            <View
-                android:id="@+id/viewLineBottomOndemand"
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblPhotos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/trainer_photo_label"
+                    android:textAllCaps="true"
+                    android:textColor="@color/grey"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.trx.consumer.common.CommonRecyclerView
+                    android:id="@+id/rvPhotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/lblPhotos"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/row_trainer_on_demand_class" />
+
+                <View
+                    android:id="@+id/viewLineBottomPhotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/greyLight"
+                    app:layout_constraintTop_toBottomOf="@+id/rvPhotos" />
+
+            </com.trx.consumer.common.CommonView>
+
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewOndemand"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/greyLight"
-                app:layout_constraintTop_toBottomOf="@+id/rvOnDemandClasses" />
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/viewPhotos"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblOndemand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/trainer_on_demand_classes_label"
+                    android:textAllCaps="true"
+                    android:textColor="@color/grey"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.trx.consumer.common.CommonButton
+                    android:id="@+id/btnOndemandSeeAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/trainer_button_see_all"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/viewLineBottomPhotos" />
+
+                <com.trx.consumer.common.CommonRecyclerView
+                    android:id="@+id/rvOnDemandClasses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/lblOndemand"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/row_trainer_on_demand_class" />
+
+                <View
+                    android:id="@+id/viewLineBottomOndemand"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/greyLight"
+                    app:layout_constraintTop_toBottomOf="@+id/rvOnDemandClasses" />
+
+            </com.trx.consumer.common.CommonView>
 
             <com.trx.consumer.common.CommonView
                 android:id="@+id/viewForyou"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                app:layout_constraintTop_toBottomOf="@+id/viewLineBottomOndemand">
+                app:layout_constraintTop_toBottomOf="@+id/viewOndemand">
 
                 <com.trx.consumer.common.CommonLabel
                     android:id="@+id/lblForyouTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginStart="15dp"
-                    android:gravity="center_vertical"
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="center_vertical"
                     android:text="@string/trainer_for_you_label"
                     android:textAllCaps="true"
                     android:textColor="@color/grey"
@@ -335,8 +386,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
                     android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
                     android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
                     app:layout_constraintTop_toBottomOf="@+id/lblForyouTitle" />
 
             </com.trx.consumer.common.CommonView>
