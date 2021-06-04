@@ -11,7 +11,6 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentLiveBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
-import com.trx.consumer.extensions.load
 import com.trx.consumer.extensions.margin
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
@@ -130,7 +129,7 @@ class LiveFragment : BaseFragment(R.layout.fragment_live) {
             viewLiveBanner.imgBanner.apply {
                 updateLayoutParams { height = ConstraintLayout.LayoutParams.MATCH_PARENT }
                 margin(top = 0F)
-                load(banner.modalImageUrl)
+                setImageResource(R.drawable.img_media_banner)
             }
 
             viewLiveBanner.lblTitle.text = banner.modalTitle
