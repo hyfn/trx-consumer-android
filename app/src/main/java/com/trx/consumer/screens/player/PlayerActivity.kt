@@ -27,6 +27,7 @@ import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.VideoModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -38,6 +39,10 @@ class PlayerActivity : BrightcovePlayer() {
     private var videoHeight = 0
 
     private var viewBinding: ViewBinding? = null
+    private var orientationJob: Job? = null
+
+    private val currentOrientation
+        get() = resources.configuration.orientation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_player)
@@ -75,8 +80,7 @@ class PlayerActivity : BrightcovePlayer() {
         loadView(video)
         loadPlayer(video.id)
 
-        val orientation = resources.configuration.orientation
-        handleRotation(orientation)
+        handleOrientation(currentOrientation)
     }
 
     private fun loadView(video: VideoModel) {
@@ -98,6 +102,9 @@ class PlayerActivity : BrightcovePlayer() {
                 override fun onVideo(video: Video) {
                     brightcoveVideoView.add(video)
                     brightcoveVideoView.start()
+                    if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+                        rotate(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+                    }
                 }
             }
         )
@@ -152,28 +159,30 @@ class PlayerActivity : BrightcovePlayer() {
     override fun onConfigurationChanged(configuration: Configuration) {
         super.onConfigurationChanged(configuration)
 
-        handleRotation(configuration.orientation)
+        handleOrientation(configuration.orientation)
     }
 
     private fun rotate(orientation: Int) {
         requestedOrientation = orientation
-        CoroutineScope(Dispatchers.IO).launch {
-            delay(timeMillis = 5000) // Give user time to rotate device
-            withContext(Dispatchers.Main) {
-                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
-            }
-        }
     }
 
-    private fun handleRotation(orientation: Int) {
+    private fun handleOrientation(orientation: Int) {
+        cancelOrientationJob()
         when (orientation) {
             Configuration.ORIENTATION_PORTRAIT -> {
                 normalScreen()
                 brightcoveVideoView.margin(top = 60f)
+                orientationJob = CoroutineScope(Dispatchers.IO).launch {
+                    delay(timeMillis = 3000) // Give user time to rotate device
+                    withContext(Dispatchers.Main) {
+                        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
+                    }
+                }
             }
             Configuration.ORIENTATION_LANDSCAPE -> {
                 fullScreen()
                 brightcoveVideoView.margin(top = 0f)
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
             }
         }
         resizeVideo()
@@ -190,11 +199,16 @@ class PlayerActivity : BrightcovePlayer() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private fun cancelOrientationJob() {
+        orientationJob?.apply { if (isActive) cancel() }
+    }
 
+    override fun onDestroy() {
+        cancelOrientationJob()
         viewBinding = null
         videoSizeKnown = false
+
+        super.onDestroy()
     }
 
     private class ViewBinding(
