@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewMain"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:backgroundColor="@color/white"
-    android:id="@+id/viewMain"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:minHeight="220dp"
+    app:backgroundColor="@color/white">
 
     <com.trx.consumer.common.CommonLabel
         android:id="@+id/lblTitle"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_marginTop="15dp"
         android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center_vertical"
-        android:text="@string/promos_top_title_label"
         android:textColor="@color/grey"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="parent"

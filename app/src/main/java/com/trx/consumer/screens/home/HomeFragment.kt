@@ -1,5 +1,6 @@
 package com.trx.consumer.screens.home
 
+import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -143,12 +144,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private fun loadPromos(promos: List<PromoModel>) {
-        val hide = promos.isEmpty()
-        promoAdapter.update(promos)
+        if (promos.isNotEmpty()) promoAdapter.update(promos)
         viewBinding.apply {
+            viewPromos.viewMain.isInvisible = promos.isEmpty()
             viewPromos.lblTitle.text = getString(R.string.promos_top_title_label)
-            viewPromos.viewMain.isHidden = promos.isEmpty()
-            viewPromos.viewMain.isHidden = hide
         }
     }
 
