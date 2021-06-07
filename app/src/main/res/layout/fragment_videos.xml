@@ -83,7 +83,6 @@
                     app:layout_goneMarginBottom="15dp"
                     tools:text="60 MIN" />
 
-
             </com.trx.consumer.common.CommonView>
 
             <com.trx.consumer.common.CommonView
@@ -143,6 +142,7 @@
                     android:layout_height="1dp"
                     android:background="@color/greyLight"
                     app:layout_constraintBottom_toBottomOf="parent" />
+
             </com.trx.consumer.common.CommonView>
 
             <com.trx.consumer.common.CommonLabel
@@ -166,37 +166,6 @@
                 android:background="@color/greyLight"
                 app:layout_constraintTop_toBottomOf="@+id/lblSummary" />
 
-            <com.trx.consumer.common.CommonButton
-                android:id="@+id/btnPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:fontFamily="@font/atcarquette_bold"
-                android:gravity="center"
-                android:text="@string/videos_btn_primary_label"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="13sp"
-                app:backgroundColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@+id/vLine2"
-                tools:text="START WORKOUT" />
-
-            <com.trx.consumer.common.CommonLabel
-                android:id="@+id/lblRelatedItems"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="15dp"
-                android:fontFamily="@font/atcarquette_medium"
-                android:text="@string/videos_related_label"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@+id/btnPrimary"
-                tools:text="Related Workouts" />
-
             <com.trx.consumer.common.CommonRecyclerView
                 android:id="@+id/rvRelatedVideos"
                 android:layout_width="match_parent"
@@ -206,13 +175,11 @@
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@+id/lblRelatedItems"
+                app:layout_constraintTop_toBottomOf="@id/vLine2"
                 tools:itemCount="5"
                 tools:listitem="@layout/row_video_workout_table" />
 
-
         </com.trx.consumer.common.CommonView>
-
 
     </androidx.core.widget.NestedScrollView>
 
