@@ -43,7 +43,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblTitle"
-        app:layout_goneMarginBottom="15dp"
         tools:text="$15 per Live Class\n$15 per Group Class" />
 
     <com.trx.consumer.common.CommonLabel

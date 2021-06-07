@@ -5,7 +5,6 @@ import com.trx.consumer.extensions.map
 import com.trx.consumer.extensions.toPrice
 import com.trx.consumer.screens.plans.list.PlansViewState
 import kotlinx.parcelize.Parcelize
-import org.json.JSONArray
 import org.json.JSONObject
 
 @Parcelize
@@ -16,7 +15,6 @@ class PlanModel(
     var permissions: PlanPermissionModel = PlanPermissionModel(),
     var price: Double = 0.0,
     var creditsPerMonth: Int = 0,
-    var subsToHideWhenSubscribed: List<PlanType> = listOf(),
     val userType: String = "",
     var valueProps: List<String> = listOf(),
     var primaryState: PlansViewState = PlansViewState.OTHER,
@@ -37,9 +35,6 @@ class PlanModel(
                 title = jsonObject.optString("name"),
                 price = jsonObject.optInt("priceInCents").toDouble(),
                 creditsPerMonth = jsonObject.optInt("smallGroupLiveClassCreditsPerMonth"),
-                subsToHideWhenSubscribed = PlanType.typeListFromJSONArray(
-                    jsonObject.optJSONArray("subsToHideWhenSubscribed")
-                ),
                 userType = jsonObject.optString("userType"),
                 permissions = jsonObject.getJSONObject("permissions")
                     .let { PlanPermissionModel.parse(it) },
@@ -70,27 +65,6 @@ class PlanModel(
                     add(test)
                 }
             }
-        }
-    }
-
-    enum class PlanType {
-        DICKS,
-        CORE,
-        UNLIMITED,
-        UNKNOWN;
-
-        companion object {
-            fun from(plan: String): PlanType {
-                return values().firstOrNull { it.name.equals(plan, ignoreCase = true) }
-                    ?: UNKNOWN
-            }
-
-            fun typeListFromJSONArray(jsonArray: JSONArray?): List<PlanType> =
-                jsonArray?.let { keyArray ->
-                    keyArray.map<String>().map { typeString ->
-                        from(typeString)
-                    }
-                } ?: listOf()
         }
     }
 }
