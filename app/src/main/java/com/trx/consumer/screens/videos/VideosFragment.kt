@@ -14,45 +14,44 @@ import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.screens.discover.list.DiscoverAdapter
-import com.trx.consumer.screens.player.PlayerActivity
 
 class VideosFragment : BaseFragment(R.layout.fragment_videos) {
+
+    //region Objects
 
     private val viewModel: VideosViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentVideosBinding::bind)
 
     private lateinit var adapter: DiscoverAdapter
 
+    //endregion
+
+    //region Initializers
+
     override fun bind() {
         val model = NavigationManager.shared.params(this) as VideosModel
-
-        viewModel.apply {
-            this.model = model
-
-            eventTapBack.observe(viewLifecycleOwner, handleTapBack)
-            eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-            eventTapVideo.observe(viewLifecycleOwner, handleTapVideo)
-            eventTapStartWorkout.observe(viewLifecycleOwner, handleTapStartWorkout)
-            eventTapProfile.observe(viewLifecycleOwner, handleTapProfile)
-
-            doLoadView()
-        }
 
         viewBinding.apply {
             adapter = DiscoverAdapter(viewModel) { lifecycleScope }
             rvRelatedVideos.adapter = adapter
-            btnPrimary.action { viewModel.doTapPrimary() }
             btnBack.action { viewModel.doTapBack() }
+        }
+
+        viewModel.apply {
+            this.model = model
+
+            eventLoadView.observe(viewLifecycleOwner, handleLoadView)
+            eventTapVideo.observe(viewLifecycleOwner, handleTapVideo)
+            eventTapBack.observe(viewLifecycleOwner, handleTapBack)
+            eventTapProfile.observe(viewLifecycleOwner, handleTapProfile)
+
+            doLoadView()
         }
     }
 
-    override fun onBackPressed() {
-        viewModel.doTapBack()
-    }
+    //endregion 
 
-    private val handleTapBack = Observer<Void> {
-        NavigationManager.shared.dismiss(this)
-    }
+    //region Handlers
 
     private val handleLoadView = Observer<VideosModel> { model ->
         viewBinding.apply {
@@ -70,15 +69,17 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
         NavigationManager.shared.present(this, R.id.workout_fragment, model)
     }
 
-    private val handleTapStartWorkout = Observer<VideoModel> { video ->
-        NavigationManager.shared.presentActivity(
-            requireActivity(),
-            PlayerActivity::class.java,
-            video
-        )
+    override fun onBackPressed() {
+        viewModel.doTapBack()
+    }
+
+    private val handleTapBack = Observer<Void> {
+        NavigationManager.shared.dismiss(this)
     }
 
     private val handleTapProfile = Observer<TrainerModel> { model ->
         NavigationManager.shared.present(this, R.id.trainer_fragment, model)
     }
+
+    //endregion
 }
