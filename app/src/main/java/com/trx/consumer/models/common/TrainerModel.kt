@@ -27,13 +27,13 @@ class TrainerModel(
         }
 
     val firstNameAndLastInitial: String
-        get() = "$firstName ${lastName.first()}."
+        get() = "$firstName ${lastName.firstOrNull() ?: ""}."
 
     val fullName: String
         get() = "$firstName $lastName"
 
     val displayName: String
-        get() = "with $firstName ${lastName.first()}."
+        get() = "with $firstName ${lastName.firstOrNull() ?: ""}."
 
     val lstBadgeUrls: List<String>
         get() = mutableListOf<String>().apply {

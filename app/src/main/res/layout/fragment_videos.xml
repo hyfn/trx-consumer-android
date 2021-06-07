@@ -208,7 +208,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/lblRelatedItems"
                 tools:itemCount="5"
-                tools:listitem="@layout/row_video_detail" />
+                tools:listitem="@layout/row_video_workout_table" />
 
 
         </com.trx.consumer.common.CommonView>
