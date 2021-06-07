@@ -1,6 +1,6 @@
 package com.trx.consumer.screens.home
 
-import androidx.core.view.isInvisible
+import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -138,7 +138,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         videosAdapter.update(workouts)
         viewBinding.apply {
             viewVideos.lblTitle.text = getString(R.string.home_on_demand_title_label)
-            imgLineOnDemand.isHidden = hide
             viewVideos.viewMain.isHidden = hide
         }
     }
@@ -147,7 +146,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         promos.isEmpty().let { isEmpty ->
             if (!isEmpty) promoAdapter.update(promos)
             viewBinding.apply {
-                viewPromos.viewMain.isInvisible = isEmpty
+                imgLineOnDemand.isHidden = isEmpty
+                viewPromos.viewMain.isGone = isEmpty
                 viewPromos.lblTitle.text = getString(R.string.promos_top_title_label)
             }
         }

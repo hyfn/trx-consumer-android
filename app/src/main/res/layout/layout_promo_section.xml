@@ -5,7 +5,6 @@
     android:id="@+id/viewMain"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="220dp"
     app:backgroundColor="@color/white">
 
     <com.trx.consumer.common.CommonLabel
