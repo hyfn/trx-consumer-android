@@ -6,7 +6,8 @@ class DiscoverModel(
     var state: DiscoverViewState = DiscoverViewState.WORKOUTS,
     var workouts: List<VideoModel> = emptyList(),
     var collections: List<VideosModel> = emptyList(),
-    var programs: List<VideosModel> = emptyList()
+    var programs: List<VideosModel> = emptyList(),
+    var filters: List<FilterModel> = listOf()
 ) {
 
     companion object {

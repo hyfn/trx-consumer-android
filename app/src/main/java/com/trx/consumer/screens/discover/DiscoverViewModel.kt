@@ -24,7 +24,6 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     val model = DiscoverModel.skeleton()
     var params: FilterParamsModel = FilterParamsModel()
-    var filters: List<FilterModel> = listOf()
     // endregion
 
     //region Events
@@ -42,7 +41,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     //region Actions
     fun doLoadView() {
         eventLoadView.postValue(model)
-        filters = params.lstFilters
+        model.filters = params.lstFilters
         loadFilters()
         val paramsToSend = params.params
         val hasSelectedFilters = paramsToSend.keys.any()
@@ -55,14 +54,14 @@ class DiscoverViewModel @ViewModelInject constructor(
                 if (!hasSelectedFilters) model.workouts = responseModel.workouts
                 model.collections = responseModel.collections
                 model.programs = responseModel.programs
-                if (filters.isEmpty()) {
-                    filters = responseModel.filters.filter {
+                if (model.filters.isEmpty()) {
+                    model.filters = responseModel.filters.filter {
                         it.identifier.isNotEmpty() && it.values.isNotEmpty()
                     }
                     loadFilters()
                 }
             }
-            params.lstFilters = filters
+            params.lstFilters = model.filters
             eventLoadView.postValue(model)
         }
     }
@@ -97,7 +96,7 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     private fun loadFilters() {
         val filters = if (model.state == DiscoverViewState.WORKOUTS) {
-            filters
+            model.filters
         } else {
             val resetFilters = params.copyModel().lstFilters
             resetFilters.onEach { it.values.forEach { model -> model.isSelected = false } }
