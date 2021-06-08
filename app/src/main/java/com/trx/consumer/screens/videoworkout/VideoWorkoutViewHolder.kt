@@ -26,7 +26,7 @@ class VideoWorkoutViewHolder(view: View) : CommonViewHolder(view) {
             lblTitle.applySkeleton(isSkeleton, name)
             lblSubtitle.applySkeleton(isSkeleton, "with ${trainer.displayName}")
             imgBg.applySkeleton(isSkeleton, color = R.color.black, urlString = poster)
-            btnSelect.action { listener.doTapVideo(item) }
+            if (!isSkeleton) btnSelect.action { listener.doTapVideo(item) }
         }
     }
 
@@ -37,7 +37,7 @@ class VideoWorkoutViewHolder(view: View) : CommonViewHolder(view) {
             lblTitle.applySkeleton(isSkeleton, title)
             lblSubtitle.applySkeleton(isSkeleton, "with ${trainer.displayName}")
             imgBg.applySkeleton(isSkeleton, color = R.color.black, urlString = poster)
-            btnSelect.action { listener.doTapVideos(item) }
+            if (!isSkeleton) btnSelect.action { listener.doTapVideos(item) }
         }
     }
 
