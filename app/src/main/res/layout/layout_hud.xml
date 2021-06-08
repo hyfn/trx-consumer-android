@@ -8,22 +8,10 @@
     android:visibility="gone">
 
     <com.trx.consumer.common.CommonImageView
+        android:id="@+id/imgBg"
         style="@style/MatchParentDimensionsViewStyle"
         android:alpha="0.05"
         android:background="@color/black" />
-
-    <com.trx.consumer.common.CommonView
-        style="@style/MatchParentEdgesViewStyle"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        app:cornerRadius="15dp">
-
-        <com.trx.consumer.common.CommonImageView
-            style="@style/MatchParentEdgesViewStyle"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:alpha="0.5"
-            android:background="@color/white" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationView"
@@ -35,7 +23,5 @@
             app:lottie_rawRes="@raw/loading_animation"
             app:lottie_repeatMode="restart"
             app:lottie_speed="1.0" />
-
-    </com.trx.consumer.common.CommonView>
 
 </com.trx.consumer.common.CommonView>

@@ -118,7 +118,7 @@
             android:id="@+id/rvFilters"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -147,13 +147,6 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewFilter"
-        tools:listitem="@layout/row_video_detail" />
-
-    <com.trx.consumer.common.CommonHudView
-        android:id="@+id/hudView"
-        style="@style/MatchParentEdgesViewStyle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible" />
+        tools:listitem="@layout/row_video_workout_table" />
 
 </com.trx.consumer.common.CommonView>
