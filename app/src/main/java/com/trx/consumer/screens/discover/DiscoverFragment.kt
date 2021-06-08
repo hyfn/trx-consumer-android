@@ -25,7 +25,7 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     private val viewBinding by viewBinding(FragmentDiscoverBinding::bind)
 
     private lateinit var adapter: DiscoverAdapter
-    private lateinit var discoverAdapter: DiscoverFilterAdapter
+    private lateinit var filterAdapter: DiscoverFilterAdapter
 
     //endregion
 
@@ -37,26 +37,23 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
 
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
-            eventLoadWorkouts.observe(viewLifecycleOwner, handleLoadWorkouts)
-            eventLoadCollections.observe(viewLifecycleOwner, handleLoadCollections)
-            eventLoadPrograms.observe(viewLifecycleOwner, handleLoadPrograms)
+            eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventTapVideo.observe(viewLifecycleOwner, handleTapVideo)
             eventTapVideos.observe(viewLifecycleOwner, handleTapVideos)
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadFilters.observe(viewLifecycleOwner, handleLoadFilters)
-            eventShowHud.observe(viewLifecycleOwner, handleShowHud)
             eventTapDiscoverFilter.observe(viewLifecycleOwner, handlerTapDiscoverFilter)
         }
 
         viewBinding.apply {
             adapter = DiscoverAdapter(viewModel) { lifecycleScope }
-            discoverAdapter = DiscoverFilterAdapter(viewModel) { lifecycleScope }
+            filterAdapter = DiscoverFilterAdapter(viewModel) { lifecycleScope }
             rvVideo.adapter = adapter
-            rvFilters.adapter = discoverAdapter
+            rvFilters.adapter = filterAdapter
 
-            btnWorkouts.action { viewModel.doLoadWorkouts() }
-            btnCollections.action { viewModel.doLoadCollections() }
-            btnPrograms.action { viewModel.doLoadPrograms() }
+            btnWorkouts.action { viewModel.doTapWorkouts() }
+            btnCollections.action { viewModel.doTapCollections() }
+            btnPrograms.action { viewModel.doTapPrograms() }
             btnFilter.action { viewModel.doTapFilter() }
         }
 
@@ -70,12 +67,13 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         viewModel.doTapBack()
     }
 
-    private val handleTapBack = Observer<Void> {
-        NavigationManager.shared.dismiss(this)
+    private val handleLoadView = Observer<DiscoverModel> { model ->
+        loadTabs(model.state)
+        adapter.update(model)
     }
 
-    private val handleShowHud = Observer<Boolean> { show ->
-        viewBinding.hudView.isVisible = show
+    private val handleTapBack = Observer<Void> {
+        NavigationManager.shared.dismiss(this)
     }
 
     private val handleTapVideo = Observer<VideoModel> {
@@ -86,50 +84,22 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         NavigationManager.shared.present(this, R.id.videos_fragment, it)
     }
 
-    private val handleLoadWorkouts = Observer<List<VideoModel>> { workouts ->
-        loadWorkouts(workouts)
-    }
-
-    private val handleLoadCollections = Observer<List<VideosModel>> { collections ->
-        loadCollections(collections)
-    }
-
-    private val handleLoadPrograms = Observer<List<VideosModel>> { programs ->
-        loadPrograms(programs)
-    }
-
     private val handleLoadFilters = Observer<List<FilterModel>> { list ->
-        discoverAdapter.update(list)
+        setFilterEnabled(list.isNotEmpty())
+        filterAdapter.update(list)
     }
 
     private val handlerTapDiscoverFilter = Observer<FilterParamsModel> { params ->
-        NavigationManager.shared.present(this, R.id.filter_fragment, params.copyModel())
+        NavigationManager.shared.present(this, R.id.filter_fragment, params)
     }
 
     private val handleTapFilter = Observer<FilterParamsModel> { params ->
-        NavigationManager.shared.present(this, R.id.filter_fragment, params.copyModel())
+        NavigationManager.shared.present(this, R.id.filter_fragment, params)
     }
 
     //endregion
 
     //region Helper Functions
-    private fun loadWorkouts(workouts: List<VideoModel>) {
-        val state = DiscoverViewState.WORKOUTS
-        loadTabs(state)
-        adapter.update(DiscoverModel(state = state, workouts = workouts))
-    }
-
-    private fun loadCollections(videos: List<VideosModel>) {
-        val state = DiscoverViewState.COLLECTIONS
-        loadTabs(state)
-        adapter.update(DiscoverModel(state = state, videos = videos))
-    }
-
-    private fun loadPrograms(videos: List<VideosModel>) {
-        val state = DiscoverViewState.PROGRAMS
-        loadTabs(state)
-        adapter.update(DiscoverModel(state = state, videos = videos))
-    }
 
     private fun loadTabs(newState: DiscoverViewState) {
         viewBinding.apply {
@@ -161,9 +131,11 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
     }
 
     private fun setFilterEnabled(enabled: Boolean) {
-        viewBinding.viewFilter.alpha = if (enabled) 1f else 0.3f
-        viewBinding.btnFilter.isEnabled = enabled
-        viewBinding.rvFilters.isUserInteractionEnabled = enabled
+        viewBinding.apply {
+            viewFilter.alpha = if (enabled) 1f else 0.3f
+            btnFilter.isEnabled = enabled
+            rvFilters.isUserInteractionEnabled = enabled
+        }
     }
 
     //endregion

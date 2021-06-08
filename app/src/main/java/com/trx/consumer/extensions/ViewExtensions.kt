@@ -7,9 +7,7 @@ import androidx.annotation.ColorRes
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.trx.consumer.R
 import com.trx.consumer.common.CommonActionListener
-import com.trx.consumer.common.CommonButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
@@ -56,11 +54,4 @@ inline fun View.action(timeIntervalMillis: Long = 500, crossinline action: (view
 
 inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(block: T.() -> Unit) {
     updateLayoutParams(block)
-}
-
-fun CommonButton.setPrimaryEnabled(isEnabled: Boolean) {
-    if (isEnabled != this.isEnabled) {
-        bgColor(if (isEnabled) R.color.black else R.color.greyDark)
-        setEnabled(isEnabled)
-    }
 }

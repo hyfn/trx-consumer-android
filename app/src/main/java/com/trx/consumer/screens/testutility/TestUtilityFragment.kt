@@ -14,6 +14,7 @@ import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.PromoModel
+import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.ContentParamsModel
@@ -172,7 +173,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapTrainer = Observer<Void> {
-        NavigationManager.shared.present(this, R.id.trainer_fragment)
+        NavigationManager.shared.present(this, R.id.trainer_fragment, TrainerModel.test())
     }
 
     private val handleTapBookingAlert = Observer<Void> {
