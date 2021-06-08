@@ -82,11 +82,7 @@ class WorkoutViewModel @ViewModelInject constructor(
     fun doTapPrimary() {
         when (model.workoutState) {
             WorkoutViewState.VIDEO -> {
-                if (!isVersion1Enabled) {
-                    eventTapStartWorkout.postValue(model)
-                    return
-                }
-                doTapVideo()
+                if (isVersion1Enabled) doTapVideo() else eventTapStartWorkout.postValue(model)
             }
             WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> doTapLiveOrVirtual()
             else -> LogManager.log("WorkoutViewModel.doTapPrimary")
@@ -111,7 +107,8 @@ class WorkoutViewModel @ViewModelInject constructor(
             } else {
                 eventLoadError.postValue("Could not load purchases")
             }
-        }.invokeOnCompletion { eventShowHud.postValue(false) }
+            eventShowHud.postValue(false)
+        }
     }
 
     private fun doTapLiveOrVirtual() {
