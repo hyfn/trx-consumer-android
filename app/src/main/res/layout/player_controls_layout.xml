@@ -6,76 +6,137 @@
     style="@style/BrightcoveControlBar.Custom"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bmc_background">
+    android:background="@color/bmc_background"
+    android:orientation="vertical">
 
     <com.trx.consumer.common.CommonView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.trx.consumer.common.CommonButton
-            android:id="@+id/play"
-            style="@style/BorderlessButton"
+        <com.trx.consumer.common.CommonImageButton
+            android:id="@+id/btnClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_btn_close_white"
+            android:tint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.trx.consumer.common.CommonView
-            android:id="@+id/viewSeekBar"
+            android:id="@+id/viewContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginHorizontal="15dp"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnClose">
 
             <com.trx.consumer.common.CommonLabel
-                android:id="@id/current_time"
-                android:layout_width="wrap_content"
+                android:id="@+id/lblTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
                 android:fontFamily="@font/atcarquette_bold"
-                android:padding="4dp"
-                android:paddingStart="0dp"
-                android:paddingEnd="15dp"
-                android:text="@string/time_placeholder"
+                android:maxLines="3"
                 android:textColor="@color/white"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/seek_bar" />
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/btnClose"
+                bmc:text="Small Group Training" />
 
             <com.trx.consumer.common.CommonLabel
-                android:id="@id/end_time"
-                android:layout_width="wrap_content"
+                android:id="@+id/lblTrainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/atcarquette_bold"
-                android:paddingStart="15dp"
-                android:paddingEnd="0dp"
-                android:text="@string/time_placeholder"
-                android:textColor="@color/white"
-                android:visibility="gone"
+                android:textAllCaps="true"
+                android:textColor="@color/yellow"
+                android:textSize="11sp"
+                app:layout_constraintTop_toBottomOf="@id/lblTitle"
+                bmc:ignore="SmallSp"
+                bmc:text="Jaime Meneses" />
+
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/btnEndWorkout">
+
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@id/current_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:padding="4dp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/time_placeholder"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/seek_bar" />
+
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@id/end_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/time_placeholder"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/seek_bar" />
+
+                <com.brightcove.player.mediacontroller.BrightcoveSeekBar
+                    android:id="@id/seek_bar"
+                    style="@style/BrightcoveSeekBarStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:indeterminateOnly="false"
+                    android:splitTrack="false"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/end_time"
+                    app:layout_constraintStart_toEndOf="@id/current_time"
+                    bmc:brightcove_marker_color="@color/bmc_seekbar_marker"
+                    bmc:brightcove_marker_width="5.0" />
+
+            </com.trx.consumer.common.CommonView>
+
+            <com.trx.consumer.common.CommonButton
+                android:id="@+id/btnEndWorkout"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="30dp"
+                android:fontFamily="@font/atcarquette_semibold"
+                android:gravity="center"
+                android:text="@string/player_end_workout_button_label"
+                android:textColor="@color/greyLightExtra"
+                android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/seek_bar" />
-
-            <com.brightcove.player.mediacontroller.BrightcoveSeekBar
-                android:id="@id/seek_bar"
-                style="@style/BrightcoveSeekBarStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:indeterminateOnly="false"
-                android:splitTrack="false"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/end_time"
-                app:layout_constraintStart_toEndOf="@id/current_time"
-                bmc:brightcove_marker_color="@color/bmc_seekbar_marker"
-                bmc:brightcove_marker_width="5.0" />
+                app:outline="@color/greyLightExtra" />
 
         </com.trx.consumer.common.CommonView>
+
+        <com.trx.consumer.common.CommonButton
+            android:id="@+id/play"
+            style="@style/BorderlessButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </com.trx.consumer.common.CommonView>
 

@@ -4,6 +4,7 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.brightcove.player.edge.Catalog
@@ -20,7 +21,6 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonButton
 import com.trx.consumer.common.CommonImageButton
 import com.trx.consumer.common.CommonLabel
-import com.trx.consumer.common.CommonView
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.margin
 import com.trx.consumer.managers.NavigationManager
@@ -34,11 +34,11 @@ import kotlinx.coroutines.withContext
 
 class PlayerActivity : BrightcovePlayer() {
 
+    private lateinit var video: VideoModel
     private var videoSizeKnown = false
     private var videoWidth = 0
     private var videoHeight = 0
 
-    private var viewBinding: ViewBinding? = null
     private var orientationJob: Job? = null
 
     private val currentOrientation
@@ -54,50 +54,35 @@ class PlayerActivity : BrightcovePlayer() {
     }
 
     private fun bind() {
-        val video = NavigationManager.shared.params(intent) as VideoModel
+        video = NavigationManager.shared.params(intent) as VideoModel
 
-        viewBinding = ViewBinding(
-            lblTitle = findViewById(R.id.lblTitle),
-            lblTrainer = findViewById(R.id.lblTrainer),
-            viewInfo = findViewById(R.id.viewInfo),
-            btnEndWorkout = findViewById(R.id.btnEndWorkout),
-            btnRotate = findViewById(R.id.btnRotate),
-            btnScreenCast = findViewById(R.id.btnScreenCast),
-            btnClose = findViewById(R.id.btnClose)
-        ).apply {
-            btnRotate.action { rotate(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) }
-            btnClose.action { rotate(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) }
-            btnEndWorkout.action { finish() }
-            btnScreenCast.action {
-                Toast.makeText(
-                    this@PlayerActivity,
-                    R.string.player_screen_cast_coming_soon_message,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+        findViewById<CommonLabel>(R.id.lblTitle).text = video.name
+        findViewById<CommonLabel>(R.id.lblTrainer).text = video.trainer.fullName
+
+        findViewById<CommonButton>(R.id.btnRotate).action {
+            rotate(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+        }
+        findViewById<CommonButton>(R.id.btnEndWorkout).action { finish() }
+        findViewById<CommonButton>(R.id.btnScreenCast).action {
+            Toast.makeText(
+                this,
+                R.string.player_screen_cast_coming_soon_message,
+                Toast.LENGTH_LONG
+            ).show()
         }
 
-        loadView(video)
-        loadPlayer(video.id)
-
+        loadPlayer()
         handleOrientation(currentOrientation)
     }
 
-    private fun loadView(video: VideoModel) {
-        viewBinding?.apply {
-            lblTitle.text = video.name
-            lblTrainer.text = video.trainer.fullName
-        }
-    }
-
-    private fun loadPlayer(videoId: String) {
+    private fun loadPlayer() {
         val eventEmitter = brightcoveVideoView.eventEmitter
         val catalog = Catalog
             .Builder(eventEmitter, BuildConfig.kBrightcoveAccountId)
             .setPolicy(BuildConfig.kBrightcovePolicyKey)
             .build()
         catalog.findVideoByID(
-            videoId,
+            video.id,
             object : VideoListener() {
                 override fun onVideo(video: Video) {
                     brightcoveVideoView.add(video)
@@ -111,25 +96,23 @@ class PlayerActivity : BrightcovePlayer() {
         handleEvents(eventEmitter)
     }
 
-    private fun handleOverlay(showingController: Boolean) {
-        val isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-        viewBinding?.apply {
-            lblTitle.apply {
-                textSize = if (isPortrait) 32f else 18f
-                isVisible = isPortrait || showingController
+    private fun handleOverlay() {
+        val isPortrait = currentOrientation == Configuration.ORIENTATION_PORTRAIT
+        findViewById<CommonButton>(R.id.btnEndWorkout).isEnabled = isPortrait
+        brightcoveVideoView.apply {
+            findViewById<View>(R.id.viewContent).apply {
+                if (isPortrait) {
+                    margin(left = 15f, right = 15f)
+                } else {
+                    margin(left = 30f, right = 30f)
+                }
             }
-            lblTrainer.isVisible = isPortrait || showingController
-            viewInfo.margin(top = if (isPortrait) 20f else 15f)
-            btnEndWorkout.isEnabled = isPortrait
-            btnClose.isVisible = !isPortrait && showingController
-            brightcoveVideoView.findViewById<CommonLabel>(R.id.current_time).isVisible = !isPortrait
-            brightcoveVideoView.findViewById<CommonLabel>(R.id.end_time).isVisible = !isPortrait
-            val viewSeekBar = brightcoveVideoView.findViewById<CommonView>(R.id.viewSeekBar)
-            if (isPortrait) {
-                viewSeekBar.margin(left = 15f, right = 15f, bottom = 0f)
-            } else {
-                viewSeekBar.margin(left = 100f, right = 100f, bottom = 30f)
-            }
+            findViewById<View>(R.id.current_time).isVisible = !isPortrait
+            findViewById<View>(R.id.end_time).isVisible = !isPortrait
+            findViewById<View>(R.id.lblTitle).isVisible = !isPortrait
+            findViewById<View>(R.id.lblTrainer).isVisible = !isPortrait
+            this.findViewById<View>(R.id.btnEndWorkout).isVisible = !isPortrait
+            findViewById<View>(R.id.btnClose).isVisible = !isPortrait
         }
     }
 
@@ -142,11 +125,15 @@ class PlayerActivity : BrightcovePlayer() {
         }
 
         eventEmitter.on(ShowHideController.DID_SHOW_MEDIA_CONTROLS) {
-            handleOverlay(true)
+            handleOverlay()
         }
 
         eventEmitter.on(ShowHideController.DID_HIDE_MEDIA_CONTROLS) {
-            handleOverlay(false)
+            handleOverlay()
+        }
+
+        eventEmitter.on(EventType.CONFIGURATION_CHANGED) {
+            handleOrientation(currentOrientation)
         }
     }
 
@@ -156,10 +143,18 @@ class PlayerActivity : BrightcovePlayer() {
         }
     }
 
-    override fun onConfigurationChanged(configuration: Configuration) {
-        super.onConfigurationChanged(configuration)
-
-        handleOrientation(configuration.orientation)
+    // Have to bind every time configuration changes
+    private fun bindMediaController() {
+        brightcoveVideoView.apply {
+            with(video) {
+                findViewById<CommonLabel>(R.id.lblTitle).text = name
+                findViewById<CommonLabel>(R.id.lblTrainer).text = trainer.fullName
+                findViewById<CommonButton>(R.id.btnEndWorkout).action { finish() }
+                findViewById<CommonImageButton>(R.id.btnClose).action {
+                    rotate(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                }
+            }
+        }
     }
 
     private fun rotate(orientation: Int) {
@@ -168,10 +163,10 @@ class PlayerActivity : BrightcovePlayer() {
 
     private fun handleOrientation(orientation: Int) {
         cancelOrientationJob()
+
         when (orientation) {
             Configuration.ORIENTATION_PORTRAIT -> {
                 normalScreen()
-                brightcoveVideoView.margin(top = 60f)
                 orientationJob = CoroutineScope(Dispatchers.IO).launch {
                     delay(timeMillis = 3000) // Give user time to rotate device
                     withContext(Dispatchers.Main) {
@@ -180,8 +175,8 @@ class PlayerActivity : BrightcovePlayer() {
                 }
             }
             Configuration.ORIENTATION_LANDSCAPE -> {
+                bindMediaController()
                 fullScreen()
-                brightcoveVideoView.margin(top = 0f)
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
             }
         }
@@ -205,19 +200,9 @@ class PlayerActivity : BrightcovePlayer() {
 
     override fun onDestroy() {
         cancelOrientationJob()
-        viewBinding = null
         videoSizeKnown = false
 
         super.onDestroy()
     }
 
-    private class ViewBinding(
-        val lblTitle: CommonLabel,
-        val lblTrainer: CommonLabel,
-        val viewInfo: CommonView,
-        val btnEndWorkout: CommonButton,
-        val btnRotate: CommonImageButton,
-        val btnScreenCast: CommonImageButton,
-        val btnClose: CommonImageButton,
-    )
 }
