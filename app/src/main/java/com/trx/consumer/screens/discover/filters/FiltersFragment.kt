@@ -43,7 +43,6 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventTapApply.observe(viewLifecycleOwner, handleTapApply)
             eventTapClose.observe(viewLifecycleOwner, handleTapClose)
-            eventTapReset.observe(viewLifecycleOwner, handleTapReset)
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
         }
 
@@ -70,11 +69,6 @@ class FiltersFragment : BaseFragment(R.layout.fragment_filters) {
     private val handleTapClose = Observer<Void> {
         LogManager.log("handleTapClose")
         NavigationManager.shared.dismiss(this)
-    }
-
-    private val handleTapReset = Observer<FilterParamsModel> { model ->
-        LogManager.log("handleTapReset")
-        adapter?.update(model.lstFilters)
     }
 
     private val handleTapFilter = Observer<FilterParamsModel> { model ->
