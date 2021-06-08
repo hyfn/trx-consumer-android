@@ -84,7 +84,7 @@ class NavigationManager {
         navController.addOnDestinationChangedListener(handleDestinationChangeListener(activity))
     }
 
-    //TODO: Temporary until v2
+    // TODO: Temporary until v2
     private fun setTabMenu(tabBar: BottomNavigationView) {
         tabBar.apply {
             menu.clear()
