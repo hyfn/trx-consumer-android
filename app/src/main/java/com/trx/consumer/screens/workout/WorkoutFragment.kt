@@ -1,5 +1,6 @@
 package com.trx.consumer.screens.workout
 
+import android.text.TextUtils
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
@@ -17,6 +18,8 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.WorkoutViewState
 import com.trx.consumer.screens.player.PlayerActivity
+import java.lang.StringBuilder
+import java.util.Locale
 
 class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
@@ -94,6 +97,9 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             viewTrainer.isHidden = false
             imgTrainerPhoto.load(model.video.trainer.profilePhoto)
             lblTrainerName.text = model.video.trainer.fullName
+
+            viewEquipment.isHidden = model.video.equipment.isEmpty()
+            lblEquipment.text = listToString(model.video.equipment)
         }
     }
 
@@ -125,5 +131,12 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
     override fun onBackPressed() {
         viewModel.doTapBack()
+    }
+
+    private fun listToString(list: List<String>): String {
+        val capitalizedList = list.map { it.capitalize(Locale.ROOT) }
+        val size = list.size
+        return StringBuilder(TextUtils.join(", ", capitalizedList.subList(0, size - 1)))
+            .append(" and ${capitalizedList[size - 1]}").toString()
     }
 }
