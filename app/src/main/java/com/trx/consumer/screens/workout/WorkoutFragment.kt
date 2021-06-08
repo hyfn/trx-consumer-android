@@ -98,8 +98,10 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             imgTrainerPhoto.load(model.video.trainer.profilePhoto)
             lblTrainerName.text = model.video.trainer.fullName
 
-            viewEquipment.isHidden = model.video.equipment.isEmpty()
-            lblEquipment.text = listToString(model.video.equipment)
+            val equipments = model.video.equipment
+            if (equipments.isNotEmpty()) lblEquipment.text = listToString(equipments)
+            else viewEquipment.isHidden = true
+
         }
     }
 
@@ -136,7 +138,9 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
     private fun listToString(list: List<String>): String {
         val capitalizedList = list.map { it.capitalize(Locale.ROOT) }
         val size = list.size
-        return StringBuilder(TextUtils.join(", ", capitalizedList.subList(0, size - 1)))
-            .append(" and ${capitalizedList[size - 1]}").toString()
+        return if (size > 1) StringBuilder(
+            TextUtils.join(", ", capitalizedList.subList(0, size - 1))
+        ).append(" and ${capitalizedList[size - 1]}").toString()
+        else capitalizedList.firstOrNull() ?: ""
     }
 }
