@@ -99,7 +99,8 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             lblTrainerName.text = model.video.trainer.fullName
 
             val equipments = model.video.equipment
-            if (equipments.isNotEmpty()) lblEquipment.text = listToString(equipments)
+            if (equipments.isNotEmpty()) lblEquipment.text =
+                equipments.joinToString { it.capitalize(Locale.ROOT) }
             else viewEquipment.isHidden = true
 
         }
@@ -133,14 +134,5 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
     override fun onBackPressed() {
         viewModel.doTapBack()
-    }
-
-    private fun listToString(list: List<String>): String {
-        val capitalizedList = list.map { it.capitalize(Locale.ROOT) }
-        val size = list.size
-        return if (size > 1) StringBuilder(
-            TextUtils.join(", ", capitalizedList.subList(0, size - 1))
-        ).append(" and ${capitalizedList[size - 1]}").toString()
-        else capitalizedList.firstOrNull() ?: ""
     }
 }
