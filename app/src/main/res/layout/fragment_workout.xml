@@ -199,14 +199,6 @@
                     android:textSize="14sp"
                     app:layout_constraintTop_toBottomOf="@+id/lblEquipmentTitle" />
 
-                <View
-                    android:id="@+id/viewLineEquipment"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@color/greyLight"
-                    app:layout_constraintTop_toBottomOf="@+id/lblEquipment" />
-
             </com.trx.consumer.common.CommonView>
 
         </com.trx.consumer.common.CommonView>
