@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.workout
 
-import android.text.TextUtils
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
@@ -18,7 +17,6 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.WorkoutViewState
 import com.trx.consumer.screens.player.PlayerActivity
-import java.lang.StringBuilder
 import java.util.Locale
 
 class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
@@ -102,7 +100,6 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             if (equipments.isNotEmpty()) lblEquipment.text =
                 equipments.joinToString { it.capitalize(Locale.ROOT) }
             else viewEquipment.isHidden = true
-
         }
     }
 
