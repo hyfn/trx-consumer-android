@@ -266,6 +266,7 @@
     <string name="workout_book_session_label">Book Session</string>
     <string name="workout_join_session_label">Join Session</string>
     <string name="workout_cancel_session_label">Cancel Session</string>
+    <string name="workout_equipment_label">Equipment Needed</string>
 
     <string name="workout_cell_button_view_title">VIEW</string>
     <string name="workout_cell_button_soon_title">JOIN NOW</string>

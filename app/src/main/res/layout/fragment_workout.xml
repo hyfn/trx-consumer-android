@@ -157,11 +157,49 @@
                 tools:text="This session will teach you how to push your limits and weight lift using the TRX Bands. Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
 
             <View
+                android:id="@+id/imgLineSummary"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/greyLight"
                 app:layout_constraintTop_toBottomOf="@+id/lblSummary" />
+
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/viewEquipment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/imgLineSummary"
+                tools:visibility="visible">
+
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblEquipmentTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/atcarquette_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/workout_equipment_label"
+                    android:textAllCaps="true"
+                    android:textColor="@color/grey"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="SmallSp" />
+
+                <com.trx.consumer.common.CommonLabel
+                    android:id="@+id/lblEquipment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:fontFamily="@font/atcarquette_medium"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/lblEquipmentTitle" />
+
+            </com.trx.consumer.common.CommonView>
 
         </com.trx.consumer.common.CommonView>
 
