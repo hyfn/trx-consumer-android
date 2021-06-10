@@ -1,5 +1,6 @@
 package com.trx.consumer.screens.videos
 
+import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -33,7 +34,7 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
 
         viewBinding.apply {
             adapter = DiscoverAdapter(viewModel) { lifecycleScope }
-            rvRelatedVideos.adapter = adapter
+            viewRelatedWorkout.adapter = adapter
             btnBack.action { viewModel.doTapBack() }
         }
 
@@ -58,9 +59,13 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
             imgHeader.load(model.poster)
             lblTitle.text = model.title
             lblSubtitle.text = model.numberOfVideosDisplay
+            imgTrainerPhoto.load(model.trainer.profilePhoto)
             lblTrainerName.text = model.trainer.fullName
+            btnTrainerProfile.apply {
+                isGone = model.trainer.fullName.isEmpty()
+                action { viewModel.doTapProfile() }
+            }
             lblSummary.text = model.videos.firstOrNull()?.description
-            imgTrainerProfile.load(model.trainer.profilePhoto)
             adapter.updateVideos(model.videos)
         }
     }
