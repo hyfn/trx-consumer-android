@@ -146,7 +146,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         promos.isEmpty().let { isEmpty ->
             if (!isEmpty) promoAdapter.update(promos)
             viewBinding.apply {
-                imgLineOnDemand.isHidden = isEmpty
+                imgLineOnDemand.isGone = isEmpty
                 viewPromos.viewMain.isGone = isEmpty
                 viewPromos.lblTitle.text = getString(R.string.promos_top_title_label)
             }

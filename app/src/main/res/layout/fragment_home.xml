@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="15dp"
     app:backgroundColor="@color/white"
     tools:ignore="SmallSp">
 
@@ -53,23 +52,30 @@
                 layout="@layout/layout_video_workout_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:layout_constraintBottom_toTopOf="@id/imgLineOnDemand"
                 app:layout_constraintTop_toBottomOf="@id/viewBanner" />
 
             <com.trx.consumer.common.CommonImageView
                 android:id="@+id/imgLineOnDemand"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="15dp"
-                android:visibility="gone"
                 android:background="@color/greyLight"
-                app:layout_constraintTop_toBottomOf="@id/view_videos" />
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/view_promos"
+                app:layout_constraintTop_toBottomOf="@id/view_videos"
+                tools:visibility="visible" />
 
             <include
                 android:id="@+id/view_promos"
                 layout="@layout/layout_promo_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/imgLineOnDemand" />
+                android:layout_marginBottom="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imgLineOnDemand"
+                app:layout_goneMarginBottom="15dp"
+                tools:visibility="visible" />
 
         </com.trx.consumer.common.CommonView>
 
