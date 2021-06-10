@@ -21,7 +21,7 @@ class PlansResponseModel(private var plan: PlansModel = PlansModel()) {
                 }
             }
         }
-        return list
+        return list.filter { it.title.isNotEmpty() }
     }
 
     companion object {

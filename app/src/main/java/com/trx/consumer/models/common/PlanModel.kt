@@ -32,7 +32,7 @@ class PlanModel(
         fun parse(jsonObject: JSONObject): PlanModel {
             return PlanModel(
                 key = jsonObject.optString("key", jsonObject.optString("name")),
-                title = jsonObject.optString("name"),
+                title = jsonObject.optString("customerFacingName"),
                 price = jsonObject.optInt("priceInCents").toDouble(),
                 creditsPerMonth = jsonObject.optInt("smallGroupLiveClassCreditsPerMonth"),
                 userType = jsonObject.optString("userType"),
