@@ -65,7 +65,15 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
                 isGone = model.trainer.fullName.isEmpty()
                 action { viewModel.doTapProfile() }
             }
-            lblSummary.text = model.videos.firstOrNull()?.description
+
+            model.description.let { description ->
+                lblSummary.text = if (description.isNotEmpty()) {
+                    description
+                } else {
+                    model.videos.firstOrNull()?.description
+                }
+            }
+
             adapter.updateVideos(model.videos)
         }
     }
