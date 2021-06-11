@@ -1,5 +1,6 @@
 package com.trx.consumer.screens.home
 
+import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -137,18 +138,18 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         videosAdapter.update(workouts)
         viewBinding.apply {
             viewVideos.lblTitle.text = getString(R.string.home_on_demand_title_label)
-            imgLineOnDemand.isHidden = hide
             viewVideos.viewMain.isHidden = hide
         }
     }
 
     private fun loadPromos(promos: List<PromoModel>) {
-        val hide = promos.isEmpty()
-        promoAdapter.update(promos)
-        viewBinding.apply {
-            viewPromos.lblTitle.text = getString(R.string.promos_top_title_label)
-            viewPromos.viewMain.isHidden = promos.isEmpty()
-            viewPromos.viewMain.isHidden = hide
+        promos.isEmpty().let { isEmpty ->
+            if (!isEmpty) promoAdapter.update(promos)
+            viewBinding.apply {
+                imgLineOnDemand.isGone = isEmpty
+                viewPromos.viewMain.isGone = isEmpty
+                viewPromos.lblTitle.text = getString(R.string.promos_top_title_label)
+            }
         }
     }
 
