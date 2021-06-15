@@ -190,7 +190,11 @@ dependencies {
     implementation files('../app/libs/fm.liveswitch.opus.jar')
     implementation files('../app/libs/fm.liveswitch.vpx.jar')
     implementation files('../app/libs/fm.liveswitch.yuv.jar')
-    implementation files('../app/libs/fm.liveswitch.jar')
+    implementation files('../app/libs/fm.liveswitch.jar') {
+        configurations {
+            all*.exclude group: 'org.bouncycastle', module: 'bcprov-jdk15to18'
+        }
+    }
 
 //    implementation fileTree(include: ['*.jar'], dir: '../app/lib')
 
