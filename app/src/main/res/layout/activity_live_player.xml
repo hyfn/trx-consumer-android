@@ -13,8 +13,15 @@
         android:layout_marginTop="175dp"
         android:clickable="true"
         android:focusable="true"
-        app:backgroundColor="@color/green"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000" />
+
+    </com.trx.consumer.common.CommonView>
 
     <com.trx.consumer.common.CommonButton
         android:id="@+id/btnEndWorkout"
