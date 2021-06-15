@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.bookingalert
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -10,9 +9,12 @@ import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.responses.BookIntentResponseModel
 import com.trx.consumer.models.states.WorkoutViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BookingAlertViewModel @ViewModelInject constructor(
+@HiltViewModel
+class BookingAlertViewModel @Inject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager
 ) : BaseViewModel() {

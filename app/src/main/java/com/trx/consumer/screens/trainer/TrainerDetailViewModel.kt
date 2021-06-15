@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.trainer
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -22,9 +21,12 @@ import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
 import com.trx.consumer.screens.photos.PhotosViewListener
 import com.trx.consumer.screens.trainerprogram.TrainerProgramViewListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TrainerDetailViewModel @ViewModelInject constructor(
+@HiltViewModel
+class TrainerDetailViewModel @Inject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager
 ) : BaseViewModel(),

@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.addcard
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -12,9 +11,12 @@ import com.trx.consumer.models.common.PurchaseModel
 import com.trx.consumer.stripe.StripeBackendManager
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddCardViewModel @ViewModelInject constructor(
+@HiltViewModel
+class AddCardViewModel @Inject constructor(
     private val backendManager: BackendManager,
     private val stripeBackendManager: StripeBackendManager,
     private val cacheManager: CacheManager

@@ -1,13 +1,15 @@
 package com.trx.consumer.screens.loading
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.BackendManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoadingViewModel @ViewModelInject constructor(
+@HiltViewModel
+class LoadingViewModel @Inject constructor(
     private val backendManager: BackendManager
 ) : BaseViewModel() {
 

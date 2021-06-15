@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.home
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -17,9 +16,12 @@ import com.trx.consumer.models.responses.PromosResponseModel
 import com.trx.consumer.models.responses.VideosResponseModel
 import com.trx.consumer.screens.promotion.PromoViewListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel @ViewModelInject constructor(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager,
     private val analyticsManager: AnalyticsManager

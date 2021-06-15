@@ -1,7 +1,6 @@
 package com.trx.consumer.screens.subscriptions
 
 import android.app.Activity
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -15,9 +14,12 @@ import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.PurchasesResponseModel
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsListener
 import com.trx.consumer.screens.subscriptions.list.SubscriptionsViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SubscriptionsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SubscriptionsViewModel @Inject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager,
 ) : BaseViewModel(), SubscriptionsListener {

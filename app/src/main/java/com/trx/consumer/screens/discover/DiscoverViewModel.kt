@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.discover
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -13,9 +12,12 @@ import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.models.responses.VideosResponseModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DiscoverViewModel @ViewModelInject constructor(
+@HiltViewModel
+class DiscoverViewModel @Inject constructor(
     private val backendManager: BackendManager
 ) : BaseViewModel(), VideoWorkoutListener, DiscoverFilterListener {
 
