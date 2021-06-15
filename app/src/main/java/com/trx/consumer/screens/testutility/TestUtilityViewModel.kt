@@ -32,7 +32,7 @@ class TestUtilityViewModel @ViewModelInject constructor(
     val eventTapContent = CommonLiveEvent<Void>()
     val eventTapPlans = CommonLiveEvent<Void>()
     val eventTapFilter = CommonLiveEvent<Void>()
-    val eventTapPlayer = CommonLiveEvent<Void>()
+    val eventTapVideo = CommonLiveEvent<Void>()
     val eventTapDiscover = CommonLiveEvent<Void>()
     val eventTapAlert = CommonLiveEvent<Void>()
     val eventTapWelcome = CommonLiveEvent<Void>()
@@ -107,8 +107,8 @@ class TestUtilityViewModel @ViewModelInject constructor(
         eventTapPlans.call()
     }
 
-    fun doTapPlayer() {
-        eventTapPlayer.call()
+    fun doTapVideo() {
+        eventTapVideo.call()
     }
 
     fun doTapDiscover() {

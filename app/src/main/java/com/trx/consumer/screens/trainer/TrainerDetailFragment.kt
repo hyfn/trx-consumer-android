@@ -28,8 +28,8 @@ import com.trx.consumer.models.params.ContentParamsModel
 import com.trx.consumer.screens.banner.BannerAdapter
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.photos.PhotoAdapter
-import com.trx.consumer.screens.player.PlayerActivity
 import com.trx.consumer.screens.trainerprogram.TrainerProgramAdapter
+import com.trx.consumer.screens.video.VideoActivity
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 
 class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
@@ -152,7 +152,7 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
     private val handleShowOndemand = Observer<VideoModel> { model ->
         LogManager.log("handleShowOndemand")
         NavigationManager.shared.presentActivity(
-            requireActivity(), PlayerActivity::class.java, model
+            requireActivity(), VideoActivity::class.java, model
         )
     }
 
