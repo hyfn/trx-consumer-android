@@ -13,10 +13,18 @@ class VideosModel(
     var thumbnail: String = "",
     var poster: String = "",
     var trainer: TrainerModel = TrainerModel(),
-    val videos: MutableList<VideoModel> = mutableListOf()
+    val videos: MutableList<VideoModel> = mutableListOf(),
+    val isSkeleton: Boolean = false
 ) : Parcelable {
 
+    val numberOfVideosDisplay: String
+        get() {
+            val size = videos.size
+            return "$size workout${if (size == 1) "" else "s"}".toUpperCase(Locale.ROOT)
+        }
+
     companion object {
+
         fun parse(jsonObject: JSONObject): VideosModel {
             return VideosModel().apply {
                 title = jsonObject.optString("title")
@@ -30,10 +38,9 @@ class VideosModel(
                 }
             }
         }
-    }
 
-    val numberOfVideosDisplay: String
-        get() {
-            return "${videos.size} workout${if (videos.size == 1) "" else "s"}".toUpperCase(Locale.ROOT)
+        fun skeletonList(size: Int): List<VideosModel> {
+            return (0 until size).map { VideosModel(isSkeleton = true) }
         }
+    }
 }

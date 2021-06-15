@@ -17,6 +17,7 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.WorkoutViewState
 import com.trx.consumer.screens.player.PlayerActivity
+import java.util.Locale
 
 class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
@@ -94,6 +95,11 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             viewTrainer.isHidden = false
             imgTrainerPhoto.load(model.video.trainer.profilePhoto)
             lblTrainerName.text = model.video.trainer.fullName
+
+            val equipments = model.video.equipment
+            if (equipments.isNotEmpty()) lblEquipment.text =
+                equipments.joinToString { it.capitalize(Locale.ROOT) }
+            else viewEquipment.isHidden = true
         }
     }
 

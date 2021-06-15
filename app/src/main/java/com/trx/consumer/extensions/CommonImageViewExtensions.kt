@@ -3,6 +3,7 @@ package com.trx.consumer.extensions
 import android.content.res.ColorStateList
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import com.bumptech.glide.Glide
@@ -34,4 +35,20 @@ fun CommonImageView.setTint(@ColorRes colorId: Int) {
 fun CommonImageView.border(@ColorInt color: Int, width: Float) {
     strokeColor = ColorStateList.valueOf(color)
     strokeWidth = width * 2 // ShapeableImageView scales down stroke width by 1/2 before drawing
+}
+
+fun CommonImageView.applySkeleton(
+    isSkeleton: Boolean = false,
+    @ColorRes color: Int = R.color.greyLight,
+    @DrawableRes image: Int? = null,
+    urlString: String? = null
+) {
+    when {
+        isSkeleton -> {
+            setImageResource(android.R.color.transparent)
+            bgColor(color)
+        }
+        image != null -> setImageResource(image)
+        urlString != null -> load(urlString)
+    }
 }
