@@ -204,5 +204,4 @@ class PlayerActivity : BrightcovePlayer() {
 
         super.onDestroy()
     }
-
 }
