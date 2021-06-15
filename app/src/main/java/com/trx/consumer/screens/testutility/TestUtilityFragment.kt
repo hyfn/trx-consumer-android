@@ -23,8 +23,8 @@ import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.loading.LoadingViewState
-import com.trx.consumer.screens.player.PlayerActivity
 import com.trx.consumer.screens.promotion.PromoAdapter
+import com.trx.consumer.screens.video.VideoActivity
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutAdapter
 import com.trx.consumer.screens.welcome.WelcomeState
@@ -56,7 +56,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnUpdate.action { viewModel.doTapUpdate() }
             btnContent.action { viewModel.doTapContent() }
             btnPlans.action { viewModel.doTapPlans() }
-            btnPlayer.action { viewModel.doTapPlayer() }
+            btnVideo.action { viewModel.doTapVideo() }
             btnFilter.action { viewModel.doTapFilter() }
             btnDiscover.action { viewModel.doTapDiscover() }
             btnAlert.action { viewModel.doTapAlert() }
@@ -82,7 +82,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
             eventTapPlans.observe(viewLifecycleOwner, handleTapPlans)
-            eventTapPlayer.observe(viewLifecycleOwner, handleTapPlayer)
+            eventTapVideo.observe(viewLifecycleOwner, handleTapVideo)
             eventTapDiscover.observe(viewLifecycleOwner, handleTapDiscover)
             eventTapAlert.observe(viewLifecycleOwner, handleTapAlert)
             eventTapWelcome.observe(viewLifecycleOwner, handleTapWelcome)
@@ -127,11 +127,11 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         NavigationManager.shared.present(this, R.id.plans_fragment)
     }
 
-    private val handleTapPlayer = Observer<Void> {
+    private val handleTapVideo = Observer<Void> {
         val video = VideoModel.test().apply { id = "6232799349001" }
         NavigationManager.shared.presentActivity(
             requireActivity(),
-            PlayerActivity::class.java,
+            VideoActivity::class.java,
             video
         )
     }
