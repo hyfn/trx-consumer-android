@@ -113,7 +113,6 @@
                         android:layout_marginBottom="15dp"
                         android:fontFamily="@font/atcarquette_medium"
                         android:gravity="center_vertical"
-                        android:text="11/10/2020"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -162,7 +161,6 @@
                         android:layout_marginBottom="15dp"
                         android:fontFamily="@font/atcarquette_medium"
                         android:gravity="center_vertical"
-                        android:text="11/10/2020"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -192,8 +190,7 @@
                     app:backgroundColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgLine2"
-                    />
+                    app:layout_constraintTop_toBottomOf="@+id/imgLine2" />
 
                 <com.trx.consumer.common.CommonButton
                     android:id="@+id/btnRestore"
