@@ -9,7 +9,6 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 apply from: 'ktlint.gradle'
 apply from: 'jacoco.gradle'
 
-
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
@@ -17,26 +16,6 @@ android {
     buildFeatures {
         viewBinding true
     }
-
-//    configurations {
-//        all*.exclude group: 'org.bouncycastle', module:'jetified-bcprov-jdk15to18-1.68'
-//    }
-
-//    configurations.each {
-//        c -> c.resolutionStrategy.dependencySubstitution {
-//            all { DependencySubstitution dependency ->
-//                if (dependency.requested.group == 'org.bouncycastle') {
-//                    dependency.useTarget 'org.bouncycastle:bprov-jdk15to18:1.68'
-//                }
-//            }
-//        }
-//    }
-
-//    configurations {
-//        all { // You should exclude one of them not both of them
-//            exclude group: "org.bouncycastle", module: "bcprov-jdk15to18-1.68"
-//        }
-//    }
 
     signingConfigs {
         signingConfigs {
@@ -199,8 +178,6 @@ dependencies {
         }
     }
 
-//    implementation fileTree(include: ['*.jar'], dir: '../app/lib')
-
     // AndroidX
     implementation "androidx.activity:activity-ktx:$rootProject.activityKtxVersion"
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
@@ -208,14 +185,11 @@ dependencies {
     implementation "androidx.core:core-ktx:$rootProject.coreKtxVersion"
     implementation "androidx.datastore:datastore-preferences:$rootProject.dataStoreVersion"
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentKtxVersion"
-    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleExtVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.lifecycleVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$rootProject.swipeRefreshLayoutVersion"
     implementation "androidx.viewpager2:viewpager2:$rootProject.viewPager2Version"
-    implementation "androidx.work:work-runtime:$rootProject.workVersion"
-    implementation "androidx.work:work-runtime-ktx:$rootProject.workVersion"
-    implementation "androidx.work:work-rxjava2:$rootProject.workVersion"
 
     implementation "com.google.android.material:material:$rootProject.materialVersion"
     implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
@@ -247,10 +221,10 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navGraphVersion"
 
     // Dependency Injection
-    implementation "com.google.dagger:hilt-android:$hiltVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$rootProject.hiltViewModelversion"
-    kapt "androidx.hilt:hilt-compiler:$rootProject.hiltViewModelversion"
+    kapt "androidx.hilt:hilt-compiler:$rootProject.hiltCompilerVersion"
 
     // Video playback
     implementation "com.brightcove.player:exoplayer2:$rootProject.brightcoveVersion"
