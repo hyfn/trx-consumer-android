@@ -4,37 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".screens.privateplayer.PrivatePlayerActivity">
 
     <com.trx.consumer.common.CommonView
-        android:id="@+id/fmPlayerContainer1"
+        android:id="@+id/fmPlayerContainer"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="175dp"
         android:clickable="true"
         android:focusable="true"
         app:backgroundColor="@color/green"
-        app:layout_constraintBottom_toTopOf="@id/fmPlayerContainer2"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.trx.consumer.common.CommonView
-        android:id="@+id/fmPlayerContainer2"
+    <com.trx.consumer.common.CommonButton
+        android:id="@+id/btnEndWorkout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="15dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:backgroundColor="@color/green"
-        app:layout_constraintBottom_toTopOf="@id/viewBottom"
-        app:layout_constraintTop_toBottomOf="@id/fmPlayerContainer1" />
-
-    <com.trx.consumer.common.CommonView
-        android:id="@+id/viewBottom"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/atcarquette_semibold"
+        android:gravity="center"
+        android:text="@string/player_end_workout_button_label"
+        android:textColor="@color/greyLightExtra"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:outline="@color/greyLightExtra" />
 
 </com.trx.consumer.common.CommonView>

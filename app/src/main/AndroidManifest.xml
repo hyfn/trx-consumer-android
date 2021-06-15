@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".screens.groupplayer.GroupPlayer" />
+        <activity android:name=".screens.groupplayer.GroupPlayerActivity" />
 
         <activity android:name=".screens.privateplayer.PrivatePlayerActivity" />
 
