@@ -72,6 +72,18 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return call(RequestModel(endpoint = EndpointModel.FORGOT, path = path, params = params))
     }
 
+    //  Joining a Live Session, used in LivePlayerViewModel
+    suspend fun join(sessionKey: String): ResponseModel {
+        val path = EndpointModel.JOIN.path + "/customer/" + sessionKey
+        return call(RequestModel(endpoint = EndpointModel.JOIN, path = path, params = null))
+    }
+
+    //  Joining a Live Session, used in LivePlayerViewModel
+    suspend fun live(liveAccessKey: String): ResponseModel {
+        val path = EndpointModel.LIVE.path + "/" + liveAccessKey
+        return call(RequestModel(endpoint = EndpointModel.LIVE, path = path, params = null))
+    }
+
     suspend fun banner(): ResponseModel {
         val path = EndpointModel.BANNER.path
         return call(RequestModel(endpoint = EndpointModel.BANNER, path = path, params = null))

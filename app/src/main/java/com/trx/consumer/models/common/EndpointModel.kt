@@ -13,6 +13,8 @@ enum class EndpointModel {
     BOOK_SESSION_CONFIRM,
     BOOK_SESSION_INTENT,
     FORGOT,
+    JOIN,
+    LIVE,
     LOGIN,
     LOGOUT,
     PAYMENT_ADD,
@@ -45,7 +47,10 @@ enum class EndpointModel {
     val type: Type
         get() {
             return when (this) {
-                BOOK_CANCEL, LOGOUT, PAYMENT_DELETE, PLAN_DELETE -> {
+                BOOK_CANCEL,
+                LOGOUT,
+                PAYMENT_DELETE,
+                PLAN_DELETE -> {
                     Type.DELETE
                 }
                 UPDATE -> {
@@ -81,6 +86,7 @@ enum class EndpointModel {
                 BOOK_PROGRAM_INTENT,
                 BOOK_SESSION_CONFIRM,
                 BOOK_SESSION_INTENT,
+                JOIN,
                 LOGOUT,
                 PAYMENT_ADD,
                 PAYMENT_DELETE,
@@ -106,6 +112,8 @@ enum class EndpointModel {
                 BOOK_SESSION_CONFIRM -> prefix + "bookings/session/confirm"
                 BOOK_SESSION_INTENT -> prefix + "bookings/session"
                 FORGOT -> prefix + "auth/forgot-password"
+                JOIN -> prefix + "live/join"
+                LIVE -> prefix + "live"
                 AUTH, LOGIN, LOGOUT, REGISTER -> prefix + "auth"
                 PAYMENT_ADD, PAYMENT_DELETE -> prefix + "stripe/payment-method"
                 PLAN_ADD, PLAN_DELETE, PLANS -> prefix + "subscriptions"
