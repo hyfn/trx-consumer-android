@@ -13,7 +13,6 @@ import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.models.responses.VideosResponseModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class DiscoverViewModel @ViewModelInject constructor(

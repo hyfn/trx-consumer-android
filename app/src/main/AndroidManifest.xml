@@ -18,21 +18,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".screens.groupplayer.GroupPlayerActivity" />
+
+        <activity android:name=".screens.privateplayer.PrivatePlayerActivity" />
+
+        <activity android:name=".screens.liveplayer.LivePlayerActivity" />
+
         <activity
             android:name=".core.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
-
         </activity>
 
         <activity
-            android:name=".screens.player.PlayerActivity"
+            android:name=".screens.video.VideoActivity"
             android:configChanges="orientation|screenSize" />
 
     </application>
