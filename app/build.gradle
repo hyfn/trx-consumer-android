@@ -142,6 +142,7 @@ android {
             buildConfigField "Boolean", "isVersion2Enabled", "false"
             buildConfigField "Integer", "kMinutesBeforeCanJoin", "10"
             buildConfigField "Integer", "kMinutesAfterCanJoin", "15"
+            buildConfigField "String", "kFMDevLiveAccessKey", '"e2175989-f2af-42c1-80b4-01d14993aa8d"'
             buildConfigField "String", "kFMApplicationIdStaging", '"f528c148-b8c7-4f1b-bc5c-ac52288287c0"'
             buildConfigField "String", "kFMApplicationIdProd", '"e5129cae-ae75-4351-9c29-4a012c3c5471"'
             buildConfigField "String", "kFMGatewayUrl", '"https://cloud.liveswitch.io/"'
