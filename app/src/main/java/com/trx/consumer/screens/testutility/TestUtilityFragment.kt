@@ -67,6 +67,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnLoadingScreen.action { viewModel.doTapLoadingScreen() }
             btnBookingAlert.action { viewModel.doTapBookingAlert() }
             btnSchedule.action { viewModel.doTapSchedule() }
+            btnGroupPlayer.action { viewModel.doTapGroupPlayer() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoAdapter
@@ -95,6 +96,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventLoadVideoWorkouts.observe(viewLifecycleOwner, handleLoadVideoWorkouts)
             eventLoadPromotions.observe(viewLifecycleOwner, handleLoadPromotions)
             eventLoadingScreen.observe(viewLifecycleOwner, handleTapLoadingScreen)
+            eventLoadGroupPlayer.observe(viewLifecycleOwner, handleGroupPlayer)
             doLoadView()
         }
     }
@@ -216,6 +218,11 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleTapLoadingScreen = Observer<Void> {
         NavigationManager.shared.present(this, R.id.loading_screen, LoadingViewState.LAUNCH)
+    }
+
+
+    private val handleGroupPlayer = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.group_player)
     }
 
     //endregion

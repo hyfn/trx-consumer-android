@@ -186,4 +186,10 @@
         android:label="LoadingFragment"
         tools:layout="@layout/fragment_loading" />
 
+    <fragment
+        android:id="@+id/group_player"
+        android:name="com.trx.consumer.screens.groupplayer.GroupPlayerFragment"
+        android:label="GroupPlayer"
+        tools:layout="@layout/fragment_group_player" />
+
 </navigation>
