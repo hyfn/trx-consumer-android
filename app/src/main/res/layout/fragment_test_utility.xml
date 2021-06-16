@@ -372,12 +372,12 @@
                 app:layout_constraintTop_toBottomOf="@id/lblDiscover" />
 
             <com.trx.consumer.common.CommonLabel
-                android:id="@+id/lblPlayer"
+                android:id="@+id/lblVideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
-                android:text="@string/test_utility_player_label"
+                android:text="@string/test_utility_video_label"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -385,7 +385,7 @@
 
 
             <com.trx.consumer.common.CommonButton
-                android:id="@+id/btnPlayer"
+                android:id="@+id/btnVideo"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="15dp"
@@ -393,14 +393,14 @@
                 android:layout_marginEnd="15dp"
                 android:fontFamily="@font/atcarquette_bold"
                 android:gravity="center"
-                android:text="@string/test_utility_player_label"
+                android:text="@string/test_utility_video_label"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 app:backgroundColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblPlayer" />
+                app:layout_constraintTop_toBottomOf="@id/lblVideo" />
 
             <com.trx.consumer.common.CommonLabel
                 android:id="@+id/lblAlert"
@@ -412,7 +412,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnPlayer" />
+                app:layout_constraintTop_toBottomOf="@id/btnVideo" />
 
             <com.trx.consumer.common.CommonButton
                 android:id="@+id/btnAlert"
@@ -641,6 +641,36 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblLoadingScreen" />
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblMemberships"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/test_utility_memberships_label"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnLoadingScreen" />
+
+            <com.trx.consumer.common.CommonButton
+                android:id="@+id/btnMemberships"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:gravity="center"
+                android:text="@string/test_utility_memberships_label"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:backgroundColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblMemberships" />
 
             <com.trx.consumer.common.CommonLabel
                 android:id="@+id/lblGroupPlayer"
