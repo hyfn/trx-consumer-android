@@ -21,6 +21,7 @@ import com.trx.consumer.models.params.ContentParamsModel
 import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.content.ContentViewState
+import com.trx.consumer.screens.groupplayer.GroupPlayerActivity
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.loading.LoadingViewState
 import com.trx.consumer.screens.promotion.PromoAdapter
@@ -228,7 +229,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
 
     private val handleGroupPlayer = Observer<Void> {
-        NavigationManager.shared.present(this, R.id.group_player)
+        NavigationManager.shared.presentActivity(requireActivity(), GroupPlayerActivity::class.java)
     }
 
     //endregion
