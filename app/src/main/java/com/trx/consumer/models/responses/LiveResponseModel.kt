@@ -23,7 +23,7 @@ class LiveResponseModel(
     companion object {
 
         fun parse(json: String): LiveResponseModel {
-            val jsonObject = JSONObject(json)
+            val jsonObject = JSONObject(json).getJSONObject("data")
             return LiveResponseModel(
                 accessToken = jsonObject.optString("accessToken"),
                 participants = jsonObject.optJSONArray("data").map {

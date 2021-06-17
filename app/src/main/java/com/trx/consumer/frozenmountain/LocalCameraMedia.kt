@@ -10,9 +10,9 @@ import fm.liveswitch.ViewSink
 import fm.liveswitch.android.Camera2Source
 import fm.liveswitch.android.CameraPreview
 
-class LocalCameraMedia(
-    private val context: Context,
-    enableSoftwareH264: Boolean = false,
+class LocalCameraMedia<T>(
+    val context: Context,
+    val enableSoftwareH264: Boolean = false,
     disableAudio: Boolean,
     disableVideo: Boolean,
     aecContext: AecContext,
@@ -21,16 +21,12 @@ class LocalCameraMedia(
 
     init {
         this.videoSimulcastDisabled = !enableSimulcast
-        super.initialize()
+        // super.initialize()
     }
 
-    private val viewSink: CameraPreview by lazy {
-        CameraPreview(context, LayoutScale.Contain)
-    }
+    private val viewSink: CameraPreview = CameraPreview(context, LayoutScale.Contain)
 
-    private val videoConfig: VideoConfig by lazy {
-        VideoConfig(640, 480, 30.0)
-    }
+    private val videoConfig: VideoConfig = VideoConfig(640, 480, 30.0)
 
     override fun createViewSink(): ViewSink<View>? = null
 
@@ -39,3 +35,37 @@ class LocalCameraMedia(
 
     override fun getView(): View = viewSink.view
 }
+
+// class CameraLocalMedia(
+//     context: Context,
+//     enableSoftwareH264: Boolean,
+//     disableAudio: Boolean,
+//     disableVideo: Boolean,
+//     aecContext: AecContext?,
+//     enableSimulcast: Boolean
+// ) :
+//     LocalMedia<View?>(
+//         context!!, enableSoftwareH264, disableAudio, disableVideo,
+//         aecContext!!
+//     ) {
+//     private val viewSink: CameraPreview
+//     private val videoConfig: VideoConfig = VideoConfig(640, 480, 30)
+//     override fun createViewSink(): ViewSink<View>? {
+//         return null
+//     }
+//
+//     override fun createVideoSource(): VideoSource {
+//         return Camera2Source(viewSink, videoConfig)
+//     }
+//
+//     override fun getView(): View {
+//         return viewSink.view
+//     }
+//
+//     init {
+//         this.context = context
+//         viewSink = CameraPreview(context, LayoutScale.Contain)
+//         this.videoSimulcastDisabled = !enableSimulcast
+//         super.initialize()
+//     }
+// }
