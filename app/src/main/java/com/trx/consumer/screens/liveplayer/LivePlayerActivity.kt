@@ -1,17 +1,31 @@
 package com.trx.consumer.screens.liveplayer
 
+import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
+import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.trx.consumer.R
+import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.models.responses.LiveResponseModel
 import dagger.hilt.android.AndroidEntryPoint
 import fm.liveswitch.EncodingInfo
+import fm.liveswitch.IAction0
+import fm.liveswitch.IAction1
+import fm.liveswitch.LocalMedia
+import fm.liveswitch.Log
 import fm.liveswitch.VideoEncodingConfig
 import java.util.ArrayList
 import javax.inject.Inject
@@ -28,8 +42,9 @@ class LivePlayerActivity : AppCompatActivity() {
     private var sendEncodings: ArrayList<Int>? = null
     private var recvEncodings: ArrayList<Int>? = null
     private val prefix = "Bitrate: "
+    private var localMediaStarted: Boolean = false
 
-    lateinit var container: ViewGroup
+    lateinit var container: RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +54,133 @@ class LivePlayerActivity : AppCompatActivity() {
     }
 
     private fun bind() {
-        val workout = NavigationManager.shared.params(intent) as WorkoutModel
-        viewModel.model = workout
+        val workout = NavigationManager.shared.params(intent) as? WorkoutModel
+
+        viewModel.apply {
+            model = workout
+
+            eventLoadVideo.observe(this@LivePlayerActivity, handleLoadVideo)
+        }
+
+        viewModel.doLoadVideo()
+
+        container = findViewById(R.id.container)
+        livePlayerHandler.livePlayerActivity = this
+    }
+
+    private val handleLoadVideo = Observer<WorkoutModel> { model ->
+        LogManager.log("handleTapClose")
+        playVideo(container, model.live)
+    }
+
+    fun playVideo(view: RelativeLayout, value: LiveResponseModel) {
+        livePlayerHandler.start(this, view, value)
+        // something()
+    }
+
+    fun something() {
+        val startFn = IAction0 {
+            livePlayerHandler.startLocalMedia(this)
+                .then({ o -> livePlayerHandler.joinAsync() }) { e ->
+                    Log.error("Could not start local media", e)
+                    alert(e.message)
+                }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val requiredPermissions: MutableList<String> = ArrayList(3)
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.RECORD_AUDIO
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requiredPermissions.add(Manifest.permission.RECORD_AUDIO)
+            }
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CAMERA
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requiredPermissions.add(Manifest.permission.CAMERA)
+            }
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_PHONE_STATE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
+            }
+            if (requiredPermissions.size == 0) {
+                startFn.invoke()
+            } else {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
+                        Manifest.permission.CAMERA
+                    ) ||
+                    shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                    shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)
+                ) {
+                    Toast.makeText(
+                        this,
+                        "Access to camera, microphone, storage, and phone call state is required",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                requestPermissions(requiredPermissions.toTypedArray(), 1)
+            }
+        } else {
+            startFn.invoke()
+        }
+    }
+
+    override fun onBackPressed() {
+        stop()
+        super.onBackPressed()
+    }
+
+    private fun stop() {
+        if (localMediaStarted) {
+            // Future<Object> promise =
+            livePlayerHandler.leaveAsync()?.then(IAction1<Any?> { stopLocalMediaAndFinish() })
+                ?.fail(
+                    IAction1<Exception> { e ->
+                        Log.error("Could not leave conference", e)
+                        alert(e.message)
+                    }
+                )
+        } else {
+            finish()
+        }
+        localMediaStarted = false
+    }
+
+    private fun stopLocalMediaAndFinish() {
+        livePlayerHandler.stopLocalMedia()?.then(IAction1<LocalMedia?> { finish() })
+            ?.fail(
+                IAction1<java.lang.Exception> { e ->
+                    Log.error("Could not stop local media", e)
+                    alert(e.message)
+                }
+            )
+    }
+
+    fun alert(format: String?, vararg args: Any?) {
+        val text = String.format(format!!, *args)
+        val activity: Activity = this
+        activity.runOnUiThread {
+            val alert = AlertDialog.Builder(activity)
+            alert.setMessage(text)
+            alert.setPositiveButton(
+                "OK"
+            ) { _, _ -> }
+            alert.show()
+        }
     }
 
     override fun onCreateContextMenu(
