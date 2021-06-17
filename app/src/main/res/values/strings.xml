@@ -185,6 +185,7 @@
     <string name="test_utility_alert_button_secondary_label">Thanks, I\'ll pass</string>
     <string name="test_utility_settings_label">Settings</string>
     <string name="test_utility_workout_label">Workout</string>
+    <string name="test_utility_workout_live_label">Workout Live</string>
     <string name="test_utility_trainer_label">Trainer</string>
     <string name="test_utility_booking_alert_label">Booking Alert</string>
     <string name="test_utility_Loading_screen_label">Loading Screen</string>

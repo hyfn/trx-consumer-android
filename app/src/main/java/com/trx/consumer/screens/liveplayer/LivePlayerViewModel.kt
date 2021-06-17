@@ -11,6 +11,8 @@ class LivePlayerViewModel @ViewModelInject constructor (
     private val backendManager: BackendManager
 ) : BaseViewModel(), LivePlayerListener {
 
+    lateinit var model: WorkoutModel
+
     val eventLoadError = CommonLiveEvent<String>()
     val eventLoadVideo = CommonLiveEvent<WorkoutModel>()
     val eventTapClose = CommonLiveEvent<Void>()

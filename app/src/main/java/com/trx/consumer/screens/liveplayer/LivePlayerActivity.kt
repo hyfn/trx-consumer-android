@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.trx.consumer.R
+import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.WorkoutModel
 import dagger.hilt.android.AndroidEntryPoint
 import fm.liveswitch.EncodingInfo
 import fm.liveswitch.VideoEncodingConfig
@@ -20,7 +22,7 @@ class LivePlayerActivity : AppCompatActivity() {
     private val viewModel: LivePlayerViewModel by viewModels()
 
     @Inject
-    private lateinit var livePlayerHandler: LivePlayerHandler
+    lateinit var livePlayerHandler: LivePlayerHandler
 
     private var currentId: String = ""
     private var sendEncodings: ArrayList<Int>? = null
@@ -32,6 +34,13 @@ class LivePlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_live_player)
+
+        bind()
+    }
+
+    private fun bind() {
+        val workout = NavigationManager.shared.params(intent) as WorkoutModel
+        viewModel.model = workout
     }
 
     override fun onCreateContextMenu(
@@ -41,7 +50,7 @@ class LivePlayerActivity : AppCompatActivity() {
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
 
-        container = findViewById<ViewGroup>(R.id.container)
+        container = findViewById(R.id.container)
 
         val id = v.contentDescription.toString()
         currentId = id
