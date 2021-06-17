@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.trx.consumer.R
@@ -26,6 +27,8 @@ class LivePlayerActivity : AppCompatActivity() {
     private var recvEncodings: ArrayList<Int>? = null
     private val prefix = "Bitrate: "
 
+    lateinit var container: ViewGroup
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_live_player)
@@ -37,6 +40,9 @@ class LivePlayerActivity : AppCompatActivity() {
         menuInfo: ContextMenu.ContextMenuInfo?
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
+
+        container = findViewById<ViewGroup>(R.id.container)
+
         val id = v.contentDescription.toString()
         currentId = id
         var index = 0

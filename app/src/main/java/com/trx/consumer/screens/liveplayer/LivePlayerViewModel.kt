@@ -1,45 +1,33 @@
 package com.trx.consumer.screens.liveplayer
 
+import androidx.hilt.lifecycle.ViewModelInject
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.models.common.TrainerScheduleModel
+import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.models.states.ScheduleViewState
-import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
-import com.trx.consumer.screens.trainerschedule.TrainerScheduleListener
-import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewListener
 
-class LivePlayerViewModel :
-    BaseViewModel(),
-    LiveWorkoutViewListener,
-    VirtualWorkoutViewListener,
-    TrainerScheduleListener {
+class LivePlayerViewModel @ViewModelInject constructor (
+    private val backendManager: BackendManager
+) : BaseViewModel(), LivePlayerListener {
 
-    val eventLoadView = CommonLiveEvent<ScheduleViewState>()
-    val eventTapBack = CommonLiveEvent<Void>()
+    val eventLoadError = CommonLiveEvent<String>()
+    val eventLoadVideo = CommonLiveEvent<WorkoutModel>()
+    val eventTapClose = CommonLiveEvent<Void>()
 
-    var state = ScheduleViewState.LIVE
-
-    fun doTapBack() {
-        eventTapBack.call()
+    fun doLoadVideo() {
+        LogManager.log("doLoadVideo")
     }
 
-    fun doLoadView() {
-        eventLoadView.postValue(state)
+    fun doTapClose() {
+        eventTapClose.call()
     }
 
-    override fun doTapBookLiveWorkout(model: WorkoutModel) {
+    override fun doReceiveMessage(clientId: String, message: String) {
+        LogManager.log("doReceiveMessage")
     }
 
-    override fun doTapSelectLiveWorkout(model: WorkoutModel) {
-    }
-
-    override fun doTapPrimaryVirtualWorkout(model: WorkoutModel) {
-    }
-
-    override fun doTapSelectVirtualWorkout(model: WorkoutModel) {
-    }
-
-    override fun doTapClass(trainerScheduleModel: TrainerScheduleModel) {
+    override fun doReportError(message: String) {
+        LogManager.log("doReportError")
     }
 }
