@@ -24,6 +24,7 @@ import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.groupplayer.GroupPlayerActivity
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.loading.LoadingViewState
+import com.trx.consumer.screens.privateplayer.PrivatePlayerActivity
 import com.trx.consumer.screens.promotion.PromoAdapter
 import com.trx.consumer.screens.video.VideoActivity
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
@@ -70,6 +71,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnSchedule.action { viewModel.doTapSchedule() }
             btnMemberships.action { viewModel.doTapMemberships() }
             btnGroupPlayer.action { viewModel.doTapGroupPlayer() }
+            btnPrivatePlayer.action { viewModel.doTapPrivatePlayer() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoAdapter
@@ -100,6 +102,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventLoadingScreen.observe(viewLifecycleOwner, handleTapLoadingScreen)
             eventTapMemberships.observe(viewLifecycleOwner, handleTapMemberships)
             eventLoadGroupPlayer.observe(viewLifecycleOwner, handleGroupPlayer)
+            eventPrivatePlayer.observe(viewLifecycleOwner, handlePrivatePlayer)
             doLoadView()
         }
     }
@@ -230,6 +233,10 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleGroupPlayer = Observer<Void> {
         NavigationManager.shared.presentActivity(requireActivity(), GroupPlayerActivity::class.java)
+    }
+
+    private val handlePrivatePlayer = Observer<Void> {
+        NavigationManager.shared.presentActivity(requireActivity(), PrivatePlayerActivity::class.java)
     }
 
     //endregion

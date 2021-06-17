@@ -2,10 +2,7 @@ package com.trx.consumer.screens.privateplayer
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.trx.consumer.R
-import com.trx.consumer.databinding.ActivityGroupPlayerBinding
 import com.trx.consumer.databinding.ActivityPrivatePlayerBinding
-import com.trx.consumer.extensions.action
 
 class PrivatePlayerActivity : AppCompatActivity() {
 
@@ -17,11 +14,11 @@ class PrivatePlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.apply {
-            btnCamera.setOnCheckedChangeListener{ _ ,isChecked -> handleTapCamera(isChecked)}
-            btnClock.setOnCheckedChangeListener{ _ ,isChecked -> handleTapClock(isChecked)}
-            btnMicrophone.setOnCheckedChangeListener{ _ ,isChecked -> handleTapMicrophone(isChecked)}
-            btnShare.setOnCheckedChangeListener{ _ ,isChecked -> handleTapShare(isChecked)}
-            btnEnd.action { handleTapEnd() }
+            btnCamera.action { isChecked: Boolean -> handleTapCamera(isChecked) }
+            btnClock.action { isChecked: Boolean -> handleTapClock(isChecked) }
+            btnMicrophone.action { isChecked: Boolean -> handleTapMicrophone(isChecked) }
+            btnShare.action { isChecked: Boolean -> handleTapShare(isChecked) }
+            //btnEnd.action { handleTapEnd() }
         }
     }
 
