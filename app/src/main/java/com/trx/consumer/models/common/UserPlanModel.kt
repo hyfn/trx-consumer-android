@@ -3,18 +3,19 @@ package com.trx.consumer.models.common
 import org.json.JSONObject
 
 class UserPlanModel(
-    var cancelAtPeriodEnd: Boolean = false,
-    var currentPeriodEnd: Double = 0.0,
-    var currentPeriodStart: Double = 0.0
+    val cancelAtPeriodEnd: Boolean = false,
+    val currentPeriodEnd: Long = 0,
+    val currentPeriodStart: Long = 0
 ) {
 
     companion object {
 
-        fun parse(jsonObject: JSONObject): UserPlanModel =
-            UserPlanModel(
+        fun parse(jsonObject: JSONObject): UserPlanModel {
+            return UserPlanModel(
                 cancelAtPeriodEnd = jsonObject.optBoolean("cancel_at_period_end"),
-                currentPeriodEnd = jsonObject.optDouble("current_period_end", 0.0),
-                currentPeriodStart = jsonObject.optDouble("current_period_start", 0.0)
+                currentPeriodEnd = jsonObject.optLong("current_period_end"),
+                currentPeriodStart = jsonObject.optLong("current_period_start")
             )
+        }
     }
 }

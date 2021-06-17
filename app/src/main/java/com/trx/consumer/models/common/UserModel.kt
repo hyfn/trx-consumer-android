@@ -1,7 +1,6 @@
 package com.trx.consumer.models.common
 
 import com.trx.consumer.extensions.format
-import com.trx.consumer.managers.LogManager
 import org.json.JSONObject
 import java.util.Calendar
 import java.util.Date
@@ -14,7 +13,7 @@ class UserModel(
     val cardPaymentMethodId: String? = null,
     var email: String = "",
     var password: String = "",
-    var plans: HashMap<String, UserPlanModel> = hashMapOf(),
+    val plans: HashMap<String, UserPlanModel> = hashMapOf(),
     var zipCode: String = "",
     var firstName: String = "",
     var lastName: String = "",
@@ -84,7 +83,12 @@ class UserModel(
         const val kPlanNameUnlimited = "Unlimited LIVE Classes"
 
         fun parse(jsonObject: JSONObject): UserModel {
-
+            val plans = hashMapOf<String, UserPlanModel>()
+            jsonObject.optJSONObject("subscriptions")?.let { plansObject ->
+                plansObject.keys().forEach { key ->
+                    plans[key] = UserPlanModel.parse(plansObject.getJSONObject(key))
+                }
+            }
             return UserModel(
                 uid = jsonObject.optString("uid"),
                 birthday = jsonObject.optString("birthday"),
@@ -92,24 +96,9 @@ class UserModel(
                 zipCode = jsonObject.optString("postalCode"),
                 firstName = jsonObject.optString("firstName"),
                 lastName = jsonObject.optString("lastName"),
-                iap = jsonObject.optString("iap")
-            ).apply {
-                try {
-                    jsonObject.optJSONObject("subscriptions")?.let { plansJSONObject ->
-                        plansJSONObject.keys().forEach { key ->
-                            val userPlansJSONObject = plansJSONObject.get(key) as JSONObject
-                            userPlansJSONObject
-                                .optJSONObject("subscription")?.let { subJSONObject ->
-                                    UserPlanModel.parse(subJSONObject)
-                                }?.let { userPlans ->
-                                    plans[key] = userPlans
-                                }
-                        }
-                    }
-                } catch (e: Exception) {
-                    LogManager.log(e)
-                }
-            }
+                iap = jsonObject.optString("iap"),
+                plans = plans
+            )
         }
 
         fun test(): UserModel {

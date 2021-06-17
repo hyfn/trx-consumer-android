@@ -3,13 +3,14 @@ package com.trx.consumer.models.common
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.trx.consumer.BuildConfig
+import com.trx.consumer.BuildConfig.isVersion1Enabled
 import com.trx.consumer.BuildConfig.isVersion2Enabled
 import com.trx.consumer.R
 
 class SettingsModel {
 
     var user: UserModel? = null
-    var type: SettingsType = SettingsType.SUBSCRIPTIONS
+    var type: SettingsType = SettingsType.MEMBERSHIPS
 
     val title: Int
         get() = type.title
@@ -17,7 +18,10 @@ class SettingsModel {
     val subtitle: String
         get() =
             when (type) {
-                SettingsType.SUBSCRIPTIONS -> user?.iap ?: ""
+                SettingsType.MEMBERSHIPS -> {
+                    val size = user?.plans?.size ?: 0
+                    "$size active membership${if (size == 1) "" else "s"}"
+                }
                 else -> ""
             }
 
@@ -30,7 +34,7 @@ class SettingsModel {
 
     val titleTextSize: Int
         get() = when (type) {
-            SettingsType.SUBSCRIPTIONS -> 10
+            SettingsType.MEMBERSHIPS -> 10
             else -> 16
         }
 
@@ -43,8 +47,8 @@ class SettingsModel {
 
         fun list(user: UserModel?): List<Any> {
             return mutableListOf<Any>().apply {
-                if (isVersion2Enabled) {
-                    add(create(user, SettingsType.SUBSCRIPTIONS))
+                if (isVersion1Enabled) {
+                    add(create(user, SettingsType.MEMBERSHIPS))
                     add(0)
                     add(create(null, SettingsType.SHOP))
                     add(create(null, SettingsType.GETTING_STARTED))
@@ -67,7 +71,7 @@ class SettingsModel {
 }
 
 enum class SettingsType {
-    SUBSCRIPTIONS,
+    MEMBERSHIPS,
     SHOP,
     GETTING_STARTED,
     CONTACT_SUPPORT,
@@ -79,7 +83,7 @@ enum class SettingsType {
     @get:StringRes
     val title: Int
         get() = when (this) {
-            SUBSCRIPTIONS -> R.string.settings_subscriptions
+            MEMBERSHIPS -> R.string.settings_memberships
             SHOP -> R.string.settings_shop
             GETTING_STARTED -> R.string.settings_getting_started
             TERMS_AND_CONDITIONS -> R.string.settings_terms_and_conditions

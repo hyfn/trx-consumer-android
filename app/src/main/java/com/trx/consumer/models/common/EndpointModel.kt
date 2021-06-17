@@ -19,7 +19,7 @@ enum class EndpointModel {
     PAYMENT_DELETE,
     PLAN_ADD,
     PLAN_DELETE,
-    PLANS,
+    MEMBERSHIPS,
     PROGRAM_AVAILABILITY,
     PROMOS,
     PURCHASE,
@@ -108,7 +108,7 @@ enum class EndpointModel {
                 FORGOT -> prefix + "auth/forgot-password"
                 AUTH, LOGIN, LOGOUT, REGISTER -> prefix + "auth"
                 PAYMENT_ADD, PAYMENT_DELETE -> prefix + "stripe/payment-method"
-                PLAN_ADD, PLAN_DELETE, PLANS -> prefix + "subscriptions"
+                PLAN_ADD, PLAN_DELETE, MEMBERSHIPS -> prefix + "subscriptions"
                 PROGRAM_AVAILABILITY -> prefix + "programs"
                 PROMOS -> prefix + "copy/ctas"
                 PURCHASE, PURCHASES -> prefix + "purchases"

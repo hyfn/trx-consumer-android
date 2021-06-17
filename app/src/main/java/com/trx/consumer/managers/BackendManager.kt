@@ -183,9 +183,9 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return response
     }
 
-    suspend fun plans(): ResponseModel {
-        val path = EndpointModel.PLANS.path
-        return call(RequestModel(endpoint = EndpointModel.PLANS, path = path, params = null))
+    suspend fun memberships(): ResponseModel {
+        val path = EndpointModel.MEMBERSHIPS.path
+        return call(RequestModel(endpoint = EndpointModel.MEMBERSHIPS, path = path, params = null))
     }
 
     suspend fun paymentAdd(id: String): ResponseModel {
@@ -213,12 +213,8 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return call(RequestModel(endpoint = EndpointModel.PURCHASES, path = path, params = null))
     }
 
-    suspend fun planAdd(id: String, country: String = "US"): ResponseModel {
+    suspend fun planAdd(params: HashMap<String, Any>): ResponseModel {
         val path = EndpointModel.PLAN_ADD.path
-        val params = hashMapOf<String, Any>(
-            "subscriptionType" to id,
-            "country" to country
-        )
         return call(
             RequestModel(
                 endpoint = EndpointModel.PLAN_ADD,
