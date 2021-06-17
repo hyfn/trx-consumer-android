@@ -156,6 +156,12 @@
         android:label="ScheduleFragment"
         tools:layout="@layout/fragment_schedule" />
 
+    <fragment
+        android:id="@+id/memberships_fragment"
+        android:name="com.trx.consumer.screens.memberships.MembershipsFragment"
+        android:label="MembershipsFragment"
+        tools:layout="@layout/fragment_memberships" />
+
     <dialog
         android:id="@+id/date_picker_fragment"
         android:name="com.trx.consumer.screens.datepicker.DatePickerFragment"
