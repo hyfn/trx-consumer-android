@@ -87,7 +87,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         UtilityManager.shared.openUrl(requireContext(), kTermsConditionsUrl)
     }
 
-
     private val handleTapMembership = Observer<Void> {
         LogManager.log("handleTapTermsAndConditions")
         NavigationManager.shared.present(this, R.id.memberships_fragment)
