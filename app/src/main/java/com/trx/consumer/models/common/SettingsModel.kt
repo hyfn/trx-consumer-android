@@ -31,7 +31,7 @@ class SettingsModel {
 
     val titleTextSize: Int
         get() = when (type) {
-            SettingsType.SUBSCRIPTIONS -> 10
+            SettingsType.SUBSCRIPTIONS, SettingsType.MEMBERSHIPS -> 10
             else -> 16
         }
 
