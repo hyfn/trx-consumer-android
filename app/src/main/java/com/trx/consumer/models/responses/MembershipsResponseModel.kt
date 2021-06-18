@@ -82,5 +82,4 @@ class MembershipsResponseModel(val memberships: List<MembershipModel>) {
             }
         }
     }
-
 }

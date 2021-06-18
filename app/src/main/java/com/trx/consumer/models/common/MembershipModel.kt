@@ -39,9 +39,6 @@ class MembershipModel(
     val nextBillDate: String
         get() = Date(currentPeriodEnd * 1000).format("MM/dd/YYYY")
 
-    val isLegacy: Boolean
-        get() = key == "onDemandMonthly" || key == "onDemandYearly"
-
     companion object {
 
         fun parse(jsonObject: JSONObject): MembershipModel {

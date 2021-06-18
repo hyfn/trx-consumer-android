@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 
 @Parcelize
-class RevcatProductModel(val platform: String = "", val productId: String  = ""): Parcelable {
+class RevcatProductModel(val platform: String = "", val productId: String = "") : Parcelable {
 
     companion object {
 

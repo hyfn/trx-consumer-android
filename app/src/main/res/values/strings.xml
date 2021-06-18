@@ -282,6 +282,9 @@
     <string name="workout_join_session_label">Join Session</string>
     <string name="workout_cancel_session_label">Cancel Session</string>
     <string name="workout_equipment_label">Equipment Needed</string>
+    <string name="workout_permission_alert_message">You don’t have a membership to view this content</string>
+    <string name="workout_permission_alert_primary_label">GO TO MEMBERSHIPS</string>
+    <string name="workout_permission_alert_secondary_label">DISMISS</string>
 
     <string name="workout_cell_button_view_title">VIEW</string>
     <string name="workout_cell_button_soon_title">JOIN NOW</string>

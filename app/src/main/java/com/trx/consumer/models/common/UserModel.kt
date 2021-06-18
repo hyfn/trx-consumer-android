@@ -18,6 +18,7 @@ class UserModel(
     var firstName: String = "",
     var lastName: String = "",
     var iap: String = "",
+    val entitlements: EntitlementsModel = EntitlementsModel()
 ) {
 
     val fullName: String
@@ -97,7 +98,10 @@ class UserModel(
                 firstName = jsonObject.optString("firstName"),
                 lastName = jsonObject.optString("lastName"),
                 iap = jsonObject.optString("iap"),
-                plans = plans
+                plans = plans,
+                entitlements = jsonObject.optJSONObject("permissions")?.let {
+                    EntitlementsModel.parse(it)
+                } ?: EntitlementsModel()
             )
         }
 

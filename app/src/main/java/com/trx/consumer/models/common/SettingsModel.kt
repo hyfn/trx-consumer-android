@@ -4,7 +4,6 @@ import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.trx.consumer.BuildConfig
 import com.trx.consumer.BuildConfig.isVersion1Enabled
-import com.trx.consumer.BuildConfig.isVersion2Enabled
 import com.trx.consumer.R
 
 class SettingsModel {
@@ -57,7 +56,6 @@ class SettingsModel {
                     add(0)
                     add(create(null, SettingsType.LOGOUT))
                 } else {
-                    add(create(null, SettingsType.MEMBERSHIPS))
                     add(0)
                     add(create(null, SettingsType.SHOP))
                     add(create(null, SettingsType.GETTING_STARTED))

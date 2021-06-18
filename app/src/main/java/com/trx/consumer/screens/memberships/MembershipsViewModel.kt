@@ -108,7 +108,7 @@ class MembershipsViewModel @ViewModelInject constructor(
 
             model.purchaserInfo?.activeSubscriptions?.forEach { productId ->
                 val matchingPackage = packages.firstOrNull { it.product.sku == productId }
-                val membership = memberships.firstOrNull { it.revcatProductId ==  productId}
+                val membership = memberships.firstOrNull { it.revcatProductId == productId }
                 if (matchingPackage != null && membership != null) {
                     val params = params(matchingPackage, membership)
                     backendManager.planAdd(params)

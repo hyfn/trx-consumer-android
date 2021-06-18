@@ -12,5 +12,4 @@ class MembershipsHeaderViewHolder(view: View) : CommonViewHolder(view) {
     fun setup(title: String) {
         lblTitle.text = title
     }
-
 }

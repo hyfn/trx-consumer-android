@@ -48,7 +48,6 @@ class SettingsViewModel @ViewModelInject constructor(
 
     override fun doTapSettings(model: SettingsModel) {
         when (model.type) {
-            SettingsType.MEMBERSHIPS -> eventTapMemberships.call()
             SettingsType.SHOP -> eventTapShop.call()
             SettingsType.GETTING_STARTED -> eventTapGettingStarted.call()
             SettingsType.CONTACT_SUPPORT -> eventTapContactSupport.call()
