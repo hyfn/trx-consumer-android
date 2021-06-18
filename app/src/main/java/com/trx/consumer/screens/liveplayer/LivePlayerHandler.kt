@@ -121,6 +121,7 @@ class LivePlayerHandler(val context: Context) {
             }
     }
 
+    // TODO: Implement completely with TCM-255
     fun joinAsyncLive(live: LiveResponseModel): Future<Array<Channel?>?>? {
         val token = live.accessToken
         val name = live.participantName
@@ -160,7 +161,7 @@ class LivePlayerHandler(val context: Context) {
 
     //endregion
 
-    var dataChannelsMessageTimer: ManagedTimer? = null
+    private var dataChannelsMessageTimer: ManagedTimer? = null
 
     fun setUserName(userName: String) {
         this.userName = userName
@@ -174,7 +175,7 @@ class LivePlayerHandler(val context: Context) {
         mode = m
     }
 
-    fun getMode(): Modes? {
+    fun getMode(): Modes {
         return mode
     }
 
@@ -233,19 +234,19 @@ class LivePlayerHandler(val context: Context) {
     private fun addRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
         if (layoutManager == null) return
         val r = Runnable {
-            if (remoteMedia.getView() != null) {
-                remoteMedia.getView().setContentDescription("remoteView_" + remoteMedia.getId())
+            if (remoteMedia.view != null) {
+                remoteMedia.view.contentDescription = "remoteView_" + remoteMedia.id
             }
-            layoutManager!!.addRemoteView(remoteMedia.getId(), remoteMedia.view)
+            layoutManager!!.addRemoteView(remoteMedia.id, remoteMedia.view)
         }
         handler.post(r)
     }
 
     private fun removeRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
         layoutManager?.let {
-            clearContextMenuItemFlag(remoteMedia.getId())
+            clearContextMenuItemFlag(remoteMedia.id)
             val r = Runnable {
-                layoutManager!!.removeRemoteView(remoteMedia.getId())
+                layoutManager!!.removeRemoteView(remoteMedia.id)
                 remoteMedia.destroy()
             }
             handler.post(r)
@@ -359,7 +360,7 @@ class LivePlayerHandler(val context: Context) {
         // Create a client to manage the channel.
         client = Client(gatewayUrl, applicationId, userID, deviceID)
         val claims = arrayOf(ChannelClaim(channelId))
-        client?.tag = Integer.toString(mode!!.value)
+        client?.tag = mode.value.toString()
         client?.userAlias = userName
         client?.addOnStateChange { client ->
             if (client.state == Registering) {
@@ -396,7 +397,7 @@ class LivePlayerHandler(val context: Context) {
     }
 
     private fun onClientRegistered(channels: Array<Channel>) {
-        channel = channels[0]
+        channel = channels.firstOrNull()
 
         // Monitor the channel remote client changes.
         channel?.addOnRemoteClientJoin { remoteClientInfo ->
@@ -428,7 +429,7 @@ class LivePlayerHandler(val context: Context) {
 
         // Monitor the channel peer connection offers.
         channel?.addOnPeerConnectionOffer { peerConnectionOffer -> // Accept the peer connection offer.
-            openPeerAnswerConnection(peerConnectionOffer, null)
+            openPeerAnswerConnection(peerConnectionOffer)
         }
         channel?.addOnMessage { clientInfo, message ->
             val n = if (clientInfo.userAlias != null) clientInfo.userAlias else clientInfo.userId
@@ -484,7 +485,7 @@ class LivePlayerHandler(val context: Context) {
 
         // Add the remote video view to the layout.
         addRemoteViewOnUiThread(remoteMedia)
-        var connection: McuConnection?
+        val connection: McuConnection?
         val dataChannel = prepareDataChannel()
         val dataStream = DataStream(dataChannel)
         synchronized(dataChannelLock) { dataChannels.add(dataChannel) }
@@ -520,7 +521,7 @@ class LivePlayerHandler(val context: Context) {
         */
 
         // Monitor the connection state changes.
-        connection?.addOnStateChange { connection ->
+        connection?.addOnStateChange {
             Log.info(connection.id + ": MCU connection state is " + connection.state.toString() + ".")
 
             // Cleanup if the connection closes or fails.
@@ -543,14 +544,16 @@ class LivePlayerHandler(val context: Context) {
 
         // Float the local preview over the mixed video feed for an improved user experience.
         layoutManager?.addOnLayout { layout ->
-            if (mcuConnection != null && !receiveOnly && !audioOnly) {
-                LayoutUtility.floatLocalPreview<View>(
-                    layout,
-                    videoLayout,
-                    mcuConnection!!.id,
-                    mcuViewId,
-                    localMedia?.viewSink
-                )
+            mcuConnection?.let { mcu ->
+                if (mcuConnection != null && !receiveOnly && !audioOnly) {
+                    LayoutUtility.floatLocalPreview(
+                        layout,
+                        videoLayout,
+                        mcu.id,
+                        mcuViewId,
+                        localMedia?.viewSink
+                    )
+                }
             }
         }
 
@@ -561,7 +564,7 @@ class LivePlayerHandler(val context: Context) {
 
     private fun openSfuUpstreamConnection(tag: String?): SfuUpstreamConnection? {
         // Create the connection.
-        var connection: SfuUpstreamConnection? = null
+        val connection: SfuUpstreamConnection?
         val dataChannel = prepareDataChannel()
         val dataStream = DataStream(dataChannel)
         synchronized(dataChannelLock) { dataChannels.add(dataChannel) }
@@ -592,7 +595,7 @@ class LivePlayerHandler(val context: Context) {
         */
 
         // Monitor the connection state changes.
-        connection?.addOnStateChange { connection ->
+        connection?.addOnStateChange {
             Log.info(connection.id + ": SFU upstream connection state is " + connection.state.toString() + ".")
 
             // Cleanup if the connection closes or fails.
@@ -632,14 +635,14 @@ class LivePlayerHandler(val context: Context) {
             )
         }
 
-        val remoteView: View = remoteMedia.view
-        if (remoteView != null) {
-            remoteView.contentDescription = "remoteView_" + remoteMedia.getId()
+        remoteMedia.view?.let { remoteView ->
+            remoteView.contentDescription = "remoteView_" + remoteMedia.id
             livePlayerActivity?.registerRemoteContextMenu(
                 remoteView,
                 if (remoteConnectionInfo.hasVideo) remoteConnectionInfo.videoStream.sendEncodings else null
             )
         }
+
         // var dataChannel: DataChannel? = null
         // var dataStream: DataStream? = null
         // if (remoteConnectionInfo.hasData) {
@@ -681,7 +684,7 @@ class LivePlayerHandler(val context: Context) {
         */
 
         // Monitor the connection state changes.
-        connection?.addOnStateChange { connection ->
+        connection?.addOnStateChange {
             Log.info(connection.id + ": SFU downstream connection state is " + connection.state.toString() + ".")
             // Cleanup if the connection closes or fails.
             if (connection.state == ConnectionState.Closing || connection.state == ConnectionState.Failing) {
@@ -712,8 +715,7 @@ class LivePlayerHandler(val context: Context) {
     }
 
     private fun openPeerAnswerConnection(
-        peerConnectionOffer: PeerConnectionOffer,
-        tag: String?
+        peerConnectionOffer: PeerConnectionOffer
     ): PeerConnection? {
         // Create remote media to manage incoming media.
         var disableRemoteVideo = audioOnly
@@ -729,12 +731,12 @@ class LivePlayerHandler(val context: Context) {
 
         // Add the remote video view to the layout.
         addRemoteViewOnUiThread(remoteMedia)
-        val remoteView: View = remoteMedia.getView()
+        val remoteView: View = remoteMedia.view
         if (remoteView != null) {
-            remoteView.contentDescription = "remoteView_" + remoteMedia.getId()
+            remoteView.contentDescription = "remoteView_" + remoteMedia.id
             livePlayerActivity?.registerRemoteContextMenu(remoteView, null)
         }
-        var connection: PeerConnection?
+        val connection: PeerConnection?
         var videoStream: VideoStream? = null
         var audioStream: AudioStream? = null
         if (peerConnectionOffer.hasAudio) {
@@ -756,12 +758,7 @@ class LivePlayerHandler(val context: Context) {
         connection = channel?.createPeerConnection(peerConnectionOffer, audioStream, videoStream)
         connection?.let {
             peerConnections[connection.id] = connection
-            remoteMediaMaps[remoteMedia.getId()] = connection
-        }
-
-        // Tag the connection (optional).
-        if (tag != null) {
-            connection?.tag = tag
+            remoteMediaMaps[remoteMedia.id] = connection
         }
 
         /*
@@ -770,7 +767,7 @@ class LivePlayerHandler(val context: Context) {
         */
 
         // Monitor the connection state changes.
-        connection?.addOnStateChange { connection ->
+        connection?.addOnStateChange {
             Log.info(connection.id + ": Peer connection state is " + connection.state.toString() + ".")
 
             // Cleanup if the connection closes or fails.
@@ -779,8 +776,8 @@ class LivePlayerHandler(val context: Context) {
                     Log.info(connection.id + ": Remote peer closed the connection.")
                 }
                 removeRemoteViewOnUiThread(remoteMedia)
-                peerConnections!!.remove(connection.id)
-                remoteMediaMaps!!.remove(remoteMedia.getId())
+                peerConnections.remove(connection.id)
+                remoteMediaMaps.remove(remoteMedia.id)
                 logConnectionState(connection, "Peer")
             } else if (connection.state == ConnectionState.Failed) {
                 // Note: no need to close the connection as it's done for us.
@@ -827,13 +824,6 @@ class LivePlayerHandler(val context: Context) {
         return Promise.resolveNow()
     }
 
-    fun writeLine(message: String?) {
-        if (channel != null) // If the registration has not happened then "channel" will be null. So we want to send messages only after registration.
-            {
-                channel?.sendMessage(message)
-            }
-    }
-
     private fun logConnectionState(conn: ManagedConnection, connectionType: String) {
         var streams = ""
         var streamCount = 0
@@ -842,14 +832,14 @@ class LivePlayerHandler(val context: Context) {
             streams = "audio"
         }
         if (conn.dataStream != null) {
-            if (streams.length > 0) {
+            if (streams.isNotEmpty()) {
                 streams += "/"
             }
             streamCount++
             streams += "data"
         }
         if (conn.videoStream != null) {
-            if (streams.length > 0) {
+            if (streams.isNotEmpty()) {
                 streams += "/"
             }
             streamCount++
@@ -860,36 +850,43 @@ class LivePlayerHandler(val context: Context) {
         } else {
             " stream."
         }
-        if (conn.state == ConnectionState.Connected) {
-            textListener?.onReceivedText(
-                "System",
-                "$connectionType connection connected with $streams"
-            )
-        } else if (conn.state == ConnectionState.Closing) {
-            textListener?.onReceivedText(
-                "System",
-                "$connectionType connection closing for $streams"
-            )
-        } else if (conn.state == ConnectionState.Failing) {
-            var eventString: String? = "$connectionType connection failing for $streams"
-            if (conn.error != null) {
-                eventString += conn.error.description
+        when (conn.state) {
+            ConnectionState.Connected -> {
+                textListener?.onReceivedText(
+                    "System",
+                    "$connectionType connection connected with $streams"
+                )
             }
-            textListener?.onReceivedText("System", eventString)
-        } else if (conn.state == ConnectionState.Closed) {
-            textListener?.onReceivedText(
-                "System",
-                "$connectionType connection closed for $streams"
-            )
-        } else if (conn.state == ConnectionState.Failed) {
-            textListener?.onReceivedText(
-                "System",
-                "$connectionType connection failed for $streams"
-            )
+            ConnectionState.Closing -> {
+                textListener?.onReceivedText(
+                    "System",
+                    "$connectionType connection closing for $streams"
+                )
+            }
+            ConnectionState.Failing -> {
+                var eventString: String? = "$connectionType connection failing for $streams"
+                if (conn.error != null) {
+                    eventString += conn.error.description
+                }
+                textListener?.onReceivedText("System", eventString)
+            }
+            ConnectionState.Closed -> {
+                textListener?.onReceivedText(
+                    "System",
+                    "$connectionType connection closed for $streams"
+                )
+            }
+            ConnectionState.Failed -> {
+                textListener?.onReceivedText(
+                    "System",
+                    "$connectionType connection failed for $streams"
+                )
+            }
+            else -> { }
         }
     }
 
-    private fun sendMessageInDataChannels(): IAction0? {
+    private fun sendMessageInDataChannels(): IAction0 {
         return IAction0 {
             var channels: Array<DataChannel>
             synchronized(dataChannelLock) { channels = dataChannels.toTypedArray() }
@@ -912,8 +909,8 @@ class LivePlayerHandler(val context: Context) {
                 dataChannelConnected = true
             }
         }
-        dataChannel.addOnStateChange { dataChannel ->
-            if (dataChannel.state == DataChannelState.Connected) {
+        dataChannel.addOnStateChange { channel ->
+            if (channel.state == DataChannelState.Connected) {
                 if (dataChannelsMessageTimer == null) {
                     dataChannelsMessageTimer = ManagedTimer(1000, sendMessageInDataChannels())
                     dataChannelsMessageTimer!!.start()
@@ -933,7 +930,7 @@ class LivePlayerHandler(val context: Context) {
 
     fun changeReceiveEncodings(id: String, index: Int) {
         val connection =
-            sfuDownstreamConnections!![id.replace("remoteView_", "").trim { it <= ' ' }]
+            sfuDownstreamConnections[id.replace("remoteView_", "").trim { it <= ' ' }]
         val encodings = connection!!.remoteConnectionInfo.videoStream.sendEncodings
         if (encodings != null && encodings.size > 1) {
             val config = connection.config
@@ -963,7 +960,7 @@ class LivePlayerHandler(val context: Context) {
             config.localAudioMuted = !config.localAudioMuted
             mcuConnection!!.update(config)
         }
-        for (peerConnection in peerConnections!!.values) {
+        for (peerConnection in peerConnections.values) {
             config = peerConnection.config
             config.localAudioMuted = !config.localAudioMuted
             peerConnection.update(config)
@@ -985,7 +982,7 @@ class LivePlayerHandler(val context: Context) {
             config.localVideoMuted = !config.localVideoMuted
             mcuConnection!!.update(config)
         }
-        for (peerConnection in peerConnections!!.values) {
+        for (peerConnection in peerConnections.values) {
             config = peerConnection.config
             config.localVideoMuted = !config.localVideoMuted
             peerConnection.update(config)
@@ -1007,7 +1004,7 @@ class LivePlayerHandler(val context: Context) {
             config.localAudioDisabled = !config.localAudioDisabled
             mcuConnection!!.update(config)
         }
-        for (peerConnection in peerConnections!!.values) {
+        for (peerConnection in peerConnections.values) {
             config = peerConnection.config
             config.localAudioDisabled = !config.localAudioDisabled
             peerConnection.update(config)
@@ -1019,7 +1016,7 @@ class LivePlayerHandler(val context: Context) {
 
     fun toggleRemoteDisableAudio(remoteId: String) {
         val id = remoteId.replace("remoteView_", "")
-        val downStream = remoteMediaMaps!![id]
+        val downStream = remoteMediaMaps[id]
         val config = downStream!!.config
         config.remoteAudioDisabled = !config.remoteAudioDisabled
         contextMenuItemFlag[remoteId + "DisableAudio"] = config.remoteAudioDisabled
@@ -1038,7 +1035,7 @@ class LivePlayerHandler(val context: Context) {
             config.localVideoDisabled = !config.localVideoDisabled
             mcuConnection!!.update(config)
         }
-        for (peerConnection in peerConnections!!.values) {
+        for (peerConnection in peerConnections.values) {
             config = peerConnection.config
             config.localVideoDisabled = !config.localVideoDisabled
             peerConnection.update(config)
@@ -1050,14 +1047,14 @@ class LivePlayerHandler(val context: Context) {
 
     fun toggleRemoteDisableVideo(remoteId: String) {
         val id = remoteId.replace("remoteView_", "")
-        val downStream = remoteMediaMaps!![id]
+        val downStream = remoteMediaMaps[id]
         val config = downStream!!.config
         config.remoteVideoDisabled = !config.remoteVideoDisabled
         contextMenuItemFlag[remoteId + "DisableVideo"] = config.remoteVideoDisabled
         downStream.update(config)
     }
 
-    fun clearContextMenuItemFlag(id: String?) {
+    private fun clearContextMenuItemFlag(id: String?) {
         val iterator = contextMenuItemFlag.keys.iterator()
         while (iterator.hasNext()) {
             val key = iterator.next()
