@@ -18,7 +18,7 @@ class SettingsModel {
         get() =
             when (type) {
                 SettingsType.SUBSCRIPTIONS -> user?.iap ?: ""
-                SettingsType.MEMBERSHIPS -> user?.plans?.count()?.let{"$it active memberships"} ?: ""
+                SettingsType.MEMBERSHIPS -> "2 active membership - DUMMY"
                 else -> ""
             }
 
