@@ -2,9 +2,10 @@ package com.trx.consumer.screens.privateplayer
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.trx.consumer.R
-import com.trx.consumer.common.CommonCheckBox
 import com.trx.consumer.databinding.ActivityPrivatePlayerBinding
+import com.trx.consumer.extensions.action
+import com.trx.consumer.extensions.onChecked
+import com.trx.consumer.managers.LogManager
 
 class PrivatePlayerActivity : AppCompatActivity() {
 
@@ -16,28 +17,30 @@ class PrivatePlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.apply {
-            findViewById<CommonCheckBox>(R.id.btnCamera).action { isChecked: Boolean -> handleTapCamera(isChecked) }
-            //btnClock.action { isChecked: Boolean -> handleTapClock(isChecked) }
-            //btnMicrophone.action { isChecked: Boolean -> handleTapMicrophone(isChecked) }
-            //btnShare.action { isChecked: Boolean -> handleTapShare(isChecked) }
-            //btnEnd.action { handleTapEnd() }
+            btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
+            btnClock.onChecked { isChecked -> handleTapClock(isChecked) }
+            btnMicrophone.onChecked { isChecked -> handleTapMicrophone(isChecked) }
+            btnShare.onChecked { isChecked -> handleTapShare(isChecked) }
+            btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
+            btnEnd.action { handleTapEnd() }
         }
+
     }
 
     private fun handleTapCamera(isChecked: Boolean) {
-        //TODO: on camera actions
+        LogManager.log("handleTapCamera $isChecked")
     }
 
     private fun handleTapClock(isChecked: Boolean) {
-        //TODO: on clock actions
+        LogManager.log("handleTapClock $isChecked")
     }
 
     private fun handleTapMicrophone(isChecked: Boolean) {
-        //TODO: on microphone actions
+        LogManager.log("handleTapMicrophone $isChecked")
     }
 
     private fun handleTapShare(isChecked: Boolean) {
-        //TODO: on share actions
+        LogManager.log("handleTapShare $isChecked")
     }
 
     private fun handleTapEnd() {

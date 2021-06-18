@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.trx.consumer.databinding.ActivityGroupPlayerBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.extensions.onChecked
+import com.trx.consumer.managers.LogManager
 
 class GroupPlayerActivity : AppCompatActivity() {
 
@@ -15,31 +17,32 @@ class GroupPlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.apply {
-            btnCamera.setOnCheckedChangeListener{ _ ,isChecked -> handleTapCamera(isChecked)}
-            btnClock.setOnCheckedChangeListener{ _ ,isChecked -> handleTapClock(isChecked)}
-            btnMicrophone.setOnCheckedChangeListener{ _ ,isChecked -> handleTapMicrophone(isChecked)}
-            btnShare.setOnCheckedChangeListener{ _ ,isChecked -> handleTapShare(isChecked)}
+            btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
+            btnClock.onChecked { isChecked -> handleTapClock(isChecked) }
+            btnMicrophone.onChecked { isChecked -> handleTapMicrophone(isChecked) }
+            btnShare.onChecked { isChecked -> handleTapShare(isChecked) }
+            btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
             btnEnd.action { handleTapEnd() }
         }
     }
 
     private fun handleTapCamera(isChecked: Boolean) {
-        //TODO: on camera actions
+        LogManager.log("handleTapCamera $isChecked")
     }
 
     private fun handleTapClock(isChecked: Boolean) {
-        //TODO: on clock actions
+        LogManager.log("handleTapClock $isChecked")
     }
 
     private fun handleTapMicrophone(isChecked: Boolean) {
-        //TODO: on microphone actions
+        LogManager.log("handleTapMicrophone $isChecked")
     }
 
     private fun handleTapShare(isChecked: Boolean) {
-        //TODO: on share actions
+        LogManager.log("handleTapShare $isChecked")
     }
 
     private fun handleTapEnd() {
-       finish()
+        finish()
     }
 }

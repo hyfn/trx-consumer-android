@@ -8,6 +8,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.trx.consumer.common.CommonActionListener
+import com.trx.consumer.common.CommonCheckBox
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
@@ -50,6 +51,10 @@ fun View.color(@ColorRes color: Int): Int = context.color(color)
 inline fun View.action(timeIntervalMillis: Long = 500, crossinline action: (view: View) -> Unit) {
     val actionListener = CommonActionListener(timeIntervalMillis, lifecycleScope) { action(it) }
     setOnClickListener(actionListener)
+}
+
+inline fun View.onChecked(crossinline action: (isChecked: Boolean) -> Unit) {
+    if (this is CommonCheckBox) setOnCheckedChangeListener { _, isChecked -> action(isChecked) }
 }
 
 inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(block: T.() -> Unit) {

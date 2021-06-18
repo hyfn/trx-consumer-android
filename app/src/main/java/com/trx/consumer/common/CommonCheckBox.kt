@@ -2,17 +2,12 @@ package com.trx.consumer.common
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.CheckBox
 import androidx.appcompat.widget.AppCompatCheckBox
 
-class CommonCheckBox @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : CheckBox(context, attrs, defStyleAttr) {
+class CommonCheckBox : AppCompatCheckBox {
 
-    fun action(action: (isChecked: Boolean) -> Unit) {
-        setOnCheckedChangeListener { _, isChecked -> action(isChecked) }
-    }
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
 }
