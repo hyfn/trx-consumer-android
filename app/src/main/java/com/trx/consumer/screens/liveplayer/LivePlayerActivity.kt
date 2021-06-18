@@ -45,7 +45,7 @@ class LivePlayerActivity : AppCompatActivity() {
     private var localMediaStarted: Boolean = false
 
     var container: RelativeLayout? = null
-    var layout: FrameLayout? = null
+    lateinit var layout: FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,12 +65,12 @@ class LivePlayerActivity : AppCompatActivity() {
 
         // viewModel.doLoadVideo()
 
-        livePlayerHandler.useNextVideoDevice()
-
+        // livePlayerHandler.useNextVideoDevice()
+        //
         container = findViewById(R.id.fmPlayerContainer)
         layout = findViewById(R.id.fmPlayerLayout)
 
-        // livePlayerHandler.livePlayerActivity = this
+        livePlayerHandler.livePlayerActivity = this
 
         playFMLive()
     }
@@ -86,7 +86,7 @@ class LivePlayerActivity : AppCompatActivity() {
 
         // Remove the static container from the current layout.
         if (container != null) {
-            layout?.removeView(container)
+            layout.removeView(container)
         }
 
         super.onStop()
@@ -97,7 +97,7 @@ class LivePlayerActivity : AppCompatActivity() {
 
         // Add the static container to the current layout.
         if (container != null) {
-            layout?.addView(container)
+            layout.addView(container)
         }
 
         // Resume the local video feed.
@@ -115,13 +115,13 @@ class LivePlayerActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        livePlayerHandler.pauseLocalVideo()?.waitForResult()
+        livePlayerHandler.pauseLocalVideo().waitForResult()
 
         // Remove the static container from the current layout.
 
         // Remove the static container from the current layout.
         if (container != null) {
-            layout?.removeView(container)
+            layout.removeView(container)
         }
 
         super.onPause()
@@ -129,13 +129,18 @@ class LivePlayerActivity : AppCompatActivity() {
 
     fun playFMLive() {
 
+        livePlayerHandler.useNextVideoDevice()
+
+        // container = findViewById(R.id.fmPlayerContainer)
+        // layout = findViewById(R.id.fmPlayerLayout)
+
         livePlayerHandler.livePlayerActivity = this
 
         val tempContainer = findViewById<RelativeLayout>(R.id.fmPlayerContainer)
         if (container == null) {
             container = tempContainer
         }
-        layout?.removeView(tempContainer)
+        layout.removeView(tempContainer)
 
         if (!localMediaStarted) {
             val promise = Promise<Any>()
