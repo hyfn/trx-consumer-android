@@ -59,12 +59,10 @@ import java.util.ArrayList
 
 class LivePlayerHandler(val context: Context) {
 
-    enum class Modes(val value: Int) {
-        Mcu(1), Sfu(2);
-    }
-
+    // TODO: Replace with Coroutines
     private var handler: Handler = Handler(context.mainLooper)
     private var channel: Channel? = null
+
     private var mcuConnection: McuConnection? = null
     private var sfuUpstreamConnection: SfuUpstreamConnection? = null
     private var sfuDownstreamConnections: HashMap<String, SfuDownstreamConnection>
@@ -77,17 +75,19 @@ class LivePlayerHandler(val context: Context) {
     var contextMenuItemFlag: HashMap<String, Boolean> = HashMap()
     var remoteMediaMaps: HashMap<String, ManagedConnection>
 
+    //region Client Variables and Parameters
+
+    private var client: Client? = null
+
+    // Url for FM demo
     private val gatewayUrl = "https://demo.liveswitch.fm:8443/sync"
 
-    // Track whether the user has decided to leave (unregister)
-    // If they have not and the client gets into the Disconnected state then we attempt to reregister (reconnect) automatically.
-    private var unRegistering = false
-    private var reRegisterBackoff = 200
-    private val maxRegisterBackoff = 60000
-
-    var mode: Modes = Modes.Mcu
-
+    // Generic applicationId for FM demo
     private val applicationId = "my-app-id"
+
+    private val userID: String = Guid.newGuid().toString().replace("-".toRegex(), "")
+
+    private val deviceID: String = Guid.newGuid().toString().replace("-".toRegex(), "")
 
     private var userName: String = "Testing"
         set(value) {
@@ -95,11 +95,18 @@ class LivePlayerHandler(val context: Context) {
         }
 
     var channelId: String? = "846812"
-    private val deviceID: String = Guid.newGuid().toString().replace("-".toRegex(), "")
-    private val userID: String = Guid.newGuid().toString().replace("-".toRegex(), "")
-    private lateinit var mcuViewId: String
 
-    private var client: Client? = null
+    //endregion
+
+    // Track whether the user has decided to leave (unregister)
+    // If they have not and the client gets into the Disconnected state then we attempt to reregister (reconnect) automatically.
+    private var unRegistering = false
+    private var reRegisterBackoff = 200
+    private val maxRegisterBackoff = 60000
+
+    private var isModeMcu: Boolean = false
+
+    private lateinit var mcuViewId: String
 
     private var textListener: OnReceivedTextListener? = null
     private var usingFrontVideoDevice = true
@@ -320,7 +327,7 @@ class LivePlayerHandler(val context: Context) {
         // Create a client to manage the channel.
         client = Client(gatewayUrl, applicationId, userID, deviceID)
         val claims = arrayOf(ChannelClaim(channelId))
-        client?.tag = mode.value.toString()
+        client?.tag = if (isModeMcu) "Mcu" else "Sfu"
         client?.userAlias = userName
         client?.addOnStateChange { client ->
             if (client.state == Registering) {
@@ -376,7 +383,7 @@ class LivePlayerHandler(val context: Context) {
         // Monitor the channel remote upstream connection changes.
         channel?.addOnRemoteUpstreamConnectionOpen { remoteConnectionInfo ->
             Log.info("Remote client opened upstream connection (connection ID: " + remoteConnectionInfo.id + ", client ID: " + remoteConnectionInfo.clientId + ", device ID: " + remoteConnectionInfo.deviceId + ", user ID: " + remoteConnectionInfo.userId + ", tag: " + remoteConnectionInfo.tag + ").")
-            if (mode == Modes.Sfu) {
+            if (!isModeMcu) {
                 // Open downstream connection to receive the new upstream connection.
                 openSfuDownstreamConnection(remoteConnectionInfo, null)
             }
@@ -395,7 +402,7 @@ class LivePlayerHandler(val context: Context) {
             val n = if (clientInfo.userAlias != null) clientInfo.userAlias else clientInfo.userId
             textListener?.onReceivedText(n, message)
         }
-        if (mode == Modes.Mcu) {
+        if (isModeMcu) {
 
             // Monitor the channel video layout changes.
             channel?.addOnMcuVideoLayout { vidLayout ->
@@ -408,7 +415,7 @@ class LivePlayerHandler(val context: Context) {
 
             // Open an MCU connection.
             openMcuConnection(null)
-        } else if (mode == Modes.Sfu) {
+        } else {
             if (!receiveOnly) {
                 // Open an upstream SFU connection.
                 openSfuUpstreamConnection(null)
