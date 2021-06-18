@@ -1,7 +1,6 @@
 package com.trx.consumer.screens.liveplayer
 
 import android.Manifest
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Build
@@ -292,17 +291,15 @@ class LivePlayerActivity : AppCompatActivity() {
 
     fun alert(format: String?, vararg args: Any?) {
         val text = String.format(format!!, *args)
-        val activity: Activity = this
-        activity.runOnUiThread {
-            val alert = AlertDialog.Builder(activity)
-            alert.setMessage(text)
-            alert.setPositiveButton(
-                "OK"
-            ) { _, _ -> }
+        runOnUiThread {
+            val alert = AlertDialog.Builder(this)
+                .setMessage(text)
+                .setPositiveButton("OK") { _, _ -> }
             alert.show()
         }
     }
 
+    //  TODO: Marked for removal, Plans to use physical buttons instead of context.
     override fun onCreateContextMenu(
         menu: ContextMenu,
         v: View,
