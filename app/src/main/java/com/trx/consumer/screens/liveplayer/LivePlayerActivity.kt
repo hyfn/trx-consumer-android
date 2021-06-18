@@ -326,7 +326,7 @@ class LivePlayerActivity : AppCompatActivity() {
             muteVideo.isChecked = livePlayerHandler.contextMenuItemFlag["MuteVideo"] ?: false
             disableAudio.isChecked = livePlayerHandler.contextMenuItemFlag["DisableAudio"] ?: false
             disableVideo.isChecked = livePlayerHandler.contextMenuItemFlag["DisableVideo"] ?: false
-            if (livePlayerHandler.getEnableSimulcast()) {
+            if (livePlayerHandler.enableSimulcast) {
                 sendEncodings?.let { send ->
                     send.sort()
                     send.reverse()
@@ -347,7 +347,7 @@ class LivePlayerActivity : AppCompatActivity() {
             menu.setGroupCheckable(2, true, false)
             disableAudio.isChecked = livePlayerHandler.contextMenuItemFlag[id + "DisableAudio"] ?: false
             disableVideo.isChecked = livePlayerHandler.contextMenuItemFlag[id + "DisableVideo"] ?: false
-            if (livePlayerHandler.getEnableSimulcast()) {
+            if (livePlayerHandler.enableSimulcast) {
                 // Refresh the recvEncoding List in case of each remote media has different encoding
 
                 recvEncodings?.let { receive ->

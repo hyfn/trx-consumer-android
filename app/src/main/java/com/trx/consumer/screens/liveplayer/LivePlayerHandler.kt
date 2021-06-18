@@ -85,29 +85,50 @@ class LivePlayerHandler(val context: Context) {
     private var reRegisterBackoff = 200
     private val maxRegisterBackoff = 60000
 
-    private var mode: Modes = Modes.Mcu
+    var mode: Modes = Modes.Mcu
 
     private val applicationId = "my-app-id"
+
     private var userName: String = "Testing"
-    private var channelId: String? = "846812"
+        set(value) {
+            field = if (value.isNotEmpty()) value else field
+        }
+
+    var channelId: String? = "846812"
     private val deviceID: String = Guid.newGuid().toString().replace("-".toRegex(), "")
     private val userID: String = Guid.newGuid().toString().replace("-".toRegex(), "")
-    private var mcuViewId: String? = null
+    private lateinit var mcuViewId: String
 
     private var client: Client? = null
 
     private var textListener: OnReceivedTextListener? = null
     private var usingFrontVideoDevice = true
-    private var audioOnly = false
-    private var receiveOnly = false
-    private var enableSimulcast = false
-    private var enableScreenShare = false
-    var enableH264 = false
+    var audioOnly: Boolean = false
+    var receiveOnly: Boolean = false
+    var enableSimulcast = false
+
+    //  TODO: Marked for removal. Used for sreen sharing
+    var enableScreenShare = false
+
+    val enableH264: Boolean
+        get() = Utility.isSupported()
+
+    //  TODO: Marked for removal. Used for screen projection.
+    var mediaProjection: MediaProjection? = null
 
     private var dataChannelConnected = false
     var dataChannels = ArrayList<DataChannel>()
-    private val dataChannelLock: Object =
-        Object() // synchronize data channel book-keeping (collection may be modified while trying to send messages in SendDataChannelMessage())
+    private val dataChannelLock: Any =
+        // synchronize data channel book-keeping (collection may be
+        // modified while trying to send messages in SendDataChannelMessage())
+        Object()
+
+    init {
+        contextMenuItemFlag = HashMap()
+        remoteMediaMaps = HashMap()
+        sfuDownstreamConnections = HashMap()
+        peerConnections = HashMap()
+    }
 
     //region LivePlayerActivity Function
 
@@ -163,72 +184,12 @@ class LivePlayerHandler(val context: Context) {
 
     private var dataChannelsMessageTimer: ManagedTimer? = null
 
-    fun setUserName(userName: String) {
-        this.userName = userName
-    }
-
-    fun setChannelId(cid: String?) {
-        channelId = cid
-    }
-
-    fun setMode(m: Modes) {
-        mode = m
-    }
-
-    fun getMode(): Modes {
-        return mode
-    }
-
-    fun setAudioOnly(audioOnly: Boolean) {
-        this.audioOnly = audioOnly
-    }
-
-    fun setReceiveOnly(receiveOnly: Boolean) {
-        this.receiveOnly = receiveOnly
-    }
-
-    fun setEnableSimulcast(simulcast: Boolean) {
-        enableSimulcast = simulcast
-    }
-
-    fun getEnableSimulcast(): Boolean {
-        return enableSimulcast
-    }
-
-    fun setEnableScreenShare(screenShare: Boolean) {
-        enableScreenShare = screenShare
-    }
-
-    fun getIsScreenShareEnabled(): Boolean {
-        return enableScreenShare
-    }
-
-    private var mediaProjection: MediaProjection? = null
-
-    fun getMediaProjection(): MediaProjection? {
-        return mediaProjection
-    }
-
-    fun setMediaProjection(mediaProjection: MediaProjection?) {
-        this.mediaProjection = mediaProjection
-    }
-
     companion object {
-
         fun doSomething() {
             Log.setLogLevel(LogLevel.Debug)
             Log.setProvider(LogProvider(LogLevel.Debug))
             License.getCurrent()
         }
-    }
-
-    init {
-        audioOnly = false
-        receiveOnly = false
-        contextMenuItemFlag = HashMap()
-        remoteMediaMaps = HashMap()
-        sfuDownstreamConnections = HashMap()
-        peerConnections = HashMap()
     }
 
     private fun addRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
@@ -261,7 +222,6 @@ class LivePlayerHandler(val context: Context) {
 
     fun startLocalMedia(activity: LivePlayerActivity): Future<Any> {
         val promise = Promise<Any>()
-        enableH264 = Utility.isSupported()
         if (enableH264) {
             val downloadPath = context.filesDir.path
             Utility.downloadOpenH264(downloadPath).waitForResult()
