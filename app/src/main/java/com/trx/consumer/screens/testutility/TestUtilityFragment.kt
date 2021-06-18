@@ -230,7 +230,6 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         NavigationManager.shared.present(this, R.id.loading_screen, LoadingViewState.LAUNCH)
     }
 
-
     private val handleGroupPlayer = Observer<Void> {
         NavigationManager.shared.presentActivity(requireActivity(), GroupPlayerActivity::class.java)
     }

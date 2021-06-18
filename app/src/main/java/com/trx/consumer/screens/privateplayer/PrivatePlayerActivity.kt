@@ -24,7 +24,6 @@ class PrivatePlayerActivity : AppCompatActivity() {
             btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
             btnEnd.action { handleTapEnd() }
         }
-
     }
 
     private fun handleTapCamera(isChecked: Boolean) {
