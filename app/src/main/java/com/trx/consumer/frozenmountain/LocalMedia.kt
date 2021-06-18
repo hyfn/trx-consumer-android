@@ -8,7 +8,6 @@ import fm.liveswitch.AudioEncoder
 import fm.liveswitch.AudioFormat
 import fm.liveswitch.AudioSink
 import fm.liveswitch.AudioSource
-import fm.liveswitch.RtcLocalMedia
 import fm.liveswitch.VideoEncoder
 import fm.liveswitch.VideoFormat
 import fm.liveswitch.VideoPipe
@@ -22,13 +21,13 @@ import fm.liveswitch.opus.Encoder as EncoderOpus
 import fm.liveswitch.vp8.Encoder as EncoderVP8
 import fm.liveswitch.vp9.Encoder as EncoderVP9
 
-abstract class LocalMedia<View>(
+abstract class LocalMedia<TView>(
     private val context: Context,
     private val enableSoftwareH264: Boolean = false,
     disableAudio: Boolean,
     disableVideo: Boolean,
     aecContext: AecContext
-) : RtcLocalMedia<View>(disableAudio, disableVideo, aecContext) {
+) : fm.liveswitch.RtcLocalMedia<TView>(disableAudio, disableVideo, aecContext) {
 
     override fun createAudioRecorder(audioFormat: AudioFormat): AudioSink =
         AudioSinkMatroska("$id-local-audio-${audioFormat.name.lowerCased()}.mkv")

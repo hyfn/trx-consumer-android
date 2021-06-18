@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -44,7 +45,8 @@ class LivePlayerActivity : AppCompatActivity() {
     private val prefix = "Bitrate: "
     private var localMediaStarted: Boolean = false
 
-    lateinit var container: RelativeLayout
+    var container: RelativeLayout? = null
+    var layout: FrameLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,80 +64,186 @@ class LivePlayerActivity : AppCompatActivity() {
             eventLoadVideo.observe(this@LivePlayerActivity, handleLoadVideo)
         }
 
-        viewModel.doLoadVideo()
+        // viewModel.doLoadVideo()
 
-        container = findViewById(R.id.container)
+        container = findViewById(R.id.fmPlayerContainer)
+        layout = findViewById(R.id.fmPlayerLayout)
+
         livePlayerHandler.livePlayerActivity = this
+
+        playFMLive()
+    }
+
+    override fun onStop() {
+
+        // Android requires us to pause the local
+        // video feed when pausing the activity.
+        // Not doing this can cause unexpected side
+        // effects and crashes.
+
+        // Android requires us to pause the local
+        // video feed when pausing the activity.
+        // Not doing this can cause unexpected side
+        // effects and crashes.
+        livePlayerHandler.pauseLocalVideo().waitForResult()
+
+        // Remove the static container from the current layout.
+
+        // Remove the static container from the current layout.
+        if (container != null) {
+            layout!!.removeView(container)
+        }
+
+        super.onStop()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Add the static container to the current layout.
+        if (container != null) {
+            layout!!.addView(container)
+        }
+
+        // Resume the local video feed.
+        livePlayerHandler.resumeLocalVideo().waitForResult()
     }
 
     private val handleLoadVideo = Observer<WorkoutModel> { model ->
         LogManager.log("handleTapClose")
-        playVideo(container, model.live)
+        // playTRXlive(container, model.live)
+        playFMLive()
     }
 
-    fun playVideo(view: RelativeLayout, value: LiveResponseModel) {
-        livePlayerHandler.start(this, view, value)
-        // something()
+    fun playTRXlive(view: RelativeLayout, value: LiveResponseModel) {
+        // livePlayerHandler.start(this, view, value)
     }
 
-    fun something() {
-        val startFn = IAction0 {
-            livePlayerHandler.startLocalMedia(this)
-                .then({ o -> livePlayerHandler.joinAsync() }) { e ->
-                    Log.error("Could not start local media", e)
-                    alert(e.message)
-                }
+    override fun onPause() {
+        livePlayerHandler.pauseLocalVideo()?.waitForResult()
+
+        // Remove the static container from the current layout.
+
+        // Remove the static container from the current layout.
+        if (container != null) {
+            layout?.removeView(container)
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val requiredPermissions: MutableList<String> = ArrayList(3)
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.RECORD_AUDIO
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                requiredPermissions.add(Manifest.permission.RECORD_AUDIO)
+        super.onPause()
+    }
+
+    fun playFMLive() {
+
+        livePlayerHandler.livePlayerActivity = this
+
+        val tempContainer = findViewById<RelativeLayout>(R.id.fmPlayerContainer)
+        if (container == null) {
+            container = tempContainer
+        }
+        layout?.removeView(tempContainer)
+
+        if (!localMediaStarted) {
+
+            val startFn = IAction0 {
+                livePlayerHandler.startLocalMedia(this)
+                    .then({ o -> livePlayerHandler.joinAsync() }) { e ->
+                        Log.error("Could not start local media", e)
+                        alert(e.message)
+                    }
             }
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.CAMERA
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                requiredPermissions.add(Manifest.permission.CAMERA)
-            }
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            }
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_PHONE_STATE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
-            }
-            if (requiredPermissions.size == 0) {
-                startFn.invoke()
-            } else {
-                if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
-                        Manifest.permission.CAMERA
-                    ) ||
-                    shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
-                    shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)
-                ) {
-                    Toast.makeText(
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val requiredPermissions: MutableList<String> = ArrayList(3)
+                if (ContextCompat.checkSelfPermission(
                         this,
-                        "Access to camera, microphone, storage, and phone call state is required",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        Manifest.permission.RECORD_AUDIO
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    requiredPermissions.add(Manifest.permission.RECORD_AUDIO)
                 }
-                requestPermissions(requiredPermissions.toTypedArray(), 1)
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.CAMERA
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    requiredPermissions.add(Manifest.permission.CAMERA)
+                }
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                }
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.READ_PHONE_STATE
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
+                }
+                if (requiredPermissions.size == 0) {
+                    startFn.invoke()
+                } else {
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
+                            Manifest.permission.CAMERA
+                        ) ||
+                        shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                        shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)
+                    ) {
+                        Toast.makeText(
+                            this,
+                            "Access to camera, microphone, storage, and phone call state is required",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    requestPermissions(requiredPermissions.toTypedArray(), 1)
+                }
+            } else {
+                startFn.invoke()
+            }
+        }
+
+        localMediaStarted = true
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == 1) {
+            // stream api not used here bc not supported under api 24
+            var permissionsGranted = true
+            for (grantResult in grantResults) {
+                if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                    permissionsGranted = false
+                }
+            }
+            if (permissionsGranted) {
+                livePlayerHandler.livePlayerActivity = this
+                livePlayerHandler.startLocalMedia(this)
+                    .then({ o -> livePlayerHandler.joinAsync() }) { e ->
+                        Log.error("Could not start local media", e)
+                        alert(e.message)
+                    }
+            } else {
+                Toast.makeText(
+                    this,
+                    "Cannot connect without access to camera and microphone",
+                    Toast.LENGTH_SHORT
+                ).show()
+                for (i in grantResults.indices) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        Log.debug("permission to " + permissions[i] + " not granted")
+                    }
+                }
+                stop()
             }
         } else {
-            startFn.invoke()
+            Toast.makeText(this, "Unknown permission requested", Toast.LENGTH_SHORT).show()
         }
     }
 

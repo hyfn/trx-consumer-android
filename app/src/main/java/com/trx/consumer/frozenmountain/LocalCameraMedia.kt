@@ -10,7 +10,7 @@ import fm.liveswitch.ViewSink
 import fm.liveswitch.android.Camera2Source
 import fm.liveswitch.android.CameraPreview
 
-class LocalCameraMedia<T>(
+class LocalCameraMedia(
     val context: Context,
     val enableSoftwareH264: Boolean = false,
     disableAudio: Boolean,
@@ -20,20 +20,26 @@ class LocalCameraMedia<T>(
 ) : LocalMedia<View>(context, enableSoftwareH264, disableAudio, disableVideo, aecContext) {
 
     init {
+        startInitial()
         this.videoSimulcastDisabled = !enableSimulcast
-        // super.initialize()
+        // this.initialize()
     }
 
-    private val viewSink: CameraPreview = CameraPreview(context, LayoutScale.Contain)
+    fun startInitial() {
+        viewSink = CameraPreview(context, LayoutScale.Contain)
+        videoConfig = VideoConfig(640, 480, 30.0)
+    }
 
-    private val videoConfig: VideoConfig = VideoConfig(640, 480, 30.0)
+    private lateinit var viewSink: CameraPreview
+
+    private lateinit var videoConfig: VideoConfig
 
     override fun createViewSink(): ViewSink<View>? = null
 
     override fun createVideoSource(): VideoSource =
         Camera2Source(viewSink, videoConfig)
 
-    override fun getView(): View = viewSink.view
+    override fun getView(): View? = viewSink.view
 }
 
 // class CameraLocalMedia(
