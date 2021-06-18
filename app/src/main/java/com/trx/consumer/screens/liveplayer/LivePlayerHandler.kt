@@ -110,12 +110,12 @@ class LivePlayerHandler(val context: Context) {
 
     private var textListener: OnReceivedTextListener? = null
     private var usingFrontVideoDevice = true
-    var audioOnly: Boolean = false
-    var receiveOnly: Boolean = false
+    private var audioOnly: Boolean = false
+    private var receiveOnly: Boolean = false
     var enableSimulcast = false
 
-    //  TODO: Marked for removal. Used for sreen sharing
-    var enableScreenShare = false
+    //  TODO: Marked for removal. Used for screen sharing
+    private var enableScreenShare = false
 
     val enableH264: Boolean
         get() = Utility.isSupported()
@@ -178,7 +178,7 @@ class LivePlayerHandler(val context: Context) {
                         }
                     }
                 }
-                else -> {}
+                else -> { LogManager.log("Not logging state: ${state.state.name}") }
             }
         }
 
@@ -192,6 +192,7 @@ class LivePlayerHandler(val context: Context) {
     private var dataChannelsMessageTimer: ManagedTimer? = null
 
     companion object {
+        //  TODO: Marked for removal. 
         fun doSomething() {
             Log.setLogLevel(LogLevel.Debug)
             Log.setProvider(LogProvider(LogLevel.Debug))
@@ -456,10 +457,10 @@ class LivePlayerHandler(val context: Context) {
         val dataChannel = prepareDataChannel()
         val dataStream = DataStream(dataChannel)
         synchronized(dataChannelLock) { dataChannels.add(dataChannel) }
-        val audioStream = AudioStream(localMedia, remoteMedia)
-        if (receiveOnly) {
-            audioStream.localDirection = StreamDirection.ReceiveOnly
+        val audioStream = AudioStream(localMedia, remoteMedia).apply {
+            if (receiveOnly) localDirection = StreamDirection.ReceiveOnly
         }
+
         if (audioOnly) {
             connection = channel?.createMcuConnection(audioStream, dataStream)
         } else {
@@ -670,7 +671,7 @@ class LivePlayerHandler(val context: Context) {
                     logConnectionState(safeConnection, "SFU Downstream")
                 }
                 else -> {
-                    LogManager.log("Not logging")
+                    LogManager.log("Not logging state: ${safeConnection.state.name}")
                 }
             }
         }
@@ -697,23 +698,23 @@ class LivePlayerHandler(val context: Context) {
 
         // Add the remote video view to the layout.
         addRemoteViewOnUiThread(remoteMedia)
-        val remoteView: View = remoteMedia.view
-        if (remoteView != null) {
+        remoteMedia.view?.let { remoteView ->
             remoteView.contentDescription = "remoteView_" + remoteMedia.id
             livePlayerActivity?.registerRemoteContextMenu(remoteView, null)
         }
+
         val connection: PeerConnection?
-        var videoStream: VideoStream? = null
-        var audioStream: AudioStream? = null
-        if (peerConnectionOffer.hasAudio) {
-            audioStream = AudioStream(localMedia, remoteMedia)
-        }
-        if (peerConnectionOffer.hasVideo) {
-            videoStream = VideoStream(localMedia, remoteMedia)
-            if (audioOnly) {
-                videoStream.localDirection = StreamDirection.Inactive
+        val videoStream: VideoStream? = if (peerConnectionOffer.hasVideo) {
+            VideoStream(localMedia, remoteMedia).apply {
+                if (audioOnly) {
+                    localDirection = StreamDirection.Inactive
+                }
             }
-        }
+        } else null
+
+        val audioStream: AudioStream? = if (peerConnectionOffer.hasAudio) {
+            AudioStream(localMedia, remoteMedia)
+        } else null
 
         // Please note that DataStreams can also be added to Peer-to-peer connections.
         // Nevertheless, since peer connections do not connect to the media server, there may arise
@@ -721,10 +722,14 @@ class LivePlayerHandler(val context: Context) {
         // https://developer.microsoft.com/en-us/microsoft-edge/platform/status/rtcdatachannels/?filter=f3f0000bf&search=rtc&q=data%20channels).
         // For a solution around this issue and complete documentation visit:
         // https://help.frozenmountain.com/docs/liveswitch1/working-with-datachannels
-        connection = channel?.createPeerConnection(peerConnectionOffer, audioStream, videoStream)
-        connection?.let {
-            peerConnections[connection.id] = connection
-            remoteMediaMaps[remoteMedia.id] = connection
+
+        connection = channel?.createPeerConnection(
+            peerConnectionOffer,
+            audioStream,
+            videoStream
+        )?.apply {
+            peerConnections[id] = this
+            remoteMediaMaps[id] = this
         }
 
         /*
@@ -733,24 +738,33 @@ class LivePlayerHandler(val context: Context) {
         */
 
         // Monitor the connection state changes.
-        connection?.addOnStateChange {
-            Log.info(connection.id + ": Peer connection state is " + connection.state.toString() + ".")
 
-            // Cleanup if the connection closes or fails.
-            if (connection.state == ConnectionState.Closing || connection.state == ConnectionState.Failing) {
-                if (connection.remoteClosed) {
-                    Log.info(connection.id + ": Remote peer closed the connection.")
+        connection?.let { safeConnect ->
+            Log.info("${safeConnect.id}: Peer connection state is ${connection.state}.")
+
+            safeConnect.addOnStateChange {
+                when (safeConnect.state) {
+                    ConnectionState.Connected -> {
+                        logConnectionState(connection, "Peer")
+                    }
+                    // Cleanup if the connection closes or fails.
+                    ConnectionState.Failing, ConnectionState.Closing -> {
+                        if (connection.remoteClosed) {
+                            Log.info("${connection.id}: Remote peer closed the connection.")
+                        }
+                        removeRemoteViewOnUiThread(remoteMedia)
+                        peerConnections.remove(safeConnect.id)
+                        remoteMediaMaps.remove(remoteMedia.id)
+                        logConnectionState(safeConnect, "Peer")
+                    }
+                    ConnectionState.Failed -> {
+                        // Note: no need to close the connection as it's done for us.
+                        // Note: do not offer a new answer here. Let the offerer
+                        // reoffer and then we answer normally.
+                        logConnectionState(safeConnect, "Peer")
+                    }
+                    else -> { LogManager.log("Not logging state: ${safeConnect.state.name}") }
                 }
-                removeRemoteViewOnUiThread(remoteMedia)
-                peerConnections.remove(connection.id)
-                remoteMediaMaps.remove(remoteMedia.id)
-                logConnectionState(connection, "Peer")
-            } else if (connection.state == ConnectionState.Failed) {
-                // Note: no need to close the connection as it's done for us.
-                // Note: do not offer a new answer here. Let the offerer reoffer and then we answer normally.
-                logConnectionState(connection, "Peer")
-            } else if (connection.state == ConnectionState.Connected) {
-                logConnectionState(connection, "Peer")
             }
         }
 
@@ -848,7 +862,7 @@ class LivePlayerHandler(val context: Context) {
                     "$connectionType connection failed for $streams"
                 )
             }
-            else -> { }
+            else -> { LogManager.log("Not logging state: ${conn.state.name}") }
         }
     }
 
