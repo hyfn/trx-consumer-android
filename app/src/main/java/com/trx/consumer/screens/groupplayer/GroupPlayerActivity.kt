@@ -27,19 +27,19 @@ class GroupPlayerActivity : AppCompatActivity() {
     }
 
     private fun handleTapCamera(isChecked: Boolean) {
-        LogManager.log("handleTapCamera $isChecked")
+        LogManager.log("handleTapCamera $isChecked ")
     }
 
     private fun handleTapClock(isChecked: Boolean) {
-        LogManager.log("handleTapClock $isChecked")
+        LogManager.log("handleTapClock $isChecked ")
     }
 
     private fun handleTapMicrophone(isChecked: Boolean) {
-        LogManager.log("handleTapMicrophone $isChecked")
+        LogManager.log("handleTapMicrophone $isChecked ")
     }
 
     private fun handleTapShare(isChecked: Boolean) {
-        LogManager.log("handleTapShare $isChecked")
+        LogManager.log("handleTapShare $isChecked ")
     }
 
     private fun handleTapEnd() {
