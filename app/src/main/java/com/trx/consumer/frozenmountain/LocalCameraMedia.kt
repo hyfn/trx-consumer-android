@@ -19,27 +19,20 @@ class LocalCameraMedia(
     enableSimulcast: Boolean
 ) : LocalMedia<View>(context, enableSoftwareH264, disableAudio, disableVideo, aecContext) {
 
+    private val viewSink: CameraPreview = CameraPreview(context, LayoutScale.Contain)
+
+    private val videoConfig: VideoConfig = VideoConfig(640, 480, 30.0)
+
     init {
-        startInitial()
-        this.videoSimulcastDisabled = !enableSimulcast
-        // this.initialize()
+        this.initialize()
     }
-
-    fun startInitial() {
-        viewSink = CameraPreview(context, LayoutScale.Contain)
-        videoConfig = VideoConfig(640, 480, 30.0)
-    }
-
-    private lateinit var viewSink: CameraPreview
-
-    private lateinit var videoConfig: VideoConfig
 
     override fun createViewSink(): ViewSink<View>? = null
 
     override fun createVideoSource(): VideoSource =
         Camera2Source(viewSink, videoConfig)
 
-    override fun getView(): View? = viewSink.view
+    override fun getView(): View = viewSink.view as View
 }
 
 // class CameraLocalMedia(

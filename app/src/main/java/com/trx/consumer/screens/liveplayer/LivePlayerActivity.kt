@@ -25,8 +25,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import fm.liveswitch.EncodingInfo
 import fm.liveswitch.IAction0
 import fm.liveswitch.IAction1
-import fm.liveswitch.LocalMedia
 import fm.liveswitch.Log
+import fm.liveswitch.Promise
 import fm.liveswitch.VideoEncodingConfig
 import java.util.ArrayList
 import javax.inject.Inject
@@ -66,10 +66,12 @@ class LivePlayerActivity : AppCompatActivity() {
 
         // viewModel.doLoadVideo()
 
+        livePlayerHandler.useNextVideoDevice()
+
         container = findViewById(R.id.fmPlayerContainer)
         layout = findViewById(R.id.fmPlayerLayout)
 
-        livePlayerHandler.livePlayerActivity = this
+        // livePlayerHandler.livePlayerActivity = this
 
         playFMLive()
     }
@@ -81,17 +83,11 @@ class LivePlayerActivity : AppCompatActivity() {
         // Not doing this can cause unexpected side
         // effects and crashes.
 
-        // Android requires us to pause the local
-        // video feed when pausing the activity.
-        // Not doing this can cause unexpected side
-        // effects and crashes.
         livePlayerHandler.pauseLocalVideo().waitForResult()
 
         // Remove the static container from the current layout.
-
-        // Remove the static container from the current layout.
         if (container != null) {
-            layout!!.removeView(container)
+            layout?.removeView(container)
         }
 
         super.onStop()
@@ -102,7 +98,7 @@ class LivePlayerActivity : AppCompatActivity() {
 
         // Add the static container to the current layout.
         if (container != null) {
-            layout!!.addView(container)
+            layout?.addView(container)
         }
 
         // Resume the local video feed.
@@ -143,13 +139,29 @@ class LivePlayerActivity : AppCompatActivity() {
         layout?.removeView(tempContainer)
 
         if (!localMediaStarted) {
+            val promise = Promise<Any>()
 
             val startFn = IAction0 {
-                livePlayerHandler.startLocalMedia(this)
-                    .then({ o -> livePlayerHandler.joinAsync() }) { e ->
-                        Log.error("Could not start local media", e)
-                        alert(e.message)
+                livePlayerHandler.startLocalMedia(this).then({ resultStart ->
+                    livePlayerHandler.joinAsync()?.then({ resultJoin ->
+                        promise.resolve(null)
+                    }) { ex ->
+                        promise.reject(ex)
                     }
+                }) { ex ->
+                    promise.reject(null)
+                }
+
+                // livePlayerHandler.startLocalMedia(this)
+                //     .then { o ->
+                //         livePlayerHandler.joinAsync()?.then({
+                //             promise.resolve(null)
+                //         }) { e ->
+                //             Log.error("Could not start local media", e)
+                //             alert(e.message)
+                //             promise.reject(e)
+                //         }
+                //     }
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -255,9 +267,9 @@ class LivePlayerActivity : AppCompatActivity() {
     private fun stop() {
         if (localMediaStarted) {
             // Future<Object> promise =
-            livePlayerHandler.leaveAsync()?.then(IAction1<Any?> { stopLocalMediaAndFinish() })
+            livePlayerHandler.leaveAsync()?.then { stopLocalMediaAndFinish() }
                 ?.fail(
-                    IAction1<Exception> { e ->
+                    IAction1 { e ->
                         Log.error("Could not leave conference", e)
                         alert(e.message)
                     }
@@ -269,9 +281,9 @@ class LivePlayerActivity : AppCompatActivity() {
     }
 
     private fun stopLocalMediaAndFinish() {
-        livePlayerHandler.stopLocalMedia()?.then(IAction1<LocalMedia?> { finish() })
+        livePlayerHandler.stopLocalMedia().then { finish() }
             ?.fail(
-                IAction1<java.lang.Exception> { e ->
+                IAction1 { e ->
                     Log.error("Could not stop local media", e)
                     alert(e.message)
                 }

@@ -32,7 +32,7 @@ abstract class LocalMedia<TView>(
     override fun createAudioRecorder(audioFormat: AudioFormat): AudioSink =
         AudioSinkMatroska("$id-local-audio-${audioFormat.name.lowerCased()}.mkv")
 
-    override fun createAudioSource(audioConfig: AudioConfig?): AudioSource =
+    override fun createAudioSource(audioConfig: AudioConfig): AudioSource =
         AudioRecordSource(context, audioConfig)
 
     override fun createH264Encoder(): VideoEncoder? =
