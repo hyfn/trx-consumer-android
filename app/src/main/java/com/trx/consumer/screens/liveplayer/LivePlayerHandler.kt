@@ -17,7 +17,6 @@ import fm.liveswitch.AudioStream
 import fm.liveswitch.Channel
 import fm.liveswitch.ChannelClaim
 import fm.liveswitch.Client
-import fm.liveswitch.ClientInfo
 import fm.liveswitch.ClientState.Registered
 import fm.liveswitch.ClientState.Registering
 import fm.liveswitch.ClientState.Unregistered
@@ -61,7 +60,7 @@ import java.util.ArrayList
 class LivePlayerHandler(val context: Context) {
 
     enum class Modes(val value: Int) {
-        Mcu(1), Sfu(2), Peer(3);
+        Mcu(1), Sfu(2);
     }
 
     private var handler: Handler = Handler(context.mainLooper)
@@ -460,13 +459,6 @@ class LivePlayerHandler(val context: Context) {
                     openSfuDownstreamConnection(connection, null)
                 }
             }
-        } else if (mode == Modes.Peer) {
-            // Open a peer connection for each remote client.
-            channel?.let {
-                for (clientInfo in it.remoteClientInfos) {
-                    openPeerOfferConnection(clientInfo, null)
-                }
-            }
         }
         textListener?.onClientRegistered()
     }
@@ -715,75 +707,6 @@ class LivePlayerHandler(val context: Context) {
         }
 
         // Open the connection.
-        connection?.open()
-        return connection
-    }
-
-    fun openPeerOfferConnection(remoteClientInfo: ClientInfo?, tag: String?): PeerConnection? {
-        // Create remote media to manage incoming media.
-        val remoteMedia = RemoteMedia(context, enableH264, false, audioOnly, aecContext)
-
-        // Add the remote video view to the layout.
-        addRemoteViewOnUiThread(remoteMedia)
-        val remoteView: View = remoteMedia.getView()
-        if (remoteView != null) {
-            remoteView.contentDescription = "remoteView_" + remoteMedia.getId()
-            livePlayerActivity?.registerRemoteContextMenu(remoteView, null)
-        }
-        var connection: PeerConnection?
-        val audioStream: AudioStream = AudioStream(localMedia, remoteMedia)
-        var videoStream: VideoStream? = null
-        if (!audioOnly) {
-            videoStream = VideoStream(localMedia, remoteMedia)
-        }
-
-        // Please note that DataStreams can also be added to Peer-to-peer connections.
-        // Nevertheless, since peer connections do not connect to the media server, there may arise
-        // incompatibilities with the peers that do not support DataStream (e.g. Microsoft Edge browser:
-        // https://developer.microsoft.com/en-us/microsoft-edge/platform/status/rtcdatachannels/?filter=f3f0000bf&search=rtc&q=data%20channels).
-        // For a solution around this issue and complete documentation visit:
-        // https://help.frozenmountain.com/docs/liveswitch1/working-with-datachannels
-        connection = channel?.createPeerConnection(remoteClientInfo, audioStream, videoStream)
-        connection?.let {
-            peerConnections[connection.id] = connection
-            remoteMediaMaps[remoteMedia.id] = connection
-        }
-
-        // Tag the connection (optional).
-        if (tag != null) {
-            connection?.tag = tag
-        }
-
-        /*
-        Embedded TURN servers are used by default.  For more information refer to:
-        https://help.frozenmountain.com/docs/liveswitch/server/advanced-topics#TURNintheMediaServer
-        */
-
-        // Monitor the connection state changes.
-        connection?.addOnStateChange { connection ->
-            Log.info(connection.id + ": Peer connection state is " + connection.state.toString() + ".")
-
-            // Cleanup if the connection closes or fails.
-            if (connection.state == ConnectionState.Closing || connection.state == ConnectionState.Failing) {
-                if (connection.remoteRejected) {
-                    Log.info(connection.id + ": Remote peer rejected the offer.")
-                } else if (connection.remoteClosed) {
-                    Log.info(connection.id + ": Remote peer closed the connection.")
-                }
-                removeRemoteViewOnUiThread(remoteMedia)
-                peerConnections!!.remove(connection.id)
-                remoteMediaMaps!!.remove(remoteMedia.getId())
-                logConnectionState(connection, "Peer")
-            } else if (connection.state == ConnectionState.Failed) {
-                // Note: no need to close the connection as it's done for us.
-                openPeerOfferConnection(remoteClientInfo, tag)
-                logConnectionState(connection, "Peer")
-            } else if (connection.state == ConnectionState.Connected) {
-                logConnectionState(connection, "Peer")
-            }
-        }
-
-        // Open the connection (sends an offer to the remote peer).
         connection?.open()
         return connection
     }
