@@ -610,12 +610,6 @@ class LivePlayerHandler(val context: Context) {
             )
         }
 
-        // var dataChannel: DataChannel? = null
-        // var dataStream: DataStream? = null
-        // if (remoteConnectionInfo.hasData) {
-        //     dataChannel = prepareDataChannel()
-        //     dataStream = DataStream(dataChannel)
-        // }
         var videoStream: VideoStream? = null
         var audioStream: AudioStream? = null
         if (remoteConnectionInfo.hasAudio) {
@@ -623,6 +617,7 @@ class LivePlayerHandler(val context: Context) {
         }
         if (remoteConnectionInfo.hasVideo && !audioOnly) {
             videoStream = VideoStream(localMedia, remoteMedia)
+            // TODO: Mark for removal unless using simulcast
             // if (enableSimulcast) {
             //     val remoteEncodings = remoteConnectionInfo.videoStream.sendEncodings
             //     if (remoteEncodings != null && remoteEncodings.size > 0) {
@@ -630,19 +625,16 @@ class LivePlayerHandler(val context: Context) {
             //     }
             // }
         }
-        var connection: SfuDownstreamConnection? = channel?.createSfuDownstreamConnection(
+
+        // Create SfuDownstreamConnection, store in maps and add tag. 
+        val connection: SfuDownstreamConnection? = channel?.createSfuDownstreamConnection(
             remoteConnectionInfo,
             audioStream,
             videoStream
-        )
-        connection?.let { sfuDownstreamConnection ->
-            sfuDownstreamConnections[remoteMedia.id] = sfuDownstreamConnection
-            remoteMediaMaps[remoteMedia.id] = sfuDownstreamConnection
-        }
-
-        // Tag the connection (optional).
-        if (tag != null) {
-            connection?.tag = tag
+        )?.apply {
+            sfuDownstreamConnections[remoteMedia.id] = this
+            remoteMediaMaps[remoteMedia.id] = this
+            tag?.let { newTag -> this.tag = newTag }
         }
 
         /*
@@ -651,28 +643,35 @@ class LivePlayerHandler(val context: Context) {
         */
 
         // Monitor the connection state changes.
-        connection?.addOnStateChange {
-            Log.info(connection.id + ": SFU downstream connection state is " + connection.state.toString() + ".")
+        connection?.addOnStateChange { safeConnection ->
+            Log.info(safeConnection.id + ": SFU downstream connection state is " + safeConnection.state.toString() + ".")
             // Cleanup if the connection closes or fails.
-            if (connection.state == ConnectionState.Closing || connection.state == ConnectionState.Failing) {
-                if (connection.remoteClosed) {
-                    Log.info(connection.id + ": Media server closed the connection.")
+            when (safeConnection.state) {
+                ConnectionState.Connected -> {
+                    logConnectionState(safeConnection, "SFU Downstream")
                 }
+                ConnectionState.Closing, ConnectionState.Failing -> {
+                    if (safeConnection.remoteClosed) {
+                        Log.info(connection.id + ": Media server closed the connection.")
+                    }
 
-                handler.post {
-                    layoutManager?.removeRemoteView(remoteMedia.id)
-                    remoteMedia.destroy()
+                    handler.post {
+                        layoutManager?.removeRemoteView(remoteMedia.id)
+                        remoteMedia.destroy()
+                    }
+
+                    sfuDownstreamConnections.remove(remoteMedia.id)
+                    remoteMediaMaps.remove(remoteMedia.id)
+                    logConnectionState(safeConnection, "SFU Downstream")
                 }
-
-                sfuDownstreamConnections.remove(remoteMedia.id)
-                remoteMediaMaps.remove(remoteMedia.id)
-                logConnectionState(connection, "SFU Downstream")
-            } else if (connection.state == ConnectionState.Failed) {
-                // Note: no need to close the connection as it's done for us.
-                openSfuDownstreamConnection(remoteConnectionInfo, tag)
-                logConnectionState(connection, "SFU Downstream")
-            } else if (connection.state == ConnectionState.Connected) {
-                logConnectionState(connection, "SFU Downstream")
+                ConnectionState.Failed -> {
+                    // Note: no need to close the connection as it's done for us.
+                    openSfuDownstreamConnection(remoteConnectionInfo, tag)
+                    logConnectionState(safeConnection, "SFU Downstream")
+                }
+                else -> {
+                    LogManager.log("Not logging")
+                }
             }
         }
 
