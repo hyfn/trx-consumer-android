@@ -18,6 +18,7 @@ class SettingsModel {
         get() =
             when (type) {
                 SettingsType.SUBSCRIPTIONS -> user?.iap ?: ""
+                SettingsType.MEMBERSHIPS -> user?.plans?.count()?.let{"$it active memberships"} ?: ""
                 else -> ""
             }
 
@@ -53,6 +54,8 @@ class SettingsModel {
                     add(0)
                     add(create(null, SettingsType.LOGOUT))
                 } else {
+                    add(create(null, SettingsType.MEMBERSHIPS))
+                    add(0)
                     add(create(null, SettingsType.SHOP))
                     add(create(null, SettingsType.GETTING_STARTED))
                     add(create(null, SettingsType.CONTACT_SUPPORT))
@@ -74,7 +77,8 @@ enum class SettingsType {
     TERMS_AND_CONDITIONS,
     RESTORE,
     LOGOUT,
-    TEST_SCREENS;
+    TEST_SCREENS,
+    MEMBERSHIPS;
 
     @get:StringRes
     val title: Int
@@ -87,5 +91,6 @@ enum class SettingsType {
             RESTORE -> R.string.settings_restore_purchases
             LOGOUT -> R.string.settings_logout
             TEST_SCREENS -> R.string.settings_test_screen
+            MEMBERSHIPS -> R.string.settings_membership
         }
 }
