@@ -154,6 +154,7 @@
     <string name="settings_contact_support">Contact Support</string>
     <string name="settings_restore_purchases">Restore Purchases</string>
     <string name="settings_logout">Log Out</string>
+    <string name="settings_membership">Memberships</string>
     <string name="settings_test_screen">Test Screens</string>
 
     <string name="subscriptions_title">Subscriptions</string>

@@ -57,6 +57,8 @@ class SettingsModel {
                     add(0)
                     add(create(null, SettingsType.LOGOUT))
                 } else {
+                    add(create(null, SettingsType.MEMBERSHIPS))
+                    add(0)
                     add(create(null, SettingsType.SHOP))
                     add(create(null, SettingsType.GETTING_STARTED))
                     add(create(null, SettingsType.CONTACT_SUPPORT))
@@ -71,19 +73,18 @@ class SettingsModel {
 }
 
 enum class SettingsType {
-    MEMBERSHIPS,
     SHOP,
     GETTING_STARTED,
     CONTACT_SUPPORT,
     TERMS_AND_CONDITIONS,
     RESTORE,
     LOGOUT,
-    TEST_SCREENS;
+    TEST_SCREENS,
+    MEMBERSHIPS;
 
     @get:StringRes
     val title: Int
         get() = when (this) {
-            MEMBERSHIPS -> R.string.settings_memberships
             SHOP -> R.string.settings_shop
             GETTING_STARTED -> R.string.settings_getting_started
             TERMS_AND_CONDITIONS -> R.string.settings_terms_and_conditions
@@ -91,5 +92,6 @@ enum class SettingsType {
             RESTORE -> R.string.settings_restore_purchases
             LOGOUT -> R.string.settings_logout
             TEST_SCREENS -> R.string.settings_test_screen
+            MEMBERSHIPS -> R.string.settings_membership
         }
 }

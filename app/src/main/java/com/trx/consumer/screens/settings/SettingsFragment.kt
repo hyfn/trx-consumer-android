@@ -46,6 +46,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             eventTapLogout.observe(viewLifecycleOwner, handleTapLogout)
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLogOut.observe(viewLifecycleOwner, handleLogOut)
+            eventTapMembership.observe(viewLifecycleOwner, handleTapMembership)
             eventTapTest.observe(viewLifecycleOwner, handleTapTest)
             doLoadView()
         }
@@ -84,6 +85,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     private val handleTapTermsAndConditions = Observer<Void> {
         LogManager.log("handleTapTermsAndConditions")
         UtilityManager.shared.openUrl(requireContext(), kTermsConditionsUrl)
+    }
+
+    private val handleTapMembership = Observer<Void> {
+        LogManager.log("handleTapTermsAndConditions")
+        NavigationManager.shared.present(this, R.id.memberships_fragment)
     }
 
     private val handleTapLogout = Observer<Void> {
