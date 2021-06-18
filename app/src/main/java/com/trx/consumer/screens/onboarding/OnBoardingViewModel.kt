@@ -1,13 +1,15 @@
 package com.trx.consumer.screens.onboarding
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.CacheManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class OnBoardingViewModel @ViewModelInject constructor(
+@HiltViewModel
+class OnBoardingViewModel @Inject constructor(
     private val cacheManager: CacheManager
 ) : BaseViewModel() {
 

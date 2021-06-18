@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.update
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -11,11 +10,14 @@ import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.UserResponseModel
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.TimeZone
+import javax.inject.Inject
 
-class UpdateViewModel @ViewModelInject constructor(
+@HiltViewModel
+class UpdateViewModel @Inject constructor(
     private val backendManager: BackendManager
 ) : BaseViewModel(), InputViewListener {
 

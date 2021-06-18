@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.email
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -8,9 +7,12 @@ import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EmailViewModel @ViewModelInject constructor(
+@HiltViewModel
+class EmailViewModel @Inject constructor(
     private val backendManager: BackendManager
 ) : BaseViewModel(), InputViewListener {
 

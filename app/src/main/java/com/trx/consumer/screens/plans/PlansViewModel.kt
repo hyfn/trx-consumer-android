@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.plans
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -12,9 +11,12 @@ import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.PlansResponseModel
 import com.trx.consumer.screens.plans.list.PlansListener
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PlansViewModel @ViewModelInject constructor(
+@HiltViewModel
+class PlansViewModel @Inject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager
 ) : BaseViewModel(), PlansListener {

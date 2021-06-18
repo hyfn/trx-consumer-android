@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.settings
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -10,11 +9,14 @@ import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.SettingsModel
 import com.trx.consumer.models.common.SettingsType
 import com.trx.consumer.screens.settings.option.SettingsOptionListener
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SettingsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager
 ) : BaseViewModel(), SettingsOptionListener {

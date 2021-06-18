@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.workout
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
@@ -13,9 +12,12 @@ import com.trx.consumer.models.responses.BookingsResponseModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.BookingViewState
 import com.trx.consumer.models.states.WorkoutViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class WorkoutViewModel @ViewModelInject constructor(
+@HiltViewModel
+class WorkoutViewModel @Inject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager
 ) : BaseViewModel() {

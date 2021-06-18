@@ -1,9 +1,10 @@
 package com.trx.consumer.managers
 
 import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.preferencesKey
-import androidx.datastore.preferences.createDataStore
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
 import com.trx.consumer.BuildConfig.isVersion1Enabled
 import com.trx.consumer.models.common.UserModel
@@ -15,15 +16,16 @@ import java.util.Date
 
 class CacheManager(context: Context) {
 
-    private val dataStore = context.createDataStore("TrxConsumerDataStore")
+    private val dataStore by lazy { context.dataStore }
+    private val Context.dataStore by preferencesDataStore("TrxConsumerDataStore")
 
     companion object {
-        val kBackendAccessToken = preferencesKey<String>("BackendAccessToken")
-        val kDidLaunchFromNotification = preferencesKey<String>("DidLaunchFromNotification")
-        val kLastFetchFirebaseDate = preferencesKey<String>("LastFetchFirebaseDate")
-        val kCurrentUser = preferencesKey<String>("CurrentUser")
-        val kDidShowOnboarding = preferencesKey<Boolean>("DidShowOnboarding")
-        val kDidShowRestore = preferencesKey<Boolean>("DidShowRestore")
+        val kBackendAccessToken = stringPreferencesKey("BackendAccessToken")
+        val kDidLaunchFromNotification = stringPreferencesKey("DidLaunchFromNotification")
+        val kLastFetchFirebaseDate = stringPreferencesKey("LastFetchFirebaseDate")
+        val kCurrentUser = stringPreferencesKey("CurrentUser")
+        val kDidShowOnboarding = booleanPreferencesKey("DidShowOnboarding")
+        val kDidShowRestore = booleanPreferencesKey("DidShowRestore")
     }
 
     suspend fun isLoggedIn(): Boolean {
