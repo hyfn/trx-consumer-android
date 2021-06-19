@@ -32,7 +32,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class VideoPlayer : BrightcovePlayer() {
+class VideoPlayerActivity : BrightcovePlayer() {
 
     private lateinit var video: VideoModel
     private var videoSizeKnown = false

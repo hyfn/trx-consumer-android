@@ -32,7 +32,7 @@
         </activity>
 
         <activity
-            android:name=".screens.video.VideoPlayer"
+            android:name=".screens.video.VideoPlayerActivity"
             android:configChanges="orientation|screenSize" />
 
     </application>
