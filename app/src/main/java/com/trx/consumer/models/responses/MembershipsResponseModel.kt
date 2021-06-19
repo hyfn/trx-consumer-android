@@ -2,7 +2,7 @@ package com.trx.consumer.models.responses
 
 import com.trx.consumer.extensions.map
 import com.trx.consumer.models.common.MembershipModel
-import com.trx.consumer.models.common.UserPlanModel
+import com.trx.consumer.models.common.UserMembershipModel
 import com.trx.consumer.screens.memberships.list.MembershipViewState
 import org.json.JSONObject
 
@@ -37,7 +37,7 @@ class MembershipsResponseModel(val memberships: List<MembershipModel>) {
         }
     }
 
-    fun sections(plans: HashMap<String, UserPlanModel>): List<Any> {
+    fun sections(userMemberships: HashMap<String, UserMembershipModel>): List<Any> {
         val sections = mutableListOf<Any>()
         val baseMemberships = memberships.filter { it.primaryState == MembershipViewState.BASE }
         val customMemberships = memberships.filter {
@@ -45,7 +45,7 @@ class MembershipsResponseModel(val memberships: List<MembershipModel>) {
         }
         val legacyMemberships = memberships.filter { it.hideWhenNotSubscribed }
 
-        match(customMemberships, plans)
+        match(customMemberships, userMemberships)
         if (baseMemberships.isNotEmpty() || customMemberships.isNotEmpty()) {
             sections.add("MEMBERSHIPS")
 
@@ -61,7 +61,7 @@ class MembershipsResponseModel(val memberships: List<MembershipModel>) {
             }
         }
 
-        match(legacyMemberships, plans)
+        match(legacyMemberships, userMemberships)
         val activeLegacyMemberships = legacyMemberships.filter {
             it.primaryState == MembershipViewState.ACTIVE
         }
@@ -73,9 +73,12 @@ class MembershipsResponseModel(val memberships: List<MembershipModel>) {
         return sections
     }
 
-    private fun match(memberships: List<MembershipModel>, plans: HashMap<String, UserPlanModel>) {
+    private fun match(
+        memberships: List<MembershipModel>,
+        userMemberships: HashMap<String, UserMembershipModel>
+    ) {
         memberships.forEach { membership ->
-            plans[membership.key]?.let { matchingPlan ->
+            userMemberships[membership.key]?.let { matchingPlan ->
                 membership.primaryState = MembershipViewState.ACTIVE
                 membership.currentPeriodEnd = matchingPlan.currentPeriodEnd
                 membership.currentPeriodStart = matchingPlan.currentPeriodStart

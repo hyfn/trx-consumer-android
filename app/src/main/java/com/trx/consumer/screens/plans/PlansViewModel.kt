@@ -92,7 +92,7 @@ class PlansViewModel @ViewModelInject constructor(
     fun doCallPlanAdd(id: String) {
         viewModelScope.launch {
             eventShowHud.postValue(true)
-            val response = backendManager.planAdd(hashMapOf())
+            val response = backendManager.membershipAdd(hashMapOf())
             eventShowHud.postValue(false)
             if (response.isSuccess) {
                 doLoadPlans()
@@ -106,7 +106,7 @@ class PlansViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             eventShowHud.postValue(true)
             cacheManager.user()?.plan?.let { safePlan ->
-                val response = backendManager.planDelete(safePlan)
+                val response = backendManager.membershipDelete(safePlan)
                 eventShowHud.postValue(false)
                 if (response.isSuccess) {
                     doLoadPlans()

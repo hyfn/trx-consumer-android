@@ -59,7 +59,7 @@
                 android:layout_height="80dp"
                 android:fontFamily="@font/atcarquette_bold"
                 android:gravity="center"
-                android:text="@string/memberships_restore_membership_label"
+                android:text="@string/memberships_restore_purchases_label"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="13sp"

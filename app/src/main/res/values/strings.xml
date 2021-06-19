@@ -120,7 +120,7 @@
     <string name="memberships_title">Memberships</string>
     <string name="memberships_choose_membership_label">Choose Membership</string>
     <string name="memberships_current_membership_label">Current Membership</string>
-    <string name="memberships_restore_membership_label">Restore Memberships</string>
+    <string name="memberships_restore_purchases_label">Restore Purchases</string>
     <string name="memberships_cancel_membership_label">Cancel Membership</string>
     <string name="memberships_cancel_membership_alert_message">Are you sure you want to cancel your membership? (canceling may take up to 24 hours)</string>
     <string name="memberships_choose_membership_alert_message">Are you sure you want to buy this membership?</string>

@@ -213,22 +213,22 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return call(RequestModel(endpoint = EndpointModel.PURCHASES, path = path, params = null))
     }
 
-    suspend fun planAdd(params: HashMap<String, Any>): ResponseModel {
-        val path = EndpointModel.PLAN_ADD.path
+    suspend fun membershipAdd(params: HashMap<String, Any>): ResponseModel {
+        val path = EndpointModel.MEMBERSHIP_ADD.path
         return call(
             RequestModel(
-                endpoint = EndpointModel.PLAN_ADD,
+                endpoint = EndpointModel.MEMBERSHIP_ADD,
                 path = path,
                 params = params
             )
         )
     }
 
-    suspend fun planDelete(id: String): ResponseModel {
-        val path = EndpointModel.PLAN_DELETE.path + "/$id"
+    suspend fun membershipDelete(id: String): ResponseModel {
+        val path = EndpointModel.MEMBERSHIP_DELETE.path + "/$id"
         return call(
             RequestModel(
-                endpoint = EndpointModel.PLAN_DELETE,
+                endpoint = EndpointModel.MEMBERSHIP_DELETE,
                 path = path,
                 params = null
             )

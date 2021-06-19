@@ -13,7 +13,7 @@ class UserModel(
     val cardPaymentMethodId: String? = null,
     var email: String = "",
     var password: String = "",
-    val plans: HashMap<String, UserPlanModel> = hashMapOf(),
+    val memberships: HashMap<String, UserMembershipModel> = hashMapOf(),
     var zipCode: String = "",
     var firstName: String = "",
     var lastName: String = "",
@@ -27,19 +27,19 @@ class UserModel(
     //  TODO: Add correct logic
     val plan: String?
         get() = if (!planIsCancelled) {
-            plans.keys.firstOrNull()
+            memberships.keys.firstOrNull()
         } else null
 
     private val planIsCancelled: Boolean
         get() {
-            return plans.keys.firstOrNull()?.let { key ->
-                plans[key]?.cancelAtPeriodEnd ?: false
+            return memberships.keys.firstOrNull()?.let { key ->
+                memberships[key]?.cancelAtPeriodEnd ?: false
             } ?: false
         }
 
     private val planRenewsDate: Date?
         get() {
-            val periodInt = plans.values.firstOrNull()?.currentPeriodEnd?.toInt() ?: 0
+            val periodInt = memberships.values.firstOrNull()?.currentPeriodEnd?.toInt() ?: 0
             val calendar = Calendar.getInstance().apply {
                 set(1970, 0, 1, 0, 0, 0)
                 add(Calendar.SECOND, periodInt)
@@ -49,7 +49,7 @@ class UserModel(
 
     private val planStartDate: Date?
         get() {
-            val periodInt = plans.values.firstOrNull()?.currentPeriodStart?.toInt() ?: 0
+            val periodInt = memberships.values.firstOrNull()?.currentPeriodStart?.toInt() ?: 0
             val calendar = Calendar.getInstance().apply {
                 set(1970, 0, 1, 0, 0, 0)
                 add(Calendar.SECOND, periodInt)
@@ -59,7 +59,7 @@ class UserModel(
 
     val planRenewsDateDisplay: String?
         get() =
-            plans.values.firstOrNull()?.let {
+            memberships.values.firstOrNull()?.let {
                 if (!it.cancelAtPeriodEnd) {
                     planRenewsDate?.format(format = "MM/dd/YYYY", zone = TimeZone.getDefault())
                 } else null
@@ -67,14 +67,14 @@ class UserModel(
 
     val planStartDateDisplay: String?
         get() =
-            plans.values.firstOrNull()?.let {
+            memberships.values.firstOrNull()?.let {
                 if (!it.cancelAtPeriodEnd) {
                     planStartDate?.format(format = "MM/dd/YYYY", zone = TimeZone.getDefault())
                 } else null
             }
 
     val planText: String
-        get() = if (!planIsCancelled && plans.keys.contains("UNLIMITED")) {
+        get() = if (!planIsCancelled && memberships.keys.contains("UNLIMITED")) {
             kPlanNameUnlimited
         } else kPlanNamePay
 
@@ -84,10 +84,10 @@ class UserModel(
         const val kPlanNameUnlimited = "Unlimited LIVE Classes"
 
         fun parse(jsonObject: JSONObject): UserModel {
-            val plans = hashMapOf<String, UserPlanModel>()
+            val memberships = hashMapOf<String, UserMembershipModel>()
             jsonObject.optJSONObject("subscriptions")?.let { plansObject ->
                 plansObject.keys().forEach { key ->
-                    plans[key] = UserPlanModel.parse(plansObject.getJSONObject(key))
+                    memberships[key] = UserMembershipModel.parse(plansObject.getJSONObject(key))
                 }
             }
             return UserModel(
@@ -98,7 +98,7 @@ class UserModel(
                 firstName = jsonObject.optString("firstName"),
                 lastName = jsonObject.optString("lastName"),
                 iap = jsonObject.optString("iap"),
-                plans = plans,
+                memberships = memberships,
                 entitlements = jsonObject.optJSONObject("permissions")?.let {
                     EntitlementsModel.parse(it)
                 } ?: EntitlementsModel()

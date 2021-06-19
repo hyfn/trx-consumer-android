@@ -55,7 +55,7 @@ class MembershipsViewModel @ViewModelInject constructor(
                 memberships = membershipsResponseModel.memberships
                 val user = UserResponseModel.parse(userResponse.responseString).user
                 cacheManager.user(user)
-                eventLoadView.postValue(membershipsResponseModel.sections(user.plans))
+                eventLoadView.postValue(membershipsResponseModel.sections(user.memberships))
             } catch (e: Exception) {
                 LogManager.log(e)
                 eventLoadError.postValue(ResponseModel.parseErrorMessage)
@@ -85,7 +85,7 @@ class MembershipsViewModel @ViewModelInject constructor(
             }
 
             val params = params(matchingPackage, model)
-            val response = backendManager.planAdd(params)
+            val response = backendManager.membershipAdd(params)
             if (response.isSuccess) {
                 doLoadView()
             } else {
@@ -111,7 +111,7 @@ class MembershipsViewModel @ViewModelInject constructor(
                 val membership = memberships.firstOrNull { it.revcatProductId == productId }
                 if (matchingPackage != null && membership != null) {
                     val params = params(matchingPackage, membership)
-                    backendManager.planAdd(params)
+                    backendManager.membershipAdd(params)
                 }
             }
             doLoadView()
