@@ -48,7 +48,7 @@ class PlansViewModel @ViewModelInject constructor(
                 eventLoadNextBillDate.postValue(safeUser.planRenewsDateDisplay)
                 eventLoadLastBillDate.postValue(safeUser.planStartDateDisplay)
             }
-            val response = backendManager.plans()
+            val response = backendManager.memberships()
             if (response.isSuccess) {
                 try {
                     val model = PlansResponseModel.parse(response.responseString)
@@ -92,7 +92,7 @@ class PlansViewModel @ViewModelInject constructor(
     fun doCallPlanAdd(id: String) {
         viewModelScope.launch {
             eventShowHud.postValue(true)
-            val response = backendManager.planAdd(id)
+            val response = backendManager.membershipAdd(hashMapOf())
             eventShowHud.postValue(false)
             if (response.isSuccess) {
                 doLoadPlans()
@@ -106,7 +106,7 @@ class PlansViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             eventShowHud.postValue(true)
             cacheManager.user()?.plan?.let { safePlan ->
-                val response = backendManager.planDelete(safePlan)
+                val response = backendManager.membershipDelete(safePlan)
                 eventShowHud.postValue(false)
                 if (response.isSuccess) {
                     doLoadPlans()
