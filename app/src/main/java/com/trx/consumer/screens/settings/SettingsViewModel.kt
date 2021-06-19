@@ -22,7 +22,7 @@ class SettingsViewModel @ViewModelInject constructor(
     //region Events
 
     val eventLoadView = CommonLiveEvent<List<Any>>()
-    val eventTapSubscriptions = CommonLiveEvent<Void>()
+    val eventTapMemberships = CommonLiveEvent<Void>()
     val eventTapShop = CommonLiveEvent<Void>()
     val eventTapGettingStarted = CommonLiveEvent<Void>()
     val eventTapContactSupport = CommonLiveEvent<Void>()
@@ -48,7 +48,6 @@ class SettingsViewModel @ViewModelInject constructor(
 
     override fun doTapSettings(model: SettingsModel) {
         when (model.type) {
-            SettingsType.SUBSCRIPTIONS -> eventTapSubscriptions.call()
             SettingsType.SHOP -> eventTapShop.call()
             SettingsType.GETTING_STARTED -> eventTapGettingStarted.call()
             SettingsType.CONTACT_SUPPORT -> eventTapContactSupport.call()

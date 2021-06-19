@@ -80,23 +80,23 @@ class SubscriptionsViewModel @ViewModelInject constructor(
     }
 
     fun doCallSubscribe(activity: Activity, value: SubscriptionModel) {
-        viewModelScope.launch {
-            eventShowHud.postValue(true)
-            val model = IAPManager.shared.purchase(activity, value)
-            if (model.error != null) {
-                model.purchaserInfo
-                eventLoadError.postValue("There was a Play Store error")
-                return@launch
-            }
-
-            val params = model.paramsPurchase(value)
-            if (params.isEmpty()) {
-                eventLoadError.postValue("There was a purchase information error")
-            }
-
-            val response = backendManager.purchase(params)
-            doReloadView(response)
-        }.invokeOnCompletion { eventShowHud.postValue(false) }
+//        viewModelScope.launch {
+//            eventShowHud.postValue(true)
+//            val model = IAPManager.shared.purchase(activity, value)
+//            if (model.error != null) {
+//                model.purchaserInfo
+//                eventLoadError.postValue("There was a Play Store error")
+//                return@launch
+//            }
+//
+//            val params = model.paramsPurchase(value)
+//            if (params.isEmpty()) {
+//                eventLoadError.postValue("There was a purchase information error")
+//            }
+//
+//            val response = backendManager.purchase(params)
+//            doReloadView(response)
+//        }.invokeOnCompletion { eventShowHud.postValue(false) }
     }
 
     private fun doReloadView(response: ResponseModel) {
