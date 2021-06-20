@@ -1,8 +1,7 @@
-package com.trx.consumer
+package com.trx.consumer.screens.splash
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.trx.consumer.screens.splash.SplashViewModel
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

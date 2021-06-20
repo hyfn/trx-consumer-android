@@ -192,4 +192,10 @@
         android:label="LoadingFragment"
         tools:layout="@layout/fragment_loading" />
 
+    <fragment
+        android:id="@+id/maintenance_fragment"
+        android:name="com.trx.consumer.screens.maintenance.MaintenanceFragment"
+        android:label="MaintenanceFragment"
+        tools:layout="@layout/fragment_maintenance" />
+
 </navigation>

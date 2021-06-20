@@ -155,6 +155,7 @@
     <string name="settings_restore_purchases">Restore Purchases</string>
     <string name="settings_logout">Log Out</string>
     <string name="settings_membership">Memberships</string>
+    <string name="settings_type_show_maintenance">Show Maintenance</string>
     <string name="settings_test_screen">Test Screens</string>
 
     <string name="subscriptions_title">Subscriptions</string>
@@ -322,4 +323,12 @@
     <string name="videos_btn_primary_label">Start Workout</string>
 
     <string name="title_loading_fragment">Loading…</string>
+
+    <string name="maintenance_title">We\'ll be back soon…</string>
+    <string name="maintenance_message">Sorry for the interruption, we’re doing some maintenance at the moment. Check back later. Thanks for your patience!</string>
+    <string name="maintenance_button_primary_title">Retry</string>
+    <string name="update_title">Update Required</string>
+    <string name="update_message">You’ll need an update to continue using the app. Visit the Google Play Store to download.</string>
+    <string name="update_button_primary_title">Go to Play Store</string>
+
 </resources>
