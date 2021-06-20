@@ -11,12 +11,14 @@ import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.extensions.load
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.WorkoutViewState
 import com.trx.consumer.screens.liveplayer.LivePlayerActivity
+import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.video.VideoActivity
 import java.util.Locale
 
@@ -50,6 +52,7 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             eventLoadWorkoutView.observe(viewLifecycleOwner, handleLoadWorkoutView)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
+            eventShowPermissionAlert.observe(viewLifecycleOwner, handleShowPermissionAlert)
             doLoadView()
         }
     }
@@ -60,6 +63,23 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
     private val handleShowHud = Observer<Boolean> { show ->
         viewBinding.hudView.isVisible = show
+    }
+
+    private val handleShowPermissionAlert = Observer<Void> {
+        LogManager.log("handleShowPermissionAlert")
+        val model = AlertModel.create(
+            title = "",
+            message = requireContext().getString(R.string.workout_permission_alert_message)
+        ).apply {
+            setPrimaryButton(
+                R.string.workout_permission_alert_primary_label,
+                state = AlertViewState.POSITIVE
+            ) {
+                NavigationManager.shared.present(this@WorkoutFragment, R.id.memberships_fragment)
+            }
+            setSecondaryButton(R.string.workout_permission_alert_secondary_label)
+        }
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
     private val handleLoadWorkoutView = Observer<WorkoutModel> { model ->
