@@ -273,7 +273,10 @@ class LivePlayerHandler(val context: Context) {
                 }
 
                 localMedia?.start()?.then(
-                    { promise.resolve(null) }
+                    {
+                        it.videoSource.start()
+                        promise.resolve(null)
+                    }
                 ) { e -> promise.reject(e) }
             }
         }
