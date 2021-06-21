@@ -33,19 +33,16 @@ class AnalyticsManager(private val configManager: ConfigManager) {
     private val amplitudeClient: AmplitudeClient
         get() = configManager.amplitudeClient
 
-    fun trackCancelSubscription(user: UserModel) {
-        val value = mapOf<String, Any>(
-            SUBSCRIPTION_ID.propertyName to user.uid
+    fun trackCancelSubscription(model: UserModel) {
+        val properties = mapOf<String, Any>(
+            SUBSCRIPTION_ID.propertyName to model.uid
             //  TODO: No class data in UserModel for these keys.
             // ATTENDED_LIVE_CLASS.propertyName to false
             // DAYS_ELAPSED_IN_TRIAL.propertyName to 3
             // DAYS_ELAPSED_SINCE_SUBSCRIPTION_DATE.propertyName to 3
         )
 
-        amplitudeClient.logEvent(
-            CANCEL_SUBSCRIPTION.eventName,
-            JSONObject(value)
-        )
+        amplitudeClient.logEvent(CANCEL_SUBSCRIPTION.eventName, JSONObject(properties))
     }
 
     fun trackFilterOnDemand(filterOptions: FilterOptionsModel) {
