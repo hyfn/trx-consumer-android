@@ -53,10 +53,6 @@ inline fun View.action(timeIntervalMillis: Long = 500, crossinline action: (view
     setOnClickListener(actionListener)
 }
 
-inline fun View.onChecked(crossinline action: (isChecked: Boolean) -> Unit) {
-    if (this is CommonCheckBox) setOnCheckedChangeListener { _, isChecked -> action(isChecked) }
-}
-
 inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(block: T.() -> Unit) {
     updateLayoutParams(block)
 }
