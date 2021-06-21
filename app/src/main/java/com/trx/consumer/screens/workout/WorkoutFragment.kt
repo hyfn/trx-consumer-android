@@ -19,6 +19,7 @@ import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.WorkoutViewState
 import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.video.VideoPlayerActivity
+import com.trx.consumer.screens.alert.AlertViewState
 import java.util.Locale
 
 class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
