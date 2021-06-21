@@ -25,7 +25,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <CheckBox
+        <com.trx.consumer.common.CommonCheckBox
             android:id="@+id/btnCamera"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -35,7 +35,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <CheckBox
+         <com.trx.consumer.common.CommonCheckBox
             android:id="@+id/btnMicrophone"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -45,7 +45,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnCamera" />
 
-        <CheckBox
+         <com.trx.consumer.common.CommonCheckBox
             android:id="@+id/btnClock"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -55,7 +55,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnMicrophone" />
 
-        <CheckBox
+         <com.trx.consumer.common.CommonCheckBox
             android:id="@+id/btnShare"
             android:layout_width="45dp"
             android:layout_height="45dp"
