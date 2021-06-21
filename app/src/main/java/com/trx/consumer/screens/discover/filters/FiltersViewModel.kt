@@ -18,7 +18,6 @@ class FiltersViewModel @ViewModelInject constructor(
 
     val eventTapApply = CommonLiveEvent<FilterParamsModel>()
     val eventTapClose = CommonLiveEvent<Void>()
-    val eventTapReset = CommonLiveEvent<FilterParamsModel>()
     val eventTapFilter = CommonLiveEvent<FilterParamsModel>()
 
     fun doLoadView() {
@@ -42,7 +41,7 @@ class FiltersViewModel @ViewModelInject constructor(
                 option.isSelected = false
             }
         }
-        eventTapReset.postValue(params)
+        doTapApply()
     }
 
     fun doTapApply() {

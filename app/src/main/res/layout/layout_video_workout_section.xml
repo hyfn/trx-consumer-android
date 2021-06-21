@@ -15,7 +15,6 @@
         android:layout_marginTop="15dp"
         android:fontFamily="@font/atcarquette_bold"
         android:gravity="center_vertical"
-        android:text="@string/live_promotions_title_label"
         android:textColor="@color/grey"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="parent"

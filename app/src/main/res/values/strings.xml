@@ -77,7 +77,7 @@
     <string name="home_banner_description_label">Try TRX Training Club and experience LIVE Classes and get matched with a Virtual Personal Trainer for free.</string>
     <string name="home_banner_btn_label">LEARN MORE</string>
     <string name="home_banner_title_label">More Ways to Train</string>
-    <string name="home_banner_section_title_label">TRY TRX TRAINING CLUB</string>
+    <string name="home_banner_section_title_label">TRX TRAINING CLUB</string>
 
     <string name="inputview_placeholder_birthday">Birthday</string>
     <string name="inputview_placeholder_card_number">Credit Card Number</string>
@@ -117,6 +117,19 @@
     <string name="login_forgot">Forgot Password?</string>
     <string name="login_log_in">Log in</string>
 
+    <string name="memberships_title">Memberships</string>
+    <string name="memberships_choose_membership_label">Choose Membership</string>
+    <string name="memberships_current_membership_label">Current Membership</string>
+    <string name="memberships_restore_purchases_label">Restore Purchases</string>
+    <string name="memberships_cancel_membership_label">Cancel Membership</string>
+    <string name="memberships_cancel_membership_alert_message">Are you sure you want to cancel your membership? (canceling may take up to 24 hours)</string>
+    <string name="memberships_choose_membership_alert_message">Are you sure you want to buy this membership?</string>
+    <string name="memberships_cancel_membership_alert_primary_label">NO, KEEP MY MEMBERSHIP</string>
+    <string name="memberships_cancel_membership_alert_secondary_label">YES, CANCEL MY MEMBERSHIP</string>
+    <string name="memberships_cancel_wip_label">Under construction</string>
+    <string name="memberships_choose_membership_alert_primary_label">SUBMIT PAYMENT</string>
+    <string name="memberships_choose_membership_alert_secondary_label">DISMISS</string>
+
     <string name="plans_choose_plan_label">Choose Plan</string>
     <string name="plans_current_plan_label">Current Plan</string>
     <string name="plans_title">Plans</string>
@@ -134,13 +147,14 @@
 
     <string name="settings_title">SETTINGS</string>
     <string name="settings_plans">Plans</string>
-    <string name="settings_subscriptions">Subscriptions</string>
+    <string name="settings_memberships">Memberships</string>
     <string name="settings_shop">Shop TRX Products</string>
     <string name="settings_getting_started">Getting Started Videos</string>
     <string name="settings_terms_and_conditions">Terms &amp; Conditions</string>
     <string name="settings_contact_support">Contact Support</string>
     <string name="settings_restore_purchases">Restore Purchases</string>
     <string name="settings_logout">Log Out</string>
+    <string name="settings_membership">Memberships</string>
     <string name="settings_test_screen">Test Screens</string>
 
     <string name="subscriptions_title">Subscriptions</string>
@@ -169,7 +183,7 @@
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
     <string name="test_utility_plans_label">Plans</string>
-    <string name="test_utility_player_label">Player</string>
+    <string name="test_utility_video_label">Video</string>
     <string name="test_utility_virtual_workout_section_label">Virtual Workouts</string>
     <string name="test_utility_video_workout_section_label">Video Workouts</string>
     <string name="test_utility_promotion_section_label">Promotions</string>
@@ -189,14 +203,19 @@
     <string name="test_utility_booking_alert_label">Booking Alert</string>
     <string name="test_utility_Loading_screen_label">Loading Screen</string>
     <string name="test_utility_schedule_label">Schedule</string>
+    <string name="test_utility_memberships_label">Memberships</string>
 
     <string name="trainer_about_me_label">About Me</string>
     <string name="trainer_upcoming_classes_label">Upcoming Classes</string>
     <string name="trainer_button_view_schedule">VIEW SCHEDULE   →</string>
     <string name="trainer_services_label">Services</string>
+    <string name="trainer_photo_label">Photo</string>
     <string name="trainer_on_demand_classes_label">On-Demand Classes</string>
     <string name="trainer_button_see_all">SEE ALL   →</string>
     <string name="trainer_for_you_label">For You</string>
+    <string name="trainer_bio_label">%s…</string>
+    <string name="trainer_read_more_label">&#032;Read more</string>
+    <string name="trainer_recommendation_label">%s\'s\nProduct\nRecommendations</string>
 
     <string name="video_workout_subtitle_prefix_label">with %1$s</string>
 
@@ -262,13 +281,17 @@
     <string name="workout_book_session_label">Book Session</string>
     <string name="workout_join_session_label">Join Session</string>
     <string name="workout_cancel_session_label">Cancel Session</string>
+    <string name="workout_equipment_label">Equipment Needed</string>
+    <string name="workout_permission_alert_message">You don’t have a membership to view this content</string>
+    <string name="workout_permission_alert_primary_label">GO TO MEMBERSHIPS</string>
+    <string name="workout_permission_alert_secondary_label">DISMISS</string>
 
     <string name="workout_cell_button_view_title">VIEW</string>
     <string name="workout_cell_button_soon_title">JOIN NOW</string>
     <string name="workout_cell_button_booked_title">BOOKED</string>
     <string name="workout_cell_button_match_title">MATCH ME</string>
 
-    <string name="onboarding_virtual_title">TRX virtual Training, coming soon</string>
+    <string name="onboarding_virtual_title">TRX virtual Training</string>
     <string name="onboarding_virtual_description">World-class Trainers. Anytime. Anywhere</string>
     <string name="onboarding_virtual_list_text_one">Expert help and personalized support from hundreds of top-rated trainers</string>
     <string name="onboarding_virtual_list_text_two">Stay accountable with a fully customized plan built for you</string>

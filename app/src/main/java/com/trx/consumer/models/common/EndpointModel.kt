@@ -4,6 +4,7 @@ import com.trx.consumer.BuildConfig.kBaseUrl
 
 enum class EndpointModel {
 
+    AUTH,
     BANNER,
     BOOK_CANCEL,
     BOOKINGS,
@@ -16,9 +17,9 @@ enum class EndpointModel {
     LOGOUT,
     PAYMENT_ADD,
     PAYMENT_DELETE,
-    PLAN_ADD,
-    PLAN_DELETE,
-    PLANS,
+    MEMBERSHIP_ADD,
+    MEMBERSHIP_DELETE,
+    MEMBERSHIPS,
     PROGRAM_AVAILABILITY,
     PROMOS,
     PURCHASE,
@@ -44,7 +45,7 @@ enum class EndpointModel {
     val type: Type
         get() {
             return when (this) {
-                BOOK_CANCEL, LOGOUT, PAYMENT_DELETE, PLAN_DELETE -> {
+                BOOK_CANCEL, LOGOUT, PAYMENT_DELETE, MEMBERSHIP_DELETE -> {
                     Type.DELETE
                 }
                 UPDATE -> {
@@ -56,7 +57,7 @@ enum class EndpointModel {
                 BOOK_SESSION_INTENT,
                 FORGOT,
                 PAYMENT_ADD,
-                PLAN_ADD,
+                MEMBERSHIP_ADD,
                 PURCHASE,
                 REGISTER -> {
                     Type.POST
@@ -73,6 +74,7 @@ enum class EndpointModel {
     val isAuthenticated: Boolean
         get() {
             return when (this) {
+                AUTH,
                 BOOK_CANCEL,
                 BOOKINGS,
                 BOOK_PROGRAM_CONFIRM,
@@ -82,8 +84,8 @@ enum class EndpointModel {
                 LOGOUT,
                 PAYMENT_ADD,
                 PAYMENT_DELETE,
-                PLAN_ADD,
-                PLAN_DELETE,
+                MEMBERSHIP_ADD,
+                MEMBERSHIP_DELETE,
                 PURCHASE,
                 PURCHASES,
                 UPDATE,
@@ -104,9 +106,9 @@ enum class EndpointModel {
                 BOOK_SESSION_CONFIRM -> prefix + "bookings/session/confirm"
                 BOOK_SESSION_INTENT -> prefix + "bookings/session"
                 FORGOT -> prefix + "auth/forgot-password"
-                LOGIN, LOGOUT, REGISTER -> prefix + "auth"
+                AUTH, LOGIN, LOGOUT, REGISTER -> prefix + "auth"
                 PAYMENT_ADD, PAYMENT_DELETE -> prefix + "stripe/payment-method"
-                PLAN_ADD, PLAN_DELETE, PLANS -> prefix + "subscriptions"
+                MEMBERSHIP_ADD, MEMBERSHIP_DELETE, MEMBERSHIPS -> prefix + "subscriptions"
                 PROGRAM_AVAILABILITY -> prefix + "programs"
                 PROMOS -> prefix + "copy/ctas"
                 PURCHASE, PURCHASES -> prefix + "purchases"

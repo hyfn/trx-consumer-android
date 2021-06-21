@@ -140,19 +140,52 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         val response = call(
             RequestModel(endpoint = EndpointModel.LOGIN, path = path, params = params)
         )
-        if (!response.isSuccess) return response
-        try {
-            val model = UserResponseModel.parse(response.responseString)
-            cacheManager.accessToken(model.jwt)
-        } catch (e: Exception) {
-            LogManager.log(e)
-        }
-        return user()
+        return handleAuthResponse(response)
     }
 
-    suspend fun plans(): ResponseModel {
-        val path = EndpointModel.PLANS.path
-        return call(RequestModel(endpoint = EndpointModel.PLANS, path = path, params = null))
+    suspend fun register(params: HashMap<String, Any>): ResponseModel {
+        val path = EndpointModel.REGISTER.path
+        val response = call(
+            RequestModel(endpoint = EndpointModel.REGISTER, path = path, params = params)
+        )
+        return handleAuthResponse(response)
+    }
+
+    suspend fun auth(): ResponseModel {
+        val path = EndpointModel.AUTH.path
+        val response = call(RequestModel(endpoint = EndpointModel.AUTH, path = path, params = null))
+        return handleAuthResponse(response)
+    }
+
+    private suspend fun handleAuthResponse(response: ResponseModel): ResponseModel {
+        if (!response.isSuccess) return response
+        return try {
+            val model = UserResponseModel.parse(response.responseString)
+            cacheManager.accessToken(model.jwt)
+            user()
+        } catch (e: Exception) {
+            LogManager.log(e)
+            return ResponseModel(isSuccess = false, errorMessage = ResponseModel.parseErrorMessage)
+        }
+    }
+
+    suspend fun user(): ResponseModel {
+        val path = EndpointModel.USER.path
+        val response = call(RequestModel(endpoint = EndpointModel.USER, path = path, params = null))
+        if (response.isSuccess) {
+            val user = UserResponseModel.parse(response.responseString).user
+            cacheManager.user()?.let { cachedUser ->
+                user.iap = cachedUser.iap
+            }
+            cacheManager.user(user)
+            IAPManager.shared.identify(user.uid)
+        }
+        return response
+    }
+
+    suspend fun memberships(): ResponseModel {
+        val path = EndpointModel.MEMBERSHIPS.path
+        return call(RequestModel(endpoint = EndpointModel.MEMBERSHIPS, path = path, params = null))
     }
 
     suspend fun paymentAdd(id: String): ResponseModel {
@@ -180,59 +213,26 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return call(RequestModel(endpoint = EndpointModel.PURCHASES, path = path, params = null))
     }
 
-    suspend fun register(params: HashMap<String, Any>): ResponseModel {
-        val path = EndpointModel.REGISTER.path
-        val response = call(
-            RequestModel(endpoint = EndpointModel.REGISTER, path = path, params = params)
-        )
-        if (!response.isSuccess) return response
-        try {
-            val model = UserResponseModel.parse(response.responseString)
-            cacheManager.accessToken(model.jwt)
-        } catch (e: Exception) {
-            LogManager.log(e)
-        }
-        return user()
-    }
-
-    suspend fun planAdd(id: String, country: String = "US"): ResponseModel {
-        val path = EndpointModel.PLAN_ADD.path
-        val params = hashMapOf<String, Any>(
-            "subscriptionType" to id,
-            "country" to country
-        )
+    suspend fun membershipAdd(params: HashMap<String, Any>): ResponseModel {
+        val path = EndpointModel.MEMBERSHIP_ADD.path
         return call(
             RequestModel(
-                endpoint = EndpointModel.PLAN_ADD,
+                endpoint = EndpointModel.MEMBERSHIP_ADD,
                 path = path,
                 params = params
             )
         )
     }
 
-    suspend fun planDelete(id: String): ResponseModel {
-        val path = EndpointModel.PLAN_DELETE.path + "/$id"
+    suspend fun membershipDelete(id: String): ResponseModel {
+        val path = EndpointModel.MEMBERSHIP_DELETE.path + "/$id"
         return call(
             RequestModel(
-                endpoint = EndpointModel.PLAN_DELETE,
+                endpoint = EndpointModel.MEMBERSHIP_DELETE,
                 path = path,
                 params = null
             )
         )
-    }
-
-    suspend fun user(): ResponseModel {
-        val path = EndpointModel.USER.path
-        val response = call(RequestModel(endpoint = EndpointModel.USER, path = path, params = null))
-        if (response.isSuccess) {
-            val user = UserResponseModel.parse(response.responseString).user
-            cacheManager.user()?.let { cachedUser ->
-                user.iap = cachedUser.iap
-            }
-            cacheManager.user(user)
-            IAPManager.shared.identify(user.uid)
-        }
-        return response
     }
 
     suspend fun logout(): ResponseModel {
@@ -266,5 +266,24 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
     suspend fun trainers(): ResponseModel {
         val path = EndpointModel.TRAINERS.path
         return call(RequestModel(endpoint = EndpointModel.TRAINERS, path = path, params = null))
+    }
+
+    suspend fun trainer(key: String): ResponseModel {
+        val path = "${EndpointModel.TRAINER.path}/$key"
+        return call(RequestModel(endpoint = EndpointModel.TRAINER, path = path, params = null))
+    }
+
+    suspend fun trainerSessions(trainerKey: String): ResponseModel {
+        val path = "${EndpointModel.TRAINER_SESSIONS.path}/$trainerKey/sessions"
+        return call(
+            RequestModel(endpoint = EndpointModel.TRAINER_SESSIONS, path = path, params = null)
+        )
+    }
+
+    suspend fun trainerPrograms(trainerKey: String): ResponseModel {
+        val path = "${EndpointModel.TRAINER_PROGRAMS.path}/$trainerKey/programs"
+        return call(
+            RequestModel(endpoint = EndpointModel.TRAINER_PROGRAMS, path = path, params = null)
+        )
     }
 }

@@ -28,7 +28,7 @@ class AlertViewModel : BaseViewModel() {
     }
 
     fun doTapBack() {
-        eventTapBack.call()
+        onBackPressed()
     }
 
     fun onBackPressed() {

@@ -140,9 +140,9 @@
 
     <fragment
         android:id="@+id/trainer_fragment"
-        android:name="com.trx.consumer.screens.trainer.TrainerFragment"
+        android:name="com.trx.consumer.screens.trainer.TrainerDetailFragment"
         android:label="TrainerFragment"
-        tools:layout="@layout/fragment_trainer" />
+        tools:layout="@layout/fragment_trainer_detail" />
 
     <fragment
         android:id="@+id/profile_fragment"
@@ -155,6 +155,12 @@
         android:name="com.trx.consumer.screens.schedule.ScheduleFragment"
         android:label="ScheduleFragment"
         tools:layout="@layout/fragment_schedule" />
+
+    <fragment
+        android:id="@+id/memberships_fragment"
+        android:name="com.trx.consumer.screens.memberships.MembershipsFragment"
+        android:label="MembershipsFragment"
+        tools:layout="@layout/fragment_memberships" />
 
     <dialog
         android:id="@+id/date_picker_fragment"

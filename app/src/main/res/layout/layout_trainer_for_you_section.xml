@@ -2,17 +2,20 @@
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewMain"
     android:backgroundTint="@color/grey"
     android:layout_width="match_parent"
-    android:layout_height="90dp">
+    android:layout_height="match_parent">
 
     <com.trx.consumer.common.CommonImageView
-        android:id="@+id/imgBackground"
+        android:id="@+id/imgRecommendationsForyou"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_media_onboarding_003"/>
 
     <com.trx.consumer.common.CommonLabel
-        android:id="@+id/lblTitle"
+        android:id="@+id/lblRecommendationsForyou"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"

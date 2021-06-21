@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/black"
+    tools:ignore="SmallSp">
+
+    <com.trx.consumer.common.CommonButton
+        android:id="@+id/btnEndWorkout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/atcarquette_semibold"
+        android:gravity="center"
+        android:text="@string/player_end_workout_button_label"
+        android:textColor="@color/greyLightExtra"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:outline="@color/greyLightExtra" />
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.trx.consumer.common.CommonLabel
+            android:id="@+id/lblTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/atcarquette_bold"
+            android:maxLines="3"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Small Group Training" />
+
+        <com.trx.consumer.common.CommonLabel
+            android:id="@+id/lblTrainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/atcarquette_bold"
+            android:textAllCaps="true"
+            android:textColor="@color/yellow"
+            android:textSize="11sp"
+            app:layout_constraintTop_toBottomOf="@id/lblTitle"
+            tools:text="Jaime Meneses" />
+
+    </com.trx.consumer.common.CommonView>
+
+    <com.trx.consumer.common.CommonView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.trx.consumer.common.CommonView
+            android:id="@+id/viewButtons"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            app:layout_constraintTop_toBottomOf="@id/viewPlayerContainer">
+
+            <View
+                android:id="@+id/viewLineBottom"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greyDarkExtra"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <View
+                android:id="@+id/viewLineTop"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greyDarkExtra"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/viewLineVertical"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="@color/greyDarkExtra"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <View
+                android:id="@+id/viewLineStart"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="@color/greyDarkExtra"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <View
+                android:id="@+id/viewLineEnd"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="@color/greyDarkExtra"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.trx.consumer.common.CommonImageButton
+                android:id="@+id/btnRotate"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_rotate_white"
+                android:tint="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/viewLineVertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.trx.consumer.common.CommonImageButton
+                android:id="@+id/btnScreenCast"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_screencast_white"
+                android:tint="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/viewLineVertical"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </com.trx.consumer.common.CommonView>
+
+        <com.brightcove.player.view.BrightcoveExoPlayerVideoView
+            android:id="@+id/viewPlayerContainer"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.trx.consumer.common.CommonView>
+
+</com.trx.consumer.common.CommonView>

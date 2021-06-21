@@ -14,7 +14,7 @@ class OnboardingViewModel @ViewModelInject constructor(
     private val analyticsManager: AnalyticsManager
 ) : BaseViewModel() {
 
-    var state: OnboardingViewState = OnboardingViewState.VIRTUAL
+    var state: OnBoardingViewState = OnBoardingViewState.DEMAND
 
     val eventLoadView = CommonLiveEvent<OnboardingViewState>()
     val eventTapClose = CommonLiveEvent<Void>()
