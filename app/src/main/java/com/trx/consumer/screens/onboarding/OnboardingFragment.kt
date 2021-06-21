@@ -33,7 +33,7 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
         viewModel.onBackPressed()
     }
 
-    private val handleLoadView = Observer<OnboardingViewState> { state ->
+    private val handleLoadView = Observer<OnBoardingViewState> { state ->
         viewBinding.apply {
             lblTitle.text = getString(state.title)
             imgHeader.setImageResource(state.image)

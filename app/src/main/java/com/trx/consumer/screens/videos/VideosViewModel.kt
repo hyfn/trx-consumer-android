@@ -12,8 +12,7 @@ import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 
 class VideosViewModel @ViewModelInject constructor(
     private val analyticsManager: AnalyticsManager
-) : BaseViewModel(), DiscoverListener {
-class VideosViewModel : BaseViewModel(), VideoWorkoutListener {
+) : BaseViewModel(), VideoWorkoutListener {
 
     var model: VideosModel = VideosModel()
 

@@ -95,7 +95,7 @@ class RegisterViewModel @ViewModelInject constructor(
             val response = backendManager.register(params)
             eventShowHud.postValue(false)
             if (response.isSuccess) {
-                if(BuildConfig.kIsVerificationEnabled) {
+                if (BuildConfig.kIsVerificationEnabled) {
                     // eventShowVerfication.call()
                 } else {
                     analyticsManager.trackSignUp(null, "EMAIL_PW")

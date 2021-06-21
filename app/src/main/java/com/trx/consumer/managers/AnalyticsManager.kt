@@ -14,6 +14,7 @@ import com.trx.consumer.models.common.AnalyticsEventModel.VIEW_VIDEO_DETAIL
 import com.trx.consumer.models.common.AnalyticsPropertyModel
 import com.trx.consumer.models.common.AnalyticsPropertyModel.DURATION
 import com.trx.consumer.models.common.AnalyticsPropertyModel.ON_DEMAND_FILTER
+import com.trx.consumer.models.common.AnalyticsPropertyModel.PAGE_TITLE
 import com.trx.consumer.models.common.AnalyticsPropertyModel.PLATFORM
 import com.trx.consumer.models.common.AnalyticsPropertyModel.SOCIAL_NETWORK
 import com.trx.consumer.models.common.AnalyticsPropertyModel.SUBSCRIPTION_ID
@@ -22,7 +23,6 @@ import com.trx.consumer.models.common.AnalyticsPropertyModel.TRAINER_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.TRAINER_NAME
 import com.trx.consumer.models.common.AnalyticsPropertyModel.VIDEO_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.VIDEO_NAME
-import com.trx.consumer.models.common.AnalyticsPropertyModel.PAGE_TITLE
 import com.trx.consumer.models.common.FilterOptionsModel
 import com.trx.consumer.models.common.SubscriptionModel
 import com.trx.consumer.models.common.UserModel

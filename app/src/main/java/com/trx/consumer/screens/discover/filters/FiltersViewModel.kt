@@ -49,7 +49,7 @@ class FiltersViewModel @ViewModelInject constructor(
             eventTapApply.postValue(safeParams)
             safeParams.lstFilters.forEach { filter ->
                 filter.values.forEach { option ->
-                    if(option.isSelected) analyticsManager.trackFilterOnDemand(option)
+                    if (option.isSelected) analyticsManager.trackFilterOnDemand(option)
                 }
             }
         }

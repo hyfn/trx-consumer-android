@@ -16,7 +16,7 @@ class OnboardingViewModel @ViewModelInject constructor(
 
     var state: OnBoardingViewState = OnBoardingViewState.DEMAND
 
-    val eventLoadView = CommonLiveEvent<OnboardingViewState>()
+    val eventLoadView = CommonLiveEvent<OnBoardingViewState>()
     val eventTapClose = CommonLiveEvent<Void>()
     val eventTapNext = CommonLiveEvent<Void>()
 
@@ -38,7 +38,7 @@ class OnboardingViewModel @ViewModelInject constructor(
 
     fun doTapNext() {
         if (state.currentPage < 2) {
-            state = OnboardingViewState.getStateFromPage(state.currentPage + 1)
+            state = OnBoardingViewState.getStateFromPage(state.currentPage + 1)
             eventLoadView.postValue(state)
         } else {
             eventTapNext.call()
@@ -47,7 +47,7 @@ class OnboardingViewModel @ViewModelInject constructor(
 
     fun doTapPrevious() {
         if (state.currentPage != 0) {
-            state = OnboardingViewState.getStateFromPage(state.currentPage - 1)
+            state = OnBoardingViewState.getStateFromPage(state.currentPage - 1)
             eventLoadView.postValue(state)
         }
     }
