@@ -17,7 +17,6 @@ class WelcomeViewModel @ViewModelInject constructor(
     val eventTapClose = CommonLiveEvent<Void>()
 
     fun doLoadView() {
-        analyticsManager.trackPageView(pageTitle)
         eventLoadView.postValue(state)
     }
 

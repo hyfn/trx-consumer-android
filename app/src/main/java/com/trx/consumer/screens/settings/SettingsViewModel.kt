@@ -43,7 +43,6 @@ class SettingsViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackPageView(pageTitle)
             cacheManager.user()?.let { user ->
                 eventLoadView.postValue(SettingsModel.list(user))
             }

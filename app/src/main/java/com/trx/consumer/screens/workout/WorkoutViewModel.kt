@@ -40,7 +40,6 @@ class WorkoutViewModel @ViewModelInject constructor(
     }
 
     fun doLoadView() {
-        analyticsManager.trackPageView(pageTitle)
         if (model.workoutState == WorkoutViewState.VIDEO) {
             doLoadVideo()
         } else {

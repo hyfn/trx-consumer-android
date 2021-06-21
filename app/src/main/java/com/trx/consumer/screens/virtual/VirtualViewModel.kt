@@ -54,7 +54,6 @@ class VirtualViewModel @ViewModelInject constructor(
     //region Functions
 
     fun doLoadView() {
-        analyticsManager.trackPageView(pageTitle)
         eventLoadView.call()
         doLoadBookings()
         doLoadTrainers()

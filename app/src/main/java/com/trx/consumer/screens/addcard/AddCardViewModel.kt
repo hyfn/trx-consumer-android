@@ -76,7 +76,6 @@ class AddCardViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackPageView(pageTitle)
             eventLoadNavBar.postValue(purchase != null)
             eventLoadButton.postValue(false)
             eventShowHud.postValue(true)

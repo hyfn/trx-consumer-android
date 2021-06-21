@@ -67,7 +67,6 @@ class LiveViewModel @ViewModelInject constructor(
     //region Functions
 
     fun doLoadView() {
-        analyticsManager.trackPageView(pageTitle)
         eventLoadView.call()
         if (isVersion2Enabled) {
             doLoadPromotions()

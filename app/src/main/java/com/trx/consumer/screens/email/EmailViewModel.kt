@@ -49,7 +49,6 @@ class EmailViewModel @ViewModelInject constructor(
     //region Actions
 
     fun doLoadView() {
-        analyticsManager.trackPageView(pageTitle)
         eventLoadView.call()
         eventLoadState.postValue(state)
         eventLoadButton.postValue(false)

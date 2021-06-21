@@ -22,7 +22,6 @@ class ContentViewModel @ViewModelInject constructor(
     var eventTapBtnPrimary = CommonLiveEvent<ClassModel>()
 
     fun doLoadView(contentParamsModel: ContentParamsModel) {
-        analyticsManager.trackPageView(pageTitle)
         model = contentParamsModel.model
         state = contentParamsModel.state
         classModel = contentParamsModel.classModel

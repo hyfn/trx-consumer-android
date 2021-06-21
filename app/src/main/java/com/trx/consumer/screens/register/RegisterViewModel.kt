@@ -67,7 +67,6 @@ class RegisterViewModel @ViewModelInject constructor(
     //region Events
 
     fun doLoadView() {
-        analyticsManager.trackPageView(pageTitle)
         eventLoadView.call()
     }
 

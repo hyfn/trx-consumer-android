@@ -64,7 +64,6 @@ class UpdateViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackPageView(pageTitle)
             eventLoadView.call()
             eventShowHud.postValue(true)
             val response = backendManager.user()

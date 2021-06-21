@@ -46,7 +46,6 @@ class SubscriptionsViewModel @ViewModelInject constructor(
     val eventShowHud = CommonLiveEvent<Boolean>()
 
     fun doLoadView() {
-        analyticsManager.trackPageView(pageTitle)
         eventLoadView.call()
         doLoadSubscriptions()
     }

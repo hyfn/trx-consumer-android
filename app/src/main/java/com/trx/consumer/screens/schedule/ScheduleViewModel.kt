@@ -30,7 +30,6 @@ class ScheduleViewModel @ViewModelInject constructor(
     }
 
     fun doLoadView() {
-        analyticsManager.trackPageView(pageTitle)
         eventLoadView.postValue(state)
     }
 

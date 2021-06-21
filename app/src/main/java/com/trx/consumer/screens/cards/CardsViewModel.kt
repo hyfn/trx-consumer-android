@@ -40,7 +40,6 @@ class CardsViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackPageView(pageTitle)
             eventShowHud.postValue(true)
             val response = backendManager.user()
             eventShowHud.postValue(false)

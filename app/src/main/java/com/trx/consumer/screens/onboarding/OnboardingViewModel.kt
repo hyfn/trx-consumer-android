@@ -22,7 +22,6 @@ class OnboardingViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackPageView(pageTitle)
             cacheManager.didShowOnboarding(true)
             eventLoadView.postValue(state)
         }

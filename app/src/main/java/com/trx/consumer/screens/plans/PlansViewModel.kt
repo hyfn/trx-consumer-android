@@ -42,7 +42,6 @@ class PlansViewModel @ViewModelInject constructor(
 
     fun doLoadPlans() {
         viewModelScope.launch {
-            analyticsManager.trackPageView(pageTitle)
             var user: UserModel? = null
             eventShowHud.postValue(true)
             backendManager.user()

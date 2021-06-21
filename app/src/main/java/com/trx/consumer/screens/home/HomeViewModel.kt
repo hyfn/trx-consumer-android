@@ -50,7 +50,6 @@ class HomeViewModel @ViewModelInject constructor(
     //region Functions
 
     fun doLoadView() {
-        analyticsManager.trackPageView(pageTitle)
         eventLoadView.call()
         doLoadUser()
     }

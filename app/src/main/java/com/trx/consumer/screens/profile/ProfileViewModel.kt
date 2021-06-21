@@ -22,7 +22,6 @@ class ProfileViewModel @ViewModelInject constructor(
     }
 
     fun doLoadView() {
-        analyticsManager.trackPageView(pageTitle)
         eventLoadView.call()
     }
 

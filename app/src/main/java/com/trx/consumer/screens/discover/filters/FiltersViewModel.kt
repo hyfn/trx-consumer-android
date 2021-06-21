@@ -21,7 +21,6 @@ class FiltersViewModel @ViewModelInject constructor(
     val eventTapFilter = CommonLiveEvent<FilterParamsModel>()
 
     fun doLoadView() {
-        analyticsManager.trackPageView(pageTitle)
         params?.let { safeParams ->
             eventLoadView.postValue(safeParams)
         }

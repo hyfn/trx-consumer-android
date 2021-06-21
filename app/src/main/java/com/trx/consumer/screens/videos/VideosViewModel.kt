@@ -22,7 +22,6 @@ class VideosViewModel @ViewModelInject constructor(
     val eventTapProfile = CommonLiveEvent<TrainerModel>()
 
     fun doLoadView() {
-        analyticsManager.trackPageView(pageTitle)
         eventLoadView.postValue(model)
     }
 
