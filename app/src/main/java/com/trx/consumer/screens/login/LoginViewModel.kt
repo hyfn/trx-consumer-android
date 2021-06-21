@@ -4,7 +4,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager

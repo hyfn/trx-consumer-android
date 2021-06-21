@@ -1,14 +1,9 @@
 package com.trx.consumer.screens.welcome
 
-import androidx.hilt.lifecycle.ViewModelInject
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.extensions.pageTitle
-import com.trx.consumer.managers.AnalyticsManager
 
-class WelcomeViewModel @ViewModelInject constructor(
-    private val analyticsManager: AnalyticsManager
-) : BaseViewModel() {
+class WelcomeViewModel : BaseViewModel() {
 
     var state: WelcomeState = WelcomeState.WELCOME
 

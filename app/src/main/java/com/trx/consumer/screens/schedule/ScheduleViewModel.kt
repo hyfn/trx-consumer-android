@@ -1,10 +1,7 @@
 package com.trx.consumer.screens.schedule
 
-import androidx.hilt.lifecycle.ViewModelInject
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.extensions.pageTitle
-import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.models.common.TrainerScheduleModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.states.ScheduleViewState
@@ -12,9 +9,7 @@ import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
 import com.trx.consumer.screens.trainerschedule.TrainerScheduleListener
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewListener
 
-class ScheduleViewModel @ViewModelInject constructor(
-    private val analyticsManager: AnalyticsManager
-) :
+class ScheduleViewModel :
     BaseViewModel(),
     LiveWorkoutViewListener,
     VirtualWorkoutViewListener,

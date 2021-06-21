@@ -1,17 +1,12 @@
 package com.trx.consumer.screens.content
 
-import androidx.hilt.lifecycle.ViewModelInject
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.extensions.pageTitle
-import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.models.common.ClassModel
 import com.trx.consumer.models.common.ContentModel
 import com.trx.consumer.models.params.ContentParamsModel
 
-class ContentViewModel @ViewModelInject constructor(
-    private val analyticsManager: AnalyticsManager
-) : BaseViewModel() {
+class ContentViewModel : BaseViewModel() {
 
     var model = ContentModel()
     var state = ContentViewState.PLAIN

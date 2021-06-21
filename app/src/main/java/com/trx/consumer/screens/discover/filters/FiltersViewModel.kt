@@ -3,7 +3,6 @@ package com.trx.consumer.screens.discover.filters
 import androidx.hilt.lifecycle.ViewModelInject
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.extensions.pageTitle
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.params.FilterParamsModel

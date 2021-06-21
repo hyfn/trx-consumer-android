@@ -5,8 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.BuildConfig.isVersion2Enabled
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.extensions.pageTitle
-import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.models.common.BannerModel
 import com.trx.consumer.models.common.PromoModel
@@ -24,8 +22,7 @@ import com.trx.consumer.screens.trainerprofile.TrainerProfileListener
 import kotlinx.coroutines.launch
 
 class LiveViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager,
-    private val analyticsManager: AnalyticsManager
+    private val backendManager: BackendManager
 ) : BaseViewModel(),
     LiveWorkoutViewListener,
     TrainerProfileListener,

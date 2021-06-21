@@ -5,8 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.format
-import com.trx.consumer.extensions.pageTitle
-import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.core.ResponseModel
@@ -18,8 +16,7 @@ import java.util.Date
 import java.util.TimeZone
 
 class UpdateViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager,
-    private val analyticsManager: AnalyticsManager
+    private val backendManager: BackendManager
 ) : BaseViewModel(), InputViewListener {
 
     //region Variables

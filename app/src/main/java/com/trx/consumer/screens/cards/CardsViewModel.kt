@@ -4,8 +4,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.extensions.pageTitle
-import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.models.common.CardModel
@@ -13,8 +11,7 @@ import kotlinx.coroutines.launch
 
 class CardsViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
-    private val cacheManager: CacheManager,
-    private val analyticsManager: AnalyticsManager
+    private val cacheManager: CacheManager
 ) : BaseViewModel() {
 
     //region Objects
