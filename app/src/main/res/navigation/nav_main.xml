@@ -192,5 +192,4 @@
         android:label="LoadingFragment"
         tools:layout="@layout/fragment_loading" />
 
-
 </navigation>
