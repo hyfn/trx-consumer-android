@@ -49,25 +49,12 @@ enum class AnalyticsPropertyModel {
     val propertyType: String
         get() {
             return when (this) {
-                ATTENDED_LIVE_CLASS -> "User"
-                COLLECTION_ID -> "Event"
-                DAYS_ELAPSED_IN_TRIAL -> "User"
-                DAYS_ELAPSED_SINCE_SUBSCRIPTION_DATE -> "User"
-                DURATION -> "Event"
+                ATTENDED_LIVE_CLASS, DAYS_ELAPSED_IN_TRIAL, DAYS_ELAPSED_SINCE_SUBSCRIPTION_DATE,
+                REGISTRATION_TYPE, SOCIAL_NETWORK, SUBSCRIPTION_ID, SUBSCRIPTION_PRICE, PLATFORM,
                 OFFER -> "User"
-                ON_DEMAND_FILTER -> "Event"
-                PAGE -> "Event"
-                PAGE_TITLE -> "Event"
-                PLATFORM -> "User"
-                PROGRAM_ID -> "Event"
-                REGISTRATION_TYPE -> "User"
-                SOCIAL_NETWORK -> "User"
-                SUBSCRIPTION_ID -> "User"
-                SUBSCRIPTION_PRICE -> "User"
-                TRAINER_ID -> "Event"
-                TRAINER_NAME -> "Event"
-                VIDEO_ID -> "Event"
-                VIDEO_NAME -> "Event"
+
+                COLLECTION_ID, DURATION, ON_DEMAND_FILTER, PAGE, PAGE_TITLE, PROGRAM_ID, TRAINER_ID,
+                TRAINER_NAME, VIDEO_ID, VIDEO_NAME -> "Event"
             }
         }
 }

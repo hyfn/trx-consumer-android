@@ -47,6 +47,11 @@ class FiltersViewModel @ViewModelInject constructor(
     fun doTapApply() {
         params?.let { safeParams ->
             eventTapApply.postValue(safeParams)
+            safeParams.lstFilters.forEach { filter ->
+                filter.values.forEach { option ->
+                    if(option.isSelected) analyticsManager.trackFilterOnDemand(option)
+                }
+            }
         }
     }
 

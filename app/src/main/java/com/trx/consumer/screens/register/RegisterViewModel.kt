@@ -2,6 +2,7 @@ package com.trx.consumer.screens.register
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
+import com.trx.consumer.BuildConfig
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.pageTitle
@@ -94,6 +95,11 @@ class RegisterViewModel @ViewModelInject constructor(
             val response = backendManager.register(params)
             eventShowHud.postValue(false)
             if (response.isSuccess) {
+                if(BuildConfig.kIsVerificationEnabled) {
+                    // eventShowVerfication.call()
+                } else {
+                    analyticsManager.trackSignUp(null, "EMAIL_PW")
+                }
                 eventShowOnboarding.call()
             } else {
                 eventShowError.postValue(response.errorMessage)
