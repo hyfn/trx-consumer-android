@@ -133,7 +133,8 @@ object MainModule {
 
     @Provides
     @Singleton
-    fun provideConfigManager(cacheManager: CacheManager): ConfigManager = ConfigManager(cacheManager)
+    fun provideConfigManager(cacheManager: CacheManager): ConfigManager =
+        ConfigManager(cacheManager)
 
     @Provides
     @Singleton
