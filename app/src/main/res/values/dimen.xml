@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <dimen name="trx_text_small">12sp</dimen>
-    <dimen name="trx_text_medium">14sp</dimen>
-    <dimen name="trx_text_large">16sp</dimen>
-    <dimen name="trx_text_xlarge">18sp</dimen>
-    <dimen name="trx_text_huge">24sp</dimen>
-
-    <dimen name="trx_spacing_none">0dp</dimen>
-    <dimen name="trx_spacing_tiny">4dp</dimen>
-    <dimen name="trx_spacing_small">8dp</dimen>
-    <dimen name="trx_spacing_normal">12dp</dimen>
-    <dimen name="trx_spacing_big">16dp</dimen>
-    <dimen name="trx_spacing_large">24dp</dimen>
-    <dimen name="trx_spacing_huge">32dp</dimen>
-
     <dimen name="design_bottom_navigation_text_size" tools:override="true">8sp</dimen>
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">8sp</dimen>
 

@@ -29,7 +29,7 @@ class MaintenanceViewModelTests {
     private val maintenanceViewModel: MaintenanceViewModel = MaintenanceViewModel()
 
     @Test
-    fun `Verify correct view state observer when doLoadView`() = coroutineTestRule.runBlockingTest {
+    fun testLoadView() = coroutineTestRule.runBlockingTest {
         maintenanceViewModel.state = MaintenanceViewState.UPDATE
         maintenanceViewModel.eventLoadView.observeForever(eventLoadViewObserver)
 
@@ -39,7 +39,7 @@ class MaintenanceViewModelTests {
     }
 
     @Test
-    fun `Verify not correct view state observer when doLoadView`() = coroutineTestRule.runBlockingTest {
+    fun testLoadViewWithDoNotCorrectState() = coroutineTestRule.runBlockingTest {
         maintenanceViewModel.state = MaintenanceViewState.MAINTENANCE
         maintenanceViewModel.eventLoadView.observeForever(eventLoadViewObserver)
 
@@ -49,7 +49,7 @@ class MaintenanceViewModelTests {
     }
 
     @Test
-    fun `Verify action trigger when event tap button clicked`() = coroutineTestRule.runBlockingTest {
+    fun testTapButton() = coroutineTestRule.runBlockingTest {
         maintenanceViewModel.eventTapButton.observeForever(eventTapButtonObserver)
 
         maintenanceViewModel.doTapButton()

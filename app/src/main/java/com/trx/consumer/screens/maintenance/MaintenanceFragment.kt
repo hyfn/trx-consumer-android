@@ -7,6 +7,7 @@ import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentMaintenanceBinding
+import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.managers.UtilityManager
@@ -15,21 +16,17 @@ class MaintenanceFragment : BaseFragment(R.layout.fragment_maintenance) {
 
     private val viewModel: MaintenanceViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentMaintenanceBinding::bind)
-    private val params by lazy {
-        NavigationManager.shared.params(this) as MaintenanceViewState
-    }
 
     override fun bind() {
         super.bind()
 
-        viewModel.state = params
-        observeViewModel()
+        viewModel.state = NavigationManager.shared.params(this) as MaintenanceViewState
+        viewBinding.btnPrimary.action { viewModel.doTapButton() }
+        viewModel.apply {
+            eventLoadView.observe(viewLifecycleOwner, handleLoadView)
+            eventTapButton.observe(viewLifecycleOwner, handleTapButton)
+        }
         viewModel.doLoadView()
-    }
-
-    private fun observeViewModel() = with(viewModel) {
-        eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-        eventTapButton.observe(viewLifecycleOwner, handleTapButton)
     }
 
     private val handleLoadView = Observer<MaintenanceViewState> { viewState ->
@@ -37,8 +34,8 @@ class MaintenanceFragment : BaseFragment(R.layout.fragment_maintenance) {
         with(viewState) {
             viewBinding.apply {
                 imgLogo.setImageResource(imageLogo)
-                tvTitle.text = tvTitle.context.getString(title)
-                tvMessage.text = tvMessage.context.getString(message)
+                lblTitle.text = lblTitle.context.getString(title)
+                lblMessage.text = lblMessage.context.getString(message)
                 btnPrimary.apply {
                     text = btnPrimary.context.getString(btnTitle)
                     isVisible = viewState == MaintenanceViewState.UPDATE

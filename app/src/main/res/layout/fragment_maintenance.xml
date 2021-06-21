@@ -10,44 +10,49 @@
         android:id="@+id/imgLogo"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="@dimen/trx_spacing_huge"
-        app:layout_constraintBottom_toTopOf="@+id/tvTitle"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/lblTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.trx.consumer.common.CommonLabel
-        android:id="@+id/tvTitle"
-        style="@style/CommonLabelStyle"
-        android:layout_width="match_parent"
+        android:id="@+id/lblTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/trx_spacing_large"
+        android:layout_marginHorizontal="30dp"
+        android:fontFamily="@font/atcarquette_bold"
         android:gravity="center"
-        android:textSize="@dimen/trx_text_xlarge"
-        app:layout_constraintBottom_toTopOf="@+id/tvMessage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Update Required" />
-
-    <com.trx.consumer.common.CommonLabel
-        android:id="@+id/tvMessage"
-        style="@style/CommonLabelStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/atcarquette_regular"
-        android:gravity="center"
-        android:textColor="@color/grey"
+        android:minHeight="30dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="You’ll need an update to continue using the app. Visit the app store to download." />
+        tools:text="Update Required" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/atcarquette_regular"
+        android:gravity="center"
+        android:minHeight="45dp"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/lblTitle"
+        tools:text="You’ll need an update to continue using the app. Visit the Google Play Store to download." />
 
     <com.trx.consumer.common.CommonButton
         android:id="@+id/btnPrimary"
         style="@style/CommonButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginBottom="@dimen/trx_spacing_big"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="42dp"
         android:gravity="center"
         android:textAllCaps="true"
         android:textColor="@color/white"
