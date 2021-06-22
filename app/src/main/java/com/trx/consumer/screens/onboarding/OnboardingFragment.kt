@@ -9,9 +9,9 @@ import com.trx.consumer.databinding.FragmentOnboardingBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 
-class OnBoardingFragment : BaseFragment(R.layout.fragment_onboarding) {
+class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
 
-    private val viewModel: OnBoardingViewModel by viewModels()
+    private val viewModel: OnboardingViewModel by viewModels()
     private val viewBinding by viewBinding(FragmentOnboardingBinding::bind)
 
     override fun bind() {

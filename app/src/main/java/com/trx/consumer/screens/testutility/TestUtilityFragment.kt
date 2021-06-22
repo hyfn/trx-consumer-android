@@ -165,7 +165,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapWorkout = Observer<Void> {
-        NavigationManager.shared.present(this, R.id.workout_fragment)
+        NavigationManager.shared.present(this, R.id.workout_fragment, WorkoutModel.testLive())
     }
 
     private val handleTapMemberships = Observer<Void> {

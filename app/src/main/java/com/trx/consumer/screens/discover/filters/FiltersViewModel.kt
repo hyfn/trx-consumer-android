@@ -1,11 +1,15 @@
 package com.trx.consumer.screens.discover.filters
 
+import androidx.hilt.lifecycle.ViewModelInject
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.params.FilterParamsModel
 
-class FiltersViewModel : BaseViewModel(), FiltersListener {
+class FiltersViewModel @ViewModelInject constructor(
+    private val analyticsManager: AnalyticsManager
+) : BaseViewModel(), FiltersListener {
 
     var params: FilterParamsModel? = null
 
@@ -41,6 +45,11 @@ class FiltersViewModel : BaseViewModel(), FiltersListener {
     fun doTapApply() {
         params?.let { safeParams ->
             eventTapApply.postValue(safeParams)
+            safeParams.lstFilters.forEach { filter ->
+                filter.values.forEach { option ->
+                    if (option.isSelected) analyticsManager.trackFilterOnDemand(option)
+                }
+            }
         }
     }
 
