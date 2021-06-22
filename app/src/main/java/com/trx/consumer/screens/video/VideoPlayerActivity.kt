@@ -32,7 +32,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class VideoActivity : BrightcovePlayer() {
+class VideoPlayerActivity : BrightcovePlayer() {
 
     private lateinit var video: VideoModel
     private var videoSizeKnown = false
@@ -45,7 +45,7 @@ class VideoActivity : BrightcovePlayer() {
         get() = resources.configuration.orientation
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setContentView(R.layout.activity_video)
+        setContentView(R.layout.activity_video_player)
         brightcoveVideoView = findViewById(R.id.viewPlayerContainer)
         setMediaController()
         super.onCreate(savedInstanceState)

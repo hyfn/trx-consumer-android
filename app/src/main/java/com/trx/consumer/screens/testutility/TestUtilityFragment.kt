@@ -24,7 +24,7 @@ import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.loading.LoadingViewState
 import com.trx.consumer.screens.promotion.PromoAdapter
-import com.trx.consumer.screens.video.VideoActivity
+import com.trx.consumer.screens.video.VideoPlayerActivity
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutAdapter
 import com.trx.consumer.screens.welcome.WelcomeState
@@ -133,7 +133,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         val video = VideoModel.test().apply { id = "6232799349001" }
         NavigationManager.shared.presentActivity(
             requireActivity(),
-            VideoActivity::class.java,
+            VideoPlayerActivity::class.java,
             video
         )
     }
