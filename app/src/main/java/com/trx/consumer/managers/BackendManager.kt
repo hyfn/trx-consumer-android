@@ -200,7 +200,8 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
 
     suspend fun promos(): ResponseModel {
         val path = EndpointModel.PROMOS.path
-        return call(RequestModel(endpoint = EndpointModel.PROMOS, path = path, params = null))
+        val params = cacheManager.accessToken()?.let { hashMapOf<String, Any>("jwt" to it) }
+        return call(RequestModel(endpoint = EndpointModel.PROMOS, path = path, params = params))
     }
 
     suspend fun membershipAdd(params: HashMap<String, Any>): ResponseModel {
