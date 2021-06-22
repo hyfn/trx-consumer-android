@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.extensions.dateAtHour
 import com.trx.consumer.extensions.isSameDay
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.LogManager
@@ -97,7 +98,7 @@ class ScheduleViewModel @ViewModelInject constructor(
                 }
             )
         }
-        doTapDate(date)
+        doTapDate(Date().dateAtHour(24))
     }
 
     override fun doTapBookLiveWorkout(model: WorkoutModel) {
