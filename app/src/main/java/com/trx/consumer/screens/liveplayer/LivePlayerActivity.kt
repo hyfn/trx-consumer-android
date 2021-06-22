@@ -103,8 +103,8 @@ class LivePlayerActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        stop()
         super.onDestroy()
-        livePlayerHandler.livePlayerActivity = null
     }
 
     //endregion 
@@ -268,16 +268,94 @@ class LivePlayerActivity : AppCompatActivity() {
 
     private val handleLoadVideo = Observer<WorkoutModel> { model ->
         LogManager.log("handleTapClose")
-        // playTRXlive(container, model.live)
-        playFMLive()
+        playTRXlive(model.live)
+        // playFMLive()
     }
 
     //endregion
 
     //region Helper Functions
 
-    fun playTRXlive(view: RelativeLayout, value: LiveResponseModel) {
-        // livePlayerHandler.start(this, view, value)
+    fun playTRXlive(value: LiveResponseModel) {
+        livePlayerHandler.useNextVideoDevice()
+
+        livePlayerHandler.livePlayerActivity = this
+
+        val tempContainer = findViewById<RelativeLayout>(R.id.fmPlayerContainer)
+        if (container == null) {
+            container = tempContainer
+        }
+
+        // layout.removeView(tempContainer)
+
+        if (!localMediaStarted) {
+            val promise = Promise<Any>()
+
+            val startFn = IAction0 {
+                livePlayerHandler.startTRXLocalMedia(this).then({ resultStart ->
+                    livePlayerHandler.joinAsyncLive(value)?.then({ resultJoin ->
+                        promise.resolve(null)
+                    }) { ex ->
+                        promise.reject(ex)
+                    }
+                }) { ex ->
+                    promise.reject(null)
+                }
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val requiredPermissions: MutableList<String> = ArrayList(3)
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.RECORD_AUDIO
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    requiredPermissions.add(Manifest.permission.RECORD_AUDIO)
+                }
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.CAMERA
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    requiredPermissions.add(Manifest.permission.CAMERA)
+                }
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                }
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.READ_PHONE_STATE
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
+                }
+                if (requiredPermissions.size == 0) {
+                    startFn.invoke()
+                } else {
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
+                            Manifest.permission.CAMERA
+                        ) ||
+                        shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                        shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)
+                    ) {
+                        Toast.makeText(
+                            this,
+                            "Access to camera, microphone, storage, and phone call state is required",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    requestPermissions(requiredPermissions.toTypedArray(), 1)
+                }
+            } else {
+                startFn.invoke()
+            }
+        }
+
+        localMediaStarted = true
     }
 
     fun playFMLive() {

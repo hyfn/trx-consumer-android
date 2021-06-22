@@ -4,7 +4,6 @@ import android.content.Context
 import android.media.projection.MediaProjection
 import android.os.Handler
 import android.view.View
-import android.widget.RelativeLayout
 import com.trx.consumer.BuildConfig.kFMApplicationIdProd
 import com.trx.consumer.BuildConfig.kFMGatewayUrl
 import com.trx.consumer.frozenmountain.AecContext
@@ -139,52 +138,84 @@ class LivePlayerHandler(val context: Context) {
 
     //region LivePlayerActivity Function
 
-    fun start(activity: LivePlayerActivity, container: RelativeLayout, live: LiveResponseModel) {
-        LogManager.log("LivePlayerHandler - start")
-        layoutManager = LayoutManager(container)
-
-        startLocalMedia(activity)
-            .then({ joinAsyncLive(live) }) { e ->
-                Log.error("Could not start local media", e)
-            }
-    }
-
-    // TODO: Implement completely with TCM-255
-    fun joinAsyncLive(live: LiveResponseModel): Future<Array<Channel?>?>? {
-        val token = live.accessToken
-        val name = live.participantName
-        val userID: String = live.sessionCustomerUid
-
+    fun joinAsyncLive(live: LiveResponseModel): Future<Array<Channel>>? {
         unRegistering = false
 
-        client = Client(
-            kFMGatewayUrl,
-            kFMApplicationIdProd,
-            userID,
-            deviceID
-        )
-
-        client?.userAlias = "Test"
-
-        client?.addOnStateChange { state ->
-            when (state.state) {
-                Registering, Registered, Unregistering -> LogManager.log(state.state.name)
-                Unregistered -> {
-                    LogManager.log(state.state.name)
-                    if (!unRegistering) {
-                        ManagedThread.sleep(reRegisterBackoff)
-                        if (reRegisterBackoff < maxRegisterBackoff) {
+        // Hardcoded
+        client = Client(kFMGatewayUrl, kFMApplicationIdProd, live.sessionCustomerUid, deviceID)
+            .apply {
+                userAlias = live.participantName
+                addOnStateChange { safeClient ->
+                    LogManager.log("Client state is: ${safeClient.state.name} ")
+                    if (safeClient.state == Unregistered && !unRegistering) {
+                        ManagedThread.sleep(maxRegisterBackoff)
+                        if (maxRegisterBackoff < maxRegisterBackoff) {
                             reRegisterBackoff += reRegisterBackoff
+                        }
+
+                        safeClient.register(live.accessToken).then({ channels ->
+                            reRegisterBackoff = 200
+                            onClientRegistered(channels)
+                        }) { e ->
+                            LogManager.log("Failed to reregister with Gateway. ${e.message}")
                         }
                     }
                 }
-                else -> { LogManager.log("Not logging state: ${state.state.name}") }
+            }
+
+        return client?.register(live.accessToken)?.then({ channels ->
+            onClientRegistered(channels)
+        }) { e ->
+            LogManager.log("Failed to register with Gateway. ${e.message}")
+        }
+    }
+
+    fun startTRXLocalMedia(activity: LivePlayerActivity): Future<Any> {
+        val promise = Promise<Any>()
+
+        // Set up the layout manager.
+        layoutManager = LayoutManager(activity.container)
+        activity.runOnUiThread {
+            if (receiveOnly) {
+                promise.resolve(null)
+            } else {
+                // Create an echo cancellation context.
+                aecContext = AecContext()
+
+                // Set up the local media.
+                localMedia = LocalCameraMedia(
+                    context,
+                    enableH264,
+                    false,
+                    audioOnly,
+                    aecContext,
+                    enableSimulcast
+                )
+
+                localMedia?.view?.let { localView ->
+                    localView.contentDescription = "localView"
+                    layoutManager?.localView = localView
+                }
+
+                // Change input source to front camera .
+                (localMedia?.videoSource as? Camera2Source)?.let { input ->
+                    input.frontInput?.let { sourceInput ->
+                        localMedia?.changeVideoSourceInput(sourceInput)
+                    }
+                }
+
+                // Start the local media.
+                localMedia?.let { safeLocalMedia ->
+                    safeLocalMedia.start().then({
+                        it.videoSource.start()
+                        promise.resolve(null)
+                    }) { e ->
+                        promise.reject(e)
+                    }
+                }
             }
         }
-
-        // TODO: Complete function body
-
-        return null
+        return promise
     }
 
     //endregion
