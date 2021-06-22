@@ -74,7 +74,7 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
 
     //  Joining a Live Session, used in LivePlayerViewModel
     suspend fun join(sessionKey: String): ResponseModel {
-        val path = EndpointModel.JOIN.path + "/customer/" + sessionKey
+        val path = EndpointModel.JOIN.path + "/customer/large-group-broadcast/" + sessionKey
         return call(RequestModel(endpoint = EndpointModel.JOIN, path = path, params = null))
     }
 
