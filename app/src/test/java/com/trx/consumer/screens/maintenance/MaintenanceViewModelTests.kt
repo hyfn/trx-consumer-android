@@ -2,9 +2,12 @@ package com.trx.consumer.screens.maintenance
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
-import com.trx.consumer.screens.utils.CoroutineTestRule
+import com.trx.consumer.screens.utils.MainCoroutineRule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,8 +17,9 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class MaintenanceViewModelTests {
 
+    @ExperimentalCoroutinesApi
     @get:Rule
-    val coroutineTestRule = CoroutineTestRule()
+    var mainCoroutineRule = MainCoroutineRule()
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -29,31 +33,37 @@ class MaintenanceViewModelTests {
     private val maintenanceViewModel: MaintenanceViewModel = MaintenanceViewModel()
 
     @Test
-    fun testLoadView() = coroutineTestRule.runBlockingTest {
-        maintenanceViewModel.state = MaintenanceViewState.UPDATE
-        maintenanceViewModel.eventLoadView.observeForever(eventLoadViewObserver)
+    fun testLoadView() {
+        maintenanceViewModel.viewModelScope.launch {
+            maintenanceViewModel.state = MaintenanceViewState.UPDATE
+            maintenanceViewModel.eventLoadView.observeForever(eventLoadViewObserver)
 
-        maintenanceViewModel.doLoadView()
+            maintenanceViewModel.doLoadView()
 
-        verify(eventLoadViewObserver).onChanged(MaintenanceViewState.UPDATE)
+            verify(eventLoadViewObserver).onChanged(MaintenanceViewState.UPDATE)
+        }
     }
 
     @Test
-    fun testLoadViewWithDoNotCorrectState() = coroutineTestRule.runBlockingTest {
-        maintenanceViewModel.state = MaintenanceViewState.MAINTENANCE
-        maintenanceViewModel.eventLoadView.observeForever(eventLoadViewObserver)
+    fun testLoadViewWithDoNotCorrectState() {
+        maintenanceViewModel.viewModelScope.launch {
+            maintenanceViewModel.state = MaintenanceViewState.MAINTENANCE
+            maintenanceViewModel.eventLoadView.observeForever(eventLoadViewObserver)
 
-        maintenanceViewModel.doLoadView()
+            maintenanceViewModel.doLoadView()
 
-        verify(eventLoadViewObserver, times(0)).onChanged(MaintenanceViewState.UPDATE)
+            verify(eventLoadViewObserver, times(0)).onChanged(MaintenanceViewState.UPDATE)
+        }
     }
 
     @Test
-    fun testTapButton() = coroutineTestRule.runBlockingTest {
-        maintenanceViewModel.eventTapButton.observeForever(eventTapButtonObserver)
+    fun testTapButton() {
+        maintenanceViewModel.viewModelScope.launch {
+            maintenanceViewModel.eventTapButton.observeForever(eventTapButtonObserver)
 
-        maintenanceViewModel.doTapButton()
+            maintenanceViewModel.doTapButton()
 
-        verify(eventTapButtonObserver).onChanged(null)
+            verify(eventTapButtonObserver).onChanged(null)
+        }
     }
 }
