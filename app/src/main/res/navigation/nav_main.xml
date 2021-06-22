@@ -97,12 +97,6 @@
         tools:layout="@layout/fragment_content" />
 
     <fragment
-        android:id="@+id/plans_fragment"
-        android:name="com.trx.consumer.screens.plans.PlansFragment"
-        android:label="PlansFragment"
-        tools:layout="@layout/fragment_plans" />
-
-    <fragment
         android:id="@+id/filter_options_fragment"
         android:name="com.trx.consumer.screens.discover.filters.filteroptions.FilterOptionsFragment"
         android:label="FilterOptionsFragment"
@@ -125,12 +119,6 @@
         android:name="com.trx.consumer.screens.settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings" />
-
-    <fragment
-        android:id="@+id/subscriptions_fragment"
-        android:name="com.trx.consumer.screens.subscriptions.SubscriptionsFragment"
-        android:label="SubscriptionsFragment"
-        tools:layout="@layout/fragment_subscriptions" />
 
     <fragment
         android:id="@+id/workout_fragment"
@@ -191,5 +179,11 @@
         android:name="com.trx.consumer.screens.loading.LoadingFragment"
         android:label="LoadingFragment"
         tools:layout="@layout/fragment_loading" />
+
+    <fragment
+        android:id="@+id/maintenance_fragment"
+        android:name="com.trx.consumer.screens.maintenance.MaintenanceFragment"
+        android:label="MaintenanceFragment"
+        tools:layout="@layout/fragment_maintenance" />
 
 </navigation>

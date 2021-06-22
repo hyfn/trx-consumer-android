@@ -58,6 +58,7 @@ class SettingsModel {
                 add(0)
                 add(create(null, SettingsType.LOGOUT))
                 if (BuildConfig.DEBUG) add(create(null, SettingsType.TEST_SCREENS))
+                if (BuildConfig.DEBUG) add(create(null, SettingsType.SHOW_MAINTENANCE))
             }
         }
     }
@@ -71,7 +72,8 @@ enum class SettingsType {
     RESTORE,
     LOGOUT,
     TEST_SCREENS,
-    MEMBERSHIPS;
+    MEMBERSHIPS,
+    SHOW_MAINTENANCE;
 
     @get:StringRes
     val title: Int
@@ -84,5 +86,6 @@ enum class SettingsType {
             LOGOUT -> R.string.settings_logout
             TEST_SCREENS -> R.string.settings_test_screen
             MEMBERSHIPS -> R.string.settings_membership
+            SHOW_MAINTENANCE -> R.string.settings_type_show_maintenance
         }
 }

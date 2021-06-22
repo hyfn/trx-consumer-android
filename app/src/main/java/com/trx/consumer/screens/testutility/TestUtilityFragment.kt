@@ -24,7 +24,7 @@ import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.loading.LoadingViewState
 import com.trx.consumer.screens.promotion.PromoAdapter
-import com.trx.consumer.screens.video.VideoActivity
+import com.trx.consumer.screens.video.VideoPlayerActivity
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutAdapter
 import com.trx.consumer.screens.welcome.WelcomeState
@@ -55,7 +55,6 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnAddCard.action { viewModel.doTapAddCard() }
             btnUpdate.action { viewModel.doTapUpdate() }
             btnContent.action { viewModel.doTapContent() }
-            btnPlans.action { viewModel.doTapPlans() }
             btnVideo.action { viewModel.doTapVideo() }
             btnFilter.action { viewModel.doTapFilter() }
             btnDiscover.action { viewModel.doTapDiscover() }
@@ -82,7 +81,6 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapContent.observe(viewLifecycleOwner, handleTapContent)
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
-            eventTapPlans.observe(viewLifecycleOwner, handleTapPlans)
             eventTapVideo.observe(viewLifecycleOwner, handleTapVideo)
             eventTapDiscover.observe(viewLifecycleOwner, handleTapDiscover)
             eventTapAlert.observe(viewLifecycleOwner, handleTapAlert)
@@ -125,15 +123,11 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         NavigationManager.shared.present(this, R.id.content_fragment, model)
     }
 
-    private val handleTapPlans = Observer<Void> {
-        NavigationManager.shared.present(this, R.id.plans_fragment)
-    }
-
     private val handleTapVideo = Observer<Void> {
         val video = VideoModel.test().apply { id = "6232799349001" }
         NavigationManager.shared.presentActivity(
             requireActivity(),
-            VideoActivity::class.java,
+            VideoPlayerActivity::class.java,
             video
         )
     }
