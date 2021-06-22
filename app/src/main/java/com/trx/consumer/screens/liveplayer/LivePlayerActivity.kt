@@ -2,7 +2,9 @@ package com.trx.consumer.screens.liveplayer
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.trx.consumer.R
+import kotlinx.coroutines.launch
 
 class LivePlayerActivity : AppCompatActivity() {
 
