@@ -9,12 +9,6 @@ class IAPOfferingsModel(
     var error: PurchasesError? = null
 ) {
 
-    val lstPackages: List<SubscriptionModel>
-        get() {
-            val packages = offerings?.current?.availablePackages ?: emptyList()
-            return packages.map { SubscriptionModel(iapPackage = it) }
-        }
-
     val packages: List<Package>
         get() = offerings?.current?.availablePackages ?: emptyList()
 }
