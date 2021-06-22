@@ -97,8 +97,9 @@ class RegisterViewModel @ViewModelInject constructor(
                     // eventShowVerfication.call()
                 } else {
                     analyticsManager.trackSignUp(null, "EMAIL_PW")
+                    eventShowOnboarding.call()
                 }
-                eventShowOnboarding.call()
+
             } else {
                 eventShowError.postValue(response.errorMessage)
             }
