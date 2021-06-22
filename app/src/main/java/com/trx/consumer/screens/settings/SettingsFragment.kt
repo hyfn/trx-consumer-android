@@ -16,6 +16,7 @@ import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.managers.UtilityManager
 import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.screens.alert.AlertViewState
+import com.trx.consumer.screens.maintenance.MaintenanceViewState
 import com.trx.consumer.screens.settings.option.SettingsOptionAdapter
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
@@ -48,6 +49,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             eventLogOut.observe(viewLifecycleOwner, handleLogOut)
             eventTapMembership.observe(viewLifecycleOwner, handleTapMembership)
             eventTapTest.observe(viewLifecycleOwner, handleTapTest)
+            eventTapMaintenance.observe(viewLifecycleOwner, handleTapMaintenance)
             doLoadView()
         }
     }
@@ -109,6 +111,15 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     private val handleTapBack = Observer<Void> {
         LogManager.log("handleTapBack")
         NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleTapMaintenance = Observer<Unit> {
+        LogManager.log("handleTapMaintenance")
+        NavigationManager.shared.present(
+            this,
+            R.id.maintenance_fragment,
+            MaintenanceViewState.UPDATE
+        )
     }
 
     private val handleTapTest = Observer<Void> {
