@@ -1,12 +1,16 @@
 package com.trx.consumer.models.responses
 
+import com.trx.consumer.BuildConfig
 import com.trx.consumer.extensions.map
 import com.trx.consumer.models.common.MembershipModel
 import com.trx.consumer.models.common.UserMembershipModel
 import com.trx.consumer.screens.memberships.list.MembershipViewState
 import org.json.JSONObject
 
-class MembershipsResponseModel(val memberships: List<MembershipModel>) {
+class MembershipsResponseModel(
+    val baseMemberships: List<MembershipModel>,
+    val customMemberships: List<MembershipModel>
+) {
 
     companion object {
 
@@ -14,11 +18,11 @@ class MembershipsResponseModel(val memberships: List<MembershipModel>) {
             val jsonObject = JSONObject(json)
             val dataObject = jsonObject.getJSONObject("data")
 
-            val baseMembershipsRaw = dataObject.getJSONArray("baseValues").map {
+            val baseMemberships = dataObject.getJSONArray("baseValues").map {
                 MembershipModel.parse(it)
-            }
+            }.filter { it.userType == "customer" }
 
-            val customMembershipsRaw = mutableListOf<MembershipModel>()
+            val customMemberships = mutableListOf<MembershipModel>()
             val customValuesObject = dataObject.getJSONObject("customValues")
             customValuesObject.keys().forEach { key ->
                 val value = customValuesObject.getJSONObject(key)
@@ -26,51 +30,37 @@ class MembershipsResponseModel(val memberships: List<MembershipModel>) {
                     this.key = key
                     this.primaryState = MembershipViewState.CUSTOM
                 }
-                customMembershipsRaw.add(model)
+                customMemberships.add(model)
             }
 
-            val baseMemberships = baseMembershipsRaw.filter { it.userType == "customer" }
-            val customMemberships = customMembershipsRaw.filter {
-                it.userType == "customer" && it.revcatProductId.isNotEmpty()
-            }
-            return MembershipsResponseModel(baseMemberships + customMemberships)
+            return MembershipsResponseModel(
+                baseMemberships = baseMemberships,
+                customMemberships = customMemberships.filter {
+                    it.userType == "customer" && it.showInMobile
+                }
+            )
         }
     }
 
-    fun sections(userMemberships: HashMap<String, UserMembershipModel>): List<Any> {
-        val sections = mutableListOf<Any>()
-        val baseMemberships = memberships.filter { it.primaryState == MembershipViewState.BASE }
-        val customMemberships = memberships.filter {
-            !it.hideWhenNotSubscribed && it.primaryState == MembershipViewState.CUSTOM
-        }
-        val legacyMemberships = memberships.filter { it.hideWhenNotSubscribed }
+    fun memberships(userMemberships: HashMap<String, UserMembershipModel>): List<MembershipModel> {
+        val memberships = mutableListOf<MembershipModel>()
 
         match(customMemberships, userMemberships)
-        if (baseMemberships.isNotEmpty() || customMemberships.isNotEmpty()) {
-            sections.add("MEMBERSHIPS")
-
-            if (customMemberships.none { it.primaryState == MembershipViewState.ACTIVE }) {
-                sections.addAll(baseMemberships)
-                sections.addAll(customMemberships.sortedBy { it.key })
-            } else {
-                sections.addAll(
-                    customMemberships.sortedWith(
-                        compareBy({ it.primaryState != MembershipViewState.ACTIVE }, { it.key })
-                    )
-                )
+        if (customMemberships.none {
+                it.primaryState == MembershipViewState.ACTIVE ||
+                        it.primaryState == MembershipViewState.CANCELLED
+            }) {
+            if (BuildConfig.isVersion2Enabled) memberships.addAll(baseMemberships)
+            memberships.addAll(customMemberships.sortedBy { it.key })
+        } else {
+            val sortedMemberships = customMemberships.sortedBy {
+                it.primaryState == MembershipViewState.ACTIVE ||
+                        it.primaryState == MembershipViewState.CANCELLED
             }
+            memberships.addAll(sortedMemberships)
         }
 
-        match(legacyMemberships, userMemberships)
-        val activeLegacyMemberships = legacyMemberships.filter {
-            it.primaryState == MembershipViewState.ACTIVE
-        }
-        if (activeLegacyMemberships.isNotEmpty()) {
-            sections.add("LEGACY IN-APP SUBSCRIPTIONS")
-            sections.addAll(activeLegacyMemberships)
-        }
-
-        return sections
+        return memberships
     }
 
     private fun match(
@@ -79,7 +69,11 @@ class MembershipsResponseModel(val memberships: List<MembershipModel>) {
     ) {
         memberships.forEach { membership ->
             userMemberships[membership.key]?.let { matchingPlan ->
-                membership.primaryState = MembershipViewState.ACTIVE
+                membership.primaryState = if (matchingPlan.cancelAtPeriodEnd) {
+                    MembershipViewState.CANCELLED
+                } else {
+                    MembershipViewState.ACTIVE
+                }
                 membership.currentPeriodEnd = matchingPlan.currentPeriodEnd
                 membership.currentPeriodStart = matchingPlan.currentPeriodStart
             }
