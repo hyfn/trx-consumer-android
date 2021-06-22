@@ -22,8 +22,6 @@ enum class EndpointModel {
     MEMBERSHIPS,
     PROGRAM_AVAILABILITY,
     PROMOS,
-    PURCHASE,
-    PURCHASES,
     REGISTER,
     TRAINER,
     TRAINERS,
@@ -58,7 +56,6 @@ enum class EndpointModel {
                 FORGOT,
                 PAYMENT_ADD,
                 MEMBERSHIP_ADD,
-                PURCHASE,
                 REGISTER -> {
                     Type.POST
                 }
@@ -86,8 +83,6 @@ enum class EndpointModel {
                 PAYMENT_DELETE,
                 MEMBERSHIP_ADD,
                 MEMBERSHIP_DELETE,
-                PURCHASE,
-                PURCHASES,
                 UPDATE,
                 USER -> true
                 else -> false
@@ -111,7 +106,6 @@ enum class EndpointModel {
                 MEMBERSHIP_ADD, MEMBERSHIP_DELETE, MEMBERSHIPS -> prefix + "subscriptions"
                 PROGRAM_AVAILABILITY -> prefix + "programs"
                 PROMOS -> prefix + "copy/ctas"
-                PURCHASE, PURCHASES -> prefix + "purchases"
                 TRAINER, TRAINERS, TRAINER_PROGRAMS, TRAINER_SESSIONS -> prefix + "trainers"
                 UPDATE, USER -> prefix + "user"
                 VIDEOS -> prefix + "videos"
