@@ -1,9 +1,12 @@
 package com.trx.consumer.models.common
 
+import android.os.Parcelable
 import com.trx.consumer.extensions.upperCased
 import com.trx.consumer.models.states.WorkoutViewState
+import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 
+@Parcelize
 class TrainerProgramModel(
     var durationInMinutes: Int = 0,
     var isPublic: Boolean = false,
@@ -12,7 +15,7 @@ class TrainerProgramModel(
     var name: String = "",
     var priceInCents: Int = 0,
     var trainer: TrainerModel = TrainerModel()
-) {
+) : Parcelable {
 
     companion object {
         fun parse(jsonObject: JSONObject) = TrainerProgramModel().apply {
