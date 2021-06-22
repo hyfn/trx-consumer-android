@@ -4,9 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.extensions.dateAtHour
 import com.trx.consumer.extensions.isSameDay
-import com.trx.consumer.extensions.isToday
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.CalendarModel
@@ -84,7 +82,7 @@ class ScheduleViewModel @ViewModelInject constructor(
                 val response = backendManager.trainerSessions(safeKey)
                 if (response.isSuccess) {
                     model = SessionsResponseModel.parse(response.responseString)
-                    loadLive(Date().dateAtHour(24))
+                    loadLive(Date())
                 }
             }
         }
