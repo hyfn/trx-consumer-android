@@ -71,7 +71,7 @@ enum class EndpointModel {
     val isAuthenticated: Boolean
         get() {
             return when (this) {
-                AUTH,
+                AUTH,PROMOS,
                 BOOK_CANCEL,
                 BOOKINGS,
                 BOOK_PROGRAM_CONFIRM,
