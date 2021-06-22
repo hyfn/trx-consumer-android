@@ -8,11 +8,9 @@
     <string name="alert_button_title_dismiss">Dismiss</string>
     <string name="alert_primary_back">Take me back</string>
     <string name="alert_primary_done">DONE</string>
-    <string name="alert_primary_keep_plan">No, keep my plan</string>
     <string name="alert_primary_submit_payment">Submit Payment</string>
     <string name="alert_secondary_cancel">Cancel</string>
     <string name="alert_primary_cool">Cool</string>
-    <string name="alert_secondary_cancel_plan">Yes, cancel my plan</string>
     <string name="alert_secondary_report">Report an issue</string>
     <string name="alert_confirm_message">Are you sure?</string>
     <string name="alert_nevermind_label">Nevermind</string>
@@ -73,7 +71,6 @@
     <string name="home_live_title_label">HOT NEW LIVE CLASSES</string>
     <string name="home_on_demand_title_label">ON-DEMAND WORKOUTS</string>
     <string name="home_upcoming_button_label">VIEW ALL →</string>
-    <string name="home_dummy_plan_label">UNLIMITED</string>
     <string name="home_banner_description_label">Try TRX Training Club and experience LIVE Classes and get matched with a Virtual Personal Trainer for free.</string>
     <string name="home_banner_btn_label">LEARN MORE</string>
     <string name="home_banner_title_label">More Ways to Train</string>
@@ -129,15 +126,8 @@
     <string name="memberships_cancel_wip_label">Under construction</string>
     <string name="memberships_choose_membership_alert_primary_label">SUBMIT PAYMENT</string>
     <string name="memberships_choose_membership_alert_secondary_label">DISMISS</string>
-
-    <string name="plans_choose_plan_label">Choose Plan</string>
-    <string name="plans_current_plan_label">Current Plan</string>
-    <string name="plans_title">Plans</string>
-    <string name="plans_cancel_message"> Are you sure you want to cancel your plan?</string>
-    <string name="plans_cancel_button_label">Cancel Plan</string>
-    <string name="plans_confirm_message">Are you sure you want to buy this plan?</string>
-    <string name="plans_last_bill_date_label">Last Bill Date:</string>
-    <string name="plans_next_bill_date_label">Next Bill Date:</string>
+    <string name="memberships_last_bill_date_label">Last Bill Date:</string>
+    <string name="memberships_next_bill_date_label">Next Bill Date:</string>
 
     <string name="promos_top_title_label">FOR YOU</string>
 
@@ -146,7 +136,6 @@
     <string name="player_screen_cast_coming_soon_message">Coming Soon!</string>
 
     <string name="settings_title">SETTINGS</string>
-    <string name="settings_plans">Plans</string>
     <string name="settings_memberships">Memberships</string>
     <string name="settings_shop">Shop TRX Products</string>
     <string name="settings_getting_started">Getting Started Videos</string>
@@ -154,19 +143,7 @@
     <string name="settings_contact_support">Contact Support</string>
     <string name="settings_restore_purchases">Restore Purchases</string>
     <string name="settings_logout">Log Out</string>
-    <string name="settings_membership">Memberships</string>
     <string name="settings_test_screen">Test Screens</string>
-
-    <string name="subscriptions_title">Subscriptions</string>
-    <string name="subscriptions_choose_subscription_label">Choose Subscription</string>
-    <string name="subscriptions_current_subscription_label">Current Subscription</string>
-    <string name="subscriptions_cancel_subscription_label">Cancel Subscription</string>
-    <string name="subscriptions_restore_purchases_label">Restore Purchases</string>
-    <string name="subscriptions_confirm_alert_message">Are you sure you want to buy this subscription?</string>
-    <string name="subscriptions_confirm_alert_primary_label">SUBMIT PAYMENT</string>
-    <string name="subscriptions_cancel_alert_message">Are you sure you want to cancel your subscription? (canceling may take up to 24 hours)</string>
-    <string name="subscriptions_cancel_alert_primary_label">NO, KEEP MY SUBSCRIPTION</string>
-    <string name="subscriptions_cancel_alert_secondary_label">YES, CANCEL MY SUBSCRIPTION</string>
 
     <string name="splash_title">Welcome to the TRX Training Club</string>
     <string name="splash_continue_label">CONTINUE WITH</string>
@@ -182,7 +159,6 @@
     <string name="test_utility_calendar_section_label">Calendar</string>
     <string name="test_utility_nav_bar_title_label">Testing</string>
     <string name="test_utility_live_workout_section_label">Live Workouts</string>
-    <string name="test_utility_plans_label">Plans</string>
     <string name="test_utility_video_label">Video</string>
     <string name="test_utility_virtual_workout_section_label">Virtual Workouts</string>
     <string name="test_utility_video_workout_section_label">Video Workouts</string>

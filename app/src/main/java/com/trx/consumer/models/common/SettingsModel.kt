@@ -83,6 +83,6 @@ enum class SettingsType {
             RESTORE -> R.string.settings_restore_purchases
             LOGOUT -> R.string.settings_logout
             TEST_SCREENS -> R.string.settings_test_screen
-            MEMBERSHIPS -> R.string.settings_membership
+            MEMBERSHIPS -> R.string.settings_memberships
         }
 }

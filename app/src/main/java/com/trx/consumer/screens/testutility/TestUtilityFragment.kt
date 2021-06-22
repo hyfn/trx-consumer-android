@@ -55,7 +55,6 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnAddCard.action { viewModel.doTapAddCard() }
             btnUpdate.action { viewModel.doTapUpdate() }
             btnContent.action { viewModel.doTapContent() }
-            btnPlans.action { viewModel.doTapPlans() }
             btnVideo.action { viewModel.doTapVideo() }
             btnFilter.action { viewModel.doTapFilter() }
             btnDiscover.action { viewModel.doTapDiscover() }
@@ -82,7 +81,6 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapContent.observe(viewLifecycleOwner, handleTapContent)
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
-            eventTapPlans.observe(viewLifecycleOwner, handleTapPlans)
             eventTapVideo.observe(viewLifecycleOwner, handleTapVideo)
             eventTapDiscover.observe(viewLifecycleOwner, handleTapDiscover)
             eventTapAlert.observe(viewLifecycleOwner, handleTapAlert)
@@ -123,10 +121,6 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     private val handleTapContent = Observer<Void> {
         val model = ContentParamsModel(ContentViewState.PLAIN, "Terms & Conditions", "Test")
         NavigationManager.shared.present(this, R.id.content_fragment, model)
-    }
-
-    private val handleTapPlans = Observer<Void> {
-        NavigationManager.shared.present(this, R.id.plans_fragment)
     }
 
     private val handleTapVideo = Observer<Void> {

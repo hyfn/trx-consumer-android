@@ -12,7 +12,6 @@ import com.revenuecat.purchases.interfaces.ReceiveOfferingsListener
 import com.revenuecat.purchases.interfaces.ReceivePurchaserInfoListener
 import com.trx.consumer.models.common.IAPModel
 import com.trx.consumer.models.common.IAPOfferingsModel
-import com.trx.consumer.models.common.SubscriptionModel
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -46,10 +45,6 @@ class IAPManager {
             }
             Purchases.sharedInstance.getOfferings(callback)
         }
-    }
-
-    suspend fun packages(): List<SubscriptionModel> {
-        return offerings().lstPackages
     }
 
     suspend fun purchase(activity: Activity, model: Package): IAPModel {
