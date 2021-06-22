@@ -24,7 +24,6 @@ import com.trx.consumer.models.common.AnalyticsPropertyModel.TRAINER_NAME
 import com.trx.consumer.models.common.AnalyticsPropertyModel.VIDEO_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.VIDEO_NAME
 import com.trx.consumer.models.common.FilterOptionsModel
-import com.trx.consumer.models.common.SubscriptionModel
 import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
 import org.json.JSONObject
@@ -56,15 +55,6 @@ class AnalyticsManager(private val configManager: ConfigManager) {
         val properties = value?.let { mapOf(PAGE_TITLE.propertyName to value) } ?: mapOf()
 
         amplitudeClient.logEvent(PAGE_VIEW.eventName, JSONObject(properties))
-    }
-
-    fun trackPurchaseSubscription(model: SubscriptionModel) {
-        val properties = mapOf<String, Any>(
-            SUBSCRIPTION_ID.propertyName to model.iapPackage.identifier,
-            SUBSCRIPTION_PRICE.propertyName to model.cost
-        )
-
-        amplitudeClient.logEvent(PURCHASE_SUBSCRIPTION.eventName, JSONObject(properties))
     }
 
     fun trackSignIn(socialNetwork: String = "") {
