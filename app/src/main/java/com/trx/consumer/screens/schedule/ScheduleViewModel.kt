@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.dateAtHour
+import com.trx.consumer.extensions.isSameDay
 import com.trx.consumer.extensions.isToday
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.LogManager
@@ -119,7 +120,7 @@ class ScheduleViewModel @ViewModelInject constructor(
     override fun doTapDate(date: Date) {
         when (state) {
             ScheduleViewState.LIVE, ScheduleViewState.TRAINER_LIVE -> {
-                model?.listUpcoming?.filter { it.date.day == date.day }?.let { workouts ->
+                model?.listUpcoming?.filter { it.date.isSameDay(date) }?.let { workouts ->
                     eventLoadLiveWorkouts.postValue(workouts)
                 }
             }
