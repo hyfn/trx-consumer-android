@@ -9,8 +9,9 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentScheduleBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.CalendarModel
+import com.trx.consumer.models.common.ScheduleModel
 import com.trx.consumer.models.common.WorkoutModel
-import com.trx.consumer.models.states.ScheduleViewState
 
 class ScheduleFragment : BaseFragment(R.layout.fragment_schedule) {
 
@@ -20,6 +21,12 @@ class ScheduleFragment : BaseFragment(R.layout.fragment_schedule) {
     private lateinit var scheduleAdapter: ScheduleAdapter
 
     override fun bind() {
+
+        val model = NavigationManager.shared.params(this) as ScheduleModel
+        viewModel.apply {
+            state = model.state
+            key = model.key
+        }
         scheduleAdapter = ScheduleAdapter(viewModel, viewModel, viewModel) { lifecycleScope }
 
         viewBinding.apply {
@@ -30,7 +37,8 @@ class ScheduleFragment : BaseFragment(R.layout.fragment_schedule) {
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-
+            eventLoadCalendarView.observe(viewLifecycleOwner, handleLoadCalendarView)
+            eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkout)
             doLoadView()
         }
     }
@@ -39,12 +47,13 @@ class ScheduleFragment : BaseFragment(R.layout.fragment_schedule) {
         NavigationManager.shared.dismiss(this)
     }
 
-    private val handleLoadView = Observer<ScheduleViewState> {
-        viewBinding.apply {
-            lblTitle.text = "May"
-            scheduleAdapter.update(WorkoutModel.testListLive(5))
-        }
+    private val handleLoadCalendarView = Observer<CalendarModel> { item -> }
+
+    private val handleLoadLiveWorkout = Observer<List<WorkoutModel>> { items ->
+        scheduleAdapter.update(items)
     }
+
+    private val handleLoadView = Observer<Void> {}
 
     override fun onBackPressed() {
         viewModel.doTapBack()
