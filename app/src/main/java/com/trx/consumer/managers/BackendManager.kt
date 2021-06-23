@@ -215,16 +215,6 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return call(RequestModel(endpoint = EndpointModel.PROMOS, path = path, params = null))
     }
 
-    suspend fun purchase(params: HashMap<String, Any>): ResponseModel {
-        val path = EndpointModel.PURCHASE.path
-        return call(RequestModel(endpoint = EndpointModel.PURCHASE, path = path, params = params))
-    }
-
-    suspend fun purchases(): ResponseModel {
-        val path = EndpointModel.PURCHASES.path
-        return call(RequestModel(endpoint = EndpointModel.PURCHASES, path = path, params = null))
-    }
-
     suspend fun membershipAdd(params: HashMap<String, Any>): ResponseModel {
         val path = EndpointModel.MEMBERSHIP_ADD.path
         return call(
