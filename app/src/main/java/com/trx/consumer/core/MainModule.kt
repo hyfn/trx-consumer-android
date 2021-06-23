@@ -146,5 +146,5 @@ object MainModule {
     @Provides
     @Singleton
     fun provideLivePlayerHandler(@ApplicationContext context: Context): LivePlayerHandler =
-        LivePlayerHandler(context.applicationContext)
+        LivePlayerHandler(context)
 }
