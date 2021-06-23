@@ -35,9 +35,7 @@ class MembershipsResponseModel(
 
             return MembershipsResponseModel(
                 baseMemberships = baseMemberships,
-                customMemberships = customMemberships.filter {
-                    it.userType == "customer" && it.showInMobile
-                }
+                customMemberships = customMemberships.filter { it.userType == "customer" }
             )
         }
     }
@@ -46,17 +44,17 @@ class MembershipsResponseModel(
         val memberships = mutableListOf<MembershipModel>()
 
         match(customMemberships, userMemberships)
-        if (customMemberships.none {
-                it.primaryState == MembershipViewState.ACTIVE ||
-                        it.primaryState == MembershipViewState.CANCELLED
-            }) {
+        val filteredMemberships = customMemberships.filter {
+            it.isActive || it.isCancelled || it.showInMobile
+        }
+        if (filteredMemberships.none { it.isActive || it.isCancelled }) {
             if (BuildConfig.isVersion2Enabled) memberships.addAll(baseMemberships)
-            memberships.addAll(customMemberships.sortedBy { it.key })
+            memberships.addAll(filteredMemberships.sortedBy { it.key })
         } else {
-            val sortedMemberships = customMemberships.sortedBy {
-                it.primaryState == MembershipViewState.ACTIVE ||
-                        it.primaryState == MembershipViewState.CANCELLED
-            }
+            val comparator = compareBy<MembershipModel> { !it.isActive }
+                .thenBy { !it.isCancelled }
+                .thenBy { it.key }
+            val sortedMemberships = filteredMemberships.sortedWith(comparator)
             memberships.addAll(sortedMemberships)
         }
 

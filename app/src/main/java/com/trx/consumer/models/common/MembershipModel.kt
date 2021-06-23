@@ -40,6 +40,12 @@ class MembershipModel(
     val nextBillDate: String
         get() = Date(currentPeriodEnd * 1000).format("MM/dd/YYYY", zone = TimeZone.getDefault())
 
+    val isActive: Boolean
+        get() = primaryState == MembershipViewState.ACTIVE
+
+    val isCancelled: Boolean
+        get() = primaryState == MembershipViewState.CANCELLED
+
     companion object {
 
         fun parse(jsonObject: JSONObject): MembershipModel {
