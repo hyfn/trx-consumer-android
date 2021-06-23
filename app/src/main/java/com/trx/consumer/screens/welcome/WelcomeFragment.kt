@@ -6,6 +6,7 @@ import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentWelcomeBinding
+import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 
 class WelcomeFragment : BaseFragment(R.layout.fragment_welcome) {
@@ -18,16 +19,16 @@ class WelcomeFragment : BaseFragment(R.layout.fragment_welcome) {
         val state = NavigationManager.shared.params(this) as WelcomeState
         viewModel.state = state
 
+        viewBinding.apply {
+            btnBack.action { viewModel.doTapBack() }
+            btnClose.action { viewModel.doTapClose() }
+        }
+
         viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventTapClose.observe(viewLifecycleOwner, handleTapClose)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             doLoadView()
-        }
-
-        viewBinding.apply {
-            btnBack.setOnClickListener { viewModel.doTapBack() }
-            btnClose.setOnClickListener { viewModel.doTapClose() }
         }
     }
 

@@ -184,6 +184,8 @@
     <string name="test_utility_Loading_screen_label">Loading Screen</string>
     <string name="test_utility_schedule_label">Schedule</string>
     <string name="test_utility_memberships_label">Memberships</string>
+    <string name="test_utility_group_player_label">Group Player</string>
+    <string name="test_utility_private_player_label">Private Player</string>
 
     <string name="trainer_about_me_label">About Me</string>
     <string name="trainer_upcoming_classes_label">Upcoming Classes</string>

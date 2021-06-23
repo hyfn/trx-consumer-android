@@ -50,7 +50,7 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
         }
     }
 
-    //endregion 
+    //endregion
 
     //region Handlers
 

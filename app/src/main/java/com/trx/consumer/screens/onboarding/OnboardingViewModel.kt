@@ -7,7 +7,7 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.CacheManager
 import kotlinx.coroutines.launch
 
-class OnBoardingViewModel @ViewModelInject constructor(
+class OnboardingViewModel @ViewModelInject constructor(
     private val cacheManager: CacheManager
 ) : BaseViewModel() {
 
