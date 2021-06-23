@@ -8,10 +8,10 @@ import org.json.JSONObject
 
 @Parcelize
 class LiveResponseModel(
-    var accessToken: String = "",
-    var participants: List<ParticipantModel> = listOf(),
-    var playerType: String = "",
-    var sessionCustomerUid: String = ""
+    val accessToken: String = "",
+    val participants: List<ParticipantModel> = listOf(),
+    val playerType: String = "",
+    val sessionCustomerUid: String = ""
 ) : Parcelable {
 
     val isValidType: Boolean

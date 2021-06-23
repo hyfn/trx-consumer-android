@@ -7,7 +7,6 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
-import com.trx.consumer.models.common.AnalyticsEventModel
 import com.trx.consumer.models.common.BannerModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.UserModel
@@ -117,8 +116,8 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
     override fun doTapVideo(model: VideoModel) {
+        analyticsManager.trackViewVideoDetail(model)
         eventShowVideo.postValue(model)
-        analyticsManager.trackAmplitude(AnalyticsEventModel.VIEW_VIDEO_DETAIL_ID, model.id)
     }
 
     //endregion

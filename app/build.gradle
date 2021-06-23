@@ -18,26 +18,6 @@ android {
         viewBinding true
     }
 
-//    configurations {
-//        all*.exclude group: 'org.bouncycastle', module:'jetified-bcprov-jdk15to18-1.68'
-//    }
-
-//    configurations.each {
-//        c -> c.resolutionStrategy.dependencySubstitution {
-//            all { DependencySubstitution dependency ->
-//                if (dependency.requested.group == 'org.bouncycastle') {
-//                    dependency.useTarget 'org.bouncycastle:bprov-jdk15to18:1.68'
-//                }
-//            }
-//        }
-//    }
-
-//    configurations {
-//        all { // You should exclude one of them not both of them
-//            exclude group: "org.bouncycastle", module: "bcprov-jdk15to18-1.68"
-//        }
-//    }
-
     signingConfigs {
         signingConfigs {
             devRelease {
@@ -60,8 +40,8 @@ android {
         applicationId "com.trx.consumer"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 2
-        versionName "0.1.0"
+        versionCode 3
+        versionName "0.1.1"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -138,7 +118,6 @@ android {
             buildConfigField "Boolean", "kIsVerificationEnabled", "false"
             buildConfigField "String", "kRevenueCatEntitlementOnDemand", '"ondemand"'
             buildConfigField "String", "kTRXSupportEmail", '"digital@trxtraining.com"'
-            buildConfigField "Boolean", "isVersion1Enabled", "false"
             buildConfigField "Boolean", "isVersion2Enabled", "false"
             buildConfigField "Integer", "kMinutesBeforeCanJoin", "10"
             buildConfigField "Integer", "kMinutesAfterCanJoin", "15"
@@ -241,7 +220,7 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
 
     // Stripe Android SDK
-    implementation ("com.stripe:stripe-android:$rootProject.stripeVersion")
+    implementation "com.stripe:stripe-android:$rootProject.stripeVersion"
 
     // Navigation graph
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navGraphVersion"
@@ -265,6 +244,7 @@ dependencies {
     // Firebase
     implementation "com.google.firebase:firebase-analytics-ktx:$rootProject.firebaseAnalyticsVersion"
     implementation "com.google.firebase:firebase-crashlytics-ktx:$rootProject.firebaseCrashlyticsVersion"
+    implementation "com.google.firebase:firebase-config-ktx:$rootProject.firebaseRemoteConfigVersion"
 
     // Testing dependencies
     androidTestImplementation "androidx.test.ext:junit:$rootProject.junitVersion"

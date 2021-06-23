@@ -3,13 +3,12 @@ package com.trx.consumer.models.common
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.trx.consumer.BuildConfig
-import com.trx.consumer.BuildConfig.isVersion2Enabled
 import com.trx.consumer.R
 
 class SettingsModel {
 
     var user: UserModel? = null
-    var type: SettingsType = SettingsType.SUBSCRIPTIONS
+    var type: SettingsType = SettingsType.MEMBERSHIPS
 
     val title: Int
         get() = type.title
@@ -17,7 +16,14 @@ class SettingsModel {
     val subtitle: String
         get() =
             when (type) {
-                SettingsType.SUBSCRIPTIONS -> user?.iap ?: ""
+                SettingsType.MEMBERSHIPS -> {
+                    val size = user?.memberships?.size ?: 0
+                    if (size == 0) {
+                        "Pay As You Go"
+                    } else {
+                        "$size active membership${if (size == 1) "" else "s"}"
+                    }
+                }
                 else -> ""
             }
 
@@ -30,7 +36,7 @@ class SettingsModel {
 
     val titleTextSize: Int
         get() = when (type) {
-            SettingsType.SUBSCRIPTIONS -> 10
+            SettingsType.MEMBERSHIPS -> 10
             else -> 16
         }
 
@@ -43,43 +49,35 @@ class SettingsModel {
 
         fun list(user: UserModel?): List<Any> {
             return mutableListOf<Any>().apply {
-                if (isVersion2Enabled) {
-                    add(create(user, SettingsType.SUBSCRIPTIONS))
-                    add(0)
-                    add(create(null, SettingsType.SHOP))
-                    add(create(null, SettingsType.GETTING_STARTED))
-                    add(create(null, SettingsType.CONTACT_SUPPORT))
-                    add(create(null, SettingsType.TERMS_AND_CONDITIONS))
-                    add(0)
-                    add(create(null, SettingsType.LOGOUT))
-                } else {
-                    add(create(null, SettingsType.SHOP))
-                    add(create(null, SettingsType.GETTING_STARTED))
-                    add(create(null, SettingsType.CONTACT_SUPPORT))
-                    add(create(null, SettingsType.TERMS_AND_CONDITIONS))
-                    add(0)
-                    add(create(null, SettingsType.LOGOUT))
-                }
+                add(create(user, SettingsType.MEMBERSHIPS))
+                add(0)
+                add(create(null, SettingsType.SHOP))
+                add(create(null, SettingsType.GETTING_STARTED))
+                add(create(null, SettingsType.CONTACT_SUPPORT))
+                add(create(null, SettingsType.TERMS_AND_CONDITIONS))
+                add(0)
+                add(create(null, SettingsType.LOGOUT))
                 if (BuildConfig.DEBUG) add(create(null, SettingsType.TEST_SCREENS))
+                if (BuildConfig.DEBUG) add(create(null, SettingsType.SHOW_MAINTENANCE))
             }
         }
     }
 }
 
 enum class SettingsType {
-    SUBSCRIPTIONS,
     SHOP,
     GETTING_STARTED,
     CONTACT_SUPPORT,
     TERMS_AND_CONDITIONS,
     RESTORE,
     LOGOUT,
-    TEST_SCREENS;
+    TEST_SCREENS,
+    MEMBERSHIPS,
+    SHOW_MAINTENANCE;
 
     @get:StringRes
     val title: Int
         get() = when (this) {
-            SUBSCRIPTIONS -> R.string.settings_subscriptions
             SHOP -> R.string.settings_shop
             GETTING_STARTED -> R.string.settings_getting_started
             TERMS_AND_CONDITIONS -> R.string.settings_terms_and_conditions
@@ -87,5 +85,7 @@ enum class SettingsType {
             RESTORE -> R.string.settings_restore_purchases
             LOGOUT -> R.string.settings_logout
             TEST_SCREENS -> R.string.settings_test_screen
+            MEMBERSHIPS -> R.string.settings_membership
+            SHOW_MAINTENANCE -> R.string.settings_type_show_maintenance
         }
 }

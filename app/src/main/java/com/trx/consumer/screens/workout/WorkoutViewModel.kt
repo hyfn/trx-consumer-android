@@ -25,6 +25,7 @@ class WorkoutViewModel @ViewModelInject constructor(
     val eventLoadView = CommonLiveEvent<WorkoutModel>()
     var eventLoadWorkoutView = CommonLiveEvent<WorkoutModel>()
     val eventShowHud = CommonLiveEvent<Boolean>()
+    val eventShowPermissionAlert = CommonLiveEvent<Void>()
 
     val eventTapBack = CommonLiveEvent<Void>()
     var eventTapBookLive = CommonLiveEvent<WorkoutModel>()
@@ -75,14 +76,21 @@ class WorkoutViewModel @ViewModelInject constructor(
     }
 
     fun doTapPrimary() {
-        when (model.workoutState) {
-            WorkoutViewState.VIDEO -> eventTapStartWorkout.postValue(model)
-            WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> {
-                if (model.bookViewStatus == BookingViewState.JOIN) {
-                    eventTapStartWorkout.postValue(model)
-                } else {
-                    viewModelScope.launch {
-                        cacheManager.user()?.card?.let {
+        viewModelScope.launch {
+            val user = cacheManager.user() ?: return@launch
+            when (model.workoutState) {
+                WorkoutViewState.VIDEO -> {
+                    if (user.entitlements.onDemand) {
+                        eventTapStartWorkout.postValue(model)
+                    } else {
+                        eventShowPermissionAlert.call()
+                    }
+                }
+                WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> {
+                    if (model.bookViewStatus == BookingViewState.JOIN) {
+                        eventTapStartWorkout.postValue(model)
+                    } else {
+                        user.card?.let {
                             eventTapBookLive.postValue(model)
                         } ?: run {
                             backendManager.user().let {
@@ -91,8 +99,8 @@ class WorkoutViewModel @ViewModelInject constructor(
                         }
                     }
                 }
+                else -> LogManager.log("WorkoutViewModel.doTapPrimary")
             }
-            else -> LogManager.log("WorkoutViewModel.doTapPrimary")
         }
     }
 }

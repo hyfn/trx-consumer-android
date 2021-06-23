@@ -21,11 +21,13 @@ import com.trx.consumer.models.params.ContentParamsModel
 import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.content.ContentViewState
+import com.trx.consumer.screens.groupplayer.GroupPlayerActivity
 import com.trx.consumer.screens.liveplayer.LivePlayerActivity
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.loading.LoadingViewState
+import com.trx.consumer.screens.privateplayer.PrivatePlayerActivity
 import com.trx.consumer.screens.promotion.PromoAdapter
-import com.trx.consumer.screens.video.VideoActivity
+import com.trx.consumer.screens.video.VideoPlayerActivity
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutAdapter
 import com.trx.consumer.screens.welcome.WelcomeState
@@ -56,7 +58,6 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnAddCard.action { viewModel.doTapAddCard() }
             btnUpdate.action { viewModel.doTapUpdate() }
             btnContent.action { viewModel.doTapContent() }
-            btnPlans.action { viewModel.doTapPlans() }
             btnVideo.action { viewModel.doTapVideo() }
             btnFilter.action { viewModel.doTapFilter() }
             btnDiscover.action { viewModel.doTapDiscover() }
@@ -70,6 +71,8 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnBookingAlert.action { viewModel.doTapBookingAlert() }
             btnSchedule.action { viewModel.doTapSchedule() }
             btnMemberships.action { viewModel.doTapMemberships() }
+            btnGroupPlayer.action { viewModel.doTapGroupPlayer() }
+            btnPrivatePlayer.action { viewModel.doTapPrivatePlayer() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoAdapter
@@ -84,7 +87,6 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapContent.observe(viewLifecycleOwner, handleTapContent)
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkouts)
-            eventTapPlans.observe(viewLifecycleOwner, handleTapPlans)
             eventTapVideo.observe(viewLifecycleOwner, handleTapVideo)
             eventTapDiscover.observe(viewLifecycleOwner, handleTapDiscover)
             eventTapAlert.observe(viewLifecycleOwner, handleTapAlert)
@@ -100,6 +102,8 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventLoadPromotions.observe(viewLifecycleOwner, handleLoadPromotions)
             eventLoadingScreen.observe(viewLifecycleOwner, handleTapLoadingScreen)
             eventTapMemberships.observe(viewLifecycleOwner, handleTapMemberships)
+            eventLoadGroupPlayer.observe(viewLifecycleOwner, handleGroupPlayer)
+            eventPrivatePlayer.observe(viewLifecycleOwner, handlePrivatePlayer)
             doLoadView()
         }
     }
@@ -128,15 +132,11 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
         NavigationManager.shared.present(this, R.id.content_fragment, model)
     }
 
-    private val handleTapPlans = Observer<Void> {
-        NavigationManager.shared.present(this, R.id.plans_fragment)
-    }
-
     private val handleTapVideo = Observer<Void> {
         val video = VideoModel.test().apply { id = "6232799349001" }
         NavigationManager.shared.presentActivity(
             requireActivity(),
-            VideoActivity::class.java,
+            VideoPlayerActivity::class.java,
             video
         )
     }
@@ -174,7 +174,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapWorkout = Observer<Void> {
-        NavigationManager.shared.present(this, R.id.workout_fragment)
+        NavigationManager.shared.present(this, R.id.workout_fragment, WorkoutModel.testLive())
     }
 
     private val handleTapWorkoutLive = Observer<Void> {
@@ -234,6 +234,14 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleTapLoadingScreen = Observer<Void> {
         NavigationManager.shared.present(this, R.id.loading_screen, LoadingViewState.LAUNCH)
+    }
+
+    private val handleGroupPlayer = Observer<Void> {
+        NavigationManager.shared.presentActivity(requireActivity(), GroupPlayerActivity::class.java)
+    }
+
+    private val handlePrivatePlayer = Observer<Void> {
+        NavigationManager.shared.presentActivity(requireActivity(), PrivatePlayerActivity::class.java)
     }
 
     //endregion

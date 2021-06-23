@@ -30,7 +30,6 @@ class TestUtilityViewModel @ViewModelInject constructor(
     val eventTapAddCard = CommonLiveEvent<Void>()
     val eventTapUpdate = CommonLiveEvent<Void>()
     val eventTapContent = CommonLiveEvent<Void>()
-    val eventTapPlans = CommonLiveEvent<Void>()
     val eventTapFilter = CommonLiveEvent<Void>()
     val eventTapVideo = CommonLiveEvent<Void>()
     val eventTapDiscover = CommonLiveEvent<Void>()
@@ -48,6 +47,8 @@ class TestUtilityViewModel @ViewModelInject constructor(
     val eventLoadVideoWorkouts = CommonLiveEvent<List<VideoModel>>()
     val eventLoadPromotions = CommonLiveEvent<List<PromoModel>>()
     val eventLoadingScreen = CommonLiveEvent<Void>()
+    val eventLoadGroupPlayer = CommonLiveEvent<Void>()
+    val eventPrivatePlayer = CommonLiveEvent<Void>()
 
     //endregion
 
@@ -104,10 +105,6 @@ class TestUtilityViewModel @ViewModelInject constructor(
         eventTapContent.call()
     }
 
-    fun doTapPlans() {
-        eventTapPlans.call()
-    }
-
     fun doTapVideo() {
         eventTapVideo.call()
     }
@@ -160,6 +157,14 @@ class TestUtilityViewModel @ViewModelInject constructor(
 
     fun doTapMemberships() {
         eventTapMemberships.call()
+    }
+
+    fun doTapGroupPlayer() {
+        eventLoadGroupPlayer.call()
+    }
+
+    fun doTapPrivatePlayer() {
+        eventPrivatePlayer.call()
     }
 
     override fun doTapBookLiveWorkout(model: WorkoutModel) {}

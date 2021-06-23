@@ -16,6 +16,7 @@ import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.managers.UtilityManager
 import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.screens.alert.AlertViewState
+import com.trx.consumer.screens.maintenance.MaintenanceViewState
 import com.trx.consumer.screens.settings.option.SettingsOptionAdapter
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
@@ -38,7 +39,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-            eventTapSubscriptions.observe(viewLifecycleOwner, handleTapSubscriptions)
+            eventTapMemberships.observe(viewLifecycleOwner, handleTapMemberships)
             eventTapShop.observe(viewLifecycleOwner, handleTapShop)
             eventTapGettingStarted.observe(viewLifecycleOwner, handleTapGetStarted)
             eventTapContactSupport.observe(viewLifecycleOwner, handleTapContactSupport)
@@ -46,7 +47,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             eventTapLogout.observe(viewLifecycleOwner, handleTapLogout)
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLogOut.observe(viewLifecycleOwner, handleLogOut)
+            eventTapMembership.observe(viewLifecycleOwner, handleTapMembership)
             eventTapTest.observe(viewLifecycleOwner, handleTapTest)
+            eventTapMaintenance.observe(viewLifecycleOwner, handleTapMaintenance)
             doLoadView()
         }
     }
@@ -61,9 +64,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         adapter.update(list)
     }
 
-    private val handleTapSubscriptions = Observer<Void> {
-        LogManager.log("handleTapSubscriptions")
-        NavigationManager.shared.present(this, R.id.subscriptions_fragment)
+    private val handleTapMemberships = Observer<Void> {
+        LogManager.log("handleTapMemberships")
+        NavigationManager.shared.present(this, R.id.memberships_fragment)
     }
 
     private val handleTapShop = Observer<Void> {
@@ -86,6 +89,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         UtilityManager.shared.openUrl(requireContext(), kTermsConditionsUrl)
     }
 
+    private val handleTapMembership = Observer<Void> {
+        LogManager.log("handleTapTermsAndConditions")
+        NavigationManager.shared.present(this, R.id.memberships_fragment)
+    }
+
     private val handleTapLogout = Observer<Void> {
         LogManager.log("handleTapLogout")
         val context = requireContext()
@@ -103,6 +111,15 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     private val handleTapBack = Observer<Void> {
         LogManager.log("handleTapBack")
         NavigationManager.shared.dismiss(this)
+    }
+
+    private val handleTapMaintenance = Observer<Unit> {
+        LogManager.log("handleTapMaintenance")
+        NavigationManager.shared.present(
+            this,
+            R.id.maintenance_fragment,
+            MaintenanceViewState.UPDATE
+        )
     }
 
     private val handleTapTest = Observer<Void> {

@@ -3,6 +3,7 @@ package com.trx.consumer.managers
 import android.app.Activity
 import com.android.billingclient.api.Purchase
 import com.revenuecat.purchases.Offerings
+import com.revenuecat.purchases.Package
 import com.revenuecat.purchases.PurchaserInfo
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesError
@@ -11,7 +12,6 @@ import com.revenuecat.purchases.interfaces.ReceiveOfferingsListener
 import com.revenuecat.purchases.interfaces.ReceivePurchaserInfoListener
 import com.trx.consumer.models.common.IAPModel
 import com.trx.consumer.models.common.IAPOfferingsModel
-import com.trx.consumer.models.common.SubscriptionModel
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -32,7 +32,7 @@ class IAPManager {
         }
     }
 
-    private suspend fun offerings(): IAPOfferingsModel {
+    suspend fun offerings(): IAPOfferingsModel {
         return suspendCoroutine { cont ->
             val callback = object : ReceiveOfferingsListener {
                 override fun onReceived(offerings: Offerings) {
@@ -47,11 +47,7 @@ class IAPManager {
         }
     }
 
-    suspend fun packages(): List<SubscriptionModel> {
-        return offerings().lstPackages
-    }
-
-    suspend fun purchase(activity: Activity, model: SubscriptionModel): IAPModel {
+    suspend fun purchase(activity: Activity, model: Package): IAPModel {
         return suspendCoroutine { cont ->
             val callback = object : MakePurchaseListener {
                 override fun onCompleted(purchase: Purchase, purchaserInfo: PurchaserInfo) {
@@ -62,7 +58,7 @@ class IAPManager {
                     cont.resume(IAPModel(error = error, userCancelled = userCancelled))
                 }
             }
-            Purchases.sharedInstance.purchasePackage(activity, model.iapPackage, callback)
+            Purchases.sharedInstance.purchasePackage(activity, model, callback)
         }
     }
 
