@@ -99,7 +99,6 @@ class RegisterViewModel @ViewModelInject constructor(
                     analyticsManager.trackSignUp(null, "EMAIL_PW")
                     eventShowOnboarding.call()
                 }
-
             } else {
                 eventShowError.postValue(response.errorMessage)
             }
