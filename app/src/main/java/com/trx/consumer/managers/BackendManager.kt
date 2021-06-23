@@ -198,6 +198,20 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         return call(RequestModel(endpoint = EndpointModel.PAYMENT_DELETE, path, params = null))
     }
 
+    suspend fun programAvailability(
+        programKey: String,
+        params: HashMap<String, Any>
+    ): ResponseModel {
+        val path = EndpointModel.PROGRAM_AVAILABILITY.path + "/" + programKey + "/availability"
+        return call(
+            RequestModel(
+                endpoint = EndpointModel.PROGRAM_AVAILABILITY,
+                path = path,
+                params = null
+            )
+        )
+    }
+
     suspend fun promos(): ResponseModel {
         val path = EndpointModel.PROMOS.path
         return call(RequestModel(endpoint = EndpointModel.PROMOS, path = path, params = null))

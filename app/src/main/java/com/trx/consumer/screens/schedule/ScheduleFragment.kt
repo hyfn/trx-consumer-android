@@ -26,6 +26,7 @@ class ScheduleFragment : BaseFragment(R.layout.fragment_schedule) {
         viewModel.apply {
             state = model.state
             key = model.key
+            trainerProgram = model.trainerProgram
         }
         scheduleAdapter = ScheduleAdapter(viewModel, viewModel, viewModel) { lifecycleScope }
 
