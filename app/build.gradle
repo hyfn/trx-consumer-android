@@ -37,7 +37,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.trx.consumer"
+        applicationId "member.android.trxshop"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 3
@@ -118,7 +118,7 @@ android {
             signingConfig signingConfigs.devRelease
         }
         prod {
-            applicationId "com.trx.consumer"
+            applicationId "member.android.trxshop"
             buildConfigField "boolean", "DEVELOPMENT", "false"
             buildConfigField "String", "kBaseUrl", '"https://digital.trxtraining.com/api/"'
             buildConfigField "Boolean", "isReportingDisabled", "true"

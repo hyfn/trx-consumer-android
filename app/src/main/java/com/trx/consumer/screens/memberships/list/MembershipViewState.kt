@@ -31,6 +31,7 @@ enum class MembershipViewState {
             CUSTOM -> R.string.memberships_choose_membership_label
         }
 
+    @get:StringRes
     val cancelButtonText: Int
         get() = when (this) {
             CANCELLED -> R.string.memberships_cancelled_membership_label
