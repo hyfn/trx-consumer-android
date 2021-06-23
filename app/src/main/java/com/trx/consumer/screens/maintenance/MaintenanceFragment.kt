@@ -54,7 +54,4 @@ class MaintenanceFragment : BaseFragment(R.layout.fragment_maintenance) {
             NavigationManager.shared.dismiss(this)
     }
 
-    override fun onBackPressed() {
-        NavigationManager.shared.dismiss(this)
-    }
 }
