@@ -18,11 +18,7 @@ class SettingsModel {
             when (type) {
                 SettingsType.MEMBERSHIPS -> {
                     val size = user?.memberships?.size ?: 0
-                    if (size == 0) {
-                        "Pay As You Go"
-                    } else {
-                        "$size active membership${if (size == 1) "" else "s"}"
-                    }
+                    "$size active membership${if (size == 1) "" else "s"}"
                 }
                 SettingsType.EMAIL -> user?.email ?: "N/A"
                 else -> ""

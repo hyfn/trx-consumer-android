@@ -46,10 +46,10 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
         }
     }
 
-    private val handleLoadView = Observer<List<Any>> { sections ->
+    private val handleLoadView = Observer<List<MembershipModel>> { memberships ->
         LogManager.log("handleLoadView")
-        adapter.update(sections)
-        viewBinding.btnRestore.isHidden = sections.isEmpty()
+        adapter.update(memberships)
+        viewBinding.btnRestore.isHidden = memberships.isEmpty()
     }
 
     private val handleTapBack = Observer<Void> {
