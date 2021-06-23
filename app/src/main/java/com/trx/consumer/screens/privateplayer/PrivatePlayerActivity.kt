@@ -2,8 +2,10 @@ package com.trx.consumer.screens.privateplayer
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.trx.consumer.R
 import com.trx.consumer.databinding.ActivityPrivatePlayerBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.extensions.px
 import com.trx.consumer.managers.LogManager
 
 class PrivatePlayerActivity : AppCompatActivity() {
@@ -16,6 +18,8 @@ class PrivatePlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.apply {
+            btnCamera.border(R.color.white, 1.px)
+
             btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
             btnClock.onChecked { isChecked -> handleTapClock(isChecked) }
             btnMicrophone.onChecked { isChecked -> handleTapMicrophone(isChecked) }
