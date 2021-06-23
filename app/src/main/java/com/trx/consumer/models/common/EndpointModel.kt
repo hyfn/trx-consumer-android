@@ -48,7 +48,7 @@ enum class EndpointModel {
                 BOOK_CANCEL,
                 LOGOUT,
                 PAYMENT_DELETE,
-                PLAN_DELETE -> {
+                MEMBERSHIP_DELETE -> {
                     Type.DELETE
                 }
                 UPDATE -> {

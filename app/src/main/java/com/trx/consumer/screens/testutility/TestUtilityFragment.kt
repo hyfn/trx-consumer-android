@@ -58,7 +58,6 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnAddCard.action { viewModel.doTapAddCard() }
             btnUpdate.action { viewModel.doTapUpdate() }
             btnContent.action { viewModel.doTapContent() }
-            btnPlans.action { viewModel.doTapPlans() }
             btnVideo.action { viewModel.doTapVideo() }
             btnFilter.action { viewModel.doTapFilter() }
             btnDiscover.action { viewModel.doTapDiscover() }
