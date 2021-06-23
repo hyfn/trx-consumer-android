@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class MembershipsViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
-    private val cacheManager: CacheManager,
+    private val cacheManager: CacheManager
 ) : BaseViewModel(), MembershipListener {
 
     val eventLoadView = CommonLiveEvent<List<Any>>()
