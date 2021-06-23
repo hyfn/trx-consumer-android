@@ -24,7 +24,7 @@ class SettingsModel {
                         "$size active membership${if (size == 1) "" else "s"}"
                     }
                 }
-                SettingsType.EMAIL -> user?.email?:""
+                SettingsType.EMAIL -> user?.email ?: "N/A"
                 else -> ""
             }
 
