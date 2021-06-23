@@ -179,8 +179,6 @@ dependencies {
         }
     }
 
-//    implementation fileTree(include: ['*.jar'], dir: '../app/lib')
-
     // AndroidX
     implementation "androidx.activity:activity-ktx:$rootProject.activityKtxVersion"
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
