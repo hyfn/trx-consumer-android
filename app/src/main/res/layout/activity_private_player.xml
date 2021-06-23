@@ -25,7 +25,6 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             app:cornerRadius="30dp"
-            android:backgroundTint="@color/blue"
             android:layout_marginStart="24dp"
             android:button="@drawable/ic_tab_camera"
             app:layout_constraintStart_toStartOf="parent"
