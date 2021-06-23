@@ -19,13 +19,11 @@ enum class EndpointModel {
     LOGOUT,
     PAYMENT_ADD,
     PAYMENT_DELETE,
-    PLAN_ADD,
-    PLAN_DELETE,
-    PLANS,
+    MEMBERSHIP_ADD,
+    MEMBERSHIP_DELETE,
+    MEMBERSHIPS,
     PROGRAM_AVAILABILITY,
     PROMOS,
-    PURCHASE,
-    PURCHASES,
     REGISTER,
     TRAINER,
     TRAINERS,
@@ -50,7 +48,7 @@ enum class EndpointModel {
                 BOOK_CANCEL,
                 LOGOUT,
                 PAYMENT_DELETE,
-                PLAN_DELETE -> {
+                MEMBERSHIP_DELETE -> {
                     Type.DELETE
                 }
                 UPDATE -> {
@@ -62,8 +60,7 @@ enum class EndpointModel {
                 BOOK_SESSION_INTENT,
                 FORGOT,
                 PAYMENT_ADD,
-                PLAN_ADD,
-                PURCHASE,
+                MEMBERSHIP_ADD,
                 REGISTER -> {
                     Type.POST
                 }
@@ -90,10 +87,8 @@ enum class EndpointModel {
                 LOGOUT,
                 PAYMENT_ADD,
                 PAYMENT_DELETE,
-                PLAN_ADD,
-                PLAN_DELETE,
-                PURCHASE,
-                PURCHASES,
+                MEMBERSHIP_ADD,
+                MEMBERSHIP_DELETE,
                 UPDATE,
                 USER -> true
                 else -> false
@@ -116,10 +111,9 @@ enum class EndpointModel {
                 LIVE -> prefix + "live"
                 AUTH, LOGIN, LOGOUT, REGISTER -> prefix + "auth"
                 PAYMENT_ADD, PAYMENT_DELETE -> prefix + "stripe/payment-method"
-                PLAN_ADD, PLAN_DELETE, PLANS -> prefix + "subscriptions"
+                MEMBERSHIP_ADD, MEMBERSHIP_DELETE, MEMBERSHIPS -> prefix + "subscriptions"
                 PROGRAM_AVAILABILITY -> prefix + "programs"
                 PROMOS -> prefix + "copy/ctas"
-                PURCHASE, PURCHASES -> prefix + "purchases"
                 TRAINER, TRAINERS, TRAINER_PROGRAMS, TRAINER_SESSIONS -> prefix + "trainers"
                 UPDATE, USER -> prefix + "user"
                 VIDEOS -> prefix + "videos"

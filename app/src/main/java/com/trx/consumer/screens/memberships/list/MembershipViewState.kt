@@ -7,26 +7,26 @@ import com.trx.consumer.R
 enum class MembershipViewState {
     BASE,
     ACTIVE,
-    PLAIN;
+    CUSTOM;
 
     @get:ColorRes
     val buttonBgColor: Int
         get() = when (this) {
             BASE, ACTIVE -> R.color.greyLight
-            PLAIN -> R.color.black
+            CUSTOM -> R.color.black
         }
 
     @get:ColorRes
     val buttonTextColor: Int
         get() = when (this) {
             BASE, ACTIVE -> R.color.black
-            PLAIN -> R.color.white
+            CUSTOM -> R.color.white
         }
 
     @get:StringRes
     val buttonText: Int
         get() = when (this) {
             BASE, ACTIVE -> R.string.memberships_current_membership_label
-            PLAIN -> R.string.memberships_choose_membership_label
+            CUSTOM -> R.string.memberships_choose_membership_label
         }
 }

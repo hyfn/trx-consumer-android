@@ -51,6 +51,7 @@ buildscript {
         firebaseCrashlyticsPluginVersion = '2.4.1'
         firebaseAnalyticsVersion = '18.0.0'
         firebaseCrashlyticsVersion = '17.3.0'
+        firebaseRemoteConfigVersion = '20.0.2'
 
         // AndroidX
         activityKtxVersion = '1.1.0'

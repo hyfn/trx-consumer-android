@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    app:backgroundColor="@color/white">
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewMembership"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp">
+
+        <com.trx.consumer.common.CommonLabel
+            android:id="@+id/lblTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/atcarquette_bold"
+            android:gravity="center_vertical"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SmallSp"
+            tools:text="pay as you go" />
+
+        <com.trx.consumer.common.CommonLabel
+            android:id="@+id/lblDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:fontFamily="@font/atcarquette_medium"
+            android:gravity="center_vertical"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblTitle"
+            tools:text="TRX On demand yearly" />
+
+        <com.trx.consumer.common.CommonLabel
+            android:id="@+id/lblPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginHorizontal="15dp"
+            android:fontFamily="@font/atcarquette_medium"
+            android:gravity="center_vertical"
+            android:textColor="@color/greyDarkExtra"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblDescription"
+            tools:text="$19.99 per Month" />
+
+        <com.trx.consumer.common.CommonButton
+            android:id="@+id/btnChoose"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/atcarquette_bold"
+            android:gravity="center"
+            android:padding="15dp"
+            android:textAllCaps="true"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblPrice"
+            tools:backgroundTint="@color/black"
+            tools:text="@string/memberships_choose_membership_label"
+            tools:textColor="@color/white" />
+
+    </com.trx.consumer.common.CommonView>
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundColor="@color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/viewMembership">
+
+        <com.trx.consumer.common.CommonImageView
+            android:id="@+id/imgLine1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/greyLight"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.trx.consumer.common.CommonView
+            android:id="@+id/viewLastBill"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:backgroundColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/imgLine1"
+            tools:visibility="visible">
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblLastBillTitle"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:text="@string/memberships_last_bill_date_label"
+                android:textColor="@color/grey"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textAllCaps="true"
+                tools:ignore="SmallSp" />
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblLastBillDate"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@font/atcarquette_medium"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblLastBillTitle"
+                tools:text="11/10/2020" />
+
+        </com.trx.consumer.common.CommonView>
+
+        <com.trx.consumer.common.CommonImageView
+            android:id="@+id/imgLine2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/greyLight"
+            app:layout_constraintTop_toBottomOf="@id/viewLastBill" />
+
+        <com.trx.consumer.common.CommonView
+            android:id="@+id/viewNextBill"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:backgroundColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/imgLine2"
+            tools:visibility="visible">
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblNextBillTitle"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:text="@string/memberships_next_bill_date_label"
+                android:textColor="@color/grey"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textAllCaps="true"
+                tools:ignore="SmallSp" />
+
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblNextBillDate"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@font/atcarquette_medium"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblNextBillTitle"
+                tools:text="10/10/2020" />
+
+        </com.trx.consumer.common.CommonView>
+
+        <com.trx.consumer.common.CommonImageView
+            android:id="@+id/imgLine23"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/greyLight"
+            app:layout_constraintTop_toBottomOf="@id/viewNextBill" />
+
+        <com.trx.consumer.common.CommonButton
+            android:id="@+id/btnCancel"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:fontFamily="@font/atcarquette_bold"
+            android:gravity="center"
+            android:text="@string/memberships_cancel_membership_label"
+            android:textAllCaps="true"
+            android:textColor="@color/red"
+            android:textSize="13sp"
+            app:backgroundColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/imgLine23" />
+
+    </com.trx.consumer.common.CommonView>
+
+</com.trx.consumer.common.CommonView>
