@@ -53,5 +53,4 @@ class MaintenanceFragment : BaseFragment(R.layout.fragment_maintenance) {
         else
             NavigationManager.shared.dismiss(this)
     }
-
 }
