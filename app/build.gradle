@@ -87,9 +87,9 @@ android {
             buildConfigField "Integer", "kZipcodeMinLength", "5"
             buildConfigField "Integer", "kDefaultTextLimit", "40"
             buildConfigField "Integer", "kPasswordMinLength", "6"
-            buildConfigField "String", "isMaintenanceMode", '"is_maintenance_mode"'
-            buildConfigField "String", "minimumBuildNumber", '"minimum_build_number"'
             buildConfigField "String", "trxUrl", '"https://digital.trxtraining.com"'
+            buildConfigField "String", "isMaintenanceMode", '"android_is_maintenance_mode"'
+            buildConfigField "String", "minimumBuildNumber", '"android_minimum_build_number"'
             buildConfigField "String", "kProductsUrl", '"https://store.trxtraining.com"'
             buildConfigField "String", "kContactSupportUrl", '"https://www.trxtraining.com/contact-us"'
             buildConfigField "String", "kTermsConditionsUrl", '"https://www.trxtraining.com/terms-of-use"'

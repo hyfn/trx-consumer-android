@@ -139,6 +139,7 @@
     <string name="player_screen_cast_coming_soon_message">Coming Soon!</string>
 
     <string name="settings_title">SETTINGS</string>
+    <string name="settings_email">Email</string>
     <string name="settings_memberships">Memberships</string>
     <string name="settings_shop">Shop TRX Products</string>
     <string name="settings_getting_started">Getting Started Videos</string>
