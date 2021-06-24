@@ -40,7 +40,7 @@ class MembershipsResponseModel(
         }
     }
 
-    fun memberships(userMemberships: HashMap<String, UserMembershipModel>): List<MembershipModel> {
+    fun memberships(userMemberships: Map<String, UserMembershipModel>): List<MembershipModel> {
         val memberships = mutableListOf<MembershipModel>()
 
         match(customMemberships, userMemberships)
@@ -63,7 +63,7 @@ class MembershipsResponseModel(
 
     private fun match(
         memberships: List<MembershipModel>,
-        userMemberships: HashMap<String, UserMembershipModel>
+        userMemberships: Map<String, UserMembershipModel>
     ) {
         memberships.forEach { membership ->
             userMemberships[membership.key]?.let { matchingPlan ->

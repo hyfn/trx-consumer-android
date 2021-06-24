@@ -38,7 +38,7 @@ class MembershipsViewHolder(view: View) : CommonViewHolder(view) {
         viewBottom.isVisible = state == MembershipViewState.ACTIVE
         btnCancel.apply {
             text = context.getString(state.cancelButtonText)
-            action { listener.doTapCancel(item) }
+            action { if (!item.isCancelled) listener.doTapCancel(item) }
         }
     }
 }

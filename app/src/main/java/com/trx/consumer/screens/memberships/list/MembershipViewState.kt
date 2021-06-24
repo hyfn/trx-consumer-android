@@ -37,5 +37,4 @@ enum class MembershipViewState {
             CANCELLED -> R.string.memberships_cancelled_membership_label
             else -> R.string.memberships_cancel_membership_label
         }
-
 }

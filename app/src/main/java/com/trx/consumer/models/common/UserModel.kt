@@ -20,6 +20,9 @@ class UserModel(
     val fullName: String
         get() = "$firstName $lastName"
 
+    val activeMemberships: Map<String, UserMembershipModel>
+        get() = memberships.filter { it.value.isActive }
+
     companion object {
 
         fun parse(jsonObject: JSONObject): UserModel {
