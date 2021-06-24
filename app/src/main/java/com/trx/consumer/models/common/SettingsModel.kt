@@ -49,6 +49,7 @@ class SettingsModel {
             return mutableListOf<Any>().apply {
                 add(create(user, SettingsType.EMAIL))
                 add(create(user, SettingsType.MEMBERSHIPS))
+                add(create(user, SettingsType.RESTORE))
                 add(0)
                 add(create(null, SettingsType.SHOP))
                 add(create(null, SettingsType.GETTING_STARTED))

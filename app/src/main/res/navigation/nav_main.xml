@@ -186,4 +186,10 @@
         android:label="MaintenanceFragment"
         tools:layout="@layout/fragment_maintenance" />
 
+    <fragment
+        android:id="@+id/restore_fragment"
+        android:name="com.trx.consumer.screens.restore.RestoreFragment"
+        android:label="RestoreFragment"
+        tools:layout="@layout/fragment_restore" />
+
 </navigation>

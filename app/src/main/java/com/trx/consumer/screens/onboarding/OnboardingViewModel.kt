@@ -15,7 +15,7 @@ class OnboardingViewModel @ViewModelInject constructor(
 
     val eventLoadView = CommonLiveEvent<OnBoardingViewState>()
     val eventTapClose = CommonLiveEvent<Void>()
-    val eventTapNext = CommonLiveEvent<Void>()
+    val eventShowRestore = CommonLiveEvent<Void>()
 
     fun doLoadView() {
         viewModelScope.launch {
@@ -25,11 +25,17 @@ class OnboardingViewModel @ViewModelInject constructor(
     }
 
     fun doTapClose() {
-        eventTapClose.call()
+        viewModelScope.launch {
+            if (cacheManager.didShowRestore()) {
+                eventTapClose.call()
+            } else {
+                eventShowRestore.call()
+            }
+        }
     }
 
     fun onBackPressed() {
-        eventTapClose.call()
+        doTapPrevious()
     }
 
     fun doTapNext() {
@@ -37,14 +43,16 @@ class OnboardingViewModel @ViewModelInject constructor(
             state = OnBoardingViewState.getStateFromPage(state.currentPage + 1)
             eventLoadView.postValue(state)
         } else {
-            eventTapNext.call()
+            doTapClose()
         }
     }
 
-    fun doTapPrevious() {
+    private fun doTapPrevious() {
         if (state.currentPage != 0) {
             state = OnBoardingViewState.getStateFromPage(state.currentPage - 1)
             eventLoadView.postValue(state)
+        } else {
+            doTapClose()
         }
     }
 }
