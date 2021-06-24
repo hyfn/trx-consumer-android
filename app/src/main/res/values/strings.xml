@@ -119,13 +119,16 @@
     <string name="memberships_current_membership_label">Current Membership</string>
     <string name="memberships_restore_purchases_label">Restore Purchases</string>
     <string name="memberships_cancel_membership_label">Cancel Membership</string>
-    <string name="memberships_cancel_membership_alert_message">Are you sure you want to cancel your membership? (canceling may take up to 24 hours)</string>
+    <string name="memberships_cancelled_membership_label">Cancelled Membership</string>
     <string name="memberships_choose_membership_alert_message">Are you sure you want to buy this membership?</string>
-    <string name="memberships_cancel_membership_alert_primary_label">NO, KEEP MY MEMBERSHIP</string>
-    <string name="memberships_cancel_membership_alert_secondary_label">YES, CANCEL MY MEMBERSHIP</string>
-    <string name="memberships_cancel_wip_label">Under construction</string>
     <string name="memberships_choose_membership_alert_primary_label">SUBMIT PAYMENT</string>
-    <string name="memberships_choose_membership_alert_secondary_label">DISMISS</string>
+    <string name="memberships_show_cancel_mobile_alert_message">To cancel this membership you must cancel through the Play Store app</string>
+    <string name="memberships_show_cancel_mobile_alert_primary_label">GO TO PLAY STORE</string>
+    <string name="memberships_show_cancel_active_alert_message">To buy this membership you must cancel your current membership</string>
+    <string name="memberships_show_cancel_active_primary_label">GO TO MEMBERSHIPS</string>
+    <string name="memberships_show_cancel_web_alert_message">This membership was not bought with the signed in Google account</string>
+    <string name="memberships_show_cancel_web_primary_label">GO TO WEBSITE</string>
+    <string name="memberships_alert_secondary_label">DISMISS</string>
     <string name="memberships_last_bill_date_label">Last Bill Date:</string>
     <string name="memberships_next_bill_date_label">Next Bill Date:</string>
 
@@ -136,6 +139,7 @@
     <string name="player_screen_cast_coming_soon_message">Coming Soon!</string>
 
     <string name="settings_title">SETTINGS</string>
+    <string name="settings_email">Email</string>
     <string name="settings_memberships">Memberships</string>
     <string name="settings_shop">Shop TRX Products</string>
     <string name="settings_getting_started">Getting Started Videos</string>

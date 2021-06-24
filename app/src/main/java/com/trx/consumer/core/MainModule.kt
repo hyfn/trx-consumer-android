@@ -12,6 +12,7 @@ import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.ConfigManager
+import com.trx.consumer.managers.NativePurchaseManager
 import com.trx.consumer.stripe.StripeBackendManager
 import dagger.Module
 import dagger.Provides
@@ -140,5 +141,11 @@ object MainModule {
     @Singleton
     fun provideAnalyticsManager(configManager: ConfigManager): AnalyticsManager {
         return AnalyticsManager(configManager)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNativePurchaseManager(@ApplicationContext context: Context): NativePurchaseManager {
+        return NativePurchaseManager(context)
     }
 }

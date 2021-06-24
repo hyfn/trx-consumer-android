@@ -30,12 +30,15 @@ class MembershipsViewHolder(view: View) : CommonViewHolder(view) {
         val state = item.primaryState
         val isActive = state == MembershipViewState.ACTIVE || state == MembershipViewState.BASE
         btnChoose.apply {
-            text = itemView.context.getString(state.buttonText)
+            text = context.getString(state.buttonText)
             textColor(state.buttonTextColor)
             bgColor(state.buttonBgColor)
             action { if (!isActive) listener.doTapChoose(item) }
         }
         viewBottom.isVisible = state == MembershipViewState.ACTIVE
-        btnCancel.action { listener.doTapCancel(item) }
+        btnCancel.apply {
+            text = context.getString(state.cancelButtonText)
+            action { if (!item.isCancelled) listener.doTapCancel(item) }
+        }
     }
 }

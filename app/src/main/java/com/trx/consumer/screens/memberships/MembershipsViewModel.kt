@@ -10,6 +10,7 @@ import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.IAPManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.managers.NativePurchaseManager
 import com.trx.consumer.models.common.MembershipModel
 import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.MembershipsResponseModel
@@ -20,13 +21,16 @@ import kotlinx.coroutines.launch
 class MembershipsViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager,
+    private val nativePurchaseManager: NativePurchaseManager
 ) : BaseViewModel(), MembershipListener {
 
-    val eventLoadView = CommonLiveEvent<List<Any>>()
+    val eventLoadView = CommonLiveEvent<List<MembershipModel>>()
     val eventLoadError = CommonLiveEvent<String>()
     val eventTapChooseMembership = CommonLiveEvent<MembershipModel>()
-    val eventTapCancelMembership = CommonLiveEvent<MembershipModel>()
     val eventShowHud = CommonLiveEvent<Boolean>()
+    val eventShowCancelActive = CommonLiveEvent<Void>()
+    val eventShowCancelMobile = CommonLiveEvent<Void>()
+    val eventShowCancelWeb = CommonLiveEvent<Void>()
     val eventTapBack = CommonLiveEvent<Void>()
 
     private var memberships: List<MembershipModel> = emptyList()
@@ -52,10 +56,10 @@ class MembershipsViewModel @ViewModelInject constructor(
                 val membershipsResponseModel = MembershipsResponseModel.parse(
                     membershipResponse.responseString
                 )
-                memberships = membershipsResponseModel.memberships
                 val user = UserResponseModel.parse(userResponse.responseString).user
                 cacheManager.user(user)
-                eventLoadView.postValue(membershipsResponseModel.sections(user.memberships))
+                memberships = membershipsResponseModel.memberships(user.activeMemberships)
+                eventLoadView.postValue(memberships)
             } catch (e: Exception) {
                 LogManager.log(e)
                 eventLoadError.postValue(ResponseModel.parseErrorMessage)
@@ -119,11 +123,25 @@ class MembershipsViewModel @ViewModelInject constructor(
     }
 
     override fun doTapChoose(model: MembershipModel) {
-        eventTapChooseMembership.postValue(model)
+        if (memberships.any { it.isActive }) {
+            eventShowCancelActive.call()
+        } else {
+            eventTapChooseMembership.postValue(model)
+        }
     }
 
     override fun doTapCancel(model: MembershipModel) {
-        eventTapCancelMembership.postValue(model)
+        viewModelScope.launch {
+            eventShowHud.postValue(true)
+            val nativePurchaseIds = nativePurchaseManager.purchases().map { it.sku }
+            val isNativePurchase = nativePurchaseIds.contains(model.revcatProductId)
+            if (isNativePurchase) {
+                eventShowCancelMobile.call()
+            } else {
+                eventShowCancelWeb.call()
+            }
+            eventShowHud.postValue(false)
+        }
     }
 
     fun params(matchingPackage: Package, membership: MembershipModel): HashMap<String, Any> {
