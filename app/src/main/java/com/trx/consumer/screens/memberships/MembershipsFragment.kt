@@ -1,9 +1,9 @@
 package com.trx.consumer.screens.memberships
 
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.trx.consumer.BuildConfig
 import com.trx.consumer.R
 import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
@@ -12,6 +12,7 @@ import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.managers.UtilityManager
 import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.MembershipModel
 import com.trx.consumer.screens.alert.AlertViewState
@@ -39,7 +40,9 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventLoadError.observe(viewLifecycleOwner, handleLoadError)
             eventTapChooseMembership.observe(viewLifecycleOwner, handleTapChooseMembership)
-            eventTapCancelMembership.observe(viewLifecycleOwner, handleTapCancelMembership)
+            eventShowCancelActive.observe(viewLifecycleOwner, handleShowCancelActive)
+            eventShowCancelMobile.observe(viewLifecycleOwner, handleShowCancelMobile)
+            eventShowCancelWeb.observe(viewLifecycleOwner, handleShowCancelWeb)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
 
             doLoadView()
@@ -74,32 +77,57 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
                 R.string.memberships_choose_membership_alert_primary_label,
                 state = AlertViewState.POSITIVE
             ) { viewModel.doCallSubscribe(requireActivity(), membership) }
-            setSecondaryButton(R.string.memberships_choose_membership_alert_secondary_label)
+            setSecondaryButton(R.string.memberships_alert_secondary_label)
         }
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
 
-    private val handleTapCancelMembership = Observer<MembershipModel> {
-        LogManager.log("handleTapCancelMembership")
+    private val handleShowCancelActive = Observer<Void> {
+        LogManager.log("handleShowCancelActive")
+        val model = AlertModel.create(
+            title = "",
+            message = requireContext()
+                .getString(R.string.memberships_show_cancel_active_alert_message)
+        ).apply {
+            setPrimaryButton(
+                R.string.memberships_show_cancel_active_primary_label,
+                state = AlertViewState.POSITIVE
+            )
+            setSecondaryButton(R.string.memberships_alert_secondary_label)
+        }
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
+    }
+
+    private val handleShowCancelMobile = Observer<Void> {
+        LogManager.log("handleShowCancelMobile")
         val context = requireContext()
         val model = AlertModel.create(
             title = "",
-            message = context.getString(R.string.memberships_cancel_membership_alert_message)
+            message = context.getString(R.string.memberships_show_cancel_mobile_alert_message)
         ).apply {
             setPrimaryButton(
-                R.string.memberships_cancel_membership_alert_primary_label,
+                R.string.memberships_show_cancel_mobile_alert_primary_label,
                 state = AlertViewState.POSITIVE
-            )
-            setSecondaryButton(R.string.memberships_cancel_membership_alert_secondary_label) {
-                val model = ErrorAlertModel.error(
-                    context.getString(R.string.memberships_cancel_wip_label)
-                )
-                NavigationManager.shared.present(
-                    this@MembershipsFragment,
-                    R.id.error_fragment,
-                    model
-                )
+            ) { UtilityManager.shared.openUrl(context, BuildConfig.kGooglePlaySubscriptionsUrl) }
+            setSecondaryButton(R.string.memberships_alert_secondary_label)
+        }
+        NavigationManager.shared.present(this, R.id.alert_fragment, model)
+    }
+
+    private val handleShowCancelWeb = Observer<Void> {
+        LogManager.log("handleShowCancelWeb")
+        val context = requireContext()
+        val model = AlertModel.create(
+            title = "",
+            message = context.getString(R.string.memberships_show_cancel_web_alert_message)
+        ).apply {
+            setPrimaryButton(
+                R.string.memberships_show_cancel_web_primary_label,
+                state = AlertViewState.POSITIVE
+            ) {
+                UtilityManager.shared.openUrl(context, BuildConfig.trxUrl)
             }
+            setSecondaryButton(R.string.memberships_alert_secondary_label)
         }
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
