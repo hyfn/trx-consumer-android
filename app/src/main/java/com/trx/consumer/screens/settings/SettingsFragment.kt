@@ -47,9 +47,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             eventTapLogout.observe(viewLifecycleOwner, handleTapLogout)
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLogOut.observe(viewLifecycleOwner, handleLogOut)
-            eventTapMembership.observe(viewLifecycleOwner, handleTapMembership)
             eventTapTest.observe(viewLifecycleOwner, handleTapTest)
             eventTapMaintenance.observe(viewLifecycleOwner, handleTapMaintenance)
+            eventTapRestore.observe(viewLifecycleOwner, handleTapRestore)
             doLoadView()
         }
     }
@@ -67,6 +67,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     private val handleTapMemberships = Observer<Void> {
         LogManager.log("handleTapMemberships")
         NavigationManager.shared.present(this, R.id.memberships_fragment)
+    }
+
+    private val handleTapRestore = Observer<Unit> {
+        LogManager.log("handleTapMemberships")
+        NavigationManager.shared.present(this, R.id.restore_fragment)
     }
 
     private val handleTapShop = Observer<Void> {
@@ -87,11 +92,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     private val handleTapTermsAndConditions = Observer<Void> {
         LogManager.log("handleTapTermsAndConditions")
         UtilityManager.shared.openUrl(requireContext(), kTermsConditionsUrl)
-    }
-
-    private val handleTapMembership = Observer<Void> {
-        LogManager.log("handleTapTermsAndConditions")
-        NavigationManager.shared.present(this, R.id.memberships_fragment)
     }
 
     private val handleTapLogout = Observer<Void> {

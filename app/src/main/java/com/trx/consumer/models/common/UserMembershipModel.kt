@@ -10,7 +10,7 @@ class UserMembershipModel(
 ) {
 
     val isActive: Boolean
-        get() = status == "active"
+        get() = status == "active" || status == "trialing"
 
     companion object {
 
