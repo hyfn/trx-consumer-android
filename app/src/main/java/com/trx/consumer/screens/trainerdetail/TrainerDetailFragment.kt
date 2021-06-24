@@ -1,4 +1,4 @@
-package com.trx.consumer.screens.trainer
+package com.trx.consumer.screens.trainerdetail
 
 import android.text.SpannableStringBuilder
 import androidx.fragment.app.viewModels

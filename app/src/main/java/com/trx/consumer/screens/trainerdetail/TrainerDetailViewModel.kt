@@ -1,11 +1,13 @@
-package com.trx.consumer.screens.trainer
+package com.trx.consumer.screens.trainerdetail
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
+import com.trx.consumer.models.common.AnalyticsPageModel.TRAINER_DETAIL
 import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.common.ContentModel
 import com.trx.consumer.models.common.TrainerModel
@@ -26,7 +28,8 @@ import kotlinx.coroutines.launch
 
 class TrainerDetailViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
-    private val cacheManager: CacheManager
+    private val cacheManager: CacheManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(),
     LiveWorkoutViewListener,
     VideoWorkoutListener,
@@ -59,6 +62,7 @@ class TrainerDetailViewModel @ViewModelInject constructor(
     val eventShowHud = CommonLiveEvent<Boolean>()
 
     fun doLoadView() {
+        analyticsManager.trackPageView(TRAINER_DETAIL)
         eventLoadView.call()
     }
 
