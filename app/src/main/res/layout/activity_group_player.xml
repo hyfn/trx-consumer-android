@@ -31,7 +31,7 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <com.trx.consumer.common.CommonCheckBox
-            android:id="@+id/btnMicrophone"
+            android:id="@+id/btnMic"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:button="@drawable/ic_tab_microphone"
@@ -45,23 +45,23 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:button="@drawable/ic_tab_clock"
-            app:layout_constraintStart_toEndOf="@+id/btnMicrophone"
-            app:layout_constraintEnd_toStartOf="@+id/btnShare"
+            app:layout_constraintStart_toEndOf="@+id/btnMic"
+            app:layout_constraintEnd_toStartOf="@+id/btnCast"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <com.trx.consumer.common.CommonCheckBox
-            android:id="@+id/btnShare"
+            android:id="@+id/btnCast"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:button="@drawable/ic_tab_share"
             app:layout_constraintStart_toEndOf="@+id/btnClock"
-            app:layout_constraintEnd_toStartOf="@+id/btnEnd"
+            app:layout_constraintEnd_toStartOf="@+id/btnClose"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <com.trx.consumer.common.CommonImageButton
-            android:id="@+id/btnEnd"
+            android:id="@+id/btnClose"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginEnd="24dp"
