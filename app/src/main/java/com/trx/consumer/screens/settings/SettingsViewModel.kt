@@ -4,9 +4,11 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsPageModel.SETTINGS
 import com.trx.consumer.models.common.SettingsModel
 import com.trx.consumer.models.common.SettingsType
 import com.trx.consumer.screens.settings.option.SettingsOptionListener
@@ -16,7 +18,8 @@ import kotlinx.coroutines.launch
 
 class SettingsViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
-    private val cacheManager: CacheManager
+    private val cacheManager: CacheManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), SettingsOptionListener {
 
     //region Events
@@ -41,6 +44,7 @@ class SettingsViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
+            analyticsManager.trackPageView(SETTINGS)
             cacheManager.user()?.let { user ->
                 eventLoadView.postValue(SettingsModel.list(user))
             }

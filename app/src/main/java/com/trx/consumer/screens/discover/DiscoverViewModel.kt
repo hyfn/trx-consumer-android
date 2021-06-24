@@ -4,7 +4,9 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.models.common.AnalyticsPageModel
 import com.trx.consumer.models.common.DiscoverModel
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.VideoModel
@@ -16,7 +18,8 @@ import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 import kotlinx.coroutines.launch
 
 class DiscoverViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager
+    private val backendManager: BackendManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), VideoWorkoutListener, DiscoverFilterListener {
 
     //region Objects
@@ -39,6 +42,7 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     //region Actions
     fun doLoadView() {
+        analyticsManager.trackPageView(AnalyticsPageModel.DISCOVER)
         eventLoadView.postValue(model)
         model.filters = params.lstFilters
         loadFilters()

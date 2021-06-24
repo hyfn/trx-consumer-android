@@ -4,9 +4,11 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsPageModel.WORKOUT
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.BookingsResponseModel
@@ -17,7 +19,8 @@ import kotlinx.coroutines.launch
 
 class WorkoutViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
-    private val cacheManager: CacheManager
+    private val cacheManager: CacheManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel() {
 
     var model: WorkoutModel = WorkoutModel()
@@ -45,6 +48,7 @@ class WorkoutViewModel @ViewModelInject constructor(
     }
 
     private fun doLoadVideo() {
+        analyticsManager.trackPageView(WORKOUT)
         eventLoadView.postValue(model)
     }
 

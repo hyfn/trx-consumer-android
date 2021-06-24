@@ -4,19 +4,25 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsPageModel.EMAIL_CODE
+import com.trx.consumer.models.common.AnalyticsPageModel.EMAIL_FORGOT
+import com.trx.consumer.screens.email.EmailViewState.CODE
+import com.trx.consumer.screens.email.EmailViewState.FORGOT
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
 import kotlinx.coroutines.launch
 
 class EmailViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager
+    private val backendManager: BackendManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), InputViewListener {
 
     //region Objects
 
-    var state: EmailViewState = EmailViewState.FORGOT
+    var state: EmailViewState = FORGOT
 
     //endregion
 
@@ -46,6 +52,7 @@ class EmailViewModel @ViewModelInject constructor(
     //region Actions
 
     fun doLoadView() {
+        analyticsManager.trackPageView(if (state == CODE) EMAIL_CODE else EMAIL_FORGOT)
         eventLoadView.call()
         eventLoadState.postValue(state)
         eventLoadButton.postValue(false)
@@ -85,8 +92,8 @@ class EmailViewModel @ViewModelInject constructor(
 
     fun doTapSendEmail() {
         when (state) {
-            EmailViewState.FORGOT -> doCallForgot()
-            EmailViewState.CODE -> doCallCode()
+            FORGOT -> doCallForgot()
+            CODE -> doCallCode()
         }
     }
 
@@ -105,8 +112,8 @@ class EmailViewModel @ViewModelInject constructor(
 
     private fun validate() {
         val enabled: Boolean = when (state) {
-            EmailViewState.FORGOT -> InputViewState.EMAIL.validate(email)
-            EmailViewState.CODE -> InputViewState.CODE.validate(code)
+            FORGOT -> InputViewState.EMAIL.validate(email)
+            CODE -> InputViewState.CODE.validate(code)
         }
         eventLoadButton.postValue(enabled)
     }

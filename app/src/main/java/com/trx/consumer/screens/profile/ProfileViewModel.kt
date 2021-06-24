@@ -1,12 +1,17 @@
 package com.trx.consumer.screens.profile
 
+import androidx.hilt.lifecycle.ViewModelInject
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
+import com.trx.consumer.models.common.AnalyticsPageModel.PROFILE
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewListener
 
-class ProfileViewModel : BaseViewModel(), LiveWorkoutViewListener, VirtualWorkoutViewListener {
+class ProfileViewModel @ViewModelInject constructor(
+    private val analyticsManager: AnalyticsManager
+) : BaseViewModel(), LiveWorkoutViewListener, VirtualWorkoutViewListener {
 
     val eventLoadView = CommonLiveEvent<Void>()
     val eventTapBack = CommonLiveEvent<Void>()
@@ -17,6 +22,7 @@ class ProfileViewModel : BaseViewModel(), LiveWorkoutViewListener, VirtualWorkou
     }
 
     fun doLoadView() {
+        analyticsManager.trackPageView(PROFILE)
         eventLoadView.call()
     }
 

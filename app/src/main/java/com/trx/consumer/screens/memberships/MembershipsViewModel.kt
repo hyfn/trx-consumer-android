@@ -6,11 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.revenuecat.purchases.Package
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.IAPManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NativePurchaseManager
+import com.trx.consumer.models.common.AnalyticsPageModel.MEMBERSHIPS
+import com.trx.consumer.models.common.AnalyticsPageModel.RESTORE
 import com.trx.consumer.models.common.MembershipModel
 import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.MembershipsResponseModel
@@ -21,7 +24,8 @@ import kotlinx.coroutines.launch
 class MembershipsViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager,
-    private val nativePurchaseManager: NativePurchaseManager
+    private val nativePurchaseManager: NativePurchaseManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), MembershipListener {
 
     val eventLoadView = CommonLiveEvent<List<MembershipModel>>()
@@ -41,6 +45,7 @@ class MembershipsViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
+            analyticsManager.trackPageView(MEMBERSHIPS)
             eventShowHud.postValue(true)
             val membershipResponse = backendManager.memberships()
             if (!membershipResponse.isSuccess) {
@@ -101,6 +106,7 @@ class MembershipsViewModel @ViewModelInject constructor(
 
     fun doTapRestore() {
         viewModelScope.launch {
+            analyticsManager.trackPageView(RESTORE)
             eventShowHud.postValue(true)
             val packages = IAPManager.shared.offerings().packages
             val model = IAPManager.shared.restore()
