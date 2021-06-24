@@ -58,7 +58,7 @@ class MembershipsViewModel @ViewModelInject constructor(
                 )
                 val user = UserResponseModel.parse(userResponse.responseString).user
                 cacheManager.user(user)
-                memberships = membershipsResponseModel.memberships(user.memberships)
+                memberships = membershipsResponseModel.memberships(user.activeMemberships)
                 eventLoadView.postValue(memberships)
             } catch (e: Exception) {
                 LogManager.log(e)
