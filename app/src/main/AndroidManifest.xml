@@ -21,10 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".screens.groupplayer.GroupPlayerActivity" />
-
-        <activity android:name=".screens.privateplayer.PrivatePlayerActivity" />
-
         <activity
             android:name=".core.MainActivity"
             android:screenOrientation="portrait"
@@ -42,6 +38,14 @@
 
         <activity
             android:name=".screens.liveplayer.LivePlayerActivity"
+            android:configChanges="orientation|screenSize" />
+
+        <activity
+            android:name=".screens.groupplayer.GroupPlayerActivity"
+            android:configChanges="orientation|screenSize" />
+
+        <activity
+            android:name=".screens.privateplayer.PrivatePlayerActivity"
             android:configChanges="orientation|screenSize" />
 
     </application>
