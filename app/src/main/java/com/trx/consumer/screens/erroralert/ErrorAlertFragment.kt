@@ -47,12 +47,12 @@ class ErrorAlertFragment : BaseDialogFragment(R.layout.fragment_error_alert) {
 
     private val handleTapOutside = Observer<Void> {
         LogManager.log("handleTapOutside")
-        NavigationManager.shared.dismiss(this)
+        dismiss()
     }
 
     private val handleTapDismiss = Observer<Void> {
         LogManager.log("handleTapDismiss")
-        NavigationManager.shared.dismiss(this)
+        dismiss()
     }
 
     override fun dismiss() {
