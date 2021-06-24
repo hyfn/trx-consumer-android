@@ -1,6 +1,7 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
+import com.trx.consumer.extensions.capitalized
 import com.trx.consumer.extensions.format
 import com.trx.consumer.extensions.map
 import com.trx.consumer.extensions.toPrice
@@ -25,11 +26,12 @@ class MembershipModel(
     val revcatProductId: String = "",
     val entitlements: EntitlementsModel = EntitlementsModel(),
     var currentPeriodEnd: Long = 0,
-    var currentPeriodStart: Long = 0
+    var currentPeriodStart: Long = 0,
+    val billingPeriod: String = ""
 ) : Parcelable {
 
     val cost: String
-        get() = "${(priceInCents / 100.0).toPrice()} per Month"
+        get() = "${(priceInCents / 100.0).toPrice()} per ${billingPeriod.capitalized()}"
 
     val description: String
         get() = valueProps.joinToString(separator = "\n")
@@ -65,7 +67,8 @@ class MembershipModel(
                 revcatProductId = productId,
                 entitlements = jsonObject.optJSONObject("permissions")?.let {
                     EntitlementsModel.parse(it)
-                } ?: EntitlementsModel()
+                } ?: EntitlementsModel(),
+                billingPeriod = jsonObject.optString("billingPeriod")
             )
         }
 
