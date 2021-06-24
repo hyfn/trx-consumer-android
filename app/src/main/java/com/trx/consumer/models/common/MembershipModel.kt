@@ -8,6 +8,7 @@ import com.trx.consumer.screens.memberships.list.MembershipViewState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.Date
+import java.util.TimeZone
 
 @Parcelize
 class MembershipModel(
@@ -20,7 +21,7 @@ class MembershipModel(
     val promoTitle: String = "",
     val promoDescription: String = "",
     val billingDescription: String = "",
-    val hideWhenNotSubscribed: Boolean = false,
+    val showInMobile: Boolean = false,
     val revcatProductId: String = "",
     val entitlements: EntitlementsModel = EntitlementsModel(),
     var currentPeriodEnd: Long = 0,
@@ -34,10 +35,16 @@ class MembershipModel(
         get() = valueProps.joinToString(separator = "\n")
 
     val lastBillDate: String
-        get() = Date(currentPeriodStart * 1000).format("MM/dd/YYYY")
+        get() = Date(currentPeriodStart * 1000).format("MM/dd/YYYY", zone = TimeZone.getDefault())
 
     val nextBillDate: String
-        get() = Date(currentPeriodEnd * 1000).format("MM/dd/YYYY")
+        get() = Date(currentPeriodEnd * 1000).format("MM/dd/YYYY", zone = TimeZone.getDefault())
+
+    val isActive: Boolean
+        get() = primaryState == MembershipViewState.ACTIVE
+
+    val isCancelled: Boolean
+        get() = primaryState == MembershipViewState.CANCELLED
 
     companion object {
 
@@ -54,7 +61,7 @@ class MembershipModel(
                 promoTitle = jsonObject.optString("promoTitle"),
                 promoDescription = jsonObject.optString("promoDescription"),
                 billingDescription = jsonObject.optString("billingDescription"),
-                hideWhenNotSubscribed = jsonObject.optBoolean("hideWhenNotSubscribed"),
+                showInMobile = jsonObject.optBoolean("showInMobile"),
                 revcatProductId = productId,
                 entitlements = jsonObject.optJSONObject("permissions")?.let {
                     EntitlementsModel.parse(it)

@@ -18,12 +18,9 @@ class SettingsModel {
             when (type) {
                 SettingsType.MEMBERSHIPS -> {
                     val size = user?.memberships?.size ?: 0
-                    if (size == 0) {
-                        "Pay As You Go"
-                    } else {
-                        "$size active membership${if (size == 1) "" else "s"}"
-                    }
+                    "$size active membership${if (size == 1) "" else "s"}"
                 }
+                SettingsType.EMAIL -> user?.email ?: "N/A"
                 else -> ""
             }
 
@@ -37,6 +34,7 @@ class SettingsModel {
     val titleTextSize: Int
         get() = when (type) {
             SettingsType.MEMBERSHIPS -> 10
+            SettingsType.EMAIL -> 10
             else -> 16
         }
 
@@ -49,6 +47,7 @@ class SettingsModel {
 
         fun list(user: UserModel?): List<Any> {
             return mutableListOf<Any>().apply {
+                add(create(user, SettingsType.EMAIL))
                 add(create(user, SettingsType.MEMBERSHIPS))
                 add(0)
                 add(create(null, SettingsType.SHOP))
@@ -65,6 +64,7 @@ class SettingsModel {
 }
 
 enum class SettingsType {
+    EMAIL,
     SHOP,
     GETTING_STARTED,
     CONTACT_SUPPORT,
@@ -78,6 +78,7 @@ enum class SettingsType {
     @get:StringRes
     val title: Int
         get() = when (this) {
+            EMAIL -> R.string.settings_email
             SHOP -> R.string.settings_shop
             GETTING_STARTED -> R.string.settings_getting_started
             TERMS_AND_CONDITIONS -> R.string.settings_terms_and_conditions

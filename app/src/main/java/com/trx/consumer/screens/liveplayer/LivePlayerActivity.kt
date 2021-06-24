@@ -30,6 +30,8 @@ import fm.liveswitch.Promise
 import fm.liveswitch.VideoEncodingConfig
 import java.util.ArrayList
 import javax.inject.Inject
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LivePlayerActivity : AppCompatActivity() {

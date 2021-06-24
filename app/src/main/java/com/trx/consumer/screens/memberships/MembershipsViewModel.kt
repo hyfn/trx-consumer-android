@@ -19,10 +19,10 @@ import kotlinx.coroutines.launch
 
 class MembershipsViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
-    private val cacheManager: CacheManager,
+    private val cacheManager: CacheManager
 ) : BaseViewModel(), MembershipListener {
 
-    val eventLoadView = CommonLiveEvent<List<Any>>()
+    val eventLoadView = CommonLiveEvent<List<MembershipModel>>()
     val eventLoadError = CommonLiveEvent<String>()
     val eventTapChooseMembership = CommonLiveEvent<MembershipModel>()
     val eventTapCancelMembership = CommonLiveEvent<MembershipModel>()
@@ -52,10 +52,10 @@ class MembershipsViewModel @ViewModelInject constructor(
                 val membershipsResponseModel = MembershipsResponseModel.parse(
                     membershipResponse.responseString
                 )
-                memberships = membershipsResponseModel.memberships
                 val user = UserResponseModel.parse(userResponse.responseString).user
                 cacheManager.user(user)
-                eventLoadView.postValue(membershipsResponseModel.sections(user.memberships))
+                memberships = membershipsResponseModel.memberships(user.memberships)
+                eventLoadView.postValue(memberships)
             } catch (e: Exception) {
                 LogManager.log(e)
                 eventLoadError.postValue(ResponseModel.parseErrorMessage)
