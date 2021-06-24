@@ -4,16 +4,26 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.trx.consumer.databinding.ActivityPrivatePlayerBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsPageModel.PRIVATE_PLAYER
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class PrivatePlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPrivatePlayerBinding
+
+    @Inject
+    lateinit var analyticsManager: AnalyticsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPrivatePlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        analyticsManager.trackPageView(PRIVATE_PLAYER)
 
         binding.apply {
             btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
