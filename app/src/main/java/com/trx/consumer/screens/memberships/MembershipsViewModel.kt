@@ -5,13 +5,13 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.extensions.params
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.IAPManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NativePurchaseManager
-import com.trx.consumer.models.common.AnalyticsPageModel.RESTORE
+import com.trx.consumer.models.common.AnalyticsPageModel.MEMBERSHIPS
 import com.trx.consumer.models.common.IAPErrorModel
 import com.trx.consumer.models.common.MembershipModel
 import com.trx.consumer.models.core.ResponseModel
@@ -44,7 +44,6 @@ class MembershipsViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackPageView(RESTORE)
             eventShowHud.postValue(true)
             val membershipResponse = backendManager.memberships()
             if (!membershipResponse.isSuccess) {
@@ -126,5 +125,9 @@ class MembershipsViewModel @ViewModelInject constructor(
             }
             eventShowHud.postValue(false)
         }
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(MEMBERSHIPS)
     }
 }

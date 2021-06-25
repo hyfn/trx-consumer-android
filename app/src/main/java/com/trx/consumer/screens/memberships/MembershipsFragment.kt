@@ -46,6 +46,7 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
             eventShowRestore.observe(viewLifecycleOwner, handleShowRestore)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
 
+            doTrackPageView()
             doLoadView()
         }
     }

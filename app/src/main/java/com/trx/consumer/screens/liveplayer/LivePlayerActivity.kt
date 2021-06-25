@@ -17,7 +17,10 @@ class LivePlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_live_player)
+        doTrackPageView()
+    }
 
+    fun doTrackPageView() {
         analyticsManager.trackPageView(LIVE_PLAYER)
     }
 }

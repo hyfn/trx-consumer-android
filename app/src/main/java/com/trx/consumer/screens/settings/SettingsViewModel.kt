@@ -43,7 +43,6 @@ class SettingsViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackPageView(SETTINGS)
             cacheManager.user()?.let { user ->
                 eventLoadView.postValue(SettingsModel.list(user))
             }
@@ -75,5 +74,8 @@ class SettingsViewModel @ViewModelInject constructor(
         eventLogOut.call()
     }
 
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(SETTINGS)
+    }
     //endregion
 }

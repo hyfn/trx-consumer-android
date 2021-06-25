@@ -52,7 +52,7 @@ class EmailViewModel @ViewModelInject constructor(
     //region Actions
 
     fun doLoadView() {
-        analyticsManager.trackPageView(if (state == CODE) EMAIL_CODE else EMAIL_FORGOT)
+
         eventLoadView.call()
         eventLoadState.postValue(state)
         eventLoadButton.postValue(false)
@@ -122,5 +122,8 @@ class EmailViewModel @ViewModelInject constructor(
         eventDismissKeyboard.call()
     }
 
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(if (state == CODE) EMAIL_CODE else EMAIL_FORGOT)
+    }
     //endregion
 }

@@ -40,7 +40,6 @@ class CardsViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackPageView(CARDS)
             eventShowHud.postValue(true)
             val response = backendManager.user()
             eventShowHud.postValue(false)
@@ -69,6 +68,10 @@ class CardsViewModel @ViewModelInject constructor(
 
     fun doTapReplace() {
         eventTapReplace.call()
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(CARDS)
     }
 
     //endregion

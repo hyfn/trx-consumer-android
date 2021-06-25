@@ -90,6 +90,7 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
             eventTapAboutMe.observe(viewLifecycleOwner, handleTapAboutMe)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
 
+            doTrackPageView()
             doLoadView()
         }
     }

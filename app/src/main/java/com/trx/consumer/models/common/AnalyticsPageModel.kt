@@ -26,5 +26,8 @@ enum class AnalyticsPageModel(val pageName: String) {
     VIDEO_PLAYER("On-Demand Video Player"),
     VIDEOS("On-Demand Playlist"),
     VIRTUAL("Virtual Training"),
-    WORKOUT("Workout")
+    WORKOUT("Workout");
+
+    val trackingFormat: String
+        get() = "TRX Training Club | ${this.pageName}"
 }

@@ -50,7 +50,6 @@ class HomeViewModel @ViewModelInject constructor(
     //region Functions
 
     fun doLoadView() {
-        analyticsManager.trackPageView(HOME)
         eventLoadView.call()
         doLoadUser()
     }
@@ -122,5 +121,8 @@ class HomeViewModel @ViewModelInject constructor(
         eventShowVideo.postValue(model)
     }
 
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(HOME)
+    }
     //endregion
 }

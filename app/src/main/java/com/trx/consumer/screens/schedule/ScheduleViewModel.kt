@@ -38,14 +38,6 @@ class ScheduleViewModel @ViewModelInject constructor(
     }
 
     fun doLoadView() {
-        when (state) {
-            TRAINER_LIVE -> { analyticsManager.trackPageView(SCHEDULE_TRAINER_LIVE) }
-            TRAINER_VIRTUAL -> { analyticsManager.trackPageView(SCHEDULE_TRAINER_VIRTUAL) }
-            USER_LIVE -> { analyticsManager.trackPageView(SCHEDULE_USER_LIVE) }
-            USER_VIRTUAL -> { analyticsManager.trackPageView(SCHEDULE_USER_VIRTUAL) }
-            else -> { LogManager.log("Invalid state: ${state.name}") }
-        }
-
         eventLoadView.postValue(state)
     }
 
@@ -62,5 +54,15 @@ class ScheduleViewModel @ViewModelInject constructor(
     }
 
     override fun doTapClass(trainerScheduleModel: TrainerScheduleModel) {
+    }
+
+    fun doTrackPageView() {
+        when (state) {
+            TRAINER_LIVE -> { analyticsManager.trackPageView(SCHEDULE_TRAINER_LIVE) }
+            TRAINER_VIRTUAL -> { analyticsManager.trackPageView(SCHEDULE_TRAINER_VIRTUAL) }
+            USER_LIVE -> { analyticsManager.trackPageView(SCHEDULE_USER_LIVE) }
+            USER_VIRTUAL -> { analyticsManager.trackPageView(SCHEDULE_USER_VIRTUAL) }
+            else -> { LogManager.log("Invalid state: ${state.name}") }
+        }
     }
 }

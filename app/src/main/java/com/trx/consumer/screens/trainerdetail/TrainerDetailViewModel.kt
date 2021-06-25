@@ -40,7 +40,6 @@ class TrainerDetailViewModel @ViewModelInject constructor(
     var trainer: TrainerModel = TrainerModel()
     var photos: List<String> = listOf()
 
-    // MARK>
     val eventLoadView = CommonLiveEvent<Void>()
     val eventLoadWorkoutUpcoming = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadServices = CommonLiveEvent<List<TrainerProgramModel>>()
@@ -62,7 +61,6 @@ class TrainerDetailViewModel @ViewModelInject constructor(
     val eventShowHud = CommonLiveEvent<Boolean>()
 
     fun doLoadView() {
-        analyticsManager.trackPageView(TRAINER_DETAIL)
         eventLoadView.call()
     }
 
@@ -175,5 +173,9 @@ class TrainerDetailViewModel @ViewModelInject constructor(
 
     override fun doTapSelectLiveWorkout(model: WorkoutModel) {
         eventShowWorkout.postValue(model)
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(TRAINER_DETAIL)
     }
 }

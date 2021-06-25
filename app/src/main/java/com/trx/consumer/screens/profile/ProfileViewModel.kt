@@ -22,7 +22,6 @@ class ProfileViewModel @ViewModelInject constructor(
     }
 
     fun doLoadView() {
-        analyticsManager.trackPageView(PROFILE)
         eventLoadView.call()
     }
 
@@ -40,5 +39,9 @@ class ProfileViewModel @ViewModelInject constructor(
     }
 
     override fun doTapSelectVirtualWorkout(model: WorkoutModel) {
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(PROFILE)
     }
 }

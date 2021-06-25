@@ -48,7 +48,6 @@ class WorkoutViewModel @ViewModelInject constructor(
     }
 
     private fun doLoadVideo() {
-        analyticsManager.trackPageView(WORKOUT)
         eventLoadView.postValue(model)
     }
 
@@ -106,5 +105,9 @@ class WorkoutViewModel @ViewModelInject constructor(
                 else -> LogManager.log("WorkoutViewModel.doTapPrimary")
             }
         }
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(WORKOUT)
     }
 }

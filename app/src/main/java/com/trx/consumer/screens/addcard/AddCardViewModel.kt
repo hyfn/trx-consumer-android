@@ -76,7 +76,6 @@ class AddCardViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackPageView(ADD_CARD)
             eventLoadNavBar.postValue(purchase != null)
             eventLoadButton.postValue(false)
             eventShowHud.postValue(true)
@@ -165,6 +164,10 @@ class AddCardViewModel @ViewModelInject constructor(
 
     fun doDismissKeyboard() {
         eventDismissKeyboard.call()
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(ADD_CARD)
     }
 
     //endregion

@@ -51,7 +51,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
     }
 
     fun trackPageView(value: AnalyticsPageModel) {
-        val properties = mapOf(PAGE_TITLE.propertyName to value.pageName)
+        val properties = mapOf(PAGE_TITLE.propertyName to value.trackingFormat)
 
         amplitudeClient.logEvent(PAGE_VIEW.eventName, JSONObject(properties))
     }

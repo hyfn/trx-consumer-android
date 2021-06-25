@@ -23,7 +23,7 @@ class GroupPlayerActivity : AppCompatActivity() {
         binding = ActivityGroupPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        analyticsManager.trackPageView(GROUP_PLAYER)
+        doTrackPageView()
 
         binding.apply {
             btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
@@ -53,5 +53,9 @@ class GroupPlayerActivity : AppCompatActivity() {
 
     private fun handleTapEnd() {
         finish()
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(GROUP_PLAYER)
     }
 }

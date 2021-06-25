@@ -67,7 +67,6 @@ class LiveViewModel @ViewModelInject constructor(
     //region Functions
 
     fun doLoadView() {
-        analyticsManager.trackPageView(LIVE)
         eventLoadView.call()
         if (isVersion2Enabled) {
             doLoadPromotions()
@@ -184,5 +183,8 @@ class LiveViewModel @ViewModelInject constructor(
         eventTapBack.call()
     }
 
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(LIVE)
+    }
     //endregion
 }

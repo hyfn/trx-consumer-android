@@ -42,7 +42,6 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     //region Actions
     fun doLoadView() {
-        analyticsManager.trackPageView(AnalyticsPageModel.DISCOVER)
         eventLoadView.postValue(model)
         model.filters = params.lstFilters
         loadFilters()
@@ -126,6 +125,10 @@ class DiscoverViewModel @ViewModelInject constructor(
     override fun doTapDiscoverFilter(filter: FilterModel) {
         params.selectedModel = filter
         eventTapDiscoverFilter.postValue(params.copyModel())
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(AnalyticsPageModel.DISCOVER)
     }
     //endregion
 }

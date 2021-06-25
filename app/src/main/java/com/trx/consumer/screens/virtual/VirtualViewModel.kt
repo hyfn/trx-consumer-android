@@ -54,7 +54,6 @@ class VirtualViewModel @ViewModelInject constructor(
     //region Functions
 
     fun doLoadView() {
-        analyticsManager.trackPageView(VIRTUAL)
         eventLoadView.call()
         doLoadBookings()
         doLoadTrainers()
@@ -143,5 +142,8 @@ class VirtualViewModel @ViewModelInject constructor(
         eventShowWorkout.postValue(model)
     }
 
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(VIRTUAL)
+    }
     //endregion
 }

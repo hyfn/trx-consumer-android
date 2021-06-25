@@ -23,8 +23,6 @@ class PrivatePlayerActivity : AppCompatActivity() {
         binding = ActivityPrivatePlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        analyticsManager.trackPageView(PRIVATE_PLAYER)
-
         binding.apply {
             btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
             btnClock.onChecked { isChecked -> handleTapClock(isChecked) }
@@ -53,5 +51,9 @@ class PrivatePlayerActivity : AppCompatActivity() {
 
     private fun handleTapEnd() {
         finish()
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(PRIVATE_PLAYER)
     }
 }

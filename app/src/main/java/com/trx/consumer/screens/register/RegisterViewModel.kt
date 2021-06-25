@@ -67,7 +67,6 @@ class RegisterViewModel @ViewModelInject constructor(
     //region Events
 
     fun doLoadView() {
-        analyticsManager.trackPageView(REGISTER)
         eventLoadView.call()
     }
 
@@ -139,5 +138,8 @@ class RegisterViewModel @ViewModelInject constructor(
         eventDismissKeyboard.call()
     }
 
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(REGISTER)
+    }
     //endregion
 }

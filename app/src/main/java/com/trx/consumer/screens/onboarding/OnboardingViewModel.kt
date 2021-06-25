@@ -22,7 +22,6 @@ class OnboardingViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackPageView(ONBOARDING)
             cacheManager.didShowOnboarding(true)
             eventLoadView.postValue(state)
         }
@@ -58,5 +57,9 @@ class OnboardingViewModel @ViewModelInject constructor(
         } else {
             doTapClose()
         }
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(ONBOARDING)
     }
 }

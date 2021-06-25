@@ -37,7 +37,6 @@ class RestoreViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackPageView(AnalyticsPageModel.RESTORE)
             cacheManager.didShowRestore(true)
         }
     }
@@ -125,5 +124,9 @@ class RestoreViewModel @ViewModelInject constructor(
         } else {
             eventTapClose.call()
         }
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(AnalyticsPageModel.RESTORE)
     }
 }
