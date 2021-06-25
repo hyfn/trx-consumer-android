@@ -19,6 +19,8 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventTapClose.observe(viewLifecycleOwner, handleTapClose)
             eventShowRestore.observe(viewLifecycleOwner, handleShowRestore)
+
+            doTrackPageView()
         }
 
         viewBinding.apply {

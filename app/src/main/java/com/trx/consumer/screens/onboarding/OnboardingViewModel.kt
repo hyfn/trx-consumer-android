@@ -4,11 +4,14 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.CacheManager
+import com.trx.consumer.models.common.AnalyticsPageModel.ONBOARDING
 import kotlinx.coroutines.launch
 
 class OnboardingViewModel @ViewModelInject constructor(
-    private val cacheManager: CacheManager
+    private val cacheManager: CacheManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel() {
 
     var state: OnBoardingViewState = OnBoardingViewState.DEMAND
@@ -54,5 +57,9 @@ class OnboardingViewModel @ViewModelInject constructor(
         } else {
             doTapClose()
         }
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(ONBOARDING)
     }
 }

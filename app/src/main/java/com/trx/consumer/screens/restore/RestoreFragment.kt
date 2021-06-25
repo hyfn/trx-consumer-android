@@ -37,6 +37,7 @@ class RestoreFragment : BaseFragment(R.layout.fragment_restore) {
             eventShowAlertError.observe(viewLifecycleOwner, handleShowAlertError)
             eventTapClose.observe(viewLifecycleOwner, handleTapClose)
 
+            doTrackPageView()
             doLoadView()
         }
     }

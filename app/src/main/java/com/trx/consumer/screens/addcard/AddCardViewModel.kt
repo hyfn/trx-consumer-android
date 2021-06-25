@@ -4,9 +4,11 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsPageModel.ADD_CARD
 import com.trx.consumer.models.common.CardModel
 import com.trx.consumer.models.common.PurchaseModel
 import com.trx.consumer.stripe.StripeBackendManager
@@ -17,7 +19,8 @@ import kotlinx.coroutines.launch
 class AddCardViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
     private val stripeBackendManager: StripeBackendManager,
-    private val cacheManager: CacheManager
+    private val cacheManager: CacheManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), InputViewListener {
 
     //region Objects
@@ -161,6 +164,10 @@ class AddCardViewModel @ViewModelInject constructor(
 
     fun doDismissKeyboard() {
         eventDismissKeyboard.call()
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(ADD_CARD)
     }
 
     //endregion

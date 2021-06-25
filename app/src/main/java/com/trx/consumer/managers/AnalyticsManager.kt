@@ -10,6 +10,7 @@ import com.trx.consumer.models.common.AnalyticsEventModel.VIDEO_COMPLETE_100
 import com.trx.consumer.models.common.AnalyticsEventModel.VIDEO_COMPLETE_25
 import com.trx.consumer.models.common.AnalyticsEventModel.VIEW_VIDEO
 import com.trx.consumer.models.common.AnalyticsEventModel.VIEW_VIDEO_DETAIL
+import com.trx.consumer.models.common.AnalyticsPageModel
 import com.trx.consumer.models.common.AnalyticsPropertyModel
 import com.trx.consumer.models.common.AnalyticsPropertyModel.DURATION
 import com.trx.consumer.models.common.AnalyticsPropertyModel.ON_DEMAND_FILTER
@@ -49,8 +50,8 @@ class AnalyticsManager(private val configManager: ConfigManager) {
         amplitudeClient.logEvent(FILTER_ON_DEMAND.eventName, JSONObject(properties))
     }
 
-    fun trackPageView(value: Any?) {
-        val properties = value?.let { mapOf(PAGE_TITLE.propertyName to value) } ?: mapOf()
+    fun trackPageView(value: AnalyticsPageModel) {
+        val properties = mapOf(PAGE_TITLE.propertyName to value.trackingFormat)
 
         amplitudeClient.logEvent(PAGE_VIEW.eventName, JSONObject(properties))
     }

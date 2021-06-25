@@ -50,6 +50,8 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             eventTapTest.observe(viewLifecycleOwner, handleTapTest)
             eventTapMaintenance.observe(viewLifecycleOwner, handleTapMaintenance)
             eventTapRestore.observe(viewLifecycleOwner, handleTapRestore)
+
+            doTrackPageView()
             doLoadView()
         }
     }
