@@ -23,15 +23,14 @@ class MainApplication : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-        if(instance == null) instance = this
+        if (instance == null) instance = this
         configManager.configure(this)
     }
 
     companion object {
         private var instance: MainApplication? = null
-        fun getInstance() : MainApplication? {
+        fun getInstance(): MainApplication? {
             return instance
         }
     }
-
 }

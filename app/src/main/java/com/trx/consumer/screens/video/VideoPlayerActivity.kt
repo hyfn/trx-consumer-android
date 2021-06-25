@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.video
 
-import android.app.Application
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
@@ -34,7 +33,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class VideoPlayerActivity : BrightcovePlayer() {
 
@@ -60,7 +58,6 @@ class VideoPlayerActivity : BrightcovePlayer() {
         super.onCreate(savedInstanceState)
         bind()
     }
-
 
     private fun bind() {
         video = NavigationManager.shared.params(intent) as VideoModel
@@ -171,8 +168,6 @@ class VideoPlayerActivity : BrightcovePlayer() {
         }
 
         if (percent == 1.0) analyticsManager?.trackVideoComplete100(video)
-
-
     }
 
     private fun setMediaController() {
@@ -242,6 +237,4 @@ class VideoPlayerActivity : BrightcovePlayer() {
 
         super.onDestroy()
     }
-
-
 }
