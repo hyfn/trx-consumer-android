@@ -18,7 +18,9 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
         viewModel.apply {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventTapClose.observe(viewLifecycleOwner, handleTapClose)
-            eventTapNext.observe(viewLifecycleOwner, handleTapNext)
+            eventShowRestore.observe(viewLifecycleOwner, handleShowRestore)
+
+            doTrackPageView()
         }
 
         viewBinding.apply {
@@ -44,11 +46,11 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
         }
     }
 
-    private val handleTapClose = Observer<Void> {
-        NavigationManager.shared.loggedInLaunchSequence(this)
+    private val handleShowRestore = Observer<Void> {
+        NavigationManager.shared.present(this, R.id.restore_fragment)
     }
 
-    private val handleTapNext = Observer<Void> {
+    private val handleTapClose = Observer<Void> {
         NavigationManager.shared.loggedInLaunchSequence(this)
     }
 }

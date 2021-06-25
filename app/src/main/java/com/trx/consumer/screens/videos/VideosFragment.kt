@@ -46,6 +46,7 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventTapProfile.observe(viewLifecycleOwner, handleTapProfile)
 
+            doTrackPageView()
             doLoadView()
         }
     }

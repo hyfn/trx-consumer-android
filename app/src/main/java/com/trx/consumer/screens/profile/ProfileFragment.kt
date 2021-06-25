@@ -34,6 +34,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             eventTapSettings.observe(viewLifecycleOwner, handleTapSettings)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
 
+            doTrackPageView()
             doLoadView()
         }
     }

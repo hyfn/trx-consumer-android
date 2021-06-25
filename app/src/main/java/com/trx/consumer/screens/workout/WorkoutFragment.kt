@@ -52,6 +52,8 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
             eventShowPermissionAlert.observe(viewLifecycleOwner, handleShowPermissionAlert)
+
+            doTrackPageView()
             doLoadView()
         }
     }
