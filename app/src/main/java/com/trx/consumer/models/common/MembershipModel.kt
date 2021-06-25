@@ -31,7 +31,14 @@ class MembershipModel(
 ) : Parcelable {
 
     val cost: String
-        get() = "${(priceInCents / 100.0).toPrice()} per ${billingPeriod.capitalized()}"
+        get() {
+            val billingPeriodDisplay = if (billingPeriod.isNotEmpty()) {
+                "per ${billingPeriod.capitalized()}"
+            } else {
+                ""
+            }
+            return "${(priceInCents / 100.0).toPrice()} $billingPeriodDisplay"
+        }
 
     val description: String
         get() = valueProps.joinToString(separator = "\n")

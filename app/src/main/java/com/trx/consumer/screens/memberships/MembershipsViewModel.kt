@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.params
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.IAPManager
 import com.trx.consumer.managers.LogManager
@@ -19,6 +20,7 @@ import com.trx.consumer.screens.memberships.list.MembershipListener
 import kotlinx.coroutines.launch
 
 class MembershipsViewModel @ViewModelInject constructor(
+    private val analyticsManager: AnalyticsManager,
     private val backendManager: BackendManager,
     private val nativePurchaseManager: NativePurchaseManager
 ) : BaseViewModel(), MembershipListener {
@@ -86,6 +88,7 @@ class MembershipsViewModel @ViewModelInject constructor(
                 eventLoadError.postValue(IAPErrorModel.PURCHASE.display)
                 return@launch
             }
+            analyticsManager.trackPurchaseSubscription(model)
 
             val params = matchingPackage.params(model.key)
             val response = backendManager.membershipAdd(params)

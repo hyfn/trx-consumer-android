@@ -21,7 +21,7 @@ class UserModel(
         get() = "$firstName $lastName"
 
     val activeMemberships: Map<String, UserMembershipModel>
-        get() = memberships.filter { it.value.isActive }
+        get() = memberships.filter { it.value.isActive && it.key != "CORE" }
 
     companion object {
 
