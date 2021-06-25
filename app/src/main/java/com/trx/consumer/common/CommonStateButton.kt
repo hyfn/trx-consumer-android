@@ -4,9 +4,6 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatCheckBox
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.TypedArrayUtils.getResourceId
-import androidx.core.content.withStyledAttributes
 import com.trx.consumer.R
 import com.trx.consumer.common.shapeable.CommonShapeable
 import com.trx.consumer.common.shapeable.CommonShapeableHandler
