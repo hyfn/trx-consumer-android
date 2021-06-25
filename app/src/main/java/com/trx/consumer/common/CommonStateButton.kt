@@ -1,6 +1,7 @@
 package com.trx.consumer.common
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.content.ContextCompat
@@ -16,34 +17,32 @@ class CommonStateButton @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : AppCompatCheckBox(context, attrs), CommonShapeable<CommonStateButton> {
 
-    private var checkedStateDrawable: Int = 0
-    private var plainStateDrawable: Int = 0
+    private var checkedStateDrawable: Drawable? = null
+    private var plainStateDrawable: Drawable? = null
     override val shapeableHandler = CommonShapeableHandler { this }
 
     init {
         shapeableHandler.init(attrs)
         val typeArray = context.obtainStyledAttributes(attrs, R.styleable.CommonStateButton, 0, 0)
         try {
-            checkedStateDrawable = typeArray.getResourceId(R.styleable.CommonStateButton_checkedState, 0)
-            plainStateDrawable = typeArray.getResourceId(R.styleable.CommonStateButton_plainState, 0)
+            checkedStateDrawable =
+                typeArray.getDrawable(R.styleable.CommonStateButton_checkedState)
+            plainStateDrawable =
+                typeArray.getDrawable(R.styleable.CommonStateButton_plainState)
         } finally {
             typeArray.recycle()
         }
-        initTypeface(context)
+        buttonDrawable = null
+        initTypeface()
     }
 
-    private fun initTypeface(context: Context) {
-        buttonDrawable = ContextCompat.getDrawable(
-            context, if (isChecked) checkedStateDrawable else plainStateDrawable
-        )
-        /*background = ContextCompat.getDrawable(
-            context, if (isChecked) checkedStateDrawable else plainStateDrawable
-        )*/
+    private fun initTypeface() {
+        buttonDrawable = if (isChecked) checkedStateDrawable else plainStateDrawable
     }
 
     fun onChecked(action: (isChecked: Boolean) -> Unit) {
         setOnCheckedChangeListener { _, isChecked ->
-            initTypeface(context)
+            initTypeface()
             action(isChecked)
         }
     }
