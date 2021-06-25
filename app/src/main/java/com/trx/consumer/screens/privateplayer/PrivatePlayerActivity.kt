@@ -2,8 +2,6 @@ package com.trx.consumer.screens.privateplayer
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.trx.consumer.R
-import com.trx.consumer.common.CommonStateButton
 import com.trx.consumer.databinding.ActivityPrivatePlayerBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.AnalyticsManager
@@ -26,9 +24,6 @@ class PrivatePlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.apply {
-            //btnCamera.image(R.drawable.ic_img_camera_selected, CommonStateButton.ACTIVE)
-            btnCamera.image(R.drawable.ic_img_camera_plain, CommonStateButton.PLAIN)
-
             btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
             btnClock.onChecked { isChecked -> handleTapClock(isChecked) }
             btnMicrophone.onChecked { isChecked -> handleTapMicrophone(isChecked) }

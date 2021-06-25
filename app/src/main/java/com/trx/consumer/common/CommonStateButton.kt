@@ -4,16 +4,13 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.getDrawableOrThrow
 import androidx.core.content.withStyledAttributes
 import com.trx.consumer.R
 import com.trx.consumer.common.shapeable.CommonShapeable
 import com.trx.consumer.common.shapeable.CommonShapeableHandler
-import com.trx.consumer.managers.LogManager
 
 @RequiresApi(Build.VERSION_CODES.M)
 class CommonStateButton @JvmOverloads constructor(
@@ -68,4 +65,3 @@ class CommonStateButton @JvmOverloads constructor(
         const val PLAIN = 0
     }
 }
-
