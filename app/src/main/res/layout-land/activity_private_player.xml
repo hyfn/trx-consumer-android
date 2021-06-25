@@ -29,50 +29,42 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginTop="24dp"
-            app:checkedState="@drawable/ic_img_camera_selected"
-            app:cornerRadius="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:outline="@color/red"
+            app:checkedState="@drawable/ic_img_camera_selected"
             app:plainState="@drawable/ic_img_camera_plain" />
 
         <com.trx.consumer.common.CommonStateButton
             android:id="@+id/btnMicrophone"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:button="@drawable/ic_tab_microphone"
-            app:checkedState="@drawable/ic_img_microphone_selected"
             app:layout_constraintBottom_toTopOf="@+id/btnClock"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnCamera"
-            app:outline="@color/green"
-            app:plainState="@drawable/ic_img_microphone_plain" />
+            app:checkedState="@drawable/ic_img_microphone_selected"
+            app:plainState="@drawable/ic_img_microphone_plain"/>
 
         <com.trx.consumer.common.CommonStateButton
             android:id="@+id/btnClock"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:button="@drawable/ic_tab_clock"
-            app:checkedState="@drawable/ic_img_clock_selected"
             app:layout_constraintBottom_toTopOf="@+id/btnShare"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnMicrophone"
-            app:outline="@color/yellow"
+            app:checkedState="@drawable/ic_img_clock_selected"
             app:plainState="@drawable/ic_img_clock_plain" />
 
         <com.trx.consumer.common.CommonStateButton
             android:id="@+id/btnShare"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:button="@drawable/ic_tab_share"
             app:layout_constraintBottom_toTopOf="@+id/btnEnd"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnClock"
-            app:outline="@color/blue"
             app:plainState="@drawable/ic_img_share_plain"
             app:checkedState="@drawable/ic_img_share_selected"/>
 
