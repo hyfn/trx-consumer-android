@@ -8,6 +8,7 @@ import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsPageModel.VIDEO_PLAYER
 import com.trx.consumer.models.common.AnalyticsPageModel.WORKOUT
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutModel
@@ -85,6 +86,7 @@ class WorkoutViewModel @ViewModelInject constructor(
                 WorkoutViewState.VIDEO -> {
                     if (user.entitlements.onDemand) {
                         eventTapStartWorkout.postValue(model)
+                        analyticsManager.trackPageView(VIDEO_PLAYER)
                     } else {
                         eventShowPermissionAlert.call()
                     }
@@ -92,6 +94,7 @@ class WorkoutViewModel @ViewModelInject constructor(
                 WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> {
                     if (model.bookViewStatus == BookingViewState.JOIN) {
                         eventTapStartWorkout.postValue(model)
+                        analyticsManager.trackPageView(VIDEO_PLAYER)
                     } else {
                         user.card?.let {
                             eventTapBookLive.postValue(model)
