@@ -28,8 +28,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:plainState="@drawable/ic_img_camera_plain"
-            app:checkedState="@drawable/ic_img_camera_selected"/>
+            app:plainState="@drawable/ic_img_microphone_plain"/>
 
         <com.trx.consumer.common.CommonStateButton
             android:id="@+id/btnMicrophone"
