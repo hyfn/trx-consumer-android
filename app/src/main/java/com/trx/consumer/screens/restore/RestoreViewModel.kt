@@ -5,11 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.params
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.IAPManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NativePurchaseManager
+import com.trx.consumer.models.common.AnalyticsPageModel
 import com.trx.consumer.models.common.IAPErrorModel
 import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.MembershipsResponseModel
@@ -20,7 +22,8 @@ import kotlinx.coroutines.launch
 class RestoreViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
     private val cacheManager: CacheManager,
-    private val nativePurchaseManager: NativePurchaseManager
+    private val nativePurchaseManager: NativePurchaseManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel() {
 
     var isFromOnboarding = true
@@ -34,6 +37,7 @@ class RestoreViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
+            analyticsManager.trackPageView(AnalyticsPageModel.RESTORE)
             cacheManager.didShowRestore(true)
         }
     }
