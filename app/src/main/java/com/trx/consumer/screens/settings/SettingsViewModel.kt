@@ -34,7 +34,7 @@ class SettingsViewModel @ViewModelInject constructor(
     val eventTapTest = CommonLiveEvent<Void>()
     val eventTapMaintenance = CommonLiveEvent<Unit>()
     val eventTapRestore = CommonLiveEvent<Unit>()
-
+    val eventTapPermissions = CommonLiveEvent<Unit>()
     val eventLogOut = CommonLiveEvent<Void>()
 
     //endregion
@@ -60,6 +60,7 @@ class SettingsViewModel @ViewModelInject constructor(
             SettingsType.TEST_SCREENS -> eventTapTest.call()
             SettingsType.MEMBERSHIPS -> eventTapMemberships.call()
             SettingsType.SHOW_MAINTENANCE -> eventTapMaintenance.call()
+            SettingsType.PERMISSIONS -> eventTapPermissions.call()
         }
     }
 

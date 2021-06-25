@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="15dp"
+    app:backgroundColor="@color/white">
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblPermissionName"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginVertical="15dp"
+        android:gravity="center_vertical"
+        android:fontFamily="@font/atcarquette_regular"
+        android:textColor="#212121"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Camera Permissions" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/scPermission"
+        android:layout_width="48dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="18dp"
+        android:thumb="@drawable/bg_permission_switch_thumb"
+        app:showText="false"
+        app:track="@drawable/bg_permission_switch"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</com.trx.consumer.common.CommonView>
