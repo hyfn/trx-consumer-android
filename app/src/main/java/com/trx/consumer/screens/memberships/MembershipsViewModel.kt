@@ -3,17 +3,16 @@ package com.trx.consumer.screens.memberships
 import android.app.Activity
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
-import com.revenuecat.purchases.Package
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.AnalyticsManager
+import com.trx.consumer.extensions.params
 import com.trx.consumer.managers.BackendManager
-import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.IAPManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NativePurchaseManager
-import com.trx.consumer.models.common.AnalyticsPageModel.MEMBERSHIPS
 import com.trx.consumer.models.common.AnalyticsPageModel.RESTORE
+import com.trx.consumer.models.common.IAPErrorModel
 import com.trx.consumer.models.common.MembershipModel
 import com.trx.consumer.models.core.ResponseModel
 import com.trx.consumer.models.responses.MembershipsResponseModel
@@ -23,7 +22,6 @@ import kotlinx.coroutines.launch
 
 class MembershipsViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
-    private val cacheManager: CacheManager,
     private val nativePurchaseManager: NativePurchaseManager,
     private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), MembershipListener {
@@ -35,6 +33,7 @@ class MembershipsViewModel @ViewModelInject constructor(
     val eventShowCancelActive = CommonLiveEvent<Void>()
     val eventShowCancelMobile = CommonLiveEvent<Void>()
     val eventShowCancelWeb = CommonLiveEvent<Void>()
+    val eventShowRestore = CommonLiveEvent<Void>()
     val eventTapBack = CommonLiveEvent<Void>()
 
     private var memberships: List<MembershipModel> = emptyList()
@@ -45,16 +44,16 @@ class MembershipsViewModel @ViewModelInject constructor(
 
     fun doLoadView() {
         viewModelScope.launch {
-            analyticsManager.trackPageView(MEMBERSHIPS)
+            analyticsManager.trackPageView(RESTORE)
             eventShowHud.postValue(true)
             val membershipResponse = backendManager.memberships()
             if (!membershipResponse.isSuccess) {
-                eventLoadError.postValue("Could not load memberships")
+                eventLoadError.postValue(IAPErrorModel.MEMBERSHIPS.display)
                 return@launch
             }
             val userResponse = backendManager.user()
             if (!userResponse.isSuccess) {
-                eventLoadError.postValue("Could not load your memberships")
+                eventLoadError.postValue(IAPErrorModel.USER.display)
                 return@launch
             }
             try {
@@ -62,7 +61,6 @@ class MembershipsViewModel @ViewModelInject constructor(
                     membershipResponse.responseString
                 )
                 val user = UserResponseModel.parse(userResponse.responseString).user
-                cacheManager.user(user)
                 memberships = membershipsResponseModel.memberships(user.activeMemberships)
                 eventLoadView.postValue(memberships)
             } catch (e: Exception) {
@@ -82,50 +80,30 @@ class MembershipsViewModel @ViewModelInject constructor(
                 it.product.sku == model.revcatProductId
             } ?: run {
                 eventShowHud.postValue(false)
-                eventLoadError.postValue("Could not find a matching product identifier")
+                eventLoadError.postValue(IAPErrorModel.NO_PRODUCT_ID_MATCH.display)
                 return@launch
             }
 
             val purchase = IAPManager.shared.purchase(activity, matchingPackage)
             if (purchase.error != null) {
                 eventShowHud.postValue(false)
-                eventLoadError.postValue("There was an Play Store error")
+                eventLoadError.postValue(IAPErrorModel.PURCHASE.display)
                 return@launch
             }
 
-            val params = params(matchingPackage, model)
+            val params = matchingPackage.params(model.key)
             val response = backendManager.membershipAdd(params)
             if (response.isSuccess) {
                 doLoadView()
             } else {
-                eventLoadError.postValue("There was a purchase error")
+                eventLoadError.postValue(IAPErrorModel.MEMBERSHIP_ADD.display)
                 eventShowHud.postValue(false)
             }
         }
     }
 
     fun doTapRestore() {
-        viewModelScope.launch {
-            analyticsManager.trackPageView(RESTORE)
-            eventShowHud.postValue(true)
-            val packages = IAPManager.shared.offerings().packages
-            val model = IAPManager.shared.restore()
-            if (model.error != null) {
-                eventLoadError.postValue("There was a restore error")
-                eventShowHud.postValue(false)
-                return@launch
-            }
-
-            model.purchaserInfo?.activeSubscriptions?.forEach { productId ->
-                val matchingPackage = packages.firstOrNull { it.product.sku == productId }
-                val membership = memberships.firstOrNull { it.revcatProductId == productId }
-                if (matchingPackage != null && membership != null) {
-                    val params = params(matchingPackage, membership)
-                    backendManager.membershipAdd(params)
-                }
-            }
-            doLoadView()
-        }
+        eventShowRestore.call()
     }
 
     override fun doTapChoose(model: MembershipModel) {
@@ -148,15 +126,5 @@ class MembershipsViewModel @ViewModelInject constructor(
             }
             eventShowHud.postValue(false)
         }
-    }
-
-    fun params(matchingPackage: Package, membership: MembershipModel): HashMap<String, Any> {
-        return hashMapOf(
-            "subscriptionType" to membership.key,
-            "currency" to matchingPackage.product.priceCurrencyCode,
-            "subscriptionId" to matchingPackage.product.sku,
-            "paymentProcessor" to "REVCAT",
-            "priceInCents" to (matchingPackage.product.priceAmountMicros / 10000)
-        )
     }
 }

@@ -138,6 +138,15 @@
     <string name="player_end_workout_button_label">END WORKOUT</string>
     <string name="player_screen_cast_coming_soon_message">Coming Soon!</string>
 
+    <string name="restore_button_label">Restore Purchases</string>
+    <string name="restore_title">Welcome to the club!</string>
+    <string name="restore_description">With 3 new ways to train, TRX Training Club is your all-in-one virtual gym helping you to crush any goal. Anytime. Anywhere.</string>
+    <string name="restore_home_alert_primary_label">GO TO HOME</string>
+    <string name="restore_alert_error_primary_label">GO TO PLAY STORE</string>
+    <string name="restore_alert_error_secondary_label">DISMISS</string>
+    <string name="restore_alert_success_message">Purchases successfully restored</string>
+    <string name="restore_alert_success_primary_label">TAKE ME BACK</string>
+
     <string name="settings_title">SETTINGS</string>
     <string name="settings_email">Email</string>
     <string name="settings_memberships">Memberships</string>
@@ -254,13 +263,10 @@
     <string name="welcome_get_started_label">Get Started</string>
     <string name="welcome_state_welcome_button_label">Continue</string>
     <string name="welcome_state_promo_button_label">Promo</string>
-    <string name="welcome_state_restore_button_label">Restore</string>
     <string name="welcome_state_welcome_title">Welcome to the club,\n%1s</string>
     <string name="welcome_state_promo_title">Promo title</string>
-    <string name="welcome_state_restore_title">Restore title</string>
     <string name="welcome_state_welcome_description">With 3 new ways to train, TRX Training Club is your all-in-one virtual gym helping you to crush any goal. Anytime. Anywhere.</string>
     <string name="welcome_state_promo_description">Promo description</string>
-    <string name="welcome_state_restore_description">Restore description</string>
 
     <string name="workout_profile_label">Profile</string>
     <string name="workout_book_session_label">Book Session</string>
