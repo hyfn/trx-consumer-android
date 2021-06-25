@@ -21,7 +21,7 @@ enum class AnalyticsPageModel(val pageName: String) {
     SCHEDULE_TRAINER_VIRTUAL("Trainer Virtual Sessions Schedule"),
     SCHEDULE_USER_LIVE("User Live Sessions Schedule"),
     SCHEDULE_USER_VIRTUAL("User Virtual Sessions Schedule"),
-    SETTINGS("Sessions"),
+    SETTINGS("Settings"),
     TRAINER_DETAIL("Trainer"),
     VIDEO_PLAYER("On-Demand Video Player"),
     VIDEOS("On-Demand Playlist"),
