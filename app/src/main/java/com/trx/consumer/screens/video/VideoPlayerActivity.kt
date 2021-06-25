@@ -1,5 +1,6 @@
 package com.trx.consumer.screens.video
 
+import android.app.Application
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
@@ -21,8 +22,10 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonButton
 import com.trx.consumer.common.CommonImageButton
 import com.trx.consumer.common.CommonLabel
+import com.trx.consumer.core.MainApplication
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.margin
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.VideoModel
 import kotlinx.coroutines.CoroutineScope
@@ -31,13 +34,19 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class VideoPlayerActivity : BrightcovePlayer() {
 
     private lateinit var video: VideoModel
+
+    private var analyticsManager: AnalyticsManager? = null
+
     private var videoSizeKnown = false
     private var videoWidth = 0
     private var videoHeight = 0
+    private var isSeekBarDrag: Boolean = false
+    private var is25PercentTracked: Boolean = false
 
     private var orientationJob: Job? = null
 
@@ -49,12 +58,13 @@ class VideoPlayerActivity : BrightcovePlayer() {
         brightcoveVideoView = findViewById(R.id.viewPlayerContainer)
         setMediaController()
         super.onCreate(savedInstanceState)
-
         bind()
     }
 
+
     private fun bind() {
         video = NavigationManager.shared.params(intent) as VideoModel
+        analyticsManager = MainApplication.getInstance()?.analyticsManager
 
         findViewById<CommonLabel>(R.id.lblTitle).text = video.name
         findViewById<CommonLabel>(R.id.lblTrainer).text = video.trainer.fullName
@@ -135,6 +145,34 @@ class VideoPlayerActivity : BrightcovePlayer() {
         eventEmitter.on(EventType.CONFIGURATION_CHANGED) {
             handleOrientation(currentOrientation)
         }
+
+        eventEmitter.on(EventType.PROGRESS) { event ->
+            handleVideoProgress(event.properties)
+        }
+
+        eventEmitter.on(EventType.SEEKBAR_DRAGGING_STOP) {
+            isSeekBarDrag = true
+        }
+    }
+
+    private fun handleVideoProgress(properties: Map<String, Any>) {
+        val duration = properties["duration"] as Int
+        val playedDuration = properties["playheadPosition"] as Int
+        val percent = playedDuration.toDouble() / duration.toDouble()
+        if (percent == 0.25) {
+            is25PercentTracked = true
+            analyticsManager?.trackVideoComplete25(video)
+        }
+
+        if (isSeekBarDrag && percent >= 0.25 && !is25PercentTracked) {
+            is25PercentTracked = true
+            isSeekBarDrag = false
+            analyticsManager?.trackVideoComplete25(video)
+        }
+
+        if (percent == 1.0) analyticsManager?.trackVideoComplete100(video)
+
+
     }
 
     private fun setMediaController() {
@@ -204,4 +242,6 @@ class VideoPlayerActivity : BrightcovePlayer() {
 
         super.onDestroy()
     }
+
+
 }
