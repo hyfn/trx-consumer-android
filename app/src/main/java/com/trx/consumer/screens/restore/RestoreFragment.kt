@@ -25,7 +25,6 @@ class RestoreFragment : BaseFragment(R.layout.fragment_restore) {
         ) == R.id.onboarding_fragment
 
         viewBinding.apply {
-            btnBack.action { viewModel.doTapBack() }
             btnClose.action { viewModel.doTapClose() }
             btnRestore.action { viewModel.doTapRestore() }
         }

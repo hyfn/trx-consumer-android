@@ -139,8 +139,9 @@
     <string name="player_screen_cast_coming_soon_message">Coming Soon!</string>
 
     <string name="restore_button_label">Restore Purchases</string>
-    <string name="restore_title">Welcome to the club!</string>
-    <string name="restore_description">With 3 new ways to train, TRX Training Club is your all-in-one virtual gym helping you to crush any goal. Anytime. Anywhere.</string>
+    <string name="restore_trx_training_label">TRX TRAINING</string>
+    <string name="restore_title">Restore your Purchases</string>
+    <string name="restore_description">Welcome to the completely redesigned TRX Training Club. Already had a subscription to the TRX App? Tap here to get your access to hundreds of new workouts across 7 different training programs.</string>
     <string name="restore_home_alert_primary_label">GO TO HOME</string>
     <string name="restore_alert_error_primary_label">GO TO PLAY STORE</string>
     <string name="restore_alert_error_secondary_label">DISMISS</string>

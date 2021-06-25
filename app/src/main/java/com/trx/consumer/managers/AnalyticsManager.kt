@@ -4,6 +4,7 @@ import com.amplitude.api.AmplitudeClient
 import com.trx.consumer.models.common.AnalyticsEventModel.CANCEL_SUBSCRIPTION
 import com.trx.consumer.models.common.AnalyticsEventModel.FILTER_ON_DEMAND
 import com.trx.consumer.models.common.AnalyticsEventModel.PAGE_VIEW
+import com.trx.consumer.models.common.AnalyticsEventModel.PURCHASE_SUBSCRIPTION
 import com.trx.consumer.models.common.AnalyticsEventModel.SIGN_IN
 import com.trx.consumer.models.common.AnalyticsEventModel.SIGN_UP
 import com.trx.consumer.models.common.AnalyticsEventModel.VIDEO_COMPLETE_100
@@ -18,11 +19,13 @@ import com.trx.consumer.models.common.AnalyticsPropertyModel.PAGE_TITLE
 import com.trx.consumer.models.common.AnalyticsPropertyModel.PLATFORM
 import com.trx.consumer.models.common.AnalyticsPropertyModel.SOCIAL_NETWORK
 import com.trx.consumer.models.common.AnalyticsPropertyModel.SUBSCRIPTION_ID
+import com.trx.consumer.models.common.AnalyticsPropertyModel.SUBSCRIPTION_PRICE
 import com.trx.consumer.models.common.AnalyticsPropertyModel.TRAINER_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.TRAINER_NAME
 import com.trx.consumer.models.common.AnalyticsPropertyModel.VIDEO_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.VIDEO_NAME
 import com.trx.consumer.models.common.FilterOptionsModel
+import com.trx.consumer.models.common.MembershipModel
 import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
 import org.json.JSONObject
@@ -42,6 +45,15 @@ class AnalyticsManager(private val configManager: ConfigManager) {
         )
 
         amplitudeClient.logEvent(CANCEL_SUBSCRIPTION.eventName, JSONObject(properties))
+    }
+
+    fun trackPurchaseSubscription(model: MembershipModel) {
+        val properties = mapOf<String, Any>(
+            SUBSCRIPTION_ID.propertyName to model.revcatProductId,
+            SUBSCRIPTION_PRICE.propertyName to model.priceInCents
+        )
+
+        amplitudeClient.logEvent(PURCHASE_SUBSCRIPTION.eventName, JSONObject(properties))
     }
 
     fun trackFilterOnDemand(model: FilterOptionsModel) {

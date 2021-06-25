@@ -21,6 +21,7 @@ import com.trx.consumer.screens.memberships.list.MembershipListener
 import kotlinx.coroutines.launch
 
 class MembershipsViewModel @ViewModelInject constructor(
+    private val analyticsManager: AnalyticsManager,
     private val backendManager: BackendManager,
     private val nativePurchaseManager: NativePurchaseManager,
     private val analyticsManager: AnalyticsManager
@@ -89,6 +90,7 @@ class MembershipsViewModel @ViewModelInject constructor(
                 eventLoadError.postValue(IAPErrorModel.PURCHASE.display)
                 return@launch
             }
+            analyticsManager.trackPurchaseSubscription(model)
 
             val params = matchingPackage.params(model.key)
             val response = backendManager.membershipAdd(params)
