@@ -33,16 +33,16 @@ class CommonStateButton @JvmOverloads constructor(
             typeArray.recycle()
         }
         buttonDrawable = null
-        initTypeface()
+        setButtonDrawble()
     }
 
-    private fun initTypeface() {
+    private fun setButtonDrawble() {
         buttonDrawable = if (isChecked) checkedStateDrawable else plainStateDrawable
     }
 
     fun onChecked(action: (isChecked: Boolean) -> Unit) {
         setOnCheckedChangeListener { _, isChecked ->
-            initTypeface()
+            setButtonDrawble()
             action(isChecked)
         }
     }
