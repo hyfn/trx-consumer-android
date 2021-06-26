@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.trx.consumer.common.CommonView
+    <RelativeLayout
         android:id="@+id/fmPlayerContainer"
         android:layout_width="0dp"
         android:layout_height="match_parent"

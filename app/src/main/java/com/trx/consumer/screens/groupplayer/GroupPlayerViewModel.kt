@@ -90,10 +90,13 @@ class GroupPlayerViewModel @ViewModelInject constructor (
     }
 
     override fun doReceiveMessage(clientId: String, message: String) {
-        LogManager.log("doReceiveMessage")
+        LogManager.log("doReceiveMessage: $clientId $message")
     }
 
     override fun doReportError(message: String) {
         LogManager.log("doReportError")
+        eventLoadError.postValue(message)
     }
+
+    //endregion
 }
