@@ -318,7 +318,7 @@ class LivePlayerHandler(val context: Context) {
         val promise: Promise<Any> = Promise()
         livePlayerActivity = null
         clearContextMenuItemFlag("localView")
-        if (localMedia != null) {
+        if (localMedia == null) {
             promise.resolve(null)
         } else {
             localMedia?.stop()?.then({ // Tear down the layout manager.
