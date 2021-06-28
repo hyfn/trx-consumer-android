@@ -30,7 +30,6 @@ class CommonStateButton @JvmOverloads constructor(
             plainStateDrawable = getDrawable(R.styleable.CommonStateButton_plainState)
             defaultStateDrawable = checkedStateDrawable ?: plainStateDrawable
                     ?: CompoundButtonCompat.getButtonDrawable(this@CommonStateButton)
-            buttonDrawable = null
             setButtonDrawable()
         }
     }
@@ -55,7 +54,6 @@ class CommonStateButton @JvmOverloads constructor(
             PLAIN -> plainStateDrawable = defaultStateDrawable
         }
 
-        buttonDrawable = null
         setButtonDrawable()
     }
 
