@@ -1,6 +1,5 @@
 package com.trx.consumer.screens.videos
 
-import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope

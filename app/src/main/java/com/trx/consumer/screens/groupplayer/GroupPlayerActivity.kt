@@ -13,10 +13,8 @@ import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.LiveResponseModel
-import fm.liveswitch.IAction1
-import com.trx.consumer.managers.AnalyticsManager
-import com.trx.consumer.models.common.AnalyticsPageModel.GROUP_PLAYER
 import dagger.hilt.android.AndroidEntryPoint
+import fm.liveswitch.IAction1
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,14 +36,10 @@ class GroupPlayerActivity : AppCompatActivity() {
 
     //region Initializers
 
-    @Inject
-    lateinit var analyticsManager: AnalyticsManager
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityGroupPlayerBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-
         bind()
     }
 
@@ -72,21 +66,8 @@ class GroupPlayerActivity : AppCompatActivity() {
             eventTapCast.observe(this@GroupPlayerActivity, handleTapCast)
             eventTapClose.observe(this@GroupPlayerActivity, handleTapClose)
 
+            doTrackPageView()
             doLoadVideo()
-        }
-        
-        binding = ActivityGroupPlayerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        doTrackPageView()
-
-        binding.apply {
-            btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
-            btnClock.onChecked { isChecked -> handleTapClock(isChecked) }
-            btnMicrophone.onChecked { isChecked -> handleTapMicrophone(isChecked) }
-            btnShare.onChecked { isChecked -> handleTapShare(isChecked) }
-            btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
-            btnEnd.action { handleTapEnd() }
         }
     }
 
@@ -202,8 +183,4 @@ class GroupPlayerActivity : AppCompatActivity() {
     }
 
     //endregion
-    
-    fun doTrackPageView() {
-        analyticsManager.trackPageView(GROUP_PLAYER)
-    }
 }

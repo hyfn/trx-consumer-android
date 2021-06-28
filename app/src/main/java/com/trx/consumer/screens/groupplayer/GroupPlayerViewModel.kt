@@ -5,14 +5,17 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.BuildConfig.kFMDevLiveAccessKey
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsPageModel.GROUP_PLAYER
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.LiveResponseModel
 import kotlinx.coroutines.launch
 
 class GroupPlayerViewModel @ViewModelInject constructor (
-    private val backendManager: BackendManager
+    private val backendManager: BackendManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), GroupPlayerListener {
 
     //region Objects
@@ -96,6 +99,10 @@ class GroupPlayerViewModel @ViewModelInject constructor (
     override fun doReportError(message: String) {
         LogManager.log("doReportError")
         eventLoadError.postValue(message)
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(GROUP_PLAYER)
     }
 
     //endregion
