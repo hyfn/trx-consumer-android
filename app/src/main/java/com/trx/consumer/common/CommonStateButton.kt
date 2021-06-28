@@ -49,9 +49,14 @@ class CommonStateButton @JvmOverloads constructor(
 
     fun image(drawable: Int, state: Int? = null) {
         defaultStateDrawable = ContextCompat.getDrawable(context, drawable)
-        when (state) {
-            ACTIVE -> checkedStateDrawable = defaultStateDrawable
-            PLAIN -> plainStateDrawable = defaultStateDrawable
+        state?.let {
+            when (state) {
+                ACTIVE -> checkedStateDrawable = defaultStateDrawable
+                PLAIN -> plainStateDrawable = defaultStateDrawable
+            }
+        } ?: run {
+            checkedStateDrawable = null
+            plainStateDrawable = null
         }
 
         setButtonDrawable()
