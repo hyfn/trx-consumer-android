@@ -2,12 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.trx.consumer.common.CommonView
-        android:id="@+id/fmPlayerContainer"
+    <RelativeLayout
+        android:id="@+id/fmPrivatePlayerContainer"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:clickable="true"
@@ -36,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
          <com.trx.consumer.common.CommonCheckBox
-            android:id="@+id/btnMicrophone"
+            android:id="@+id/btnMic"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:button="@drawable/ic_tab_microphone"
@@ -50,23 +49,23 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:button="@drawable/ic_tab_clock"
-            app:layout_constraintBottom_toTopOf="@+id/btnShare"
+            app:layout_constraintBottom_toTopOf="@+id/btnCast"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnMicrophone" />
+            app:layout_constraintTop_toBottomOf="@+id/btnMic" />
 
          <com.trx.consumer.common.CommonCheckBox
-            android:id="@+id/btnShare"
+            android:id="@+id/btnCast"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:button="@drawable/ic_tab_share"
-            app:layout_constraintBottom_toTopOf="@+id/btnEnd"
+            app:layout_constraintBottom_toTopOf="@+id/btnClose"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnClock" />
 
         <com.trx.consumer.common.CommonImageButton
-            android:id="@+id/btnEnd"
+            android:id="@+id/btnClose"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginBottom="24dp"

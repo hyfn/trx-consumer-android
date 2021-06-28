@@ -246,7 +246,12 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handlePrivatePlayer = Observer<Void> {
-        NavigationManager.shared.presentActivity(requireActivity(), PrivatePlayerActivity::class.java)
+        val model = WorkoutModel.testLive()
+        NavigationManager.shared.presentActivity(
+            requireActivity(),
+            PrivatePlayerActivity::class.java,
+            model
+        )
     }
 
     //endregion
