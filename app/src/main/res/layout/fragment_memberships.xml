@@ -41,10 +41,27 @@
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/bottom_bar_height">
 
+            <com.trx.consumer.common.CommonLabel
+                android:id="@+id/lblTitle"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/atcarquette_bold"
+                android:gravity="center_vertical|start"
+                android:text="@string/memberships_title"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textAllCaps="true"
+                tools:ignore="SmallSp" />
+
             <com.trx.consumer.common.CommonRecyclerView
                 android:id="@+id/rvMemberships"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -15,6 +15,9 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.LiveResponseModel
 import dagger.hilt.android.AndroidEntryPoint
 import fm.liveswitch.IAction1
+import com.trx.consumer.managers.AnalyticsManager
+import com.trx.consumer.models.common.AnalyticsPageModel.PRIVATE_PLAYER
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,6 +39,9 @@ class PrivatePlayerActivity : AppCompatActivity() {
 
     //region Initializers
 
+    @Inject
+    lateinit var analyticsManager: AnalyticsManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityPrivatePlayerBinding.inflate(layoutInflater)
@@ -43,6 +49,8 @@ class PrivatePlayerActivity : AppCompatActivity() {
 
         bind()
 
+        doTrackPageView()
+        
         viewBinding.apply {
             btnCamera.onChecked { isChecked -> viewModel.doTapCamera(isChecked) }
             btnClock.onChecked { isChecked -> viewModel.doTapClock(isChecked) }
@@ -192,4 +200,8 @@ class PrivatePlayerActivity : AppCompatActivity() {
     }
 
     //endregion
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(PRIVATE_PLAYER)
+    }
 }

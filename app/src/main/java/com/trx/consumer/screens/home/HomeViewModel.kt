@@ -7,6 +7,7 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
+import com.trx.consumer.models.common.AnalyticsPageModel.HOME
 import com.trx.consumer.models.common.BannerModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.UserModel
@@ -120,5 +121,8 @@ class HomeViewModel @ViewModelInject constructor(
         eventShowVideo.postValue(model)
     }
 
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(HOME)
+    }
     //endregion
 }

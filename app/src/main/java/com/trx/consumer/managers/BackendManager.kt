@@ -13,6 +13,7 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
     suspend fun updateBeforeLogout() {
         cacheManager.accessToken(null)
         cacheManager.user(null)
+        IAPManager.shared.reset()
     }
 
     private suspend fun getHeaders(isAuthenticated: Boolean): HashMap<String, String> {
