@@ -47,7 +47,7 @@ class CommonStateButton @JvmOverloads constructor(
         }
     }
 
-    fun image(drawable: Int, state: Int?) {
+    fun image(drawable: Int, state: Int? = null) {
         defaultStateDrawable = ContextCompat.getDrawable(context, drawable)
         when (state) {
             ACTIVE -> checkedStateDrawable = defaultStateDrawable
