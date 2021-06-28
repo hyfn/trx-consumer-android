@@ -5,7 +5,6 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.preferencesKey
 import androidx.datastore.preferences.createDataStore
 import com.google.gson.Gson
-import com.trx.consumer.BuildConfig.isVersion2Enabled
 import com.trx.consumer.models.common.UserModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
@@ -104,7 +103,7 @@ class CacheManager(context: Context) {
     suspend fun didShowRestore(): Boolean {
         return withContext(Dispatchers.IO) {
             dataStore.data.map {
-                if (isVersion2Enabled) true else it[kDidShowRestore]
+                it[kDidShowRestore]
             }.firstOrNull() ?: false
         }
     }

@@ -31,6 +31,7 @@ class ScheduleFragment : BaseFragment(R.layout.fragment_schedule) {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
 
+            doTrackPageView()
             doLoadView()
         }
     }

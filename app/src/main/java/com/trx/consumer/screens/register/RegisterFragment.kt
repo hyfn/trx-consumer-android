@@ -60,6 +60,7 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
             eventValidateError.observe(viewLifecycleOwner, handleValidateError)
             eventDismissKeyboard.observe(viewLifecycleOwner, handleDismissKeyboard)
 
+            doTrackPageView()
             doLoadView()
         }
     }

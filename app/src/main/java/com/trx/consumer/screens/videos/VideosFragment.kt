@@ -46,6 +46,7 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventTapProfile.observe(viewLifecycleOwner, handleTapProfile)
 
+            doTrackPageView()
             doLoadView()
         }
     }
@@ -61,10 +62,7 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
             lblSubtitle.text = model.numberOfVideosDisplay
             imgTrainerPhoto.load(model.trainer.profilePhoto)
             lblTrainerName.text = model.trainer.fullName
-            btnTrainerProfile.apply {
-                isGone = model.trainer.fullName.isEmpty()
-                action { viewModel.doTapProfile() }
-            }
+            btnTrainerProfile.action { viewModel.doTapProfile() }
 
             model.description.let { description ->
                 lblSummary.text = if (description.isNotEmpty()) {

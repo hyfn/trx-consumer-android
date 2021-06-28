@@ -4,9 +4,12 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsPageModel.VIDEO_PLAYER
+import com.trx.consumer.models.common.AnalyticsPageModel.WORKOUT
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.BookingsResponseModel
@@ -17,7 +20,8 @@ import kotlinx.coroutines.launch
 
 class WorkoutViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
-    private val cacheManager: CacheManager
+    private val cacheManager: CacheManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel() {
 
     var model: WorkoutModel = WorkoutModel()
@@ -82,6 +86,7 @@ class WorkoutViewModel @ViewModelInject constructor(
                 WorkoutViewState.VIDEO -> {
                     if (user.entitlements.onDemand) {
                         eventTapStartWorkout.postValue(model)
+                        analyticsManager.trackPageView(VIDEO_PLAYER)
                     } else {
                         eventShowPermissionAlert.call()
                     }
@@ -89,6 +94,7 @@ class WorkoutViewModel @ViewModelInject constructor(
                 WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> {
                     if (model.bookViewStatus == BookingViewState.JOIN) {
                         eventTapStartWorkout.postValue(model)
+                        analyticsManager.trackPageView(VIDEO_PLAYER)
                     } else {
                         user.card?.let {
                             eventTapBookLive.postValue(model)
@@ -102,5 +108,9 @@ class WorkoutViewModel @ViewModelInject constructor(
                 else -> LogManager.log("WorkoutViewModel.doTapPrimary")
             }
         }
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(WORKOUT)
     }
 }

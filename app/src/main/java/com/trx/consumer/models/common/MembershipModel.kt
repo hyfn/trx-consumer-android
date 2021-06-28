@@ -1,6 +1,7 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
+import com.trx.consumer.extensions.capitalized
 import com.trx.consumer.extensions.format
 import com.trx.consumer.extensions.map
 import com.trx.consumer.extensions.toPrice
@@ -8,6 +9,7 @@ import com.trx.consumer.screens.memberships.list.MembershipViewState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.Date
+import java.util.TimeZone
 
 @Parcelize
 class MembershipModel(
@@ -20,24 +22,38 @@ class MembershipModel(
     val promoTitle: String = "",
     val promoDescription: String = "",
     val billingDescription: String = "",
-    val hideWhenNotSubscribed: Boolean = false,
+    val showInMobile: Boolean = false,
     val revcatProductId: String = "",
     val entitlements: EntitlementsModel = EntitlementsModel(),
     var currentPeriodEnd: Long = 0,
-    var currentPeriodStart: Long = 0
+    var currentPeriodStart: Long = 0,
+    val billingPeriod: String = ""
 ) : Parcelable {
 
     val cost: String
-        get() = "${(priceInCents / 100.0).toPrice()} per Month"
+        get() {
+            val billingPeriodDisplay = if (billingPeriod.isNotEmpty()) {
+                "per ${billingPeriod.capitalized()}"
+            } else {
+                ""
+            }
+            return "${(priceInCents / 100.0).toPrice()} $billingPeriodDisplay"
+        }
 
     val description: String
         get() = valueProps.joinToString(separator = "\n")
 
     val lastBillDate: String
-        get() = Date(currentPeriodStart * 1000).format("MM/dd/YYYY")
+        get() = Date(currentPeriodStart * 1000).format("MM/dd/YYYY", zone = TimeZone.getDefault())
 
     val nextBillDate: String
-        get() = Date(currentPeriodEnd * 1000).format("MM/dd/YYYY")
+        get() = Date(currentPeriodEnd * 1000).format("MM/dd/YYYY", zone = TimeZone.getDefault())
+
+    val isActive: Boolean
+        get() = primaryState == MembershipViewState.ACTIVE
+
+    val isCancelled: Boolean
+        get() = primaryState == MembershipViewState.CANCELLED
 
     companion object {
 
@@ -54,11 +70,12 @@ class MembershipModel(
                 promoTitle = jsonObject.optString("promoTitle"),
                 promoDescription = jsonObject.optString("promoDescription"),
                 billingDescription = jsonObject.optString("billingDescription"),
-                hideWhenNotSubscribed = jsonObject.optBoolean("hideWhenNotSubscribed"),
+                showInMobile = jsonObject.optBoolean("showInMobile"),
                 revcatProductId = productId,
                 entitlements = jsonObject.optJSONObject("permissions")?.let {
                     EntitlementsModel.parse(it)
-                } ?: EntitlementsModel()
+                } ?: EntitlementsModel(),
+                billingPeriod = jsonObject.optString("billingPeriod")
             )
         }
 

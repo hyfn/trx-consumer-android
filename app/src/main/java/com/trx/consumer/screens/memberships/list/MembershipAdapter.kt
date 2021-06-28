@@ -18,7 +18,6 @@ class MembershipAdapter(
     companion object {
         private const val TYPE_EMPTY = -1
         private const val TYPE_MEMBERSHIP_ROW = 1
-        private const val TYPE_MEMBERSHIP_HEADER = 2
     }
 
     private var items: MutableList<Any> = mutableListOf()
@@ -29,10 +28,6 @@ class MembershipAdapter(
                 TYPE_MEMBERSHIP_ROW -> MembershipsViewHolder(
                     LayoutInflater.from(parent.context)
                         .inflate(R.layout.row_membership, parent, false)
-                )
-                TYPE_MEMBERSHIP_HEADER -> MembershipsHeaderViewHolder(
-                    LayoutInflater.from(parent.context)
-                        .inflate(R.layout.row_membership_header, parent, false)
                 )
                 else -> EmptyViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.row_empty, parent, false)
@@ -50,21 +45,19 @@ class MembershipAdapter(
         val item = items[position]
         when (holder) {
             is MembershipsViewHolder -> holder.setup(item as MembershipModel, listener)
-            is MembershipsHeaderViewHolder -> holder.setup(item as String)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
             is MembershipModel -> TYPE_MEMBERSHIP_ROW
-            is String -> TYPE_MEMBERSHIP_HEADER
             else -> TYPE_EMPTY
         }
     }
 
     override fun getItemCount(): Int = items.size
 
-    fun update(items: List<Any>) {
+    fun update(items: List<MembershipModel>) {
         this.items.clear()
         this.items.addAll(items)
         this.notifyDataSetChanged()

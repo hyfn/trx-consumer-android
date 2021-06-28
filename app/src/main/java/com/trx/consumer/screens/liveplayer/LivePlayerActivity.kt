@@ -16,8 +16,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
 import com.trx.consumer.extensions.checkLivePermission
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.AnalyticsPageModel.LIVE_PLAYER
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.LiveResponseModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,10 +51,14 @@ class LivePlayerActivity : AppCompatActivity() {
     var container: RelativeLayout? = null
     lateinit var layout: FrameLayout
 
+    @Inject
+    lateinit var analyticsManager: AnalyticsManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_live_player)
 
+        doTrackPageView()
         bind()
     }
 
@@ -506,4 +512,9 @@ class LivePlayerActivity : AppCompatActivity() {
     }
 
     //endregion
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(LIVE_PLAYER)
+    }
+
 }

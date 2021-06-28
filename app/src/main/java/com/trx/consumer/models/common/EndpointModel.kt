@@ -86,6 +86,7 @@ enum class EndpointModel {
                 JOIN,
                 LOGOUT,
                 PAYMENT_ADD,
+                PROMOS,
                 PAYMENT_DELETE,
                 MEMBERSHIP_ADD,
                 MEMBERSHIP_DELETE,

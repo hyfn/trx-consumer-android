@@ -10,6 +10,7 @@ import com.trx.consumer.models.common.AnalyticsEventModel.VIDEO_COMPLETE_100
 import com.trx.consumer.models.common.AnalyticsEventModel.VIDEO_COMPLETE_25
 import com.trx.consumer.models.common.AnalyticsEventModel.VIEW_VIDEO
 import com.trx.consumer.models.common.AnalyticsEventModel.VIEW_VIDEO_DETAIL
+import com.trx.consumer.models.common.AnalyticsPageModel
 import com.trx.consumer.models.common.AnalyticsPropertyModel
 import com.trx.consumer.models.common.AnalyticsPropertyModel.DURATION
 import com.trx.consumer.models.common.AnalyticsPropertyModel.ON_DEMAND_FILTER
@@ -22,6 +23,7 @@ import com.trx.consumer.models.common.AnalyticsPropertyModel.TRAINER_NAME
 import com.trx.consumer.models.common.AnalyticsPropertyModel.VIDEO_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.VIDEO_NAME
 import com.trx.consumer.models.common.FilterOptionsModel
+import com.trx.consumer.models.common.MembershipModel
 import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
 import org.json.JSONObject
@@ -43,14 +45,23 @@ class AnalyticsManager(private val configManager: ConfigManager) {
         amplitudeClient.logEvent(CANCEL_SUBSCRIPTION.eventName, JSONObject(properties))
     }
 
+    fun trackPurchaseSubscription(model: MembershipModel) {
+        val properties = mapOf<String, Any>(
+            SUBSCRIPTION_ID.propertyName to model.revcatProductId,
+            SUBSCRIPTION_PRICE.propertyName to model.priceInCents
+        )
+
+        amplitudeClient.logEvent(PURCHASE_SUBSCRIPTION.eventName, JSONObject(properties))
+    }
+
     fun trackFilterOnDemand(model: FilterOptionsModel) {
         val properties = mapOf<String, Any>(ON_DEMAND_FILTER.propertyName to model.value)
 
         amplitudeClient.logEvent(FILTER_ON_DEMAND.eventName, JSONObject(properties))
     }
 
-    fun trackPageView(value: Any?) {
-        val properties = value?.let { mapOf(PAGE_TITLE.propertyName to value) } ?: mapOf()
+    fun trackPageView(value: AnalyticsPageModel) {
+        val properties = mapOf(PAGE_TITLE.propertyName to value.trackingFormat)
 
         amplitudeClient.logEvent(PAGE_VIEW.eventName, JSONObject(properties))
     }

@@ -60,6 +60,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
             eventTapBanner.observe(viewLifecycleOwner, handleTapBanner)
 
+            doTrackPageView()
             doLoadView()
             doLoadBanner()
             doLoadVideos()
