@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
+import com.trx.consumer.databinding.ActivityPrivatePlayerBinding
 import com.trx.consumer.extensions.checkLivePermission
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.LogManager
@@ -35,7 +36,9 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LivePlayerActivity : AppCompatActivity() {
 
+    //region Objects
     private val viewModel: LivePlayerViewModel by viewModels()
+    private lateinit var viewBinding: ActivityPrivatePlayerBinding
 
     @Inject
     lateinit var livePlayerHandler: LivePlayerHandler
@@ -56,6 +59,7 @@ class LivePlayerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewBinding = ActivityPrivatePlayerBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_live_player)
 
         doTrackPageView()
@@ -516,5 +520,4 @@ class LivePlayerActivity : AppCompatActivity() {
     fun doTrackPageView() {
         analyticsManager.trackPageView(LIVE_PLAYER)
     }
-
 }

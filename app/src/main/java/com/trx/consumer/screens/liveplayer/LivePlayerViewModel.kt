@@ -23,8 +23,12 @@ class LivePlayerViewModel @ViewModelInject constructor (
 
     //region Events
 
-    val eventLoadError = CommonLiveEvent<String>()
     val eventLoadVideo = CommonLiveEvent<WorkoutModel>()
+    val eventLoadError = CommonLiveEvent<String>()
+    val eventTapCamera = CommonLiveEvent<Boolean>()
+    val eventTapMic = CommonLiveEvent<Boolean>()
+    val eventTapClock = CommonLiveEvent<Boolean>()
+    val eventTapCast = CommonLiveEvent<Boolean>()
     val eventTapClose = CommonLiveEvent<Void>()
 
     val eventShowHud = CommonLiveEvent<Boolean>()
