@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.liveplayer.LivePlayerActivity">
+
+    <FrameLayout
+        android:id="@+id/fmPlayerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/navView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/fmPlayerContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/green" />
+
+    </FrameLayout>
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/navView"
+        android:layout_width="75dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.trx.consumer.common.CommonCheckBox
+            android:id="@+id/btnCamera"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="24dp"
+            android:button="@drawable/ic_tab_camera"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.trx.consumer.common.CommonCheckBox
+            android:id="@+id/btnMic"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:button="@drawable/ic_tab_microphone"
+            app:layout_constraintBottom_toTopOf="@+id/btnClock"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnCamera" />
+
+        <com.trx.consumer.common.CommonCheckBox
+            android:id="@+id/btnClock"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:button="@drawable/ic_tab_clock"
+            app:layout_constraintBottom_toTopOf="@+id/btnCast"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnMic" />
+
+        <com.trx.consumer.common.CommonCheckBox
+            android:id="@+id/btnCast"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:button="@drawable/ic_tab_share"
+            app:layout_constraintBottom_toTopOf="@+id/btnClose"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnClock" />
+
+        <com.trx.consumer.common.CommonImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/ic_img_end_plain"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </com.trx.consumer.common.CommonView>
+
+</com.trx.consumer.common.CommonView>
