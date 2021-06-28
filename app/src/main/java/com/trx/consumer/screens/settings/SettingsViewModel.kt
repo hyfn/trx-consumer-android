@@ -4,9 +4,10 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
-import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsPageModel.SETTINGS
 import com.trx.consumer.models.common.SettingsModel
 import com.trx.consumer.models.common.SettingsType
 import com.trx.consumer.screens.settings.option.SettingsOptionListener
@@ -16,7 +17,8 @@ import kotlinx.coroutines.launch
 
 class SettingsViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
-    private val cacheManager: CacheManager
+    private val cacheManager: CacheManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), SettingsOptionListener {
 
     //region Events
@@ -30,8 +32,8 @@ class SettingsViewModel @ViewModelInject constructor(
     val eventTapLogout = CommonLiveEvent<Void>()
     val eventTapBack = CommonLiveEvent<Void>()
     val eventTapTest = CommonLiveEvent<Void>()
-    val eventTapMembership = CommonLiveEvent<Void>()
     val eventTapMaintenance = CommonLiveEvent<Unit>()
+    val eventTapRestore = CommonLiveEvent<Unit>()
 
     val eventLogOut = CommonLiveEvent<Void>()
 
@@ -53,10 +55,10 @@ class SettingsViewModel @ViewModelInject constructor(
             SettingsType.GETTING_STARTED -> eventTapGettingStarted.call()
             SettingsType.CONTACT_SUPPORT -> eventTapContactSupport.call()
             SettingsType.TERMS_AND_CONDITIONS -> eventTapTermsAndConditions.call()
-            SettingsType.RESTORE -> LogManager.log("doTapSetting - RESTORE")
+            SettingsType.RESTORE -> eventTapRestore.call()
             SettingsType.LOGOUT -> eventTapLogout.call()
             SettingsType.TEST_SCREENS -> eventTapTest.call()
-            SettingsType.MEMBERSHIPS -> eventTapMembership.call()
+            SettingsType.MEMBERSHIPS -> eventTapMemberships.call()
             SettingsType.SHOW_MAINTENANCE -> eventTapMaintenance.call()
         }
     }
@@ -72,5 +74,8 @@ class SettingsViewModel @ViewModelInject constructor(
         eventLogOut.call()
     }
 
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(SETTINGS)
+    }
     //endregion
 }

@@ -32,6 +32,9 @@ import java.util.ArrayList
 import javax.inject.Inject
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import com.trx.consumer.managers.AnalyticsManager
+import com.trx.consumer.models.common.AnalyticsPageModel.LIVE_PLAYER
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LivePlayerActivity : AppCompatActivity() {
@@ -50,10 +53,15 @@ class LivePlayerActivity : AppCompatActivity() {
     var container: RelativeLayout? = null
     var layout: FrameLayout? = null
 
+    @Inject
+    lateinit var analyticsManager: AnalyticsManager
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_live_player)
 
+        doTrackPageView()
         bind()
     }
 
@@ -464,5 +472,9 @@ class LivePlayerActivity : AppCompatActivity() {
             }
         }
         return 0
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(LIVE_PLAYER)
     }
 }

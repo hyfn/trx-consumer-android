@@ -60,8 +60,8 @@ android {
         applicationId "member.android.trxshop"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 3
-        versionName "0.1.1"
+        versionCode 1000003
+        versionName "10.0.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -123,9 +123,9 @@ android {
             buildConfigField "Integer", "kZipcodeMinLength", "5"
             buildConfigField "Integer", "kDefaultTextLimit", "40"
             buildConfigField "Integer", "kPasswordMinLength", "6"
+            buildConfigField "String", "trxUrl", '"https://digital.trxtraining.com"'
             buildConfigField "String", "isMaintenanceMode", '"android_is_maintenance_mode"'
             buildConfigField "String", "minimumBuildNumber", '"android_minimum_build_number"'
-            buildConfigField "String", "trxUrl", '"http://trx.sprintfwd.com"'
             buildConfigField "String", "kProductsUrl", '"https://store.trxtraining.com"'
             buildConfigField "String", "kContactSupportUrl", '"https://www.trxtraining.com/contact-us"'
             buildConfigField "String", "kTermsConditionsUrl", '"https://www.trxtraining.com/terms-of-use"'

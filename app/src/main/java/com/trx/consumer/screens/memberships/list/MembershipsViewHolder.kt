@@ -28,17 +28,17 @@ class MembershipsViewHolder(view: View) : CommonViewHolder(view) {
         lblLastBillDate.text = item.lastBillDate
 
         val state = item.primaryState
-        val isActive = state == MembershipViewState.ACTIVE || state == MembershipViewState.BASE
+        val isActive = item.isActive || item.isCancelled || state == MembershipViewState.BASE
         btnChoose.apply {
             text = context.getString(state.buttonText)
             textColor(state.buttonTextColor)
             bgColor(state.buttonBgColor)
             action { if (!isActive) listener.doTapChoose(item) }
         }
-        viewBottom.isVisible = state == MembershipViewState.ACTIVE
+        viewBottom.isVisible = item.isActive || item.isCancelled
         btnCancel.apply {
             text = context.getString(state.cancelButtonText)
-            action { listener.doTapCancel(item) }
+            action { if (!item.isCancelled) listener.doTapCancel(item) }
         }
     }
 }

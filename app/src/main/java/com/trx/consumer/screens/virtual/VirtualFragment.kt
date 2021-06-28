@@ -70,7 +70,8 @@ class VirtualFragment : BaseFragment(R.layout.fragment_virtual) {
             eventShowWorkout.observe(viewLifecycleOwner, handleShowWorkout)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
 
-            viewModel.doLoadView()
+            doTrackPageView()
+            doLoadView()
         }
     }
 

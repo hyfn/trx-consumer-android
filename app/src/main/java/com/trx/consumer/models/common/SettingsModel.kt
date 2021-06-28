@@ -17,7 +17,7 @@ class SettingsModel {
         get() =
             when (type) {
                 SettingsType.MEMBERSHIPS -> {
-                    val size = user?.memberships?.size ?: 0
+                    val size = user?.activeMemberships?.size ?: 0
                     "$size active membership${if (size == 1) "" else "s"}"
                 }
                 SettingsType.EMAIL -> user?.email ?: "N/A"
@@ -49,6 +49,7 @@ class SettingsModel {
             return mutableListOf<Any>().apply {
                 add(create(user, SettingsType.EMAIL))
                 add(create(user, SettingsType.MEMBERSHIPS))
+                add(create(user, SettingsType.RESTORE))
                 add(0)
                 add(create(null, SettingsType.SHOP))
                 add(create(null, SettingsType.GETTING_STARTED))
