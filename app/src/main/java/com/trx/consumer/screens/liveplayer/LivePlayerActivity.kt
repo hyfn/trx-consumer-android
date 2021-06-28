@@ -17,8 +17,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
+import com.trx.consumer.models.common.AnalyticsPageModel.LIVE_PLAYER
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.LiveResponseModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,11 +31,6 @@ import fm.liveswitch.Log
 import fm.liveswitch.Promise
 import fm.liveswitch.VideoEncodingConfig
 import java.util.ArrayList
-import javax.inject.Inject
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
-import com.trx.consumer.managers.AnalyticsManager
-import com.trx.consumer.models.common.AnalyticsPageModel.LIVE_PLAYER
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,7 +52,6 @@ class LivePlayerActivity : AppCompatActivity() {
 
     @Inject
     lateinit var analyticsManager: AnalyticsManager
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
