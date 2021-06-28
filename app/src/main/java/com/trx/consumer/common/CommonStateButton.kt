@@ -2,17 +2,15 @@ package com.trx.consumer.common
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.util.AttributeSet
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
+import androidx.core.widget.CompoundButtonCompat
 import com.trx.consumer.R
 import com.trx.consumer.common.shapeable.CommonShapeable
 import com.trx.consumer.common.shapeable.CommonShapeableHandler
 
-@RequiresApi(Build.VERSION_CODES.M)
 class CommonStateButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet?,
@@ -30,7 +28,8 @@ class CommonStateButton @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.CommonStateButton) {
             checkedStateDrawable = getDrawable(R.styleable.CommonStateButton_checkedState)
             plainStateDrawable = getDrawable(R.styleable.CommonStateButton_plainState)
-            defaultStateDrawable = checkedStateDrawable ?: plainStateDrawable ?: buttonDrawable
+            defaultStateDrawable = checkedStateDrawable ?: plainStateDrawable
+                    ?: CompoundButtonCompat.getButtonDrawable(this@CommonStateButton)
             buttonDrawable = null
             setButtonDrawable()
         }
