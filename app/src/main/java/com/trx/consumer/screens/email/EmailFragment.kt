@@ -48,6 +48,8 @@ class EmailFragment : BaseFragment(R.layout.fragment_email) {
             eventSendEmailError.observe(viewLifecycleOwner, handleSendEmailError)
             eventDismissKeyboard.observe(viewLifecycleOwner, handleDismissKeyboard)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
+
+            doTrackPageView()
         }
 
         viewModel.doLoadView()

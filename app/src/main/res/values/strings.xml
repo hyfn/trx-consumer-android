@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="app_name">TRX-Consumer</string>
+    <string name="app_name">TRX</string>
 
     <string name="add_card_title">Update Payment Method</string>
     <string name="add_card_update_label">Update</string>
@@ -119,13 +119,16 @@
     <string name="memberships_current_membership_label">Current Membership</string>
     <string name="memberships_restore_purchases_label">Restore Purchases</string>
     <string name="memberships_cancel_membership_label">Cancel Membership</string>
-    <string name="memberships_cancel_membership_alert_message">Are you sure you want to cancel your membership? (canceling may take up to 24 hours)</string>
+    <string name="memberships_cancelled_membership_label">Cancelled Membership</string>
     <string name="memberships_choose_membership_alert_message">Are you sure you want to buy this membership?</string>
-    <string name="memberships_cancel_membership_alert_primary_label">NO, KEEP MY MEMBERSHIP</string>
-    <string name="memberships_cancel_membership_alert_secondary_label">YES, CANCEL MY MEMBERSHIP</string>
-    <string name="memberships_cancel_wip_label">Under construction</string>
     <string name="memberships_choose_membership_alert_primary_label">SUBMIT PAYMENT</string>
-    <string name="memberships_choose_membership_alert_secondary_label">DISMISS</string>
+    <string name="memberships_show_cancel_mobile_alert_message">To cancel this membership you must cancel through the Play Store app</string>
+    <string name="memberships_show_cancel_mobile_alert_primary_label">GO TO PLAY STORE</string>
+    <string name="memberships_show_cancel_active_alert_message">To buy this membership you must cancel your current membership</string>
+    <string name="memberships_show_cancel_active_primary_label">GO TO MEMBERSHIPS</string>
+    <string name="memberships_show_cancel_web_alert_message">This membership was not bought with the signed in Google account</string>
+    <string name="memberships_show_cancel_web_primary_label">GO TO WEBSITE</string>
+    <string name="memberships_alert_secondary_label">DISMISS</string>
     <string name="memberships_last_bill_date_label">Last Bill Date:</string>
     <string name="memberships_next_bill_date_label">Next Bill Date:</string>
 
@@ -135,7 +138,18 @@
     <string name="player_end_workout_button_label">END WORKOUT</string>
     <string name="player_screen_cast_coming_soon_message">Coming Soon!</string>
 
+    <string name="restore_button_label">Restore Purchases</string>
+    <string name="restore_trx_training_label">TRX TRAINING</string>
+    <string name="restore_title">Restore your Purchases</string>
+    <string name="restore_description">Welcome to the completely redesigned TRX Training Club. Already had a subscription to the TRX App? Tap here to get your access to hundreds of new workouts across 7 different training programs.</string>
+    <string name="restore_home_alert_primary_label">GO TO HOME</string>
+    <string name="restore_alert_error_primary_label">GO TO PLAY STORE</string>
+    <string name="restore_alert_error_secondary_label">DISMISS</string>
+    <string name="restore_alert_success_message">Purchases successfully restored</string>
+    <string name="restore_alert_success_primary_label">TAKE ME BACK</string>
+
     <string name="settings_title">SETTINGS</string>
+    <string name="settings_email">Email</string>
     <string name="settings_memberships">Memberships</string>
     <string name="settings_shop">Shop TRX Products</string>
     <string name="settings_getting_started">Getting Started Videos</string>
@@ -251,13 +265,10 @@
     <string name="welcome_get_started_label">Get Started</string>
     <string name="welcome_state_welcome_button_label">Continue</string>
     <string name="welcome_state_promo_button_label">Promo</string>
-    <string name="welcome_state_restore_button_label">Restore</string>
     <string name="welcome_state_welcome_title">Welcome to the club,\n%1s</string>
     <string name="welcome_state_promo_title">Promo title</string>
-    <string name="welcome_state_restore_title">Restore title</string>
     <string name="welcome_state_welcome_description">With 3 new ways to train, TRX Training Club is your all-in-one virtual gym helping you to crush any goal. Anytime. Anywhere.</string>
     <string name="welcome_state_promo_description">Promo description</string>
-    <string name="welcome_state_restore_description">Restore description</string>
 
     <string name="workout_profile_label">Profile</string>
     <string name="workout_book_session_label">Book Session</string>

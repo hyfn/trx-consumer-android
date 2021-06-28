@@ -43,6 +43,8 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
             eventTapFilter.observe(viewLifecycleOwner, handleTapFilter)
             eventLoadFilters.observe(viewLifecycleOwner, handleLoadFilters)
             eventTapDiscoverFilter.observe(viewLifecycleOwner, handlerTapDiscoverFilter)
+
+            doTrackPageView()
         }
 
         viewBinding.apply {

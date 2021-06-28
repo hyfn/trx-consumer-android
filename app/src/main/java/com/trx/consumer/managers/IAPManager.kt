@@ -92,6 +92,10 @@ class IAPManager {
         }
     }
 
+    fun reset() {
+        Purchases.sharedInstance.reset()
+    }
+
     companion object {
 
         val shared: IAPManager = getInstance()

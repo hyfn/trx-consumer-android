@@ -1,11 +1,14 @@
-package com.trx.consumer.screens.trainer
+package com.trx.consumer.screens.trainerdetail
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
+import com.trx.consumer.models.common.AnalyticsPageModel
+import com.trx.consumer.models.common.AnalyticsPageModel.TRAINER_DETAIL
 import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.common.ContentModel
 import com.trx.consumer.models.common.TrainerModel
@@ -26,7 +29,8 @@ import kotlinx.coroutines.launch
 
 class TrainerDetailViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
-    private val cacheManager: CacheManager
+    private val cacheManager: CacheManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(),
     LiveWorkoutViewListener,
     VideoWorkoutListener,
@@ -37,7 +41,6 @@ class TrainerDetailViewModel @ViewModelInject constructor(
     var trainer: TrainerModel = TrainerModel()
     var photos: List<String> = listOf()
 
-    // MARK>
     val eventLoadView = CommonLiveEvent<Void>()
     val eventLoadWorkoutUpcoming = CommonLiveEvent<List<WorkoutModel>>()
     val eventLoadServices = CommonLiveEvent<List<TrainerProgramModel>>()
@@ -136,6 +139,7 @@ class TrainerDetailViewModel @ViewModelInject constructor(
 
     override fun doTapVideo(model: VideoModel) {
         eventShowOndemand.postValue(model)
+        analyticsManager.trackPageView(AnalyticsPageModel.VIDEO_PLAYER)
     }
 
     // VirtualWorkoutViewListener
@@ -171,5 +175,9 @@ class TrainerDetailViewModel @ViewModelInject constructor(
 
     override fun doTapSelectLiveWorkout(model: WorkoutModel) {
         eventShowWorkout.postValue(model)
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(TRAINER_DETAIL)
     }
 }

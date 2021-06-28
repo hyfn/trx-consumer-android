@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:449054847102:android:4f6b566333cbada66da82f",
+        "mobilesdk_app_id": "1:449054847102:android:00b88e40abfee6406da82f",
         "android_client_info": {
-          "package_name": "com.trx.consumer"
+          "package_name": "com.trx.consumer.dev"
         }
       },
       "oauth_client": [
@@ -43,9 +43,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:449054847102:android:00b88e40abfee6406da82f",
+        "mobilesdk_app_id": "1:449054847102:android:8643f0ed0328aac36da82f",
         "android_client_info": {
-          "package_name": "com.trx.consumer.dev"
+          "package_name": "member.android.trxshop"
         }
       },
       "oauth_client": [
