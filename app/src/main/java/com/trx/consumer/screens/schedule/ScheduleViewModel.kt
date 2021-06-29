@@ -2,24 +2,21 @@ package com.trx.consumer.screens.schedule
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
-import androidx.hilt.lifecycle.ViewModelInject
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.extensions.date
 import com.trx.consumer.extensions.dateAfterDays
 import com.trx.consumer.extensions.dateAtHour
 import com.trx.consumer.extensions.isSameDay
-import com.trx.consumer.managers.BackendManager
-import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.CalendarModel
-import com.trx.consumer.models.common.DaysModel
-import com.trx.consumer.models.common.TrainerProgramModel
 import com.trx.consumer.managers.AnalyticsManager
+import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.AnalyticsPageModel.SCHEDULE_TRAINER_LIVE
 import com.trx.consumer.models.common.AnalyticsPageModel.SCHEDULE_TRAINER_VIRTUAL
 import com.trx.consumer.models.common.AnalyticsPageModel.SCHEDULE_USER_LIVE
 import com.trx.consumer.models.common.AnalyticsPageModel.SCHEDULE_USER_VIRTUAL
+import com.trx.consumer.models.common.CalendarModel
+import com.trx.consumer.models.common.DaysModel
+import com.trx.consumer.models.common.TrainerProgramModel
 import com.trx.consumer.models.common.TrainerScheduleModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.BookingsResponseModel
@@ -52,7 +49,7 @@ class ScheduleViewModel @ViewModelInject constructor(
     var key: String? = null
     var date = Date()
     var lstClasses: List<TrainerScheduleModel> = listOf()
-    var state: ScheduleViewState = ScheduleViewState.LIVE
+    var state: ScheduleViewState = LIVE
     var model: SessionsResponseModel? = null
     var trainerProgram: TrainerProgramModel? = null
 
@@ -69,11 +66,11 @@ class ScheduleViewModel @ViewModelInject constructor(
     fun doLoadView() {
         eventLoadView.call()
         when (state) {
-            ScheduleViewState.LIVE -> doLoadLiveWorkouts()
-            ScheduleViewState.USER_LIVE -> doLoadLiveBookings()
-            ScheduleViewState.USER_VIRTUAL -> doLoadVirtualBookings()
-            ScheduleViewState.TRAINER_LIVE -> doLoadTrainerLive()
-            ScheduleViewState.TRAINER_VIRTUAL -> doLoadTrainerVirtual()
+            LIVE -> doLoadLiveWorkouts()
+            USER_LIVE -> doLoadLiveBookings()
+            USER_VIRTUAL -> doLoadVirtualBookings()
+            TRAINER_LIVE -> doLoadTrainerLive()
+            TRAINER_VIRTUAL -> doLoadTrainerVirtual()
             else -> {
             }
         }
@@ -189,13 +186,13 @@ class ScheduleViewModel @ViewModelInject constructor(
 
     override fun doTapDate(date: Date) {
         when (state) {
-            ScheduleViewState.LIVE, ScheduleViewState.TRAINER_LIVE -> {
+            LIVE, TRAINER_LIVE -> {
                 model?.listUpcoming?.filter { it.date.isSameDay(date) }?.let { workouts ->
                     eventLoadLiveWorkouts.postValue(workouts)
                 }
             }
 
-            ScheduleViewState.USER_LIVE -> {
+            USER_LIVE -> {
                 LogManager.log("ScheduleViewModel.doTapDate $date")
             }
             else -> {
