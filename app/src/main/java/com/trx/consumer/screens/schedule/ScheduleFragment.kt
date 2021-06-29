@@ -40,6 +40,8 @@ class ScheduleFragment : BaseFragment(R.layout.fragment_schedule) {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventLoadCalendarView.observe(viewLifecycleOwner, handleLoadCalendarView)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkout)
+
+            doTrackPageView()
             doLoadView()
         }
     }

@@ -38,6 +38,7 @@ class CardsFragment : BaseFragment(R.layout.fragment_cards) {
             eventTapReplace.observe(viewLifecycleOwner, handleTapReplace)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
             doLoadView()
+            doTrackPageView()
         }
     }
 

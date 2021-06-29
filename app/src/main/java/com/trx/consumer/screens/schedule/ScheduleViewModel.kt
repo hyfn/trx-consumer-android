@@ -2,6 +2,7 @@ package com.trx.consumer.screens.schedule
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
+import androidx.hilt.lifecycle.ViewModelInject
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.date
@@ -13,6 +14,12 @@ import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.CalendarModel
 import com.trx.consumer.models.common.DaysModel
 import com.trx.consumer.models.common.TrainerProgramModel
+import com.trx.consumer.managers.AnalyticsManager
+import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsPageModel.SCHEDULE_TRAINER_LIVE
+import com.trx.consumer.models.common.AnalyticsPageModel.SCHEDULE_TRAINER_VIRTUAL
+import com.trx.consumer.models.common.AnalyticsPageModel.SCHEDULE_USER_LIVE
+import com.trx.consumer.models.common.AnalyticsPageModel.SCHEDULE_USER_VIRTUAL
 import com.trx.consumer.models.common.TrainerScheduleModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.BookingsResponseModel
@@ -20,6 +27,11 @@ import com.trx.consumer.models.responses.ProgramsAvailabilityResponseModel
 import com.trx.consumer.models.responses.SessionsResponseModel
 import com.trx.consumer.models.states.CalendarViewState
 import com.trx.consumer.models.states.ScheduleViewState
+import com.trx.consumer.models.states.ScheduleViewState.LIVE
+import com.trx.consumer.models.states.ScheduleViewState.TRAINER_LIVE
+import com.trx.consumer.models.states.ScheduleViewState.TRAINER_VIRTUAL
+import com.trx.consumer.models.states.ScheduleViewState.USER_LIVE
+import com.trx.consumer.models.states.ScheduleViewState.USER_VIRTUAL
 import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
 import com.trx.consumer.screens.trainerschedule.TrainerScheduleListener
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewListener
@@ -27,7 +39,9 @@ import com.trx.consumer.views.calendar.days.DaysTapListener
 import kotlinx.coroutines.launch
 import java.util.Date
 
+
 class ScheduleViewModel @ViewModelInject constructor(
+    private val analyticsManager: AnalyticsManager,
     private val backendManager: BackendManager
 ) : BaseViewModel(),
     LiveWorkoutViewListener,
@@ -161,6 +175,16 @@ class ScheduleViewModel @ViewModelInject constructor(
     }
 
     override fun doTapClass(trainerScheduleModel: TrainerScheduleModel) {
+    }
+
+    fun doTrackPageView() {
+        when (state) {
+            TRAINER_LIVE -> { analyticsManager.trackPageView(SCHEDULE_TRAINER_LIVE) }
+            TRAINER_VIRTUAL -> { analyticsManager.trackPageView(SCHEDULE_TRAINER_VIRTUAL) }
+            USER_LIVE -> { analyticsManager.trackPageView(SCHEDULE_USER_LIVE) }
+            USER_VIRTUAL -> { analyticsManager.trackPageView(SCHEDULE_USER_VIRTUAL) }
+            else -> { LogManager.log("Invalid state: ${state.name}") }
+        }
     }
 
     override fun doTapDate(date: Date) {

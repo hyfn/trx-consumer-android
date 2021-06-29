@@ -6,15 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".screens.liveplayer.LivePlayerActivity">
 
-    <com.trx.consumer.common.CommonView
-        android:id="@+id/fmPlayerContainer"
+    <FrameLayout
+        android:id="@+id/fmPlayerLayout"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_marginTop="175dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:backgroundColor="@color/green"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/fmPlayerContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/green" />
+
+    </FrameLayout>
 
     <com.trx.consumer.common.CommonButton
         android:id="@+id/btnEndWorkout"

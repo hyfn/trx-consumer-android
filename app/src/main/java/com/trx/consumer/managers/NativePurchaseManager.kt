@@ -38,7 +38,7 @@ class NativePurchaseManager(private val context: Context) {
         }
     }
 
-    suspend fun getPurchases(): List<Purchase> {
+    suspend fun purchases(): List<Purchase> {
         return withContext(Dispatchers.IO) {
             val isConnected = if (billingClient.isReady) true else connect()
             if (isConnected) {

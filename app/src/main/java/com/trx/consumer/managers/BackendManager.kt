@@ -13,6 +13,7 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
     suspend fun updateBeforeLogout() {
         cacheManager.accessToken(null)
         cacheManager.user(null)
+        IAPManager.shared.reset()
     }
 
     private suspend fun getHeaders(isAuthenticated: Boolean): HashMap<String, String> {
@@ -70,6 +71,18 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
         val params = hashMapOf<String, Any>("email" to email)
         val path = EndpointModel.FORGOT.path
         return call(RequestModel(endpoint = EndpointModel.FORGOT, path = path, params = params))
+    }
+
+    //  Joining a Live Session, used in LivePlayerViewModel
+    suspend fun join(sessionKey: String): ResponseModel {
+        val path = EndpointModel.JOIN.path + "/customer/" + sessionKey
+        return call(RequestModel(endpoint = EndpointModel.JOIN, path = path, params = null))
+    }
+
+    //  Joining a Live Session, used in LivePlayerViewModel
+    suspend fun live(liveAccessKey: String): ResponseModel {
+        val path = EndpointModel.LIVE.path + "/" + liveAccessKey
+        return call(RequestModel(endpoint = EndpointModel.LIVE, path = path, params = null))
     }
 
     suspend fun banner(): ResponseModel {
