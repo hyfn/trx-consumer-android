@@ -36,7 +36,6 @@ import com.trx.consumer.views.calendar.days.DaysTapListener
 import kotlinx.coroutines.launch
 import java.util.Date
 
-
 class ScheduleViewModel @ViewModelInject constructor(
     private val analyticsManager: AnalyticsManager,
     private val backendManager: BackendManager
