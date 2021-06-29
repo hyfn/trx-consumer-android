@@ -20,7 +20,6 @@ import com.trx.consumer.extensions.checkLivePermission
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
-import com.trx.consumer.models.common.AnalyticsPageModel.LIVE_PLAYER
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.LiveResponseModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,8 +60,6 @@ class LivePlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityPrivatePlayerBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_live_player)
-
-        doTrackPageView()
         bind()
     }
 
@@ -75,6 +72,8 @@ class LivePlayerActivity : AppCompatActivity() {
         viewModel.apply {
             model = workout
             eventLoadVideo.observe(this@LivePlayerActivity, handleLoadVideo)
+
+            doTrackPageView()
         }
     }
 
@@ -516,8 +515,4 @@ class LivePlayerActivity : AppCompatActivity() {
     }
 
     //endregion
-
-    fun doTrackPageView() {
-        analyticsManager.trackPageView(LIVE_PLAYER)
-    }
 }

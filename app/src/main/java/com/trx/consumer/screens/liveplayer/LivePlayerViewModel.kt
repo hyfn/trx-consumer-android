@@ -5,14 +5,17 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.BuildConfig.kFMDevLiveAccessKey
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsPageModel.LIVE_PLAYER
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.LiveResponseModel
 import kotlinx.coroutines.launch
 
 class LivePlayerViewModel @ViewModelInject constructor (
-    private val backendManager: BackendManager
+    private val backendManager: BackendManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), LivePlayerListener {
 
     //region Objects
@@ -69,6 +72,22 @@ class LivePlayerViewModel @ViewModelInject constructor (
         }
     }
 
+    fun doTapCamera(value: Boolean) {
+        eventTapCamera.postValue(value)
+    }
+
+    fun doTapMic(value: Boolean) {
+        eventTapMic.postValue(value)
+    }
+
+    fun doTapClock(value: Boolean) {
+        eventTapClock.postValue(value)
+    }
+
+    fun doTapCast(value: Boolean) {
+        eventTapCast.postValue(value)
+    }
+
     fun doTapClose() {
         eventTapClose.call()
     }
@@ -79,5 +98,12 @@ class LivePlayerViewModel @ViewModelInject constructor (
 
     override fun doReportError(message: String) {
         LogManager.log("doReportError")
+        eventLoadError.postValue(message)
     }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(LIVE_PLAYER)
+    }
+
+    //endregion
 }
