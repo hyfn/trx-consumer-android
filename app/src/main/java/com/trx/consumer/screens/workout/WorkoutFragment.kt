@@ -17,8 +17,8 @@ import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.WorkoutViewState
-import com.trx.consumer.screens.liveplayer.LivePlayerActivity
 import com.trx.consumer.screens.alert.AlertViewState
+import com.trx.consumer.screens.liveplayer.LivePlayerActivity
 import com.trx.consumer.screens.video.VideoPlayerActivity
 import java.util.Locale
 
