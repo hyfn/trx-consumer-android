@@ -20,3 +20,11 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class com.revenuecat.purchases.** { *; }
+
+#noinspection ShrinkerUnresolvedReference
+-keep class fm.liveswitch.audioprocessing.** { *; }
+-keep class fm.liveswitch.openh264.** { *; }
+-keep class fm.liveswitch.opus.** { *; }
+-keep class fm.liveswitch.vpx.** { *; }
+-keep class fm.liveswitch.yuv.** { *; }
+-dontwarn org.bouncycastle.**

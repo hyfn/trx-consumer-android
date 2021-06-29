@@ -5,6 +5,7 @@ import com.trx.consumer.BuildConfig.kMinutesBeforeCanJoin
 import com.trx.consumer.extensions.elapsedMin
 import com.trx.consumer.extensions.format
 import com.trx.consumer.extensions.isToday
+import com.trx.consumer.models.responses.LiveResponseModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.BookingViewState
 import com.trx.consumer.models.states.WorkoutViewState
@@ -33,7 +34,8 @@ class WorkoutModel(
     var sessionId: String = "",
     var cancelId: String? = null,
     val bookingTimestamp: Double = 0.0,
-    var video: VideoModel = VideoModel()
+    var video: VideoModel = VideoModel(),
+    var live: LiveResponseModel = LiveResponseModel()
 ) : Parcelable {
 
     val amount: String
@@ -193,9 +195,23 @@ class WorkoutModel(
                 imageUrl = "https://cf-images.us-east-1.prod.boltdns.net/v1/jit/6204326362001/9ad5d77c-99f7-4c65-8a2d-40ac2546fd01/main/1280x720/55s189ms/match/image.jpg",
                 title = "TRX Strength & Conditioning",
                 startsAt = 1615917600000,
+                live = LiveResponseModel.test(),
                 state = BookingState.VIEW,
                 trainer = TrainerModel.test(),
                 video = VideoModel.test(),
+                mode = WorkoutViewState.LARGE_GROUP_MODE,
+                priceInCents = 1999,
+            )
+        }
+
+        fun testLiveSession(): WorkoutModel {
+            return WorkoutModel(
+                identifier = "-M_mCHodpDeZstx85Avz",
+                durationInMinutes = 60,
+                imageUrl = "https://digital.trxtraining.com/banner-images/class-detail-large-group.png",
+                title = "Developer Session for Mobile",
+                startsAt = 1749985200000,
+                live = LiveResponseModel.test(),
                 mode = WorkoutViewState.LARGE_GROUP_MODE,
                 priceInCents = 1999,
             )
