@@ -25,6 +25,7 @@ import com.trx.consumer.core.MainApplication
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.margin
 import com.trx.consumer.managers.AnalyticsManager
+import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.VideoModel
 import kotlinx.coroutines.CoroutineScope
@@ -45,8 +46,11 @@ class VideoPlayerActivity : BrightcovePlayer() {
     private var videoHeight = 0
     private var isSeekBarDrag: Boolean = false
     private var is25PercentTracked: Boolean = false
-
+    private var lastIndex = 0
+    private var currentIndex = 0
+    private var perCompleted = 0.0
     private var orientationJob: Job? = null
+    private var duration = 0
 
     private val currentOrientation
         get() = resources.configuration.orientation
@@ -153,17 +157,10 @@ class VideoPlayerActivity : BrightcovePlayer() {
     }
 
     private fun handleVideoProgress(properties: Map<String, Any>) {
-        val duration = properties["duration"] as Int
-        val playedDuration = properties["playheadPosition"] as Int
-        val percent = playedDuration.toDouble() / duration.toDouble()
+        duration = properties["duration"] as Int
+        val percent = calculatePercentage(properties)
         if (percent == 0.25) {
             is25PercentTracked = true
-            analyticsManager?.trackVideoComplete25(video)
-        }
-
-        if (isSeekBarDrag && percent >= 0.25 && !is25PercentTracked) {
-            is25PercentTracked = true
-            isSeekBarDrag = false
             analyticsManager?.trackVideoComplete25(video)
         }
 
@@ -236,5 +233,15 @@ class VideoPlayerActivity : BrightcovePlayer() {
         videoSizeKnown = false
 
         super.onDestroy()
+    }
+
+    private fun calculatePercentage(properties: Map<String, Any>): Double {
+        currentIndex = properties["playheadPosition"] as Int
+        if (!isSeekBarDrag) perCompleted += (currentIndex - lastIndex) / duration.toDouble()
+        else isSeekBarDrag = false
+        lastIndex = currentIndex
+        LogManager.log("--->$perCompleted")
+        return perCompleted
+
     }
 }
