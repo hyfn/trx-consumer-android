@@ -2,8 +2,8 @@ package com.trx.consumer.screens.liveplayer
 
 import android.content.Context
 import android.media.projection.MediaProjection
-import android.os.Handler
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.trx.consumer.BuildConfig.kFMApplicationIdProd
 import com.trx.consumer.BuildConfig.kFMGatewayUrl
 import com.trx.consumer.frozenmountain.AecContext
@@ -38,7 +38,6 @@ import fm.liveswitch.ManagedThread
 import fm.liveswitch.ManagedTimer
 import fm.liveswitch.McuConnection
 import fm.liveswitch.MediaSourceState
-import fm.liveswitch.PathUtility
 import fm.liveswitch.PeerConnection
 import fm.liveswitch.PeerConnectionOffer
 import fm.liveswitch.Promise
@@ -52,12 +51,12 @@ import fm.liveswitch.VideoStream
 import fm.liveswitch.android.Camera2Source
 import fm.liveswitch.android.LayoutManager
 import fm.liveswitch.openh264.Utility
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.ArrayList
 
 class LivePlayerHandler(val context: Context) {
 
-    // TODO: Replace with Coroutines
-    private var handler: Handler = Handler(context.mainLooper)
     private var channel: Channel? = null
 
     private var mcuConnection: McuConnection? = null
@@ -230,10 +229,10 @@ class LivePlayerHandler(val context: Context) {
     // Used when opening Mcu connection and PeerAnswerConnection.
     private fun addRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
         layoutManager?.let { safeLayoutManager ->
-            handler.post {
+            livePlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
                 remoteMedia.view?.let { safeView ->
                     safeView.contentDescription = "remoteView_${safeView.id}"
-                    safeLayoutManager.addRemoteView(remoteMedia.id, remoteMedia.view)
+                    safeLayoutManager.addRemoteView(remoteMedia.id, safeView)
                 }
             }
         }
@@ -243,7 +242,7 @@ class LivePlayerHandler(val context: Context) {
     private fun removeRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
         layoutManager?.let { safeLayoutManager ->
             clearContextMenuItemFlag(remoteMedia.id)
-            handler.post {
+            livePlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
                 safeLayoutManager.removeRemoteView(remoteMedia.id)
                 remoteMedia.destroy()
             }
@@ -253,7 +252,7 @@ class LivePlayerHandler(val context: Context) {
     // Used in onClientRegistered
     private fun layoutOnUiThread() {
         layoutManager?.let { safeLayoutManager ->
-            handler.post {
+            livePlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
                 safeLayoutManager.layout()
             }
         }
@@ -261,11 +260,13 @@ class LivePlayerHandler(val context: Context) {
 
     fun startLocalMedia(activity: LivePlayerActivity): Future<Any> {
         val promise = Promise<Any>()
-        if (enableH264) {
-            val downloadPath = context.filesDir.path
-            Utility.downloadOpenH264(downloadPath).waitForResult()
-            System.load(PathUtility.combinePaths(downloadPath, Utility.getLoadLibraryName()))
-        }
+
+        // TODO: Marked for removal. 
+        // if (enableH264) {
+        //     val downloadPath = context.filesDir.path
+        //     Utility.downloadOpenH264(downloadPath).waitForResult()
+        //     System.load(PathUtility.combinePaths(downloadPath, Utility.getLoadLibraryName()))
+        // }
 
         // Set up the layout manager.
         layoutManager = LayoutManager(activity.container)
@@ -631,28 +632,14 @@ class LivePlayerHandler(val context: Context) {
         val remoteMedia = RemoteMedia(context, enableH264, false, audioOnly, aecContext)
 
         // Add the remote video view to the layout.
-        handler.post {
-            layoutManager?.addRemoteView(
-                remoteMedia.id,
-                remoteMedia.view
-            )
-        }
-
-        remoteMedia.view?.let { remoteView ->
-            remoteView.contentDescription = "remoteView_" + remoteMedia.id
-            // livePlayerActivity?.registerRemoteContextMenu(
-            //     remoteView,
-            //     if (remoteConnectionInfo.hasVideo) remoteConnectionInfo.videoStream.sendEncodings else null
-            // )
-        }
+        addRemoteViewOnUiThread(remoteMedia)
+        remoteMedia.view?.contentDescription = "remoteView_${remoteMedia.id}"
 
         var videoStream: VideoStream? = null
         var audioStream: AudioStream? = null
-        if (remoteConnectionInfo.hasAudio) {
-            audioStream = AudioStream(localMedia, remoteMedia)
-        }
+        if (remoteConnectionInfo.hasAudio) audioStream = AudioStream(null, remoteMedia)
         if (remoteConnectionInfo.hasVideo && !audioOnly) {
-            videoStream = VideoStream(localMedia, remoteMedia)
+            videoStream = VideoStream(null, remoteMedia)
             // TODO: Mark for removal unless using simulcast
             // if (enableSimulcast) {
             //     val remoteEncodings = remoteConnectionInfo.videoStream.sendEncodings
@@ -667,11 +654,7 @@ class LivePlayerHandler(val context: Context) {
             remoteConnectionInfo,
             audioStream,
             videoStream
-        )?.apply {
-            sfuDownstreamConnections[remoteMedia.id] = this
-            remoteMediaMaps[remoteMedia.id] = this
-            tag?.let { newTag -> this.tag = newTag }
-        }
+        )
 
         /*
         Embedded TURN servers are used by default.  For more information refer to:
@@ -688,14 +671,10 @@ class LivePlayerHandler(val context: Context) {
                 }
                 ConnectionState.Closing, ConnectionState.Failing -> {
                     if (safeConnection.remoteClosed) {
-                        Log.info(connection.id + ": Media server closed the connection.")
+                        LogManager.log("${connection.id}: Media server closed the connection.")
                     }
 
-                    handler.post {
-                        layoutManager?.removeRemoteView(remoteMedia.id)
-                        remoteMedia.destroy()
-                    }
-
+                    removeRemoteViewOnUiThread(remoteMedia)
                     sfuDownstreamConnections.remove(remoteMedia.id)
                     remoteMediaMaps.remove(remoteMedia.id)
                     logConnectionState(safeConnection, "SFU Downstream")
@@ -713,6 +692,7 @@ class LivePlayerHandler(val context: Context) {
 
         // Open the connection.
         connection?.open()
+
         return connection
     }
 
