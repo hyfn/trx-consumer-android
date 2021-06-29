@@ -1,5 +1,6 @@
 package com.trx.consumer.models.common
 
+import com.trx.consumer.extensions.isSameDay
 import com.trx.consumer.extensions.yearMonthDayString
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.states.CalendarViewState
@@ -20,26 +21,29 @@ class CalendarModel(var state: CalendarViewState = CalendarViewState.DISPLAY) {
         it.date.yearMonthDayString() == initialDate?.yearMonthDayString()
     }
 
-    fun createListOfDays(
-        startDate: Date = Date(),
-        endDate: Date? = null,
-        numberOfDays: Int = 7,
-        selectedDate: Date? = null,
-        state: CalendarViewState = CalendarViewState.DISPLAY
-    ): List<DaysModel> {
-        val list: List<DaysModel> = listOf()
-        val calendar = Calendar.getInstance()
-        val end = numberOfDays -1
-        endDate?.let { safeEndDate ->
+    companion object {
+        fun createListOfDays(
+            startDate: Date = Date(),
+            endDate: Date? = null,
+            numberOfDays: Int = 7,
+            selectedDate: Date? = null,
+            state: CalendarViewState = CalendarViewState.DISPLAY
+        ): List<DaysModel> {
+            val list: MutableList<DaysModel> = mutableListOf()
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.DATE, numberOfDays - 1)
+            var end = calendar.time
+            endDate?.let { end = it }
             calendar.time = startDate
-            while (calendar.time == safeEndDate) {
-               calendar.add(Calendar.DATE, 1)
-               LogManager.log("${calendar.time}")
+            while (calendar.time <= end) {
+                LogManager.log("${calendar.time}")
+                val date = calendar.time
+                val item = DaysModel(date).apply { this.calendarState = state }
+                selectedDate?.let { if (it.isSameDay(date)) item.state.isSelected = true }
+                list.add(item)
+                calendar.add(Calendar.DATE, 1)
             }
-
-
+            return list
         }
-
-        return list
     }
 }

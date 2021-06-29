@@ -15,7 +15,7 @@ class ProgramsAvailabilityResponseModel(var lstTimes: List<Long> = listOf()) {
         }
     }
 
-    fun lstClasses( program : TrainerProgramModel) : List<TrainerScheduleModel> {
+    fun lstClasses(program: TrainerProgramModel): List<TrainerScheduleModel> {
         return lstTimes.map { timestamp -> TrainerScheduleModel(program, timestamp) }
     }
 }

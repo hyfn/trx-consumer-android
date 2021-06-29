@@ -207,7 +207,7 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
             RequestModel(
                 endpoint = EndpointModel.PROGRAM_AVAILABILITY,
                 path = path,
-                params = null
+                params = params
             )
         )
     }

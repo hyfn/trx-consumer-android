@@ -16,6 +16,7 @@ import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.ScheduleModel
 import com.trx.consumer.models.common.TrainerModel
+import com.trx.consumer.models.common.TrainerProgramModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.ContentParamsModel
@@ -203,7 +204,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapSchedule = Observer<Void> {
-        val model = ScheduleModel(ScheduleViewState.TRAINER_LIVE, TrainerModel.test().key, null)
+        val model = ScheduleModel(ScheduleViewState.TRAINER_VIRTUAL, TrainerModel.test().key, TrainerProgramModel.test())
         NavigationManager.shared.present(this, R.id.schedule_fragment, model)
     }
 

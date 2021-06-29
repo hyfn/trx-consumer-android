@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.date
+import com.trx.consumer.extensions.dateAfterDays
 import com.trx.consumer.extensions.dateAtHour
 import com.trx.consumer.extensions.isSameDay
 import com.trx.consumer.managers.BackendManager
@@ -24,7 +25,6 @@ import com.trx.consumer.screens.trainerschedule.TrainerScheduleListener
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewListener
 import com.trx.consumer.views.calendar.days.DaysTapListener
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import java.util.Date
 
 class ScheduleViewModel @ViewModelInject constructor(
@@ -127,14 +127,12 @@ class ScheduleViewModel @ViewModelInject constructor(
                         doTapDate(date)
 
                         val cal = CalendarModel(CalendarViewState.PICKER)
-                        cal.listDays =
-                            listOf()// TODO CalendarModel.createListOfDays(selectedDate: self.date, state: .picker)
+                        cal.listDays = CalendarModel.createListOfDays(selectedDate = date, state = CalendarViewState.PICKER)
                         cal.listEvents = model.lstTimes.map { DaysModel(Date(it / 1000)) }
                         eventLoadCalendarView.postValue(cal)
                     }
                 }
             }
-
         }
     }
 
@@ -181,11 +179,10 @@ class ScheduleViewModel @ViewModelInject constructor(
         }
     }
 
-    fun timeStamp(hour: Int): String {
+    private fun timeStamp(hour: Int): String {
         return Date().dateAtHour(hour).time.toString()
     }
 
-    val timeStampEnd: String
-        get() = Date().dateAtHour(24 * 6).time.toString()
-
+    private val timeStampEnd: String
+        get() = Date().dateAfterDays(6).time.toString()
 }
