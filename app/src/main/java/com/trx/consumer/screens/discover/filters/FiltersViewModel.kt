@@ -11,7 +11,7 @@ class FiltersViewModel @ViewModelInject constructor(
     private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), FiltersListener {
 
-    var params: FilterParamsModel? = null
+    var params: FilterParamsModel = FilterParamsModel()
 
     val eventLoadView = CommonLiveEvent<FilterParamsModel>()
 
@@ -20,9 +20,7 @@ class FiltersViewModel @ViewModelInject constructor(
     val eventTapFilter = CommonLiveEvent<FilterParamsModel>()
 
     fun doLoadView() {
-        params?.let { safeParams ->
-            eventLoadView.postValue(safeParams)
-        }
+        eventLoadView.postValue(params)
     }
 
     fun doTapClose() {
@@ -34,27 +32,25 @@ class FiltersViewModel @ViewModelInject constructor(
     }
 
     fun doTapReset() {
-        params?.lstFilters?.forEach { filter ->
+        params.lstFilters.forEach { filter ->
             filter.values.forEach { option ->
                 option.isSelected = false
             }
         }
-        doTapApply()
+        eventLoadView.postValue(params)
     }
 
     fun doTapApply() {
-        params?.let { safeParams ->
-            eventTapApply.postValue(safeParams)
-            safeParams.lstFilters.forEach { filter ->
-                filter.values.forEach { option ->
-                    if (option.isSelected) analyticsManager.trackFilterOnDemand(option)
-                }
+        params.lstFilters.forEach { filter ->
+            filter.values.forEach { option ->
+                if (option.isSelected) analyticsManager.trackFilterOnDemand(option)
             }
         }
+        eventTapApply.postValue(params)
     }
 
     override fun doTapFilter(model: FilterModel) {
-        params?.selectedModel = model
+        params.selectedModel = model
         eventTapFilter.postValue(params)
     }
 }

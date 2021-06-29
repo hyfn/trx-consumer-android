@@ -24,7 +24,7 @@
             android:gravity="center"
             android:text="@string/discover_tab_workouts_label"
             android:textAllCaps="true"
-            android:textColor="@color/black"
+            android:textColor="@color/grey"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,6 +69,7 @@
             android:layout_height="2dp"
             android:layout_marginBottom="5dp"
             android:background="@color/yellow"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/btnWorkouts"
             app:layout_constraintStart_toStartOf="@+id/btnWorkouts" />

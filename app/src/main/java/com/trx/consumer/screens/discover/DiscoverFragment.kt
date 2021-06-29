@@ -11,7 +11,6 @@ import com.trx.consumer.databinding.FragmentDiscoverBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.DiscoverModel
-import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
 import com.trx.consumer.models.params.FilterParamsModel
@@ -86,9 +85,12 @@ class DiscoverFragment : BaseFragment(R.layout.fragment_discover) {
         NavigationManager.shared.present(this, R.id.videos_fragment, it)
     }
 
-    private val handleLoadFilters = Observer<List<FilterModel>> { list ->
-        setFilterEnabled(list.isNotEmpty())
-        filterAdapter.update(list)
+    private val handleLoadFilters = Observer<DiscoverModel> { model ->
+        model.apply {
+            val enabled = if (state == DiscoverViewState.WORKOUTS) filters.isNotEmpty() else false
+            setFilterEnabled(enabled)
+            filterAdapter.update(filters)
+        }
     }
 
     private val handlerTapDiscoverFilter = Observer<FilterParamsModel> { params ->
