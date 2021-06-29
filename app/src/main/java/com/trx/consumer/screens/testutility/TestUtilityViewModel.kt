@@ -37,6 +37,7 @@ class TestUtilityViewModel @ViewModelInject constructor(
     val eventTapWelcome = CommonLiveEvent<Void>()
     val eventTapSettings = CommonLiveEvent<Void>()
     val eventTapWorkout = CommonLiveEvent<Void>()
+    val eventTapWorkoutLive = CommonLiveEvent<Void>()
     val eventTapTrainer = CommonLiveEvent<Void>()
     val eventTapBookingAlert = CommonLiveEvent<Void>()
     val eventTapSchedule = CommonLiveEvent<Void>()
@@ -130,6 +131,10 @@ class TestUtilityViewModel @ViewModelInject constructor(
 
     fun doTapWorkout() {
         eventTapWorkout.call()
+    }
+
+    fun doTapWorkoutLive() {
+        eventTapWorkoutLive.call()
     }
 
     fun doTapTrainer() {

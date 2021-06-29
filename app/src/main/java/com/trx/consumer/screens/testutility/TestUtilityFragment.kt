@@ -22,6 +22,7 @@ import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.groupplayer.GroupPlayerActivity
+import com.trx.consumer.screens.liveplayer.LivePlayerActivity
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.loading.LoadingViewState
 import com.trx.consumer.screens.privateplayer.PrivatePlayerActivity
@@ -64,6 +65,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnWelcome.action { viewModel.doTapWelcome() }
             btnSettings.action { viewModel.doTapSettings() }
             btnWorkout.action { viewModel.doTapWorkout() }
+            btnWorkoutLive.action { viewModel.doTapWorkoutLive() }
             btnTrainer.action { viewModel.doTapTrainer() }
             btnLoadingScreen.action { viewModel.doTapLoadingScreen() }
             btnBookingAlert.action { viewModel.doTapBookingAlert() }
@@ -91,6 +93,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapWelcome.observe(viewLifecycleOwner, handleTapWelcome)
             eventTapSettings.observe(viewLifecycleOwner, handleTapSettings)
             eventTapWorkout.observe(viewLifecycleOwner, handleTapWorkout)
+            eventTapWorkoutLive.observe(viewLifecycleOwner, handleTapWorkoutLive)
             eventTapTrainer.observe(viewLifecycleOwner, handleTapTrainer)
             eventTapBookingAlert.observe(viewLifecycleOwner, handleTapBookingAlert)
             eventTapSchedule.observe(viewLifecycleOwner, handleTapSchedule)
@@ -172,6 +175,15 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleTapWorkout = Observer<Void> {
         NavigationManager.shared.present(this, R.id.workout_fragment, WorkoutModel.testLive())
+    }
+
+    private val handleTapWorkoutLive = Observer<Void> {
+        val model = WorkoutModel.testLive()
+        NavigationManager.shared.presentActivity(
+            requireActivity(),
+            LivePlayerActivity::class.java,
+            model
+        )
     }
 
     private val handleTapMemberships = Observer<Void> {

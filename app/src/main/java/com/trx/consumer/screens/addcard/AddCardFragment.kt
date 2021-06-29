@@ -54,6 +54,8 @@ class AddCardFragment : BaseFragment(R.layout.fragment_add_card) {
             eventShowPurchase.observe(viewLifecycleOwner, handleShowPurchase)
             eventDismissKeyboard.observe(viewLifecycleOwner, handleDismissKeyboard)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
+
+            doTrackPageView()
         }
 
         viewModel.doLoadView()

@@ -43,8 +43,10 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
             eventShowCancelActive.observe(viewLifecycleOwner, handleShowCancelActive)
             eventShowCancelMobile.observe(viewLifecycleOwner, handleShowCancelMobile)
             eventShowCancelWeb.observe(viewLifecycleOwner, handleShowCancelWeb)
+            eventShowRestore.observe(viewLifecycleOwner, handleShowRestore)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
 
+            doTrackPageView()
             doLoadView()
         }
     }
@@ -130,6 +132,11 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
             setSecondaryButton(R.string.memberships_alert_secondary_label)
         }
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
+    }
+
+    private val handleShowRestore = Observer<Void> {
+        LogManager.log("handleShowRestore")
+        NavigationManager.shared.present(this, R.id.restore_fragment)
     }
 
     private val handleShowHud = Observer<Boolean> { show ->

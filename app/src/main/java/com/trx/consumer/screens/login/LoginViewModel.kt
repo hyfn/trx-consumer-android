@@ -7,6 +7,7 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
+import com.trx.consumer.models.common.AnalyticsPageModel.LOGIN
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
 import kotlinx.coroutines.launch
@@ -102,5 +103,8 @@ class LoginViewModel @ViewModelInject constructor(
         eventDismissKeyboard.call()
     }
 
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(LOGIN)
+    }
     //endregion
 }
