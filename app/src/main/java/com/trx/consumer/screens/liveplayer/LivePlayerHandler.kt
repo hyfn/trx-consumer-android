@@ -4,7 +4,6 @@ import android.content.Context
 import android.media.projection.MediaProjection
 import android.os.Handler
 import android.view.View
-import android.widget.RelativeLayout
 import com.trx.consumer.BuildConfig.kFMApplicationIdProd
 import com.trx.consumer.BuildConfig.kFMGatewayUrl
 import com.trx.consumer.frozenmountain.AecContext
@@ -34,7 +33,6 @@ import fm.liveswitch.IAction1
 import fm.liveswitch.LayoutUtility
 import fm.liveswitch.License
 import fm.liveswitch.Log
-import fm.liveswitch.LogLevel
 import fm.liveswitch.ManagedConnection
 import fm.liveswitch.ManagedThread
 import fm.liveswitch.ManagedTimer
@@ -53,7 +51,6 @@ import fm.liveswitch.VideoLayout
 import fm.liveswitch.VideoStream
 import fm.liveswitch.android.Camera2Source
 import fm.liveswitch.android.LayoutManager
-import fm.liveswitch.android.LogProvider
 import fm.liveswitch.openh264.Utility
 import java.util.ArrayList
 
@@ -83,9 +80,15 @@ class LivePlayerHandler(val context: Context) {
     private val gatewayUrl = "https://demo.liveswitch.fm:8443/sync"
 
     // Generic applicationId for FM demo
+    var live: LiveResponseModel = LiveResponseModel.test()
+        set(value) {
+            userID = value.sessionCustomerUid
+            field = value
+        }
+
     private val applicationId = "my-app-id"
 
-    private val userID: String = Guid.newGuid().toString().replace("-".toRegex(), "")
+    private var userID: String = Guid.newGuid().toString().replace("-".toRegex(), "")
 
     private val deviceID: String = Guid.newGuid().toString().replace("-".toRegex(), "")
 
@@ -94,7 +97,7 @@ class LivePlayerHandler(val context: Context) {
             field = if (value.isNotEmpty()) value else field
         }
 
-    var channelId: String? = "846812"
+    var channelId: String = "846812"
 
     //endregion
 
@@ -135,97 +138,125 @@ class LivePlayerHandler(val context: Context) {
         remoteMediaMaps = HashMap()
         sfuDownstreamConnections = HashMap()
         peerConnections = HashMap()
+        License.getCurrent()
     }
 
     //region LivePlayerActivity Function
 
-    fun start(activity: LivePlayerActivity, container: RelativeLayout, live: LiveResponseModel) {
-        LogManager.log("LivePlayerHandler - start")
-        layoutManager = LayoutManager(container)
+    fun startTRXLocalMedia(activity: LivePlayerActivity): Future<Any> {
+        val promise = Promise<Any>()
 
-        startLocalMedia(activity)
-            .then({ joinAsyncLive(live) }) { e ->
-                Log.error("Could not start local media", e)
+        // Set up the layout manager.
+        layoutManager = LayoutManager(activity.container)
+        activity.runOnUiThread {
+            if (receiveOnly) {
+                promise.resolve(null)
+            } else {
+                // Create an echo cancellation context.
+                aecContext = AecContext()
+
+                // Set up the local media.
+                localMedia = LocalCameraMedia(
+                    context,
+                    enableH264,
+                    false,
+                    audioOnly,
+                    aecContext,
+                    enableSimulcast
+                )
+
+                localMedia?.view?.let { localView ->
+                    localView.contentDescription = "localView"
+                    layoutManager?.localView = localView
+                }
+
+                // Change input source to front camera .
+                (localMedia?.videoSource as? Camera2Source)?.let { input ->
+                    input.frontInput?.let { sourceInput ->
+                        localMedia?.changeVideoSourceInput(sourceInput)
+                    }
+                }
+
+                // Start the local media.
+                localMedia?.let { safeLocalMedia ->
+                    safeLocalMedia.start().then({
+                        it.videoSource.start()
+                        promise.resolve(null)
+                    }) { e ->
+                        promise.reject(e)
+                    }
+                }
             }
+        }
+        return promise
     }
 
-    // TODO: Implement completely with TCM-255
-    fun joinAsyncLive(live: LiveResponseModel): Future<Array<Channel?>?>? {
-        val token = live.accessToken
-        val name = live.participantName
-        val userID: String = live.sessionCustomerUid
-
+    fun joinAsyncLive(): Future<Array<Channel>>? {
         unRegistering = false
 
-        client = Client(
-            kFMGatewayUrl,
-            kFMApplicationIdProd,
-            userID,
-            deviceID
-        )
-
-        client?.userAlias = "Test"
-
-        client?.addOnStateChange { state ->
-            when (state.state) {
-                Registering, Registered, Unregistering -> LogManager.log(state.state.name)
-                Unregistered -> {
-                    LogManager.log(state.state.name)
-                    if (!unRegistering) {
-                        ManagedThread.sleep(reRegisterBackoff)
-                        if (reRegisterBackoff < maxRegisterBackoff) {
+        // Hardcoded
+        client = Client(kFMGatewayUrl, kFMApplicationIdProd, live.sessionCustomerUid, deviceID)
+            .apply {
+                userAlias = live.participantName
+                addOnStateChange { safeClient ->
+                    LogManager.log("Client state is: ${safeClient.state.name} ")
+                    if (safeClient.state == Unregistered && !unRegistering) {
+                        ManagedThread.sleep(maxRegisterBackoff)
+                        if (maxRegisterBackoff < maxRegisterBackoff) {
                             reRegisterBackoff += reRegisterBackoff
+                        }
+
+                        safeClient.register(live.accessToken).then({ channels ->
+                            reRegisterBackoff = 200
+                            onClientRegistered(channels)
+                        }) { e ->
+                            LogManager.log("Failed to reregister with Gateway. ${e.message}")
                         }
                     }
                 }
-                else -> { LogManager.log("Not logging state: ${state.state.name}") }
             }
+
+        return client?.register(live.accessToken)?.then({ channels ->
+            onClientRegistered(channels)
+        }) { e ->
+            LogManager.log("Failed to register with Gateway. ${e.message}")
         }
-
-        // TODO: Complete function body
-
-        return null
     }
 
     //endregion
 
     private var dataChannelsMessageTimer: ManagedTimer? = null
 
-    companion object {
-        //  TODO: Marked for removal. 
-        fun doSomething() {
-            Log.setLogLevel(LogLevel.Debug)
-            Log.setProvider(LogProvider(LogLevel.Debug))
-            License.getCurrent()
-        }
-    }
-
+    // Used when opening Mcu connection and PeerAnswerConnection.
     private fun addRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
-        if (layoutManager == null) return
-        val r = Runnable {
-            if (remoteMedia.view != null) {
-                remoteMedia.view.contentDescription = "remoteView_" + remoteMedia.id
+        layoutManager?.let { safeLayoutManager ->
+            handler.post {
+                remoteMedia.view?.let { safeView ->
+                    safeView.contentDescription = "remoteView_${safeView.id}"
+                    safeLayoutManager.addRemoteView(remoteMedia.id, remoteMedia.view)
+                }
             }
-            layoutManager!!.addRemoteView(remoteMedia.id, remoteMedia.view)
         }
-        handler.post(r)
     }
 
+    // Used when opening Mcu connection and PeerAnswerConnection.
     private fun removeRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
-        layoutManager?.let {
+        layoutManager?.let { safeLayoutManager ->
             clearContextMenuItemFlag(remoteMedia.id)
-            val r = Runnable {
-                layoutManager!!.removeRemoteView(remoteMedia.id)
+            handler.post {
+                safeLayoutManager.removeRemoteView(remoteMedia.id)
                 remoteMedia.destroy()
             }
-            handler.post(r)
         }
     }
 
+    // Used in onClientRegistered
     private fun layoutOnUiThread() {
-        if (layoutManager == null) return
-        val r = Runnable { layoutManager!!.layout() }
-        handler.post(r)
+        layoutManager?.let { safeLayoutManager ->
+            handler.post {
+                safeLayoutManager.layout()
+            }
+        }
     }
 
     fun startLocalMedia(activity: LivePlayerActivity): Future<Any> {
@@ -258,10 +289,10 @@ class LivePlayerHandler(val context: Context) {
                 val localView = localMedia?.view
                 if (localView != null) {
                     localView.contentDescription = "localView"
-                    livePlayerActivity?.registerLocalContextMenu(
-                        localView,
-                        localMedia?.videoEncodings
-                    )
+                    // livePlayerActivity?.registerLocalContextMenu(
+                    //     localView,
+                    //     localMedia?.videoEncodings
+                    // )
                 }
                 layoutManager?.localView = localView
 
@@ -325,6 +356,7 @@ class LivePlayerHandler(val context: Context) {
         )
     }
 
+    // TODO: Remove when no longer testing hard coded FM demo values. 
     fun joinAsync(): Future<Array<Channel>>? {
         unRegistering = false
 
@@ -608,10 +640,10 @@ class LivePlayerHandler(val context: Context) {
 
         remoteMedia.view?.let { remoteView ->
             remoteView.contentDescription = "remoteView_" + remoteMedia.id
-            livePlayerActivity?.registerRemoteContextMenu(
-                remoteView,
-                if (remoteConnectionInfo.hasVideo) remoteConnectionInfo.videoStream.sendEncodings else null
-            )
+            // livePlayerActivity?.registerRemoteContextMenu(
+            //     remoteView,
+            //     if (remoteConnectionInfo.hasVideo) remoteConnectionInfo.videoStream.sendEncodings else null
+            // )
         }
 
         var videoStream: VideoStream? = null
@@ -703,7 +735,7 @@ class LivePlayerHandler(val context: Context) {
         addRemoteViewOnUiThread(remoteMedia)
         remoteMedia.view?.let { remoteView ->
             remoteView.contentDescription = "remoteView_" + remoteMedia.id
-            livePlayerActivity?.registerRemoteContextMenu(remoteView, null)
+            // livePlayerActivity?.registerRemoteContextMenu(remoteView, null)
         }
 
         val connection: PeerConnection?
@@ -743,7 +775,7 @@ class LivePlayerHandler(val context: Context) {
         // Monitor the connection state changes.
 
         connection?.let { safeConnect ->
-            Log.info("${safeConnect.id}: Peer connection state is ${connection.state}.")
+            LogManager.log("${safeConnect.id}: Peer connection state is ${connection.state}.")
 
             safeConnect.addOnStateChange {
                 when (safeConnect.state) {
@@ -753,7 +785,7 @@ class LivePlayerHandler(val context: Context) {
                     // Cleanup if the connection closes or fails.
                     ConnectionState.Failing, ConnectionState.Closing -> {
                         if (connection.remoteClosed) {
-                            Log.info("${connection.id}: Remote peer closed the connection.")
+                            LogManager.log("${connection.id}: Remote peer closed the connection.")
                         }
                         removeRemoteViewOnUiThread(remoteMedia)
                         peerConnections.remove(safeConnect.id)

@@ -44,11 +44,10 @@ class LivePlayerViewModel @ViewModelInject constructor (
                 // val joinResponse = backendManager.join(workout.identifier)
                 // eventShowHud.postValue(false)
                 // if (joinResponse.isSuccess) {
-                //     val thing = joinResponse.responseString
-                //     val things = joinResponse.responseString
                 // }
 
                 eventShowHud.postValue(true)
+                // TODO: Change to valid key after testing.
                 val liveAccessKey = kFMDevLiveAccessKey
                 val liveResponse = backendManager.live(liveAccessKey)
                 eventShowHud.postValue(false)
