@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
-import androidx.core.widget.CompoundButtonCompat
 import com.trx.consumer.R
 import com.trx.consumer.common.shapeable.CommonShapeable
 import com.trx.consumer.common.shapeable.CommonShapeableHandler
