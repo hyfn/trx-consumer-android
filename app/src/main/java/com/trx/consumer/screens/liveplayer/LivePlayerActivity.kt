@@ -12,12 +12,10 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
-import com.trx.consumer.databinding.ActivityPrivatePlayerBinding
+import com.trx.consumer.databinding.ActivityLivePlayerBinding
 import com.trx.consumer.extensions.checkLivePermission
-import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.WorkoutModel
@@ -37,7 +35,7 @@ class LivePlayerActivity : AppCompatActivity() {
 
     //region Objects
     private val viewModel: LivePlayerViewModel by viewModels()
-    private lateinit var viewBinding: ActivityPrivatePlayerBinding
+    private lateinit var viewBinding: ActivityLivePlayerBinding
 
     @Inject
     lateinit var livePlayerHandler: LivePlayerHandler
@@ -50,24 +48,21 @@ class LivePlayerActivity : AppCompatActivity() {
     //  TODO: Place in viewmodel. 
     private var localMediaStarted: Boolean = false
 
-    var container: RelativeLayout? = null
-    lateinit var layout: FrameLayout
+    val layout: FrameLayout
+        get() = viewBinding.fmPlayerLayout
 
-    @Inject
-    lateinit var analyticsManager: AnalyticsManager
+    val container: RelativeLayout
+        get() = viewBinding.fmPlayerContainer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityPrivatePlayerBinding.inflate(layoutInflater)
+        viewBinding = ActivityLivePlayerBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_live_player)
         bind()
     }
 
     private fun bind() {
         val workout = NavigationManager.shared.params(intent) as? WorkoutModel
-
-        container = findViewById(R.id.fmPlayerContainer)
-        layout = findViewById(R.id.fmPlayerLayout)
 
         viewModel.apply {
             model = workout
@@ -91,7 +86,7 @@ class LivePlayerActivity : AppCompatActivity() {
         // Not doing this can cause unexpected side
         // effects and crashes.
 
-        livePlayerHandler.pauseLocalVideo().waitForResult()
+        // livePlayerHandler.pauseLocalVideo().waitForResult()
 
         // Remove the static container from the current layout.
         if (container != null) {
@@ -102,7 +97,7 @@ class LivePlayerActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        livePlayerHandler.pauseLocalVideo().waitForResult()
+        // livePlayerHandler.pauseLocalVideo().waitForResult()
 
         // Remove the static container from the current layout.
         if (container != null) {
@@ -138,10 +133,10 @@ class LivePlayerActivity : AppCompatActivity() {
             }
             if (permissionsGranted) {
                 livePlayerHandler.livePlayerActivity = this
-                livePlayerHandler.startTRXLocalMedia(this)
-                    .then({ o -> livePlayerHandler.joinAsyncLive() }) { e ->
-                        LogManager.log("Could not start local media: ${e.message}")
-                    }
+                // livePlayerHandler.startTRXLocalMedia(this)
+                //     .then({ o -> livePlayerHandler.joinAsyncLive() }) { e ->
+                //         LogManager.log("Could not start local media: ${e.message}")
+                //     }
             } else {
                 Toast.makeText(
                     this,
@@ -172,8 +167,6 @@ class LivePlayerActivity : AppCompatActivity() {
         menuInfo: ContextMenu.ContextMenuInfo?
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
-
-        container = findViewById(R.id.container)
 
         val id = v.contentDescription.toString()
         currentId = id
@@ -288,29 +281,24 @@ class LivePlayerActivity : AppCompatActivity() {
 
     fun playTRXlive(value: LiveResponseModel) {
         livePlayerHandler.apply {
-            live = value
-            useNextVideoDevice()
             livePlayerActivity = this@LivePlayerActivity
         }
 
         val tempContainer = findViewById<RelativeLayout>(R.id.fmPlayerContainer)
-        if (container == null) {
-            container = tempContainer
-        }
 
         if (!localMediaStarted) {
             val promise = Promise<Any>()
 
             val startFn = IAction0 {
-                livePlayerHandler.startTRXLocalMedia(this).then({ resultStart ->
-                    livePlayerHandler.joinAsyncLive()?.then({ resultJoin ->
-                        promise.resolve(null)
-                    }) { ex ->
-                        promise.reject(ex)
-                    }
-                }) { ex ->
-                    promise.reject(null)
-                }
+                // livePlayerHandler.startTRXLocalMedia(this).then({ resultStart ->
+                //     livePlayerHandler.joinAsyncLive()?.then({ resultJoin ->
+                //         promise.resolve(null)
+                //     }) { ex ->
+                //         promise.reject(ex)
+                //     }
+                // }) { ex ->
+                //     promise.reject(null)
+                // }
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -353,92 +341,92 @@ class LivePlayerActivity : AppCompatActivity() {
     }
 
     //  TODO: Marked for removal 
-    fun playFMLive() {
-
-        livePlayerHandler.useNextVideoDevice()
-
-        livePlayerHandler.livePlayerActivity = this
-
-        val tempContainer = findViewById<RelativeLayout>(R.id.fmPlayerContainer)
-        if (container == null) {
-            container = tempContainer
-        }
-        // layout.removeView(tempContainer)
-
-        if (!localMediaStarted) {
-            val promise = Promise<Any>()
-
-            val startFn = IAction0 {
-                livePlayerHandler.startLocalMedia(this).then({ resultStart ->
-                    livePlayerHandler.joinAsync()?.then({ resultJoin ->
-                        promise.resolve(null)
-                    }) { ex ->
-                        promise.reject(ex)
-                    }
-                }) { ex ->
-                    promise.reject(null)
-                }
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val requiredPermissions: MutableList<String> = ArrayList(3)
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.RECORD_AUDIO
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    requiredPermissions.add(Manifest.permission.RECORD_AUDIO)
-                }
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.CAMERA
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    requiredPermissions.add(Manifest.permission.CAMERA)
-                }
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                }
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.READ_PHONE_STATE
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
-                }
-                if (requiredPermissions.size == 0) {
-                    startFn.invoke()
-                } else {
-                    if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
-                            Manifest.permission.CAMERA
-                        ) ||
-                        shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
-                        shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)
-                    ) {
-                        Toast.makeText(
-                            this,
-                            "Access to camera, microphone, storage, and phone call state is required",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    requestPermissions(requiredPermissions.toTypedArray(), 1)
-                }
-            } else {
-                startFn.invoke()
-            }
-        }
-
-        localMediaStarted = true
-    }
+    // fun playFMLive() {
+    //
+    //     livePlayerHandler.useNextVideoDevice()
+    //
+    //     livePlayerHandler.livePlayerActivity = this
+    //
+    //     val tempContainer = findViewById<RelativeLayout>(R.id.fmPlayerContainer)
+    //     if (container == null) {
+    //         container = tempContainer
+    //     }
+    //     // layout.removeView(tempContainer)
+    //
+    //     if (!localMediaStarted) {
+    //         val promise = Promise<Any>()
+    //
+    //         val startFn = IAction0 {
+    //             livePlayerHandler.startLocalMedia(this).then({ resultStart ->
+    //                 livePlayerHandler.joinAsync()?.then({ resultJoin ->
+    //                     promise.resolve(null)
+    //                 }) { ex ->
+    //                     promise.reject(ex)
+    //                 }
+    //             }) { ex ->
+    //                 promise.reject(null)
+    //             }
+    //         }
+    //
+    //         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    //             val requiredPermissions: MutableList<String> = ArrayList(3)
+    //             if (ContextCompat.checkSelfPermission(
+    //                     this,
+    //                     Manifest.permission.RECORD_AUDIO
+    //                 ) != PackageManager.PERMISSION_GRANTED
+    //             ) {
+    //                 requiredPermissions.add(Manifest.permission.RECORD_AUDIO)
+    //             }
+    //             if (ContextCompat.checkSelfPermission(
+    //                     this,
+    //                     Manifest.permission.CAMERA
+    //                 ) != PackageManager.PERMISSION_GRANTED
+    //             ) {
+    //                 requiredPermissions.add(Manifest.permission.CAMERA)
+    //             }
+    //             if (ContextCompat.checkSelfPermission(
+    //                     this,
+    //                     Manifest.permission.WRITE_EXTERNAL_STORAGE
+    //                 ) != PackageManager.PERMISSION_GRANTED
+    //             ) {
+    //                 requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    //             }
+    //             if (ContextCompat.checkSelfPermission(
+    //                     this,
+    //                     Manifest.permission.READ_PHONE_STATE
+    //                 ) != PackageManager.PERMISSION_GRANTED
+    //             ) {
+    //                 requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
+    //             }
+    //             if (requiredPermissions.size == 0) {
+    //                 startFn.invoke()
+    //             } else {
+    //                 if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
+    //                         Manifest.permission.CAMERA
+    //                     ) ||
+    //                     shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+    //                     shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)
+    //                 ) {
+    //                     Toast.makeText(
+    //                         this,
+    //                         "Access to camera, microphone, storage, and phone call state is required",
+    //                         Toast.LENGTH_SHORT
+    //                     ).show()
+    //                 }
+    //                 requestPermissions(requiredPermissions.toTypedArray(), 1)
+    //             }
+    //         } else {
+    //             startFn.invoke()
+    //         }
+    //     }
+    //
+    //     localMediaStarted = true
+    // }
 
     private fun stop() {
         if (localMediaStarted) {
             livePlayerHandler.leaveAsync()?.then {
-                stopLocalMediaAndFinish()
+                // stopLocalMediaAndFinish()
             }?.fail(
                 IAction1 { e ->
                     LogManager.log("Could not leave conference: ${e.message}")
@@ -448,16 +436,6 @@ class LivePlayerActivity : AppCompatActivity() {
             finish()
         }
         localMediaStarted = false
-    }
-
-    private fun stopLocalMediaAndFinish() {
-        livePlayerHandler.stopLocalMedia().then {
-            finish()
-        }?.fail(
-            IAction1 { e ->
-                LogManager.log("Could not stop local media: ${e.message}")
-            }
-        )
     }
 
     //  TODO: Marked for removal. Keep for reference.
