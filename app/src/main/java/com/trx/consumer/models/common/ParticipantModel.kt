@@ -6,8 +6,8 @@ import org.json.JSONObject
 
 @Parcelize
 data class ParticipantModel(
-    var firstName: String = "",
-    var uid: String = ""
+    val firstName: String = "",
+    val uid: String = ""
 ) : Parcelable {
     companion object {
         fun parse(jsonObject: JSONObject): ParticipantModel =
