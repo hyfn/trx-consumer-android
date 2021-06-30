@@ -110,7 +110,7 @@ class LivePlayerHandler(val context: Context) {
 
     private lateinit var mcuViewId: String
 
-    private var textListener: OnReceivedTextListener? = null
+    private var listener: LivePlayerListener? = null
     private var usingFrontVideoDevice = true
     private var audioOnly: Boolean = false
     private var receiveOnly: Boolean = false
@@ -405,39 +405,60 @@ class LivePlayerHandler(val context: Context) {
 
         // Monitor the channel remote client changes.
         channel?.addOnRemoteClientJoin { remoteClientInfo ->
-            Log.info("Remote client joined the channel (client ID: " + remoteClientInfo.id + ", device ID: " + remoteClientInfo.deviceId + ", user ID: " + remoteClientInfo.userId + ", tag: " + remoteClientInfo.tag + ").")
-            val n =
-                if (remoteClientInfo.userAlias != null) remoteClientInfo.userAlias else remoteClientInfo.userId
-            textListener?.onPeerJoined(n)
+            LogManager.log(
+                "Remote client joined the channel (" +
+                    "client ID: ${remoteClientInfo.id}, " +
+                    "device ID:  ${remoteClientInfo.deviceId}, " +
+                    "user ID: ${remoteClientInfo.userId}, " +
+                    "tag: ${remoteClientInfo.tag})."
+            )
+            val user = remoteClientInfo.userAlias ?: remoteClientInfo.userId
+            listener?.doReceiveMessage(user, "Joined")
         }
         channel?.addOnRemoteClientLeave { remoteClientInfo ->
-            val n =
-                if (remoteClientInfo.userAlias != null) remoteClientInfo.userAlias else remoteClientInfo.userId
-            textListener?.onPeerLeft(n)
-            Log.info("Remote client left the channel (client ID: " + remoteClientInfo.id + ", device ID: " + remoteClientInfo.deviceId + ", user ID: " + remoteClientInfo.userId + ", tag: " + remoteClientInfo.tag + ").")
+            LogManager.log(
+                "Remote client left the channel (" +
+                    "client ID: ${remoteClientInfo.id}, " +
+                    "device ID:  ${remoteClientInfo.deviceId}, " +
+                    "user ID: ${remoteClientInfo.userId}, " +
+                    "tag: ${remoteClientInfo.tag})."
+            )
+            val user = remoteClientInfo.userAlias ?: remoteClientInfo.userId
+            listener?.doReceiveMessage(user, "Left")
         }
 
         // Monitor the channel remote upstream connection changes.
         channel?.addOnRemoteUpstreamConnectionOpen { remoteConnectionInfo ->
-            Log.info("Remote client opened upstream connection (connection ID: " + remoteConnectionInfo.id + ", client ID: " + remoteConnectionInfo.clientId + ", device ID: " + remoteConnectionInfo.deviceId + ", user ID: " + remoteConnectionInfo.userId + ", tag: " + remoteConnectionInfo.tag + ").")
-            if (!isModeMcu) {
-                // Open downstream connection to receive the new upstream connection.
-                openSfuDownstreamConnection(remoteConnectionInfo, null)
-            }
+            LogManager.log(
+                "Remote client opened upstream connection (" +
+                    "connection ID: ${remoteConnectionInfo.id}, " +
+                    "client ID: ${remoteConnectionInfo.clientId}, " +
+                    "device ID: ${remoteConnectionInfo.deviceId}, " +
+                    "user ID: ${remoteConnectionInfo.userId}, " +
+                    "tag: ${remoteConnectionInfo.tag})."
+            )
+            // Open downstream connection to receive the new upstream connection if mode not Mcu
+            if (!isModeMcu) openSfuDownstreamConnection(remoteConnectionInfo, null)
         }
         channel?.addOnRemoteUpstreamConnectionClose { remoteConnectionInfo ->
-            Log.info(
-                "Remote client closed upstream connection (connection ID: " + remoteConnectionInfo.id + ", client ID: " + remoteConnectionInfo.clientId + ", device ID: " + remoteConnectionInfo.deviceId + ", user ID: " + remoteConnectionInfo.userId + ", tag: " + remoteConnectionInfo.tag + ")."
+            LogManager.log(
+                "Remote client closed upstream connection (" +
+                    "connection ID: ${remoteConnectionInfo.id}, " +
+                    "client ID: ${remoteConnectionInfo.clientId}, " +
+                    "device ID: ${remoteConnectionInfo.deviceId}, " +
+                    "user ID: ${remoteConnectionInfo.userId}, " +
+                    "tag: ${remoteConnectionInfo.tag})."
             )
         }
 
         // Monitor the channel peer connection offers.
         channel?.addOnPeerConnectionOffer { peerConnectionOffer -> // Accept the peer connection offer.
+            // Accept the peer connection offer.
             openPeerAnswerConnection(peerConnectionOffer)
         }
         channel?.addOnMessage { clientInfo, message ->
-            val n = if (clientInfo.userAlias != null) clientInfo.userAlias else clientInfo.userId
-            textListener?.onReceivedText(n, message)
+            val user = clientInfo.userAlias ?: clientInfo.userId
+            listener?.doReceiveMessage(user, message)
         }
         if (isModeMcu) {
 
@@ -465,20 +486,20 @@ class LivePlayerHandler(val context: Context) {
                 }
             }
         }
-        textListener?.onClientRegistered()
     }
 
-    fun leaveAsync(): Future<Any?>? {
-        return if (client != null) {
+    fun leaveAsync(): Future<Any>? {
+        return client?.let { safeClient ->
             unRegistering = true
 
             // Unregister with the server.
-            client!!.unregister().then {
-                textListener?.onClientUnregistered()
+            safeClient.unregister().then {
                 dataChannelConnected = false
-            }.fail(IAction1 { e -> Log.debug("Failed to Unregister Client", e) })
-        } else {
-            null
+            }.fail(
+                IAction1 { e ->
+                    e.message?.let { LogManager.log("Failed to Unregister Client: $it") }
+                }
+            )
         }
     }
 
@@ -847,32 +868,32 @@ class LivePlayerHandler(val context: Context) {
         }
         when (conn.state) {
             ConnectionState.Connected -> {
-                textListener?.onReceivedText(
+                listener?.doReceiveMessage(
                     "System",
                     "$connectionType connection connected with $streams"
                 )
             }
             ConnectionState.Closing -> {
-                textListener?.onReceivedText(
+                listener?.doReceiveMessage(
                     "System",
                     "$connectionType connection closing for $streams"
                 )
             }
             ConnectionState.Failing -> {
-                var eventString: String? = "$connectionType connection failing for $streams"
+                var eventString = "$connectionType connection failing for $streams"
                 if (conn.error != null) {
                     eventString += conn.error.description
                 }
-                textListener?.onReceivedText("System", eventString)
+                listener?.doReceiveMessage("System", eventString)
             }
             ConnectionState.Closed -> {
-                textListener?.onReceivedText(
+                listener?.doReceiveMessage(
                     "System",
                     "$connectionType connection closed for $streams"
                 )
             }
             ConnectionState.Failed -> {
-                textListener?.onReceivedText(
+                listener?.doReceiveMessage(
                     "System",
                     "$connectionType connection failed for $streams"
                 )
@@ -895,10 +916,12 @@ class LivePlayerHandler(val context: Context) {
         val dataChannel = DataChannel("data")
         dataChannel.onReceive = IAction1 { dataChannelReceiveArgs ->
             if (!dataChannelConnected) {
-                if (dataChannelReceiveArgs.dataString != null) {
-                    textListener?.onReceivedText(
+                dataChannelReceiveArgs.dataString?.let { dataString ->
+                    listener?.doReceiveMessage(
                         "System",
-                        "Data channel connection established. Received test message fromserver: " + dataChannelReceiveArgs.dataString
+                        "Data channel connection established." +
+                            " Received test message from server: " +
+                            dataString
                     )
                 }
                 dataChannelConnected = true
