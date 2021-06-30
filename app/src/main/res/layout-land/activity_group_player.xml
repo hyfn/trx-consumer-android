@@ -23,7 +23,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-         <com.trx.consumer.common.CommonCheckBox
+         <com.trx.consumer.common.CommonStateButton
             android:id="@+id/btnCamera"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -33,7 +33,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-         <com.trx.consumer.common.CommonCheckBox
+         <com.trx.consumer.common.CommonStateButton
             android:id="@+id/btnMic"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -43,7 +43,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnCamera" />
 
-         <com.trx.consumer.common.CommonCheckBox
+         <com.trx.consumer.common.CommonStateButton
             android:id="@+id/btnClock"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -53,7 +53,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnMic" />
 
-         <com.trx.consumer.common.CommonCheckBox
+         <com.trx.consumer.common.CommonStateButton
             android:id="@+id/btnCast"
             android:layout_width="45dp"
             android:layout_height="45dp"

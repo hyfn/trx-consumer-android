@@ -24,13 +24,13 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     //region Objects
 
-    val model = DiscoverModel.skeleton()
+    var model = DiscoverModel()
     var params: FilterParamsModel = FilterParamsModel()
     // endregion
 
     //region Events
     val eventLoadView = CommonLiveEvent<DiscoverModel>()
-    val eventLoadFilters = CommonLiveEvent<List<FilterModel>>()
+    val eventLoadFilters = CommonLiveEvent<DiscoverModel>()
 
     val eventTapBack = CommonLiveEvent<Void>()
     val eventTapVideo = CommonLiveEvent<VideoModel>()
@@ -42,6 +42,7 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     //region Actions
     fun doLoadView() {
+        model = DiscoverModel.skeleton(model.state)
         eventLoadView.postValue(model)
         model.filters = params.lstFilters
         loadFilters()
@@ -60,11 +61,13 @@ class DiscoverViewModel @ViewModelInject constructor(
                     model.filters = responseModel.filters.filter {
                         it.identifier.isNotEmpty() && it.values.isNotEmpty()
                     }
-                    loadFilters()
                 }
+            } else {
+                model = DiscoverModel(model.state)
             }
             params.lstFilters = model.filters
             eventLoadView.postValue(model)
+            loadFilters()
         }
     }
 
@@ -80,20 +83,20 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     fun doTapWorkouts() {
         model.state = DiscoverViewState.WORKOUTS
-        loadFilters()
         eventLoadView.postValue(model)
+        loadFilters()
     }
 
     fun doTapCollections() {
         model.state = DiscoverViewState.COLLECTIONS
-        loadFilters()
         eventLoadView.postValue(model)
+        loadFilters()
     }
 
     fun doTapPrograms() {
         model.state = DiscoverViewState.PROGRAMS
-        loadFilters()
         eventLoadView.postValue(model)
+        loadFilters()
     }
 
     private fun loadFilters() {
@@ -103,7 +106,8 @@ class DiscoverViewModel @ViewModelInject constructor(
             val resetFilters = params.copyModel().lstFilters
             resetFilters.onEach { it.values.forEach { model -> model.isSelected = false } }
         }
-        eventLoadFilters.postValue(filters)
+        val model = DiscoverModel(state = model.state, filters = filters)
+        eventLoadFilters.postValue(model)
     }
 
     fun doTapBack() {
