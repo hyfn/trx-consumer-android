@@ -19,7 +19,7 @@ class CommonStateButton @JvmOverloads constructor(
 
     private var checkedStateDrawable: Drawable? = null
     private var plainStateDrawable: Drawable? = null
-    private var defaultStateDrawable: Drawable? = null
+    private var defaultDrawable: Drawable? = null
     override val shapeableHandler = CommonShapeableHandler { this }
 
     init {
@@ -28,8 +28,7 @@ class CommonStateButton @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.CommonStateButton) {
             checkedStateDrawable = getDrawable(R.styleable.CommonStateButton_checkedState)
             plainStateDrawable = getDrawable(R.styleable.CommonStateButton_plainState)
-            defaultStateDrawable = checkedStateDrawable ?: plainStateDrawable
-                    ?: CompoundButtonCompat.getButtonDrawable(this@CommonStateButton)
+            defaultDrawable = checkedStateDrawable ?: plainStateDrawable
             setButtonDrawable()
         }
     }
@@ -37,7 +36,7 @@ class CommonStateButton @JvmOverloads constructor(
     private fun setButtonDrawable() {
         buttonDrawable = if (checkedStateDrawable != null && plainStateDrawable != null) {
             if (isChecked) checkedStateDrawable else plainStateDrawable
-        } else defaultStateDrawable
+        } else defaultDrawable
     }
 
     fun onChecked(action: (isChecked: Boolean) -> Unit) {
@@ -47,19 +46,20 @@ class CommonStateButton @JvmOverloads constructor(
         }
     }
 
-    fun image(drawable: Int, state: Int? = null) {
-        defaultStateDrawable = ContextCompat.getDrawable(context, drawable)
-        state?.let {
-            when (state) {
-                ACTIVE -> checkedStateDrawable = defaultStateDrawable
-                PLAIN -> plainStateDrawable = defaultStateDrawable
-            }
-        } ?: run {
-            checkedStateDrawable = null
-            plainStateDrawable = null
+    fun image(drawable: Int, state: Int) {
+        defaultDrawable = ContextCompat.getDrawable(context, drawable)
+        when (state) {
+            ACTIVE -> checkedStateDrawable = defaultDrawable
+            PLAIN -> plainStateDrawable = defaultDrawable
         }
-
         setButtonDrawable()
+    }
+
+    fun image(drawable: Int) {
+        ContextCompat.getDrawable(context, drawable).let { icon ->
+            checkedStateDrawable = icon
+            plainStateDrawable = icon
+        }
     }
 
     companion object {
