@@ -18,7 +18,6 @@ class CommonStateButton @JvmOverloads constructor(
 
     private var checkedStateDrawable: Drawable? = null
     private var plainStateDrawable: Drawable? = null
-    private var defaultDrawable: Drawable? = null
     override val shapeableHandler = CommonShapeableHandler { this }
 
     init {
@@ -27,15 +26,12 @@ class CommonStateButton @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.CommonStateButton) {
             checkedStateDrawable = getDrawable(R.styleable.CommonStateButton_checkedState)
             plainStateDrawable = getDrawable(R.styleable.CommonStateButton_plainState)
-            defaultDrawable = checkedStateDrawable ?: plainStateDrawable
             setButtonDrawable()
         }
     }
 
     private fun setButtonDrawable() {
-        buttonDrawable = if (checkedStateDrawable != null && plainStateDrawable != null) {
-            if (isChecked) checkedStateDrawable else plainStateDrawable
-        } else defaultDrawable
+        buttonDrawable = if (isChecked) checkedStateDrawable else plainStateDrawable
     }
 
     fun onChecked(action: (isChecked: Boolean) -> Unit) {
@@ -46,10 +42,9 @@ class CommonStateButton @JvmOverloads constructor(
     }
 
     fun image(drawable: Int, state: Int) {
-        defaultDrawable = ContextCompat.getDrawable(context, drawable)
         when (state) {
-            ACTIVE -> checkedStateDrawable = defaultDrawable
-            PLAIN -> plainStateDrawable = defaultDrawable
+            ACTIVE -> checkedStateDrawable = ContextCompat.getDrawable(context, drawable)
+            PLAIN -> plainStateDrawable = ContextCompat.getDrawable(context, drawable)
         }
         setButtonDrawable()
     }
