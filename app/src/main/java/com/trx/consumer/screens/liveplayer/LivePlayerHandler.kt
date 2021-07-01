@@ -65,7 +65,6 @@ class LivePlayerHandler(val context: Context) {
     var remoteMediaMaps: HashMap<String, ManagedConnection>
 
     //region Client Variables and Parameters
-
     private var client: Client? = null
 
     //endregion
@@ -84,9 +83,6 @@ class LivePlayerHandler(val context: Context) {
     private var audioOnly: Boolean = false
     private var receiveOnly: Boolean = false
     var enableSimulcast = false
-
-    //  TODO: Marked for removal. Used for screen sharing
-    private var enableScreenShare = false
 
     val enableH264: Boolean
         get() = Utility.isSupported()
@@ -232,7 +228,7 @@ class LivePlayerHandler(val context: Context) {
         return promise
     }
 
-    fun leaveAsync(): Future<Any>? {
+    fun leaveAsync(): Future<Any?>? {
         return client?.let { safeClient ->
             unRegistering = true
 
@@ -276,11 +272,7 @@ class LivePlayerHandler(val context: Context) {
 
     // Used in onClientRegistered
     private fun layoutOnUiThread() {
-        layoutManager?.let { safeLayoutManager ->
-            livePlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
-                safeLayoutManager.layout()
-            }
-        }
+        layoutManager?.layoutOnMainThread()
     }
 
     private fun onClientRegistered(channels: Array<Channel>) {
@@ -400,18 +392,17 @@ class LivePlayerHandler(val context: Context) {
             } else if (enableSimulcast) {
                 videoStream.simulcastMode = SimulcastMode.RtpStreamId
             }
-            connection = channel?.createMcuConnection(audioStream, videoStream, dataStream)?.apply {
-                info?.videoStream?.sendEncodings?.firstOrNull()?.let { safeFirst ->
-                    videoStream.remoteEncoding = safeFirst
+            connection = channel?.createMcuConnection(audioStream, videoStream, dataStream)
+            connection?.info?.videoStream?.sendEncodings?.let { safeRemoteEncodings ->
+                if (safeRemoteEncodings.isNotEmpty()) {
+                    videoStream.remoteEncoding = safeRemoteEncodings[0]
                 }
             }
         }
         mcuConnection = connection
 
         // Tag the connection (optional).
-        if (tag != null) {
-            connection?.tag = tag
-        }
+        tag?.let { safeTag -> connection?.tag = safeTag }
 
         /*
         Embedded TURN servers are used by default.  For more information refer to:
@@ -420,12 +411,12 @@ class LivePlayerHandler(val context: Context) {
 
         // Monitor the connection state changes.
         connection?.addOnStateChange {
-            Log.info(connection.id + ": MCU connection state is " + connection.state.toString() + ".")
+            LogManager.log(connection.id + ": MCU connection state is " + connection.state.toString() + ".")
 
             // Cleanup if the connection closes or fails.
             if (connection.state == ConnectionState.Closing || connection.state == ConnectionState.Failing) {
                 if (connection.remoteClosed) {
-                    Log.info(connection.id + ": Media server closed the connection.")
+                    LogManager.log(connection.id + ": Media server closed the connection.")
                 }
                 removeRemoteViewOnUiThread(remoteMedia)
                 synchronized(dataChannelLock) { dataChannels.remove(dataChannel) }
@@ -443,7 +434,7 @@ class LivePlayerHandler(val context: Context) {
         // Float the local preview over the mixed video feed for an improved user experience.
         layoutManager?.addOnLayout { layout ->
             mcuConnection?.let { mcu ->
-                if (mcuConnection != null && !receiveOnly && !audioOnly) {
+                if (!receiveOnly && !audioOnly) {
                     LayoutUtility.floatLocalPreview(
                         layout,
                         videoLayout,
@@ -483,9 +474,7 @@ class LivePlayerHandler(val context: Context) {
         }
 
         // Tag the connection (optional).
-        if (tag != null) {
-            connection?.tag = tag
-        }
+        tag?.let { safeTag -> connection?.tag = safeTag }
 
         /*
         Embedded TURN servers are used by default.  For more information refer to:
@@ -531,8 +520,12 @@ class LivePlayerHandler(val context: Context) {
         )
 
         // Add the remote video view to the layout.
-        addRemoteViewOnUiThread(remoteMedia)
-        remoteMedia.view?.contentDescription = "remoteView_${remoteMedia.id}"
+        livePlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
+            layoutManager?.addRemoteView(
+                remoteMedia.id,
+                remoteMedia.view
+            )
+        }
 
         var videoStream: VideoStream? = null
         var audioStream: AudioStream? = null
@@ -553,7 +546,11 @@ class LivePlayerHandler(val context: Context) {
             remoteConnectionInfo,
             audioStream,
             videoStream
-        )
+        )?.apply {
+            sfuDownstreamConnections[remoteMedia.id] = this
+            remoteMediaMaps[remoteMedia.id] = this
+            tag?.let { newTag -> this.tag = newTag }
+        }
 
         /*
         Embedded TURN servers are used by default.  For more information refer to:
@@ -573,7 +570,16 @@ class LivePlayerHandler(val context: Context) {
                         LogManager.log("${connection.id}: Media server closed the connection.")
                     }
 
-                    removeRemoteViewOnUiThread(remoteMedia)
+                    layoutManager?.addRemoteView(
+                        remoteMedia.id,
+                        remoteMedia.view
+                    )
+
+                    livePlayerActivity?.lifecycleScope?.launch {
+                        layoutManager?.removeRemoteView(remoteMedia.id)
+                        remoteMedia.destroy()
+                    }
+
                     sfuDownstreamConnections.remove(remoteMedia.id)
                     remoteMediaMaps.remove(remoteMedia.id)
                     logConnectionState(safeConnection, "SFU Downstream")
@@ -591,7 +597,6 @@ class LivePlayerHandler(val context: Context) {
 
         // Open the connection.
         connection?.open()
-
         return connection
     }
 
@@ -782,10 +787,12 @@ class LivePlayerHandler(val context: Context) {
         }
         dataChannel.addOnStateChange { channel ->
             if (channel.state == DataChannelState.Connected) {
-                if (dataChannelsMessageTimer == null) {
-                    dataChannelsMessageTimer = ManagedTimer(1000, sendMessageInDataChannels())
-                    dataChannelsMessageTimer!!.start()
-                }
+                dataChannelsMessageTimer = ManagedTimer(1000, sendMessageInDataChannels())
+                dataChannelsMessageTimer?.start()
+                // if (dataChannelsMessageTimer == null) {
+                //     dataChannelsMessageTimer = ManagedTimer(1000, sendMessageInDataChannels())
+                //     dataChannelsMessageTimer!!.start()
+                // }
             }
         }
         return dataChannel
@@ -800,8 +807,9 @@ class LivePlayerHandler(val context: Context) {
     }
 
     fun changeReceiveEncodings(id: String, index: Int) {
-        val connection =
-            sfuDownstreamConnections[id.replace("remoteView_", "").trim { it <= ' ' }]
+        val connection = sfuDownstreamConnections[
+            id.replace("remoteView_", "").trim { it <= ' ' }
+        ]
         val encodings = connection!!.remoteConnectionInfo.videoStream.sendEncodings
         if (encodings != null && encodings.size > 1) {
             val config = connection.config
