@@ -1,8 +1,10 @@
 package com.trx.consumer.common
 
 import android.content.Context
+import android.graphics.Color
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
+import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
@@ -35,7 +37,11 @@ class CommonButton @JvmOverloads constructor(
     fun text(text: Any) {
         when (text) {
             is String -> this.text = text
-            is SpannableString -> this.text = text
+            is SpannableString -> {
+                this.text = text
+                highlightColor = Color.TRANSPARENT
+                movementMethod = LinkMovementMethod.getInstance()
+            }
             is SpannableStringBuilder -> this.text = text
             else -> this.text = ""
         }

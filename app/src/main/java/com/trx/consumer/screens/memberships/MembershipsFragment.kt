@@ -1,8 +1,6 @@
 package com.trx.consumer.screens.memberships
 
 import android.text.SpannableString
-import android.text.TextPaint
-import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -89,7 +87,7 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
                 R.string.memberships_choose_membership_alert_primary_label,
                 state = AlertViewState.POSITIVE
             ) { viewModel.doCallSubscribe(requireActivity(), membership) }
-            setSecondaryButton(R.string.memberships_alert_secondary_label)
+            setClearButton(loadTerm())
         }
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
@@ -157,21 +155,24 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
         viewModel.doTapBack()
     }
 
-    private fun loadTerm(): SpannableString  {
+    private fun loadTerm(): SpannableString {
         val context = requireContext()
         return context.spannableString(
             context.getString(R.string.memberships_terms_privacy),
             highlightedColor = ContextCompat.getColor(context, R.color.grey),
             highlightedStrings = listOf("Privacy Policy", "Terms of Service"),
-            clickableSpans = listOf(object : ClickableSpan() {
-                override fun onClick(widget: View) {
-                    UtilityManager.shared.openUrl(context, BuildConfig.kPrivatePolicy)
+            clickableSpans = listOf(
+                object : ClickableSpan() {
+                    override fun onClick(widget: View) {
+                        UtilityManager.shared.openUrl(context, BuildConfig.kPrivatePolicy)
+                    }
+                },
+                object : ClickableSpan() {
+                    override fun onClick(widget: View) {
+                        UtilityManager.shared.openUrl(context, BuildConfig.kTermsConditionsUrl)
+                    }
                 }
-            }, object : ClickableSpan() {
-                override fun onClick(widget: View) {
-                    UtilityManager.shared.openUrl(context, BuildConfig.kTermsConditionsUrl)
-                }
-            })
+            )
         )
     }
 }
