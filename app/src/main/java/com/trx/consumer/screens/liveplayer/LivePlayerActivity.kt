@@ -4,12 +4,9 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.widget.FrameLayout
-import android.widget.RelativeLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.trx.consumer.R
 import com.trx.consumer.databinding.ActivityLivePlayerBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.checkLivePermission
@@ -19,7 +16,6 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.LiveResponseModel
 import dagger.hilt.android.AndroidEntryPoint
 import fm.liveswitch.IAction1
-import java.util.ArrayList
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,10 +31,7 @@ class LivePlayerActivity : AppCompatActivity() {
     //  TODO: Place in viewmodel. 
     private var localMediaStarted: Boolean = false
 
-    val layout: FrameLayout
-        get() = viewBinding.fmPlayerLayout
-
-    val container: RelativeLayout
+    val container
         get() = viewBinding.fmPlayerContainer
 
     //endregion
@@ -48,7 +41,7 @@ class LivePlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityLivePlayerBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_live_player)
+        setContentView(viewBinding.root)
         bind()
     }
 
@@ -76,6 +69,7 @@ class LivePlayerActivity : AppCompatActivity() {
             eventTapClose.observe(this@LivePlayerActivity, handleTapClose)
 
             doTrackPageView()
+            doLoadVideo()
         }
     }
 
@@ -83,24 +77,13 @@ class LivePlayerActivity : AppCompatActivity() {
 
     //region Activity Lifecycle
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.doLoadVideo()
-    }
-
     override fun onStop() {
         // Android requires us to pause the local
         // video feed when pausing the activity.
         // Not doing this can cause unexpected side
         // effects and crashes.
         stopVideo()
-
         super.onStop()
-    }
-
-    override fun onPause() {
-        stopVideo()
-        super.onPause()
     }
 
     //endregion 
@@ -122,7 +105,7 @@ class LivePlayerActivity : AppCompatActivity() {
                     permissionsGranted = false
                 }
             }
-            if (permissionsGranted) {
+            if (permissionsGranted && !localMediaStarted) {
                 viewModel.doLoadVideo()
             } else {
                 for (i in grantResults.indices) {
@@ -131,7 +114,6 @@ class LivePlayerActivity : AppCompatActivity() {
                     }
                 }
                 //  TODO: Error Alert fragment implementation
-                stop()
             }
         } else {
             //  TODO: Error Alert fragment implementation
@@ -140,7 +122,7 @@ class LivePlayerActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        stop()
+        stopVideo()
         super.onBackPressed()
     }
 
@@ -153,8 +135,11 @@ class LivePlayerActivity : AppCompatActivity() {
         playVideo(model.live)
     }
 
-    private val handleLoadError = Observer<String> { value ->
-        LogManager.log("handleLoadError: $value")
+    private val handleLoadError = Observer<String> { error ->
+        LogManager.log("handleLoadError: $error")
+        //  TODO: Implement with another ticket.
+        // val model = ErrorAlertModel.error(error)
+        // NavigationManager.shared.present(this, R.id.error_fragment, model)
     }
 
     private val handleTapCamera = Observer<Boolean> { isChecked ->
@@ -200,6 +185,7 @@ class LivePlayerActivity : AppCompatActivity() {
                 }
                 if (requiredPermissions.size == 0) {
                     handler.start(value)
+                    localMediaStarted = true
                 } else {
                     if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
                             Manifest.permission.CAMERA
@@ -219,10 +205,9 @@ class LivePlayerActivity : AppCompatActivity() {
                 }
             } else {
                 handler.start(value)
+                localMediaStarted = true
             }
         }
-
-        localMediaStarted = true
     }
 
     private fun stopVideo() {
@@ -235,21 +220,6 @@ class LivePlayerActivity : AppCompatActivity() {
                         LogManager.log("Could not stop local media: ${e.message}")
                     }
                 )
-            }?.fail(
-                IAction1 { e ->
-                    LogManager.log("Could not leave conference: ${e.message}")
-                }
-            )
-        } else {
-            finish()
-        }
-        localMediaStarted = false
-    }
-
-    private fun stop() {
-        if (localMediaStarted) {
-            handler.leaveAsync()?.then {
-                // stopLocalMediaAndFinish()
             }?.fail(
                 IAction1 { e ->
                     LogManager.log("Could not leave conference: ${e.message}")
