@@ -52,7 +52,6 @@ class AlertFragment : BaseDialogFragment(R.layout.fragment_alert) {
                     if (secondaryState == AlertViewState.CLEAR) {
                         isHidden = clearTitle == null
                         clearTitle?.let { text(it) }
-                        textSize = secondaryState.font.px.toFloat()
                         typeface = ResourcesCompat.getFont(context, secondaryState.fontFamily)
                     } else {
                         isHidden = secondaryTitle == 0

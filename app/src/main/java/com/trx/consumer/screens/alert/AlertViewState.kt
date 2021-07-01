@@ -33,9 +33,6 @@ enum class AlertViewState {
             }
         }
 
-    val font: Int
-        get() = if (CLEAR == this) 14.dp else 13.dp
-
     val fontFamily: Int
         get() = if (CLEAR == this) R.font.atcarquette_regular else R.font.atcarquette_bold
 }
