@@ -161,7 +161,10 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
         return context.spannableString(
             context.getString(R.string.memberships_terms_privacy),
             highlightedColor = ContextCompat.getColor(context, R.color.grey),
-            highlightedStrings = listOf("Privacy Policy", "Terms of Service"),
+            highlightedStrings = listOf(
+                context.getString(R.string.memberships_privacy),
+                context.getString(R.string.memberships_terms)
+            ),
             clickableSpans = listOf(
                 object : ClickableSpan() {
                     override fun onClick(widget: View) {

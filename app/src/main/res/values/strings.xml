@@ -132,6 +132,8 @@
     <string name="memberships_last_bill_date_label">Last Bill Date:</string>
     <string name="memberships_next_bill_date_label">Next Bill Date:</string>
     <string name="memberships_terms_privacy">By purchasing, you agree to our Privacy Policy and Terms of Service</string>
+    <string name="memberships_terms">Terms of Service</string>
+    <string name="memberships_privacy">Privacy Policy</string>
 
     <string name="promos_top_title_label">FOR YOU</string>
 
