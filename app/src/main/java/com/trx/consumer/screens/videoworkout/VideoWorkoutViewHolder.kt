@@ -24,7 +24,7 @@ class VideoWorkoutViewHolder(view: View) : CommonViewHolder(view) {
         with(item) {
             lblWorkout.applySkeleton(isSkeleton, videoDuration)
             lblTitle.applySkeleton(isSkeleton, name)
-            lblSubtitle.applySkeleton(isSkeleton, "with ${trainer.displayName}")
+            lblSubtitle.applySkeleton(isSkeleton, trainer.displayName)
             imgBg.applySkeleton(isSkeleton, color = R.color.black, urlString = poster)
             if (!isSkeleton) btnSelect.action { listener.doTapVideo(item) }
         }
@@ -35,7 +35,7 @@ class VideoWorkoutViewHolder(view: View) : CommonViewHolder(view) {
         with(item) {
             lblWorkout.applySkeleton(isSkeleton, numberOfVideosDisplay)
             lblTitle.applySkeleton(isSkeleton, title)
-            lblSubtitle.applySkeleton(isSkeleton, "with ${trainer.displayName}")
+            lblSubtitle.applySkeleton(isSkeleton, trainer.displayName)
             imgBg.applySkeleton(isSkeleton, color = R.color.black, urlString = poster)
             if (!isSkeleton) btnSelect.action { listener.doTapVideos(item) }
         }
