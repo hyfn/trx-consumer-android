@@ -88,6 +88,7 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
                 state = AlertViewState.POSITIVE
             ) { viewModel.doCallSubscribe(requireActivity(), membership) }
             setClearButton(loadTerm())
+            //setSecondaryButton(R.string.memberships_alert_secondary_label)
         }
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }

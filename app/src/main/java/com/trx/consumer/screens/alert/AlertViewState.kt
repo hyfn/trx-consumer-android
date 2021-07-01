@@ -18,7 +18,7 @@ enum class AlertViewState {
                 POSITIVE -> R.color.white
                 NEUTRAL -> R.color.black
                 NEGATIVE -> R.color.white
-                CLEAR -> R.color.greyDark
+                CLEAR -> R.color.grey
             }
         }
 
