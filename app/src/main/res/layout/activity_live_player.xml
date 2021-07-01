@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".screens.liveplayer.LivePlayerActivity">
+    android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/fmPlayerLayout"
+    <RelativeLayout
+        android:id="@+id/fmPlayerContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <RelativeLayout
-            android:id="@+id/fmPlayerContainer"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:layout_marginTop="175dp"
-            android:background="@color/green" />
-
-    </FrameLayout>
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@color/green"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/navView"/>
 
     <com.trx.consumer.common.CommonView
         android:id="@+id/navView"
