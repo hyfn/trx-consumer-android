@@ -79,7 +79,7 @@ class LivePlayerHandler(val context: Context) {
 
     private lateinit var mcuViewId: String
 
-    private var listener: LivePlayerListener? = null
+    var listener: LivePlayerListener? = null
     private var audioOnly: Boolean = false
     private var receiveOnly: Boolean = false
     var enableSimulcast = false
@@ -204,6 +204,7 @@ class LivePlayerHandler(val context: Context) {
     fun cleanup(): Future<Any> {
         val promise: Promise<Any> = Promise()
         livePlayerActivity = null
+        listener = null
         clearContextMenuItemFlag("localView")
         if (localMedia == null) {
             promise.resolve(null)

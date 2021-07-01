@@ -47,7 +47,10 @@ class LivePlayerActivity : AppCompatActivity() {
 
     private fun bind() {
         val workout = NavigationManager.shared.params(intent) as? WorkoutModel
-        handler.livePlayerActivity = this
+        handler.apply {
+            livePlayerActivity = this@LivePlayerActivity
+            listener = viewModel
+        }
 
         viewBinding.apply {
             btnCamera.onChecked { isChecked -> viewModel.doTapCamera(isChecked) }
