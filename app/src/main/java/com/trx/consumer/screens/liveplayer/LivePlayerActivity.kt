@@ -516,5 +516,4 @@ class LivePlayerActivity : AppCompatActivity() {
     fun doTrackPageView() {
         analyticsManager.trackPageView(LIVE_PLAYER)
     }
-
 }
