@@ -168,6 +168,7 @@ class PrivatePlayerActivity : AppCompatActivity() {
 
     //region Helper Functions
 
+    //  TODO: Needs to be reworked when permissions screens brought in.
     private fun playVideo(value: LiveResponseModel) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val requiredPermissions: MutableList<String> = ArrayList(3)
