@@ -22,6 +22,13 @@ class GroupPlayerViewModel @ViewModelInject constructor (
 
     var model: WorkoutModel? = null
 
+    private var isCameraChecked: Boolean = false
+    private var isMicChecked: Boolean = false
+    private var isClockChecked: Boolean = false
+    private var isCastChecked: Boolean = false
+
+    var localMediaStarted: Boolean = false
+
     //endregion
 
     //region Events
@@ -73,23 +80,30 @@ class GroupPlayerViewModel @ViewModelInject constructor (
     }
 
     fun doTapCamera(value: Boolean) {
+        isCameraChecked = value
         eventTapCamera.postValue(value)
     }
 
     fun doTapMic(value: Boolean) {
+        isMicChecked = value
         eventTapMic.postValue(value)
     }
 
     fun doTapClock(value: Boolean) {
+        isClockChecked = value
         eventTapClock.postValue(value)
     }
 
     fun doTapCast(value: Boolean) {
+        isCastChecked = value
         eventTapCast.postValue(value)
     }
 
     fun doTapClose() {
-        eventTapClose.call()
+        if (localMediaStarted) {
+            eventTapClose.call()
+            localMediaStarted = false
+        }
     }
 
     override fun doReceiveMessage(clientId: String, message: String) {
