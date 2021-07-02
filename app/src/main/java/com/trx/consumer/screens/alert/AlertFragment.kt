@@ -1,6 +1,7 @@
 package com.trx.consumer.screens.alert
 
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
@@ -9,7 +10,6 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentAlertBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
-import com.trx.consumer.extensions.px
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.AlertModel
@@ -54,8 +54,9 @@ class AlertFragment : BaseDialogFragment(R.layout.fragment_alert) {
                         clearTitle?.let { text(it) }
                         typeface = ResourcesCompat.getFont(context, secondaryState.fontFamily)
                     } else {
-                        isHidden = secondaryTitle == 0
-                        text = getString(secondaryTitle)
+                        val visible = secondaryTitle != 0
+                        if (visible) text = getString(secondaryTitle)
+                        isVisible = visible
                     }
                     textColor(secondaryState.titleColor)
                     bgColor(secondaryState.bgColor)

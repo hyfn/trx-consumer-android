@@ -3,7 +3,6 @@ package com.trx.consumer.screens.alert
 import androidx.annotation.ColorRes
 import androidx.annotation.FontRes
 import com.trx.consumer.R
-import com.trx.consumer.extensions.dp
 
 enum class AlertViewState {
 

@@ -1,16 +1,12 @@
 package com.trx.consumer.models.common
 
-import android.os.Parcel
 import android.os.Parcelable
 import android.text.SpannableString
-import android.text.TextUtils
 import androidx.annotation.StringRes
 import com.trx.consumer.R
 import com.trx.consumer.screens.alert.AlertBackAction
 import com.trx.consumer.screens.alert.AlertViewState
-import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 
 @Parcelize
 class AlertModel private constructor(
