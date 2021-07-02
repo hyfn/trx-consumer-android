@@ -54,9 +54,9 @@ class AlertFragment : BaseDialogFragment(R.layout.fragment_alert) {
                         clearTitle?.let { text(it) }
                         typeface = ResourcesCompat.getFont(context, secondaryState.fontFamily)
                     } else {
-                        val visible = secondaryTitle != 0
-                        if (visible) text = getString(secondaryTitle)
-                        isVisible = visible
+                        val hide = secondaryTitle == 0
+                        if (!hide) text = getString(secondaryTitle)
+                        isHidden = hide
                     }
                     textColor(secondaryState.titleColor)
                     bgColor(secondaryState.bgColor)
