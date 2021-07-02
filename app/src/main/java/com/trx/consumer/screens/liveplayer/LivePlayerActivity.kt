@@ -28,9 +28,6 @@ class LivePlayerActivity : AppCompatActivity() {
     @Inject
     lateinit var handler: LivePlayerHandler
 
-    //  TODO: Place in viewmodel. 
-    private var localMediaStarted: Boolean = false
-
     val container
         get() = viewBinding.fmPlayerContainer
 
@@ -85,7 +82,7 @@ class LivePlayerActivity : AppCompatActivity() {
         // video feed when pausing the activity.
         // Not doing this can cause unexpected side
         // effects and crashes.
-        stopVideo()
+        viewModel.doTapClose()
         super.onStop()
     }
 
@@ -108,7 +105,8 @@ class LivePlayerActivity : AppCompatActivity() {
                     permissionsGranted = false
                 }
             }
-            if (permissionsGranted && !localMediaStarted) {
+            if (permissionsGranted) {
+                viewModel.localMediaStarted = false
                 viewModel.doLoadVideo()
             } else {
                 for (i in grantResults.indices) {
@@ -171,67 +169,53 @@ class LivePlayerActivity : AppCompatActivity() {
     //region Helper Functions
 
     private fun playVideo(value: LiveResponseModel) {
-        if (!localMediaStarted) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val requiredPermissions: MutableList<String> = ArrayList(3)
-                if (checkLivePermission(Manifest.permission.RECORD_AUDIO)) {
-                    requiredPermissions.add(Manifest.permission.RECORD_AUDIO)
-                }
-                if (checkLivePermission(Manifest.permission.CAMERA)) {
-                    requiredPermissions.add(Manifest.permission.CAMERA)
-                }
-                if (checkLivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                }
-                if (checkLivePermission(Manifest.permission.READ_PHONE_STATE)) {
-                    requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
-                }
-                if (requiredPermissions.size == 0) {
-                    handler.start(value)
-                    localMediaStarted = true
-                } else {
-                    if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
-                            Manifest.permission.CAMERA
-                        ) ||
-                        shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
-                        shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)
-                    ) {
-                        LogManager.log("Error Alert Implementation")
-                        //  TODO: Error Alert implementation
-                        // Toast.makeText(
-                        //     this,
-                        //     "Access to camera, microphone, storage, and phone call state is required",
-                        //     Toast.LENGTH_SHORT
-                        // ).show()
-                    }
-                    requestPermissions(requiredPermissions.toTypedArray(), 1)
-                }
-            } else {
-                handler.start(value)
-                localMediaStarted = true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val requiredPermissions: MutableList<String> = ArrayList(3)
+            if (checkLivePermission(Manifest.permission.RECORD_AUDIO)) {
+                requiredPermissions.add(Manifest.permission.RECORD_AUDIO)
             }
+            if (checkLivePermission(Manifest.permission.CAMERA)) {
+                requiredPermissions.add(Manifest.permission.CAMERA)
+            }
+            if (checkLivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+            if (checkLivePermission(Manifest.permission.READ_PHONE_STATE)) {
+                requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
+            }
+            if (requiredPermissions.size == 0) {
+                handler.start(value)
+            } else {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
+                        Manifest.permission.CAMERA
+                    ) ||
+                    shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                    shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)
+                ) {
+                    LogManager.log("Error Alert Implementation")
+                    //  TODO: Error Alert implementation
+                }
+                requestPermissions(requiredPermissions.toTypedArray(), 1)
+            }
+        } else {
+            handler.start(value)
         }
     }
 
     private fun stopVideo() {
-        if (localMediaStarted) {
-            handler.leaveAsync()?.then {
-                handler.cleanup().then {
-                    finish()
-                }?.fail(
-                    IAction1 { e ->
-                        LogManager.log("Could not stop local media: ${e.message}")
-                    }
-                )
+        handler.leaveAsync()?.then {
+            handler.cleanup().then {
+                finish()
             }?.fail(
                 IAction1 { e ->
-                    LogManager.log("Could not leave conference: ${e.message}")
+                    LogManager.log("Could not stop local media: ${e.message}")
                 }
             )
-        } else {
-            finish()
-        }
-        localMediaStarted = false
+        }?.fail(
+            IAction1 { e ->
+                LogManager.log("Could not leave conference: ${e.message}")
+            }
+        )
     }
 
     //endregion

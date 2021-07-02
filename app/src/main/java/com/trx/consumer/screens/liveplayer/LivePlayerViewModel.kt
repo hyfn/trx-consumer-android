@@ -22,6 +22,13 @@ class LivePlayerViewModel @ViewModelInject constructor (
 
     var model: WorkoutModel? = null
 
+    var isCameraChecked: Boolean = false
+    var isMicChecked: Boolean = false
+    var isClockChecked: Boolean = false
+    var isCastChecked: Boolean = false
+
+    var localMediaStarted: Boolean = false
+
     //endregion
 
     //region Events
@@ -61,9 +68,10 @@ class LivePlayerViewModel @ViewModelInject constructor (
 
                 if (liveResponse.isSuccess) {
                     val liveModel = LiveResponseModel.parse(liveResponse.responseString)
-                    if (liveModel.isValidType) {
+                    if (liveModel.isValidType && !localMediaStarted) {
                         workout.live = liveModel
                         eventLoadVideo.postValue(workout)
+                        localMediaStarted = true
                     }
                 }
             } ?: run {
@@ -73,23 +81,30 @@ class LivePlayerViewModel @ViewModelInject constructor (
     }
 
     fun doTapCamera(value: Boolean) {
+        isCameraChecked = value
         eventTapCamera.postValue(value)
     }
 
     fun doTapMic(value: Boolean) {
+        isMicChecked = value
         eventTapMic.postValue(value)
     }
 
     fun doTapClock(value: Boolean) {
+        isClockChecked = value
         eventTapClock.postValue(value)
     }
 
     fun doTapCast(value: Boolean) {
+        isCastChecked = value
         eventTapCast.postValue(value)
     }
 
     fun doTapClose() {
-        eventTapClose.call()
+        if (localMediaStarted) {
+            eventTapClose.call()
+            localMediaStarted = false
+        }
     }
 
     override fun doReceiveMessage(clientId: String, message: String) {
