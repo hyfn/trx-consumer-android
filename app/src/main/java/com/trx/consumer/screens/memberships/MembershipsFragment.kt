@@ -1,5 +1,9 @@
 package com.trx.consumer.screens.memberships
 
+import android.text.SpannableString
+import android.text.style.ClickableSpan
+import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +14,7 @@ import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentMembershipsBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.isHidden
+import com.trx.consumer.extensions.spannableString
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.managers.UtilityManager
@@ -54,7 +59,12 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
     private val handleLoadView = Observer<List<MembershipModel>> { memberships ->
         LogManager.log("handleLoadView")
         adapter.update(memberships)
-        viewBinding.btnRestore.isHidden = memberships.isEmpty()
+        viewBinding.apply {
+            val hide = memberships.isEmpty()
+            btnRestore.isHidden = hide
+            lblTerm.isHidden = hide
+            lblTerm.text(loadTerm())
+        }
     }
 
     private val handleTapBack = Observer<Void> {
@@ -79,7 +89,7 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
                 R.string.memberships_choose_membership_alert_primary_label,
                 state = AlertViewState.POSITIVE
             ) { viewModel.doCallSubscribe(requireActivity(), membership) }
-            setSecondaryButton(R.string.memberships_alert_secondary_label)
+            setClearButton(loadTerm())
         }
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }
@@ -145,5 +155,29 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
 
     override fun onBackPressed() {
         viewModel.doTapBack()
+    }
+
+    private fun loadTerm(): SpannableString {
+        val context = requireContext()
+        return context.spannableString(
+            context.getString(R.string.memberships_terms_privacy),
+            highlightedColor = ContextCompat.getColor(context, R.color.grey),
+            highlightedStrings = listOf(
+                context.getString(R.string.memberships_privacy),
+                context.getString(R.string.memberships_terms)
+            ),
+            clickableSpans = listOf(
+                object : ClickableSpan() {
+                    override fun onClick(widget: View) {
+                        UtilityManager.shared.openUrl(context, BuildConfig.kPrivatePolicy)
+                    }
+                },
+                object : ClickableSpan() {
+                    override fun onClick(widget: View) {
+                        UtilityManager.shared.openUrl(context, BuildConfig.kTermsConditionsUrl)
+                    }
+                }
+            )
+        )
     }
 }
