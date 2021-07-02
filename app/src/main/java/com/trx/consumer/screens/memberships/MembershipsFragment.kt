@@ -60,7 +60,9 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
         LogManager.log("handleLoadView")
         adapter.update(memberships)
         viewBinding.apply {
-            btnRestore.isHidden = memberships.isEmpty()
+            val hide = memberships.isEmpty()
+            btnRestore.isHidden = hide
+            lblTerm.isHidden = hide
             lblTerm.text(loadTerm())
         }
     }
@@ -88,7 +90,6 @@ class MembershipsFragment : BaseFragment(R.layout.fragment_memberships) {
                 state = AlertViewState.POSITIVE
             ) { viewModel.doCallSubscribe(requireActivity(), membership) }
             setClearButton(loadTerm())
-            //setSecondaryButton(R.string.memberships_alert_secondary_label)
         }
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
     }

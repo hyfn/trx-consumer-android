@@ -23,7 +23,7 @@ class AlertModel private constructor(
     var secondaryMethod: (() -> Unit)? = null,
     @StringRes
     var secondaryTitle: Int = R.string.alert_button_title_dismiss,
-    var clearTitle: @RawValue SpannableString? = null,
+    var clearTitle: CharSequence? = null,
     var secondaryState: AlertViewState = AlertViewState.NEUTRAL,
     var backPressAction: AlertBackAction? = null
 ) : Parcelable {
@@ -62,18 +62,12 @@ class AlertModel private constructor(
         backPressAction = alertBackAction
     }
 
-    companion object : Parceler<AlertModel> {
+    companion object {
 
         fun create(title: String, message: String): AlertModel =
             AlertModel().apply {
                 this.title = title
                 this.message = message
             }
-
-        override fun AlertModel.write(dest: Parcel, flags: Int) {
-            TextUtils.writeToParcel(clearTitle, dest, flags)
-        }
-
-        override fun create(parcel: Parcel): AlertModel = AlertModel(clearTitle = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(parcel) as @RawValue SpannableString)
     }
 }
