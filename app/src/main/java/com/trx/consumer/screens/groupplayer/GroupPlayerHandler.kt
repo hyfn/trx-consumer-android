@@ -84,9 +84,6 @@ class GroupPlayerHandler(val context: Context) {
     private var receiveOnly: Boolean = false
     var enableSimulcast = false
 
-    //  TODO: Marked for removal. Used for screen sharing
-    private var enableScreenShare = false
-
     val enableH264: Boolean
         get() = Utility.isSupported()
 
@@ -160,7 +157,7 @@ class GroupPlayerHandler(val context: Context) {
                     // Start the local media.
                     localMedia?.let { safeLocalMedia ->
                         safeLocalMedia.start().then({
-                            it.videoSource.start()
+                            it.videoSource?.start()
                             promise.resolve(null)
                         }) { e ->
                             promise.reject(e)
@@ -205,46 +202,10 @@ class GroupPlayerHandler(val context: Context) {
         }
     }
 
-    //endregion
-
-    private var dataChannelsMessageTimer: ManagedTimer? = null
-
-    // Used when opening Mcu connection and PeerAnswerConnection.
-    private fun addRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
-        layoutManager?.let { safeLayoutManager ->
-
-            groupPlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
-                remoteMedia.view?.let { safeView ->
-                    safeView.contentDescription = "remoteView_${safeView.id}"
-                    safeLayoutManager.addRemoteView(remoteMedia.id, remoteMedia.view)
-                }
-            }
-        }
-    }
-
-    // Used when opening Mcu connection and PeerAnswerConnection.
-    private fun removeRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
-        layoutManager?.let { safeLayoutManager ->
-            clearContextMenuItemFlag(remoteMedia.id)
-            groupPlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
-                safeLayoutManager.removeRemoteView(remoteMedia.id)
-                remoteMedia.destroy()
-            }
-        }
-    }
-
-    // Used in onClientRegistered
-    private fun layoutOnUiThread() {
-        layoutManager?.let { safeLayoutManager ->
-            groupPlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
-                safeLayoutManager.layoutOnMainThread()
-            }
-        }
-    }
-
     fun cleanup(): Future<Any> {
         val promise: Promise<Any> = Promise()
         groupPlayerActivity = null
+        listener = null
         clearContextMenuItemFlag("localView")
         if (localMedia == null) {
             promise.resolve(null)
@@ -269,6 +230,53 @@ class GroupPlayerHandler(val context: Context) {
         return promise
     }
 
+    fun leaveAsync(): Future<Any?>? {
+        return client?.let { safeClient ->
+            unRegistering = true
+
+            // Unregister with the server.
+            safeClient.unregister().then {
+                dataChannelConnected = false
+            }.fail(
+                IAction1 { e ->
+                    e.message?.let { LogManager.log("Failed to Unregister Client: $it") }
+                }
+            )
+        }
+    }
+
+    //endregion
+
+    private var dataChannelsMessageTimer: ManagedTimer? = null
+
+    // Used when opening Mcu connection and PeerAnswerConnection.
+    private fun addRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
+        layoutManager?.let { safeLayoutManager ->
+            groupPlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
+                remoteMedia.view?.let { safeView ->
+                    safeView.contentDescription = "remoteView_${safeView.id}"
+                    safeLayoutManager.addRemoteView(remoteMedia.id, remoteMedia.view)
+                }
+            }
+        }
+    }
+
+    // Used when opening Mcu connection and PeerAnswerConnection.
+    private fun removeRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
+        layoutManager?.let { safeLayoutManager ->
+            clearContextMenuItemFlag(remoteMedia.id)
+            groupPlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
+                safeLayoutManager.removeRemoteView(remoteMedia.id)
+                remoteMedia.destroy()
+            }
+        }
+    }
+
+    // Used in onClientRegistered
+    private fun layoutOnUiThread() {
+        layoutManager?.layoutOnMainThread()
+    }
+
     private fun onClientRegistered(channels: Array<Channel>) {
         channel = channels.firstOrNull()
 
@@ -285,7 +293,8 @@ class GroupPlayerHandler(val context: Context) {
         }
         channel?.addOnRemoteClientLeave { remoteClientInfo ->
             LogManager.log(
-                "Remote client left the channel (client ID: ${remoteClientInfo.id}, " +
+                "Remote client left the channel (" +
+                    "client ID: ${remoteClientInfo.id}, " +
                     "device ID:  ${remoteClientInfo.deviceId}, " +
                     "user ID: ${remoteClientInfo.userId}, " +
                     "tag: ${remoteClientInfo.tag})."
@@ -296,15 +305,25 @@ class GroupPlayerHandler(val context: Context) {
 
         // Monitor the channel remote upstream connection changes.
         channel?.addOnRemoteUpstreamConnectionOpen { remoteConnectionInfo ->
-            Log.info("Remote client opened upstream connection (connection ID: " + remoteConnectionInfo.id + ", client ID: " + remoteConnectionInfo.clientId + ", device ID: " + remoteConnectionInfo.deviceId + ", user ID: " + remoteConnectionInfo.userId + ", tag: " + remoteConnectionInfo.tag + ").")
-            if (!isModeMcu) {
-                // Open downstream connection to receive the new upstream connection.
-                openSfuDownstreamConnection(remoteConnectionInfo, null)
-            }
+            LogManager.log(
+                "Remote client opened upstream connection (" +
+                    "connection ID: ${remoteConnectionInfo.id}, " +
+                    "client ID: ${remoteConnectionInfo.clientId}, " +
+                    "device ID: ${remoteConnectionInfo.deviceId}, " +
+                    "user ID: ${remoteConnectionInfo.userId}, " +
+                    "tag: ${remoteConnectionInfo.tag})."
+            )
+            // Open downstream connection to receive the new upstream connection if mode not Mcu
+            if (!isModeMcu) openSfuDownstreamConnection(remoteConnectionInfo, null)
         }
         channel?.addOnRemoteUpstreamConnectionClose { remoteConnectionInfo ->
-            Log.info(
-                "Remote client closed upstream connection (connection ID: " + remoteConnectionInfo.id + ", client ID: " + remoteConnectionInfo.clientId + ", device ID: " + remoteConnectionInfo.deviceId + ", user ID: " + remoteConnectionInfo.userId + ", tag: " + remoteConnectionInfo.tag + ")."
+            LogManager.log(
+                "Remote client closed upstream connection (" +
+                    "connection ID: ${remoteConnectionInfo.id}, " +
+                    "client ID: ${remoteConnectionInfo.clientId}, " +
+                    "device ID: ${remoteConnectionInfo.deviceId}, " +
+                    "user ID: ${remoteConnectionInfo.userId}, " +
+                    "tag: ${remoteConnectionInfo.tag})."
             )
         }
 
@@ -344,24 +363,14 @@ class GroupPlayerHandler(val context: Context) {
         }
     }
 
-    fun leaveAsync(): Future<Any?>? {
-        return client?.let { safeClient ->
-            unRegistering = true
-
-            // Unregister with the server.
-            safeClient.unregister().then {
-                dataChannelConnected = false
-            }.fail(
-                IAction1 { e ->
-                    e.message?.let { LogManager.log("Failed to Unregister Client: $it") }
-                }
-            )
-        }
-    }
-
     private fun openMcuConnection(tag: String?): McuConnection? {
         // Create remote media to manage incoming media.
-        val remoteMedia = RemoteMedia(context, enableH264, false, audioOnly, aecContext)
+        val remoteMedia = RemoteMedia(
+            context = context,
+            disableAudio = false,
+            disableVideo = audioOnly,
+            aecContext = aecContext
+        )
         mcuViewId = remoteMedia.id
 
         // Add the remote video view to the layout.
@@ -503,7 +512,12 @@ class GroupPlayerHandler(val context: Context) {
         tag: String?
     ): SfuDownstreamConnection? {
         // Create remote media to manage incoming media.
-        val remoteMedia = RemoteMedia(context, enableH264, false, audioOnly, aecContext)
+        val remoteMedia = RemoteMedia(
+            context = context,
+            disableAudio = false,
+            disableVideo = audioOnly,
+            aecContext = aecContext
+        )
 
         // Add the remote video view to the layout.
 
@@ -517,10 +531,10 @@ class GroupPlayerHandler(val context: Context) {
         var videoStream: VideoStream? = null
         var audioStream: AudioStream? = null
         if (remoteConnectionInfo.hasAudio) {
-            audioStream = AudioStream(localMedia, remoteMedia)
+            audioStream = AudioStream(null, remoteMedia)
         }
         if (remoteConnectionInfo.hasVideo && !audioOnly) {
-            videoStream = VideoStream(localMedia, remoteMedia)
+            videoStream = VideoStream(null, remoteMedia)
             // TODO: Mark for removal unless using simulcast
             // if (enableSimulcast) {
             //     val remoteEncodings = remoteConnectionInfo.videoStream.sendEncodings
@@ -602,7 +616,13 @@ class GroupPlayerHandler(val context: Context) {
             */
             disableRemoteVideo = false
         }
-        val remoteMedia = RemoteMedia(context, enableH264, false, disableRemoteVideo, aecContext)
+
+        val remoteMedia = RemoteMedia(
+            context = context,
+            disableAudio = false,
+            disableVideo = disableRemoteVideo,
+            aecContext = aecContext
+        )
 
         // Add the remote video view to the layout.
         addRemoteViewOnUiThread(remoteMedia)
