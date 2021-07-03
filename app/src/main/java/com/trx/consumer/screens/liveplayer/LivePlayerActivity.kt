@@ -16,7 +16,6 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.LiveResponseModel
 import dagger.hilt.android.AndroidEntryPoint
 import fm.liveswitch.IAction1
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class LivePlayerActivity : AppCompatActivity() {
@@ -24,9 +23,7 @@ class LivePlayerActivity : AppCompatActivity() {
     //region Objects
     private val viewModel: LivePlayerViewModel by viewModels()
     private lateinit var viewBinding: ActivityLivePlayerBinding
-
-    @Inject
-    lateinit var handler: LivePlayerHandler
+    private var handler: LivePlayerHandler? = null
 
     val container
         get() = viewBinding.fmPlayerContainer
@@ -44,7 +41,7 @@ class LivePlayerActivity : AppCompatActivity() {
 
     private fun bind() {
         val workout = NavigationManager.shared.params(intent) as? WorkoutModel
-        handler.apply {
+        handler = LivePlayerHandler(applicationContext).apply {
             livePlayerActivity = this@LivePlayerActivity
             listener = viewModel
         }
@@ -184,7 +181,7 @@ class LivePlayerActivity : AppCompatActivity() {
                 requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
             }
             if (requiredPermissions.size == 0) {
-                handler.start(value)
+                handler?.start(value)
             } else {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
                         Manifest.permission.CAMERA
@@ -198,13 +195,14 @@ class LivePlayerActivity : AppCompatActivity() {
                 requestPermissions(requiredPermissions.toTypedArray(), 1)
             }
         } else {
-            handler.start(value)
+            handler?.start(value)
         }
     }
 
     private fun stopVideo() {
-        handler.leaveAsync()?.then {
-            handler.cleanup().then {
+        handler?.leaveAsync()?.then {
+            handler?.cleanup()?.then {
+                handler = null
                 finish()
             }?.fail(
                 IAction1 { e ->

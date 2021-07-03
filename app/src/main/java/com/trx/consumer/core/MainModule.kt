@@ -14,7 +14,6 @@ import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.ConfigManager
 import com.trx.consumer.managers.NativePurchaseManager
 import com.trx.consumer.screens.groupplayer.GroupPlayerHandler
-import com.trx.consumer.screens.liveplayer.LivePlayerHandler
 import com.trx.consumer.screens.privateplayer.PrivatePlayerHandler
 import com.trx.consumer.stripe.StripeBackendManager
 import dagger.Module
@@ -145,11 +144,6 @@ object MainModule {
     fun provideAnalyticsManager(configManager: ConfigManager): AnalyticsManager {
         return AnalyticsManager(configManager)
     }
-
-    @Provides
-    @Singleton
-    fun provideLivePlayerHandler(@ApplicationContext context: Context): LivePlayerHandler =
-        LivePlayerHandler(context)
 
     @Provides
     @Singleton
