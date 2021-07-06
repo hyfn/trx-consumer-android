@@ -134,10 +134,9 @@ class AnalyticsManager(private val configManager: ConfigManager) {
         amplitudeClient.logEvent(VIEW_VIDEO.eventName, JSONObject(properties))
     }
 
-    fun trackViewVideoDetail(model: VideoModel) {
+    fun trackViewVideoDetail(model: VideoModel, page: AnalyticsPageModel) {
         val properties = mapOf<String, Any>(
-            // TODO: No data for this key.
-            // PAGE.propertyName to 1
+            PAGE_TITLE.propertyName to page.pageName,
             VIDEO_ID.propertyName to model.id
         )
 

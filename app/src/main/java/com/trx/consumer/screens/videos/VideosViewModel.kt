@@ -26,6 +26,7 @@ class VideosViewModel @ViewModelInject constructor(
     }
 
     override fun doTapVideo(model: VideoModel) {
+        analyticsManager.trackViewVideoDetail(model, VIDEOS)
         eventTapVideo.postValue(model)
     }
 

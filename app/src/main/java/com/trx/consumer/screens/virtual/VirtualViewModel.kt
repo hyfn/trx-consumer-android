@@ -135,15 +135,21 @@ class VirtualViewModel @ViewModelInject constructor(
     }
 
     override fun doTapPrimaryVirtualWorkout(model: WorkoutModel) {
+        doTrackVideo(model)
         eventShowWorkout.postValue(model)
     }
 
     override fun doTapSelectVirtualWorkout(model: WorkoutModel) {
+        doTrackVideo(model)
         eventShowWorkout.postValue(model)
     }
 
     fun doTrackPageView() {
         analyticsManager.trackPageView(VIRTUAL)
+    }
+
+    private fun doTrackVideo(model: WorkoutModel) {
+        analyticsManager.trackViewVideoDetail(model.video, VIRTUAL)
     }
     //endregion
 }

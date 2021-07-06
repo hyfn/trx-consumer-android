@@ -119,6 +119,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     }
 
     override fun doTapVideo(model: VideoModel) {
+        analyticsManager.trackViewVideoDetail(model, AnalyticsPageModel.DISCOVER)
         eventTapVideo.postValue(model)
     }
 

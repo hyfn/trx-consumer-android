@@ -117,7 +117,7 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
     override fun doTapVideo(model: VideoModel) {
-        analyticsManager.trackViewVideoDetail(model)
+        analyticsManager.trackViewVideoDetail(model, HOME)
         eventShowVideo.postValue(model)
     }
 
