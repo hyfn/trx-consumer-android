@@ -40,7 +40,7 @@ android {
         applicationId "member.android.trxshop"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 1000003
+        versionCode 1000004
         versionName "10.0.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -110,6 +110,7 @@ android {
             buildConfigField "String", "kContactSupportUrl", '"https://www.trxtraining.com/contact-us"'
             buildConfigField "String", "kTermsConditionsUrl", '"https://www.trxtraining.com/terms-of-use"'
             buildConfigField "String", "kTermsSubscriptions", '"https://club.trxtraining.com/additional-terms-subscription"'
+            buildConfigField "String", "kPrivatePolicy", '"https://www.trxtraining.com/privacy-policy"'
             buildConfigField "String", "kGettingStartedVideosUrl", '"https://www.trxtraining.com/getting-started"'
             buildConfigField "String", "kMatchMeUrl", '"https://club.trxtraining.com/match"'
             buildConfigField "String", "kGooglePlaySubscriptionsUrl", '"https://play.google.com/store/account/subscriptions"'

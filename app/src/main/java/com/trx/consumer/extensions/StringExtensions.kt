@@ -90,6 +90,9 @@ fun Context.spannableString(
                         start + highlightedString.length,
                         fullString.length
                     )
+                    clickableSpan?.let {
+                        spannableString.setSpan(it, start, end, 0)
+                    }
                     highlightedColor?.let {
                         spannableString.setSpan(
                             ForegroundColorSpan(
@@ -120,9 +123,6 @@ fun Context.spannableString(
                     }
                     if (highlightedUnderline) {
                         spannableString.setSpan(UnderlineSpan(), start, end, 0)
-                    }
-                    clickableSpan?.let {
-                        spannableString.setSpan(it, start, end, 0)
                     }
                     start += highlightedString.length
                 }
