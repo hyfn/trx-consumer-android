@@ -156,7 +156,6 @@ class LiveViewModel @ViewModelInject constructor(
     }
 
     override fun doTapSelectLiveWorkout(model: WorkoutModel) {
-        analyticsManager.trackViewVideoDetail(model.video, LIVE)
         eventShowWorkout.postValue(model)
     }
 
