@@ -58,19 +58,6 @@ android {
         }
     }
 
-    packagingOptions {
-        exclude 'lib/linux_armv7/*'
-        exclude 'lib/linux_armv8/*'
-        exclude 'lib/linux_arm64/*'
-        exclude 'lib/linux_x64/*'
-        exclude 'lib/linux_x86/*'
-        exclude '**/libaudioprocessingfm.so'
-        exclude '**/libopenh264fm.so'
-        exclude '**/libopusfm.so'
-        exclude '**/libvpxfm.so'
-        exclude '**/libyuvfm.so'
-    }
-
     lintOptions {
         checkReleaseBuilds true
         abortOnError false
