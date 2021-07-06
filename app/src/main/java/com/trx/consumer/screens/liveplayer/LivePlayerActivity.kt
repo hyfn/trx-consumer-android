@@ -51,7 +51,6 @@ class LivePlayerActivity : AppCompatActivity() {
             btnClock.onChecked { isChecked -> viewModel.doTapClock(isChecked) }
             btnMic.onChecked { isChecked -> viewModel.doTapMic(isChecked) }
             btnCast.onChecked { isChecked -> viewModel.doTapCast(isChecked) }
-            btnCamera.onChecked { isChecked -> viewModel.doTapCamera(isChecked) }
             btnClose.action { viewModel.doTapClose() }
         }
 
