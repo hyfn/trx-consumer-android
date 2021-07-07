@@ -16,6 +16,7 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.LiveResponseModel
 import dagger.hilt.android.AndroidEntryPoint
 import fm.liveswitch.IAction1
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class GroupPlayerActivity : AppCompatActivity() {
@@ -23,7 +24,10 @@ class GroupPlayerActivity : AppCompatActivity() {
     //region Objects
     private val viewModel: GroupPlayerViewModel by viewModels()
     private lateinit var viewBinding: ActivityGroupPlayerBinding
-    private var handler: GroupPlayerHandler? = null
+
+    @Inject
+    lateinit var handler: GroupPlayerHandler
+
     val container
         get() = viewBinding.fmGroupPlayerContainer
 
@@ -40,7 +44,7 @@ class GroupPlayerActivity : AppCompatActivity() {
 
     private fun bind() {
         val workout = NavigationManager.shared.params(intent) as? WorkoutModel
-        handler = GroupPlayerHandler(applicationContext).apply {
+        handler.apply {
             groupPlayerActivity = this@GroupPlayerActivity
             listener = viewModel
         }
@@ -181,7 +185,7 @@ class GroupPlayerActivity : AppCompatActivity() {
                 requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
             }
             if (requiredPermissions.size == 0) {
-                handler?.start(value)
+                handler.start(value)
             } else {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
                         Manifest.permission.CAMERA
@@ -195,14 +199,13 @@ class GroupPlayerActivity : AppCompatActivity() {
                 requestPermissions(requiredPermissions.toTypedArray(), 1)
             }
         } else {
-            handler?.start(value)
+            handler.start(value)
         }
     }
 
     private fun stopVideo() {
-        handler?.leaveAsync()?.then {
-            handler?.cleanup()?.then {
-                handler = null
+        handler.leaveAsync()?.then {
+            handler.cleanup().then {
                 finish()
             }?.fail(
                 IAction1 { e ->

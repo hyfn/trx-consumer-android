@@ -13,7 +13,9 @@ import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.ConfigManager
 import com.trx.consumer.managers.NativePurchaseManager
+import com.trx.consumer.screens.groupplayer.GroupPlayerHandler
 import com.trx.consumer.screens.liveplayer.LivePlayerHandler
+import com.trx.consumer.screens.privateplayer.PrivatePlayerHandler
 import com.trx.consumer.stripe.StripeBackendManager
 import dagger.Module
 import dagger.Provides
@@ -148,6 +150,16 @@ object MainModule {
     @Singleton
     fun provideLivePlayerHandler(@ApplicationContext context: Context): LivePlayerHandler =
         LivePlayerHandler(context)
+
+    @Provides
+    @Singleton
+    fun provideGroupPlayerHandler(@ApplicationContext context: Context): GroupPlayerHandler =
+        GroupPlayerHandler(context)
+
+    @Provides
+    @Singleton
+    fun providePrivatePlayerHandler(@ApplicationContext context: Context): PrivatePlayerHandler =
+        PrivatePlayerHandler(context)
 
     @Provides
     @Singleton
