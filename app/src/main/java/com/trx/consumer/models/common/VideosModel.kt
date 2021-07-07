@@ -3,6 +3,7 @@ package com.trx.consumer.models.common
 import android.os.Parcelable
 import com.trx.consumer.extensions.firstOrNull
 import com.trx.consumer.extensions.forEach
+import com.trx.consumer.models.responses.VideosResponseModel
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.Locale
@@ -26,7 +27,7 @@ class VideosModel(
 
     companion object {
 
-        fun parse(jsonObject: JSONObject): VideosModel {
+        fun parse(jsonObject: JSONObject, videoType: VideosResponseModel.VideoType): VideosModel {
             return VideosModel().apply {
                 title = jsonObject.optString("title")
                 description = jsonObject.optString("description")
@@ -35,7 +36,7 @@ class VideosModel(
                 trainer = jsonObject.optJSONObject("firstTrainer")?.let { TrainerModel.parse(it) }
                     ?: TrainerModel()
                 val referenceId = jsonObject.optJSONArray("videos")?.firstOrNull()?.
-                getString("referenceId") ?: ""
+                optJSONObject("video")?.optString("referenceId") ?: ""
                 jsonObject.optJSONArray("videos")?.forEach { video ->
                     videos.add(VideoModel.parse(video).apply { this.referenceId = referenceId })
                 }
