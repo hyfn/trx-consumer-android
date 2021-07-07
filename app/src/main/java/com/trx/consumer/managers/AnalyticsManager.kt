@@ -127,8 +127,8 @@ class AnalyticsManager(private val configManager: ConfigManager) {
             TRAINER_NAME.propertyName to model.trainer.fullName,
             VIDEO_ID.propertyName to model.id,
             VIDEO_NAME.propertyName to model.name,
-            PROGRAM_ID.propertyName to model.referenceId,
-            COLLECTION_ID.propertyName to model.referenceId
+            PROGRAM_ID.propertyName to model.programId,
+            COLLECTION_ID.propertyName to model.collectionId
         )
 
         amplitudeClient.logEvent(VIEW_VIDEO.eventName, JSONObject(properties))

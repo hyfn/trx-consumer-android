@@ -38,7 +38,12 @@ class VideosModel(
                 val referenceId = jsonObject.optJSONArray("videos")?.firstOrNull()?.
                 optJSONObject("video")?.optString("referenceId") ?: ""
                 jsonObject.optJSONArray("videos")?.forEach { video ->
-                    videos.add(VideoModel.parse(video).apply { this.referenceId = referenceId })
+                    videos.add(VideoModel.parse(video).apply {
+                        if (videoType == VideosResponseModel.VideoType.COLLECTION)
+                            this.collectionId = referenceId
+                        else
+                            this.programId = referenceId
+                    })
                 }
             }
         }

@@ -2,6 +2,7 @@ package com.trx.consumer.models.common
 
 import android.os.Parcelable
 import com.trx.consumer.extensions.map
+import com.trx.consumer.models.responses.VideosResponseModel
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 
@@ -18,7 +19,8 @@ class VideoModel(
     var focus: String = "",
     var body: List<String> = listOf(),
     val isSkeleton: Boolean = false,
-    var referenceId: String = ""
+    var collectionId: String = "",
+    var programId: String = ""
 ) : Parcelable {
 
     val videoDuration: String
