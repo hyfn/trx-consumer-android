@@ -289,9 +289,4 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
             RequestModel(endpoint = EndpointModel.TRAINER_PROGRAMS, path = path, params = null)
         )
     }
-
-    suspend fun createSubscription(params: HashMap<String, Any>? = null): ResponseModel {
-        val path = EndpointModel.CREATE_SUBSCRIPTION.path
-        return call(RequestModel(endpoint = EndpointModel.CREATE_SUBSCRIPTION, path = path, params = params))
-    }
 }
