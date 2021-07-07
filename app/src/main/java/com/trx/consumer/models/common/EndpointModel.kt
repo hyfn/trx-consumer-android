@@ -32,7 +32,8 @@ enum class EndpointModel {
     UPDATE,
     USER,
     VIDEOS,
-    WORKOUTS;
+    WORKOUTS,
+    CREATE_SUBSCRIPTION;
 
     enum class Type {
         GET,
@@ -61,7 +62,8 @@ enum class EndpointModel {
                 FORGOT,
                 PAYMENT_ADD,
                 MEMBERSHIP_ADD,
-                REGISTER -> {
+                REGISTER,
+                CREATE_SUBSCRIPTION -> {
                     Type.POST
                 }
                 LOGIN -> {
@@ -91,7 +93,8 @@ enum class EndpointModel {
                 MEMBERSHIP_ADD,
                 MEMBERSHIP_DELETE,
                 UPDATE,
-                USER -> true
+                USER,
+                CREATE_SUBSCRIPTION -> true
                 else -> false
             }
         }
@@ -112,7 +115,8 @@ enum class EndpointModel {
                 LIVE -> prefix + "live"
                 AUTH, LOGIN, LOGOUT, REGISTER -> prefix + "auth"
                 PAYMENT_ADD, PAYMENT_DELETE -> prefix + "stripe/payment-method"
-                MEMBERSHIP_ADD, MEMBERSHIP_DELETE, MEMBERSHIPS -> prefix + "subscriptions"
+                MEMBERSHIP_ADD, MEMBERSHIP_DELETE, MEMBERSHIPS,
+                CREATE_SUBSCRIPTION -> prefix + "subscriptions"
                 PROGRAM_AVAILABILITY -> prefix + "programs"
                 PROMOS -> prefix + "copy/ctas"
                 TRAINER, TRAINERS, TRAINER_PROGRAMS, TRAINER_SESSIONS -> prefix + "trainers"
