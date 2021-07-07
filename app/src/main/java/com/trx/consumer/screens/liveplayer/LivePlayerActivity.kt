@@ -8,6 +8,7 @@ import android.widget.RelativeLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import com.trx.consumer.databinding.ActivityLivePlayerBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.checkLivePermission
@@ -38,16 +39,17 @@ class LivePlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityLivePlayerBinding.inflate(layoutInflater)
-        container = viewBinding.fmPlayerContainer
         setContentView(viewBinding.root)
         bind()
     }
 
     private fun bind() {
         val workout = NavigationManager.shared.params(intent) as? WorkoutModel
+        container = viewBinding.fmPlayerContainer
         handler.apply {
             livePlayerActivity = this@LivePlayerActivity
             listener = viewModel
+            if (handlerScope == null) handlerScope = viewModel.viewModelScope
         }
 
         viewBinding.apply {
@@ -77,27 +79,10 @@ class LivePlayerActivity : AppCompatActivity() {
 
     //region Activity Lifecycle
 
-    override fun onStop() {
-        // Android requires us to pause the local
-        // video feed when pausing the activity.
-        // Not doing this can cause unexpected side
-        // effects and crashes.
-        if (viewModel.localMediaStarted) {
-            handler.leaveAsync()?.then {
-                handler.cleanup().then {
-                    viewModel.localMediaStarted = false
-                }?.fail(
-                    IAction1 { e ->
-                        LogManager.log("Could not stop local media: ${e.message}")
-                    }
-                )
-            }?.fail(
-                IAction1 { e ->
-                    LogManager.log("Could not leave conference: ${e.message}")
-                }
-            )
-        }
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.leaveAsync()?.waitForResult()
+        viewModel.localMediaStarted = true
     }
 
     //endregion
@@ -220,7 +205,6 @@ class LivePlayerActivity : AppCompatActivity() {
         if (viewModel.localMediaStarted) {
             handler.leaveAsync()?.then {
                 handler.cleanup().then {
-                    viewModel.localMediaStarted = false
                     finish()
                 }?.fail(
                     IAction1 { e ->
@@ -233,7 +217,6 @@ class LivePlayerActivity : AppCompatActivity() {
                 }
             )
         } else {
-            viewModel.localMediaStarted = false
             finish()
         }
     }

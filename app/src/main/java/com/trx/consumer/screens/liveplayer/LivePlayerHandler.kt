@@ -2,7 +2,6 @@ package com.trx.consumer.screens.liveplayer
 
 import android.content.Context
 import android.view.View
-import androidx.lifecycle.lifecycleScope
 import com.trx.consumer.BuildConfig.kFMApplicationIdProd
 import com.trx.consumer.BuildConfig.kFMGatewayUrl
 import com.trx.consumer.frozenmountain.AecContext
@@ -44,6 +43,7 @@ import fm.liveswitch.VideoStream
 import fm.liveswitch.android.Camera2Source
 import fm.liveswitch.android.LayoutManager
 import fm.liveswitch.openh264.Utility
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.ArrayList
@@ -52,6 +52,7 @@ class LivePlayerHandler(val context: Context) {
 
     private var channel: Channel? = null
 
+    var handlerScope: CoroutineScope? = null
     private var mcuConnection: McuConnection? = null
     private var sfuUpstreamConnection: SfuUpstreamConnection? = null
     private var sfuDownstreamConnections: HashMap<String, SfuDownstreamConnection>
@@ -130,7 +131,7 @@ class LivePlayerHandler(val context: Context) {
         livePlayerActivity?.let { activity ->
             layoutManager = LayoutManager(activity.container)
 
-            activity.lifecycleScope.launch(Dispatchers.Main) {
+            handlerScope?.launch(Dispatchers.Main) {
                 if (receiveOnly) {
                     promise.resolve(null)
                 } else {
@@ -177,17 +178,19 @@ class LivePlayerHandler(val context: Context) {
                 userAlias = live.participantName
                 addOnStateChange { safeClient ->
                     LogManager.log("Client state is: ${safeClient.state.name} ")
-                    if (safeClient.state == Unregistered && !unRegistering) {
-                        ManagedThread.sleep(maxRegisterBackoff)
-                        if (maxRegisterBackoff < maxRegisterBackoff) {
-                            reRegisterBackoff += reRegisterBackoff
-                        }
+                    if (safeClient.state == Unregistered) {
+                        if (!unRegistering) {
+                            ManagedThread.sleep(maxRegisterBackoff)
+                            if (maxRegisterBackoff < maxRegisterBackoff) {
+                                reRegisterBackoff += reRegisterBackoff
+                            }
 
-                        safeClient.register(live.accessToken).then({ channels ->
-                            reRegisterBackoff = 200
-                            onClientRegistered(channels)
-                        }) { e ->
-                            LogManager.log("Failed to reregister with Gateway. ${e.message}")
+                            safeClient.register(live.accessToken).then({ channels ->
+                                reRegisterBackoff = 200
+                                onClientRegistered(channels)
+                            }) { e ->
+                                LogManager.log("Failed to reregister with Gateway. ${e.message}")
+                            }
                         }
                     }
                 }
@@ -204,6 +207,7 @@ class LivePlayerHandler(val context: Context) {
         val promise: Promise<fm.liveswitch.LocalMedia?> = Promise()
         livePlayerActivity = null
         listener = null
+        handlerScope = null
         clearContextMenuItemFlag("localView")
         if (localMedia == null) {
             promise.resolve(null)
@@ -251,7 +255,7 @@ class LivePlayerHandler(val context: Context) {
     // Used when opening Mcu connection and PeerAnswerConnection.
     private fun addRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
         layoutManager?.let { safeLayoutManager ->
-            livePlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
+            handlerScope?.launch(Dispatchers.Main) {
                 remoteMedia.view?.let { safeView ->
                     safeView.contentDescription = "remoteView_${safeView.id}"
                     safeLayoutManager.addRemoteView(remoteMedia.id, safeView)
@@ -264,7 +268,7 @@ class LivePlayerHandler(val context: Context) {
     private fun removeRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
         layoutManager?.let { safeLayoutManager ->
             clearContextMenuItemFlag(remoteMedia.id)
-            livePlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
+            handlerScope?.launch(Dispatchers.Main) {
                 safeLayoutManager.removeRemoteView(remoteMedia.id)
                 remoteMedia.destroy()
             }
@@ -521,7 +525,7 @@ class LivePlayerHandler(val context: Context) {
         )
 
         // Add the remote video view to the layout.
-        livePlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
+        handlerScope?.launch(Dispatchers.Main) {
             layoutManager?.addRemoteView(
                 remoteMedia.id,
                 remoteMedia.view
@@ -576,7 +580,7 @@ class LivePlayerHandler(val context: Context) {
                         remoteMedia.view
                     )
 
-                    livePlayerActivity?.lifecycleScope?.launch {
+                    handlerScope?.launch {
                         layoutManager?.removeRemoteView(remoteMedia.id)
                         remoteMedia.destroy()
                     }

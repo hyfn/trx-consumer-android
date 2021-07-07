@@ -8,11 +8,13 @@
         android:id="@+id/fmPlayerContainer"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:background="@color/green"
         android:clickable="true"
         android:focusable="true"
-        android:background="@color/green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/navView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/navView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.trx.consumer.common.CommonView
         android:id="@+id/navView"

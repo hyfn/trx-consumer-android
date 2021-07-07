@@ -21,11 +21,18 @@ class LivePlayerViewModel @ViewModelInject constructor (
     //region Objects
 
     var model: WorkoutModel? = null
+        set(value) {
+            if (field == null) {
+                field = value
+            } else if (field?.identifier != value?.identifier) {
+                field = value
+            }
+        }
 
-    var isCameraChecked: Boolean = false
-    var isMicChecked: Boolean = false
-    var isClockChecked: Boolean = false
-    var isCastChecked: Boolean = false
+    private var isCameraChecked: Boolean = false
+    private var isMicChecked: Boolean = false
+    private var isClockChecked: Boolean = false
+    private var isCastChecked: Boolean = false
 
     var localMediaStarted: Boolean = false
 
@@ -49,7 +56,6 @@ class LivePlayerViewModel @ViewModelInject constructor (
 
     fun doLoadVideo() {
         LogManager.log("doLoadVideo")
-
         viewModelScope.launch {
             model?.let { workout ->
                 if (!localMediaStarted) {
@@ -67,13 +73,23 @@ class LivePlayerViewModel @ViewModelInject constructor (
                     eventShowHud.postValue(false)
 
                     if (liveResponse.isSuccess) {
-                        val liveModel = LiveResponseModel.parse(liveResponse.responseString)
-                        if (liveModel.isValidType) {
-                            workout.live = liveModel
-                            eventLoadVideo.postValue(workout)
-                            localMediaStarted = true
+                        try {
+                            val liveModel = LiveResponseModel.parse(liveResponse.responseString)
+                            if (liveModel.isValidType) {
+                                workout.live = liveModel
+                                localMediaStarted = true
+                                eventLoadVideo.postValue(workout)
+                            } else {
+                                eventLoadError.postValue("There was an error")
+                            }
+                        } catch (e: Exception) {
+                            LogManager.log(e)
                         }
+                    } else {
+                        eventLoadError.postValue("There was an error")
                     }
+                } else {
+                    model?.let { eventLoadVideo.postValue(it) }
                 }
             } ?: run {
                 eventLoadError.postValue("There was an error")
@@ -102,9 +118,7 @@ class LivePlayerViewModel @ViewModelInject constructor (
     }
 
     fun doTapClose() {
-        // if (localMediaStarted) {
         eventTapClose.call()
-        // }
     }
 
     override fun doReceiveMessage(clientId: String, message: String) {
@@ -118,6 +132,11 @@ class LivePlayerViewModel @ViewModelInject constructor (
 
     fun doTrackPageView() {
         analyticsManager.trackPageView(LIVE_PLAYER)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        localMediaStarted = false
     }
 
     //endregion
