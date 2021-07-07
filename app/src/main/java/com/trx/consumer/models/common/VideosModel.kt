@@ -1,6 +1,7 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
+import com.trx.consumer.extensions.firstOrNull
 import com.trx.consumer.extensions.forEach
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
@@ -33,8 +34,10 @@ class VideosModel(
                 poster = jsonObject.optString("poster")
                 trainer = jsonObject.optJSONObject("firstTrainer")?.let { TrainerModel.parse(it) }
                     ?: TrainerModel()
-                jsonObject.optJSONArray("videos")?.forEach {
-                    videos.add(VideoModel.parse(it))
+                val referenceId = jsonObject.optJSONArray("videos")?.firstOrNull()?.
+                getString("referenceId") ?: ""
+                jsonObject.optJSONArray("videos")?.forEach { video ->
+                    videos.add(VideoModel.parse(video).apply { this.referenceId = referenceId })
                 }
             }
         }

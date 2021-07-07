@@ -1,5 +1,6 @@
 package com.trx.consumer.extensions
 
+import com.google.gson.JsonObject
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -23,6 +24,13 @@ inline fun JSONArray.forEach(action: (JSONObject) -> Unit) {
         val obj = this.get(index)
         if (obj is JSONObject) action(obj)
     }
+}
+
+fun JSONArray.firstOrNull(): JSONObject? {
+    return if (this.length() > 0) {
+        val firstObj = getJSONObject(0)
+        if (firstObj is JSONObject) firstObj else null
+    } else null
 }
 
 /**

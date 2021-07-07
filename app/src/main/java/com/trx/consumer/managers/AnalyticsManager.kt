@@ -24,6 +24,8 @@ import com.trx.consumer.models.common.AnalyticsPropertyModel.TRAINER_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.TRAINER_NAME
 import com.trx.consumer.models.common.AnalyticsPropertyModel.VIDEO_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.VIDEO_NAME
+import com.trx.consumer.models.common.AnalyticsPropertyModel.PROGRAM_ID
+import com.trx.consumer.models.common.AnalyticsPropertyModel.COLLECTION_ID
 import com.trx.consumer.models.common.FilterOptionsModel
 import com.trx.consumer.models.common.MembershipModel
 import com.trx.consumer.models.common.UserModel
@@ -93,7 +95,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
             TRAINER_ID.propertyName to model.trainer.key,
             TRAINER_NAME.propertyName to model.trainer.fullName,
             VIDEO_ID.propertyName to model.id,
-            VIDEO_NAME.propertyName to model.name
+            VIDEO_NAME.propertyName to model.name,
 
             // TODO: - Complete
             // PROGRAM_ID to video.id
@@ -124,11 +126,9 @@ class AnalyticsManager(private val configManager: ConfigManager) {
             TRAINER_ID.propertyName to model.trainer.key,
             TRAINER_NAME.propertyName to model.trainer.fullName,
             VIDEO_ID.propertyName to model.id,
-            VIDEO_NAME.propertyName to model.name
-
-            // TODO: Complete
-            // PROGRAM_ID to video.id
-            // COLLECTION_ID to video.id
+            VIDEO_NAME.propertyName to model.name,
+            PROGRAM_ID.propertyName to model.referenceId,
+            COLLECTION_ID.propertyName to model.referenceId
         )
 
         amplitudeClient.logEvent(VIEW_VIDEO.eventName, JSONObject(properties))

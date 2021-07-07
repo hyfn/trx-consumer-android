@@ -17,7 +17,8 @@ class VideoModel(
     var level: String = "",
     var focus: String = "",
     var body: List<String> = listOf(),
-    val isSkeleton: Boolean = false
+    val isSkeleton: Boolean = false,
+    var referenceId: String = ""
 ) : Parcelable {
 
     val videoDuration: String
