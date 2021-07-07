@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.widget.RelativeLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -28,8 +29,7 @@ class LivePlayerActivity : AppCompatActivity() {
     @Inject
     lateinit var handler: LivePlayerHandler
 
-    val container
-        get() = viewBinding.fmPlayerContainer
+    lateinit var container: RelativeLayout
 
     //endregion
 
@@ -38,6 +38,7 @@ class LivePlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityLivePlayerBinding.inflate(layoutInflater)
+        container = viewBinding.fmPlayerContainer
         setContentView(viewBinding.root)
         bind()
     }
@@ -81,11 +82,25 @@ class LivePlayerActivity : AppCompatActivity() {
         // video feed when pausing the activity.
         // Not doing this can cause unexpected side
         // effects and crashes.
-        viewModel.doTapClose()
+        if (viewModel.localMediaStarted) {
+            handler.leaveAsync()?.then {
+                handler.cleanup().then {
+                    viewModel.localMediaStarted = false
+                }?.fail(
+                    IAction1 { e ->
+                        LogManager.log("Could not stop local media: ${e.message}")
+                    }
+                )
+            }?.fail(
+                IAction1 { e ->
+                    LogManager.log("Could not leave conference: ${e.message}")
+                }
+            )
+        }
         super.onStop()
     }
 
-    //endregion 
+    //endregion
 
     //region Activity Helper Overrides
 
@@ -202,19 +217,25 @@ class LivePlayerActivity : AppCompatActivity() {
     }
 
     private fun stopVideo() {
-        handler.leaveAsync()?.then {
-            handler.cleanup().then {
-                finish()
+        if (viewModel.localMediaStarted) {
+            handler.leaveAsync()?.then {
+                handler.cleanup().then {
+                    viewModel.localMediaStarted = false
+                    finish()
+                }?.fail(
+                    IAction1 { e ->
+                        LogManager.log("Could not stop local media: ${e.message}")
+                    }
+                )
             }?.fail(
                 IAction1 { e ->
-                    LogManager.log("Could not stop local media: ${e.message}")
+                    LogManager.log("Could not leave conference: ${e.message}")
                 }
             )
-        }?.fail(
-            IAction1 { e ->
-                LogManager.log("Could not leave conference: ${e.message}")
-            }
-        )
+        } else {
+            viewModel.localMediaStarted = false
+            finish()
+        }
     }
 
     //endregion

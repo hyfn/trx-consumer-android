@@ -156,7 +156,6 @@ class LivePlayerHandler(val context: Context) {
                     // Start the local media.
                     localMedia?.let { safeLocalMedia ->
                         safeLocalMedia.start().then({
-                            it.videoSource.start()
                             promise.resolve(null)
                         }) { e ->
                             promise.reject(e)
@@ -201,40 +200,39 @@ class LivePlayerHandler(val context: Context) {
         }
     }
 
-    fun cleanup(): Future<Any> {
-        val promise: Promise<Any> = Promise()
+    fun cleanup(): Future<fm.liveswitch.LocalMedia?> {
+        val promise: Promise<fm.liveswitch.LocalMedia?> = Promise()
         livePlayerActivity = null
         listener = null
         clearContextMenuItemFlag("localView")
         if (localMedia == null) {
             promise.resolve(null)
         } else {
-            localMedia?.stop()?.then({ // Tear down the layout manager.
+            localMedia!!.stop().then({ // Tear down the layout manager.
                 layoutManager?.let { safeLayoutManager ->
                     safeLayoutManager.apply {
                         removeRemoteViews()
                         unsetLocalView()
                     }
-                    layoutManager = null
                 }
+                layoutManager = null
 
                 // Tear down the local media.
-                localMedia?.let {
-                    it.destroy()
-                    localMedia = null
-                }
+                localMedia?.destroy()
+                localMedia = null
+
                 promise.resolve(null)
             }) { e -> promise.reject(e) }
         }
         return promise
     }
 
-    fun leaveAsync(): Future<Any?>? {
-        return client?.let { safeClient ->
+    fun leaveAsync(): Future<Any>? {
+        client?.let { safeClient ->
             unRegistering = true
 
             // Unregister with the server.
-            safeClient.unregister().then {
+            return safeClient.unregister().then {
                 dataChannelConnected = false
             }.fail(
                 IAction1 { e ->
@@ -242,6 +240,8 @@ class LivePlayerHandler(val context: Context) {
                 }
             )
         }
+
+        return null
     }
 
     //endregion

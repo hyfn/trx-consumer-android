@@ -37,8 +37,7 @@
             android:configChanges="orientation|screenSize" />
 
         <activity
-            android:name=".screens.liveplayer.LivePlayerActivity"
-            android:configChanges="orientation|screenSize" />
+            android:name=".screens.liveplayer.LivePlayerActivity" />
 
         <activity
             android:name=".screens.groupplayer.GroupPlayerActivity"

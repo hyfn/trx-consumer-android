@@ -52,26 +52,27 @@ class LivePlayerViewModel @ViewModelInject constructor (
 
         viewModelScope.launch {
             model?.let { workout ->
+                if (!localMediaStarted) {
+                    //  TODO: Bring back in after testing.
+                    // eventShowHud.postValue(true)
+                    // val joinResponse = backendManager.join(workout.identifier)
+                    // eventShowHud.postValue(false)
+                    // if (joinResponse.isSuccess) {
+                    // }
 
-                //  TODO: Bring back in after testing.
-                // eventShowHud.postValue(true)
-                // val joinResponse = backendManager.join(workout.identifier)
-                // eventShowHud.postValue(false)
-                // if (joinResponse.isSuccess) {
-                // }
+                    eventShowHud.postValue(true)
+                    // TODO: Change to valid key after testing.
+                    val liveAccessKey = kFMDevLiveAccessKey
+                    val liveResponse = backendManager.live(liveAccessKey)
+                    eventShowHud.postValue(false)
 
-                eventShowHud.postValue(true)
-                // TODO: Change to valid key after testing.
-                val liveAccessKey = kFMDevLiveAccessKey
-                val liveResponse = backendManager.live(liveAccessKey)
-                eventShowHud.postValue(false)
-
-                if (liveResponse.isSuccess) {
-                    val liveModel = LiveResponseModel.parse(liveResponse.responseString)
-                    if (liveModel.isValidType && !localMediaStarted) {
-                        workout.live = liveModel
-                        eventLoadVideo.postValue(workout)
-                        localMediaStarted = true
+                    if (liveResponse.isSuccess) {
+                        val liveModel = LiveResponseModel.parse(liveResponse.responseString)
+                        if (liveModel.isValidType) {
+                            workout.live = liveModel
+                            eventLoadVideo.postValue(workout)
+                            localMediaStarted = true
+                        }
                     }
                 }
             } ?: run {
@@ -101,10 +102,9 @@ class LivePlayerViewModel @ViewModelInject constructor (
     }
 
     fun doTapClose() {
-        if (localMediaStarted) {
-            eventTapClose.call()
-            localMediaStarted = false
-        }
+        // if (localMediaStarted) {
+        eventTapClose.call()
+        // }
     }
 
     override fun doReceiveMessage(clientId: String, message: String) {
