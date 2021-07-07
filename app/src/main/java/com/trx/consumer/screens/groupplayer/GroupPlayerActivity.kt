@@ -83,8 +83,6 @@ class GroupPlayerActivity : AppCompatActivity() {
 
     private fun handleTapShare(isChecked: Boolean) {
         LogManager.log("handleTapShare $isChecked ")
-        participants.add("${participantsCounter++}")
-        smallGroupViewFragmentAdapter.setParticipants(participants)
     }
 
     private fun handleTapEnd() {
