@@ -243,6 +243,14 @@ abstract class LiveSwitchWithTrainerHandlerBase(open val context: Context) {
         }*/
     }
 
+    fun getLocalMediaView(): LocalMedia<View>? {
+        return this.localMedia
+    }
+
+    fun getTrainerMediaView(): RemoteMedia? {
+        return this.trainerMedia
+    }
+
     fun startLocalMedia(activity: LivePlayerActivity): Future<Any> {
         val promise = Promise<Any>()
         if (enableH264) {

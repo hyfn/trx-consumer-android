@@ -1,12 +1,24 @@
 package com.trx.consumer.screens.privateplayer
 
 import android.os.Bundle
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.trx.consumer.R
+import com.trx.consumer.common.CommonView
 import com.trx.consumer.databinding.ActivityPrivatePlayerBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.AnalyticsPageModel.PRIVATE_PLAYER
+import com.trx.consumer.models.common.WorkoutModel
+import com.trx.consumer.screens.liveplayer.LivePlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -18,10 +30,23 @@ class PrivatePlayerActivity : AppCompatActivity() {
     @Inject
     lateinit var analyticsManager: AnalyticsManager
 
+    lateinit var container: CommonView
+    lateinit var trainerContainer: CommonView
+    lateinit var localMediaContainer: CommonView
+
+    private val viewModel: LivePlayerViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPrivatePlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        trainerContainer = findViewById(R.id.privatePlayerTrainerView)
+        localMediaContainer = findViewById(R.id.privatePlayerLocalMediaView)
+
+        //TODO: Add in the remote media for trainer and the local media for local:
+        //trainerContainer.addView(testTextTrainer)
+        //localMediaContainer.addView(textLocalContainer)
 
         binding.apply {
             btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
@@ -31,6 +56,15 @@ class PrivatePlayerActivity : AppCompatActivity() {
             btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
             btnEnd.action { handleTapEnd() }
         }
+    }
+
+    private fun bind() {
+        val workout = NavigationManager.shared.params(intent) as? WorkoutModel
+
+        /*viewModel.apply {
+            model = workout
+            eventLoadVideo.observe(this@PrivatePlayerActivity, handleLoadVideo)
+        }*/
     }
 
     private fun handleTapCamera(isChecked: Boolean) {

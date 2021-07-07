@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,7 +13,28 @@
         android:focusable="true"
         app:backgroundColor="@color/green"
         app:layout_constraintBottom_toTopOf="@+id/navView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp">
+
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/privatePlayerTrainerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.trx.consumer.common.CommonView
+                android:id="@+id/privatePlayerLocalMediaView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </com.trx.consumer.common.CommonView>
 
     <com.trx.consumer.common.CommonView
         android:id="@+id/navView"
