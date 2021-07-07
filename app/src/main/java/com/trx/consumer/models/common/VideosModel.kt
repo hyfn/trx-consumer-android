@@ -27,7 +27,7 @@ class VideosModel(
 
     companion object {
 
-        fun parse(jsonObject: JSONObject, videoType: VideosResponseModel.VideoType): VideosModel {
+        fun parse(jsonObject: JSONObject): VideosModel {
             return VideosModel().apply {
                 title = jsonObject.optString("title")
                 description = jsonObject.optString("description")
