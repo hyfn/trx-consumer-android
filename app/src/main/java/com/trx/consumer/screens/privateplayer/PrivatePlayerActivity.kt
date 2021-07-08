@@ -4,9 +4,11 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.widget.RelativeLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import com.trx.consumer.databinding.ActivityPrivatePlayerBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.checkLivePermission
@@ -28,8 +30,7 @@ class PrivatePlayerActivity : AppCompatActivity() {
     @Inject
     lateinit var handler: PrivatePlayerHandler
 
-    val container
-        get() = viewBinding.fmPrivatePlayerContainer
+    lateinit var container: RelativeLayout
 
     //endregion
 
@@ -44,9 +45,11 @@ class PrivatePlayerActivity : AppCompatActivity() {
 
     private fun bind() {
         val workout = NavigationManager.shared.params(intent) as? WorkoutModel
+        container = viewBinding.fmPrivatePlayerContainer
         handler.apply {
             privatePlayerActivity = this@PrivatePlayerActivity
             listener = viewModel
+            if (handlerScope == null) handlerScope = viewModel.viewModelScope
         }
 
         viewBinding.apply {
@@ -54,7 +57,6 @@ class PrivatePlayerActivity : AppCompatActivity() {
             btnClock.onChecked { isChecked -> viewModel.doTapClock(isChecked) }
             btnMic.onChecked { isChecked -> viewModel.doTapMic(isChecked) }
             btnCast.onChecked { isChecked -> viewModel.doTapCast(isChecked) }
-            btnCamera.onChecked { isChecked -> viewModel.doTapCamera(isChecked) }
             btnClose.action { viewModel.doTapClose() }
         }
 
@@ -77,13 +79,10 @@ class PrivatePlayerActivity : AppCompatActivity() {
 
     //region Activity Lifecycle
 
-    override fun onStop() {
-        // Android requires us to pause the local
-        // video feed when pausing the activity.
-        // Not doing this can cause unexpected side
-        // effects and crashes.
-        stopVideo()
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.leaveAsync()?.waitForResult()
+        viewModel.localMediaStarted = true
     }
 
     //endregion
@@ -204,19 +203,23 @@ class PrivatePlayerActivity : AppCompatActivity() {
     }
 
     private fun stopVideo() {
-        handler.leaveAsync()?.then {
-            handler.cleanup().then {
-                finish()
+        if (viewModel.localMediaStarted) {
+            handler.leaveAsync()?.then {
+                handler.cleanup().then {
+                    finish()
+                }?.fail(
+                    IAction1 { e ->
+                        LogManager.log("Could not stop local media: ${e.message}")
+                    }
+                )
             }?.fail(
                 IAction1 { e ->
-                    LogManager.log("Could not stop local media: ${e.message}")
+                    LogManager.log("Could not leave conference: ${e.message}")
                 }
             )
-        }?.fail(
-            IAction1 { e ->
-                LogManager.log("Could not leave conference: ${e.message}")
-            }
-        )
+        } else {
+            finish()
+        }
     }
 
     //endregion
