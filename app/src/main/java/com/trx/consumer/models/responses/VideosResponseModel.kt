@@ -4,6 +4,7 @@ import com.trx.consumer.extensions.forEach
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
+import com.trx.consumer.screens.discover.DiscoverViewState
 import org.json.JSONObject
 
 class VideosResponseModel(
@@ -26,12 +27,12 @@ class VideosResponseModel(
 
             val collections = mutableListOf<VideosModel>()
             data?.optJSONArray("collections")?.forEach {
-                collections.add(VideosModel.parse(it, VideoType.COLLECTION))
+                collections.add(VideosModel.parse(it, DiscoverViewState.COLLECTIONS))
             }
 
             val programs = mutableListOf<VideosModel>()
             data?.optJSONArray("programs")?.forEach {
-                programs.add(VideosModel.parse(it, VideoType.PROGRAM))
+                programs.add(VideosModel.parse(it, DiscoverViewState.PROGRAMS))
             }
 
             val filters = data?.optJSONObject("filters")?.let {
@@ -47,9 +48,5 @@ class VideosResponseModel(
 
     fun lstWorkoutsForTrainerProfileId(id: String): List<VideoModel> {
         return workouts.filter { it.trainer.virtualTrainerProfileId == id }
-    }
-
-    enum class VideoType {
-        WORKOUT, COLLECTION, PROGRAM
     }
 }

@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.trx.consumer.extensions.firstOrNull
 import com.trx.consumer.extensions.forEach
 import com.trx.consumer.models.responses.VideosResponseModel
+import com.trx.consumer.screens.discover.DiscoverViewState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.Locale
@@ -16,7 +17,7 @@ class VideosModel(
     var poster: String = "",
     var trainer: TrainerModel = TrainerModel(),
     val videos: MutableList<VideoModel> = mutableListOf(),
-    val isSkeleton: Boolean = false
+    val isSkeleton: Boolean = false,
 ) : Parcelable {
 
     val numberOfVideosDisplay: String
@@ -27,22 +28,21 @@ class VideosModel(
 
     companion object {
 
-        fun parse(jsonObject: JSONObject, videoType: VideosResponseModel.VideoType): VideosModel {
+        fun parse(jsonObject: JSONObject, state: DiscoverViewState): VideosModel {
             return VideosModel().apply {
                 title = jsonObject.optString("title")
                 description = jsonObject.optString("description")
                 thumbnail = jsonObject.optString("thumbnail")
                 poster = jsonObject.optString("poster")
-                trainer = jsonObject.optJSONObject("firstTrainer")?.let { TrainerModel.parse(it) }
-                    ?: TrainerModel()
-                val referenceId = jsonObject.optJSONArray("videos")?.firstOrNull()?.
-                optJSONObject("video")?.optString("referenceId") ?: ""
+                trainer = jsonObject.optJSONObject("firstTrainer")?.
+                let{ TrainerModel.parse(it) } ?: TrainerModel()
+                val referenceId =
+                    jsonObject.optJSONArray("videos")?.firstOrNull()?.
+                    optJSONObject("video")?.optString("referenceId") ?: ""
                 jsonObject.optJSONArray("videos")?.forEach { video ->
                     videos.add(VideoModel.parse(video).apply {
-                        if (videoType == VideosResponseModel.VideoType.COLLECTION)
-                            this.collectionId = referenceId
-                        else
-                            this.programId = referenceId
+                        this.referenceId = referenceId
+                        this.state = state
                     })
                 }
             }
