@@ -2,7 +2,6 @@ package com.trx.consumer.screens.groupplayer
 
 import android.content.Context
 import android.view.View
-import androidx.lifecycle.lifecycleScope
 import com.trx.consumer.BuildConfig.kFMApplicationIdProd
 import com.trx.consumer.BuildConfig.kFMGatewayUrl
 import com.trx.consumer.frozenmountain.AecContext
@@ -44,6 +43,7 @@ import fm.liveswitch.VideoStream
 import fm.liveswitch.android.Camera2Source
 import fm.liveswitch.android.LayoutManager
 import fm.liveswitch.openh264.Utility
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.ArrayList
@@ -52,6 +52,7 @@ class GroupPlayerHandler(val context: Context) {
 
     private var channel: Channel? = null
 
+    var handlerScope: CoroutineScope? = null
     private var mcuConnection: McuConnection? = null
     private var sfuUpstreamConnection: SfuUpstreamConnection? = null
     private var sfuDownstreamConnections: HashMap<String, SfuDownstreamConnection>
@@ -130,7 +131,7 @@ class GroupPlayerHandler(val context: Context) {
         groupPlayerActivity?.let { activity ->
             layoutManager = LayoutManager(activity.container)
 
-            activity.lifecycleScope.launch(Dispatchers.Main) {
+            handlerScope?.launch(Dispatchers.Main) {
                 if (receiveOnly) {
                     promise.resolve(null)
                 } else {
@@ -157,7 +158,6 @@ class GroupPlayerHandler(val context: Context) {
                     // Start the local media.
                     localMedia?.let { safeLocalMedia ->
                         safeLocalMedia.start().then({
-                            it.videoSource?.start()
                             promise.resolve(null)
                         }) { e ->
                             promise.reject(e)
@@ -179,17 +179,19 @@ class GroupPlayerHandler(val context: Context) {
                 userAlias = live.participantName
                 addOnStateChange { safeClient ->
                     LogManager.log("Client state is: ${safeClient.state.name} ")
-                    if (safeClient.state == Unregistered && !unRegistering) {
-                        ManagedThread.sleep(maxRegisterBackoff)
-                        if (maxRegisterBackoff < maxRegisterBackoff) {
-                            reRegisterBackoff += reRegisterBackoff
-                        }
+                    if (safeClient.state == Unregistered) {
+                        if (!unRegistering) {
+                            ManagedThread.sleep(maxRegisterBackoff)
+                            if (maxRegisterBackoff < maxRegisterBackoff) {
+                                reRegisterBackoff += reRegisterBackoff
+                            }
 
-                        safeClient.register(live.accessToken).then({ channels ->
-                            reRegisterBackoff = 200
-                            onClientRegistered(channels)
-                        }) { e ->
-                            LogManager.log("Failed to reregister with Gateway. ${e.message}")
+                            safeClient.register(live.accessToken).then({ channels ->
+                                reRegisterBackoff = 200
+                                onClientRegistered(channels)
+                            }) { e ->
+                                LogManager.log("Failed to reregister with Gateway. ${e.message}")
+                            }
                         }
                     }
                 }
@@ -202,40 +204,40 @@ class GroupPlayerHandler(val context: Context) {
         }
     }
 
-    fun cleanup(): Future<Any> {
-        val promise: Promise<Any> = Promise()
+    fun cleanup(): Future<fm.liveswitch.LocalMedia?> {
+        val promise: Promise<fm.liveswitch.LocalMedia?> = Promise()
         groupPlayerActivity = null
         listener = null
+        handlerScope = null
         clearContextMenuItemFlag("localView")
         if (localMedia == null) {
             promise.resolve(null)
         } else {
-            localMedia?.stop()?.then({ // Tear down the layout manager.
+            localMedia!!.stop().then({ // Tear down the layout manager.
                 layoutManager?.let { safeLayoutManager ->
                     safeLayoutManager.apply {
                         removeRemoteViews()
                         unsetLocalView()
                     }
-                    layoutManager = null
                 }
+                layoutManager = null
 
                 // Tear down the local media.
-                localMedia?.let {
-                    it.destroy()
-                    localMedia = null
-                }
+                localMedia?.destroy()
+                localMedia = null
+
                 promise.resolve(null)
             }) { e -> promise.reject(e) }
         }
         return promise
     }
 
-    fun leaveAsync(): Future<Any?>? {
-        return client?.let { safeClient ->
+    fun leaveAsync(): Future<Any>? {
+        client?.let { safeClient ->
             unRegistering = true
 
             // Unregister with the server.
-            safeClient.unregister().then {
+            return safeClient.unregister().then {
                 dataChannelConnected = false
             }.fail(
                 IAction1 { e ->
@@ -243,6 +245,8 @@ class GroupPlayerHandler(val context: Context) {
                 }
             )
         }
+
+        return null
     }
 
     //endregion
@@ -252,7 +256,7 @@ class GroupPlayerHandler(val context: Context) {
     // Used when opening Mcu connection and PeerAnswerConnection.
     private fun addRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
         layoutManager?.let { safeLayoutManager ->
-            groupPlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
+            handlerScope?.launch(Dispatchers.Main) {
                 remoteMedia.view?.let { safeView ->
                     safeView.contentDescription = "remoteView_${safeView.id}"
                     safeLayoutManager.addRemoteView(remoteMedia.id, remoteMedia.view)
@@ -265,7 +269,7 @@ class GroupPlayerHandler(val context: Context) {
     private fun removeRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
         layoutManager?.let { safeLayoutManager ->
             clearContextMenuItemFlag(remoteMedia.id)
-            groupPlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
+            handlerScope?.launch(Dispatchers.Main) {
                 safeLayoutManager.removeRemoteView(remoteMedia.id)
                 remoteMedia.destroy()
             }
@@ -520,8 +524,7 @@ class GroupPlayerHandler(val context: Context) {
         )
 
         // Add the remote video view to the layout.
-
-        groupPlayerActivity?.lifecycleScope?.launch(Dispatchers.Main) {
+        handlerScope?.launch(Dispatchers.Main) {
             layoutManager?.addRemoteView(
                 remoteMedia.id,
                 remoteMedia.view
@@ -578,7 +581,7 @@ class GroupPlayerHandler(val context: Context) {
                         remoteMedia.view
                     )
 
-                    groupPlayerActivity?.lifecycleScope?.launch {
+                    handlerScope?.launch {
                         layoutManager?.removeRemoteView(remoteMedia.id)
                         remoteMedia.destroy()
                     }
