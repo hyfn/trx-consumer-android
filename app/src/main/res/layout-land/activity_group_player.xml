@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/fmPlayerContainer"
+        android:id="@+id/fmGroupPlayerContainer"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:background="@color/green"
