@@ -41,12 +41,10 @@
             android:configChanges="orientation|screenSize" />
 
         <activity
-            android:name=".screens.groupplayer.GroupPlayerActivity"
-            android:configChanges="orientation|screenSize" />
+            android:name=".screens.groupplayer.GroupPlayerActivity" />
 
         <activity
-            android:name=".screens.privateplayer.PrivatePlayerActivity"
-            android:configChanges="orientation|screenSize" />
+            android:name=".screens.privateplayer.PrivatePlayerActivity" />
 
     </application>
 
