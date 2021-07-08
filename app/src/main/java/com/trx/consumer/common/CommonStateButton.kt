@@ -27,6 +27,7 @@ class CommonStateButton @JvmOverloads constructor(
             checkedStateDrawable = getDrawable(R.styleable.CommonStateButton_checkedState)
             plainStateDrawable = getDrawable(R.styleable.CommonStateButton_plainState)
             setButtonDrawable()
+            onChecked(null)
         }
     }
 
@@ -34,10 +35,10 @@ class CommonStateButton @JvmOverloads constructor(
         buttonDrawable = if (isChecked) checkedStateDrawable else plainStateDrawable
     }
 
-    fun onChecked(action: (isChecked: Boolean) -> Unit) {
+    fun onChecked(action: ((isChecked: Boolean) -> Unit)? = null) {
         setOnCheckedChangeListener { _, isChecked ->
             setButtonDrawable()
-            action(isChecked)
+            action?.let { action(isChecked) }
         }
     }
 
