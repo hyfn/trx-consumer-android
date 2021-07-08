@@ -20,7 +20,7 @@ class VideoModel(
     var body: List<String> = listOf(),
     val isSkeleton: Boolean = false,
     var referenceId: String = "",
-    var state : DiscoverViewState = DiscoverViewState.WORKOUTS
+    var state: DiscoverViewState = DiscoverViewState.WORKOUTS
 ) : Parcelable {
 
     val videoDuration: String

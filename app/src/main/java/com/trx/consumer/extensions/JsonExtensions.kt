@@ -1,6 +1,5 @@
 package com.trx.consumer.extensions
 
-import com.google.gson.JsonObject
 import org.json.JSONArray
 import org.json.JSONObject
 
