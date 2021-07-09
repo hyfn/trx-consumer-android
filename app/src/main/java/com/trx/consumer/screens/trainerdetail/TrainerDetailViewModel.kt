@@ -7,7 +7,6 @@ import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
-import com.trx.consumer.models.common.AnalyticsPageModel
 import com.trx.consumer.models.common.AnalyticsPageModel.TRAINER_DETAIL
 import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.common.ContentModel
@@ -139,7 +138,7 @@ class TrainerDetailViewModel @ViewModelInject constructor(
 
     override fun doTapVideo(model: VideoModel) {
         eventShowOndemand.postValue(model)
-        analyticsManager.trackPageView(AnalyticsPageModel.VIDEO_PLAYER)
+        analyticsManager.trackViewVideoDetail(model, TRAINER_DETAIL)
     }
 
     // VirtualWorkoutViewListener
