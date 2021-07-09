@@ -13,10 +13,12 @@ import com.trx.consumer.models.common.AnalyticsEventModel.VIEW_VIDEO
 import com.trx.consumer.models.common.AnalyticsEventModel.VIEW_VIDEO_DETAIL
 import com.trx.consumer.models.common.AnalyticsPageModel
 import com.trx.consumer.models.common.AnalyticsPropertyModel
+import com.trx.consumer.models.common.AnalyticsPropertyModel.COLLECTION_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.DURATION
 import com.trx.consumer.models.common.AnalyticsPropertyModel.ON_DEMAND_FILTER
 import com.trx.consumer.models.common.AnalyticsPropertyModel.PAGE_TITLE
 import com.trx.consumer.models.common.AnalyticsPropertyModel.PLATFORM
+import com.trx.consumer.models.common.AnalyticsPropertyModel.PROGRAM_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.SOCIAL_NETWORK
 import com.trx.consumer.models.common.AnalyticsPropertyModel.SUBSCRIPTION_ID
 import com.trx.consumer.models.common.AnalyticsPropertyModel.SUBSCRIPTION_PRICE
@@ -28,6 +30,7 @@ import com.trx.consumer.models.common.FilterOptionsModel
 import com.trx.consumer.models.common.MembershipModel
 import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
+import com.trx.consumer.screens.discover.DiscoverViewState
 import org.json.JSONObject
 
 class AnalyticsManager(private val configManager: ConfigManager) {
@@ -92,8 +95,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
             DURATION.propertyName to model.duration,
             TRAINER_ID.propertyName to model.trainer.key,
             TRAINER_NAME.propertyName to model.trainer.fullName,
-            VIDEO_ID.propertyName to model.id,
-            VIDEO_NAME.propertyName to model.name
+            VIDEO_ID.propertyName to model.id
 
             // TODO: - Complete
             // PROGRAM_ID to video.id
@@ -120,16 +122,18 @@ class AnalyticsManager(private val configManager: ConfigManager) {
     }
 
     fun trackViewVideo(model: VideoModel) {
-        val properties = mapOf<String, Any>(
+        val properties = mutableMapOf<Any?, Any?>(
             TRAINER_ID.propertyName to model.trainer.key,
             TRAINER_NAME.propertyName to model.trainer.fullName,
             VIDEO_ID.propertyName to model.id,
             VIDEO_NAME.propertyName to model.name
-
-            // TODO: Complete
-            // PROGRAM_ID to video.id
-            // COLLECTION_ID to video.id
         )
+
+        when (model.state) {
+            DiscoverViewState.PROGRAMS -> properties[PROGRAM_ID.propertyName] = model.referenceId
+            DiscoverViewState.COLLECTIONS -> properties[COLLECTION_ID.propertyName] = model.referenceId
+            else -> {}
+        }
 
         amplitudeClient.logEvent(VIEW_VIDEO.eventName, JSONObject(properties))
     }
