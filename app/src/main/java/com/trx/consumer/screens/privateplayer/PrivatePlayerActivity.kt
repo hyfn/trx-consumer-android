@@ -2,8 +2,6 @@ package com.trx.consumer.screens.privateplayer
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.trx.consumer.R
-import com.trx.consumer.common.CommonStateButton
 import com.trx.consumer.databinding.ActivityPrivatePlayerBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.AnalyticsManager
@@ -27,9 +25,9 @@ class PrivatePlayerActivity : AppCompatActivity() {
 
         binding.apply {
             btnCamera.action { handleTapCamera() }
-            btnClock.action {  handleTapClock() }
-            btnMicrophone.action {  handleTapMicrophone() }
-            btnShare.action {  handleTapShare() }
+            btnClock.action { handleTapClock() }
+            btnMicrophone.action { handleTapMicrophone() }
+            btnShare.action { handleTapShare() }
             btnCamera.action { handleTapCamera() }
             btnEnd.action { handleTapEnd() }
         }

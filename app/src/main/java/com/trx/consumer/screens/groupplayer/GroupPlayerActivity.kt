@@ -27,9 +27,9 @@ class GroupPlayerActivity : AppCompatActivity() {
 
         binding.apply {
             btnCamera.action { handleTapCamera() }
-            btnClock.action {  handleTapClock() }
-            btnMicrophone.action {  handleTapMicrophone() }
-            btnShare.action {  handleTapShare() }
+            btnClock.action { handleTapClock() }
+            btnMicrophone.action { handleTapMicrophone() }
+            btnShare.action { handleTapShare() }
             btnCamera.action { handleTapCamera() }
             btnEnd.action { handleTapEnd() }
         }
@@ -54,7 +54,6 @@ class GroupPlayerActivity : AppCompatActivity() {
     private fun handleTapEnd() {
         finish()
     }
-
 
     fun doTrackPageView() {
         analyticsManager.trackPageView(GROUP_PLAYER)

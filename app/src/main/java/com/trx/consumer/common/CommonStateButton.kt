@@ -3,13 +3,11 @@ package com.trx.consumer.common
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.content.res.getResourceIdOrThrow
 import androidx.core.content.withStyledAttributes
 import com.trx.consumer.R
 import com.trx.consumer.common.shapeable.CommonShapeable
 import com.trx.consumer.common.shapeable.CommonShapeableHandler
 import com.trx.consumer.extensions.color
-import com.trx.consumer.managers.LogManager
 
 class CommonStateButton @JvmOverloads constructor(
     context: Context,
