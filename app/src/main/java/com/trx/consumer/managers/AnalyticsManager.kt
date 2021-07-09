@@ -94,8 +94,7 @@ class AnalyticsManager(private val configManager: ConfigManager) {
             DURATION.propertyName to model.duration,
             TRAINER_ID.propertyName to model.trainer.key,
             TRAINER_NAME.propertyName to model.trainer.fullName,
-            VIDEO_ID.propertyName to model.id,
-            VIDEO_NAME.propertyName to model.name,
+            VIDEO_ID.propertyName to model.id
 
             // TODO: - Complete
             // PROGRAM_ID to video.id
