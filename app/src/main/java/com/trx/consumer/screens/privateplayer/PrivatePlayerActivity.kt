@@ -2,6 +2,8 @@ package com.trx.consumer.screens.privateplayer
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.trx.consumer.R
+import com.trx.consumer.common.CommonStateButton
 import com.trx.consumer.databinding.ActivityPrivatePlayerBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.managers.AnalyticsManager
@@ -35,9 +37,6 @@ class PrivatePlayerActivity : AppCompatActivity() {
 
     private fun handleTapCamera() {
         LogManager.log("handleTapCamera")
-        binding.btnCamera.apply {
-            isChecked = !isChecked
-        }
     }
 
     private fun handleTapClock() {

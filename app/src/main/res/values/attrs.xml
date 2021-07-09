@@ -48,6 +48,7 @@
         <attr name="checkedState" format="reference"/>
         <attr name="plainState" format="reference"/>
         <attr name="isChecked" format="boolean"/>
+        <attr name="bgColor" format="reference"/>
     </declare-styleable>
 
 </resources>
