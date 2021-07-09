@@ -16,6 +16,7 @@ import com.trx.consumer.models.responses.VideosResponseModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 import kotlinx.coroutines.launch
+import com.trx.consumer.models.common.AnalyticsPageModel.DISCOVER
 
 class DiscoverViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
@@ -119,7 +120,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     }
 
     override fun doTapVideo(model: VideoModel) {
-        analyticsManager.trackViewVideoDetail(model, AnalyticsPageModel.DISCOVER)
+        analyticsManager.trackViewVideoDetail(model, DISCOVER)
         eventTapVideo.postValue(model)
     }
 
