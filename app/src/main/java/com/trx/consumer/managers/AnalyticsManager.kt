@@ -30,6 +30,7 @@ import com.trx.consumer.models.common.FilterOptionsModel
 import com.trx.consumer.models.common.MembershipModel
 import com.trx.consumer.models.common.UserModel
 import com.trx.consumer.models.common.VideoModel
+import com.trx.consumer.screens.discover.DiscoverViewState
 import org.json.JSONObject
 
 class AnalyticsManager(private val configManager: ConfigManager) {
@@ -121,14 +122,18 @@ class AnalyticsManager(private val configManager: ConfigManager) {
     }
 
     fun trackViewVideo(model: VideoModel) {
-        val properties = mapOf<String, Any>(
+        val properties = mutableMapOf<Any?, Any?>(
             TRAINER_ID.propertyName to model.trainer.key,
             TRAINER_NAME.propertyName to model.trainer.fullName,
             VIDEO_ID.propertyName to model.id,
-            VIDEO_NAME.propertyName to model.name,
-            PROGRAM_ID.propertyName to model.referenceId,
-            COLLECTION_ID.propertyName to model.referenceId
+            VIDEO_NAME.propertyName to model.name
         )
+
+        when (model.state) {
+            DiscoverViewState.PROGRAMS -> properties[PROGRAM_ID.propertyName] = model.referenceId
+            DiscoverViewState.COLLECTIONS -> properties[COLLECTION_ID.propertyName] = model.referenceId
+            else -> {}
+        }
 
         amplitudeClient.logEvent(VIEW_VIDEO.eventName, JSONObject(properties))
     }

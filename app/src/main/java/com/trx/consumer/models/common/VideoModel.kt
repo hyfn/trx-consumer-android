@@ -2,6 +2,7 @@ package com.trx.consumer.models.common
 
 import android.os.Parcelable
 import com.trx.consumer.extensions.map
+import com.trx.consumer.screens.discover.DiscoverViewState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 
@@ -18,7 +19,8 @@ class VideoModel(
     var focus: String = "",
     var body: List<String> = listOf(),
     val isSkeleton: Boolean = false,
-    var referenceId: String = ""
+    var referenceId: String = "",
+    var state: DiscoverViewState = DiscoverViewState.WORKOUTS
 ) : Parcelable {
 
     val videoDuration: String

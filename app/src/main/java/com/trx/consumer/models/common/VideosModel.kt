@@ -3,6 +3,7 @@ package com.trx.consumer.models.common
 import android.os.Parcelable
 import com.trx.consumer.extensions.firstOrNull
 import com.trx.consumer.extensions.forEach
+import com.trx.consumer.screens.discover.DiscoverViewState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.Locale
@@ -15,7 +16,8 @@ class VideosModel(
     var poster: String = "",
     var trainer: TrainerModel = TrainerModel(),
     val videos: MutableList<VideoModel> = mutableListOf(),
-    val isSkeleton: Boolean = false
+    val isSkeleton: Boolean = false,
+    var state: DiscoverViewState = DiscoverViewState.WORKOUTS
 ) : Parcelable {
 
     val numberOfVideosDisplay: String

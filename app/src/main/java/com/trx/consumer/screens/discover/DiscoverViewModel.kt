@@ -125,6 +125,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     }
 
     override fun doTapVideos(model: VideosModel) {
+        model.state = this.model.state
         eventTapVideos.postValue(model)
     }
 
