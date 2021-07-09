@@ -26,12 +26,12 @@ class GroupPlayerActivity : AppCompatActivity() {
         doTrackPageView()
 
         binding.apply {
-            btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
+            /*btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
             btnClock.onChecked { isChecked -> handleTapClock(isChecked) }
             btnMicrophone.onChecked { isChecked -> handleTapMicrophone(isChecked) }
             btnShare.onChecked { isChecked -> handleTapShare(isChecked) }
             btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
-            btnEnd.action { handleTapEnd() }
+            btnEnd.action { handleTapEnd() }*/
         }
     }
 

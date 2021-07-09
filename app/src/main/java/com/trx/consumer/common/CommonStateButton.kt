@@ -3,21 +3,26 @@ package com.trx.consumer.common
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatCheckBox
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
 import com.trx.consumer.R
 import com.trx.consumer.common.shapeable.CommonShapeable
 import com.trx.consumer.common.shapeable.CommonShapeableHandler
+import com.trx.consumer.extensions.action
 
 class CommonStateButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet?,
     defStyleAttr: Int = 0
-) : AppCompatCheckBox(context, attrs), CommonShapeable<CommonStateButton> {
+) : View(context, attrs, defStyleAttr), CommonShapeable<CommonStateButton> {
 
     private var checkedStateDrawable: Drawable? = null
     private var plainStateDrawable: Drawable? = null
+    var isChecked: Boolean = false
+    set(value) {
+        field = value
+        setButtonDrawable()}
     override val shapeableHandler = CommonShapeableHandler { this }
 
     init {
@@ -26,20 +31,13 @@ class CommonStateButton @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.CommonStateButton) {
             checkedStateDrawable = getDrawable(R.styleable.CommonStateButton_checkedState)
             plainStateDrawable = getDrawable(R.styleable.CommonStateButton_plainState)
+            isChecked = getBoolean(R.styleable.CommonStateButton_checkedState, false)
             setButtonDrawable()
-            onChecked(null)
         }
     }
 
     private fun setButtonDrawable() {
-        buttonDrawable = if (isChecked) checkedStateDrawable else plainStateDrawable
-    }
-
-    fun onChecked(action: ((isChecked: Boolean) -> Unit)? = null) {
-        setOnCheckedChangeListener { _, isChecked ->
-            setButtonDrawable()
-            action?.let { action(isChecked) }
-        }
+        background = if (isChecked) checkedStateDrawable else plainStateDrawable
     }
 
     fun image(drawable: Int, state: Int) {
