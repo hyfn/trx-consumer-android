@@ -47,6 +47,7 @@
     <declare-styleable name="CommonStateButton">
         <attr name="checkedState" format="reference"/>
         <attr name="plainState" format="reference"/>
+        <attr name="isChecked" format="boolean"/>
     </declare-styleable>
 
 </resources>

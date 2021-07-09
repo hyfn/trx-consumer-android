@@ -130,6 +130,7 @@ android {
             buildConfigField "String", "kFMApplicationIdStaging", '"f528c148-b8c7-4f1b-bc5c-ac52288287c0"'
             buildConfigField "String", "kFMApplicationIdProd", '"e5129cae-ae75-4351-9c29-4a012c3c5471"'
             buildConfigField "String", "kFMGatewayUrl", '"https://cloud.liveswitch.io/"'
+            buildConfigField "String", "kAppStoreKey", '"GOOGLE_PLAY_STORE"'
         }
         dev {
             applicationId "com.trx.consumer.dev"
