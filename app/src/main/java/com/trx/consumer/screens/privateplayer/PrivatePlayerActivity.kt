@@ -24,7 +24,6 @@ class PrivatePlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.apply {
-            btnCamera.isChecked = true
             btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
             btnClock.onChecked { isChecked -> handleTapClock(isChecked) }
             btnMicrophone.onChecked { isChecked -> handleTapMicrophone(isChecked) }
