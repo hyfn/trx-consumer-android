@@ -33,9 +33,6 @@ class CommonStateButton @JvmOverloads constructor(
             checkedStateDrawable = getResourceId(R.styleable.CommonStateButton_checkedState, 0)
             plainStateDrawable = getResourceId(R.styleable.CommonStateButton_plainState, 0)
             setButtonDrawable()
-
-            val bgColor = getResourceId(R.styleable.CommonStateButton_bgColor, 0)
-            if (bgColor != 0) shapeableHandler.apply { bgColor(shapeableView.color(bgColor)) }
         }
     }
 
