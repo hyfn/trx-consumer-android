@@ -4,7 +4,6 @@ import com.trx.consumer.extensions.forEach
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.VideosModel
-import com.trx.consumer.screens.discover.DiscoverViewState
 import org.json.JSONObject
 
 class VideosResponseModel(
@@ -27,12 +26,12 @@ class VideosResponseModel(
 
             val collections = mutableListOf<VideosModel>()
             data?.optJSONArray("collections")?.forEach {
-                collections.add(VideosModel.parse(it, DiscoverViewState.COLLECTIONS))
+                collections.add(VideosModel.parse(it))
             }
 
             val programs = mutableListOf<VideosModel>()
             data?.optJSONArray("programs")?.forEach {
-                programs.add(VideosModel.parse(it, DiscoverViewState.PROGRAMS))
+                programs.add(VideosModel.parse(it))
             }
 
             val filters = data?.optJSONObject("filters")?.let {

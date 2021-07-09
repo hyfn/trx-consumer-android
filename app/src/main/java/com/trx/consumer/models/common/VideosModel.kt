@@ -17,6 +17,7 @@ class VideosModel(
     var trainer: TrainerModel = TrainerModel(),
     val videos: MutableList<VideoModel> = mutableListOf(),
     val isSkeleton: Boolean = false,
+    var state: DiscoverViewState = DiscoverViewState.WORKOUTS
 ) : Parcelable {
 
     val numberOfVideosDisplay: String
@@ -27,7 +28,7 @@ class VideosModel(
 
     companion object {
 
-        fun parse(jsonObject: JSONObject, state: DiscoverViewState): VideosModel {
+        fun parse(jsonObject: JSONObject): VideosModel {
             return VideosModel().apply {
                 title = jsonObject.optString("title")
                 description = jsonObject.optString("description")
@@ -39,12 +40,7 @@ class VideosModel(
                     jsonObject.optJSONArray("videos")?.firstOrNull()
                         ?.optJSONObject("video")?.optString("referenceId") ?: ""
                 jsonObject.optJSONArray("videos")?.forEach { video ->
-                    videos.add(
-                        VideoModel.parse(video).apply {
-                            this.referenceId = referenceId
-                            this.state = state
-                        }
-                    )
+                    videos.add(VideoModel.parse(video).apply { this.referenceId = referenceId })
                 }
             }
         }
