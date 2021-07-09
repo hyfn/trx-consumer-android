@@ -1,12 +1,6 @@
 package com.trx.consumer.screens.privateplayer
 
 import android.os.Bundle
-import android.view.Gravity
-import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.trx.consumer.R
@@ -44,9 +38,9 @@ class PrivatePlayerActivity : AppCompatActivity() {
         trainerContainer = findViewById(R.id.privatePlayerTrainerView)
         localMediaContainer = findViewById(R.id.privatePlayerLocalMediaView)
 
-        //TODO: Add in the remote media for trainer and the local media for local:
-        //trainerContainer.addView(testTextTrainer)
-        //localMediaContainer.addView(textLocalContainer)
+        // TODO: Add in the remote media for trainer and the local media for local:
+        // trainerContainer.addView(testTextTrainer)
+        // localMediaContainer.addView(textLocalContainer)
 
         binding.apply {
             btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }

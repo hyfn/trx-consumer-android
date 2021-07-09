@@ -4,10 +4,10 @@ import android.content.Context
 import android.media.projection.MediaProjection
 import android.os.Handler
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.trx.consumer.BuildConfig
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.responses.LiveResponseModel
-import com.trx.consumer.screens.liveplayer.LivePlayerActivity
 import fm.liveswitch.AudioStream
 import fm.liveswitch.Channel
 import fm.liveswitch.ChannelClaim
@@ -41,7 +41,7 @@ import fm.liveswitch.android.Camera2Source
 import fm.liveswitch.openh264.Utility
 import java.util.ArrayList
 
-abstract class LiveSwitchWithTrainerHandlerBase(open val context: Context) {
+abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
     private var handler: Handler = Handler(context.mainLooper)
     private var channel: Channel? = null
 
@@ -127,48 +127,46 @@ abstract class LiveSwitchWithTrainerHandlerBase(open val context: Context) {
 
     //region LivePlayerActivity Function
 
-    fun startTRXLocalMedia(activity: LivePlayerActivity): Future<Any> {
+    fun startTRXLocalMedia(): Future<Any> {
         val promise = Promise<Any>()
 
         // Set up the layout manager.
         //       layoutManager = LayoutManager(activity.container)
-        activity.runOnUiThread {
-            if (receiveOnly) {
-                promise.resolve(null)
-            } else {
-                // Create an echo cancellation context.
-                aecContext = AecContext()
+        if (receiveOnly) {
+            promise.resolve(null)
+        } else {
+            // Create an echo cancellation context.
+            aecContext = AecContext()
 
-                // Set up the local media.
-                localMedia = LocalCameraMedia(
-                    context,
-                    enableH264,
-                    false,
-                    audioOnly,
-                    aecContext,
-                    enableSimulcast
-                )
+            // Set up the local media.
+            localMedia = LocalCameraMedia(
+                context,
+                enableH264,
+                false,
+                audioOnly,
+                aecContext,
+                enableSimulcast
+            )
 
-                localMedia?.view?.let { localView ->
-                    localView.contentDescription = "localView"
-                    //                  layoutManager?.localView = localView
+            localMedia?.view?.let { localView ->
+                localView.contentDescription = "localView"
+                //                  layoutManager?.localView = localView
+            }
+
+            // Change input source to front camera .
+            (localMedia?.videoSource as? Camera2Source)?.let { input ->
+                input.frontInput?.let { sourceInput ->
+                    localMedia?.changeVideoSourceInput(sourceInput)
                 }
+            }
 
-                // Change input source to front camera .
-                (localMedia?.videoSource as? Camera2Source)?.let { input ->
-                    input.frontInput?.let { sourceInput ->
-                        localMedia?.changeVideoSourceInput(sourceInput)
-                    }
-                }
-
-                // Start the local media.
-                localMedia?.let { safeLocalMedia ->
-                    safeLocalMedia.start().then({
-                        it.videoSource.start()
-                        promise.resolve(null)
-                    }) { e ->
-                        promise.reject(e)
-                    }
+            // Start the local media.
+            localMedia?.let { safeLocalMedia ->
+                safeLocalMedia.start().then({
+                    it.videoSource.start()
+                    promise.resolve(null)
+                }) { e ->
+                    promise.reject(e)
                 }
             }
         }
@@ -251,7 +249,7 @@ abstract class LiveSwitchWithTrainerHandlerBase(open val context: Context) {
         return this.trainerMedia
     }
 
-    fun startLocalMedia(activity: LivePlayerActivity): Future<Any> {
+    fun startLocalMedia(activity: AppCompatActivity): Future<Any> {
         val promise = Promise<Any>()
         if (enableH264) {
             val downloadPath = context.filesDir.path
@@ -261,47 +259,45 @@ abstract class LiveSwitchWithTrainerHandlerBase(open val context: Context) {
 
         // Set up the layout manager.
         // layoutManager = LayoutManager(activity.container)
-        activity.runOnUiThread {
-            if (receiveOnly) {
-                promise.resolve(null)
-            } else {
-                // Create an echo cancellation context.
-                aecContext = AecContext()
+        if (receiveOnly) {
+            promise.resolve(null)
+        } else {
+            // Create an echo cancellation context.
+            aecContext = AecContext()
 
-                // Set up the local media.
-                localMedia = LocalCameraMedia(
-                    context,
-                    enableH264,
-                    false,
-                    audioOnly,
-                    aecContext,
-                    enableSimulcast
-                )
+            // Set up the local media.
+            localMedia = LocalCameraMedia(
+                context,
+                enableH264,
+                false,
+                audioOnly,
+                aecContext,
+                enableSimulcast
+            )
 
-                val localView = localMedia?.view
-                if (localView != null) {
-                    localView.contentDescription = "localView"
-                    // livePlayerActivity?.registerLocalContextMenu(
-                    //     localView,
-                    //     localMedia?.videoEncodings
-                    // )
-                }
-                // layoutManager?.localView = localView
-
-                // Start the local media.
-
-                val input = localMedia?.videoSource as? Camera2Source
-                input?.frontInput?.let {
-                    localMedia?.changeVideoSourceInput(it)
-                }
-
-                localMedia?.start()?.then(
-                    {
-                        it.videoSource.start()
-                        promise.resolve(null)
-                    }
-                ) { e -> promise.reject(e) }
+            val localView = localMedia?.view
+            if (localView != null) {
+                localView.contentDescription = "localView"
+                // livePlayerActivity?.registerLocalContextMenu(
+                //     localView,
+                //     localMedia?.videoEncodings
+                // )
             }
+            // layoutManager?.localView = localView
+
+            // Start the local media.
+
+            val input = localMedia?.videoSource as? Camera2Source
+            input?.frontInput?.let {
+                localMedia?.changeVideoSourceInput(it)
+            }
+
+            localMedia?.start()?.then(
+                {
+                    it.videoSource.start()
+                    promise.resolve(null)
+                }
+            ) { e -> promise.reject(e) }
         }
         return promise
     }
@@ -860,6 +856,11 @@ abstract class LiveSwitchWithTrainerHandlerBase(open val context: Context) {
                 iterator.remove()
             }
         }
+    }
+
+    fun teardown() {
+        sfuUpstreamConnection?.close()
+        sfuUpstreamConnection = null
     }
 
     interface OnReceivedTextListener {

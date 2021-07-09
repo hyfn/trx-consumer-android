@@ -22,11 +22,16 @@
             tools:layout_editor_absoluteX="1dp"
             tools:layout_editor_absoluteY="1dp">
 
-            <com.trx.consumer.common.CommonView
+            <FrameLayout
                 android:id="@+id/smallGroupTrainerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="1dp">
+
+            </FrameLayout>
 
             <com.trx.consumer.common.CommonView
                 android:id="@+id/groupPlayerSmallGroupView"
