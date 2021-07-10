@@ -4,9 +4,11 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.widget.RelativeLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import com.trx.consumer.databinding.ActivityGroupPlayerBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.checkLivePermission
@@ -16,6 +18,7 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.LiveResponseModel
 import dagger.hilt.android.AndroidEntryPoint
 import fm.liveswitch.IAction1
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class GroupPlayerActivity : AppCompatActivity() {
@@ -23,9 +26,11 @@ class GroupPlayerActivity : AppCompatActivity() {
     //region Objects
     private val viewModel: GroupPlayerViewModel by viewModels()
     private lateinit var viewBinding: ActivityGroupPlayerBinding
-    private var handler: GroupPlayerHandler? = null
-    val container
-        get() = viewBinding.fmGroupPlayerContainer
+
+    @Inject
+    lateinit var handler: GroupPlayerHandler
+
+    lateinit var container: RelativeLayout
 
     //endregion
 
@@ -40,17 +45,18 @@ class GroupPlayerActivity : AppCompatActivity() {
 
     private fun bind() {
         val workout = NavigationManager.shared.params(intent) as? WorkoutModel
-        handler = GroupPlayerHandler(applicationContext).apply {
+        container = viewBinding.fmGroupPlayerContainer
+        handler.apply {
             groupPlayerActivity = this@GroupPlayerActivity
             listener = viewModel
+            if (handlerScope == null) handlerScope = viewModel.viewModelScope
         }
 
         viewBinding.apply {
-            btnCamera.onChecked { isChecked -> viewModel.doTapCamera(isChecked) }
-            btnClock.onChecked { isChecked -> viewModel.doTapClock(isChecked) }
-            btnMic.onChecked { isChecked -> viewModel.doTapMic(isChecked) }
-            btnCast.onChecked { isChecked -> viewModel.doTapCast(isChecked) }
-            btnCamera.onChecked { isChecked -> viewModel.doTapCamera(isChecked) }
+            btnCamera.action { viewModel.doTapCamera() }
+            btnClock.action { viewModel.doTapClock() }
+            btnMic.action { viewModel.doTapMic() }
+            btnCast.action { viewModel.doTapCast() }
             btnClose.action { viewModel.doTapClose() }
         }
 
@@ -73,13 +79,10 @@ class GroupPlayerActivity : AppCompatActivity() {
 
     //region Activity Lifecycle
 
-    override fun onStop() {
-        // Android requires us to pause the local
-        // video feed when pausing the activity.
-        // Not doing this can cause unexpected side
-        // effects and crashes.
-        stopVideo()
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.leaveAsync()?.waitForResult()
+        viewModel.localMediaStarted = true
     }
 
     //endregion
@@ -181,7 +184,7 @@ class GroupPlayerActivity : AppCompatActivity() {
                 requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
             }
             if (requiredPermissions.size == 0) {
-                handler?.start(value)
+                handler.start(value)
             } else {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
                         Manifest.permission.CAMERA
@@ -195,25 +198,28 @@ class GroupPlayerActivity : AppCompatActivity() {
                 requestPermissions(requiredPermissions.toTypedArray(), 1)
             }
         } else {
-            handler?.start(value)
+            handler.start(value)
         }
     }
 
     private fun stopVideo() {
-        handler?.leaveAsync()?.then {
-            handler?.cleanup()?.then {
-                handler = null
-                finish()
+        if (viewModel.localMediaStarted) {
+            handler.leaveAsync()?.then {
+                handler.cleanup().then {
+                    finish()
+                }?.fail(
+                    IAction1 { e ->
+                        LogManager.log("Could not stop local media: ${e.message}")
+                    }
+                )
             }?.fail(
                 IAction1 { e ->
-                    LogManager.log("Could not stop local media: ${e.message}")
+                    LogManager.log("Could not leave conference: ${e.message}")
                 }
             )
-        }?.fail(
-            IAction1 { e ->
-                LogManager.log("Could not leave conference: ${e.message}")
-            }
-        )
+        } else {
+            finish()
+        }
     }
 
     //endregion

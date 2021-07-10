@@ -21,6 +21,13 @@ class PrivatePlayerViewModel @ViewModelInject constructor (
     //region Objects
 
     var model: WorkoutModel? = null
+        set(value) {
+            if (field == null) {
+                field = value
+            } else if (field?.identifier != value?.identifier) {
+                field = value
+            }
+        }
 
     private var isCameraChecked: Boolean = false
     private var isMicChecked: Boolean = false
@@ -49,29 +56,40 @@ class PrivatePlayerViewModel @ViewModelInject constructor (
 
     fun doLoadVideo() {
         LogManager.log("doLoadVideo")
-
         viewModelScope.launch {
             model?.let { workout ->
+                if (!localMediaStarted) {
+                    //  TODO: Bring back in after testing.
+                    // eventShowHud.postValue(true)
+                    // val joinResponse = backendManager.join(workout.identifier)
+                    // eventShowHud.postValue(false)
+                    // if (joinResponse.isSuccess) {
+                    // }
 
-                //  TODO: Bring back in after testing.
-                // eventShowHud.postValue(true)
-                // val joinResponse = backendManager.join(workout.identifier)
-                // eventShowHud.postValue(false)
-                // if (joinResponse.isSuccess) {
-                // }
+                    eventShowHud.postValue(true)
+                    // TODO: Change to valid key after testing.
+                    val liveAccessKey = kFMDevLiveAccessKey
+                    val liveResponse = backendManager.live(liveAccessKey)
+                    eventShowHud.postValue(false)
 
-                eventShowHud.postValue(true)
-                // TODO: Change to valid key after testing.
-                val liveAccessKey = kFMDevLiveAccessKey
-                val liveResponse = backendManager.live(liveAccessKey)
-                eventShowHud.postValue(false)
-
-                if (liveResponse.isSuccess) {
-                    val liveModel = LiveResponseModel.parse(liveResponse.responseString)
-                    if (liveModel.isValidType) {
-                        workout.live = liveModel
-                        eventLoadVideo.postValue(workout)
+                    if (liveResponse.isSuccess) {
+                        try {
+                            val liveModel = LiveResponseModel.parse(liveResponse.responseString)
+                            if (liveModel.isValidType) {
+                                workout.live = liveModel
+                                localMediaStarted = true
+                                eventLoadVideo.postValue(workout)
+                            } else {
+                                eventLoadError.postValue("There was an error")
+                            }
+                        } catch (e: Exception) {
+                            LogManager.log(e)
+                        }
+                    } else {
+                        eventLoadError.postValue("There was an error")
                     }
+                } else {
+                    model?.let { eventLoadVideo.postValue(it) }
                 }
             } ?: run {
                 eventLoadError.postValue("There was an error")
@@ -79,31 +97,28 @@ class PrivatePlayerViewModel @ViewModelInject constructor (
         }
     }
 
-    fun doTapCamera(value: Boolean) {
-        isCameraChecked = value
-        eventTapCamera.postValue(value)
+    fun doTapCamera() {
+        isCameraChecked = !isCameraChecked
+        eventTapCamera.postValue(isCameraChecked)
     }
 
-    fun doTapMic(value: Boolean) {
-        isMicChecked = value
-        eventTapMic.postValue(value)
+    fun doTapMic() {
+        isMicChecked = !isMicChecked
+        eventTapMic.postValue(isMicChecked)
     }
 
-    fun doTapClock(value: Boolean) {
-        isClockChecked = value
-        eventTapClock.postValue(value)
+    fun doTapClock() {
+        isClockChecked = !isClockChecked
+        eventTapClock.postValue(isClockChecked)
     }
 
-    fun doTapCast(value: Boolean) {
-        isCastChecked = value
-        eventTapCast.postValue(value)
+    fun doTapCast() {
+        isCastChecked = !isCastChecked
+        eventTapCast.postValue(isCastChecked)
     }
 
     fun doTapClose() {
-        if (localMediaStarted) {
-            eventTapClose.call()
-            localMediaStarted = false
-        }
+        eventTapClose.call()
     }
 
     override fun doReceiveMessage(clientId: String, message: String) {
@@ -117,6 +132,11 @@ class PrivatePlayerViewModel @ViewModelInject constructor (
 
     fun doTrackPageView() {
         analyticsManager.trackPageView(PRIVATE_PLAYER)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        localMediaStarted = false
     }
 
     //endregion

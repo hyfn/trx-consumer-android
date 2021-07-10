@@ -155,6 +155,7 @@
                 android:fontFamily="@font/atcarquette_medium"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/viewTrainer"
                 tools:text="This session will teach you how to push your limits and weight lift using the TRX Bands. Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
 
@@ -164,6 +165,7 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/greyLight"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/lblSummary" />
 
             <com.trx.consumer.common.CommonRecyclerView

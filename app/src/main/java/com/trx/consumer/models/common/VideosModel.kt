@@ -1,7 +1,9 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
+import com.trx.consumer.extensions.firstOrNull
 import com.trx.consumer.extensions.forEach
+import com.trx.consumer.screens.discover.DiscoverViewState
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 import java.util.Locale
@@ -14,7 +16,8 @@ class VideosModel(
     var poster: String = "",
     var trainer: TrainerModel = TrainerModel(),
     val videos: MutableList<VideoModel> = mutableListOf(),
-    val isSkeleton: Boolean = false
+    val isSkeleton: Boolean = false,
+    var state: DiscoverViewState = DiscoverViewState.WORKOUTS
 ) : Parcelable {
 
     val numberOfVideosDisplay: String
@@ -31,10 +34,13 @@ class VideosModel(
                 description = jsonObject.optString("description")
                 thumbnail = jsonObject.optString("thumbnail")
                 poster = jsonObject.optString("poster")
-                trainer = jsonObject.optJSONObject("firstTrainer")?.let { TrainerModel.parse(it) }
-                    ?: TrainerModel()
-                jsonObject.optJSONArray("videos")?.forEach {
-                    videos.add(VideoModel.parse(it))
+                trainer = jsonObject.optJSONObject("firstTrainer")
+                    ?.let { TrainerModel.parse(it) } ?: TrainerModel()
+                val referenceId =
+                    jsonObject.optJSONArray("videos")?.firstOrNull()
+                        ?.optJSONObject("video")?.optString("referenceId") ?: ""
+                jsonObject.optJSONArray("videos")?.forEach { video ->
+                    videos.add(VideoModel.parse(video).apply { this.referenceId = referenceId })
                 }
             }
         }
