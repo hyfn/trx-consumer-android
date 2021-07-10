@@ -53,10 +53,10 @@ class LivePlayerActivity : AppCompatActivity() {
         }
 
         viewBinding.apply {
-            btnCamera.onChecked { isChecked -> viewModel.doTapCamera(isChecked) }
-            btnClock.onChecked { isChecked -> viewModel.doTapClock(isChecked) }
-            btnMic.onChecked { isChecked -> viewModel.doTapMic(isChecked) }
-            btnCast.onChecked { isChecked -> viewModel.doTapCast(isChecked) }
+            btnCamera.action { viewModel.doTapCamera() }
+            btnClock.action { viewModel.doTapClock() }
+            btnMic.action { viewModel.doTapMic() }
+            btnCast.action { viewModel.doTapCast() }
             btnClose.action { viewModel.doTapClose() }
         }
 

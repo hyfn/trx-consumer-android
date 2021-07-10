@@ -97,24 +97,24 @@ class LivePlayerViewModel @ViewModelInject constructor (
         }
     }
 
-    fun doTapCamera(value: Boolean) {
-        isCameraChecked = value
-        eventTapCamera.postValue(value)
+    fun doTapCamera() {
+        isCameraChecked = !isCameraChecked
+        eventTapCamera.postValue(isCameraChecked)
     }
 
-    fun doTapMic(value: Boolean) {
-        isMicChecked = value
-        eventTapMic.postValue(value)
+    fun doTapMic() {
+        isMicChecked = !isMicChecked
+        eventTapMic.postValue(isMicChecked)
     }
 
-    fun doTapClock(value: Boolean) {
-        isClockChecked = value
-        eventTapClock.postValue(value)
+    fun doTapClock() {
+        isClockChecked = !isClockChecked
+        eventTapClock.postValue(isClockChecked)
     }
 
-    fun doTapCast(value: Boolean) {
-        isCastChecked = value
-        eventTapCast.postValue(value)
+    fun doTapCast() {
+        isCastChecked = !isCastChecked
+        eventTapCast.postValue(isCastChecked)
     }
 
     fun doTapClose() {
