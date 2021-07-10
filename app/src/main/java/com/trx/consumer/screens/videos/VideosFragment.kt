@@ -1,5 +1,6 @@
 package com.trx.consumer.screens.videos
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -63,14 +64,11 @@ class VideosFragment : BaseFragment(R.layout.fragment_videos) {
             lblTrainerName.text = model.trainer.fullName
             btnTrainerProfile.action { viewModel.doTapProfile() }
 
-            model.description.let { description ->
-                lblSummary.text = if (description.isNotEmpty()) {
-                    description
-                } else {
-                    model.videos.firstOrNull()?.description
-                }
+            if (model.description.isNotEmpty()) {
+                lblSummary.isVisible = true
+                vLineSummary.isVisible = true
+                lblSummary.text = model.description
             }
-
             adapter.updateVideos(model.videos)
         }
     }

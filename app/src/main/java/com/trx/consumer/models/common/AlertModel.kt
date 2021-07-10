@@ -1,6 +1,7 @@
 package com.trx.consumer.models.common
 
 import android.os.Parcelable
+import android.text.SpannableString
 import androidx.annotation.StringRes
 import com.trx.consumer.R
 import com.trx.consumer.screens.alert.AlertBackAction
@@ -18,6 +19,7 @@ class AlertModel private constructor(
     var secondaryMethod: (() -> Unit)? = null,
     @StringRes
     var secondaryTitle: Int = R.string.alert_button_title_dismiss,
+    var clearTitle: CharSequence? = null,
     var secondaryState: AlertViewState = AlertViewState.NEUTRAL,
     var backPressAction: AlertBackAction? = null
 ) : Parcelable {
@@ -38,6 +40,16 @@ class AlertModel private constructor(
         method: (() -> Unit)? = null
     ) {
         secondaryTitle = title
+        secondaryState = state
+        secondaryMethod = method
+    }
+
+    fun setClearButton(
+        title: SpannableString,
+        state: AlertViewState = AlertViewState.CLEAR,
+        method: (() -> Unit)? = null
+    ) {
+        clearTitle = title
         secondaryState = state
         secondaryMethod = method
     }

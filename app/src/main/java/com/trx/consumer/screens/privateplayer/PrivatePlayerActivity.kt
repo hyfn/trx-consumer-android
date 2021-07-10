@@ -53,10 +53,10 @@ class PrivatePlayerActivity : AppCompatActivity() {
         }
 
         viewBinding.apply {
-            btnCamera.onChecked { isChecked -> viewModel.doTapCamera(isChecked) }
-            btnClock.onChecked { isChecked -> viewModel.doTapClock(isChecked) }
-            btnMic.onChecked { isChecked -> viewModel.doTapMic(isChecked) }
-            btnCast.onChecked { isChecked -> viewModel.doTapCast(isChecked) }
+            btnCamera.action { viewModel.doTapCamera(isChecked) }
+            btnClock.action { viewModel.doTapClock(isChecked) }
+            btnMic.action { viewModel.doTapMic(isChecked) }
+            btnCast.action { viewModel.doTapCast(isChecked) }
             btnClose.action { viewModel.doTapClose() }
         }
 
