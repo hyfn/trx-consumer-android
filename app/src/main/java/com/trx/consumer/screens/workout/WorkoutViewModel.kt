@@ -85,7 +85,7 @@ class WorkoutViewModel @ViewModelInject constructor(
             when (model.workoutState) {
                 WorkoutViewState.VIDEO -> {
                     if (user.entitlements.onDemand) {
-                        eventTapStartWorkout.postValue(model)
+                        doTrackVideo()
                         analyticsManager.trackPageView(VIDEO_PLAYER)
                     } else {
                         eventShowPermissionAlert.call()
@@ -93,7 +93,6 @@ class WorkoutViewModel @ViewModelInject constructor(
                 }
                 WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> {
                     if (model.bookViewStatus == BookingViewState.JOIN) {
-                        eventTapStartWorkout.postValue(model)
                         analyticsManager.trackPageView(VIDEO_PLAYER)
                     } else {
                         user.card?.let {
@@ -112,5 +111,10 @@ class WorkoutViewModel @ViewModelInject constructor(
 
     fun doTrackPageView() {
         analyticsManager.trackPageView(WORKOUT)
+    }
+
+    private fun doTrackVideo() {
+        eventTapStartWorkout.postValue(model)
+        analyticsManager.trackViewVideo(model.video)
     }
 }

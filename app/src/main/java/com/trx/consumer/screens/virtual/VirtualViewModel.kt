@@ -145,5 +145,6 @@ class VirtualViewModel @ViewModelInject constructor(
     fun doTrackPageView() {
         analyticsManager.trackPageView(VIRTUAL)
     }
+
     //endregion
 }

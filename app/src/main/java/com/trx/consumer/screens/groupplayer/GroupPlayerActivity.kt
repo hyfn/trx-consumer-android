@@ -57,11 +57,11 @@ class GroupPlayerActivity : AppCompatActivity() {
         doTrackPageView()
 
         binding.apply {
-            btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
-            btnClock.onChecked { isChecked -> handleTapClock(isChecked) }
-            btnMicrophone.onChecked { isChecked -> handleTapMicrophone(isChecked) }
-            btnShare.onChecked { isChecked -> handleTapShare(isChecked) }
-            btnCamera.onChecked { isChecked -> handleTapCamera(isChecked) }
+            btnCamera.action { handleTapCamera() }
+            btnClock.action { handleTapClock() }
+            btnMicrophone.action { handleTapMicrophone() }
+            btnShare.action { handleTapShare() }
+            btnCamera.action { handleTapCamera() }
             btnEnd.action { handleTapEnd() }
         }
 
@@ -95,20 +95,20 @@ class GroupPlayerActivity : AppCompatActivity() {
         playTRXlive(liveResponseModel)
     }
 
-    private fun handleTapCamera(isChecked: Boolean) {
-        LogManager.log("handleTapCamera $isChecked ")
+    private fun handleTapCamera() {
+        LogManager.log("handleTapCamera")
     }
 
-    private fun handleTapClock(isChecked: Boolean) {
-        LogManager.log("handleTapClock $isChecked ")
+    private fun handleTapClock() {
+        LogManager.log("handleTapClock")
     }
 
-    private fun handleTapMicrophone(isChecked: Boolean) {
-        LogManager.log("handleTapMicrophone $isChecked ")
+    private fun handleTapMicrophone() {
+        LogManager.log("handleTapMicrophone")
     }
 
-    private fun handleTapShare(isChecked: Boolean) {
-        LogManager.log("handleTapShare $isChecked ")
+    private fun handleTapShare() {
+        LogManager.log("handleTapShare")
     }
 
     private fun handleTapEnd() {
