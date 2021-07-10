@@ -6,6 +6,7 @@ import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.trx.consumer.BuildConfig
+import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.responses.LiveResponseModel
 import fm.liveswitch.AudioStream
@@ -42,6 +43,9 @@ import fm.liveswitch.openh264.Utility
 import java.util.ArrayList
 
 abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
+    private val testingFlagLoadFirstDownstreamAsTrainer: Boolean = true
+    private val testingFlagLoadTrainerAsParticipant: Boolean = false
+
     private var handler: Handler = Handler(context.mainLooper)
     private var channel: Channel? = null
 
@@ -52,8 +56,11 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
     private var videoLayout: VideoLayout? = null
     var contextMenuItemFlag: HashMap<String, Boolean> = HashMap()
     var remoteMediaMaps: HashMap<String, ManagedConnection>
-    private var trainerConnectionInfo: ConnectionInfo? = null
+    var trainerConnectionInfo: ConnectionInfo? = null
     var trainerMedia: RemoteMedia? = null
+
+    var eventTrainerLoaded = CommonLiveEvent<Boolean>()
+    //var eventParticipantAdded = CommonLiveEvent<>
 
     //region Client Variables and Parameters
 
@@ -208,38 +215,6 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
     //endregion
 
     private var dataChannelsMessageTimer: ManagedTimer? = null
-
-    // Used when opening Mcu connection and PeerAnswerConnection.
-    private fun addRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
-        /*layoutManager?.let { safeLayoutManager ->
-            handler.post {
-                remoteMedia.view?.let { safeView ->
-                    safeView.contentDescription = "remoteView_${safeView.id}"
-                    safeLayoutManager.addRemoteView(remoteMedia.id, remoteMedia.view)
-                }
-            }
-        }*/
-    }
-
-    // Used when opening Mcu connection and PeerAnswerConnection.
-    private fun removeRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
-        /*layoutManager?.let { safeLayoutManager ->
-            clearContextMenuItemFlag(remoteMedia.id)
-            handler.post {
-                safeLayoutManager.removeRemoteView(remoteMedia.id)
-                remoteMedia.destroy()
-            }
-        }*/
-    }
-
-    // Used in onClientRegistered
-    private fun layoutOnUiThread() {
-        /*layoutManager?.let { safeLayoutManager ->
-            handler.post {
-                safeLayoutManager.layout()
-            }
-        }*/
-    }
 
     fun getLocalMediaView(): LocalMedia<View>? {
         return this.localMedia
@@ -408,7 +383,7 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
         channel?.addOnRemoteUpstreamConnectionOpen { remoteConnectionInfo ->
             Log.info("Remote client opened upstream connection (connection ID: " + remoteConnectionInfo.id + ", client ID: " + remoteConnectionInfo.clientId + ", device ID: " + remoteConnectionInfo.deviceId + ", user ID: " + remoteConnectionInfo.userId + ", tag: " + remoteConnectionInfo.tag + ").")
             var clientRoles = remoteConnectionInfo.clientRoles
-            if (clientRoles != null && clientRoles.contains("trainer")) {
+            if (!testingFlagLoadTrainerAsParticipant && ((testingFlagLoadFirstDownstreamAsTrainer && sfuDownstreamConnections.count() == 0) || (clientRoles != null && clientRoles.contains("trainer")))) {
                 openSfuDownstreamConnection(remoteConnectionInfo, null, true)
             } else if (opensNonTrainerDownstreamConnections()) {
                 // Open downstream connection to receive the new upstream connection.
@@ -436,7 +411,7 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
             it.remoteUpstreamConnectionInfos.forEach { connection ->
                 // TODO add trainer logic here
                 val clientRoles = connection.clientRoles
-                if (clientRoles != null && clientRoles.contains("trainer")) {
+                if (!testingFlagLoadTrainerAsParticipant && ((testingFlagLoadFirstDownstreamAsTrainer && sfuDownstreamConnections.count() == 0) || (clientRoles != null && clientRoles.contains("trainer")))) {
                     openSfuDownstreamConnection(connection, null, true)
                 } else if (opensNonTrainerDownstreamConnections()) {
                     // Open downstream connection to receive the new upstream connection.
@@ -528,11 +503,6 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
         // Create remote media to manage incoming media.
         val remoteMedia = RemoteMedia(context, enableH264, false, audioOnly, aecContext)
 
-        if (isTrainer) {
-            this.trainerConnectionInfo = remoteConnectionInfo
-            this.trainerMedia = remoteMedia
-        }
-
         // Add the remote video view to the layout.
         /*handler.post {
             layoutManager?.addRemoteView(
@@ -619,10 +589,17 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
             }
         }
 
-        if (opensNonTrainerDownstreamConnections()) {
+        if (opensNonTrainerDownstreamConnections() || isTrainer) {
             // Open the connection.
             connection?.open()
         }
+
+        if (isTrainer) {
+            this.trainerConnectionInfo = remoteConnectionInfo
+            this.trainerMedia = remoteMedia
+            eventTrainerLoaded.postValue(true)
+        }
+
         return connection
     }
 

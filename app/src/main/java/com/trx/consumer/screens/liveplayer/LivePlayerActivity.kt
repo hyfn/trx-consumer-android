@@ -1,10 +1,10 @@
 package com.trx.consumer.screens.liveplayer
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.ContextMenu
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
@@ -12,9 +12,11 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
+import com.trx.consumer.common.CommonView
+import com.trx.consumer.databinding.ActivityLivePlayerBinding
 import com.trx.consumer.extensions.checkLivePermission
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.LogManager
@@ -26,9 +28,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import fm.liveswitch.EncodingInfo
 import fm.liveswitch.IAction0
 import fm.liveswitch.IAction1
-import fm.liveswitch.Log
 import fm.liveswitch.Promise
 import fm.liveswitch.VideoEncodingConfig
+import fm.liveswitch.android.OpenGLView
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -36,7 +38,7 @@ import javax.inject.Inject
 class LivePlayerActivity : AppCompatActivity() {
 
     private val viewModel: LivePlayerViewModel by viewModels()
-
+    private lateinit var binding: ActivityLivePlayerBinding
     @Inject
     lateinit var livePlayerHandler: LivePlayerHandler
 
@@ -45,18 +47,18 @@ class LivePlayerActivity : AppCompatActivity() {
     private var recvEncodings: ArrayList<Int>? = null
     private val prefix = "Bitrate: "
 
-    //  TODO: Place in viewmodel. 
     private var localMediaStarted: Boolean = false
 
-    var container: RelativeLayout? = null
-    lateinit var layout: FrameLayout
+    lateinit var container: CommonView
 
     @Inject
     lateinit var analyticsManager: AnalyticsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_live_player)
+        binding = ActivityLivePlayerBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
 
         doTrackPageView()
         bind()
@@ -66,13 +68,30 @@ class LivePlayerActivity : AppCompatActivity() {
         val workout = NavigationManager.shared.params(intent) as? WorkoutModel
 
         container = findViewById(R.id.fmPlayerContainer)
-        layout = findViewById(R.id.fmPlayerLayout)
 
-        viewModel.apply {
-            model = workout
-            eventLoadVideo.observe(this@LivePlayerActivity, handleLoadVideo)
+        livePlayerHandler.apply {
+            eventTrainerLoaded.observe(this@LivePlayerActivity, addTrainerToLayout)
+        }
+        val liveResponseModel = LiveResponseModel.test()
+        playTRXlive(liveResponseModel)
+    }
+
+    private val addTrainerToLayout = Observer<Boolean> { trainerLoaded ->
+        LogManager.log("trainerLoaded")
+        this.runOnUiThread {
+            var trainerMedia = this.livePlayerHandler.getTrainerMediaView()
+            if (trainerLoaded) {
+                trainerMedia?.let { tm ->
+                    tm.view.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER)
+                    container.addView(tm.view)
+                }
+            } else {
+                container.removeAllViewsInLayout()
+            }
         }
     }
+
+
 
     //region Activity Lifecycle
 
@@ -92,7 +111,7 @@ class LivePlayerActivity : AppCompatActivity() {
 
         // Remove the static container from the current layout.
         if (container != null) {
-            layout.removeView(container)
+            //layout.removeView(container)
         }
 
         super.onStop()
@@ -103,7 +122,7 @@ class LivePlayerActivity : AppCompatActivity() {
 
         // Remove the static container from the current layout.
         if (container != null) {
-            layout.removeView(container)
+            //layout.removeView(container)
         }
 
         super.onPause()
@@ -117,45 +136,6 @@ class LivePlayerActivity : AppCompatActivity() {
     //endregion 
 
     //region Activity Helper Overrides
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == 1) {
-            // stream api not used here bc not supported under api 24
-            var permissionsGranted = true
-            for (grantResult in grantResults) {
-                if (grantResult != PackageManager.PERMISSION_GRANTED) {
-                    permissionsGranted = false
-                }
-            }
-            if (permissionsGranted) {
-                livePlayerHandler.livePlayerActivity = this
-                livePlayerHandler.startTRXLocalMedia(this)
-                    .then({ o -> livePlayerHandler.joinAsyncLive() }) { e ->
-                        LogManager.log("Could not start local media: ${e.message}")
-                    }
-            } else {
-                Toast.makeText(
-                    this,
-                    "Cannot connect without access to camera and microphone",
-                    Toast.LENGTH_SHORT
-                ).show()
-                for (i in grantResults.indices) {
-                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                        Log.debug("permission to " + permissions[i] + " not granted")
-                    }
-                }
-                stop()
-            }
-        } else {
-            Toast.makeText(this, "Unknown permission requested", Toast.LENGTH_SHORT).show()
-        }
-    }
 
     override fun onBackPressed() {
         stop()
@@ -283,90 +263,12 @@ class LivePlayerActivity : AppCompatActivity() {
 
     //region Helper Functions
 
-    fun playTRXlive(value: LiveResponseModel) {
-        livePlayerHandler.apply {
-            live = value
-            useNextVideoDevice()
-            livePlayerActivity = this@LivePlayerActivity
-        }
-
-        val tempContainer = findViewById<RelativeLayout>(R.id.fmPlayerContainer)
-        if (container == null) {
-            container = tempContainer
-        }
-
+    private fun playTRXlive(value: LiveResponseModel) {
         if (!localMediaStarted) {
             val promise = Promise<Any>()
 
             val startFn = IAction0 {
-                livePlayerHandler.startTRXLocalMedia(this).then({ resultStart ->
-                    livePlayerHandler.joinAsyncLive()?.then({ resultJoin ->
-                        promise.resolve(null)
-                    }) { ex ->
-                        promise.reject(ex)
-                    }
-                }) { ex ->
-                    promise.reject(null)
-                }
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val requiredPermissions: MutableList<String> = ArrayList(3)
-                if (checkLivePermission(Manifest.permission.RECORD_AUDIO)) {
-                    requiredPermissions.add(Manifest.permission.RECORD_AUDIO)
-                }
-                if (checkLivePermission(Manifest.permission.CAMERA)) {
-                    requiredPermissions.add(Manifest.permission.CAMERA)
-                }
-                if (checkLivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                }
-                if (checkLivePermission(Manifest.permission.READ_PHONE_STATE)) {
-                    requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
-                }
-                if (requiredPermissions.size == 0) {
-                    startFn.invoke()
-                } else {
-                    if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
-                            Manifest.permission.CAMERA
-                        ) ||
-                        shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
-                        shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)
-                    ) {
-                        Toast.makeText(
-                            this,
-                            "Access to camera, microphone, storage, and phone call state is required",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    requestPermissions(requiredPermissions.toTypedArray(), 1)
-                }
-            } else {
-                startFn.invoke()
-            }
-        }
-
-        localMediaStarted = true
-    }
-
-    //  TODO: Marked for removal 
-    fun playFMLive() {
-
-        livePlayerHandler.useNextVideoDevice()
-
-        livePlayerHandler.livePlayerActivity = this
-
-        val tempContainer = findViewById<RelativeLayout>(R.id.fmPlayerContainer)
-        if (container == null) {
-            container = tempContainer
-        }
-        // layout.removeView(tempContainer)
-
-        if (!localMediaStarted) {
-            val promise = Promise<Any>()
-
-            val startFn = IAction0 {
-                livePlayerHandler.startLocalMedia(this).then({ resultStart ->
+                livePlayerHandler.startTRXLocalMedia().then({ resultStart ->
                     livePlayerHandler.joinAsync()?.then({ resultJoin ->
                         promise.resolve(null)
                     }) { ex ->
@@ -378,33 +280,17 @@ class LivePlayerActivity : AppCompatActivity() {
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val requiredPermissions: MutableList<String> = ArrayList(3)
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.RECORD_AUDIO
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
+                val requiredPermissions: MutableList<String> = java.util.ArrayList(3)
+                if (checkLivePermission(Manifest.permission.RECORD_AUDIO)) {
                     requiredPermissions.add(Manifest.permission.RECORD_AUDIO)
                 }
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.CAMERA
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
+                if (checkLivePermission(Manifest.permission.CAMERA)) {
                     requiredPermissions.add(Manifest.permission.CAMERA)
                 }
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
+                if (checkLivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.READ_PHONE_STATE
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
+                if (checkLivePermission(Manifest.permission.READ_PHONE_STATE)) {
                     requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
                 }
                 if (requiredPermissions.size == 0) {
