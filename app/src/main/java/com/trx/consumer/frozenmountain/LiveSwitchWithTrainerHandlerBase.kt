@@ -132,6 +132,10 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
 
     abstract fun opensNonTrainerDownstreamConnections(): Boolean
 
+    open fun sfuConnectionCreated(remoteConnInfo: ConnectionInfo, remoteMedia: RemoteMedia, connection: SfuDownstreamConnection) {
+
+    }
+
     //region LivePlayerActivity Function
 
     fun startTRXLocalMedia(): Future<Any> {
@@ -598,6 +602,10 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
             this.trainerConnectionInfo = remoteConnectionInfo
             this.trainerMedia = remoteMedia
             eventTrainerLoaded.postValue(true)
+        } else {
+            connection?.let { conn ->
+                sfuConnectionCreated(remoteConnectionInfo, remoteMedia, conn)
+            }
         }
 
         return connection
@@ -838,6 +846,14 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
     fun teardown() {
         sfuUpstreamConnection?.close()
         sfuUpstreamConnection = null
+        for(connection in sfuDownstreamConnections.values) {
+            connection.close()
+        }
+        sfuDownstreamConnections = HashMap()
+        trainerConnectionInfo = null
+        trainerMedia = null
+        dataChannels = ArrayList()
+        channel = null
     }
 
     interface OnReceivedTextListener {

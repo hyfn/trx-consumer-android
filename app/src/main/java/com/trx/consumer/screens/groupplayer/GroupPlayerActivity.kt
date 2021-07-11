@@ -3,7 +3,9 @@ package com.trx.consumer.screens.groupplayer
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -35,6 +37,9 @@ class GroupPlayerActivity : AppCompatActivity() {
     lateinit var tabLayout: TabLayout
     lateinit var tabLayoutMediator: TabLayoutMediator
 
+    lateinit var trainerContainer: FrameLayout
+    lateinit var localMediaContainer: FrameLayout
+
     private var localMediaStarted: Boolean = false
 
     private val viewModel: GroupPlayerViewModel by viewModels()
@@ -54,6 +59,9 @@ class GroupPlayerActivity : AppCompatActivity() {
         binding = ActivityGroupPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        trainerContainer = findViewById(R.id.smallGroupTrainerView)
+        localMediaContainer = findViewById(R.id.groupPlayLocalMediaLayout)
+
         doTrackPageView()
 
         binding.apply {
@@ -63,6 +71,24 @@ class GroupPlayerActivity : AppCompatActivity() {
             btnShare.action { handleTapShare() }
             btnCamera.action { handleTapCamera() }
             btnEnd.action { handleTapEnd() }
+        }
+
+        if(savedInstanceState != null) {
+            localMediaStarted = savedInstanceState.getBoolean("localMediaStarted")
+            this.runOnUiThread {
+                var localmedia = groupPlayerHandler.getLocalMediaView()
+                localmedia?.let { lm ->
+                    lm.start().waitForResult()
+                    if(lm.viewSink != null) {
+                        lm.viewSink.view.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                    }
+                    localMediaContainer.addView(lm.view)
+                }
+                var trainerMedia = groupPlayerHandler.getTrainerMediaView()
+                trainerMedia?.let { tm ->
+                    trainerContainer.addView(tm.view)
+                }
+            }
         }
 
         onViewCreated(this.findViewById(R.id.groupPlayerSmallGroupView), savedInstanceState)
@@ -92,7 +118,37 @@ class GroupPlayerActivity : AppCompatActivity() {
         }
         viewModel.doLoadVideo()
         */
+        groupPlayerHandler.apply {
+            eventTrainerLoaded.observe(this@GroupPlayerActivity, addTrainerToLayout)
+        }
+
         playTRXlive(liveResponseModel)
+    }
+
+    private val addTrainerToLayout = Observer<Boolean> { trainerLoaded ->
+        LogManager.log("trainerLoaded")
+        this.runOnUiThread {
+            var trainerMedia = this.groupPlayerHandler.getTrainerMediaView()
+            if (trainerLoaded) {
+                trainerMedia?.let { tm ->
+                    tm.view.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER)
+                    trainerContainer.addView(tm.view)
+                }
+            } else {
+                trainerContainer.removeAllViewsInLayout()
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        var localmedia = groupPlayerHandler.getLocalMediaView()
+        localmedia?.let { lm ->
+            lm.stop().waitForResult()
+        }
+        trainerContainer.removeAllViewsInLayout()
+        localMediaContainer.removeAllViewsInLayout()
+        outState.putBoolean("localMediaStarted", localMediaStarted)
     }
 
     private fun handleTapCamera() {
@@ -113,6 +169,8 @@ class GroupPlayerActivity : AppCompatActivity() {
 
     private fun handleTapEnd() {
         groupPlayerHandler.stopLocalMedia()
+        groupPlayerHandler.teardown()
+        localMediaStarted = false
         finish()
     }
 
@@ -135,7 +193,7 @@ class GroupPlayerActivity : AppCompatActivity() {
                 groupPlayerHandler.startTRXLocalMedia().then({ resultStart ->
                     this.runOnUiThread {
                         var localMedia = groupPlayerHandler.getLocalMediaView()
-                        var trainerView = findViewById<FrameLayout>(R.id.smallGroupTrainerView)
+                        var trainerView = findViewById<FrameLayout>(R.id.groupPlayLocalMediaLayout)
                         localMedia?.let { lm ->
                             trainerView.addView(lm.view)
                         }

@@ -139,6 +139,9 @@ class LivePlayerActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         stop()
+        livePlayerHandler.stopLocalMedia()
+        livePlayerHandler.teardown()
+        localMediaStarted = false
         super.onBackPressed()
     }
 

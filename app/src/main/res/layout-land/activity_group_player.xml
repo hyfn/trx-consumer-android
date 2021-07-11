@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:clickable="true"
         android:focusable="true"
-        app:backgroundColor="@color/green"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/navView"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,10 +33,23 @@
             </FrameLayout>
 
             <com.trx.consumer.common.CommonView
+                app:backgroundColor="@color/green"
                 android:id="@+id/groupPlayerSmallGroupView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
+                <FrameLayout
+                    android:id="@+id/groupPlayLocalMediaLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintHeight_percent="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.5">
+
+                </FrameLayout>
+
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tab_layout"
                     android:layout_width="0dp"

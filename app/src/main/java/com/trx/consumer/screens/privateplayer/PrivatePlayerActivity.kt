@@ -194,6 +194,9 @@ class PrivatePlayerActivity : AppCompatActivity() {
     }
 
     private fun handleTapEnd() {
+        privatePlayerHandler.stopLocalMedia()
+        privatePlayerHandler.teardown()
+        localMediaStarted = false
         finish()
     }
 
