@@ -32,5 +32,5 @@ class LocalCameraMedia(
     override fun createVideoSource(): VideoSource =
         Camera2Source(viewSink, videoConfig)
 
-    override fun getView(): View = viewSink.view as View
+    override fun getView(): View = viewSink.view
 }

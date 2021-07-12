@@ -30,7 +30,7 @@ class PrivatePlayerActivity : AppCompatActivity() {
     @Inject
     lateinit var handler: PrivatePlayerHandler
 
-    lateinit var container: RelativeLayout
+    var container: RelativeLayout? = null
 
     //endregion
 
@@ -82,6 +82,7 @@ class PrivatePlayerActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         handler.leaveAsync()?.waitForResult()
+        container = null
         viewModel.localMediaStarted = true
     }
 
@@ -206,6 +207,7 @@ class PrivatePlayerActivity : AppCompatActivity() {
         if (viewModel.localMediaStarted) {
             handler.leaveAsync()?.then {
                 handler.cleanup().then {
+                    container = null
                     finish()
                 }?.fail(
                     IAction1 { e ->
