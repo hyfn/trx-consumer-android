@@ -1,5 +1,7 @@
 package com.trx.consumer.screens.alert
 
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.trx.consumer.R
@@ -47,12 +49,17 @@ class AlertFragment : BaseDialogFragment(R.layout.fragment_alert) {
                     bgColor(primaryState.bgColor)
                 }
                 btnSecondary.apply {
-                    isHidden = (secondaryTitle == 0)
-                    if (!isHidden) {
-                        text = getString(secondaryTitle)
-                        textColor(secondaryState.titleColor)
-                        bgColor(secondaryState.bgColor)
+                    if (secondaryState == AlertViewState.CLEAR) {
+                        isHidden = clearTitle == null
+                        clearTitle?.let { text(it) }
+                        typeface = ResourcesCompat.getFont(context, secondaryState.fontFamily)
+                    } else {
+                        val hide = secondaryTitle == 0
+                        if (!hide) text = getString(secondaryTitle)
+                        isHidden = hide
                     }
+                    textColor(secondaryState.titleColor)
+                    bgColor(secondaryState.bgColor)
                 }
             }
             viewContent.startAnimation(bottomInAnimation(requireContext()))

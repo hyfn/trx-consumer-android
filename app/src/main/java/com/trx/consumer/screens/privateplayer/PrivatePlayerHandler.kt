@@ -1,8 +1,6 @@
-package com.trx.consumer.screens.liveplayer
+package com.trx.consumer.screens.privateplayer
 
 import android.content.Context
-import android.media.projection.MediaProjection
-import android.os.Handler
 import android.view.View
 import com.trx.consumer.BuildConfig.kFMApplicationIdProd
 import com.trx.consumer.BuildConfig.kFMGatewayUrl
@@ -14,12 +12,8 @@ import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.responses.LiveResponseModel
 import fm.liveswitch.AudioStream
 import fm.liveswitch.Channel
-import fm.liveswitch.ChannelClaim
 import fm.liveswitch.Client
-import fm.liveswitch.ClientState.Registered
-import fm.liveswitch.ClientState.Registering
 import fm.liveswitch.ClientState.Unregistered
-import fm.liveswitch.ClientState.Unregistering
 import fm.liveswitch.ConnectionConfig
 import fm.liveswitch.ConnectionInfo
 import fm.liveswitch.ConnectionState
@@ -37,8 +31,6 @@ import fm.liveswitch.ManagedConnection
 import fm.liveswitch.ManagedThread
 import fm.liveswitch.ManagedTimer
 import fm.liveswitch.McuConnection
-import fm.liveswitch.MediaSourceState
-import fm.liveswitch.PathUtility
 import fm.liveswitch.PeerConnection
 import fm.liveswitch.PeerConnectionOffer
 import fm.liveswitch.Promise
@@ -46,20 +38,21 @@ import fm.liveswitch.SfuDownstreamConnection
 import fm.liveswitch.SfuUpstreamConnection
 import fm.liveswitch.SimulcastMode
 import fm.liveswitch.StreamDirection
-import fm.liveswitch.Token
 import fm.liveswitch.VideoLayout
 import fm.liveswitch.VideoStream
 import fm.liveswitch.android.Camera2Source
 import fm.liveswitch.android.LayoutManager
 import fm.liveswitch.openh264.Utility
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.ArrayList
 
-class LivePlayerHandler(val context: Context) {
+class PrivatePlayerHandler(val context: Context) {
 
-    // TODO: Replace with Coroutines
-    private var handler: Handler = Handler(context.mainLooper)
     private var channel: Channel? = null
 
+    var handlerScope: CoroutineScope? = null
     private var mcuConnection: McuConnection? = null
     private var sfuUpstreamConnection: SfuUpstreamConnection? = null
     private var sfuDownstreamConnections: HashMap<String, SfuDownstreamConnection>
@@ -68,36 +61,12 @@ class LivePlayerHandler(val context: Context) {
     private lateinit var aecContext: AecContext
     private var layoutManager: LayoutManager? = null
     private var videoLayout: VideoLayout? = null
-    var livePlayerActivity: LivePlayerActivity? = null
+    var privatePlayerActivity: PrivatePlayerActivity? = null
     var contextMenuItemFlag: HashMap<String, Boolean> = HashMap()
     var remoteMediaMaps: HashMap<String, ManagedConnection>
 
     //region Client Variables and Parameters
-
     private var client: Client? = null
-
-    // Url for FM demo
-    private val gatewayUrl = "https://demo.liveswitch.fm:8443/sync"
-
-    // Generic applicationId for FM demo
-    var live: LiveResponseModel = LiveResponseModel.test()
-        set(value) {
-            userID = value.sessionCustomerUid
-            field = value
-        }
-
-    private val applicationId = "my-app-id"
-
-    private var userID: String = Guid.newGuid().toString().replace("-".toRegex(), "")
-
-    private val deviceID: String = Guid.newGuid().toString().replace("-".toRegex(), "")
-
-    private var userName: String = "Testing"
-        set(value) {
-            field = if (value.isNotEmpty()) value else field
-        }
-
-    var channelId: String = "846812"
 
     //endregion
 
@@ -111,20 +80,13 @@ class LivePlayerHandler(val context: Context) {
 
     private lateinit var mcuViewId: String
 
-    private var textListener: OnReceivedTextListener? = null
-    private var usingFrontVideoDevice = true
+    var listener: PrivatePlayerListener? = null
     private var audioOnly: Boolean = false
     private var receiveOnly: Boolean = false
     var enableSimulcast = false
 
-    //  TODO: Marked for removal. Used for screen sharing
-    private var enableScreenShare = false
-
     val enableH264: Boolean
         get() = Utility.isSupported()
-
-    //  TODO: Marked for removal. Used for screen projection.
-    var mediaProjection: MediaProjection? = null
 
     private var dataChannelConnected = false
     var dataChannels = ArrayList<DataChannel>()
@@ -141,49 +103,65 @@ class LivePlayerHandler(val context: Context) {
         License.getCurrent()
     }
 
-    //region LivePlayerActivity Function
+    //region GroupPlayerActivity Function
 
-    fun startTRXLocalMedia(activity: LivePlayerActivity): Future<Any> {
+    fun start(live: LiveResponseModel) {
+        val promise = Promise<Any>()
+
+        startLocalMedia().then({
+            joinAsync(live)?.then({
+                promise.resolve(null)
+            }) { ex ->
+                ex.message?.let { safeMessage -> LogManager.log(safeMessage) }
+                promise.reject(ex)
+            }
+        }) { ex ->
+            ex.message?.let { safeMessage -> LogManager.log(safeMessage) }
+            promise.reject(null)
+        }
+    }
+
+    private fun startLocalMedia(): Future<Any> {
         val promise = Promise<Any>()
 
         // Set up the layout manager.
-        layoutManager = LayoutManager(activity.container)
-        activity.runOnUiThread {
-            if (receiveOnly) {
-                promise.resolve(null)
-            } else {
-                // Create an echo cancellation context.
-                aecContext = AecContext()
+        // Create an echo cancellation context w/ AecContext
+        // Set up the local media.
+        // Change input source to front camera.
+        privatePlayerActivity?.let { activity ->
+            layoutManager = LayoutManager(activity.container)
 
-                // Set up the local media.
-                localMedia = LocalCameraMedia(
-                    context,
-                    enableH264,
-                    false,
-                    audioOnly,
-                    aecContext,
-                    enableSimulcast
-                )
+            handlerScope?.launch(Dispatchers.Main) {
+                if (receiveOnly) {
+                    promise.resolve(null)
+                } else {
+                    aecContext = AecContext()
 
-                localMedia?.view?.let { localView ->
-                    localView.contentDescription = "localView"
-                    layoutManager?.localView = localView
-                }
-
-                // Change input source to front camera .
-                (localMedia?.videoSource as? Camera2Source)?.let { input ->
-                    input.frontInput?.let { sourceInput ->
-                        localMedia?.changeVideoSourceInput(sourceInput)
+                    localMedia = LocalCameraMedia(
+                        context,
+                        enableH264,
+                        false,
+                        audioOnly,
+                        aecContext,
+                        enableSimulcast
+                    ).apply {
+                        view.contentDescription = "localView"
+                        layoutManager?.localView = view
                     }
-                }
 
-                // Start the local media.
-                localMedia?.let { safeLocalMedia ->
-                    safeLocalMedia.start().then({
-                        it.videoSource.start()
-                        promise.resolve(null)
-                    }) { e ->
-                        promise.reject(e)
+                    (localMedia?.videoSource as? Camera2Source)?.let { input ->
+                        input.frontInput?.let { sourceInput ->
+                            localMedia?.changeVideoSourceInput(sourceInput)
+                        }
+                    }
+
+                    // Start the local media.
+                    localMedia?.let { safeLocalMedia ->
+                        safeLocalMedia.start().then({
+                            promise.resolve(null)
+                        }) { e ->
+                            promise.reject(e)
+                        }
                     }
                 }
             }
@@ -191,26 +169,29 @@ class LivePlayerHandler(val context: Context) {
         return promise
     }
 
-    fun joinAsyncLive(): Future<Array<Channel>>? {
+    private fun joinAsync(live: LiveResponseModel): Future<Array<Channel>>? {
         unRegistering = false
 
         // Hardcoded
+        val deviceID: String = Guid.newGuid().toString().replace("-".toRegex(), "")
         client = Client(kFMGatewayUrl, kFMApplicationIdProd, live.sessionCustomerUid, deviceID)
             .apply {
                 userAlias = live.participantName
                 addOnStateChange { safeClient ->
                     LogManager.log("Client state is: ${safeClient.state.name} ")
-                    if (safeClient.state == Unregistered && !unRegistering) {
-                        ManagedThread.sleep(maxRegisterBackoff)
-                        if (maxRegisterBackoff < maxRegisterBackoff) {
-                            reRegisterBackoff += reRegisterBackoff
-                        }
+                    if (safeClient.state == Unregistered) {
+                        if (!unRegistering) {
+                            ManagedThread.sleep(maxRegisterBackoff)
+                            if (maxRegisterBackoff < maxRegisterBackoff) {
+                                reRegisterBackoff += reRegisterBackoff
+                            }
 
-                        safeClient.register(live.accessToken).then({ channels ->
-                            reRegisterBackoff = 200
-                            onClientRegistered(channels)
-                        }) { e ->
-                            LogManager.log("Failed to reregister with Gateway. ${e.message}")
+                            safeClient.register(live.accessToken).then({ channels ->
+                                reRegisterBackoff = 200
+                                onClientRegistered(channels)
+                            }) { e ->
+                                LogManager.log("Failed to reregister with Gateway. ${e.message}")
+                            }
                         }
                     }
                 }
@@ -223,6 +204,51 @@ class LivePlayerHandler(val context: Context) {
         }
     }
 
+    fun cleanup(): Future<fm.liveswitch.LocalMedia?> {
+        val promise: Promise<fm.liveswitch.LocalMedia?> = Promise()
+        privatePlayerActivity = null
+        listener = null
+        handlerScope = null
+        clearContextMenuItemFlag("localView")
+        if (localMedia == null) {
+            promise.resolve(null)
+        } else {
+            localMedia!!.stop().then({ // Tear down the layout manager.
+                layoutManager?.let { safeLayoutManager ->
+                    safeLayoutManager.apply {
+                        removeRemoteViews()
+                        unsetLocalView()
+                    }
+                }
+                layoutManager = null
+
+                // Tear down the local media.
+                localMedia?.destroy()
+                localMedia = null
+
+                promise.resolve(null)
+            }) { e -> promise.reject(e) }
+        }
+        return promise
+    }
+
+    fun leaveAsync(): Future<Any>? {
+        client?.let { safeClient ->
+            unRegistering = true
+
+            // Unregister with the server.
+            return safeClient.unregister().then {
+                dataChannelConnected = false
+            }.fail(
+                IAction1 { e ->
+                    e.message?.let { LogManager.log("Failed to Unregister Client: $it") }
+                }
+            )
+        }
+
+        return null
+    }
+
     //endregion
 
     private var dataChannelsMessageTimer: ManagedTimer? = null
@@ -230,7 +256,7 @@ class LivePlayerHandler(val context: Context) {
     // Used when opening Mcu connection and PeerAnswerConnection.
     private fun addRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
         layoutManager?.let { safeLayoutManager ->
-            handler.post {
+            handlerScope?.launch(Dispatchers.Main) {
                 remoteMedia.view?.let { safeView ->
                     safeView.contentDescription = "remoteView_${safeView.id}"
                     safeLayoutManager.addRemoteView(remoteMedia.id, remoteMedia.view)
@@ -243,7 +269,7 @@ class LivePlayerHandler(val context: Context) {
     private fun removeRemoteViewOnUiThread(remoteMedia: RemoteMedia) {
         layoutManager?.let { safeLayoutManager ->
             clearContextMenuItemFlag(remoteMedia.id)
-            handler.post {
+            handlerScope?.launch(Dispatchers.Main) {
                 safeLayoutManager.removeRemoteView(remoteMedia.id)
                 remoteMedia.destroy()
             }
@@ -252,151 +278,7 @@ class LivePlayerHandler(val context: Context) {
 
     // Used in onClientRegistered
     private fun layoutOnUiThread() {
-        layoutManager?.let { safeLayoutManager ->
-            handler.post {
-                safeLayoutManager.layout()
-            }
-        }
-    }
-
-    fun startLocalMedia(activity: LivePlayerActivity): Future<Any> {
-        val promise = Promise<Any>()
-        if (enableH264) {
-            val downloadPath = context.filesDir.path
-            Utility.downloadOpenH264(downloadPath).waitForResult()
-            System.load(PathUtility.combinePaths(downloadPath, Utility.getLoadLibraryName()))
-        }
-
-        // Set up the layout manager.
-        layoutManager = LayoutManager(activity.container)
-        activity.runOnUiThread {
-            if (receiveOnly) {
-                promise.resolve(null)
-            } else {
-                // Create an echo cancellation context.
-                aecContext = AecContext()
-
-                // Set up the local media.
-                localMedia = LocalCameraMedia(
-                    context,
-                    enableH264,
-                    false,
-                    audioOnly,
-                    aecContext,
-                    enableSimulcast
-                )
-
-                val localView = localMedia?.view
-                if (localView != null) {
-                    localView.contentDescription = "localView"
-                    // livePlayerActivity?.registerLocalContextMenu(
-                    //     localView,
-                    //     localMedia?.videoEncodings
-                    // )
-                }
-                layoutManager?.localView = localView
-
-                // Start the local media.
-
-                val input = localMedia?.videoSource as? Camera2Source
-                input?.frontInput?.let {
-                    localMedia?.changeVideoSourceInput(it)
-                }
-
-                localMedia?.start()?.then(
-                    {
-                        it.videoSource.start()
-                        promise.resolve(null)
-                    }
-                ) { e -> promise.reject(e) }
-            }
-        }
-        return promise
-    }
-
-    fun stopLocalMedia(): Future<Any> {
-        val promise: Promise<Any> = Promise()
-        livePlayerActivity = null
-        clearContextMenuItemFlag("localView")
-        if (localMedia == null) {
-            promise.resolve(null)
-        } else {
-            localMedia?.stop()?.then({ // Tear down the layout manager.
-                if (layoutManager != null) {
-                    layoutManager!!.removeRemoteViews()
-                    layoutManager!!.unsetLocalView()
-                    layoutManager = null
-                }
-
-                // Tear down the local media.
-                if (localMedia != null) {
-                    localMedia?.destroy() // localMedia.destroy() will also destroy aecContext.
-                    // localMedia = null
-                }
-                promise.resolve(null)
-            }) { e -> promise.reject(e) }
-        }
-        return promise
-    }
-
-    // Generate a register token.
-    // WARNING: do NOT do this here!
-    // Tokens should be generated by a secure server that
-    // has authenticated your user identity and is authorized
-    // to allow you to register with the LiveSwitch server.
-    private fun generateToken(claims: Array<ChannelClaim>): String? {
-        return Token.generateClientRegisterToken(
-            applicationId,
-            client!!.userId,
-            client!!.deviceId,
-            client!!.id,
-            null,
-            claims,
-            "--replaceThisWithYourOwnSharedSecret--"
-        )
-    }
-
-    // TODO: Remove when no longer testing hard coded FM demo values. 
-    fun joinAsync(): Future<Array<Channel>>? {
-        unRegistering = false
-
-        // Create a client to manage the channel.
-        client = Client(gatewayUrl, applicationId, userID, deviceID)
-        val claims = arrayOf(ChannelClaim(channelId))
-        client?.tag = if (isModeMcu) "Mcu" else "Sfu"
-        client?.userAlias = userName
-        client?.addOnStateChange { client ->
-            if (client.state == Registering) {
-                Log.debug("client is registering")
-            } else if (client.state == Registered) {
-                Log.debug("client is registered")
-            } else if (client.state == Unregistering) {
-                Log.debug("client is unregistering")
-            } else if (client.state == Unregistered) {
-                Log.debug("client is unregistered")
-
-                // Client has failed for some reason:
-                // We do not need to `c.closeAll()` as the client handled this for us as part of unregistering.
-                if (!unRegistering) {
-
-                    // Back off our reregister attempts as they continue to fail to avoid runaway process.
-                    ManagedThread.sleep(reRegisterBackoff)
-                    if (reRegisterBackoff < maxRegisterBackoff) {
-                        reRegisterBackoff += reRegisterBackoff
-                    }
-
-                    // ReRegister
-                    client.register(generateToken(claims)).then({ channels ->
-                        reRegisterBackoff = 200 // reset for next time
-                        onClientRegistered(channels)
-                    }
-                    ) { e -> Log.error("Failed to reregister with Gateway.", e) }
-                }
-            }
-        }
-        return client?.register(generateToken(claims))
-            ?.then({ channels -> onClientRegistered(channels) }
-            ) { e -> Log.error("Failed to register with Gateway.", e) }
+        layoutManager?.layoutOnMainThread()
     }
 
     private fun onClientRegistered(channels: Array<Channel>) {
@@ -404,29 +286,48 @@ class LivePlayerHandler(val context: Context) {
 
         // Monitor the channel remote client changes.
         channel?.addOnRemoteClientJoin { remoteClientInfo ->
-            Log.info("Remote client joined the channel (client ID: " + remoteClientInfo.id + ", device ID: " + remoteClientInfo.deviceId + ", user ID: " + remoteClientInfo.userId + ", tag: " + remoteClientInfo.tag + ").")
-            val n =
-                if (remoteClientInfo.userAlias != null) remoteClientInfo.userAlias else remoteClientInfo.userId
-            textListener?.onPeerJoined(n)
+            LogManager.log(
+                "Remote client joined the channel (client ID: ${remoteClientInfo.id}, " +
+                    "device ID:  ${remoteClientInfo.deviceId}, " +
+                    "user ID: ${remoteClientInfo.userId}, " +
+                    "tag: ${remoteClientInfo.tag})."
+            )
+            val user = remoteClientInfo.userAlias ?: remoteClientInfo.userId
+            listener?.doReceiveMessage(user, "Joined")
         }
         channel?.addOnRemoteClientLeave { remoteClientInfo ->
-            val n =
-                if (remoteClientInfo.userAlias != null) remoteClientInfo.userAlias else remoteClientInfo.userId
-            textListener?.onPeerLeft(n)
-            Log.info("Remote client left the channel (client ID: " + remoteClientInfo.id + ", device ID: " + remoteClientInfo.deviceId + ", user ID: " + remoteClientInfo.userId + ", tag: " + remoteClientInfo.tag + ").")
+            LogManager.log(
+                "Remote client left the channel (" +
+                    "client ID: ${remoteClientInfo.id}, " +
+                    "device ID:  ${remoteClientInfo.deviceId}, " +
+                    "user ID: ${remoteClientInfo.userId}, " +
+                    "tag: ${remoteClientInfo.tag})."
+            )
+            val user = remoteClientInfo.userAlias ?: remoteClientInfo.userId
+            listener?.doReceiveMessage(user, "Left")
         }
 
         // Monitor the channel remote upstream connection changes.
         channel?.addOnRemoteUpstreamConnectionOpen { remoteConnectionInfo ->
-            Log.info("Remote client opened upstream connection (connection ID: " + remoteConnectionInfo.id + ", client ID: " + remoteConnectionInfo.clientId + ", device ID: " + remoteConnectionInfo.deviceId + ", user ID: " + remoteConnectionInfo.userId + ", tag: " + remoteConnectionInfo.tag + ").")
-            if (!isModeMcu) {
-                // Open downstream connection to receive the new upstream connection.
-                openSfuDownstreamConnection(remoteConnectionInfo, null)
-            }
+            LogManager.log(
+                "Remote client opened upstream connection (" +
+                    "connection ID: ${remoteConnectionInfo.id}, " +
+                    "client ID: ${remoteConnectionInfo.clientId}, " +
+                    "device ID: ${remoteConnectionInfo.deviceId}, " +
+                    "user ID: ${remoteConnectionInfo.userId}, " +
+                    "tag: ${remoteConnectionInfo.tag})."
+            )
+            // Open downstream connection to receive the new upstream connection if mode not Mcu
+            if (!isModeMcu) openSfuDownstreamConnection(remoteConnectionInfo, null)
         }
         channel?.addOnRemoteUpstreamConnectionClose { remoteConnectionInfo ->
-            Log.info(
-                "Remote client closed upstream connection (connection ID: " + remoteConnectionInfo.id + ", client ID: " + remoteConnectionInfo.clientId + ", device ID: " + remoteConnectionInfo.deviceId + ", user ID: " + remoteConnectionInfo.userId + ", tag: " + remoteConnectionInfo.tag + ")."
+            LogManager.log(
+                "Remote client closed upstream connection (" +
+                    "connection ID: ${remoteConnectionInfo.id}, " +
+                    "client ID: ${remoteConnectionInfo.clientId}, " +
+                    "device ID: ${remoteConnectionInfo.deviceId}, " +
+                    "user ID: ${remoteConnectionInfo.userId}, " +
+                    "tag: ${remoteConnectionInfo.tag})."
             )
         }
 
@@ -435,8 +336,8 @@ class LivePlayerHandler(val context: Context) {
             openPeerAnswerConnection(peerConnectionOffer)
         }
         channel?.addOnMessage { clientInfo, message ->
-            val n = if (clientInfo.userAlias != null) clientInfo.userAlias else clientInfo.userId
-            textListener?.onReceivedText(n, message)
+            val user = clientInfo.userAlias ?: clientInfo.userId
+            listener?.doReceiveMessage(user, message)
         }
         if (isModeMcu) {
 
@@ -464,26 +365,16 @@ class LivePlayerHandler(val context: Context) {
                 }
             }
         }
-        textListener?.onClientRegistered()
-    }
-
-    fun leaveAsync(): Future<Any?>? {
-        return if (client != null) {
-            unRegistering = true
-
-            // Unregister with the server.
-            client!!.unregister().then {
-                textListener?.onClientUnregistered()
-                dataChannelConnected = false
-            }.fail(IAction1 { e -> Log.debug("Failed to Unregister Client", e) })
-        } else {
-            null
-        }
     }
 
     private fun openMcuConnection(tag: String?): McuConnection? {
         // Create remote media to manage incoming media.
-        val remoteMedia = RemoteMedia(context, enableH264, false, audioOnly, aecContext)
+        val remoteMedia = RemoteMedia(
+            context = context,
+            disableAudio = false,
+            disableVideo = audioOnly,
+            aecContext = aecContext
+        )
         mcuViewId = remoteMedia.id
 
         // Add the remote video view to the layout.
@@ -506,17 +397,16 @@ class LivePlayerHandler(val context: Context) {
                 videoStream.simulcastMode = SimulcastMode.RtpStreamId
             }
             connection = channel?.createMcuConnection(audioStream, videoStream, dataStream)
-            val remoteEncodings = connection?.info?.videoStream?.sendEncodings
-            if (remoteEncodings != null && remoteEncodings.isNotEmpty()) {
-                videoStream.remoteEncoding = remoteEncodings[0]
+            connection?.info?.videoStream?.sendEncodings?.let { safeRemoteEncodings ->
+                if (safeRemoteEncodings.isNotEmpty()) {
+                    videoStream.remoteEncoding = safeRemoteEncodings[0]
+                }
             }
         }
         mcuConnection = connection
 
         // Tag the connection (optional).
-        if (tag != null) {
-            connection?.tag = tag
-        }
+        tag?.let { safeTag -> connection?.tag = safeTag }
 
         /*
         Embedded TURN servers are used by default.  For more information refer to:
@@ -548,7 +438,7 @@ class LivePlayerHandler(val context: Context) {
         // Float the local preview over the mixed video feed for an improved user experience.
         layoutManager?.addOnLayout { layout ->
             mcuConnection?.let { mcu ->
-                if (mcuConnection != null && !receiveOnly && !audioOnly) {
+                if (!receiveOnly && !audioOnly) {
                     LayoutUtility.floatLocalPreview(
                         layout,
                         videoLayout,
@@ -588,9 +478,7 @@ class LivePlayerHandler(val context: Context) {
         }
 
         // Tag the connection (optional).
-        if (tag != null) {
-            connection?.tag = tag
-        }
+        tag?.let { safeTag -> connection?.tag = safeTag }
 
         /*
         Embedded TURN servers are used by default.  For more information refer to:
@@ -628,31 +516,28 @@ class LivePlayerHandler(val context: Context) {
         tag: String?
     ): SfuDownstreamConnection? {
         // Create remote media to manage incoming media.
-        val remoteMedia = RemoteMedia(context, enableH264, false, audioOnly, aecContext)
+        val remoteMedia = RemoteMedia(
+            context = context,
+            disableAudio = false,
+            disableVideo = audioOnly,
+            aecContext = aecContext
+        )
 
         // Add the remote video view to the layout.
-        handler.post {
+        handlerScope?.launch(Dispatchers.Main) {
             layoutManager?.addRemoteView(
                 remoteMedia.id,
                 remoteMedia.view
             )
         }
 
-        remoteMedia.view?.let { remoteView ->
-            remoteView.contentDescription = "remoteView_" + remoteMedia.id
-            // livePlayerActivity?.registerRemoteContextMenu(
-            //     remoteView,
-            //     if (remoteConnectionInfo.hasVideo) remoteConnectionInfo.videoStream.sendEncodings else null
-            // )
-        }
-
         var videoStream: VideoStream? = null
         var audioStream: AudioStream? = null
         if (remoteConnectionInfo.hasAudio) {
-            audioStream = AudioStream(localMedia, remoteMedia)
+            audioStream = AudioStream(null, remoteMedia)
         }
         if (remoteConnectionInfo.hasVideo && !audioOnly) {
-            videoStream = VideoStream(localMedia, remoteMedia)
+            videoStream = VideoStream(null, remoteMedia)
             // TODO: Mark for removal unless using simulcast
             // if (enableSimulcast) {
             //     val remoteEncodings = remoteConnectionInfo.videoStream.sendEncodings
@@ -662,7 +547,7 @@ class LivePlayerHandler(val context: Context) {
             // }
         }
 
-        // Create SfuDownstreamConnection, store in maps and add tag. 
+        // Create SfuDownstreamConnection, store in maps and add tag.
         val connection: SfuDownstreamConnection? = channel?.createSfuDownstreamConnection(
             remoteConnectionInfo,
             audioStream,
@@ -691,7 +576,12 @@ class LivePlayerHandler(val context: Context) {
                         Log.info(connection.id + ": Media server closed the connection.")
                     }
 
-                    handler.post {
+                    layoutManager?.addRemoteView(
+                        remoteMedia.id,
+                        remoteMedia.view
+                    )
+
+                    handlerScope?.launch {
                         layoutManager?.removeRemoteView(remoteMedia.id)
                         remoteMedia.destroy()
                     }
@@ -729,13 +619,18 @@ class LivePlayerHandler(val context: Context) {
             */
             disableRemoteVideo = false
         }
-        val remoteMedia = RemoteMedia(context, enableH264, false, disableRemoteVideo, aecContext)
+
+        val remoteMedia = RemoteMedia(
+            context = context,
+            disableAudio = false,
+            disableVideo = disableRemoteVideo,
+            aecContext = aecContext
+        )
 
         // Add the remote video view to the layout.
         addRemoteViewOnUiThread(remoteMedia)
         remoteMedia.view?.let { remoteView ->
             remoteView.contentDescription = "remoteView_" + remoteMedia.id
-            // livePlayerActivity?.registerRemoteContextMenu(remoteView, null)
         }
 
         val connection: PeerConnection?
@@ -793,9 +688,6 @@ class LivePlayerHandler(val context: Context) {
                         logConnectionState(safeConnect, "Peer")
                     }
                     ConnectionState.Failed -> {
-                        // Note: no need to close the connection as it's done for us.
-                        // Note: do not offer a new answer here. Let the offerer
-                        // reoffer and then we answer normally.
                         logConnectionState(safeConnect, "Peer")
                     }
                     else -> { LogManager.log("Not logging state: ${safeConnect.state.name}") }
@@ -806,37 +698,6 @@ class LivePlayerHandler(val context: Context) {
         // Open the connection (sends an answer to the remote peer).
         connection?.open()
         return connection
-    }
-
-    fun useNextVideoDevice() {
-        if (localMedia != null && localMedia?.videoSource != null) {
-            localMedia?.changeVideoSourceInput(if (usingFrontVideoDevice) (localMedia?.videoSource as Camera2Source).backInput else (localMedia?.videoSource as Camera2Source).frontInput)
-            usingFrontVideoDevice = !usingFrontVideoDevice
-        }
-    }
-
-    fun pauseLocalVideo(): Future<Any> {
-        if (!enableScreenShare && localMedia != null) {
-            val videoSource = localMedia?.videoSource
-            if (videoSource != null) {
-                if (videoSource.state == MediaSourceState.Started) {
-                    return videoSource.stop()
-                }
-            }
-        }
-        return Promise.resolveNow()
-    }
-
-    fun resumeLocalVideo(): Future<Any> {
-        if (localMedia != null) {
-            val videoSource = localMedia?.videoSource
-            if (videoSource != null) {
-                if (videoSource.state == MediaSourceState.Stopped) {
-                    return videoSource.start()
-                }
-            }
-        }
-        return Promise.resolveNow()
     }
 
     private fun logConnectionState(conn: ManagedConnection, connectionType: String) {
@@ -867,13 +728,13 @@ class LivePlayerHandler(val context: Context) {
         }
         when (conn.state) {
             ConnectionState.Connected -> {
-                textListener?.onReceivedText(
+                listener?.doReceiveMessage(
                     "System",
                     "$connectionType connection connected with $streams"
                 )
             }
             ConnectionState.Closing -> {
-                textListener?.onReceivedText(
+                listener?.doReceiveMessage(
                     "System",
                     "$connectionType connection closing for $streams"
                 )
@@ -883,16 +744,18 @@ class LivePlayerHandler(val context: Context) {
                 if (conn.error != null) {
                     eventString += conn.error.description
                 }
-                textListener?.onReceivedText("System", eventString)
+                eventString?.let {
+                    listener?.doReceiveMessage("System", it)
+                }
             }
             ConnectionState.Closed -> {
-                textListener?.onReceivedText(
+                listener?.doReceiveMessage(
                     "System",
                     "$connectionType connection closed for $streams"
                 )
             }
             ConnectionState.Failed -> {
-                textListener?.onReceivedText(
+                listener?.doReceiveMessage(
                     "System",
                     "$connectionType connection failed for $streams"
                 )
@@ -915,10 +778,12 @@ class LivePlayerHandler(val context: Context) {
         val dataChannel = DataChannel("data")
         dataChannel.onReceive = IAction1 { dataChannelReceiveArgs ->
             if (!dataChannelConnected) {
-                if (dataChannelReceiveArgs.dataString != null) {
-                    textListener?.onReceivedText(
+                dataChannelReceiveArgs.dataString?.let { dataString ->
+                    listener?.doReceiveMessage(
                         "System",
-                        "Data channel connection established. Received test message fromserver: " + dataChannelReceiveArgs.dataString
+                        "Data channel connection established." +
+                            " Received test message from server: " +
+                            dataString
                     )
                 }
                 dataChannelConnected = true
@@ -926,10 +791,12 @@ class LivePlayerHandler(val context: Context) {
         }
         dataChannel.addOnStateChange { channel ->
             if (channel.state == DataChannelState.Connected) {
-                if (dataChannelsMessageTimer == null) {
-                    dataChannelsMessageTimer = ManagedTimer(1000, sendMessageInDataChannels())
-                    dataChannelsMessageTimer!!.start()
-                }
+                dataChannelsMessageTimer = ManagedTimer(1000, sendMessageInDataChannels())
+                dataChannelsMessageTimer?.start()
+                // if (dataChannelsMessageTimer == null) {
+                //     dataChannelsMessageTimer = ManagedTimer(1000, sendMessageInDataChannels())
+                //     dataChannelsMessageTimer!!.start()
+                // }
             }
         }
         return dataChannel
@@ -937,21 +804,24 @@ class LivePlayerHandler(val context: Context) {
 
     fun changeSendEncodings(index: Int) {
         val encodings = localMedia?.videoEncodings
-        if (encodings != null) {
-            encodings[index].deactivated = !encodings[index].deactivated
-            localMedia?.videoEncodings = encodings
+        encodings?.let { safeEncodings ->
+            safeEncodings[index].deactivated = !safeEncodings[index].deactivated
+            localMedia?.videoEncodings = safeEncodings
         }
     }
 
     fun changeReceiveEncodings(id: String, index: Int) {
-        val connection =
-            sfuDownstreamConnections[id.replace("remoteView_", "").trim { it <= ' ' }]
+        val connection = sfuDownstreamConnections[
+            id.replace("remoteView_", "").trim { it <= ' ' }
+        ]
         val encodings = connection!!.remoteConnectionInfo.videoStream.sendEncodings
         if (encodings != null && encodings.size > 1) {
             val config = connection.config
             config.remoteVideoEncoding = encodings[index]
             connection.update(config)
-                .then { Log.debug("Updated video encoding to: " + encodings[index] + " for connection: " + connection) }
+                .then {
+                    Log.debug("Updated video encoding to: " + encodings[index] + " for connection: " + connection)
+                }
                 .fail(
                     IAction1 { ex: Exception? ->
                         Log.error(
@@ -1077,13 +947,5 @@ class LivePlayerHandler(val context: Context) {
                 iterator.remove()
             }
         }
-    }
-
-    interface OnReceivedTextListener {
-        fun onReceivedText(name: String?, message: String?)
-        fun onPeerJoined(name: String?)
-        fun onPeerLeft(name: String?)
-        fun onClientRegistered()
-        fun onClientUnregistered()
     }
 }

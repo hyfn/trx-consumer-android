@@ -216,7 +216,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapSchedule = Observer<Void> {
-        val model = ScheduleModel(ScheduleViewState.TRAINER_VIRTUAL, TrainerModel.test().key, TrainerProgramModel.test())
+        val model = ScheduleModel(ScheduleViewState.TRAINER_LIVE, TrainerModel.test().key)
         NavigationManager.shared.present(this, R.id.schedule_fragment, model)
     }
 
@@ -241,11 +241,21 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleGroupPlayer = Observer<Void> {
-        NavigationManager.shared.presentActivity(requireActivity(), GroupPlayerActivity::class.java)
+        val model = WorkoutModel.testLive()
+        NavigationManager.shared.presentActivity(
+            requireActivity(),
+            GroupPlayerActivity::class.java,
+            model
+        )
     }
 
     private val handlePrivatePlayer = Observer<Void> {
-        NavigationManager.shared.presentActivity(requireActivity(), PrivatePlayerActivity::class.java)
+        val model = WorkoutModel.testLive()
+        NavigationManager.shared.presentActivity(
+            requireActivity(),
+            PrivatePlayerActivity::class.java,
+            model
+        )
     }
 
     //endregion
