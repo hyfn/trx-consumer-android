@@ -8,7 +8,11 @@ import com.trx.consumer.models.responses.UserResponseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class BackendManager(private val api: BaseApi, private val cacheManager: CacheManager) {
+class BackendManager(
+    private val api: BaseApi,
+    private val cacheManager: CacheManager,
+    private val analyticsManager: AnalyticsManager
+) {
 
     suspend fun updateBeforeLogout() {
         cacheManager.accessToken(null)
@@ -191,6 +195,7 @@ class BackendManager(private val api: BaseApi, private val cacheManager: CacheMa
                 user.iap = cachedUser.iap
             }
             cacheManager.user(user)
+            analyticsManager.setUserId(user.uid)
             IAPManager.shared.identify(user.uid)
         }
         return response

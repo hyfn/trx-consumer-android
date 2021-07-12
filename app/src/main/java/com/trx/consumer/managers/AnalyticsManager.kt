@@ -146,4 +146,8 @@ class AnalyticsManager(private val configManager: ConfigManager) {
 
         amplitudeClient.logEvent(VIEW_VIDEO_DETAIL.eventName, JSONObject(properties))
     }
+
+    fun setUserId(id: String) {
+        amplitudeClient.userId = id
+    }
 }
