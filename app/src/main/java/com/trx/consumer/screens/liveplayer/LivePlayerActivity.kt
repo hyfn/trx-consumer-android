@@ -30,7 +30,7 @@ class LivePlayerActivity : AppCompatActivity() {
     @Inject
     lateinit var handler: LivePlayerHandler
 
-    lateinit var container: RelativeLayout
+    var container: RelativeLayout? = null
 
     //endregion
 
@@ -82,6 +82,7 @@ class LivePlayerActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         handler.leaveAsync()?.waitForResult()
+        container = null
         viewModel.localMediaStarted = true
     }
 
@@ -205,6 +206,7 @@ class LivePlayerActivity : AppCompatActivity() {
         if (viewModel.localMediaStarted) {
             handler.leaveAsync()?.then {
                 handler.cleanup().then {
+                    container = null
                     finish()
                 }?.fail(
                     IAction1 { e ->

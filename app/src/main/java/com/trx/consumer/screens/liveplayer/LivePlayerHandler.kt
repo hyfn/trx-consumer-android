@@ -129,7 +129,7 @@ class LivePlayerHandler(val context: Context) {
         // Set up the local media.
         // Change input source to front camera.
         livePlayerActivity?.let { activity ->
-            layoutManager = LayoutManager(activity.container)
+            layoutManager = activity.container?.let { safeLayout -> LayoutManager(safeLayout) }
 
             handlerScope?.launch(Dispatchers.Main) {
                 if (receiveOnly) {
