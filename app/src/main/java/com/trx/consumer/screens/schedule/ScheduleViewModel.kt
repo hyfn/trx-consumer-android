@@ -4,7 +4,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
-import com.trx.consumer.extensions.dateAtHour
 import com.trx.consumer.extensions.isSameDay
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.LogManager
@@ -72,7 +71,7 @@ class ScheduleViewModel @ViewModelInject constructor(
             val response = backendManager.workouts()
             if (response.isSuccess) {
                 model = SessionsResponseModel.parse(response.responseString)
-                loadLive()
+                loadLive(Date())
             }
         }
     }
@@ -89,7 +88,7 @@ class ScheduleViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun loadLive(date: Date = Date()) {
+    private fun loadLive(date: Date) {
         model?.let { safeModel ->
             eventLoadCalendarView.postValue(
                 CalendarModel().apply {
@@ -98,7 +97,7 @@ class ScheduleViewModel @ViewModelInject constructor(
                 }
             )
         }
-        doTapDate(Date().dateAtHour(24))
+        doTapDate(Date())
     }
 
     override fun doTapBookLiveWorkout(model: WorkoutModel) {

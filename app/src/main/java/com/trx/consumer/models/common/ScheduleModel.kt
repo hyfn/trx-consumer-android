@@ -8,5 +8,5 @@ import kotlinx.parcelize.Parcelize
 class ScheduleModel(
     val state: ScheduleViewState,
     val key: String? = null,
-    val trainerProgram: TrainerProgramModel? = null
+    val trainerProgram: TrainerProgramModel = TrainerProgramModel()
 ) : Parcelable

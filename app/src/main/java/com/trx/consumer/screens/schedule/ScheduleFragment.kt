@@ -8,6 +8,7 @@ import com.trx.consumer.base.BaseFragment
 import com.trx.consumer.base.viewBinding
 import com.trx.consumer.databinding.FragmentScheduleBinding
 import com.trx.consumer.extensions.action
+import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.CalendarModel
 import com.trx.consumer.models.common.ScheduleModel
@@ -23,37 +24,42 @@ class ScheduleFragment : BaseFragment(R.layout.fragment_schedule) {
     override fun bind() {
 
         val model = NavigationManager.shared.params(this) as ScheduleModel
+
+        scheduleAdapter = ScheduleAdapter(viewModel, viewModel, viewModel) { lifecycleScope }
+
         viewModel.apply {
             state = model.state
             key = model.key
-        }
-        scheduleAdapter = ScheduleAdapter(viewModel, viewModel, viewModel) { lifecycleScope }
-
-        viewBinding.apply {
-            rvWorkout.adapter = scheduleAdapter
-            btnBack.action { viewModel.doTapBack() }
-        }
-
-        viewModel.apply {
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventLoadCalendarView.observe(viewLifecycleOwner, handleLoadCalendarView)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkout)
             doLoadView()
         }
+
+        viewBinding.apply {
+            rvWorkout.adapter = scheduleAdapter
+            btnBack.action { viewModel.doTapBack() }
+        }
+    }
+
+    private val handleLoadView = Observer<Void> {
+        LogManager.log("handleLoadView")
     }
 
     private val handleTapBack = Observer<Void> {
+        LogManager.log("handleTapBack")
         NavigationManager.shared.dismiss(this)
     }
 
-    private val handleLoadCalendarView = Observer<CalendarModel> { item -> }
-
-    private val handleLoadLiveWorkout = Observer<List<WorkoutModel>> { items ->
-        scheduleAdapter.update(items)
+    private val handleLoadCalendarView = Observer<CalendarModel> { item ->
+        LogManager.log("handleLoadCalendarView")
     }
 
-    private val handleLoadView = Observer<Void> {}
+    private val handleLoadLiveWorkout = Observer<List<WorkoutModel>> { items ->
+        LogManager.log("handleLoadLiveWorkout")
+        scheduleAdapter.update(items)
+    }
 
     override fun onBackPressed() {
         viewModel.doTapBack()
