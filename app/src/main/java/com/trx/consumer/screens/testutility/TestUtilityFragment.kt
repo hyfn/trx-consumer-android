@@ -16,7 +16,6 @@ import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.ScheduleModel
 import com.trx.consumer.models.common.TrainerModel
-import com.trx.consumer.models.common.TrainerProgramModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.ContentParamsModel
