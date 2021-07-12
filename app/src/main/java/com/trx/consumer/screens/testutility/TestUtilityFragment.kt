@@ -23,8 +23,11 @@ import com.trx.consumer.models.params.FilterParamsModel
 import com.trx.consumer.models.states.ScheduleViewState
 import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.content.ContentViewState
+import com.trx.consumer.screens.groupplayer.GroupPlayerActivity
+import com.trx.consumer.screens.liveplayer.LivePlayerActivity
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.loading.LoadingViewState
+import com.trx.consumer.screens.privateplayer.PrivatePlayerActivity
 import com.trx.consumer.screens.promotion.PromoAdapter
 import com.trx.consumer.screens.video.VideoPlayerActivity
 import com.trx.consumer.screens.videoworkout.VideoWorkoutAdapter
@@ -64,11 +67,14 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             btnWelcome.action { viewModel.doTapWelcome() }
             btnSettings.action { viewModel.doTapSettings() }
             btnWorkout.action { viewModel.doTapWorkout() }
+            btnWorkoutLive.action { viewModel.doTapWorkoutLive() }
             btnTrainer.action { viewModel.doTapTrainer() }
             btnLoadingScreen.action { viewModel.doTapLoadingScreen() }
             btnBookingAlert.action { viewModel.doTapBookingAlert() }
             btnSchedule.action { viewModel.doTapSchedule() }
             btnMemberships.action { viewModel.doTapMemberships() }
+            btnGroupPlayer.action { viewModel.doTapGroupPlayer() }
+            btnPrivatePlayer.action { viewModel.doTapPrivatePlayer() }
             rvLiveWorkouts.adapter = liveWorkoutAdapter
             rvVirtualWorkouts.adapter = virtualWorkoutAdapter
             rvVideoWorkouts.adapter = videoAdapter
@@ -89,6 +95,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventTapWelcome.observe(viewLifecycleOwner, handleTapWelcome)
             eventTapSettings.observe(viewLifecycleOwner, handleTapSettings)
             eventTapWorkout.observe(viewLifecycleOwner, handleTapWorkout)
+            eventTapWorkoutLive.observe(viewLifecycleOwner, handleTapWorkoutLive)
             eventTapTrainer.observe(viewLifecycleOwner, handleTapTrainer)
             eventTapBookingAlert.observe(viewLifecycleOwner, handleTapBookingAlert)
             eventTapSchedule.observe(viewLifecycleOwner, handleTapSchedule)
@@ -97,6 +104,8 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
             eventLoadPromotions.observe(viewLifecycleOwner, handleLoadPromotions)
             eventLoadingScreen.observe(viewLifecycleOwner, handleTapLoadingScreen)
             eventTapMemberships.observe(viewLifecycleOwner, handleTapMemberships)
+            eventLoadGroupPlayer.observe(viewLifecycleOwner, handleGroupPlayer)
+            eventPrivatePlayer.observe(viewLifecycleOwner, handlePrivatePlayer)
             doLoadView()
         }
     }
@@ -167,7 +176,16 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapWorkout = Observer<Void> {
-        NavigationManager.shared.present(this, R.id.workout_fragment)
+        NavigationManager.shared.present(this, R.id.workout_fragment, WorkoutModel.testLive())
+    }
+
+    private val handleTapWorkoutLive = Observer<Void> {
+        val model = WorkoutModel.testLive()
+        NavigationManager.shared.presentActivity(
+            requireActivity(),
+            LivePlayerActivity::class.java,
+            model
+        )
     }
 
     private val handleTapMemberships = Observer<Void> {
@@ -219,6 +237,24 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
 
     private val handleTapLoadingScreen = Observer<Void> {
         NavigationManager.shared.present(this, R.id.loading_screen, LoadingViewState.LAUNCH)
+    }
+
+    private val handleGroupPlayer = Observer<Void> {
+        val model = WorkoutModel.testLive()
+        NavigationManager.shared.presentActivity(
+            requireActivity(),
+            GroupPlayerActivity::class.java,
+            model
+        )
+    }
+
+    private val handlePrivatePlayer = Observer<Void> {
+        val model = WorkoutModel.testLive()
+        NavigationManager.shared.presentActivity(
+            requireActivity(),
+            PrivatePlayerActivity::class.java,
+            model
+        )
     }
 
     //endregion

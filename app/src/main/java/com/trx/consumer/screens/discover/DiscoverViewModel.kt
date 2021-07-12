@@ -4,7 +4,9 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.models.common.AnalyticsPageModel
 import com.trx.consumer.models.common.DiscoverModel
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.VideoModel
@@ -14,20 +16,22 @@ import com.trx.consumer.models.responses.VideosResponseModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 import kotlinx.coroutines.launch
+import com.trx.consumer.models.common.AnalyticsPageModel.DISCOVER
 
 class DiscoverViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager
+    private val backendManager: BackendManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), VideoWorkoutListener, DiscoverFilterListener {
 
     //region Objects
 
-    val model = DiscoverModel.skeleton()
+    var model = DiscoverModel()
     var params: FilterParamsModel = FilterParamsModel()
     // endregion
 
     //region Events
     val eventLoadView = CommonLiveEvent<DiscoverModel>()
-    val eventLoadFilters = CommonLiveEvent<List<FilterModel>>()
+    val eventLoadFilters = CommonLiveEvent<DiscoverModel>()
 
     val eventTapBack = CommonLiveEvent<Void>()
     val eventTapVideo = CommonLiveEvent<VideoModel>()
@@ -39,6 +43,7 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     //region Actions
     fun doLoadView() {
+        model = DiscoverModel.skeleton(model.state)
         eventLoadView.postValue(model)
         model.filters = params.lstFilters
         loadFilters()
@@ -57,11 +62,13 @@ class DiscoverViewModel @ViewModelInject constructor(
                     model.filters = responseModel.filters.filter {
                         it.identifier.isNotEmpty() && it.values.isNotEmpty()
                     }
-                    loadFilters()
                 }
+            } else {
+                model = DiscoverModel(model.state)
             }
             params.lstFilters = model.filters
             eventLoadView.postValue(model)
+            loadFilters()
         }
     }
 
@@ -77,20 +84,20 @@ class DiscoverViewModel @ViewModelInject constructor(
 
     fun doTapWorkouts() {
         model.state = DiscoverViewState.WORKOUTS
-        loadFilters()
         eventLoadView.postValue(model)
+        loadFilters()
     }
 
     fun doTapCollections() {
         model.state = DiscoverViewState.COLLECTIONS
-        loadFilters()
         eventLoadView.postValue(model)
+        loadFilters()
     }
 
     fun doTapPrograms() {
         model.state = DiscoverViewState.PROGRAMS
-        loadFilters()
         eventLoadView.postValue(model)
+        loadFilters()
     }
 
     private fun loadFilters() {
@@ -100,7 +107,8 @@ class DiscoverViewModel @ViewModelInject constructor(
             val resetFilters = params.copyModel().lstFilters
             resetFilters.onEach { it.values.forEach { model -> model.isSelected = false } }
         }
-        eventLoadFilters.postValue(filters)
+        val model = DiscoverModel(state = model.state, filters = filters)
+        eventLoadFilters.postValue(model)
     }
 
     fun doTapBack() {
@@ -112,16 +120,22 @@ class DiscoverViewModel @ViewModelInject constructor(
     }
 
     override fun doTapVideo(model: VideoModel) {
+        analyticsManager.trackViewVideoDetail(model, DISCOVER)
         eventTapVideo.postValue(model)
     }
 
     override fun doTapVideos(model: VideosModel) {
+        model.state = this.model.state
         eventTapVideos.postValue(model)
     }
 
     override fun doTapDiscoverFilter(filter: FilterModel) {
         params.selectedModel = filter
         eventTapDiscoverFilter.postValue(params.copyModel())
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(AnalyticsPageModel.DISCOVER)
     }
     //endregion
 }

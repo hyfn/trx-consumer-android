@@ -4,7 +4,9 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
+import com.trx.consumer.models.common.AnalyticsPageModel.VIRTUAL
 import com.trx.consumer.models.common.CalendarModel
 import com.trx.consumer.models.common.PromoModel
 import com.trx.consumer.models.common.TrainerModel
@@ -18,7 +20,8 @@ import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewListener
 import kotlinx.coroutines.launch
 
 class VirtualViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager
+    private val backendManager: BackendManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(),
     PromoViewListener,
     TrainerProfileListener,
@@ -137,6 +140,10 @@ class VirtualViewModel @ViewModelInject constructor(
 
     override fun doTapSelectVirtualWorkout(model: WorkoutModel) {
         eventShowWorkout.postValue(model)
+    }
+
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(VIRTUAL)
     }
 
     //endregion

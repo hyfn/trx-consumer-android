@@ -25,6 +25,13 @@ inline fun JSONArray.forEach(action: (JSONObject) -> Unit) {
     }
 }
 
+fun JSONArray.firstOrNull(): JSONObject? {
+    return if (this.length() > 0) {
+        val firstObj = getJSONObject(0)
+        if (firstObj is JSONObject) firstObj else null
+    } else null
+}
+
 /**
  * Maps elements of a [JSONArray] into a list of specified type [T] if they can be casted. Elements
  * that cannot be casted are ignored.

@@ -2,16 +2,20 @@ package com.trx.consumer.screens.register
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
+import com.trx.consumer.BuildConfig
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsPageModel.REGISTER
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
 import kotlinx.coroutines.launch
 
 class RegisterViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager
+    private val backendManager: BackendManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), InputViewListener {
 
     //region Variables
@@ -90,7 +94,12 @@ class RegisterViewModel @ViewModelInject constructor(
             val response = backendManager.register(params)
             eventShowHud.postValue(false)
             if (response.isSuccess) {
-                eventShowOnboarding.call()
+                if (BuildConfig.kIsVerificationEnabled) {
+                    // eventShowVerfication.call()
+                } else {
+                    analyticsManager.trackSignUp(null, "EMAIL_PW")
+                    eventShowOnboarding.call()
+                }
             } else {
                 eventShowError.postValue(response.errorMessage)
             }
@@ -129,5 +138,8 @@ class RegisterViewModel @ViewModelInject constructor(
         eventDismissKeyboard.call()
     }
 
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(REGISTER)
+    }
     //endregion
 }

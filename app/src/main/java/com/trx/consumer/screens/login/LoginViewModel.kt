@@ -4,15 +4,18 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.CacheManager
+import com.trx.consumer.models.common.AnalyticsPageModel.LOGIN
 import com.trx.consumer.views.input.InputViewListener
 import com.trx.consumer.views.input.InputViewState
 import kotlinx.coroutines.launch
 
 class LoginViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
-    private val cacheManager: CacheManager
+    private val cacheManager: CacheManager,
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(), InputViewListener {
 
     //region Variables
@@ -61,6 +64,7 @@ class LoginViewModel @ViewModelInject constructor(
             val response = backendManager.login(email, password)
             eventShowHud.postValue(false)
             if (response.isSuccess) {
+                analyticsManager.trackSignIn()
                 if (cacheManager.didShowOnboarding()) {
                     eventTapLogin.call()
                 } else {
@@ -99,5 +103,8 @@ class LoginViewModel @ViewModelInject constructor(
         eventDismissKeyboard.call()
     }
 
+    fun doTrackPageView() {
+        analyticsManager.trackPageView(LOGIN)
+    }
     //endregion
 }

@@ -53,7 +53,11 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             eventShowOnboarding.observe(viewLifecycleOwner, handleShowOnboarding)
             eventDismissKeyboard.observe(viewLifecycleOwner, handleDismissKeyboard)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
+
+            doTrackPageView()
         }
+
+        viewModel.doLoadView()
     }
 
     //endregion

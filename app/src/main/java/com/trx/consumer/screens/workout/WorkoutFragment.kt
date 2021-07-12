@@ -18,6 +18,7 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.WorkoutViewState
 import com.trx.consumer.screens.alert.AlertViewState
+import com.trx.consumer.screens.liveplayer.LivePlayerActivity
 import com.trx.consumer.screens.video.VideoPlayerActivity
 import java.util.Locale
 
@@ -52,6 +53,8 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
             eventShowPermissionAlert.observe(viewLifecycleOwner, handleShowPermissionAlert)
+
+            doTrackPageView()
             doLoadView()
         }
     }
@@ -135,7 +138,11 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
         if (model.workoutState == WorkoutViewState.LIVE) {
             LogManager.log("handleTapStartWorkout | model.workoutState == WorkoutViewState.LIVE")
-            // TODO: Should go to LivePlayer NavigationManager.shared.present(this, R.id.live_fragment)
+            NavigationManager.shared.presentActivity(
+                requireActivity(),
+                LivePlayerActivity::class.java,
+                model.video
+            )
         }
     }
 

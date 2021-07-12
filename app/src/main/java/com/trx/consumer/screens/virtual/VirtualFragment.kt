@@ -51,26 +51,27 @@ class VirtualFragment : BaseFragment(R.layout.fragment_virtual) {
             viewUpcoming.btnView.action { viewModel.doTapViewAllBookings() }
             viewBookMatchMe.action { viewModel.doTapMatchMe() }
             viewBookWithTrainer.action { viewModel.doTapViewTrainerProfile() }
+        }
 
-            viewModel.apply {
-                eventLoadView.observe(viewLifecycleOwner, handleLoadView)
-                eventLoadBookWith.observe(viewLifecycleOwner, handleLoadBookWith)
-                eventLoadCalendar.observe(viewLifecycleOwner, handleLoadCalendar)
-                eventLoadMatchMe.observe(viewLifecycleOwner, handleLoadMatchMe)
-                eventLoadPromos.observe(viewLifecycleOwner, handleLoadPromos)
-                eventLoadTrainers.observe(viewLifecycleOwner, handleLoadTrainers)
-                eventLoadWorkouts.observe(viewLifecycleOwner, handleLoadWorkouts)
+        viewModel.apply {
+            eventLoadView.observe(viewLifecycleOwner, handleLoadView)
+            eventLoadBookWith.observe(viewLifecycleOwner, handleLoadBookWith)
+            eventLoadCalendar.observe(viewLifecycleOwner, handleLoadCalendar)
+            eventLoadMatchMe.observe(viewLifecycleOwner, handleLoadMatchMe)
+            eventLoadPromos.observe(viewLifecycleOwner, handleLoadPromos)
+            eventLoadTrainers.observe(viewLifecycleOwner, handleLoadTrainers)
+            eventLoadWorkouts.observe(viewLifecycleOwner, handleLoadWorkouts)
 
-                eventShowMatchMe.observe(viewLifecycleOwner, handleTapMatchMe)
-                eventShowPromo.observe(viewLifecycleOwner, handleShowPromo)
-                eventShowUserSchedule.observe(viewLifecycleOwner, handleShowUserSchedule)
-                eventShowTrainer.observe(viewLifecycleOwner, handleShowTrainer)
-                eventShowTrainerSchedule.observe(viewLifecycleOwner, handleShowTrainerSchedule)
-                eventShowWorkout.observe(viewLifecycleOwner, handleShowWorkout)
-                eventShowHud.observe(viewLifecycleOwner, handleShowHud)
+            eventShowMatchMe.observe(viewLifecycleOwner, handleTapMatchMe)
+            eventShowPromo.observe(viewLifecycleOwner, handleShowPromo)
+            eventShowUserSchedule.observe(viewLifecycleOwner, handleShowUserSchedule)
+            eventShowTrainer.observe(viewLifecycleOwner, handleShowTrainer)
+            eventShowTrainerSchedule.observe(viewLifecycleOwner, handleShowTrainerSchedule)
+            eventShowWorkout.observe(viewLifecycleOwner, handleShowWorkout)
+            eventShowHud.observe(viewLifecycleOwner, handleShowHud)
 
-                viewModel.doLoadView()
-            }
+            doTrackPageView()
+            doLoadView()
         }
     }
 

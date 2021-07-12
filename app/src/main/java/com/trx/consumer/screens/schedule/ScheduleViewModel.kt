@@ -14,6 +14,11 @@ import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.BookingsResponseModel
 import com.trx.consumer.models.responses.SessionsResponseModel
 import com.trx.consumer.models.states.ScheduleViewState
+import com.trx.consumer.models.states.ScheduleViewState.LIVE
+import com.trx.consumer.models.states.ScheduleViewState.TRAINER_LIVE
+import com.trx.consumer.models.states.ScheduleViewState.TRAINER_VIRTUAL
+import com.trx.consumer.models.states.ScheduleViewState.USER_LIVE
+import com.trx.consumer.models.states.ScheduleViewState.USER_VIRTUAL
 import com.trx.consumer.screens.liveworkout.LiveWorkoutViewListener
 import com.trx.consumer.screens.trainerschedule.TrainerScheduleListener
 import com.trx.consumer.screens.virtualworkout.VirtualWorkoutViewListener
@@ -22,7 +27,7 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 class ScheduleViewModel @ViewModelInject constructor(
-    private val backendManager: BackendManager
+    private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(),
     LiveWorkoutViewListener,
     VirtualWorkoutViewListener,
@@ -127,6 +132,16 @@ class ScheduleViewModel @ViewModelInject constructor(
                 LogManager.log("ScheduleViewModel.doTapDate $date")
             }
             else -> { }
+        }
+    }
+
+    fun doTrackPageView() {
+        when (state) {
+            TRAINER_LIVE -> { analyticsManager.trackPageView(SCHEDULE_TRAINER_LIVE) }
+            TRAINER_VIRTUAL -> { analyticsManager.trackPageView(SCHEDULE_TRAINER_VIRTUAL) }
+            USER_LIVE -> { analyticsManager.trackPageView(SCHEDULE_USER_LIVE) }
+            USER_VIRTUAL -> { analyticsManager.trackPageView(SCHEDULE_USER_VIRTUAL) }
+            else -> { LogManager.log("Invalid state: ${state.name}") }
         }
     }
 }
