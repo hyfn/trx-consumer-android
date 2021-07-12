@@ -215,7 +215,7 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapSchedule = Observer<Void> {
-        val model = ScheduleModel(ScheduleViewState.TRAINER_LIVE, TrainerModel.test().key, null)
+        val model = ScheduleModel(ScheduleViewState.TRAINER_LIVE, TrainerModel.test().key)
         NavigationManager.shared.present(this, R.id.schedule_fragment, model)
     }
 

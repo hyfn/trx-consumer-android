@@ -182,7 +182,7 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
 
     private val handleShowUpcomingSchedule = Observer<String> { trainerKey ->
         LogManager.log("handleShowUpcomingSchedule")
-        val model = ScheduleModel(ScheduleViewState.TRAINER_LIVE, trainerKey, null)
+        val model = ScheduleModel(ScheduleViewState.TRAINER_LIVE, trainerKey)
         NavigationManager.shared.present(this, R.id.schedule_fragment, model)
     }
 
