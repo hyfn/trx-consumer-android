@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.extensions.isSameDay
+import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
 import com.trx.consumer.managers.LogManager
+import com.trx.consumer.models.common.AnalyticsPageModel
 import com.trx.consumer.models.common.CalendarModel
 import com.trx.consumer.models.common.DaysModel
 import com.trx.consumer.models.common.TrainerScheduleModel
@@ -27,6 +29,7 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 class ScheduleViewModel @ViewModelInject constructor(
+    private val backendManager: BackendManager,
     private val analyticsManager: AnalyticsManager
 ) : BaseViewModel(),
     LiveWorkoutViewListener,
@@ -36,7 +39,7 @@ class ScheduleViewModel @ViewModelInject constructor(
 
     var key: String? = null
     var date = Date()
-    var state: ScheduleViewState = ScheduleViewState.LIVE
+    var state: ScheduleViewState = LIVE
     var model: SessionsResponseModel? = null
 
     val eventLoadView = CommonLiveEvent<Void>()
@@ -52,9 +55,9 @@ class ScheduleViewModel @ViewModelInject constructor(
     fun doLoadView() {
         eventLoadView.call()
         when (state) {
-            ScheduleViewState.LIVE -> doLoadLiveWorkouts()
-            ScheduleViewState.USER_LIVE -> doLoadLiveBookings()
-            ScheduleViewState.TRAINER_LIVE -> doLoadTrainerLive()
+            LIVE -> doLoadLiveWorkouts()
+            USER_LIVE -> doLoadLiveBookings()
+            TRAINER_LIVE -> doLoadTrainerLive()
             else -> {
             }
         }
@@ -122,13 +125,13 @@ class ScheduleViewModel @ViewModelInject constructor(
 
     override fun doTapDate(date: Date) {
         when (state) {
-            ScheduleViewState.LIVE, ScheduleViewState.TRAINER_LIVE -> {
+            LIVE, TRAINER_LIVE -> {
                 model?.listUpcoming?.filter { it.date.isSameDay(date) }?.let { workouts ->
                     eventLoadLiveWorkouts.postValue(workouts)
                 }
             }
 
-            ScheduleViewState.USER_LIVE -> {
+            USER_LIVE -> {
                 LogManager.log("ScheduleViewModel.doTapDate $date")
             }
             else -> { }
@@ -137,10 +140,10 @@ class ScheduleViewModel @ViewModelInject constructor(
 
     fun doTrackPageView() {
         when (state) {
-            TRAINER_LIVE -> { analyticsManager.trackPageView(SCHEDULE_TRAINER_LIVE) }
-            TRAINER_VIRTUAL -> { analyticsManager.trackPageView(SCHEDULE_TRAINER_VIRTUAL) }
-            USER_LIVE -> { analyticsManager.trackPageView(SCHEDULE_USER_LIVE) }
-            USER_VIRTUAL -> { analyticsManager.trackPageView(SCHEDULE_USER_VIRTUAL) }
+            TRAINER_LIVE -> { analyticsManager.trackPageView(AnalyticsPageModel.SCHEDULE_TRAINER_LIVE) }
+            TRAINER_VIRTUAL -> { analyticsManager.trackPageView(AnalyticsPageModel.SCHEDULE_TRAINER_VIRTUAL) }
+            USER_LIVE -> { analyticsManager.trackPageView(AnalyticsPageModel.SCHEDULE_USER_LIVE) }
+            USER_VIRTUAL -> { analyticsManager.trackPageView(AnalyticsPageModel.SCHEDULE_USER_VIRTUAL) }
             else -> { LogManager.log("Invalid state: ${state.name}") }
         }
     }
