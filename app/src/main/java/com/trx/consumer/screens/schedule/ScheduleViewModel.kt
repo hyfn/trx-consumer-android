@@ -13,13 +13,6 @@ import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.AnalyticsPageModel
 import com.trx.consumer.models.common.CalendarModel
 import com.trx.consumer.models.common.DaysModel
-import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.AnalyticsPageModel.SCHEDULE_TRAINER_LIVE
-import com.trx.consumer.models.common.AnalyticsPageModel.SCHEDULE_TRAINER_VIRTUAL
-import com.trx.consumer.models.common.AnalyticsPageModel.SCHEDULE_USER_LIVE
-import com.trx.consumer.models.common.AnalyticsPageModel.SCHEDULE_USER_VIRTUAL
-import com.trx.consumer.models.common.CalendarModel
-import com.trx.consumer.models.common.DaysModel
 import com.trx.consumer.models.common.TrainerProgramModel
 import com.trx.consumer.models.common.TrainerScheduleModel
 import com.trx.consumer.models.common.WorkoutModel
@@ -199,22 +192,6 @@ class ScheduleViewModel @ViewModelInject constructor(
             USER_LIVE -> { analyticsManager.trackPageView(AnalyticsPageModel.SCHEDULE_USER_LIVE) }
             USER_VIRTUAL -> { analyticsManager.trackPageView(AnalyticsPageModel.SCHEDULE_USER_VIRTUAL) }
             else -> { LogManager.log("Invalid state: ${state.name}") }
-        }
-    }
-
-    override fun doTapDate(date: Date) {
-        when (state) {
-            LIVE, TRAINER_LIVE -> {
-                model?.listUpcoming?.filter { it.date.isSameDay(date) }?.let { workouts ->
-                    eventLoadLiveWorkouts.postValue(workouts)
-                }
-            }
-
-            USER_LIVE -> {
-                LogManager.log("ScheduleViewModel.doTapDate $date")
-            }
-            else -> {
-            }
         }
     }
 
