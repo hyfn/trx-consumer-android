@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.trx.consumer.common.CommonView
-        android:id="@+id/fmPlayerContainer"
+    <RelativeLayout
+        android:id="@+id/fmGroupPlayerContainer"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:background="@color/green"
         android:clickable="true"
         android:focusable="true"
-        app:backgroundColor="@color/green"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/navView"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/navView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.trx.consumer.common.CommonView
@@ -25,48 +23,52 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-         <com.trx.consumer.common.CommonStateButton
+        <com.trx.consumer.common.CommonStateButton
             android:id="@+id/btnCamera"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginTop="24dp"
-            android:button="@drawable/ic_tab_camera"
+            app:checkedState="@drawable/ic_img_camera_selected"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:plainState="@drawable/ic_img_camera_plain" />
 
-         <com.trx.consumer.common.CommonStateButton
-            android:id="@+id/btnMicrophone"
+        <com.trx.consumer.common.CommonStateButton
+            android:id="@+id/btnMic"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:button="@drawable/ic_tab_microphone"
+            app:checkedState="@drawable/ic_img_microphone_selected"
             app:layout_constraintBottom_toTopOf="@+id/btnClock"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnCamera" />
+            app:layout_constraintTop_toBottomOf="@+id/btnCamera"
+            app:plainState="@drawable/ic_img_microphone_plain" />
 
-         <com.trx.consumer.common.CommonStateButton
+        <com.trx.consumer.common.CommonStateButton
             android:id="@+id/btnClock"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:button="@drawable/ic_tab_clock"
-            app:layout_constraintBottom_toTopOf="@+id/btnShare"
+            app:checkedState="@drawable/ic_img_clock_selected"
+            app:layout_constraintBottom_toTopOf="@+id/btnCast"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnMicrophone" />
+            app:layout_constraintTop_toBottomOf="@+id/btnMic"
+            app:plainState="@drawable/ic_img_clock_plain" />
 
-         <com.trx.consumer.common.CommonStateButton
-            android:id="@+id/btnShare"
+        <com.trx.consumer.common.CommonStateButton
+            android:id="@+id/btnCast"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:button="@drawable/ic_tab_share"
-            app:layout_constraintBottom_toTopOf="@+id/btnEnd"
+            app:checkedState="@drawable/ic_img_share_selected"
+            app:layout_constraintBottom_toTopOf="@+id/btnClose"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnClock" />
+            app:layout_constraintTop_toBottomOf="@id/btnClock"
+            app:plainState="@drawable/ic_img_share_plain" />
 
         <com.trx.consumer.common.CommonImageButton
-            android:id="@+id/btnEnd"
+            android:id="@+id/btnClose"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginBottom="24dp"
@@ -77,4 +79,4 @@
 
     </com.trx.consumer.common.CommonView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.trx.consumer.common.CommonView>
