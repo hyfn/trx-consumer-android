@@ -105,7 +105,7 @@ class ScheduleViewModel @ViewModelInject constructor(
                 }
             )
         }
-        doTapDate(Date())
+        doTapDate(date)
     }
 
     override fun doTapBookLiveWorkout(model: WorkoutModel) {

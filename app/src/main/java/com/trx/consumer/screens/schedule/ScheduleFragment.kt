@@ -27,11 +27,6 @@ class ScheduleFragment : BaseFragment(R.layout.fragment_schedule) {
 
         scheduleAdapter = ScheduleAdapter(viewModel, viewModel, viewModel) { lifecycleScope }
 
-        viewBinding.apply {
-            rvWorkout.adapter = scheduleAdapter
-            btnBack.action { viewModel.doTapBack() }
-        }
-
         viewModel.apply {
             state = model.state
             key = model.key
@@ -40,8 +35,14 @@ class ScheduleFragment : BaseFragment(R.layout.fragment_schedule) {
             eventLoadCalendarView.observe(viewLifecycleOwner, handleLoadCalendarView)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkout)
             doTrackPageView()
-            doLoadView()
         }
+
+        viewBinding.apply {
+            rvWorkout.adapter = scheduleAdapter
+            btnBack.action { viewModel.doTapBack() }
+        }
+
+        viewModel.doLoadView()
     }
 
     private val handleLoadView = Observer<Void> {

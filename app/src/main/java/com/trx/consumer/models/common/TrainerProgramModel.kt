@@ -32,7 +32,7 @@ class TrainerProgramModel(
         fun test(): TrainerProgramModel = TrainerProgramModel().apply {
             durationInMinutes = 30
             isPublic = true
-            key = "-MXj8znm1e8OWB4y4NLY"
+            key = "-Md0QA7T56UTtNQZxO0y"
             mode = WorkoutViewState.SMALL_GROUP_MODE
             name = "1:1 Virtual Personal Training"
             priceInCents = 1000
