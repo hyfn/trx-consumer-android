@@ -96,6 +96,7 @@ class GroupPlayerActivity : AppCompatActivity() {
                     trainerContainer.addView(tm.view)
                 }
             }
+            //TODO Go to saved page
         }
         bind()
     }
@@ -173,6 +174,8 @@ class GroupPlayerActivity : AppCompatActivity() {
         }
         trainerContainer.removeAllViewsInLayout()
         localMediaContainer.removeAllViewsInLayout()
+
+        //TODO:  Save current tab/page numbers
     }
 
     //endregion
