@@ -122,8 +122,17 @@ object MainModule {
 
     @Provides
     @Singleton
-    fun provideBackendManager(api: BaseApi, cacheManager: CacheManager): BackendManager =
-        BackendManager(api, cacheManager)
+    fun provideAnalyticsManager(configManager: ConfigManager): AnalyticsManager =
+        AnalyticsManager(configManager)
+
+    @Provides
+    @Singleton
+    fun provideBackendManager(
+        api: BaseApi,
+        cacheManager: CacheManager,
+        analyticsManager: AnalyticsManager
+    ): BackendManager =
+        BackendManager(api, cacheManager, analyticsManager)
 
     @Provides
     @Singleton
@@ -139,12 +148,6 @@ object MainModule {
     @Singleton
     fun provideConfigManager(cacheManager: CacheManager): ConfigManager =
         ConfigManager(cacheManager)
-
-    @Provides
-    @Singleton
-    fun provideAnalyticsManager(configManager: ConfigManager): AnalyticsManager {
-        return AnalyticsManager(configManager)
-    }
 
     @Provides
     @Singleton
