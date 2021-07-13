@@ -26,6 +26,14 @@ import com.trx.consumer.models.responses.LiveResponseModel
 import dagger.hilt.android.AndroidEntryPoint
 import fm.liveswitch.IAction0
 import fm.liveswitch.Promise
+import android.content.pm.PackageManager
+import android.widget.RelativeLayout
+import androidx.activity.viewModels
+import androidx.lifecycle.viewModelScope
+import com.trx.consumer.extensions.action
+import com.trx.consumer.extensions.checkLivePermission
+import com.trx.consumer.managers.NavigationManager
+import fm.liveswitch.IAction1
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -39,13 +47,21 @@ class GroupPlayerActivity : AppCompatActivity() {
 
     lateinit var trainerContainer: FrameLayout
     lateinit var localMediaContainer: FrameLayout
-
-    private var localMediaStarted: Boolean = false
+    lateinit var smallGroupView: View
 
     private val viewModel: GroupPlayerViewModel by viewModels()
 
+    //region Objects
+    private lateinit var viewBinding: ActivityGroupPlayerBinding
+
     @Inject
-    lateinit var analyticsManager: AnalyticsManager
+    lateinit var handler: GroupPlayerHandler
+
+    var container: RelativeLayout? = null
+
+    //endregion
+
+    //region Initializers
 
     @Inject
     lateinit var groupPlayerHandler: GroupPlayerHandler
@@ -61,20 +77,11 @@ class GroupPlayerActivity : AppCompatActivity() {
 
         trainerContainer = findViewById(R.id.smallGroupTrainerView)
         localMediaContainer = findViewById(R.id.groupPlayLocalMediaLayout)
+        smallGroupView = findViewById(R.id.groupPlayerSmallGroupView)
 
-        doTrackPageView()
-
-        binding.apply {
-            btnCamera.action { handleTapCamera() }
-            btnClock.action { handleTapClock() }
-            btnMicrophone.action { handleTapMicrophone() }
-            btnShare.action { handleTapShare() }
-            btnCamera.action { handleTapCamera() }
-            btnEnd.action { handleTapEnd() }
-        }
-
+        viewBinding = ActivityGroupPlayerBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
         if(savedInstanceState != null) {
-            localMediaStarted = savedInstanceState.getBoolean("localMediaStarted")
             this.runOnUiThread {
                 var localmedia = groupPlayerHandler.getLocalMediaView()
                 localmedia?.let { lm ->
@@ -90,40 +97,58 @@ class GroupPlayerActivity : AppCompatActivity() {
                 }
             }
         }
-
-        onViewCreated(this.findViewById(R.id.groupPlayerSmallGroupView), savedInstanceState)
+        bind()
     }
 
-    private lateinit var smallGroupViewFragmentAdapter: SmallGroupViewFragmentStateAdapter
-    private lateinit var viewPager: ViewPager2
+    private fun bind() {
+        val workout = NavigationManager.shared.params(intent) as? WorkoutModel
 
-    fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        handler.apply {
+            if (handlerScope == null) handlerScope = viewModel.viewModelScope
+        }
+
+        viewBinding.apply {
+            btnCamera.action { viewModel.doTapCamera() }
+            btnClock.action { viewModel.doTapClock() }
+            btnMic.action { viewModel.doTapMic() }
+            btnCast.action { viewModel.doTapCast() }
+            btnClose.action { viewModel.doTapClose() }
+        }
+
+        viewModel.apply {
+            model = workout
+            eventLoadVideo.observe(this@GroupPlayerActivity, handleLoadVideo)
+            eventLoadError.observe(this@GroupPlayerActivity, handleLoadError)
+            eventTapCamera.observe(this@GroupPlayerActivity, handleTapCamera)
+            eventTapMic.observe(this@GroupPlayerActivity, handleTapMic)
+            eventTapClock.observe(this@GroupPlayerActivity, handleTapClock)
+            eventTapCast.observe(this@GroupPlayerActivity, handleTapCast)
+            eventTapClose.observe(this@GroupPlayerActivity, handleTapClose)
+
+            doTrackPageView()
+            doLoadVideo()
+        }
+
+
         smallGroupViewFragmentAdapter = SmallGroupViewFragmentStateAdapter(this)
         smallGroupViewFragmentAdapter.setParticipants(participants)
-        viewPager = view.findViewById(R.id.groupPlayerSmallGroupPager)
+        viewPager = smallGroupView.findViewById(R.id.groupPlayerSmallGroupPager)
         viewPager.adapter = smallGroupViewFragmentAdapter
 
-        tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
+        tabLayout = smallGroupView.findViewById<TabLayout>(R.id.tab_layout)
         tabLayoutMediator = TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             // do nothing, we're using dots
             tab.text = ""
         }
         tabLayoutMediator.attach()
 
-        val liveResponseModel = LiveResponseModel.test()
-/*
-        viewModel.apply {
-            model = workout
-            eventLoadVideo.observe(this@GroupPlayerActivity, handleLoadVideo)
-        }
-        viewModel.doLoadVideo()
-        */
         groupPlayerHandler.apply {
             eventTrainerLoaded.observe(this@GroupPlayerActivity, addTrainerToLayout)
         }
-
-        playTRXlive(liveResponseModel)
     }
+
+    private lateinit var smallGroupViewFragmentAdapter: SmallGroupViewFragmentStateAdapter
+    private lateinit var viewPager: ViewPager2
 
     private val addTrainerToLayout = Observer<Boolean> { trainerLoaded ->
         LogManager.log("trainerLoaded")
@@ -148,106 +173,156 @@ class GroupPlayerActivity : AppCompatActivity() {
         }
         trainerContainer.removeAllViewsInLayout()
         localMediaContainer.removeAllViewsInLayout()
-        outState.putBoolean("localMediaStarted", localMediaStarted)
     }
 
-    private fun handleTapCamera() {
-        LogManager.log("handleTapCamera")
+    //endregion
+
+    //region Activity Lifecycle
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.leaveAsync()?.waitForResult()
+        container = null
+        viewModel.localMediaStarted = true
     }
 
-    private fun handleTapClock() {
-        LogManager.log("handleTapClock")
+    //endregion
+
+    //region Activity Helper Overrides
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == 1) {
+            // stream api not used here bc not supported under api 24
+            var permissionsGranted = true
+            for (grantResult in grantResults) {
+                if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                    permissionsGranted = false
+                }
+            }
+            if (permissionsGranted) {
+                viewModel.localMediaStarted = false
+                viewModel.doLoadVideo()
+            } else {
+                for (i in grantResults.indices) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        LogManager.log("permission to " + permissions[i] + " not granted")
+                    }
+                }
+                //  TODO: Error Alert fragment implementation
+            }
+        } else {
+            //  TODO: Error Alert fragment implementation
+            LogManager.log("Unknown permission requested")
+        }
     }
 
-    private fun handleTapMicrophone() {
-        LogManager.log("handleTapMicrophone")
+    override fun onBackPressed() {
+        stopVideo()
+        super.onBackPressed()
     }
 
-    private fun handleTapShare() {
-        LogManager.log("handleTapShare")
-    }
+    //endregion
 
-    private fun handleTapEnd() {
-        groupPlayerHandler.stopLocalMedia()
-        groupPlayerHandler.teardown()
-        localMediaStarted = false
-        finish()
-    }
-
-    //region Handlers
+    //region Handlers 
 
     private val handleLoadVideo = Observer<WorkoutModel> { model ->
+        LogManager.log("handleLoadView: ${model.identifier}")
+        playVideo(model.live)
+    }
+
+    private val handleLoadError = Observer<String> { error ->
+        LogManager.log("handleLoadError: $error")
+        //  TODO: Implement with another ticket.
+        // val model = ErrorAlertModel.error(error)
+        // NavigationManager.shared.present(this, R.id.error_fragment, model)
+    }
+
+    private val handleTapCamera = Observer<Boolean> { isChecked ->
+        LogManager.log("handleTapCamera $isChecked ")
+    }
+
+    private val handleTapMic = Observer<Boolean> { isChecked ->
+        LogManager.log("handleTapMicrophone $isChecked ")
+    }
+
+    private val handleTapClock = Observer<Boolean> { isChecked ->
+        LogManager.log("handleTapClock $isChecked ")
+    }
+
+    private val handleTapCast = Observer<Boolean> { isChecked ->
+        LogManager.log("handleTapShare $isChecked ")
+    }
+
+    private val handleTapClose = Observer<Void> {
         LogManager.log("handleTapClose")
-        playTRXlive(model.live)
+        stopVideo()
     }
 
     //endregion
 
     //region Helper Functions
 
-    private fun playTRXlive(value: LiveResponseModel) {
-        if (!localMediaStarted) {
-            val promise = Promise<Any>()
-
-            val startFn = IAction0 {
-                groupPlayerHandler.startTRXLocalMedia().then({ resultStart ->
-                    this.runOnUiThread {
-                        var localMedia = groupPlayerHandler.getLocalMediaView()
-                        var trainerView = findViewById<FrameLayout>(R.id.groupPlayLocalMediaLayout)
-                        localMedia?.let { lm ->
-                            trainerView.addView(lm.view)
-                        }
-                    }
-                    groupPlayerHandler.joinAsync()?.then({ resultJoin ->
-                        promise.resolve(null)
-                    }) { ex ->
-                        promise.reject(ex)
-                    }
-                }) { ex ->
-                    promise.reject(null)
-                }
+    //  TODO: Needs to be reworked when permissions screens brought in.
+    private fun playVideo(value: LiveResponseModel) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val requiredPermissions: MutableList<String> = ArrayList(3)
+            if (checkLivePermission(Manifest.permission.RECORD_AUDIO)) {
+                requiredPermissions.add(Manifest.permission.RECORD_AUDIO)
             }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val requiredPermissions: MutableList<String> = java.util.ArrayList(3)
-                if (checkLivePermission(Manifest.permission.RECORD_AUDIO)) {
-                    requiredPermissions.add(Manifest.permission.RECORD_AUDIO)
-                }
-                if (checkLivePermission(Manifest.permission.CAMERA)) {
-                    requiredPermissions.add(Manifest.permission.CAMERA)
-                }
-                if (checkLivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                }
-                if (checkLivePermission(Manifest.permission.READ_PHONE_STATE)) {
-                    requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
-                }
-                if (requiredPermissions.size == 0) {
-                    startFn.invoke()
-                } else {
-                    if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
-                            Manifest.permission.CAMERA
-                        ) ||
-                        shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
-                        shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)
-                    ) {
-                        Toast.makeText(
-                            this,
-                            "Access to camera, microphone, storage, and phone call state is required",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    requestPermissions(requiredPermissions.toTypedArray(), 1)
-                }
+            if (checkLivePermission(Manifest.permission.CAMERA)) {
+                requiredPermissions.add(Manifest.permission.CAMERA)
+            }
+            if (checkLivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+            if (checkLivePermission(Manifest.permission.READ_PHONE_STATE)) {
+                requiredPermissions.add(Manifest.permission.READ_PHONE_STATE)
+            }
+            if (requiredPermissions.size == 0) {
+                handler.start(value)
             } else {
-                startFn.invoke()
+                if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) || shouldShowRequestPermissionRationale(
+                        Manifest.permission.CAMERA
+                    ) ||
+                    shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                    shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)
+                ) {
+                    LogManager.log("Error Alert Implementation")
+                    //  TODO: Error Alert implementation
+                }
+                requestPermissions(requiredPermissions.toTypedArray(), 1)
             }
+        } else {
+            handler.start(value)
         }
-
-        localMediaStarted = true
     }
 
-    fun doTrackPageView() {
-        analyticsManager.trackPageView(GROUP_PLAYER)
+    private fun stopVideo() {
+        if (viewModel.localMediaStarted) {
+            handler.leaveAsync()?.then {
+                handler.cleanup().then {
+                    container = null
+                    finish()
+                }?.fail(
+                    IAction1 { e ->
+                        LogManager.log("Could not stop local media: ${e.message}")
+                    }
+                )
+            }?.fail(
+                IAction1 { e ->
+                    LogManager.log("Could not leave conference: ${e.message}")
+                }
+            )
+        } else {
+            finish()
+        }
     }
+
+    //endregion
 }

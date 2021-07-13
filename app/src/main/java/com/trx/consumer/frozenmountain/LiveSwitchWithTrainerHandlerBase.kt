@@ -4,8 +4,8 @@ import android.content.Context
 import android.media.projection.MediaProjection
 import android.os.Handler
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import com.trx.consumer.BuildConfig
+import com.trx.consumer.BuildConfig.kFMApplicationIdProd
+import com.trx.consumer.BuildConfig.kFMGatewayUrl
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.responses.LiveResponseModel
@@ -13,7 +13,7 @@ import fm.liveswitch.AudioStream
 import fm.liveswitch.Channel
 import fm.liveswitch.ChannelClaim
 import fm.liveswitch.Client
-import fm.liveswitch.ClientState
+import fm.liveswitch.ClientState.Unregistered
 import fm.liveswitch.ConnectionConfig
 import fm.liveswitch.ConnectionInfo
 import fm.liveswitch.ConnectionState
@@ -39,7 +39,11 @@ import fm.liveswitch.Token
 import fm.liveswitch.VideoLayout
 import fm.liveswitch.VideoStream
 import fm.liveswitch.android.Camera2Source
+import fm.liveswitch.android.LayoutManager
 import fm.liveswitch.openh264.Utility
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.ArrayList
 
 abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
@@ -58,6 +62,7 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
     var remoteMediaMaps: HashMap<String, ManagedConnection>
     var trainerConnectionInfo: ConnectionInfo? = null
     var trainerMedia: RemoteMedia? = null
+    var handlerScope: CoroutineScope? = null
 
     var eventTrainerLoaded = CommonLiveEvent<Boolean>()
     //var eventParticipantAdded = CommonLiveEvent<>
@@ -136,88 +141,6 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
 
     }
 
-    //region LivePlayerActivity Function
-
-    fun startTRXLocalMedia(): Future<Any> {
-        val promise = Promise<Any>()
-
-        // Set up the layout manager.
-        //       layoutManager = LayoutManager(activity.container)
-        if (receiveOnly) {
-            promise.resolve(null)
-        } else {
-            // Create an echo cancellation context.
-            aecContext = AecContext()
-
-            // Set up the local media.
-            localMedia = LocalCameraMedia(
-                context,
-                enableH264,
-                false,
-                audioOnly,
-                aecContext,
-                enableSimulcast
-            )
-
-            localMedia?.view?.let { localView ->
-                localView.contentDescription = "localView"
-                //                  layoutManager?.localView = localView
-            }
-
-            // Change input source to front camera .
-            (localMedia?.videoSource as? Camera2Source)?.let { input ->
-                input.frontInput?.let { sourceInput ->
-                    localMedia?.changeVideoSourceInput(sourceInput)
-                }
-            }
-
-            // Start the local media.
-            localMedia?.let { safeLocalMedia ->
-                safeLocalMedia.start().then({
-                    it.videoSource.start()
-                    promise.resolve(null)
-                }) { e ->
-                    promise.reject(e)
-                }
-            }
-        }
-        return promise
-    }
-
-    fun joinAsyncLive(): Future<Array<Channel>>? {
-        unRegistering = false
-
-        // Hardcoded
-        client = Client(BuildConfig.kFMGatewayUrl, BuildConfig.kFMApplicationIdProd, live.sessionCustomerUid, deviceID)
-            .apply {
-                userAlias = live.participantName
-                addOnStateChange { safeClient ->
-                    LogManager.log("Client state is: ${safeClient.state.name} ")
-                    if (safeClient.state == ClientState.Unregistered && !unRegistering) {
-                        ManagedThread.sleep(maxRegisterBackoff)
-                        if (maxRegisterBackoff < maxRegisterBackoff) {
-                            reRegisterBackoff += reRegisterBackoff
-                        }
-
-                        safeClient.register(live.accessToken).then({ channels ->
-                            reRegisterBackoff = 200
-                            onClientRegistered(channels)
-                        }) { e ->
-                            LogManager.log("Failed to reregister with Gateway. ${e.message}")
-                        }
-                    }
-                }
-            }
-
-        return client?.register(live.accessToken)?.then({ channels ->
-            onClientRegistered(channels)
-        }) { e ->
-            LogManager.log("Failed to register with Gateway. ${e.message}")
-        }
-    }
-
-    //endregion
-
     private var dataChannelsMessageTimer: ManagedTimer? = null
 
     fun getLocalMediaView(): LocalMedia<View>? {
@@ -228,55 +151,56 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
         return this.trainerMedia
     }
 
-    fun startLocalMedia(activity: AppCompatActivity): Future<Any> {
+    fun start(live: LiveResponseModel) {
         val promise = Promise<Any>()
-        if (enableH264) {
-            val downloadPath = context.filesDir.path
-            Utility.downloadOpenH264(downloadPath).waitForResult()
-            System.load(PathUtility.combinePaths(downloadPath, Utility.getLoadLibraryName()))
+
+        startLocalMedia().then({
+            joinAsync(live)?.then({
+                promise.resolve(null)
+            }) { ex ->
+                ex.message?.let { safeMessage -> LogManager.log(safeMessage) }
+                promise.reject(ex)
+            }
+        }) { ex ->
+            ex.message?.let { safeMessage -> LogManager.log(safeMessage) }
+            promise.reject(null)
         }
+    }
 
-        // Set up the layout manager.
-        // layoutManager = LayoutManager(activity.container)
-        if (receiveOnly) {
-            promise.resolve(null)
-        } else {
-            // Create an echo cancellation context.
-            aecContext = AecContext()
+    private fun startLocalMedia(): Future<Any> {
+        val promise = Promise<Any>()
 
-            // Set up the local media.
-            localMedia = LocalCameraMedia(
-                context,
-                enableH264,
-                false,
-                audioOnly,
-                aecContext,
-                enableSimulcast
-            )
+        handlerScope?.launch(Dispatchers.Main) {
+            if (receiveOnly) {
+                promise.resolve(null)
+            } else {
+                aecContext = AecContext()
 
-            val localView = localMedia?.view
-            if (localView != null) {
-                localView.contentDescription = "localView"
-                // livePlayerActivity?.registerLocalContextMenu(
-                //     localView,
-                //     localMedia?.videoEncodings
-                // )
-            }
-            // layoutManager?.localView = localView
-
-            // Start the local media.
-
-            val input = localMedia?.videoSource as? Camera2Source
-            input?.frontInput?.let {
-                localMedia?.changeVideoSourceInput(it)
-            }
-
-            localMedia?.start()?.then(
-                {
-                    it.videoSource.start()
-                    promise.resolve(null)
+                localMedia = LocalCameraMedia(
+                    context = context,
+                    disableAudio = false,
+                    disableVideo = audioOnly,
+                    aecContext = aecContext,
+                    enableSimulcast = enableSimulcast
+                ).apply {
+                    view.contentDescription = "localView"
                 }
-            ) { e -> promise.reject(e) }
+
+                (localMedia?.videoSource as? Camera2Source)?.let { input ->
+                    input.frontInput?.let { sourceInput ->
+                        localMedia?.changeVideoSourceInput(sourceInput)
+                    }
+                }
+
+                // Start the local media.
+                localMedia?.let { safeLocalMedia ->
+                    safeLocalMedia.start().then({
+                        promise.resolve(null)
+                    }) { e ->
+                        promise.reject(e)
+                    }
+                }
+            }
         }
         return promise
     }
@@ -323,50 +247,43 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
         )
     }
 
-    // TODO: Remove when no longer testing hard coded FM demo values.
-    fun joinAsync(): Future<Array<Channel>>? {
+    fun joinAsync(live: LiveResponseModel): Future<Array<Channel>>? {
         unRegistering = false
 
-        // Create a client to manage the channel.
-        client = Client(gatewayUrl, applicationId, userID, deviceID)
-        val claims = arrayOf(ChannelClaim(channelId))
-        client?.tag = if (isModeMcu) "Mcu" else "Sfu"
-        client?.userAlias = userName
-        client?.addOnStateChange { client ->
-            if (client.state == ClientState.Registering) {
-                Log.debug("client is registering")
-            } else if (client.state == ClientState.Registered) {
-                Log.debug("client is registered")
-            } else if (client.state == ClientState.Unregistering) {
-                Log.debug("client is unregistering")
-            } else if (client.state == ClientState.Unregistered) {
-                Log.debug("client is unregistered")
+        // Hardcoded
+        val deviceID: String = Guid.newGuid().toString().replace("-".toRegex(), "")
+        client = Client(kFMGatewayUrl, kFMApplicationIdProd, live.sessionCustomerUid, deviceID)
+            .apply {
+                userAlias = live.participantName
+                addOnStateChange { safeClient ->
+                    LogManager.log("Client state is: ${safeClient.state.name} ")
+                    if (safeClient.state == Unregistered) {
+                        if (!unRegistering) {
+                            ManagedThread.sleep(maxRegisterBackoff)
+                            if (maxRegisterBackoff < maxRegisterBackoff) {
+                                reRegisterBackoff += reRegisterBackoff
+                            }
 
-                // Client has failed for some reason:
-                // We do not need to `c.closeAll()` as the client handled this for us as part of unregistering.
-                if (!unRegistering) {
-
-                    // Back off our reregister attempts as they continue to fail to avoid runaway process.
-                    ManagedThread.sleep(reRegisterBackoff)
-                    if (reRegisterBackoff < maxRegisterBackoff) {
-                        reRegisterBackoff += reRegisterBackoff
+                            safeClient.register(live.accessToken).then({ channels ->
+                                reRegisterBackoff = 200
+                                onClientRegistered(channels)
+                            }) { e ->
+                                LogManager.log("Failed to reregister with Gateway. ${e.message}")
+                            }
+                        }
                     }
-
-                    // ReRegister
-                    client.register(generateToken(claims)).then({ channels ->
-                        reRegisterBackoff = 200 // reset for next time
-                        onClientRegistered(channels)
-                    }
-                    ) { e -> Log.error("Failed to reregister with Gateway.", e) }
                 }
             }
+
+        return client?.register(live.accessToken)?.then({ channels ->
+            onClientRegistered(channels)
+        }) { e ->
+            LogManager.log("Failed to register with Gateway. ${e.message}")
         }
-        return client?.register(generateToken(claims))
-            ?.then({ channels -> onClientRegistered(channels) }
-            ) { e -> Log.error("Failed to register with Gateway.", e) }
     }
 
-    private fun onClientRegistered(channels: Array<Channel>) {
+
+        private fun onClientRegistered(channels: Array<Channel>) {
         channel = channels.firstOrNull()
 
         // Monitor the channel remote client changes.
@@ -843,7 +760,8 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
         }
     }
 
-    fun teardown() {
+    fun cleanup(): Future<fm.liveswitch.LocalMedia?> {
+        val promise: Promise<fm.liveswitch.LocalMedia?> = Promise()
         sfuUpstreamConnection?.close()
         sfuUpstreamConnection = null
         for(connection in sfuDownstreamConnections.values) {
@@ -854,6 +772,20 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
         trainerMedia = null
         dataChannels = ArrayList()
         channel = null
+        handlerScope = null
+        clearContextMenuItemFlag("localView")
+        if (localMedia == null) {
+            promise.resolve(null)
+        } else {
+            localMedia!!.stop().then({ // Tear down the layout manager.
+                // Tear down the local media.
+                localMedia?.destroy()
+                localMedia = null
+
+                promise.resolve(null)
+            }) { e -> promise.reject(e) }
+        }
+        return promise
     }
 
     interface OnReceivedTextListener {
