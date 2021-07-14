@@ -53,9 +53,9 @@ class LivePlayerActivity : AppCompatActivity() {
         }
 
         viewBinding.apply {
-            btnCamera.action { viewModel.doTapCamera() }
+            btnRotate.action { viewModel.doTapRotate() }
             btnClock.action { viewModel.doTapClock() }
-            btnMic.action { viewModel.doTapMic() }
+            btnParticipants.action { viewModel.doTapParticipants() }
             btnCast.action { viewModel.doTapCast() }
             btnClose.action { viewModel.doTapClose() }
         }
@@ -64,9 +64,9 @@ class LivePlayerActivity : AppCompatActivity() {
             model = workout
             eventLoadVideo.observe(this@LivePlayerActivity, handleLoadVideo)
             eventLoadError.observe(this@LivePlayerActivity, handleLoadError)
-            eventTapCamera.observe(this@LivePlayerActivity, handleTapCamera)
-            eventTapMic.observe(this@LivePlayerActivity, handleTapMic)
+            eventTapRotate.observe(this@LivePlayerActivity, handleTapRotate)
             eventTapClock.observe(this@LivePlayerActivity, handleTapClock)
+            eventTapParticipants.observe(this@LivePlayerActivity, handleTapParticipants)
             eventTapCast.observe(this@LivePlayerActivity, handleTapCast)
             eventTapClose.observe(this@LivePlayerActivity, handleTapClose)
 
@@ -143,20 +143,20 @@ class LivePlayerActivity : AppCompatActivity() {
         // NavigationManager.shared.present(this, R.id.error_fragment, model)
     }
 
-    private val handleTapCamera = Observer<Boolean> { isChecked ->
-        LogManager.log("handleTapCamera $isChecked ")
-    }
-
-    private val handleTapMic = Observer<Boolean> { isChecked ->
-        LogManager.log("handleTapMicrophone $isChecked ")
+    private val handleTapRotate = Observer<Boolean> { isChecked ->
+        LogManager.log("handleTapRotate $isChecked ")
     }
 
     private val handleTapClock = Observer<Boolean> { isChecked ->
         LogManager.log("handleTapClock $isChecked ")
     }
 
+    private val handleTapParticipants = Observer<Boolean> { isChecked ->
+        LogManager.log("handleTapParticipants $isChecked ")
+    }
+
     private val handleTapCast = Observer<Boolean> { isChecked ->
-        LogManager.log("handleTapShare $isChecked ")
+        LogManager.log("handleTapCast $isChecked ")
     }
 
     private val handleTapClose = Observer<Void> {
@@ -173,9 +173,6 @@ class LivePlayerActivity : AppCompatActivity() {
             val requiredPermissions: MutableList<String> = ArrayList(3)
             if (checkLivePermission(Manifest.permission.RECORD_AUDIO)) {
                 requiredPermissions.add(Manifest.permission.RECORD_AUDIO)
-            }
-            if (checkLivePermission(Manifest.permission.CAMERA)) {
-                requiredPermissions.add(Manifest.permission.CAMERA)
             }
             if (checkLivePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 requiredPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)

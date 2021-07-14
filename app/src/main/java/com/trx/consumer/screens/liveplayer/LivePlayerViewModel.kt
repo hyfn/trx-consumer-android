@@ -29,9 +29,9 @@ class LivePlayerViewModel @ViewModelInject constructor (
             }
         }
 
-    private var isCameraChecked: Boolean = false
-    private var isMicChecked: Boolean = false
+    private var isRotateChecked: Boolean = false
     private var isClockChecked: Boolean = false
+    private var isParticipantsChecked: Boolean = false
     private var isCastChecked: Boolean = false
 
     var localMediaStarted: Boolean = false
@@ -42,9 +42,9 @@ class LivePlayerViewModel @ViewModelInject constructor (
 
     val eventLoadVideo = CommonLiveEvent<WorkoutModel>()
     val eventLoadError = CommonLiveEvent<String>()
-    val eventTapCamera = CommonLiveEvent<Boolean>()
-    val eventTapMic = CommonLiveEvent<Boolean>()
+    val eventTapRotate = CommonLiveEvent<Boolean>()
     val eventTapClock = CommonLiveEvent<Boolean>()
+    val eventTapParticipants = CommonLiveEvent<Boolean>()
     val eventTapCast = CommonLiveEvent<Boolean>()
     val eventTapClose = CommonLiveEvent<Void>()
 
@@ -97,19 +97,19 @@ class LivePlayerViewModel @ViewModelInject constructor (
         }
     }
 
-    fun doTapCamera() {
-        isCameraChecked = !isCameraChecked
-        eventTapCamera.postValue(isCameraChecked)
-    }
-
-    fun doTapMic() {
-        isMicChecked = !isMicChecked
-        eventTapMic.postValue(isMicChecked)
+    fun doTapRotate() {
+        isRotateChecked = !isRotateChecked
+        eventTapRotate.postValue(isRotateChecked)
     }
 
     fun doTapClock() {
         isClockChecked = !isClockChecked
         eventTapClock.postValue(isClockChecked)
+    }
+
+    fun doTapParticipants() {
+        isParticipantsChecked = !isParticipantsChecked
+        eventTapParticipants.postValue(isParticipantsChecked)
     }
 
     fun doTapCast() {
