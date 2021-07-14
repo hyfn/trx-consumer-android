@@ -1,81 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/fmPlayerContainer"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/green"
         android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/navView"
+        android:focusable="true"/>
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="15dp"
+        android:clickable="false"
+        android:ellipsize="end"
+        android:focusable="false"
+        android:fontFamily="@font/atcarquette_bold"
+        android:maxLines="2"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@id/navView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Developer Session for Mobile" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblInstructor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:fontFamily="@font/atcarquette_bold"
+        android:textAllCaps="true"
+        android:textColor="@color/yellow"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/lblTitle"
+        app:layout_constraintStart_toStartOf="@id/lblTitle"
+        app:layout_constraintTop_toBottomOf="@id/lblTitle"
+        tools:text="Some Instructor" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblParticipants"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:fontFamily="@font/atcarquette_regular"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="@id/lblTitle"
+        app:layout_constraintStart_toStartOf="@id/lblTitle"
+        app:layout_constraintTop_toBottomOf="@id/lblInstructor"
+        tools:ignore="SmallSp"
+        tools:text="9 Participants" />
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewSeek"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/navView"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.trx.consumer.common.CommonLabel
+            android:id="@+id/lblTimeElapsed"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/atcarquette_bold"
+            android:gravity="center_vertical"
+            android:text="4:47"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:progress="25"
+            app:layout_constraintEnd_toStartOf="@id/lblTimeRemaining"
+            app:layout_constraintStart_toEndOf="@id/lblTimeElapsed" />
+        
+        <com.trx.consumer.common.CommonLabel
+            android:id="@+id/lblTimeRemaining"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/atcarquette_bold"
+            android:gravity="center_vertical"
+            android:text="-15:13"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </com.trx.consumer.common.CommonView>
 
     <com.trx.consumer.common.CommonView
         android:id="@+id/navView"
-        android:layout_width="75dp"
+        android:layout_width="70dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.trx.consumer.common.CommonStateButton
-            android:id="@+id/btnCamera"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="24dp"
-            app:checkedState="@drawable/ic_img_camera_selected"
+        <com.trx.consumer.common.CommonImageButton
+            android:id="@+id/btnRotate"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_img_rotate_plain"
+            android:tint="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/btnClock"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:plainState="@drawable/ic_img_camera_plain" />
-
-        <com.trx.consumer.common.CommonStateButton
-            android:id="@+id/btnMic"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            app:checkedState="@drawable/ic_img_microphone_selected"
-            app:layout_constraintBottom_toTopOf="@+id/btnClock"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnCamera"
-            app:plainState="@drawable/ic_img_microphone_plain" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <com.trx.consumer.common.CommonStateButton
             android:id="@+id/btnClock"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             app:checkedState="@drawable/ic_img_clock_selected"
+            app:layout_constraintBottom_toTopOf="@+id/btnParticipants"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnRotate"
+            app:plainState="@drawable/ic_img_clock_white" />
+
+        <com.trx.consumer.common.CommonStateButton
+            android:id="@+id/btnParticipants"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:checkedState="@drawable/ic_users_selected"
             app:layout_constraintBottom_toTopOf="@+id/btnCast"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnMic"
-            app:plainState="@drawable/ic_img_clock_plain" />
+            app:layout_constraintTop_toBottomOf="@+id/btnClock"
+            app:plainState="@drawable/ic_users_white" />
 
         <com.trx.consumer.common.CommonStateButton
             android:id="@+id/btnCast"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             app:checkedState="@drawable/ic_img_share_selected"
             app:layout_constraintBottom_toTopOf="@+id/btnClose"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnClock"
-            app:plainState="@drawable/ic_img_share_plain" />
+            app:layout_constraintTop_toBottomOf="@id/btnParticipants"
+            app:plainState="@drawable/ic_img_share_white" />
 
         <com.trx.consumer.common.CommonImageButton
             android:id="@+id/btnClose"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="24dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:src="@drawable/ic_img_end_plain"
+            android:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnCast" />
 
     </com.trx.consumer.common.CommonView>
 
