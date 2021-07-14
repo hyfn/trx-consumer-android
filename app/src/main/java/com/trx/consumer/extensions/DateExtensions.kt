@@ -100,3 +100,12 @@ fun Date.yearMonthDayString(
     locale: Locale = Locale.US
 ): String =
     SimpleDateFormat("yyyMMdd", locale).format(this).toString()
+
+fun Date.isSameDay(date: Date): Boolean {
+    val calendar = Calendar.getInstance()
+    calendar.time = date
+    val secondDate = calendar.get(Calendar.DAY_OF_YEAR)
+    calendar.time = this
+    val firstDate = calendar.get(Calendar.DAY_OF_YEAR)
+    return firstDate == secondDate
+}

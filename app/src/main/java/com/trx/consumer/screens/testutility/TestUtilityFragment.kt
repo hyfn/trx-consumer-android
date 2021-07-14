@@ -14,11 +14,14 @@ import com.trx.consumer.models.common.AlertModel
 import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.PromoModel
+import com.trx.consumer.models.common.ScheduleModel
 import com.trx.consumer.models.common.TrainerModel
+import com.trx.consumer.models.common.TrainerProgramModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.ContentParamsModel
 import com.trx.consumer.models.params.FilterParamsModel
+import com.trx.consumer.models.states.ScheduleViewState
 import com.trx.consumer.screens.alert.AlertViewState
 import com.trx.consumer.screens.content.ContentViewState
 import com.trx.consumer.screens.groupplayer.GroupPlayerActivity
@@ -213,7 +216,8 @@ class TestUtilityFragment : BaseFragment(R.layout.fragment_test_utility) {
     }
 
     private val handleTapSchedule = Observer<Void> {
-        NavigationManager.shared.present(this, R.id.schedule_fragment)
+        val model = ScheduleModel(ScheduleViewState.TRAINER_VIRTUAL, TrainerModel.test().key, TrainerProgramModel.test())
+        NavigationManager.shared.present(this, R.id.schedule_fragment, model)
     }
 
     private val handleLoadLiveWorkouts = Observer<List<WorkoutModel>> { liveWorkouts ->

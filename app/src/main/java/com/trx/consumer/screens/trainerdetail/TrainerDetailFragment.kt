@@ -20,11 +20,13 @@ import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.managers.UtilityManager
 import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.common.ContentModel
+import com.trx.consumer.models.common.ScheduleModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.TrainerProgramModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.params.ContentParamsModel
+import com.trx.consumer.models.states.ScheduleViewState
 import com.trx.consumer.screens.banner.BannerAdapter
 import com.trx.consumer.screens.liveworkout.LiveWorkoutAdapter
 import com.trx.consumer.screens.photos.PhotoAdapter
@@ -174,12 +176,14 @@ class TrainerDetailFragment : BaseFragment(R.layout.fragment_trainer_detail) {
 
     private val handleShowService = Observer<TrainerProgramModel> { model ->
         LogManager.log("handleShowService")
-        NavigationManager.shared.present(this, R.id.schedule_fragment, model)
+        val scheduleModel = ScheduleModel(ScheduleViewState.TRAINER_LIVE, model.key, model)
+        NavigationManager.shared.present(this, R.id.schedule_fragment, scheduleModel)
     }
 
-    private val handleShowUpcomingSchedule = Observer<String> { value ->
+    private val handleShowUpcomingSchedule = Observer<String> { trainerKey ->
         LogManager.log("handleShowUpcomingSchedule")
-        NavigationManager.shared.present(this, R.id.schedule_fragment, value)
+        val model = ScheduleModel(ScheduleViewState.TRAINER_LIVE, trainerKey)
+        NavigationManager.shared.present(this, R.id.schedule_fragment, model)
     }
 
     private val handleShowWorkout = Observer<WorkoutModel> { model ->
