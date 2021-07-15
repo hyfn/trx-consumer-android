@@ -10,11 +10,9 @@
         android:id="@+id/imgBg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="@color/black"
-        android:scaleType="centerCrop"
-        android:tint="@color/blackAlpha20"
-        tools:src="@drawable/ic_img_placeholder"
-        tools:tint="@color/blackAlpha20" />
+        android:background="@color/black"
+        android:scaleType="centerInside"
+        tools:src="@drawable/ic_img_placeholder" />
 
     <com.trx.consumer.common.CommonLabel
         android:id="@+id/lblWorkout"
