@@ -140,6 +140,10 @@
     <string name="player_participants_label">%1$d Participants</string>
     <string name="player_end_workout_button_label">END WORKOUT</string>
     <string name="player_screen_cast_coming_soon_message">Coming Soon!</string>
+    <string name="player_live_label">LIVE <font color='yellow'>•</font></string>
+    <string name="player_test_title_label">Developer Session for Mobile</string>
+    <string name="player_test_instructor_label">Some Instructor</string>
+    <string name="player_test_participants_label">9 Participants</string>
 
     <string name="restore_button_label">Restore Purchases</string>
     <string name="restore_trx_training_label">TRX TRAINING</string>

@@ -1,25 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.trx.consumer.common.CommonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/fmPlayerContainer"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="210dp"
+        android:layout_marginTop="25dp"
         android:background="@color/green"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@+id/navView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/lblParticipants"/>
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="15dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:minHeight="75dp"
+        android:text="@string/player_test_title_label"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblInstructor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center_vertical"
+        android:minHeight="30dp"
+        android:text="@string/player_test_instructor_label"
+        android:textAllCaps="true"
+        android:textColor="@color/yellow"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/lblTitle"
+        app:layout_constraintStart_toStartOf="@id/lblTitle"
+        app:layout_constraintTop_toBottomOf="@id/lblTitle" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblParticipants"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center_vertical"
+        android:minHeight="20dp"
+        android:text="@string/player_test_participants_label"
+        android:textAllCaps="true"
+        android:textColor="@color/greyLight"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="@id/lblTitle"
+        app:layout_constraintStart_toStartOf="@id/lblTitle"
+        app:layout_constraintTop_toBottomOf="@id/lblInstructor"
+        tools:ignore="SmallSp" />
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblLive"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="375dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center_vertical"
+        android:text="@string/player_live_label"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/fmPlayerContainer"
+        app:layout_constraintStart_toStartOf="@id/fmPlayerContainer" />
+
+    <com.trx.consumer.common.CommonImageButton
+        android:id="@+id/btnRotate"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/ic_img_rotate_plain"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/fmPlayerContainer"
+        app:layout_constraintEnd_toEndOf="@id/fmPlayerContainer" />
+
+    <com.trx.consumer.common.CommonButton
+        android:id="@+id/btnClose"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/atcarquette_semibold"
+        android:gravity="center"
+        android:text="@string/player_end_workout_button_label"
+        android:textColor="@color/greyLightExtra"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:outline="@color/greyLightExtra" />
 
     <com.trx.consumer.common.CommonView
         android:id="@+id/navView"
         android:layout_width="match_parent"
         android:layout_height="75dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.trx.consumer.common.CommonStateButton
@@ -65,16 +156,6 @@
             app:layout_constraintStart_toEndOf="@+id/btnClock"
             app:layout_constraintTop_toTopOf="parent"
             app:plainState="@drawable/ic_img_share_plain" />
-
-        <com.trx.consumer.common.CommonImageButton
-            android:id="@+id/btnClose"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginEnd="24dp"
-            android:src="@drawable/ic_img_end_plain"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </com.trx.consumer.common.CommonView>
 
