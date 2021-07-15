@@ -184,12 +184,12 @@
             android:id="@+id/btnParticipants"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            app:checkedState="@drawable/ic_users_selected"
+            app:checkedState="@drawable/ic_participants_selected"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/viewThree"
             app:layout_constraintStart_toEndOf="@id/viewTwo"
             app:layout_constraintTop_toTopOf="parent"
-            app:plainState="@drawable/ic_users_plain" />
+            app:plainState="@drawable/ic_participants_plain" />
 
 
         <com.trx.consumer.common.CommonStateButton
