@@ -20,6 +20,12 @@ fun Date.dateAtHour(hour: Int): Date {
     }.time
 }
 
+fun Date.dateAfterDays(days: Int): Date {
+    val calendar: Calendar = Calendar.getInstance()
+    calendar.time = this
+    return calendar.apply { add(Calendar.DATE, days) }.time
+}
+
 fun Date.date(hour: Int, minute: Int, second: Int): Date {
     val calendar: Calendar = Calendar.getInstance()
     calendar.time = this

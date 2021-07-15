@@ -24,16 +24,18 @@ class ScheduleFragment : BaseFragment(R.layout.fragment_schedule) {
     override fun bind() {
 
         val model = NavigationManager.shared.params(this) as ScheduleModel
-
         scheduleAdapter = ScheduleAdapter(viewModel, viewModel, viewModel) { lifecycleScope }
 
         viewModel.apply {
             state = model.state
             key = model.key
+            trainerProgram = model.trainerProgram
+
             eventTapBack.observe(viewLifecycleOwner, handleTapBack)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
             eventLoadCalendarView.observe(viewLifecycleOwner, handleLoadCalendarView)
             eventLoadLiveWorkouts.observe(viewLifecycleOwner, handleLoadLiveWorkout)
+
             doTrackPageView()
         }
 
