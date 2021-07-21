@@ -27,8 +27,8 @@
             android:id="@+id/btnCamera"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginTop="24dp"
             app:checkedState="@drawable/ic_img_camera_selected"
+            app:layout_constraintBottom_toTopOf="@id/btnMic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +39,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             app:checkedState="@drawable/ic_img_microphone_selected"
-            app:layout_constraintBottom_toTopOf="@+id/btnClock"
+            app:layout_constraintBottom_toTopOf="@id/btnClose"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnCamera"
@@ -49,6 +49,7 @@
             android:id="@+id/btnClock"
             android:layout_width="45dp"
             android:layout_height="45dp"
+            android:visibility="gone"
             app:checkedState="@drawable/ic_img_clock_selected"
             app:layout_constraintBottom_toTopOf="@+id/btnCast"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,6 +61,7 @@
             android:id="@+id/btnCast"
             android:layout_width="45dp"
             android:layout_height="45dp"
+            android:visibility="gone"
             app:checkedState="@drawable/ic_img_share_selected"
             app:layout_constraintBottom_toTopOf="@+id/btnClose"
             app:layout_constraintEnd_toEndOf="parent"
@@ -71,11 +73,11 @@
             android:id="@+id/btnClose"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginBottom="24dp"
             android:src="@drawable/ic_img_end_plain"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnMic" />
 
     </com.trx.consumer.common.CommonView>
 
