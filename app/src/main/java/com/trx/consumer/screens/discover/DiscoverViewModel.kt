@@ -6,7 +6,7 @@ import com.trx.consumer.base.BaseViewModel
 import com.trx.consumer.common.CommonLiveEvent
 import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.BackendManager
-import com.trx.consumer.models.common.AnalyticsPageModel
+import com.trx.consumer.models.common.AnalyticsPageModel.DISCOVER
 import com.trx.consumer.models.common.DiscoverModel
 import com.trx.consumer.models.common.FilterModel
 import com.trx.consumer.models.common.VideoModel
@@ -16,7 +16,6 @@ import com.trx.consumer.models.responses.VideosResponseModel
 import com.trx.consumer.screens.discover.discoverfilter.DiscoverFilterListener
 import com.trx.consumer.screens.videoworkout.VideoWorkoutListener
 import kotlinx.coroutines.launch
-import com.trx.consumer.models.common.AnalyticsPageModel.DISCOVER
 
 class DiscoverViewModel @ViewModelInject constructor(
     private val backendManager: BackendManager,
@@ -135,7 +134,7 @@ class DiscoverViewModel @ViewModelInject constructor(
     }
 
     fun doTrackPageView() {
-        analyticsManager.trackPageView(AnalyticsPageModel.DISCOVER)
+        analyticsManager.trackPageView(DISCOVER)
     }
     //endregion
 }

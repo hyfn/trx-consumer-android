@@ -7,7 +7,6 @@ import androidx.core.content.withStyledAttributes
 import com.trx.consumer.R
 import com.trx.consumer.common.shapeable.CommonShapeable
 import com.trx.consumer.common.shapeable.CommonShapeableHandler
-import com.trx.consumer.extensions.color
 
 class CommonStateButton @JvmOverloads constructor(
     context: Context,
