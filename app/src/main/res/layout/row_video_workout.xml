@@ -10,6 +10,7 @@
         android:id="@+id/imgBg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:adjustViewBounds="true"
         android:background="@color/black"
         android:scaleType="centerInside"
         tools:src="@drawable/ic_img_placeholder" />
