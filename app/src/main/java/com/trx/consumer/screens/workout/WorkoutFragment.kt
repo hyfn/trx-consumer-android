@@ -12,6 +12,7 @@ import com.trx.consumer.extensions.load
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.AlertModel
+import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.VideoModel
 import com.trx.consumer.models.common.WorkoutModel
@@ -51,6 +52,7 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
             eventLoadWorkoutView.observe(viewLifecycleOwner, handleLoadWorkoutView)
             eventLoadView.observe(viewLifecycleOwner, handleLoadView)
+            eventLoadVideoView.observe(viewLifecycleOwner, handleLoadVideoView)
             eventShowHud.observe(viewLifecycleOwner, handleShowHud)
             eventShowPermissionAlert.observe(viewLifecycleOwner, handleShowPermissionAlert)
 
@@ -86,7 +88,7 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
     private val handleLoadWorkoutView = Observer<WorkoutModel> { model ->
         LogManager.log("handleLoadVideoView")
-        loadView(model)
+        load(model)
         viewBinding.apply {
             btnPrimary.apply {
                 text = context.getString(model.bookViewStatus.buttonTitle)
@@ -98,7 +100,7 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
 
     private val handleLoadView = Observer<WorkoutModel> { model ->
         LogManager.log("handleLoadView")
-        loadView(model)
+        load(model)
         viewBinding.apply {
             btnPrimary.apply {
                 text = context.getString(model.state.buttonTitle)
@@ -108,7 +110,32 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
         }
     }
 
-    private fun loadView(model: WorkoutModel) {
+    private val handleLoadVideoView = Observer<WorkoutModel> { model ->
+        LogManager.log("handleLoadVideoView")
+        loadVideoView(model)
+        viewBinding.apply {
+            btnPrimary.apply {
+                text = context.getString(model.state.buttonTitle)
+                bgColor(model.state.buttonBackgroundColor)
+                textColor(model.state.buttonTitleColor)
+            }
+        }
+    }
+
+    private fun load(model: WorkoutModel) {
+        viewBinding.apply {
+            imgHeader.load(model.imageUrl)
+            lblTitle.text = model.title
+            lblSummary.text = model.summary
+            lblSubtitle.text = model.subtitle
+
+            viewTrainer.isHidden = false
+            imgTrainerPhoto.load(model.trainer.profilePhoto)
+            lblTrainerName.text = model.trainer.fullName
+        }
+    }
+
+    private fun loadVideoView(model: WorkoutModel) {
         viewBinding.apply {
             imgHeader.load(model.video.poster)
             lblTitle.text = model.video.name
@@ -120,9 +147,10 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
             lblTrainerName.text = model.video.trainer.fullName
 
             val equipments = model.video.equipment
-            if (equipments.isNotEmpty()) lblEquipment.text =
-                equipments.joinToString { it.capitalize(Locale.ROOT) }
-            else viewEquipment.isHidden = true
+            if (equipments.isNotEmpty()) {
+                viewEquipment.isHidden = false
+                lblEquipment.text = equipments.joinToString { it.capitalize(Locale.ROOT) }
+            }
         }
     }
 
@@ -146,9 +174,9 @@ class WorkoutFragment : BaseFragment(R.layout.fragment_workout) {
         }
     }
 
-    private val handleTapBookLive = Observer<WorkoutModel> { model ->
-        LogManager.log("handleTapBookLive ${model.identifier}")
-        // TODO: Needs to implement booking alert model
+    private val handleTapBookLive = Observer<BookingAlertModel> { model ->
+        LogManager.log("handleTapBookLive")
+        NavigationManager.shared.present(this, R.id.booking_alert_fragment, model)
     }
 
     private val handleTapProfile = Observer<TrainerModel> { model ->
