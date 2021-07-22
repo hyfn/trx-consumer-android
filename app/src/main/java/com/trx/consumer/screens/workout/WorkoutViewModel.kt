@@ -97,20 +97,18 @@ class WorkoutViewModel @ViewModelInject constructor(
                 WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> {
                     if (model.bookViewStatus == BookingViewState.JOIN) {
                         analyticsManager.trackPageView(VIDEO_PLAYER)
-                    } else {
-                        user.card?.let { card ->
-                            val model = BookingAlertModel(card, model)
-                            eventTapBookLive.postValue(model)
-                        } ?: run {
-                            val response = backendManager.user()
-                            val responseModel = UserResponseModel.parse(response.responseString)
-                            responseModel.user.card?.let { card ->
-                                val model = BookingAlertModel(card, model)
-                                eventTapBookLive.postValue(model)
-                            }
-                        }
+                        //eventTapStartWorkout.send(model) TO-DO
+                    }
+                    user.card?.let { card ->
+                        val model = BookingAlertModel(card, model)
+                        eventTapBookLive.postValue(model)
+                    } ?: run {
+                        val response = backendManager.user()
+                        val userResponse = UserResponseModel.parse(response.responseString)
+                        eventTapBookLive.postValue(BookingAlertModel(userResponse.user.card, model))
                     }
                 }
+
                 else -> LogManager.log("WorkoutViewModel.doTapPrimary")
             }
         }
