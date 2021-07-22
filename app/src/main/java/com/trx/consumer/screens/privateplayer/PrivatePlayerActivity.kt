@@ -25,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import fm.liveswitch.IAction0
 import fm.liveswitch.Promise
 import android.content.pm.PackageManager
+import android.view.View
 import android.widget.RelativeLayout
 import androidx.activity.viewModels
 import androidx.lifecycle.viewModelScope
@@ -44,13 +45,12 @@ class PrivatePlayerActivity : AppCompatActivity() {
 
     var container: RelativeLayout? = null
 
-    //endregion
-
-    //region Initializers
-
     lateinit var trainerContainer: FrameLayout
     lateinit var localMediaContainer: FrameLayout
 
+    //endregion
+
+    //region Initializers
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityPrivatePlayerBinding.inflate(layoutInflater)
@@ -109,6 +109,7 @@ class PrivatePlayerActivity : AppCompatActivity() {
         }
         handler.apply {
             eventTrainerLoaded.observe(this@PrivatePlayerActivity, addTrainerToLayout)
+            eventLocalMediaLoaded.observe(this@PrivatePlayerActivity, addLocalMediaToLayout)
         }
     }
 
@@ -128,11 +129,34 @@ class PrivatePlayerActivity : AppCompatActivity() {
             var trainerMedia = this.handler.getTrainerMediaView()
             if (trainerLoaded) {
                 trainerMedia?.let { tm ->
-                    tm.view.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER)
+                    tm.view.layoutParams = FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        Gravity.CENTER
+                    )
                     trainerContainer.addView(tm.view)
                 }
             } else {
                 trainerContainer.removeAllViewsInLayout()
+            }
+        }
+    }
+
+    private val addLocalMediaToLayout = Observer<Boolean> { localMediaLoaded ->
+        LogManager.log("localMediaLoaded")
+        this.runOnUiThread {
+            var localMedia = this.handler.getLocalMediaView()
+            if (localMediaLoaded) {
+                localMedia?.let { tm ->
+                    tm.view.layoutParams = FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        Gravity.CENTER
+                    )
+                    localMediaContainer.addView(tm.view)
+                }
+            } else {
+                localMediaContainer.removeAllViewsInLayout()
             }
         }
     }
@@ -206,10 +230,28 @@ class PrivatePlayerActivity : AppCompatActivity() {
     }
 
     private val handleTapCamera = Observer<Boolean> { isChecked ->
+        handler.toggleMuteVideo()
+
+        if(isChecked) {
+            viewBinding.btnCamera.setImageResource(R.drawable.ic_img_camera_plain)
+            localMediaContainer.visibility = View.VISIBLE
+        }
+        else {
+            viewBinding.btnCamera.setImageResource(R.drawable.ic_img_camera_inactive)
+            localMediaContainer.visibility = View.GONE
+        }
+
         LogManager.log("handleTapCamera $isChecked ")
     }
 
     private val handleTapMic = Observer<Boolean> { isChecked ->
+        handler.toggleMuteAudio()
+
+        if(isChecked)
+            viewBinding.btnMic.setImageResource(R.drawable.ic_img_microphone_plain)
+        else
+            viewBinding.btnMic.setImageResource(R.drawable.ic_img_microphone_inactive)
+
         LogManager.log("handleTapMicrophone $isChecked ")
     }
 

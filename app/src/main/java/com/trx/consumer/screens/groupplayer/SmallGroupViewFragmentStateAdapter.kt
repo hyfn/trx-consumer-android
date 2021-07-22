@@ -4,26 +4,37 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.trx.consumer.managers.LogManager
+
 
 class SmallGroupViewFragmentStateAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+    var fragments = ArrayList<SmallGroupViewFragment>()
+    var activity: FragmentActivity = FragmentActivity()
+    lateinit var groupHandler: GroupPlayerHandler
 
-    private lateinit var participants: ArrayList<String>
+    init {
+        activity = fragmentActivity
+    }
 
     override fun getItemCount(): Int {
-        return participants.count()
+        return Math.ceil(groupHandler.participants.count().toDouble() / 3).toInt()
     }
 
     override fun createFragment(position: Int): Fragment {
         val fragment = SmallGroupViewFragment()
         fragment.arguments = Bundle().apply {
-            // Our object is just an integer :-P
-            putInt("TEST", position + 1)
+            putInt("position", position);
         }
+
+        fragments.add(fragment)
+        LogManager.log("Fragment added count: " + fragments.count())
+
         return fragment
     }
 
-    fun setParticipants(participants: ArrayList<String>) {
-        this.participants = participants
-        notifyDataSetChanged()
+    fun reloadFragments(page: Int) {
+        if(fragments.count() > page)
+            fragments[page].loadParticipants(page)
     }
+
 }

@@ -84,6 +84,7 @@ class LivePlayerViewModel @ViewModelInject constructor (
                                 eventLoadError.postValue("There was an error")
                             }
                         } catch (e: Exception) {
+                            LogManager.log("Exception on doLoadVideo")
                             LogManager.log(e)
                         }
                     } else {

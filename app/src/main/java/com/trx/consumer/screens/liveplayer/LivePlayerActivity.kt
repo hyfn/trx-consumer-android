@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import androidx.activity.viewModels
@@ -46,6 +47,7 @@ class LivePlayerActivity : AppCompatActivity() {
     //region Initializers
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        LogManager.log("LIVE PLAYER ONCREATE HIT")
         super.onCreate(savedInstanceState)
 
         viewBinding = ActivityLivePlayerBinding.inflate(layoutInflater)
@@ -55,6 +57,7 @@ class LivePlayerActivity : AppCompatActivity() {
     }
 
     private fun bind() {
+        LogManager.log("LIVE PLAYER BINDING HIT")
         val workout = NavigationManager.shared.params(intent) as? WorkoutModel
         container = viewBinding.fmPlayerContainer
         handler.apply {
@@ -62,7 +65,7 @@ class LivePlayerActivity : AppCompatActivity() {
         }
 
         container = findViewById(R.id.fmPlayerContainer)
-
+        LogManager.log("LIVE PLAYER CONTAINER FOUND")
         livePlayerHandler.apply {
             eventTrainerLoaded.observe(this@LivePlayerActivity, addTrainerToLayout)
         }
@@ -172,10 +175,24 @@ class LivePlayerActivity : AppCompatActivity() {
     }
 
     private val handleTapCamera = Observer<Boolean> { isChecked ->
+        handler.toggleMuteVideo()
+
+        if(isChecked)
+            viewBinding.btnCamera.setImageResource(R.drawable.ic_img_camera_plain)
+        else
+            viewBinding.btnCamera.setImageResource(R.drawable.ic_img_camera_inactive)
+
         LogManager.log("handleTapCamera $isChecked ")
     }
 
     private val handleTapMic = Observer<Boolean> { isChecked ->
+        handler.toggleMuteAudio()
+
+        if(isChecked)
+            viewBinding.btnMic.setImageResource(R.drawable.ic_img_microphone_plain)
+        else
+            viewBinding.btnMic.setImageResource(R.drawable.ic_img_microphone_inactive)
+
         LogManager.log("handleTapMicrophone $isChecked ")
     }
 

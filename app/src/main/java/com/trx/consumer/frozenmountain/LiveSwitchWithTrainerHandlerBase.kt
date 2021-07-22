@@ -48,7 +48,7 @@ import java.util.ArrayList
 
 abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
     private val testingFlagLoadFirstDownstreamAsTrainer: Boolean = true
-    private val testingFlagLoadTrainerAsParticipant: Boolean = false
+    private val testingFlagLoadTrainerAsParticipant: Boolean = true
 
     private var handler: Handler = Handler(context.mainLooper)
     private var channel: Channel? = null
@@ -65,7 +65,7 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
     var handlerScope: CoroutineScope? = null
 
     var eventTrainerLoaded = CommonLiveEvent<Boolean>()
-    //var eventParticipantAdded = CommonLiveEvent<>
+    var eventLocalMediaLoaded = CommonLiveEvent<Boolean>()
 
     //region Client Variables and Parameters
 
@@ -141,6 +141,11 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
 
     }
 
+    open fun closeSfuDownStreamConnection(remoteConnectionInfo: ConnectionInfo){
+        if( trainerConnectionInfo != null && trainerMedia != null && remoteConnectionInfo.id == trainerConnectionInfo?.id)
+            eventTrainerLoaded.postValue(false)
+    }
+
     private var dataChannelsMessageTimer: ManagedTimer? = null
 
     fun getLocalMediaView(): LocalMedia<View>? {
@@ -151,12 +156,14 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
         return this.trainerMedia
     }
 
+
     fun start(live: LiveResponseModel) {
         val promise = Promise<Any>()
 
         startLocalMedia().then({
             joinAsync(live)?.then({
                 promise.resolve(null)
+                eventLocalMediaLoaded.postValue(true)
             }) { ex ->
                 ex.message?.let { safeMessage -> LogManager.log(safeMessage) }
                 promise.reject(ex)
@@ -283,7 +290,7 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
     }
 
 
-        private fun onClientRegistered(channels: Array<Channel>) {
+    private fun onClientRegistered(channels: Array<Channel>) {
         channel = channels.firstOrNull()
 
         // Monitor the channel remote client changes.
@@ -304,14 +311,15 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
         channel?.addOnRemoteUpstreamConnectionOpen { remoteConnectionInfo ->
             Log.info("Remote client opened upstream connection (connection ID: " + remoteConnectionInfo.id + ", client ID: " + remoteConnectionInfo.clientId + ", device ID: " + remoteConnectionInfo.deviceId + ", user ID: " + remoteConnectionInfo.userId + ", tag: " + remoteConnectionInfo.tag + ").")
             var clientRoles = remoteConnectionInfo.clientRoles
-            if (!testingFlagLoadTrainerAsParticipant && ((testingFlagLoadFirstDownstreamAsTrainer && sfuDownstreamConnections.count() == 0) || (clientRoles != null && clientRoles.contains("trainer")))) {
+            if (((testingFlagLoadFirstDownstreamAsTrainer && sfuDownstreamConnections.count() == 0) && (clientRoles != null && clientRoles.contains("trainer")))) {
                 openSfuDownstreamConnection(remoteConnectionInfo, null, true)
-            } else if (opensNonTrainerDownstreamConnections()) {
+            } else if (testingFlagLoadTrainerAsParticipant) {
                 // Open downstream connection to receive the new upstream connection.
                 openSfuDownstreamConnection(remoteConnectionInfo, null, false)
             }
         }
         channel?.addOnRemoteUpstreamConnectionClose { remoteConnectionInfo ->
+            closeSfuDownStreamConnection(remoteConnectionInfo)
             Log.info(
                 "Remote client closed upstream connection (connection ID: " + remoteConnectionInfo.id + ", client ID: " + remoteConnectionInfo.clientId + ", device ID: " + remoteConnectionInfo.deviceId + ", user ID: " + remoteConnectionInfo.userId + ", tag: " + remoteConnectionInfo.tag + ")."
             )
@@ -332,9 +340,9 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
             it.remoteUpstreamConnectionInfos.forEach { connection ->
                 // TODO add trainer logic here
                 val clientRoles = connection.clientRoles
-                if (!testingFlagLoadTrainerAsParticipant && ((testingFlagLoadFirstDownstreamAsTrainer && sfuDownstreamConnections.count() == 0) || (clientRoles != null && clientRoles.contains("trainer")))) {
+                if (((testingFlagLoadFirstDownstreamAsTrainer && sfuDownstreamConnections.count() == 0) && (clientRoles != null && clientRoles.contains("trainer")))) {
                     openSfuDownstreamConnection(connection, null, true)
-                } else if (opensNonTrainerDownstreamConnections()) {
+                } else if (testingFlagLoadTrainerAsParticipant) {
                     // Open downstream connection to receive the new upstream connection.
                     openSfuDownstreamConnection(connection, null, false)
                 }
@@ -357,6 +365,7 @@ abstract class LiveSwitchWithTrainerHandlerBase(val context: Context) {
             null
         }
     }
+
 
     private fun openSfuUpstreamConnection(tag: String?): SfuUpstreamConnection? {
         // Create the connection.

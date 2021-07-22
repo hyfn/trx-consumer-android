@@ -1,16 +1,18 @@
 package com.trx.consumer.screens.groupplayer
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -18,37 +20,23 @@ import com.trx.consumer.R
 import com.trx.consumer.databinding.ActivityGroupPlayerBinding
 import com.trx.consumer.extensions.action
 import com.trx.consumer.extensions.checkLivePermission
-import com.trx.consumer.managers.AnalyticsManager
 import com.trx.consumer.managers.LogManager
-import com.trx.consumer.models.common.AnalyticsPageModel.GROUP_PLAYER
+import com.trx.consumer.managers.NavigationManager
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.LiveResponseModel
 import dagger.hilt.android.AndroidEntryPoint
-import fm.liveswitch.IAction0
-import fm.liveswitch.Promise
-import android.content.pm.PackageManager
-import android.widget.RelativeLayout
-import androidx.activity.viewModels
-import androidx.lifecycle.viewModelScope
-import com.trx.consumer.extensions.action
-import com.trx.consumer.extensions.checkLivePermission
-import com.trx.consumer.managers.NavigationManager
 import fm.liveswitch.IAction1
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class GroupPlayerActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityGroupPlayerBinding
-    lateinit var participants: ArrayList<String>
-    var participantsCounter: Int = 0
     lateinit var tabLayout: TabLayout
     lateinit var tabLayoutMediator: TabLayoutMediator
 
     lateinit var trainerContainer: FrameLayout
     lateinit var localMediaContainer: FrameLayout
     lateinit var smallGroupView: View
-
     private val viewModel: GroupPlayerViewModel by viewModels()
 
     //region Objects
@@ -57,33 +45,23 @@ class GroupPlayerActivity : AppCompatActivity() {
     @Inject
     lateinit var handler: GroupPlayerHandler
 
-    var container: RelativeLayout? = null
-
+    var container: View? = null
     //endregion
 
     //region Initializers
-
-    @Inject
-    lateinit var groupPlayerHandler: GroupPlayerHandler
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        participants = ArrayList<String>()
-        participants.add("${participantsCounter++}")
-        participants.add("${participantsCounter++}")
-        participants.add("${participantsCounter++}")
-        binding = ActivityGroupPlayerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        viewBinding = ActivityGroupPlayerBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
 
         trainerContainer = findViewById(R.id.smallGroupTrainerView)
         localMediaContainer = findViewById(R.id.groupPlayLocalMediaLayout)
         smallGroupView = findViewById(R.id.groupPlayerSmallGroupView)
+        viewPager = smallGroupView.findViewById(R.id.groupPlayerSmallGroupPager)
 
-        viewBinding = ActivityGroupPlayerBinding.inflate(layoutInflater)
-        setContentView(viewBinding.root)
         if(savedInstanceState != null) {
             this.runOnUiThread {
-                var localmedia = groupPlayerHandler.getLocalMediaView()
+                var localmedia = handler.getLocalMediaView()
                 localmedia?.let { lm ->
                     lm.start().waitForResult()
                     if(lm.viewSink != null) {
@@ -91,17 +69,21 @@ class GroupPlayerActivity : AppCompatActivity() {
                     }
                     localMediaContainer.addView(lm.view)
                 }
-                var trainerMedia = groupPlayerHandler.getTrainerMediaView()
+                var trainerMedia = handler.getTrainerMediaView()
                 trainerMedia?.let { tm ->
                     trainerContainer.addView(tm.view)
                 }
             }
-            //TODO Go to saved page
+
+            if(savedInstanceState.containsKey("currentTab")){
+                viewPager.setCurrentItem(savedInstanceState.getInt("currentTab"),true)
+            }
         }
-        bind()
+
+        bind(savedInstanceState != null)
     }
 
-    private fun bind() {
+    private fun bind(hasSavedInstance:Boolean) {
         val workout = NavigationManager.shared.params(intent) as? WorkoutModel
 
         handler.apply {
@@ -130,9 +112,20 @@ class GroupPlayerActivity : AppCompatActivity() {
             doLoadVideo()
         }
 
+        handler.apply {
+            eventTrainerLoaded.observe(this@GroupPlayerActivity, addTrainerToLayout)
+            eventLocalMediaLoaded.observe(this@GroupPlayerActivity, addLocalMediaToLayout)
+            eventParticipantChanged.observe(this@GroupPlayerActivity, participantChanged)
+        }
 
         smallGroupViewFragmentAdapter = SmallGroupViewFragmentStateAdapter(this)
-        smallGroupViewFragmentAdapter.setParticipants(participants)
+        smallGroupViewFragmentAdapter.apply {
+            groupHandler = handler
+        }
+
+        if(hasSavedInstance)
+            smallGroupViewFragmentAdapter.reloadFragments(viewPager.currentItem)
+
         viewPager = smallGroupView.findViewById(R.id.groupPlayerSmallGroupPager)
         viewPager.adapter = smallGroupViewFragmentAdapter
 
@@ -142,10 +135,6 @@ class GroupPlayerActivity : AppCompatActivity() {
             tab.text = ""
         }
         tabLayoutMediator.attach()
-
-        groupPlayerHandler.apply {
-            eventTrainerLoaded.observe(this@GroupPlayerActivity, addTrainerToLayout)
-        }
     }
 
     private lateinit var smallGroupViewFragmentAdapter: SmallGroupViewFragmentStateAdapter
@@ -154,10 +143,15 @@ class GroupPlayerActivity : AppCompatActivity() {
     private val addTrainerToLayout = Observer<Boolean> { trainerLoaded ->
         LogManager.log("trainerLoaded")
         this.runOnUiThread {
-            var trainerMedia = this.groupPlayerHandler.getTrainerMediaView()
+            var trainerMedia = this.handler.getTrainerMediaView()
             if (trainerLoaded) {
                 trainerMedia?.let { tm ->
-                    tm.view.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER)
+                    tm.view.layoutParams = FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        Gravity.CENTER
+                    )
+                    LogManager.log("adding trainer view")
                     trainerContainer.addView(tm.view)
                 }
             } else {
@@ -166,16 +160,46 @@ class GroupPlayerActivity : AppCompatActivity() {
         }
     }
 
+    private val addLocalMediaToLayout = Observer<Boolean> { localMediaLoaded ->
+        LogManager.log("localMediaLoaded: ")
+        this.runOnUiThread {
+            var localMedia = this.handler.getLocalMediaView()
+            if (localMediaLoaded) {
+                localMedia?.let { lm ->
+                    lm.view.layoutParams = FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        Gravity.CENTER
+                    )
+                    LogManager.log("adding view")
+                    localMediaContainer.addView(lm.view)
+                }
+            } else {
+                localMediaContainer.removeAllViewsInLayout()
+            }
+        }
+    }
+
+    private val participantChanged = Observer<Boolean> { added ->
+        Handler().postDelayed({
+            LogManager.log("Participants updated!!!")
+            smallGroupViewFragmentAdapter.notifyDataSetChanged()
+            smallGroupViewFragmentAdapter.reloadFragments(viewPager.currentItem)
+        }, 1000)
+    }
+
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        var localmedia = groupPlayerHandler.getLocalMediaView()
+        var localmedia = handler.getLocalMediaView()
         localmedia?.let { lm ->
             lm.stop().waitForResult()
         }
         trainerContainer.removeAllViewsInLayout()
         localMediaContainer.removeAllViewsInLayout()
-
-        //TODO:  Save current tab/page numbers
+        handler.removeParticipants()
+        //Save the current tab on the pager
+        outState.putInt("currentTab",viewPager.currentItem)
     }
 
     //endregion
@@ -227,6 +251,8 @@ class GroupPlayerActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         stopVideo()
+        handler.removeParticipants()
+        smallGroupViewFragmentAdapter.notifyDataSetChanged()
         super.onBackPressed()
     }
 
@@ -247,10 +273,28 @@ class GroupPlayerActivity : AppCompatActivity() {
     }
 
     private val handleTapCamera = Observer<Boolean> { isChecked ->
+        handler.toggleMuteVideo()
+
+        if(isChecked) {
+            viewBinding.btnCamera.setImageResource(R.drawable.ic_img_camera_plain)
+            localMediaContainer.visibility = View.VISIBLE
+        }
+        else {
+            viewBinding.btnCamera.setImageResource(R.drawable.ic_img_camera_inactive)
+            localMediaContainer.visibility = View.GONE
+        }
+
         LogManager.log("handleTapCamera $isChecked ")
     }
 
     private val handleTapMic = Observer<Boolean> { isChecked ->
+        handler.toggleMuteAudio()
+
+        if(isChecked)
+            viewBinding.btnMic.setImageResource(R.drawable.ic_img_microphone_plain)
+        else
+            viewBinding.btnMic.setImageResource(R.drawable.ic_img_microphone_inactive)
+
         LogManager.log("handleTapMicrophone $isChecked ")
     }
 
@@ -264,6 +308,8 @@ class GroupPlayerActivity : AppCompatActivity() {
 
     private val handleTapClose = Observer<Void> {
         LogManager.log("handleTapClose")
+        handler.removeParticipants()
+        smallGroupViewFragmentAdapter.notifyDataSetChanged()
         stopVideo()
     }
 
