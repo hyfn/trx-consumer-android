@@ -76,8 +76,8 @@ class CardModel(
 
         fun parse(jsonObject: JSONObject): CardModel {
             return CardModel().apply {
-                number = jsonObject.optString("cc_last4")
-                creditCardType = jsonObject.optString("cc_type")
+                number = jsonObject.optString("last4")
+                creditCardType = jsonObject.optString("brand")
                 type = jsonObject.optString("type")
             }
         }
