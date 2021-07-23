@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.trx.consumer.common.CommonView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:backgroundColor="@color/greyLightExtra">
+
+    <com.trx.consumer.common.CommonView
+        android:id="@+id/viewNavBar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/top_bar_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.trx.consumer.common.CommonImageView
+            android:id="@+id/btnBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="5dp"
+            android:background="@color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_btn_back_black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.trx.consumer.common.CommonView>
+
+    <com.trx.consumer.common.CommonLabel
+        android:id="@+id/lblTitle"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="15dp"
+        android:fontFamily="@font/atcarquette_bold"
+        android:gravity="center_vertical|start"
+        android:textColor="@color/black"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewNavBar"
+        app:textAllCaps="true"
+        tools:ignore="SmallSp"
+        tools:text="@string/settings_permissions" />
+
+    <com.trx.consumer.common.CommonRecyclerView
+        android:id="@+id/rvPermissions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblTitle"
+        tools:listitem="@layout/row_permission"
+        tools:itemCount="2"/>
+
+</com.trx.consumer.common.CommonView>

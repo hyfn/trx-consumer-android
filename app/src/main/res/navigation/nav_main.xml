@@ -192,4 +192,10 @@
         android:label="RestoreFragment"
         tools:layout="@layout/fragment_restore" />
 
+    <fragment
+        android:id="@+id/permissions_fragment"
+        android:name="com.trx.consumer.screens.permissions.PermissionsFragment"
+        android:label="PermissionsFragment"
+        tools:layout="@layout/fragment_permissions" />
+
 </navigation>

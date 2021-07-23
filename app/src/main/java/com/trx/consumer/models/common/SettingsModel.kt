@@ -21,6 +21,14 @@ class SettingsModel {
                     "$size active membership${if (size == 1) "" else "s"}"
                 }
                 SettingsType.EMAIL -> user?.email ?: "N/A"
+                SettingsType.PERMISSIONS -> {
+                    val permissions = PermissionModel.testList()
+                    if (permissions.isEmpty()) {
+                        "No permissions enabled"
+                    } else {
+                        "${permissions.size} enabled"
+                    }
+                }
                 else -> ""
             }
 
@@ -35,6 +43,7 @@ class SettingsModel {
         get() = when (type) {
             SettingsType.MEMBERSHIPS -> 10
             SettingsType.EMAIL -> 10
+            SettingsType.PERMISSIONS -> 10
             else -> 16
         }
 
@@ -59,6 +68,7 @@ class SettingsModel {
                 add(create(null, SettingsType.LOGOUT))
                 if (BuildConfig.DEBUG) add(create(null, SettingsType.TEST_SCREENS))
                 if (BuildConfig.DEBUG) add(create(null, SettingsType.SHOW_MAINTENANCE))
+                if (BuildConfig.DEBUG) add(create(null, SettingsType.PERMISSIONS))
             }
         }
     }
@@ -74,7 +84,8 @@ enum class SettingsType {
     LOGOUT,
     TEST_SCREENS,
     MEMBERSHIPS,
-    SHOW_MAINTENANCE;
+    SHOW_MAINTENANCE,
+    PERMISSIONS;
 
     @get:StringRes
     val title: Int
@@ -89,5 +100,6 @@ enum class SettingsType {
             TEST_SCREENS -> R.string.settings_test_screen
             MEMBERSHIPS -> R.string.settings_membership
             SHOW_MAINTENANCE -> R.string.settings_type_show_maintenance
+            PERMISSIONS -> R.string.settings_permissions
         }
 }

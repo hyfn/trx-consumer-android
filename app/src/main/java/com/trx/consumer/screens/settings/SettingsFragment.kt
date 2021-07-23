@@ -50,7 +50,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             eventTapTest.observe(viewLifecycleOwner, handleTapTest)
             eventTapMaintenance.observe(viewLifecycleOwner, handleTapMaintenance)
             eventTapRestore.observe(viewLifecycleOwner, handleTapRestore)
-
+            eventTapPermissions.observe(viewLifecycleOwner, handleTapPermissions)
             doTrackPageView()
             doLoadView()
         }
@@ -122,6 +122,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             R.id.maintenance_fragment,
             MaintenanceViewState.UPDATE
         )
+    }
+
+    private val handleTapPermissions = Observer<Unit> {
+        LogManager.log("handleTapPermissions")
+        NavigationManager.shared.present(this, R.id.permissions_fragment)
     }
 
     private val handleTapTest = Observer<Void> {
