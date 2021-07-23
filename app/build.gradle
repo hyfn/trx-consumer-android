@@ -40,8 +40,8 @@ android {
         applicationId "member.android.trxshop"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 1000013
-        versionName "10.0.3"
+        versionCode 1000014
+        versionName "10.0.4"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
