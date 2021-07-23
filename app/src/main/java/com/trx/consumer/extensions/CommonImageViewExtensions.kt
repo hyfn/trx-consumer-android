@@ -12,18 +12,23 @@ import com.trx.consumer.R
 import com.trx.consumer.common.CommonImageView
 
 fun CommonImageView.load(
-    url: String
+    url: String,
+    placeholder: Int? = R.drawable.ic_img_placeholder
 ) {
     Glide.with(context)
         .load(url)
         .fitCenter()
-        .apply(
-            RequestOptions().apply {
-                placeholder(R.drawable.ic_img_placeholder)
-                fallback(R.drawable.ic_img_placeholder)
+        .let { requestBuilder ->
+            placeholder?.let { safePlaceholder ->
+                requestBuilder.apply(
+                    RequestOptions().apply {
+                        placeholder(safePlaceholder)
+                        fallback(safePlaceholder)
+                    }
+                )
             }
-        )
-        .into(this)
+            requestBuilder.into(this)
+        }
 }
 
 fun CommonImageView.setTint(@ColorRes colorId: Int) {
@@ -49,6 +54,6 @@ fun CommonImageView.applySkeleton(
             bgColor(color)
         }
         image != null -> setImageResource(image)
-        urlString != null -> load(urlString)
+        urlString != null -> load(urlString, null)
     }
 }
