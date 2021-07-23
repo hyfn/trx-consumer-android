@@ -10,9 +10,11 @@ import com.trx.consumer.managers.CacheManager
 import com.trx.consumer.managers.LogManager
 import com.trx.consumer.models.common.AnalyticsPageModel.VIDEO_PLAYER
 import com.trx.consumer.models.common.AnalyticsPageModel.WORKOUT
+import com.trx.consumer.models.common.BookingAlertModel
 import com.trx.consumer.models.common.TrainerModel
 import com.trx.consumer.models.common.WorkoutModel
 import com.trx.consumer.models.responses.BookingsResponseModel
+import com.trx.consumer.models.responses.UserResponseModel
 import com.trx.consumer.models.states.BookingState
 import com.trx.consumer.models.states.BookingViewState
 import com.trx.consumer.models.states.WorkoutViewState
@@ -32,9 +34,10 @@ class WorkoutViewModel @ViewModelInject constructor(
     val eventShowPermissionAlert = CommonLiveEvent<Void>()
 
     val eventTapBack = CommonLiveEvent<Void>()
-    var eventTapBookLive = CommonLiveEvent<WorkoutModel>()
+    var eventTapBookLive = CommonLiveEvent<BookingAlertModel>()
     var eventTapProfile = CommonLiveEvent<TrainerModel>()
     var eventTapStartWorkout = CommonLiveEvent<WorkoutModel>()
+    var eventLoadVideoView = CommonLiveEvent<WorkoutModel>()
 
     fun doTapBack() {
         eventTapBack.call()
@@ -49,7 +52,7 @@ class WorkoutViewModel @ViewModelInject constructor(
     }
 
     private fun doLoadVideo() {
-        eventLoadView.postValue(model)
+        eventLoadVideoView.postValue(model)
     }
 
     private fun doLoadWorkout() {
@@ -94,16 +97,18 @@ class WorkoutViewModel @ViewModelInject constructor(
                 WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> {
                     if (model.bookViewStatus == BookingViewState.JOIN) {
                         analyticsManager.trackPageView(VIDEO_PLAYER)
-                    } else {
-                        user.card?.let {
-                            eventTapBookLive.postValue(model)
-                        } ?: run {
-                            backendManager.user().let {
-                                eventTapBookLive.postValue(model)
-                            }
-                        }
+                        // eventTapStartWorkout.send(model) TODO
+                    }
+                    user.card?.let { card ->
+                        val model = BookingAlertModel(card, model)
+                        eventTapBookLive.postValue(model)
+                    } ?: run {
+                        val response = backendManager.user()
+                        val userResponse = UserResponseModel.parse(response.responseString)
+                        eventTapBookLive.postValue(BookingAlertModel(userResponse.user.card, model))
                     }
                 }
+
                 else -> LogManager.log("WorkoutViewModel.doTapPrimary")
             }
         }

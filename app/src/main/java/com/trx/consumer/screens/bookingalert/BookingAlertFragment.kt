@@ -80,7 +80,7 @@ class BookingAlertFragment : BaseDialogFragment(R.layout.fragment_booking_alert)
         LogManager.log("handleShowSuccess")
         val model = AlertModel.create("BOOK SESSION", value)
         model.setPrimaryButton(R.string.alert_primary_done, AlertViewState.NEUTRAL) {
-            dismiss()
+            NavigationManager.shared.dismiss(this@BookingAlertFragment, R.id.home_fragment)
         }
         model.setSecondaryButton(0)
         NavigationManager.shared.present(this, R.id.alert_fragment, model)

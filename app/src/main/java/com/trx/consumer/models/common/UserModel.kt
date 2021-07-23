@@ -41,6 +41,8 @@ class UserModel(
                 lastName = jsonObject.optString("lastName"),
                 iap = jsonObject.optString("iap"),
                 memberships = memberships,
+                card = jsonObject.optJSONObject("paymentMethod")?.optJSONObject("card")
+                    ?.let { CardModel.parse(it) },
                 entitlements = jsonObject.optJSONObject("permissions")?.let {
                     EntitlementsModel.parse(it)
                 } ?: EntitlementsModel()

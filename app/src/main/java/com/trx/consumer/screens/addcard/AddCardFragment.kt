@@ -90,22 +90,21 @@ class AddCardFragment : BaseFragment(R.layout.fragment_add_card) {
         LogManager.log("handleSaveSuccess")
         val model = AlertModel.create("SUCCESS", "Card successfully added")
         //  TODO: Rework logic in later flow. 
-        // val previousFragment = NavigationManager.shared.previousFragment(requireActivity())
+        val previousFragment = NavigationManager.shared.previousFragment(requireActivity())
         model.setPrimaryButton(R.string.alert_primary_cool) {
-            //  TODO: Rework logic in later flow. 
-            // previousFragment?.let { safePreviousFragment ->
-            // if (safePreviousFragment in listOf(
-            // R.id.cards_fragment,
-            //  TODO: Add PurchaseFragment when imported
-            // R.id.purchase_fragment,
-            // R.id.plans_fragment
-            // )
-            // ) {
-            //     NavigationManager.shared.dismiss(this, safePreviousFragment)
-            // } else {
-            NavigationManager.shared.dismiss(this, null)
-            // }
-            // }
+
+            previousFragment?.let { safePreviousFragment ->
+                NavigationManager.shared.dismiss(this, safePreviousFragment)
+                // TODO need to match with ios
+                /*if (safePreviousFragment in listOf(
+                        R.id.cards_fragment, R.id.booking_alert_fragment, R.id.cards_fragment
+                    )
+                ) {
+                    NavigationManager.shared.dismiss(this, safePreviousFragment)
+                } else {
+                    NavigationManager.shared.dismiss(this, null)
+                }*/
+            }
         }
         model.setSecondaryButton(0)
         NavigationManager.shared.present(this, R.id.alert_fragment, model)
