@@ -13,22 +13,21 @@ import com.trx.consumer.common.CommonImageView
 
 fun CommonImageView.load(
     url: String,
-    usePlaceholder: Boolean = true
+    placeholder: Int? = R.drawable.ic_img_placeholder
 ) {
     Glide.with(context)
         .load(url)
         .fitCenter()
         .let { requestBuilder ->
-            if (usePlaceholder) {
+            placeholder?.let { safePlaceholder ->
                 requestBuilder.apply(
                     RequestOptions().apply {
-                        placeholder(R.drawable.ic_img_placeholder)
-                        fallback(R.drawable.ic_img_placeholder)
+                        placeholder(safePlaceholder)
+                        fallback(safePlaceholder)
                     }
                 )
-            } else {
-                requestBuilder.into(this)
             }
+            requestBuilder.into(this)
         }
 }
 
@@ -55,6 +54,6 @@ fun CommonImageView.applySkeleton(
             bgColor(color)
         }
         image != null -> setImageResource(image)
-        urlString != null -> load(urlString, false)
+        urlString != null -> load(urlString, null)
     }
 }
