@@ -97,7 +97,7 @@ class WorkoutViewModel @ViewModelInject constructor(
                 WorkoutViewState.LIVE, WorkoutViewState.VIRTUAL -> {
                     if (model.bookViewStatus == BookingViewState.JOIN) {
                         analyticsManager.trackPageView(VIDEO_PLAYER)
-                        //eventTapStartWorkout.send(model) TO-DO
+                        // eventTapStartWorkout.send(model) TODO
                     }
                     user.card?.let { card ->
                         val model = BookingAlertModel(card, model)

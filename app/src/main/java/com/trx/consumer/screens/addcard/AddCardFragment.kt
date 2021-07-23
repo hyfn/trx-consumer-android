@@ -95,7 +95,7 @@ class AddCardFragment : BaseFragment(R.layout.fragment_add_card) {
 
             previousFragment?.let { safePreviousFragment ->
                 NavigationManager.shared.dismiss(this, safePreviousFragment)
-                //TODO need to match with ios
+                // TODO need to match with ios
                 /*if (safePreviousFragment in listOf(
                         R.id.cards_fragment, R.id.booking_alert_fragment, R.id.cards_fragment
                     )
