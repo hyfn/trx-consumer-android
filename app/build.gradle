@@ -122,7 +122,7 @@ android {
             buildConfigField "Boolean", "kIsVerificationEnabled", "false"
             buildConfigField "String", "kRevenueCatEntitlementOnDemand", '"ondemand"'
             buildConfigField "String", "kTRXSupportEmail", '"digital@trxtraining.com"'
-            buildConfigField "Boolean", "isVersion2Enabled", "true"
+            buildConfigField "Boolean", "isVersion2Enabled", "false"
             buildConfigField "Integer", "kMinutesBeforeCanJoin", "10"
             buildConfigField "Integer", "kMinutesAfterCanJoin", "15"
             buildConfigField "String", "kFMDevLiveAccessKey", '"e2175989-f2af-42c1-80b4-01d14993aa8d"'
